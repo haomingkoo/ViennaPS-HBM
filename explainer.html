@@ -122,17 +122,43 @@
     <p class="eyebrow">ViennaPS &middot; HBM4 via-middle TSV loop</p>
     <h1>Bosch etch &amp; Cu fill: what actually controls the outcome</h1>
     <p class="lede">
-      A 768-run, 4-parameter DOE on the TSV Bosch etch step, plus the
-      subconformal/conformal/superconformal Cu fill comparison -- all
-      driven by real ViennaPS simulation output.
-    </p>
-    <p class="scope-note">
-      Scope: this models etch/deposition topography at single-feature scale.
-      It does not model package warpage, TCB/hybrid-bonding thermal
-      reliability, or JEDEC signaling &mdash; see the notebook README for the
-      full picture.
+      HBM stacks depend on TSVs -- microscopic vertical tunnels etched
+      through silicon and filled with copper to connect stacked memory
+      dies. Get the etch or the fill wrong and the via comes out crooked,
+      scalloped, or with a trapped void that cracks the chip later. This
+      is a data-driven search for what actually controls those outcomes,
+      using ViennaPS to simulate the real process physics.
     </p>
   </header>
+
+  <section>
+    <h2>Bottom line</h2>
+    <div class="panel" style="border-left: 3px solid var(--good);">
+      <p style="margin:0 0 0.8rem; font-size:0.95rem;">
+        A 768-run, 4-parameter DOE found that <b>etch_time</b> (per-cycle
+        duration) &mdash; not the parameter most people would guess
+        first &mdash; is the dominant control on TSV wall straightness.
+        Applying the DOE-winning recipe and re-tuning every downstream
+        step (liner, barrier, Cu fill) against it produced a
+        <b>genuine ~2.8x improvement</b> in wall straightness over the
+        starting point.
+      </p>
+      <p style="margin:0; font-size:0.95rem;">
+        Two real mistakes were caught and fixed along the way, not
+        glossed over: the raw sweep's best-looking result was partly an
+        artifact of measuring a shallower via (corrected via
+        depth-matched replicates, below); and an early "defect-free" Cu
+        fill wasn't actually reaching the via floor (found by testing it,
+        then fixed with a proper parameter sweep).
+      </p>
+    </div>
+    <p class="scope-note">
+      Scope: this models etch/deposition topography at single-feature
+      scale. It does not model package warpage, TCB/hybrid-bonding
+      thermal reliability, or JEDEC signaling &mdash; see the notebook
+      README for the full picture.
+    </p>
+  </section>
 
   <section>
     <h2>768-run DOE: which parameter actually matters</h2>

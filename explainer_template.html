@@ -122,17 +122,49 @@
     <p class="eyebrow">ViennaPS &middot; HBM4 via-middle TSV loop</p>
     <h1>Bosch etch &amp; Cu fill: what actually controls the outcome</h1>
     <p class="lede">
-      A 768-run, 4-parameter DOE on the TSV Bosch etch step, plus the
-      subconformal/conformal/superconformal Cu fill comparison -- all
-      driven by real ViennaPS simulation output.
-    </p>
-    <p class="scope-note">
-      Scope: this models etch/deposition topography at single-feature scale.
-      It does not model package warpage, TCB/hybrid-bonding thermal
-      reliability, or JEDEC signaling &mdash; see the notebook README for the
-      full picture.
+      HBM stacks depend on TSVs -- microscopic vertical tunnels etched
+      through silicon and filled with copper to connect stacked memory
+      dies. Three things have to be right: the etch must be
+      <b>straight</b> (not bowed or scalloped), it must reach a
+      <b>target depth</b> (too shallow and it never connects through the
+      die; too deep wastes process time), and the copper fill must be
+      <b>void-free</b> (a trapped air pocket cracks the chip later). This
+      is a data-driven search for what actually controls those three
+      outcomes, using ViennaPS to simulate the real process physics.
     </p>
   </header>
+
+  <section>
+    <h2>Bottom line</h2>
+    <div class="panel" style="border-left: 3px solid var(--good);">
+      <p style="margin:0 0 0.8rem; font-size:0.95rem;">
+        A 768-run, 4-parameter DOE found that <b>etch_time</b> (per-cycle
+        duration) &mdash; not the parameter most people would guess
+        first &mdash; is the dominant control on TSV wall straightness.
+        Applying the DOE-winning recipe at a depth matched to the
+        original baseline (~1.19 vs. ~1.29, so straightness and depth
+        are compared fairly, not traded off against each other) and
+        re-tuning every downstream step (liner, barrier, Cu fill) against
+        it produced a <b>genuine ~2.8x improvement</b> in wall
+        straightness at that comparable target depth.
+      </p>
+      <p style="margin:0; font-size:0.95rem;">
+        Two real mistakes were caught and fixed along the way, not
+        glossed over: the raw sweep's best-looking result was partly an
+        artifact of measuring a shallower via -- exactly the
+        straight-vs-depth tradeoff this project has to get right, caught
+        via depth-matched replicates, below; and an early "defect-free"
+        Cu fill wasn't actually reaching the via floor (found by testing
+        it, then fixed with a proper parameter sweep).
+      </p>
+    </div>
+    <p class="scope-note">
+      Scope: this models etch/deposition topography at single-feature
+      scale. It does not model package warpage, TCB/hybrid-bonding
+      thermal reliability, or JEDEC signaling &mdash; see the notebook
+      README for the full picture.
+    </p>
+  </section>
 
   <section>
     <h2>768-run DOE: which parameter actually matters</h2>

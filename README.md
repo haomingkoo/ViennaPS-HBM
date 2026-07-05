@@ -8,6 +8,32 @@ guesses) for every following step.
 
 Also see the standalone interactive explainer: [`explainer.html`](explainer.html).
 
+## Where this fits in the real process
+
+The via-middle TSV flow has 4 phases (per the "TSV Formation: Via Middle
+Process for HBM DRAM" diagram shared for this project): **Phase 1**
+pre-processing (FEOL: transistors built), **Phase 2** the TSV formation
+loop (pattern -> Bosch etch -> liner -> barrier+seed -> Cu fill -> CMP --
+this is what this repo simulates), **Phase 3** BEOL (back-end metal
+wiring), **Phase 4** backside reveal (carrier bonding -> backgrinding ->
+silicon etch reveal -> passivation+bumping -- this is the "'Through' step"
+where a blind via becomes a real through-via).
+
+Two corrections worth being explicit about, since they came up during
+this project and are easy to get wrong:
+- **TSVs are formed at the wafer level** (every die on a wafer, in one
+  batch process) *before* dicing and stacking -- not one die etched
+  individually as a standalone action, and not after the dies are
+  already stacked (that's a different, less common approach called
+  "via-last").
+- **Only Phase 2 leaves a blind via.** It doesn't become a true
+  through-via until Phase 4 (backside reveal) happens, later, after
+  BEOL and after the wafer is diced. In a finished stack, the base
+  logic die doesn't need a through-via at all (it connects to the
+  package/interposer directly); every DRAM die above it does.
+
+This repo's notebook models Phase 2 only, one via at a time.
+
 ## What's in the notebook
 
 | Stage | What it shows | Real parameter / source |
@@ -42,6 +68,19 @@ they came up during this project and mattered:
    run (observed range: 0.015-0.023 for the same "winning" parameters
    across 3 replicates). The reported improvement factor is based on
    replicated means with non-overlapping ranges, not a single lucky run.
+3. **Passivation (`deposition_thickness`) interacts with `etch_time` --
+   there's no universal "more/less passivation is better."** At the
+   winning `etch_time=0.5`, thin passivation (0.01-0.02) is best and
+   thick (0.04) makes it worse (mean bulge 0.028-0.029 vs. 0.069). At a
+   long, aggressive `etch_time=2.0`, the relationship flips: thick
+   passivation is best (0.112) and thin is worst (0.161). How much
+   protective coating you need depends on how aggressive the etch step
+   itself is, not a fixed rule.
+4. **Cycle granularity has a real optimum, not a monotonic trend.** At
+   matched target depth (~1.2), 6 coarse cycles gives bulge 0.056, the
+   DOE's own 12-cycle recipe gives 0.023 (best), and 24 finer cycles
+   gives 0.074 (worse again). Neither "coarser" nor "finer" is
+   universally better -- there's a sweet spot in the middle.
 
 ## Explicitly out of scope
 

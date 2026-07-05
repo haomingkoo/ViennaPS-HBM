@@ -8,9 +8,38 @@ broken parameter change fails loudly instead of silently producing garbage.
 """
 import numpy as np
 import viennaps as ps
+import viennals as ls
 
 ps.setDimension(2)
 ps.Logger.setLogLevel(ps.LogLevel.ERROR)
+
+
+def all_material_profiles(geometry, bin_width=None):
+    """Ordered list of (material_name, Nx2 points) -- one per level set,
+    each material's *own* boundary rather than the mixed multi-material
+    points profile_points() resolves into a single outer envelope.
+
+    Used for a single cross-section figure showing every deposited layer
+    at once (Si / liner / barrier+seed / fill), the way a real fab SEM
+    cross-section shows them -- not one before/after pair per step.
+    """
+    level_sets = geometry.getLevelSets()
+    mat_map = geometry.getMaterialMap()
+    if bin_width is None:
+        bin_width = geometry.getGridDelta() / 2
+    out = []
+    for i, lvlset in enumerate(level_sets):
+        mat = mat_map.getMaterialAtIdx(i)
+        mesh = ls.Mesh()
+        ls.ToSurfaceMesh(lvlset, mesh).apply()
+        pts = np.array(mesh.getNodes())[:, :2]
+        bins = np.round(pts[:, 0] / bin_width).astype(int)
+        order = np.argsort(pts[:, 1])
+        pts_sorted, bins_sorted = pts[order], bins[order]
+        _, first_idx = np.unique(bins_sorted[::-1], return_index=True)
+        keep = len(pts_sorted) - 1 - first_idx
+        out.append((str(mat), pts_sorted[np.sort(keep)]))
+    return out
 
 
 def profile_points(geometry, bin_width=None):
@@ -75,10 +104,19 @@ def make_initial_geometry(radius=0.15, mask_height=0.3, grid_delta=0.01,
     return geometry
 
 
+MAX_REALISTIC_ASPECT_RATIO = 20  # per the extreme-AR Cu pillar article
+                                   # (15:1 -> 20:1) shared for this project --
+                                   # a real via can't be etched arbitrarily
+                                   # deep; it has to stay well short of full
+                                   # wafer thickness (~700-775um), revealed
+                                   # only later via backside grinding.
+
+
 def bosch_etch(geometry, *, num_cycles=10, etch_time=1.5, initial_etch_time=0.3,
                 ion_source_exponent=200, neutral_sticking_probability=0.1,
                 deposition_thickness=0.02, deposition_sticking_probability=0.01,
-                neutral_rate=-0.2, ion_rate=-0.1, on_cycle=None, on_polymer=None):
+                neutral_rate=-0.2, ion_rate=-0.1, on_cycle=None, on_polymer=None,
+                radius=0.15):
     """Step 2: Bosch DRIE -- SF6 (isotropic etch) / C4F8 (passivation) cycling.
 
     ion_source_exponent: ion angular directionality (higher = more forward-
@@ -129,6 +167,11 @@ def bosch_etch(geometry, *, num_cycles=10, etch_time=1.5, initial_etch_time=0.3,
 
     depth = float(profile_points(geometry)[:, 1].min())
     assert depth < -0.1, f"etch barely moved: depth={depth}"
+    aspect_ratio = abs(depth) / (2 * radius)
+    assert aspect_ratio < MAX_REALISTIC_ASPECT_RATIO, (
+        f"aspect ratio {aspect_ratio:.1f}:1 exceeds {MAX_REALISTIC_ASPECT_RATIO}:1 -- "
+        "this recipe would etch deeper than any real via/wafer-thickness budget allows"
+    )
     return geometry, depth
 
 

@@ -153,11 +153,22 @@ print(f"old: {min(old_bulges):.4f}-{max(old_bulges):.4f} (mean {np.mean(old_bulg
 print(f"improvement: {np.mean(old_bulges)/np.mean(new_bulges):.1f}x")
 """)
 
-md("**Failure mode vs. fix**, at the same (production) depth for a fair comparison:")
+md("""\
+**Failure mode vs. fix**, at a *matched* depth for a fair comparison.
+
+This matters concretely: `etch_time=2.0` etches ~4x more per cycle than
+`etch_time=0.5`, so comparing both at the same cycle count would show the
+"failure" case mostly just deeper, not fairly compared on straightness --
+exactly the depth confound from the methodology note above, applied to a
+picture instead of just to a metric. Cycle counts below were chosen so
+both recipes land near the same depth (~1.2-1.3).
+""")
 
 code("""\
+BAD_CYCLES = 3  # depth-matched to PRODUCTION_CYCLES at etch_time=0.5 -- NOT
+                 # the same cycle count, see the note above for why
 geo_bad = tp.make_initial_geometry(radius=0.15)
-geo_bad, depth_bad = tp.bosch_etch(geo_bad, num_cycles=PRODUCTION_CYCLES,
+geo_bad, depth_bad = tp.bosch_etch(geo_bad, num_cycles=BAD_CYCLES,
                                     ion_source_exponent=50, neutral_sticking_probability=0.02,
                                     etch_time=2.0, deposition_thickness=0.04)
 pts_bad = tp.trim_for_display(tp.profile_points(geo_bad), 0.31)
@@ -262,15 +273,33 @@ floor coverage), not a formulaic guess.
 
 code("""\
 pts_pre_liner = tp.trim_for_display(tp.profile_points(geo_good), 0.31)
+
+# failure mode: high sticking probability -> short mean free path -> deposits
+# near the opening, poor floor coverage (measured, not asserted)
+geo_bad_liner = ps.Domain(); geo_bad_liner.deepCopy(geo_good)
+geo_bad_liner = tp.deposit_conformal(geo_bad_liner, ps.Material.SiO2, LINER["thickness"],
+                                       directional=False, sticking=0.6)
+pts_bad_liner = tp.trim_for_display(tp.profile_points(geo_bad_liner), 0.31)
+
 geo_liner = tp.deposit_conformal(geo_good, ps.Material.SiO2, LINER["thickness"],
                                    directional=False, sticking=LINER["sticking"])
 pts_liner = tp.trim_for_display(tp.profile_points(geo_liner), 0.31)
 
-fig, ax = plt.subplots(figsize=(4, 5))
-ax.fill_betweenx(pts_liner[:, 1], -pts_liner[:, 0], pts_liner[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
-ax.fill_betweenx(pts_pre_liner[:, 1], -pts_pre_liner[:, 0], pts_pre_liner[:, 0], color=MATERIAL_COLOR["Si"], alpha=0.9)
-ax.set_title("After SiO2 liner (SACVD-like, swept-optimal)")
-ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
+floor_before = pts_pre_liner[:, 1].min()
+print(f"floor before liner:      {floor_before:.4f}")
+print(f"floor after BAD liner:   {pts_bad_liner[:, 1].min():.4f}  (delta {pts_bad_liner[:, 1].min()-floor_before:+.4f})")
+print(f"floor after GOOD liner:  {pts_liner[:, 1].min():.4f}  (delta {pts_liner[:, 1].min()-floor_before:+.4f})")
+
+fig, axes = plt.subplots(1, 2, figsize=(8, 5), sharey=True)
+for ax, pre, post, title in [
+    (axes[0], pts_pre_liner, pts_bad_liner, "Failure mode\\n(sticking=0.6 -- poor floor reach)"),
+    (axes[1], pts_pre_liner, pts_liner, "Fixed\\n(sticking=0.2, swept-optimal)"),
+]:
+    ax.fill_betweenx(post[:, 1], -post[:, 0], post[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
+    ax.fill_betweenx(pre[:, 1], -pre[:, 0], pre[:, 0], color=MATERIAL_COLOR["Si"], alpha=0.9)
+    ax.set_title(title, fontsize=9)
+    ax.set_xlabel("x (um)")
+axes[0].set_ylabel("y (um)")
 plt.tight_layout()
 plt.savefig("fig_liner.png", dpi=130)
 plt.show()
@@ -288,17 +317,59 @@ thickness and directional/isotropic ratio (99% floor coverage).
 
 code("""\
 pts_pre_seed = tp.trim_for_display(tp.profile_points(geo_liner), 0.31)
+
+# failure mode: plain isotropic PVD instead of iPVD -- stalls near the opening
+geo_bad_seed = ps.Domain(); geo_bad_seed.deepCopy(geo_liner)
+geo_bad_seed = tp.deposit_conformal(geo_bad_seed, ps.Material.Cu, BARRIER["thickness"], directional=False)
+pts_bad_seed = tp.trim_for_display(tp.profile_points(geo_bad_seed), 0.31)
+
 geo_seed = tp.deposit_conformal(geo_liner, ps.Material.Cu, BARRIER["thickness"],
                                   directional=True, iso_ratio=BARRIER["iso_ratio"])
 pts_seed = tp.trim_for_display(tp.profile_points(geo_seed), 0.31)
 
-fig, ax = plt.subplots(figsize=(4, 5))
-ax.fill_betweenx(pts_seed[:, 1], -pts_seed[:, 0], pts_seed[:, 0], color=MATERIAL_COLOR["Cu_barrier"], alpha=0.9)
-ax.fill_betweenx(pts_pre_seed[:, 1], -pts_pre_seed[:, 0], pts_pre_seed[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
-ax.set_title("After TaN/Ta barrier + Cu seed (iPVD-like, swept-optimal)")
-ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
+floor_before = pts_pre_seed[:, 1].min()
+print(f"floor before barrier:     {floor_before:.4f}")
+print(f"floor after BAD (isotropic PVD): {pts_bad_seed[:, 1].min():.4f}  (delta {pts_bad_seed[:, 1].min()-floor_before:+.4f})")
+print(f"floor after GOOD (iPVD):  {pts_seed[:, 1].min():.4f}  (delta {pts_seed[:, 1].min()-floor_before:+.4f})")
+
+fig, axes = plt.subplots(1, 2, figsize=(8, 5), sharey=True)
+for ax, post, title in [
+    (axes[0], pts_bad_seed, "Failure mode\\n(plain isotropic PVD -- stalls at opening)"),
+    (axes[1], pts_seed, "Fixed\\n(iPVD, swept-optimal directional bias)"),
+]:
+    ax.fill_betweenx(post[:, 1], -post[:, 0], post[:, 0], color=MATERIAL_COLOR["Cu_barrier"], alpha=0.9)
+    ax.fill_betweenx(pts_pre_seed[:, 1], -pts_pre_seed[:, 0], pts_pre_seed[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
+    ax.set_title(title, fontsize=9)
+    ax.set_xlabel("x (um)")
+axes[0].set_ylabel("y (um)")
 plt.tight_layout()
 plt.savefig("fig_barrier_seed.png", dpi=130)
+plt.show()
+""")
+
+md("""\
+### All layers in one cross-section
+
+Every figure so far shows one material added at a time. This is the same
+via with **every layer visible at once** -- Si substrate, SiO2 liner, Cu
+barrier/seed -- the way a real fab SEM cross-section shows a stack, using
+each level set's own boundary (`all_material_profiles`), not the mixed
+multi-material points a naive single envelope would tangle together.
+""")
+
+code("""\
+LAYER_COLOR = {"Si": MATERIAL_COLOR["Si"], "SiO2": MATERIAL_COLOR["SiO2"], "Cu": MATERIAL_COLOR["Cu_barrier"]}
+profiles = dict(tp.all_material_profiles(geo_seed))
+
+fig, ax = plt.subplots(figsize=(5, 6))
+for name in ["Si", "SiO2", "Cu"]:
+    pts = tp.trim_for_display(profiles[f"Material('{name}')"], 0.35)
+    ax.fill_betweenx(pts[:, 1], -pts[:, 0], pts[:, 0], color=LAYER_COLOR[name], label=name)
+ax.legend(fontsize=9, loc="lower right")
+ax.set_title("All layers together: Si / SiO2 liner / Cu barrier+seed")
+ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
+plt.tight_layout()
+plt.savefig("fig_all_layers_step4.png", dpi=130)
 plt.show()
 """)
 
@@ -366,22 +437,71 @@ plt.savefig("fig_cu_fill_void_vs_fix.png", dpi=130)
 plt.show()
 """)
 
-md("## Step 6: CMP -- planarize back to the pad surface")
+md("""\
+## Step 6: CMP -- planarize back to the pad surface
+
+**Failure mode:** over-polishing past the target plane causes dishing --
+recessing the Cu pad below the surrounding surface, a real hybrid-bonding
+yield killer (per the Samsung wet-ALE dishing-control writeup shared for
+this project). Under-polishing leaves Cu overburden un-removed.
+""")
 
 code("""\
-geo_cmp = ps.Domain(); geo_cmp.deepCopy(geo_fill_dir)
 target_y = pts_seed[:, 1].max()
+
+geo_cmp_over = ps.Domain(); geo_cmp_over.deepCopy(geo_fill_dir)
+overburden = float(tp.profile_points(geo_cmp_over)[:, 1].max()) - target_y
+ps.Process(geo_cmp_over, ps.IsotropicProcess(rate=-1.0), overburden * 1.6).apply()  # 60% over-polish
+pts_cmp_over = tp.trim_for_display(tp.profile_points(geo_cmp_over), target_y + 0.02)
+
+geo_cmp = ps.Domain(); geo_cmp.deepCopy(geo_fill_dir)
 geo_cmp = tp.cmp_planarize(geo_cmp, target_y=target_y)
 pts_cmp = tp.trim_for_display(tp.profile_points(geo_cmp), target_y + 0.02)
 
-fig, ax = plt.subplots(figsize=(4, 5))
-ax.fill_betweenx(pts_cmp[:, 1], -pts_cmp[:, 0], pts_cmp[:, 0], color=MATERIAL_COLOR["Cu_fill"], alpha=0.9)
-ax.axhline(target_y, color="k", lw=0.7, ls="--", label="target plane")
-ax.set_title("After CMP: exposed Cu pad, planarized")
-ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
-ax.legend(fontsize=8)
+dishing = target_y - float(tp.profile_points(geo_cmp_over)[:, 1].max())
+print(f"target plane: {target_y:.4f}")
+print(f"over-polished max height: {tp.profile_points(geo_cmp_over)[:, 1].max():.4f}  (dishing {dishing:.4f})")
+print(f"correctly polished max height: {tp.profile_points(geo_cmp)[:, 1].max():.4f}")
+
+fig, axes = plt.subplots(1, 2, figsize=(8, 5), sharey=True)
+for ax, pts, title in [
+    (axes[0], pts_cmp_over, "Failure mode\\n(over-polished -- dishing)"),
+    (axes[1], pts_cmp, "Fixed\\n(planarized to target)"),
+]:
+    ax.fill_betweenx(pts[:, 1], -pts[:, 0], pts[:, 0], color=MATERIAL_COLOR["Cu_fill"], alpha=0.9)
+    ax.axhline(target_y, color="k", lw=0.7, ls="--", label="target plane")
+    ax.set_title(title, fontsize=9)
+    ax.set_xlabel("x (um)")
+axes[0].set_ylabel("y (um)")
+axes[0].legend(fontsize=8)
 plt.tight_layout()
 plt.savefig("fig_cmp_final.png", dpi=130)
+plt.show()
+""")
+
+md("### All layers, final structure")
+
+code("""\
+# NOTE: barrier/seed and fill are both tagged Material.Cu (two level sets
+# with the same name, in stacking order) -- iterate positionally, not by
+# a name-keyed dict, or the second "Cu" entry silently overwrites the first.
+final_profiles = tp.all_material_profiles(geo_cmp)
+seen_labels = set()
+fig, ax = plt.subplots(figsize=(5, 6))
+for name, pts in final_profiles:
+    mat = name.split("'")[1]
+    if mat in ("Mask",):
+        continue
+    pts = tp.trim_for_display(pts, target_y + 0.02)
+    label = mat if mat not in seen_labels else None
+    seen_labels.add(mat)
+    ax.fill_betweenx(pts[:, 1], -pts[:, 0], pts[:, 0], color=LAYER_COLOR.get(mat, MATERIAL_COLOR["Cu_fill"]), label=label)
+ax.axhline(target_y, color="k", lw=0.7, ls="--")
+ax.legend(fontsize=9, loc="lower right")
+ax.set_title("Final structure, all layers: Si / SiO2 liner / Cu (barrier+seed+fill)")
+ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
+plt.tight_layout()
+plt.savefig("fig_all_layers_final.png", dpi=130)
 plt.show()
 """)
 
@@ -453,6 +573,52 @@ ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
 plt.tight_layout()
 plt.savefig("fig_via_array.png", dpi=130)
 plt.show()
+""")
+
+md("""\
+## Closing visual: a real 12-die stack
+
+Per the via-middle process (see README): TSVs are formed at the wafer
+level before dicing and stacking, and the base logic die at the bottom
+of a finished stack has no through-via (it connects to the package
+directly). This runs the DOE-winning recipe **12 independent times** --
+real Monte Carlo variation, not a synthetic perturbation -- and stacks
+the results as 12 dies, each showing its own actually-simulated TSV.
+""")
+
+code("""\
+dies = []
+for i in range(12):
+    g = tp.make_initial_geometry(radius=0.15)
+    g, d = tp.bosch_etch(g, num_cycles=PRODUCTION_CYCLES, **ETCH)
+    p = tp.trim_for_display(tp.profile_points(g), 0.31)
+    body = p[(p[:, 1] > d * 0.85) & (p[:, 1] < 0.2) & (p[:, 0] > 0.03)]
+    bulge = float(np.max(np.abs(body[:, 0] - 0.15))) if len(body) else None
+    dies.append({"die": i + 1, "depth": d, "bulge": bulge, "profile": p})
+
+die_height, via_frac = 1.0, 0.75
+fig, ax = plt.subplots(figsize=(6, 10))
+for i, die in enumerate(dies):
+    y0 = i * die_height
+    is_base = die["die"] == 1
+    ax.add_patch(plt.Rectangle((-0.5, y0), 1.0, die_height,
+                                  facecolor="#c9c2b0" if is_base else "#e8e4da",
+                                  edgecolor="#8a8a8a", linewidth=0.8))
+    if not is_base:
+        pts, depth = die["profile"], die["depth"]
+        local_y = y0 + die_height - (pts[:, 1] / depth) * die_height * via_frac
+        ax.fill_betweenx(local_y, -pts[:, 0], pts[:, 0], color=MATERIAL_COLOR["Cu_fill"])
+    label = f"Die {die['die']}" + (" (base logic -- no through-via)" if is_base else f"  bulge={die['bulge']:.4f}")
+    ax.text(0.55, y0 + die_height / 2, label, va="center", fontsize=8, family="monospace")
+ax.set_xlim(-0.8, 2.2); ax.set_ylim(-0.2, 12 * die_height + 0.2)
+ax.set_aspect("equal"); ax.axis("off")
+ax.set_title("12-die HBM stack -- each TSV independently simulated (real Monte Carlo variation)", fontsize=10)
+plt.tight_layout()
+plt.savefig("fig_12_stack.png", dpi=130)
+plt.show()
+
+bulges = [d["bulge"] for d in dies if d["die"] != 1]
+print(f"per-die bulge range: {min(bulges):.4f} - {max(bulges):.4f} (same parameters, pure Monte Carlo variation)")
 """)
 
 nb["cells"] = cells
