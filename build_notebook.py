@@ -202,9 +202,9 @@ over plasma-based PECVD.
 """)
 
 code("""\
-pts_pre_liner = tp.profile_points(geo_good)
+pts_pre_liner = tp.trim_for_display(tp.profile_points(geo_good), 0.31)
 geo_liner = tp.deposit_conformal(geo_good, ps.Material.SiO2, 0.03, directional=False)
-pts_liner = tp.profile_points(geo_liner)
+pts_liner = tp.trim_for_display(tp.profile_points(geo_liner), 0.31)
 
 fig, ax = plt.subplots(figsize=(4, 5))
 ax.fill_betweenx(pts_liner[:, 1], -pts_liner[:, 0], pts_liner[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
@@ -226,9 +226,9 @@ a directional process instead of an isotropic one.
 """)
 
 code("""\
-pts_pre_seed = tp.profile_points(geo_liner)
+pts_pre_seed = tp.trim_for_display(tp.profile_points(geo_liner), 0.31)
 geo_seed = tp.deposit_conformal(geo_liner, ps.Material.Cu, 0.015, directional=True)
-pts_seed = tp.profile_points(geo_seed)
+pts_seed = tp.trim_for_display(tp.profile_points(geo_seed), 0.31)
 
 fig, ax = plt.subplots(figsize=(4, 5))
 ax.fill_betweenx(pts_seed[:, 1], -pts_seed[:, 0], pts_seed[:, 0], color=MATERIAL_COLOR["Cu_barrier"], alpha=0.9)
@@ -241,55 +241,59 @@ plt.show()
 """)
 
 md("""\
-## Step 5: Cu fill -- naive void vs. controlled superfill
+## Step 5: Cu fill -- subconformal / conformal / superconformal
 
-Real electroplating is engineered (suppressor/accelerator/leveler
-chemistry) to grow bottom-up; a naive conformal fill instead grows fastest
-at the opening and traps a void -- the "popcorning" failure mode from the
-shared writeup.
+The canonical via-fill spectrum (per the textbook diagrams shared for this
+project): **subconformal** growth (faster at the opening than the floor)
+traps a large void; **conformal** growth (uniform rate everywhere) closes
+sidewalls together leaving a thin seam; **superconformal** growth (faster
+at the floor, engineered via suppressor/accelerator/leveler chemistry)
+fills bottom-up, defect-free. All three use the same isotropic deposition
+mechanism at different total thicknesses, except superconformal, which
+needs an actual bottom-favoring bias -- isotropic growth alone cannot
+produce true bottom-up fill regardless of thickness.
 """)
 
 code("""\
-geo_fill_naive = ps.Domain(); geo_fill_naive.deepCopy(geo_seed)
-geo_fill_naive = tp.cu_fill(geo_fill_naive, 0.16, directional=False)
-pts_fill_naive = tp.profile_points(geo_fill_naive)
-
-geo_fill_dir = ps.Domain(); geo_fill_dir.deepCopy(geo_seed)
-geo_fill_dir = tp.cu_fill(geo_fill_dir, 0.16, directional=True)
-pts_fill_dir = tp.profile_points(geo_fill_dir)
-
 via_floor = pts_seed[:, 1].min()
-seal_naive = pts_fill_naive[np.abs(pts_fill_naive[:, 0]) < 0.02][:, 1].mean()
-seal_dir = pts_fill_dir[np.abs(pts_fill_dir[:, 0]) < 0.02][:, 1].mean()
-print(f"via floor:                {via_floor:.3f}")
-print(f"naive fill seals at:      {seal_naive:.3f}  (void depth ~{seal_naive - via_floor:.3f})")
-print(f"directional fill reaches: {seal_dir:.3f}  (residual gap ~{seal_dir - via_floor:.3f})")
-
-# below its measured seal point a column carries no more incoming flux --
-# render that void using the *actual* pre-fill via profile (pts_seed), not
-# a placeholder box, so its shape matches the real tapered via.
 pre_fill_sorted = pts_seed[np.argsort(pts_seed[:, 1])]
 
 def half_width_at(y):
     return np.interp(y, pre_fill_sorted[:, 1], pre_fill_sorted[:, 0])
 
-fig, axes = plt.subplots(1, 2, figsize=(8, 5), sharey=True)
-for ax, pts, seal, title in [
-    (axes[0], pts_fill_naive, seal_naive, "Naive isotropic fill\\n(pinches at opening -> trapped void)"),
-    (axes[1], pts_fill_dir, seal_dir, "Directional bottom-up fill\\n(reaches the floor -- no void)"),
-]:
+def run_fill(thickness, directional):
+    g = ps.Domain(); g.deepCopy(geo_seed)
+    g = tp.cu_fill(g, thickness, directional=directional)
+    pts = tp.profile_points(g)
+    seal = pts[np.abs(pts[:, 0]) < 0.02][:, 1].mean()
+    return pts, seal
+
+regimes = [
+    ("Subconformal\\n(faster at opening -> void)", 0.16, False),
+    ("Conformal\\n(uniform rate -> thin seam)", 0.11, False),
+    ("Superconformal\\n(faster at floor -> defect-free)", 0.16, True),
+]
+
+fig, axes = plt.subplots(1, 3, figsize=(11, 5), sharey=True)
+geo_fill_dir = None
+for ax, (title, thickness, directional) in zip(axes, regimes):
+    pts, seal = run_fill(thickness, directional)
+    if directional:
+        geo_fill_dir = ps.Domain(); geo_fill_dir.deepCopy(geo_seed)
+        geo_fill_dir = tp.cu_fill(geo_fill_dir, thickness, directional=True)
+    print(f"{title.splitlines()[0]:>12}: seal={seal:.3f}  gap_from_floor={seal - via_floor:.3f}")
     filled = pts[pts[:, 1] >= seal]
     ax.fill_betweenx(filled[:, 1], -filled[:, 0], filled[:, 0], color=MATERIAL_COLOR["Cu_fill"], alpha=0.9)
     if seal - via_floor > 0.05:
         void_y = np.linspace(via_floor, seal, 40)
         void_x = half_width_at(void_y)
         ax.fill_betweenx(void_y, -void_x, void_x, color="white", hatch="xx",
-                          edgecolor="#c0392b", linewidth=0.5, label="trapped void")
+                          edgecolor="#c0392b", linewidth=0.5, label="trapped void/seam")
     ax.axhline(via_floor, color="k", lw=0.7, ls="--", label="via floor")
-    ax.set_title(title, fontsize=10)
+    ax.set_title(title, fontsize=9)
     ax.set_xlabel("x (um)")
 axes[0].set_ylabel("y (um)")
-axes[0].legend(fontsize=8, loc="lower right")
+axes[0].legend(fontsize=7, loc="lower right")
 plt.tight_layout()
 plt.savefig("fig_cu_fill_void_vs_fix.png", dpi=130)
 plt.show()
@@ -301,7 +305,7 @@ code("""\
 geo_cmp = ps.Domain(); geo_cmp.deepCopy(geo_fill_dir)
 target_y = pts_seed[:, 1].max()
 geo_cmp = tp.cmp_planarize(geo_cmp, target_y=target_y)
-pts_cmp = tp.profile_points(geo_cmp)
+pts_cmp = tp.trim_for_display(tp.profile_points(geo_cmp), target_y + 0.02)
 
 fig, ax = plt.subplots(figsize=(4, 5))
 ax.fill_betweenx(pts_cmp[:, 1], -pts_cmp[:, 0], pts_cmp[:, 0], color=MATERIAL_COLOR["Cu_fill"], alpha=0.9)

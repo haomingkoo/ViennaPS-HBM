@@ -16,12 +16,14 @@ geometry = ps.Domain(gridDelta=0.03, xExtent=0.8, yExtent=0.8)
 ps.MakeHole(domain=geometry, holeRadius=0.15, holeDepth=0.0, maskHeight=0.3,
             holeShape=ps.HoleShape.FULL).apply()
 
+ION_SOURCE_EXPONENT = 125  # must match tsv_process.py's actual sweet spot
+
 depo_model = ps.SingleParticleProcess(rate=0.02, stickingProbability=0.01)
 depo_removal = ps.SingleParticleProcess(rate=-0.02, stickingProbability=1.0,
-                                          sourceExponent=200, maskMaterial=ps.Material.Mask)
+                                          sourceExponent=ION_SOURCE_EXPONENT, maskMaterial=ps.Material.Mask)
 etch_model = ps.MultiParticleProcess()
 etch_model.addNeutralParticle(0.3)
-etch_model.addIonParticle(sourcePower=200, thetaRMin=60.0)
+etch_model.addIonParticle(sourcePower=ION_SOURCE_EXPONENT, thetaRMin=60.0)
 
 
 def rate_fn(fluxes, material):
@@ -35,7 +37,10 @@ def rate_fn(fluxes, material):
 
 etch_model.setRateFunction(rate_fn)
 
-ps.Process(geometry, etch_model, 1.5).apply()
+# brief seed etch, not a full cycle-length one -- same fix as bosch_etch's
+# initial_etch_time in tsv_process.py, otherwise the unprotected opening
+# balloons out isotropically before any passivation exists.
+ps.Process(geometry, etch_model, 0.3).apply()
 for _ in range(4):
     geometry.duplicateTopLevelSet(ps.Material.Polymer)
     ps.Process(geometry, depo_model, 1.0).apply()
