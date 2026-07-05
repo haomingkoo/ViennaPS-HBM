@@ -16,13 +16,17 @@ geometry = ps.Domain(gridDelta=0.03, xExtent=0.8, yExtent=0.8)
 ps.MakeHole(domain=geometry, holeRadius=0.15, holeDepth=0.0, maskHeight=0.3,
             holeShape=ps.HoleShape.FULL).apply()
 
-ION_SOURCE_EXPONENT = 125  # must match tsv_process.py's actual sweet spot
+# must match the 768-run DOE winner in build_notebook.py's ETCH dict
+ION_SOURCE_EXPONENT = 200
+NEUTRAL_STICKING_PROBABILITY = 0.2
+ETCH_TIME = 0.5
+DEPOSITION_THICKNESS = 0.01
 
-depo_model = ps.SingleParticleProcess(rate=0.02, stickingProbability=0.01)
-depo_removal = ps.SingleParticleProcess(rate=-0.02, stickingProbability=1.0,
+depo_model = ps.SingleParticleProcess(rate=DEPOSITION_THICKNESS, stickingProbability=0.01)
+depo_removal = ps.SingleParticleProcess(rate=-DEPOSITION_THICKNESS, stickingProbability=1.0,
                                           sourceExponent=ION_SOURCE_EXPONENT, maskMaterial=ps.Material.Mask)
 etch_model = ps.MultiParticleProcess()
-etch_model.addNeutralParticle(0.3)
+etch_model.addNeutralParticle(NEUTRAL_STICKING_PROBABILITY)
 etch_model.addIonParticle(sourcePower=ION_SOURCE_EXPONENT, thetaRMin=60.0)
 
 
@@ -40,12 +44,13 @@ etch_model.setRateFunction(rate_fn)
 # brief seed etch, not a full cycle-length one -- same fix as bosch_etch's
 # initial_etch_time in tsv_process.py, otherwise the unprotected opening
 # balloons out isotropically before any passivation exists.
-ps.Process(geometry, etch_model, 0.3).apply()
-for _ in range(4):
+ps.Process(geometry, etch_model, min(0.3, ETCH_TIME)).apply()
+for _ in range(5):  # fewer cycles than the 2D production run -- this is an
+                     # illustrative 3D picture on a coarse grid, not a measurement
     geometry.duplicateTopLevelSet(ps.Material.Polymer)
     ps.Process(geometry, depo_model, 1.0).apply()
     ps.Process(geometry, depo_removal, 1.0).apply()
-    ps.Process(geometry, etch_model, 1.5).apply()
+    ps.Process(geometry, etch_model, ETCH_TIME).apply()
     geometry.removeTopLevelSet()
     geometry.removeStrayPoints()
 

@@ -2,13 +2,26 @@
 winner at production quality (more cycles than the fast sweep used), then
 re-tune every downstream step (liner/barrier/fill/CMP) to match -- rather
 than reusing thickness values tuned to the old geometry.
+
+IMPORTANT METHODOLOGY NOTE: the raw sweep results are NOT directly
+comparable across different etch_time values at a fixed cycle count --
+short etch_time produces a shallower via, and shallower vias trivially
+show less bulge (less depth for ARDE to accumulate), independent of
+whether the recipe is actually better. The sweep's raw top-ranked bulge
+(0.0145) reflected this confound. Verified by regenerating the winner at
+a depth comparable to the old baseline: 12 cycles at etch_time=0.5 reaches
+depth=-1.19 (vs the old baseline's -1.29 at 5 cycles/etch_time=1.5), where
+the winner's real bulge is 0.0228 vs the old baseline's 0.0530 -- still a
+genuine ~2.3x improvement, just not the ~3.7x the confounded raw number
+implied. PRODUCTION_CYCLES below was chosen for exactly this reason, not
+just "more cycles for a nicer picture."
 """
 import json
 import numpy as np
 import viennaps as ps
 import tsv_process as tp
 
-PRODUCTION_CYCLES = 8  # sweep used 3 cycles for speed; final run gets more
+PRODUCTION_CYCLES = 12  # gives a depth comparable to the old 5-cycle/1.5-etch_time baseline
 
 
 def load_best():
@@ -20,8 +33,9 @@ def load_best():
 
 
 def regenerate_best(best):
-    """Re-run the winning combination at production cycle count."""
-    geo = tp.make_initial_geometry(radius=tp.__dict__.get("DEFAULT_RADIUS", 0.15))
+    """Re-run the winning combination at production cycle count (see the
+    depth-confound note above for why this isn't just "more cycles")."""
+    geo = tp.make_initial_geometry(radius=0.15)
     geo, depth = tp.bosch_etch(
         geo, num_cycles=PRODUCTION_CYCLES,
         etch_time=best["etch_time"], deposition_thickness=best["depo_thick"],

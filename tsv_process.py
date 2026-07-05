@@ -132,7 +132,8 @@ def bosch_etch(geometry, *, num_cycles=10, etch_time=1.5, initial_etch_time=0.3,
     return geometry, depth
 
 
-def deposit_conformal(geometry, material, thickness, *, directional=False):
+def deposit_conformal(geometry, material, thickness, *, directional=False,
+                        sticking=0.05, iso_ratio=0.3):
     """Step 3 (liner): isotropic, low-sticking -- SACVD-like thermal flow
     reaches deep vias by design (real conformality).
 
@@ -144,9 +145,9 @@ def deposit_conformal(geometry, material, thickness, *, directional=False):
     if directional:
         model = ps.DirectionalProcess(
             direction=[0.0, -1.0, 0.0],
-            directionalVelocity=thickness, isotropicVelocity=thickness * 0.3)
+            directionalVelocity=thickness, isotropicVelocity=thickness * iso_ratio)
     else:
-        model = ps.SingleParticleProcess(rate=thickness, stickingProbability=0.05)
+        model = ps.SingleParticleProcess(rate=thickness, stickingProbability=sticking)
     ps.Process(geometry, model, 1.0).apply()
     y_after = profile_points(geometry)[:, 1].min()
     # Monte Carlo ray-traced flux has run-to-run noise; the floor can gain
@@ -156,14 +157,14 @@ def deposit_conformal(geometry, material, thickness, *, directional=False):
     return geometry
 
 
-def cu_fill(geometry, thickness, *, directional=False):
+def cu_fill(geometry, thickness, *, directional=False, iso_ratio=0.2):
     """Step 5: Cu fill -- naive conformal (voids at high AR) vs. directional
     bottom-up (approximating electroplating superfill)."""
     geometry.duplicateTopLevelSet(ps.Material.Cu)
     if directional:
         model = ps.DirectionalProcess(
             direction=[0.0, -1.0, 0.0],
-            directionalVelocity=thickness, isotropicVelocity=thickness * 0.2)
+            directionalVelocity=thickness, isotropicVelocity=thickness * iso_ratio)
     else:
         model = ps.IsotropicProcess(rate=thickness)
     ps.Process(geometry, model, 1.0).apply()

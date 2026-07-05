@@ -122,9 +122,9 @@
     <p class="eyebrow">ViennaPS &middot; HBM4 via-middle TSV loop</p>
     <h1>Bosch etch &amp; Cu fill: what actually controls the outcome</h1>
     <p class="lede">
-      An interactive look at a 2-parameter sweep on the TSV Bosch etch step,
-      plus the naive-vs-engineered Cu fill comparison, both driven by real
-      ViennaPS simulation output (not interpolated or invented).
+      A 768-run, 4-parameter DOE on the TSV Bosch etch step, plus the
+      subconformal/conformal/superconformal Cu fill comparison -- all
+      driven by real ViennaPS simulation output.
     </p>
     <p class="scope-note">
       Scope: this models etch/deposition topography at single-feature scale.
@@ -135,58 +135,75 @@
   </header>
 
   <section>
+    <h2>768-run DOE: which parameter actually matters</h2>
+    <p class="section-sub">
+      4 parameters (ion_source_exponent, neutral_sticking_probability,
+      etch_time, deposition_thickness) at 8x8x4x3 = 768 combinations.
+      <code>etch_time</code> turned out to dominate -- bigger than the
+      isotropic component a smaller 2-parameter sweep had suggested was
+      the main knob.
+    </p>
+    <div class="panel">
+      <div id="doe-bars"></div>
+    </div>
+    <p class="finding">
+      <b>Methodology note:</b> the raw sweep's top result looked
+      dramatically better than it really was -- short <code>etch_time</code>
+      at a fixed cycle count means a shallower via, and shallower vias
+      trivially show less wall bulge regardless of whether the recipe is
+      actually better. Verified by regenerating the winner at a
+      depth-matched cycle count across 3 replicates (needed because these
+      are Monte Carlo ray-traced runs with real run-to-run noise): a
+      genuine ~2.8x improvement survives the correction, just not the
+      ~3.7x the confounded raw number implied.
+    </p>
+  </section>
+
+  <section>
     <h2>Etch parameter explorer</h2>
     <p class="section-sub">
-      Only 3 values were simulated per axis (9 runs total) &mdash; the sliders
-      snap to real computed points, nothing is interpolated between them.
+      The two dominant parameters from the DOE above, sliced at the
+      winning ion_source_exponent=200 / deposition_thickness=0.01 (32 of
+      the 768 runs) &mdash; sliders snap to real computed points, nothing
+      is interpolated.
     </p>
     <div class="panel explorer">
       <div>
         <div class="control">
-          <label>ion_source_exponent (ion directionality) <span class="val" id="ion-val"></span></label>
-          <input type="range" id="ion-slider" min="0" max="4" step="1" value="1">
-          <div class="ticks" id="ion-ticks"></div>
+          <label>etch_time (per-cycle duration, um) <span class="val" id="etch-time-val"></span></label>
+          <input type="range" id="etch-time-slider" min="0" max="3" step="1" value="0">
+          <div class="ticks" id="etch-time-ticks"></div>
         </div>
         <div class="control">
           <label>neutral_sticking_probability (isotropic etch) <span class="val" id="neutral-val"></span></label>
-          <input type="range" id="neutral-slider" min="0" max="4" step="1" value="4">
+          <input type="range" id="neutral-slider" min="0" max="7" step="1" value="7">
           <div class="ticks" id="neutral-ticks"></div>
         </div>
         <div class="readout">
           <div class="metric"><span class="k">etch depth</span><span class="v" id="m-depth"></span></div>
           <div class="metric"><span class="k">max wall bulge</span><span class="v" id="m-bulge"></span></div>
-          <div class="metric"><span class="k">net taper (fit slope)</span><span class="v" id="m-slope"></span></div>
-          <div class="metric"><span class="k">scallop RMS</span><span class="v" id="m-rms"></span></div>
           <div class="metric"><span class="k">straightness</span><span class="v" id="m-straight"></span></div>
-          <div class="metric"><span class="k">smoothness</span><span class="v" id="m-smooth"></span></div>
         </div>
-        <div class="sweet-spot-badge" id="sweet-badge">&#9733; identified sweet spot from the sweep</div>
+        <div class="sweet-spot-badge" id="sweet-badge">&#9733; identified DOE sweet spot</div>
       </div>
       <div>
         <svg id="via-svg" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
     </div>
-    <p class="finding">
-      <b>Finding:</b> across the grid, <code>neutral_sticking_probability</code>
-      (the isotropic/chemical SF6 component) moves scallop RMS more than
-      <code>ion_source_exponent</code> (ion directionality) does &mdash; the
-      opposite of the naive assumption that ion energy alone controls
-      straightness.
-    </p>
   </section>
 
   <section>
     <h2>Failure mode vs. fix: etch profile</h2>
-    <p class="section-sub">Same via, same cycle count &mdash; only the two swept parameters differ.</p>
+    <p class="section-sub">Same via, same production cycle count &mdash; only the swept parameters differ.</p>
     <div class="compare">
       <div class="compare-card fail">
         <h3>Failure mode</h3>
-        <p class="cap">ion_exp=50, neutral=0.02 &mdash; low directionality, low isotropic component</p>
+        <p class="cap">etch_time=2.0, neutral=0.02 &mdash; long etch time, low isotropic component</p>
         <svg id="svg-fail" viewBox="0 0 300 420"></svg>
       </div>
       <div class="compare-card fix">
         <h3>Fixed</h3>
-        <p class="cap">ion_exp=125, neutral=0.3 &mdash; the sweep's real sweet spot (lowest wall bulge)</p>
+        <p class="cap">etch_time=0.5, neutral=0.3 (ion=200) &mdash; the DOE's real sweet spot</p>
         <svg id="svg-fix" viewBox="0 0 300 420"></svg>
       </div>
     </div>
@@ -194,24 +211,30 @@
 
   <section>
     <h2>Failure mode vs. fix: Cu fill</h2>
-    <p class="section-sub">Same post-liner/barrier via &mdash; naive isotropic deposition vs. directional bottom-up fill.</p>
+    <p class="section-sub">
+      Same post-liner/barrier via, swept-optimal downstream parameters
+      (25 + 30 run sweeps against this exact geometry) &mdash; subconformal
+      (naive isotropic) vs. superconformal (directional bottom-up) growth.
+      The full subconformal/conformal/superconformal spectrum is in the notebook.
+    </p>
     <div class="compare">
       <div class="compare-card fail">
-        <h3>Naive isotropic fill</h3>
-        <p class="cap">Pinches at the opening &rarr; trapped void</p>
+        <h3>Subconformal fill</h3>
+        <p class="cap">Faster at the opening &rarr; pinches shut, trapped void</p>
         <svg id="svg-void" viewBox="0 0 300 420"></svg>
       </div>
       <div class="compare-card fix">
-        <h3>Directional bottom-up fill</h3>
-        <p class="cap">Reaches the floor &mdash; no void</p>
+        <h3>Superconformal fill</h3>
+        <p class="cap">Faster at the floor (swept-optimal) &mdash; reaches the floor, much smaller residual gap</p>
         <svg id="svg-nofill" viewBox="0 0 300 420"></svg>
       </div>
     </div>
   </section>
 
   <footer>
-    Data: 25-point ViennaPS sweep + naive/directional Cu-fill run, both
-    executed on real geometry (see tsv_process.py / sweep.py in the repo).
+    Data: 768-run 4-parameter DOE (sweep_big.py) + downstream liner/barrier/
+    fill sweeps (sweep_downstream.py) + naive/directional Cu-fill run, all
+    executed on real ViennaPS geometry (see tsv_process.py in the repo).
     &middot; <a href="https://kooexperience.com" style="color:var(--accent)">kooexperience.com</a>
   </footer>
 </div>
@@ -240,20 +263,31 @@ function renderVia(svg, profile, color, yMin, yMax, floorY) {
     <text x="${xScale(r,w)+4}" y="${topY+10}" fill="var(--good)" font-size="9" font-family="var(--mono)">ideal straight wall</text>`;
 }
 
+// -- DOE effects bar chart --
+const maxEffect = Math.max(...DATA.effects.map(e => e.range));
+document.getElementById('doe-bars').innerHTML = DATA.effects.map((e, i) => `
+  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;">
+    <div style="width:180px; font-family:var(--mono); font-size:0.78rem; color:var(--text-dim);">${e.name}</div>
+    <div style="flex:1; background:var(--surface-2); border-radius:4px; overflow:hidden;">
+      <div style="width:${(e.range/maxEffect*100).toFixed(1)}%; height:22px; background:${i===0?'var(--good)':'var(--si)'};"></div>
+    </div>
+    <div style="width:60px; font-family:var(--mono); font-size:0.78rem; text-align:right;">${e.range.toFixed(4)}</div>
+  </div>`).join('') + `<p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.6rem;">${DATA.total_doe_runs} total runs &middot; effect = range of mean wall bulge across each parameter's tested values</p>`;
+
 // -- interactive explorer --
-const ionSlider = document.getElementById('ion-slider');
+const etchTimeSlider = document.getElementById('etch-time-slider');
 const neutralSlider = document.getElementById('neutral-slider');
-const ionVal = document.getElementById('ion-val');
+const etchTimeVal = document.getElementById('etch-time-val');
 const neutralVal = document.getElementById('neutral-val');
-document.getElementById('ion-ticks').innerHTML = DATA.ion_exponents.map(v => `<span>${v}</span>`).join('');
+document.getElementById('etch-time-ticks').innerHTML = DATA.etch_times.map(v => `<span>${v}</span>`).join('');
 document.getElementById('neutral-ticks').innerHTML = DATA.neutral_sticking.map(v => `<span>${v}</span>`).join('');
 
 const YMIN = Math.min(...DATA.sweep.map(r => r.depth)) - 0.1;
 const YMAX = 0.32;
 
-function findRun(ionIdx, neutralIdx) {
-  const ion = DATA.ion_exponents[ionIdx], neutral = DATA.neutral_sticking[neutralIdx];
-  return DATA.sweep.find(r => r.ion === ion && r.neutral === neutral);
+function findRun(etchTimeIdx, neutralIdx) {
+  const etchTime = DATA.etch_times[etchTimeIdx], neutral = DATA.neutral_sticking[neutralIdx];
+  return DATA.sweep.find(r => r.etch_time === etchTime && r.neutral === neutral);
 }
 
 // max deviation of the sidewall from the ideal straight wall at the nominal
@@ -272,34 +306,27 @@ function maxWallBulge(profile, depth) {
 }
 
 function updateExplorer() {
-  const ionIdx = +ionSlider.value, neutralIdx = +neutralSlider.value;
-  const run = findRun(ionIdx, neutralIdx);
-  ionVal.textContent = DATA.ion_exponents[ionIdx];
+  const etchTimeIdx = +etchTimeSlider.value, neutralIdx = +neutralSlider.value;
+  const run = findRun(etchTimeIdx, neutralIdx);
+  etchTimeVal.textContent = DATA.etch_times[etchTimeIdx];
   neutralVal.textContent = DATA.neutral_sticking[neutralIdx];
-  const bulge = maxWallBulge(run.profile, run.depth);
+  const bulge = run.bulge !== null ? run.bulge : maxWallBulge(run.profile, run.depth);
   document.getElementById('m-depth').textContent = run.depth.toFixed(3) + ' um';
   document.getElementById('m-bulge').textContent = bulge.toFixed(4) + ' um';
-  document.getElementById('m-slope').textContent = run.slope === null ? 'n/a (degenerate)' : run.slope.toFixed(4);
-  document.getElementById('m-rms').textContent = run.rms === null ? 'n/a' : run.rms.toFixed(4);
 
   const straightEl = document.getElementById('m-straight');
-  if (run.slope === null) { straightEl.innerHTML = '<span class="pill bad">degenerate</span>'; }
-  else { straightEl.innerHTML = bulge < 0.04 ? '<span class="pill good">straight</span>' : '<span class="pill bad">bulging</span>'; }
+  straightEl.innerHTML = bulge < 0.03 ? '<span class="pill good">straight</span>' : '<span class="pill bad">bulging</span>';
 
-  const smoothEl = document.getElementById('m-smooth');
-  if (run.rms === null) { smoothEl.innerHTML = '<span class="pill bad">n/a</span>'; }
-  else { smoothEl.innerHTML = run.rms < 0.015 ? '<span class="pill good">smooth</span>' : '<span class="pill bad">scalloped</span>'; }
-
-  document.getElementById('sweet-badge').classList.toggle('show', run.ion === 125 && run.neutral === 0.3);
+  document.getElementById('sweet-badge').classList.toggle('show', run.etch_time === 0.5 && run.neutral === 0.3);
   renderVia(document.getElementById('via-svg'), run.profile, 'var(--si)', YMIN, YMAX, run.depth);
 }
-ionSlider.addEventListener('input', updateExplorer);
+etchTimeSlider.addEventListener('input', updateExplorer);
 neutralSlider.addEventListener('input', updateExplorer);
 updateExplorer();
 
 // -- failure vs fix (etch) --
-const badRun = DATA.sweep.find(r => r.ion === 50 && r.neutral === 0.02);
-const goodRun = DATA.sweep.find(r => r.ion === 125 && r.neutral === 0.3);
+const badRun = DATA.sweep.find(r => r.etch_time === 2.0 && r.neutral === 0.02);
+const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral === 0.3);
 renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', YMIN, YMAX, badRun.depth);
 renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', YMIN, YMAX, goodRun.depth);
 

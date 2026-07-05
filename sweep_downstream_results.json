@@ -1,0 +1,25 @@
+{
+  "etch_winner": {
+    "ion": 200,
+    "neutral": 0.2,
+    "etch_time": 0.5,
+    "depo_thick": 0.01
+  },
+  "production_cycles": 12,
+  "production_depth": -1.1873317205326737,
+  "best_liner": {
+    "thickness": 0.02,
+    "sticking": 0.2,
+    "coverage": 0.995817371897964
+  },
+  "best_barrier": {
+    "thickness": 0.015,
+    "iso_ratio": 0.1,
+    "coverage": 0.9895590804774632
+  },
+  "best_fill_superconformal": {
+    "thickness": 0.18,
+    "iso_ratio": 0.05,
+    "coverage": 1.0
+  }
+}
