@@ -1,0 +1,10 @@
+.venv/
+.venv313/
+ViennaPS/
+build.log
+build_ls.log
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.vtp
+*.vtu
