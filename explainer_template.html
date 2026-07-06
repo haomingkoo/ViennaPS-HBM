@@ -1,386 +1,408 @@
-<title>TSV Process Explainer -- HBM4 Bosch Etch &amp; Cu Fill</title>
+<title>TSV Bosch Etch + Cu Fill -- DOE Findings Log</title>
 <style>
+  :root {
+    --bg: #eef1f3; --surface: #ffffff; --surface-2: #e6eaed;
+    --line: #ccd3d8; --ink: #171b20; --ink-dim: #5b6570;
+    --plasma: #0f8b96; --plasma-glow: rgba(15,139,150,0.18);
+    --copper: #a85f2e; --si: #5b6570; --oxide: #3f7ea6;
+    --amber: #9a6a12; --confirmed: #2f7d4f;
+  }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #14171a; --surface: #1c2024; --surface-2: #232830;
-      --text: #ece8e0; --text-dim: #9aa0a6; --border: #2e343b;
-    }
-  }
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #eef0ec; --surface: #ffffff; --surface-2: #e4e7e1;
-      --text: #1b1e1a; --text-dim: #5b625d; --border: #d3d7cf;
+      --bg: #0a0d12; --surface: #10141b; --surface-2: #171d26;
+      --line: #232b37; --ink: #d7dee5; --ink-dim: #7a8494;
+      --plasma: #5fd4dc; --plasma-glow: rgba(95,212,220,0.14);
+      --copper: #c9884a; --si: #8a94a3; --oxide: #7fa8c9;
+      --amber: #d9a441; --confirmed: #5cb87a;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #14171a; --surface: #1c2024; --surface-2: #232830;
-    --text: #ece8e0; --text-dim: #9aa0a6; --border: #2e343b;
+    --bg: #0a0d12; --surface: #10141b; --surface-2: #171d26;
+    --line: #232b37; --ink: #d7dee5; --ink-dim: #7a8494;
+    --plasma: #5fd4dc; --plasma-glow: rgba(95,212,220,0.14);
+    --copper: #c9884a; --si: #8a94a3; --oxide: #7fa8c9;
+    --amber: #d9a441; --confirmed: #5cb87a;
   }
   :root[data-theme="light"] {
-    --bg: #eef0ec; --surface: #ffffff; --surface-2: #e4e7e1;
-    --text: #1b1e1a; --text-dim: #5b625d; --border: #d3d7cf;
+    --bg: #eef1f3; --surface: #ffffff; --surface-2: #e6eaed;
+    --line: #ccd3d8; --ink: #171b20; --ink-dim: #5b6570;
+    --plasma: #0f8b96; --plasma-glow: rgba(15,139,150,0.18);
+    --copper: #a85f2e; --si: #5b6570; --oxide: #3f7ea6;
+    --amber: #9a6a12; --confirmed: #2f7d4f;
   }
-  :root {
-    --accent: #d98a4f; --si: #8a8f94; --good: #4caf7d; --bad: #c0392b;
-    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", "Roboto Mono", monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  }
+  :root { --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", "Roboto Mono", Menlo, Consolas, monospace;
+          --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
   * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+  html { background: var(--bg); }
   body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font-family: var(--sans); line-height: 1.5;
+    margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans);
+    line-height: 1.55; font-size: 15.5px;
   }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
-  header { margin-bottom: 2rem; }
-  .eyebrow {
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--accent); margin: 0 0 0.6rem;
-  }
-  h1 {
-    font-family: var(--mono); font-size: clamp(1.5rem, 3.4vw, 2.3rem);
-    font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.7rem; text-wrap: balance;
-  }
-  .lede { color: var(--text-dim); max-width: 62ch; margin: 0; font-size: 0.98rem; }
-  .scope-note {
-    font-size: 0.82rem; color: var(--text-dim); border-left: 2px solid var(--border);
-    padding-left: 0.8rem; margin-top: 1rem; max-width: 62ch;
-  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  a { color: var(--plasma); }
 
-  section { margin-top: 3rem; }
-  h2 {
-    font-family: var(--mono); font-size: 1.05rem; font-weight: 700;
-    letter-spacing: 0.01em; margin: 0 0 0.3rem;
+  /* ---- header ---- */
+  header { margin-bottom: 3rem; border-bottom: 1px solid var(--line); padding-bottom: 2rem; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--plasma); margin: 0 0 1rem; display: flex; gap: 0.6em; align-items: center;
   }
-  .section-sub { color: var(--text-dim); font-size: 0.88rem; margin: 0 0 1.2rem; max-width: 68ch; }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; background: var(--plasma); box-shadow: 0 0 8px var(--plasma-glow), 0 0 8px var(--plasma-glow); display: inline-block; }
+  h1 {
+    font-family: var(--mono); font-size: clamp(1.5rem, 3.6vw, 2.15rem); font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 1rem; text-wrap: balance; line-height: 1.25;
+  }
+  .lede { color: var(--ink-dim); max-width: 66ch; margin: 0 0 1.2rem; font-size: 1rem; }
+  .scope-note { font-size: 0.82rem; color: var(--ink-dim); max-width: 66ch; }
+  .scope-note b { color: var(--ink); }
+
+  /* ---- findings log ---- */
+  .finding { margin-top: 3.2rem; }
+  .finding-head {
+    display: flex; align-items: baseline; gap: 0.9rem; margin-bottom: 0.3rem;
+  }
+  .finding-num {
+    font-family: var(--mono); font-size: 0.78rem; color: var(--ink-dim); letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .finding h2 {
+    font-family: var(--mono); font-size: 1.05rem; font-weight: 600; margin: 0; letter-spacing: -0.005em;
+  }
+  .claim { font-size: 0.94rem; color: var(--ink-dim); max-width: 68ch; margin: 0.5rem 0 1.1rem; }
+  .claim b { color: var(--ink); font-weight: 600; }
+
+  .stamp {
+    display: inline-flex; align-items: center; gap: 0.4em; font-family: var(--mono); font-size: 0.7rem;
+    font-weight: 700; letter-spacing: 0.06em; padding: 0.18rem 0.5rem; border: 1px solid currentColor;
+  }
+  .stamp.confirmed { color: var(--confirmed); }
+  .stamp.retracted { color: var(--amber); }
+  .stamp.ceiling { color: var(--ink-dim); }
+  .stamp::before { content: "\25A0"; font-size: 0.6em; }
 
   .panel {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-    padding: 1.4rem;
+    background: var(--surface); border: 1px solid var(--line); padding: 1.4rem 1.5rem;
   }
+  .panel + .panel { margin-top: 1rem; }
+  .note {
+    font-size: 0.84rem; color: var(--ink-dim); margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px dashed var(--line);
+  }
+  .note b { color: var(--ink); }
 
-  /* interactive explorer */
-  .explorer { display: grid; grid-template-columns: 260px 1fr; gap: 1.6rem; }
-  @media (max-width: 720px) { .explorer { grid-template-columns: 1fr; } }
-  .control { margin-bottom: 1.4rem; }
+  /* ---- explorer / controls ---- */
+  .explorer { display: grid; grid-template-columns: 250px 1fr; gap: 1.8rem; }
+  @media (max-width: 700px) { .explorer { grid-template-columns: 1fr; } }
+  .control { margin-bottom: 1.3rem; }
   .control label {
-    display: flex; justify-content: space-between; font-family: var(--mono);
-    font-size: 0.78rem; color: var(--text-dim); margin-bottom: 0.4rem;
+    display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.74rem;
+    color: var(--ink-dim); margin-bottom: 0.5rem; letter-spacing: 0.01em;
   }
-  .control label span.val { color: var(--text); font-weight: 700; }
+  .control label span.val { color: var(--plasma); font-weight: 700; font-variant-numeric: tabular-nums; }
+
   input[type=range] {
-    width: 100%; accent-color: var(--accent); height: 4px;
+    -webkit-appearance: none; appearance: none; width: 100%; height: 18px; background: transparent; margin: 0;
   }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 3px; background: repeating-linear-gradient(90deg, var(--line) 0, var(--line) 1px, transparent 1px, transparent calc(100% / 7));
+    background-color: var(--line);
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 10px; height: 18px; margin-top: -8px;
+    background: var(--plasma); box-shadow: 0 0 0 3px var(--plasma-glow); cursor: pointer; border: none;
+  }
+  input[type=range]::-moz-range-track { height: 3px; background: var(--line); }
+  input[type=range]::-moz-range-thumb {
+    width: 10px; height: 18px; background: var(--plasma); box-shadow: 0 0 0 3px var(--plasma-glow);
+    cursor: pointer; border: none;
+  }
+  input[type=range]:focus-visible { outline: 2px solid var(--plasma); outline-offset: 3px; }
+
   .ticks {
-    display: flex; justify-content: space-between; font-family: var(--mono);
-    font-size: 0.68rem; color: var(--text-dim); margin-top: 0.25rem;
+    display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.64rem;
+    color: var(--ink-dim); margin-top: 0.3rem; font-variant-numeric: tabular-nums;
   }
-  .readout { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
-  .metric { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.55rem; }
-  .metric .k { font-size: 0.78rem; color: var(--text-dim); }
-  .metric .v {
-    font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1rem; font-weight: 700;
-  }
-  .pill {
-    display: inline-block; font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
-    padding: 0.2rem 0.55rem; border-radius: 99px; letter-spacing: 0.02em;
-  }
-  .pill.good { background: color-mix(in srgb, var(--good) 22%, transparent); color: var(--good); }
-  .pill.bad { background: color-mix(in srgb, var(--bad) 22%, transparent); color: var(--bad); }
-  .sweet-spot-badge {
-    display: none; margin-top: 1rem; font-family: var(--mono); font-size: 0.72rem;
-    color: var(--accent); border: 1px solid var(--accent); border-radius: 6px;
-    padding: 0.5rem 0.6rem;
-  }
-  .sweet-spot-badge.show { display: block; }
+  .readout { margin-top: 1.3rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+  .metric { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; font-size: 0.86rem; }
+  .metric .k { color: var(--ink-dim); font-family: var(--mono); font-size: 0.76rem; }
+  .metric .v { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 700; }
+  .metric .v.warn { color: var(--amber); }
+  .metric .v.ok { color: var(--confirmed); }
+  .pin-note { font-size: 0.72rem; color: var(--ink-dim); margin-top: 0.8rem; line-height: 1.4; }
 
   svg { width: 100%; height: auto; display: block; }
-  .finding {
-    margin-top: 1.2rem; font-size: 0.85rem; background: var(--surface-2);
-    border-radius: 8px; padding: 0.8rem 1rem; color: var(--text);
-  }
-  .finding b { color: var(--accent); }
 
-  /* comparison bands */
-  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  /* ---- compare bands ---- */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
-  .compare-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; }
-  .compare-card h3 {
-    font-family: var(--mono); font-size: 0.85rem; margin: 0 0 0.2rem;
-  }
-  .compare-card .cap { font-size: 0.78rem; color: var(--text-dim); margin: 0 0 0.8rem; }
-  .compare-card.fail h3 { color: var(--bad); }
-  .compare-card.fix h3 { color: var(--good); }
+  .compare-card { background: var(--surface); border: 1px solid var(--line); padding: 1.1rem; }
+  .compare-card h3 { font-family: var(--mono); font-size: 0.82rem; margin: 0 0 0.2rem; font-weight: 600; }
+  .compare-card .cap { font-size: 0.76rem; color: var(--ink-dim); margin: 0 0 0.8rem; font-family: var(--mono); }
+  .compare-card.fail h3 { color: var(--amber); }
+  .compare-card.fix h3 { color: var(--confirmed); }
+
+  table.doe-table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 0.78rem; }
+  table.doe-table th, table.doe-table td { text-align: right; padding: 0.3rem 0.6rem; font-variant-numeric: tabular-nums; }
+  table.doe-table th { text-align: left; color: var(--ink-dim); font-weight: 500; border-bottom: 1px solid var(--line); }
+  table.doe-table td:first-child, table.doe-table th:first-child { text-align: left; }
 
   footer {
-    margin-top: 3.5rem; padding-top: 1.2rem; border-top: 1px solid var(--border);
-    font-size: 0.78rem; color: var(--text-dim); font-family: var(--mono);
+    margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
+    font-size: 0.76rem; color: var(--ink-dim); font-family: var(--mono);
   }
 </style>
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">ViennaPS &middot; HBM4 via-middle TSV loop</p>
-    <h1>Bosch etch &amp; Cu fill: what actually controls the outcome</h1>
+    <p class="eyebrow">ViennaPS &middot; via-middle TSV process, HBM4</p>
+    <h1>Bosch etch + Cu fill: a DOE findings log, not a highlight reel</h1>
     <p class="lede">
-      HBM stacks depend on TSVs -- microscopic vertical tunnels etched
-      through silicon and filled with copper to connect stacked memory
-      dies. Three things have to be right: the etch must be
-      <b>straight</b> (not bowed or scalloped), it must reach a
-      <b>target depth</b> (too shallow and it never connects through the
-      die; too deep wastes process time), and the copper fill must be
-      <b>void-free</b> (a trapped air pocket cracks the chip later). This
-      is a data-driven search for what actually controls those three
-      outcomes, using ViennaPS to simulate the real process physics.
+      HBM stacks depend on TSVs: micron-scale vertical tunnels etched through
+      silicon and filled with copper to connect stacked dies. This is a running
+      log of what was screened, what was found, and what was <b>retracted</b>
+      after replication didn't support it -- in the order it actually happened.
+    </p>
+    <p class="scope-note">
+      Scope: single-feature topography (etch, deposition, CMP), not package
+      warpage, bonding thermal/mechanical reliability, or JEDEC signaling.
+      <b>Not a fab-calibrated DOE</b> -- a sensitivity study on simulation
+      model coefficients, no measured process data to validate against.
     </p>
   </header>
 
-  <section>
-    <h2>Bottom line</h2>
-    <div class="panel" style="border-left: 3px solid var(--good);">
-      <p style="margin:0 0 0.8rem; font-size:0.95rem;">
-        A 768-run, 4-parameter DOE found that <b>etch_time</b> (per-cycle
-        duration) &mdash; not the parameter most people would guess
-        first &mdash; is the dominant control on TSV wall straightness.
-        Screening all 11 of the etch step's real parameters (not just
-        the 4 already being varied) found two more that matter; a second,
-        800-run combined DOE on the new top-4 found a recipe
-        <b>~1.5x better</b> than the original DOE's own winner, depth-
-        matched and replicated before being trusted.
-      </p>
-      <p style="margin:0; font-size:0.95rem;">
-        Every step's real parameters were screened this way, then checked
-        <i>jointly</i> across all 5 process steps -- not just optimized
-        one at a time -- specifically to catch a knob that helps one
-        stage while hurting another. One looked real at first (patterning's
-        mask taper angle) and then <b>didn't survive replication</b>:
-        reported below as a retraction, not smoothed over. CMP's dishing
-        behavior was also found to be the opposite of what an earlier
-        pass assumed -- also corrected below with real measurements.
-      </p>
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">01</span>
+      <h2>Screening the full parameter set, not just the 4 already varied</h2>
     </div>
-    <p class="scope-note">
-      Scope: this models etch/deposition topography at single-feature
-      scale. It does not model package warpage, TCB/hybrid-bonding
-      thermal reliability, or JEDEC signaling &mdash; see the notebook
-      README for the full picture.
-    </p>
-  </section>
-
-  <section>
-    <h2>768-run DOE: which parameter actually matters</h2>
-    <p class="section-sub">
-      4 parameters (ion_source_exponent, neutral_sticking_probability,
-      etch_time, deposition_thickness) at 8x8x4x3 = 768 combinations.
-      <code>etch_time</code> turned out to dominate -- bigger than the
-      isotropic component a smaller 2-parameter sweep had suggested was
-      the main knob.
+    <p class="claim">
+      A 768-run DOE across 4 etch parameters found <b>etch_time</b> dominant.
+      But <code>bosch_etch</code> exposes 11 real parameters -- the other 7
+      had only ever sat at their defaults. Screening all 7 found two,
+      <b>initial_etch_time</b> and <b>neutral_rate</b>, that rank above two of
+      the original 4. <span class="stamp confirmed">confirmed</span>
     </p>
     <div class="panel">
       <div id="doe-bars"></div>
     </div>
-    <p class="finding">
-      <b>Methodology note:</b> the raw sweep's top result looked
-      dramatically better than it really was -- short <code>etch_time</code>
-      at a fixed cycle count means a shallower via, and shallower vias
-      trivially show less wall bulge regardless of whether the recipe is
-      actually better. Verified by regenerating the winner at a
-      depth-matched cycle count across 3 replicates (needed because these
-      are Monte Carlo ray-traced runs with real run-to-run noise): a
-      genuine ~2.8x improvement survives the correction, just not the
-      ~3.7x the confounded raw number implied.
+    <p class="note">
+      <b>Confound caught in the raw sweep:</b> its top result looked like a
+      ~3.7x improvement. Short <code>etch_time</code> at a fixed cycle count
+      means a shallower via, and shallower vias trivially show less wall
+      bulge -- not a real improvement, a measurement artifact. Depth-matched,
+      replicated (3x, Monte Carlo ray-traced runs have real run-to-run noise):
+      a genuine <b>2.8x</b> improvement survives, not 3.7x.
     </p>
   </section>
 
-  <section>
-    <h2>Screening pass: 2 more real knobs, an 800-run follow-up DOE</h2>
-    <p class="section-sub">
-      <code>bosch_etch</code> exposes 11 real parameters, not 4 -- the
-      other 7 had only ever been left at their defaults. Screening all 7
-      found <code>initial_etch_time</code> and <code>neutral_rate</code>
-      ranked above two of the original DOE's own parameters. This chart
-      is the follow-up: a combined 800-run DOE on the new top-4.
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">02</span>
+      <h2>The screened knobs, combined-DOE'd and verified</h2>
+    </div>
+    <p class="claim">
+      800 runs across the new top-4 (<code>etch_time</code> x
+      <code>neutral_sticking_probability</code> x <code>initial_etch_time</code>
+      x <code>neutral_rate</code>). Result: <b>neutral_rate</b>'s effect is
+      nearly as large as <code>etch_time</code>'s -- screening's own ranking
+      had it below <code>initial_etch_time</code>, which turns out to be the
+      <i>smallest</i> effect of the four. <span class="stamp retracted">screening ranking overturned</span>
     </p>
     <div class="panel">
       <div id="doe4-bars"></div>
     </div>
-    <p class="finding">
-      <b>A ranking reversal, caught rather than assumed:</b> the earlier
-      screening ranked <code>initial_etch_time</code> above
-      <code>neutral_rate</code>. This full combined DOE found the
-      opposite -- <code>neutral_rate</code>'s effect is nearly as large
-      as <code>etch_time</code>'s, while <code>initial_etch_time</code>
-      turned out to be the smallest of the four. Screening from one
-      baseline point can mis-rank parameters that interact; the combined
-      DOE is what determines the real ranking. This new winner, depth-
-      matched and replicated against the previous production recipe, is
-      <b>~1.5x better</b> and is now the recipe used throughout.
+    <p class="note">
+      New winner, depth-matched (14 cycles vs. the old recipe's 12) and
+      replicated (3x) against the previous production recipe:
+      <b>~1.5x</b> better wall bulge. Adopted as production. Also checked
+      <code>etch_time=0.5</code> wasn't just an untested boundary: swept
+      below it (0.2-0.4) and bulge gets monotonically worse -- a genuine
+      optimum, not a cutoff artifact.
     </p>
   </section>
 
-  <section>
-    <h2>Etch parameter explorer</h2>
-    <p class="section-sub">
-      etch_time and neutral_rate -- the two most important etch knobs
-      found by the 800-run top-4 DOE (chart above), not the two originally
-      guessed. Sliced at the current production values for the other two
-      (ion_source_exponent=200, deposition_thickness=0.01,
-      initial_etch_time=0.3, neutral_sticking_probability=0.05) &mdash;
-      sliders snap to real computed points, nothing is interpolated.
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">03</span>
+      <h2>All 4 real knobs, explorable -- not the 2 easiest to plot</h2>
+    </div>
+    <p class="claim">
+      Every one of the 800 screened combinations, looked up exactly (nothing
+      interpolated). The cross-section shown is the real 14-cycle production
+      geometry, pinned to the <code>etch_time</code> / <code>neutral_rate</code>
+      pair (the two knobs with rendered profiles);
+      <code>neutral_sticking_probability</code> and <code>initial_etch_time</code>
+      still pull the real screening-pass bulge for the exact 4-way combination
+      selected -- not depth-matched (see finding 01), so use it for ranking
+      within this table, not as an absolute number.
     </p>
     <div class="panel explorer">
       <div>
         <div class="control">
-          <label>etch_time (per-cycle duration, um) <span class="val" id="etch-time-val"></span></label>
-          <input type="range" id="etch-time-slider" min="0" max="3" step="1" value="0">
-          <div class="ticks" id="etch-time-ticks"></div>
+          <label>etch_time (um/cycle) <span class="val" id="e-et-val"></span></label>
+          <input type="range" id="e-et" min="0" max="3" step="1" value="0">
+          <div class="ticks" id="e-et-ticks"></div>
         </div>
         <div class="control">
-          <label>neutral_rate (ion-driven etch rate coefficient) <span class="val" id="neutral-val"></span></label>
-          <input type="range" id="neutral-slider" min="0" max="4" step="1" value="0">
-          <div class="ticks" id="neutral-ticks"></div>
+          <label>neutral_rate <span class="val" id="e-nr-val"></span></label>
+          <input type="range" id="e-nr" min="0" max="4" step="1" value="0">
+          <div class="ticks" id="e-nr-ticks"></div>
+        </div>
+        <div class="control">
+          <label>neutral_sticking_probability <span class="val" id="e-ns-val"></span></label>
+          <input type="range" id="e-ns" min="0" max="7" step="1" value="1">
+          <div class="ticks" id="e-ns-ticks"></div>
+        </div>
+        <div class="control">
+          <label>initial_etch_time <span class="val" id="e-iet-val"></span></label>
+          <input type="range" id="e-iet" min="0" max="4" step="1" value="2">
+          <div class="ticks" id="e-iet-ticks"></div>
         </div>
         <div class="readout">
-          <div class="metric"><span class="k">etch depth</span><span class="v" id="m-depth"></span></div>
-          <div class="metric"><span class="k">max wall bulge</span><span class="v" id="m-bulge"></span></div>
-          <div class="metric"><span class="k">straightness</span><span class="v" id="m-straight"></span></div>
+          <div class="metric"><span class="k">WALL BULGE (exact 4-way)</span><span class="v" id="e-bulge"></span></div>
         </div>
-        <div class="sweet-spot-badge" id="sweet-badge">&#9733; identified DOE sweet spot</div>
+        <p class="pin-note" id="e-pin-note"></p>
       </div>
       <div>
-        <svg id="via-svg" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid meet"></svg>
+        <svg id="e-svg" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2>Failure mode vs. fix: etch profile</h2>
-    <p class="section-sub">Same via, same production cycle count &mdash; only the swept parameters differ.</p>
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">04</span>
+      <h2>Failure mode vs. production recipe</h2>
+    </div>
+    <p class="claim">Same via, same cycle count -- only the swept parameters differ.</p>
     <div class="compare">
       <div class="compare-card fail">
-        <h3>Failure mode</h3>
-        <p class="cap">etch_time=2.0, neutral_rate=-0.3 &mdash; long etch time, aggressive ion-driven rate</p>
+        <h3>FAIL</h3>
+        <p class="cap">etch_time=2.0, neutral_rate=-0.3</p>
         <svg id="svg-fail" viewBox="0 0 300 420"></svg>
       </div>
       <div class="compare-card fix">
-        <h3>Fixed</h3>
-        <p class="cap">etch_time=0.5, neutral_rate=-0.1 (ion=200) &mdash; the current production recipe</p>
+        <h3>PRODUCTION</h3>
+        <p class="cap">etch_time=0.5, neutral_rate=-0.1</p>
         <svg id="svg-fix" viewBox="0 0 300 420"></svg>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2>Failure mode vs. fix: Cu fill</h2>
-    <p class="section-sub">
-      Same post-liner/barrier via, swept-optimal downstream parameters
-      (25 + 30 run sweeps against this exact geometry) &mdash; subconformal
-      (naive isotropic) vs. superconformal (directional bottom-up) growth.
-      The full subconformal/conformal/superconformal spectrum is in the notebook.
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">05</span>
+      <h2>Cu fill: three growth regimes, one unclosed ceiling</h2>
+    </div>
+    <p class="claim">
+      Subconformal (faster at the opening) traps a void. Superconformal
+      (directional, bottom-up) reaches the floor -- but a residual gap
+      remains at the tip at <i>every</i> setting tested.
+      <span class="stamp ceiling">structural ceiling, not a tuning gap</span>
     </p>
     <div class="compare">
       <div class="compare-card fail">
-        <h3>Subconformal fill</h3>
-        <p class="cap">Faster at the opening &rarr; pinches shut, trapped void</p>
+        <h3>SUBCONFORMAL</h3>
+        <p class="cap">faster at opening &rarr; pinches shut</p>
         <svg id="svg-void" viewBox="0 0 300 420"></svg>
       </div>
       <div class="compare-card fix">
-        <h3>Superconformal fill</h3>
-        <p class="cap">Faster at the floor (swept-optimal) &mdash; reaches the floor, much smaller residual gap</p>
+        <h3>SUPERCONFORMAL</h3>
+        <p class="cap">faster at floor, swept-optimal</p>
         <svg id="svg-nofill" viewBox="0 0 300 420"></svg>
       </div>
     </div>
+    <p class="note">
+      The sharp via tip has less flux view-factor for any deposition model --
+      more thickness alone doesn't close it. Real superfill closes this via
+      curvature-dependent accelerator chemistry (CEAC); a constant-direction
+      deposition model structurally can't represent that mechanism.
+    </p>
   </section>
 
-  <section>
-    <h2>Cu fill explorer</h2>
-    <p class="section-sub">
-      Directional (superconformal) fill's own two knobs, thickness and
-      iso_ratio, on the same post-liner/barrier via -- sliders snap to
-      real computed points. The residual tip-gap never reaches zero at
-      any setting (the CEAC/curvature-dependent-chemistry ceiling from
-      the notebook) but thinner fill with a low iso_ratio comes closest.
-    </p>
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">06</span>
+      <h2>Fill explorer: thickness x iso_ratio, gap never reaches zero</h2>
+    </div>
+    <p class="claim">Both knobs, real computed points. Watch the tip-gap floor -- it doesn't hit zero anywhere in range.</p>
     <div class="panel explorer">
       <div>
         <div class="control">
-          <label>thickness (fill amount, um) <span class="val" id="fill-thick-val"></span></label>
-          <input type="range" id="fill-thick-slider" min="0" max="4" step="1" value="1">
-          <div class="ticks" id="fill-thick-ticks"></div>
+          <label>thickness (um) <span class="val" id="f-thick-val"></span></label>
+          <input type="range" id="f-thick" min="0" max="4" step="1" value="1">
+          <div class="ticks" id="f-thick-ticks"></div>
         </div>
         <div class="control">
-          <label>iso_ratio (isotropic component) <span class="val" id="fill-iso-val"></span></label>
-          <input type="range" id="fill-iso-slider" min="0" max="4" step="1" value="1">
-          <div class="ticks" id="fill-iso-ticks"></div>
+          <label>iso_ratio <span class="val" id="f-iso-val"></span></label>
+          <input type="range" id="f-iso" min="0" max="4" step="1" value="1">
+          <div class="ticks" id="f-iso-ticks"></div>
         </div>
         <div class="readout">
-          <div class="metric"><span class="k">tip gap</span><span class="v" id="m-tipgap"></span></div>
-          <div class="metric"><span class="k">closure</span><span class="v" id="m-closure"></span></div>
+          <div class="metric"><span class="k">TIP GAP</span><span class="v" id="f-gap"></span></div>
         </div>
       </div>
       <div>
-        <svg id="fill-explorer-svg" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid meet"></svg>
+        <svg id="f-svg" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2>CMP: a claim found backwards, then corrected</h2>
-    <p class="section-sub">
-      An earlier pass claimed "over-polishing causes dishing, stopping at
-      the exact nominal target plane fixes it." Checked against an actual
-      field-vs-via measurement rather than assumed -- it's backwards.
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">07</span>
+      <h2>CMP: the "over-polish causes dishing" claim was backwards</h2>
+    </div>
+    <p class="claim">
+      Checked against an actual field-vs-via measurement instead of assumed.
+      The textbook-correct, nominal overburden leaves <b>severe</b> dishing;
+      fixing it needs enough extra material removal to fully consume the
+      mask layer. <span class="stamp retracted">claim reversed after measurement</span>
     </p>
     <div class="panel">
       <div id="cmp-chart"></div>
-      <p class="finding">
-        <b>The nominal, textbook-correct overburden leaves severe
-        dishing.</b> Removing more material does reduce it, but the mask
-        layer is fully consumed by the time dishing drops to a value any
-        real fab would accept -- destroying real device structure well
-        before the numbers look good. <code>ps.IsotropicProcess</code>
-        removes material at the same rate everywhere regardless of local
-        topography; it has no concept of the polish-pad contact pressure
-        that's the actual mechanism letting real CMP planarize. A genuine
-        structural ceiling of this simple process model, documented
-        rather than hidden.
-      </p>
     </div>
+    <p class="note">
+      <code>ps.IsotropicProcess</code> removes material at the same rate
+      everywhere regardless of local topography -- it has no concept of
+      polish-pad contact pressure, the actual mechanism that lets real CMP
+      preferentially clear raised regions. A structural ceiling of this
+      simple model, not a recipe left untuned.
+    </p>
   </section>
 
-  <section>
-    <h2>Patterning's mask taper: a claim made, checked, and retracted</h2>
-    <p class="section-sub">
-      Checking all 5 process steps' real parameters jointly (not each
-      step optimized only against its own metric) is how a cross-stage
-      interaction would show up if one existed. `maskTaperAngle` looked
-      like exactly that -- until replication showed otherwise.
+  <section class="finding">
+    <div class="finding-head">
+      <span class="finding-num">08</span>
+      <h2>Patterning's mask taper: a claim made, then retracted</h2>
+    </div>
+    <p class="claim">
+      Checking all 5 steps' parameters jointly (not each step against only
+      its own metric) is how a cross-stage interaction would surface. It
+      looked like one did for <code>maskTaperAngle</code> -- one run each,
+      taper=0 winning on bulge, taper=4 on fill tip-gap. Replicating properly
+      (6-10 runs, not 1) says otherwise.
+      <span class="stamp retracted">retracted after replication</span>
     </p>
     <div class="panel">
       <div id="taper-chart"></div>
-      <p class="finding">
-        <b>Retracted after replication.</b> A first pass, checked with
-        one run per taper value, claimed taper=0 wins on etch bulge while
-        taper=4 wins on Cu-fill tip-gap -- a real trade-off. Replicating
-        properly (6-10 runs instead of 1) shows the tip-gap ranges for
-        the two candidates almost completely overlap: no statistical
-        basis for that half of the claim. What IS real: taper=4 gives an
-        essentially deterministic bulge result every run, while taper=0
-        (a perfectly vertical mask sidewall) produces a genuinely
-        <b>bimodal</b> distribution -- usually similar, occasionally much
-        better. A real numerical-stability difference, not a "better via"
-        finding. Reported this way because the tidier trade-off story was
-        wrong.
-      </p>
     </div>
+    <p class="note">
+      What's real: <b>taper=4 gives a near-zero-variance bulge every run</b>;
+      taper=0 (a perfectly vertical mask sidewall) gives a genuinely
+      <b>bimodal</b> distribution. A numerical-stability difference, not a
+      "better via" finding -- the tip-gap ranges overlap almost completely,
+      no basis for that half of the original claim.
+    </p>
   </section>
 
   <footer>
-    Data: 768-run 4-parameter DOE (sweep_big.py) + 800-run top-4 DOE
-    (sweep_top4.py) + comprehensive downstream liner/barrier/fill/CMP
-    sweeps (sweep_downstream_comprehensive.py) + joint 5-step replication
-    (sweep_joint_5steps.py), all executed on real ViennaPS geometry
-    (see tsv_process.py in the repo).
-    &middot; <a href="https://kooexperience.com" style="color:var(--accent)">kooexperience.com</a>
+    Data: 768-run 4-parameter DOE + 800-run top-4 DOE (sweep_top4.py) +
+    comprehensive downstream liner/barrier/fill/CMP sweeps +
+    joint 5-step replication, all on real ViennaPS geometry
+    (tsv_process.py in the repo).
+    &middot; <a href="https://kooexperience.com">kooexperience.com</a>
   </footer>
 </div>
 
@@ -390,10 +412,16 @@ const DATA = /*__DATA__*/;
 function xScale(x, w) { return w/2 + x * (w * 0.72); }
 function yScale(y, h, yMin, yMax) { return h - 30 - (y - yMin) / (yMax - yMin) * (h - 60); }
 
+// drop the mask-mouth transition zone -- a real but uninformative spike
+// where the fill mounds at the via shoulder before the flat field; keeping
+// it makes the outline look like rendering noise rather than a real via.
+function trimTop(profile, yCeil) { return profile.filter(([x,y]) => y <= yCeil); }
+
 function pathFor(profile, w, h, yMin, yMax) {
   const right = profile.map(([x,y]) => [xScale(x,w), yScale(y,h,yMin,yMax)]);
   const left = profile.slice().reverse().map(([x,y]) => [xScale(-x,w), yScale(y,h,yMin,yMax)]);
   const pts = right.concat(left);
+  if (!pts.length) return '';
   return 'M' + pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L') + ' Z';
 }
 
@@ -402,178 +430,89 @@ function renderVia(svg, profile, color, yMin, yMax, floorY) {
   const r = DATA.radius;
   const topY = yScale(0.29, h, yMin, yMax), botY = yScale(floorY, h, yMin, yMax);
   svg.innerHTML = `<path d="${pathFor(profile, w, h, yMin, yMax)}" fill="${color}" stroke="none"/>
-    <line x1="0" y1="${yScale(0,h,yMin,yMax)}" x2="${w}" y2="${yScale(0,h,yMin,yMax)}" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3"/>
-    <line x1="${xScale(r,w)}" y1="${topY}" x2="${xScale(r,w)}" y2="${botY}" stroke="var(--good)" stroke-width="1.2" stroke-dasharray="1,4"/>
-    <line x1="${xScale(-r,w)}" y1="${topY}" x2="${xScale(-r,w)}" y2="${botY}" stroke="var(--good)" stroke-width="1.2" stroke-dasharray="1,4"/>
-    <text x="${xScale(r,w)+4}" y="${topY+10}" fill="var(--good)" font-size="9" font-family="var(--mono)">ideal straight wall</text>`;
+    <line x1="0" y1="${yScale(0,h,yMin,yMax)}" x2="${w}" y2="${yScale(0,h,yMin,yMax)}" stroke="var(--ink-dim)" stroke-width="1" stroke-dasharray="1,4" opacity="0.5"/>
+    <line x1="${xScale(r,w)}" y1="${topY}" x2="${xScale(r,w)}" y2="${botY}" stroke="var(--plasma)" stroke-width="1" stroke-dasharray="1,3" opacity="0.6"/>
+    <line x1="${xScale(-r,w)}" y1="${topY}" x2="${xScale(-r,w)}" y2="${botY}" stroke="var(--plasma)" stroke-width="1" stroke-dasharray="1,3" opacity="0.6"/>`;
 }
 
-// -- DOE effects bar chart --
+// -- 768-run DOE effects bar chart --
 const maxEffect = Math.max(...DATA.effects.map(e => e.range));
 document.getElementById('doe-bars').innerHTML = DATA.effects.map((e, i) => `
-  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;">
-    <div style="width:180px; font-family:var(--mono); font-size:0.78rem; color:var(--text-dim);">${e.name}</div>
-    <div style="flex:1; background:var(--surface-2); border-radius:4px; overflow:hidden;">
-      <div style="width:${(e.range/maxEffect*100).toFixed(1)}%; height:22px; background:${i===0?'var(--good)':'var(--si)'};"></div>
+  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.55rem; font-size:0.82rem;">
+    <div style="width:200px; font-family:var(--mono); font-size:0.74rem; color:var(--ink-dim);">${e.name}</div>
+    <div style="flex:1; background:var(--surface-2); overflow:hidden;">
+      <div style="width:${(e.range/maxEffect*100).toFixed(1)}%; height:18px; background:${i===0?'var(--plasma)':'var(--ink-dim)'}; opacity:${i===0?1:0.55};"></div>
     </div>
-    <div style="width:60px; font-family:var(--mono); font-size:0.78rem; text-align:right;">${e.range.toFixed(4)}</div>
-  </div>`).join('') + `<p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.6rem;">${DATA.total_doe_runs} total runs &middot; effect = range of mean wall bulge across each parameter's tested values</p>`;
+    <div style="width:58px; font-family:var(--mono); font-size:0.74rem; text-align:right; font-variant-numeric:tabular-nums;">${e.range.toFixed(4)}</div>
+  </div>`).join('') + `<p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">${DATA.total_doe_runs} runs &middot; effect = range of mean wall bulge across each parameter's tested values</p>`;
 
-// -- top-4 DOE effects bar chart --
+// -- 800-run top-4 DOE effects bar chart --
 const maxEffect4 = Math.max(...DATA.effects4.map(e => e.range));
 document.getElementById('doe4-bars').innerHTML = DATA.effects4.map((e, i) => `
-  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;">
-    <div style="width:180px; font-family:var(--mono); font-size:0.78rem; color:var(--text-dim);">${e.name}</div>
-    <div style="flex:1; background:var(--surface-2); border-radius:4px; overflow:hidden;">
-      <div style="width:${(e.range/maxEffect4*100).toFixed(1)}%; height:22px; background:${i<2?'var(--good)':'var(--si)'};"></div>
+  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.55rem; font-size:0.82rem;">
+    <div style="width:200px; font-family:var(--mono); font-size:0.74rem; color:var(--ink-dim);">${e.name}</div>
+    <div style="flex:1; background:var(--surface-2); overflow:hidden;">
+      <div style="width:${(e.range/maxEffect4*100).toFixed(1)}%; height:18px; background:${i<2?'var(--plasma)':'var(--ink-dim)'}; opacity:${i<2?1:0.55};"></div>
     </div>
-    <div style="width:60px; font-family:var(--mono); font-size:0.78rem; text-align:right;">${e.range.toFixed(4)}</div>
-  </div>`).join('') + `<p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.6rem;">${DATA.total_doe4_runs} valid runs &middot; effect = range of mean wall bulge across each parameter's tested values</p>`;
+    <div style="width:58px; font-family:var(--mono); font-size:0.74rem; text-align:right; font-variant-numeric:tabular-nums;">${e.range.toFixed(4)}</div>
+  </div>`).join('') + `<p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">${DATA.total_doe4_runs} valid runs &middot; same metric</p>`;
 
-// -- CMP dishing curve --
-(function() {
-  const w = 640, h = 220, pad = 40;
-  const curve = DATA.cmp_curve;
-  const xMax = Math.max(...curve.map(r => r.mult)), yMax = Math.max(...curve.map(r => r.dish));
-  const px = m => pad + (m / xMax) * (w - pad * 1.5);
-  const py = d => h - pad - (d / yMax) * (h - pad * 1.5);
-  const splitIdx = curve.findIndex(r => r.mask_consumed);
-  const linePath = pts => 'M' + pts.map(r => `${px(r.mult).toFixed(1)},${py(r.dish).toFixed(1)}`).join(' L');
-  const before = curve.slice(0, splitIdx + 1), after = curve.slice(splitIdx);
-  const dots = curve.map(r => `<circle cx="${px(r.mult).toFixed(1)}" cy="${py(r.dish).toFixed(1)}" r="3"
-    fill="${r.mask_consumed ? 'var(--bad)' : 'var(--good)'}"/>`).join('');
-  document.getElementById('cmp-chart').innerHTML = `
-    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
-      <line x1="${pad}" y1="${h-pad}" x2="${w-10}" y2="${h-pad}" stroke="var(--border)"/>
-      <line x1="${pad}" y1="10" x2="${pad}" y2="${h-pad}" stroke="var(--border)"/>
-      <path d="${linePath(before)}" fill="none" stroke="var(--good)" stroke-width="2"/>
-      <path d="${linePath(after)}" fill="none" stroke="var(--bad)" stroke-width="2"/>
-      ${dots}
-      <text x="${w/2}" y="${h-8}" text-anchor="middle" font-size="10" fill="var(--text-dim)" font-family="var(--mono)">overpolish multiplier (x nominal overburden)</text>
-      <text x="12" y="${h/2}" text-anchor="middle" font-size="10" fill="var(--text-dim)" font-family="var(--mono)" transform="rotate(-90 12 ${h/2})">dishing</text>
-    </svg>
-    <p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.4rem;">
-      <span style="color:var(--good);">&#9679;</span> mask intact &middot;
-      <span style="color:var(--bad);">&#9679;</span> mask fully consumed --
-      acceptable dishing is only reached after the mask is already gone
-    </p>`;
-})();
+// ============ Etch explorer: full 4-knob lookup ============
+const AX = DATA.doe800_axes;
+const doeRows = DATA.doe800; // [et, ns, iet, nr, depth, bulge]
 
-// -- taper retraction: labeled range chart, not bare dots --
-(function() {
-  const w = 640, h = 260, pad = 44;
-  const t = DATA.taper;
-  function panel(vals0, vals4, label, x0, panelW, unit) {
-    const all = vals0.concat(vals4);
-    const yMin = Math.min(...all), yMax = Math.max(...all);
-    const span = (yMax - yMin) || (yMax * 0.1) || 1;
-    const yLo = yMin - span * 0.15, yHi = yMax + span * 0.15;
-    const py = v => (h - pad) - (v - yLo) / (yHi - yLo) * (h - pad * 1.6);
-    const nTicks = 4;
-    const ticks = Array.from({length: nTicks + 1}, (_, i) => yLo + (yHi - yLo) * i / nTicks);
-    const gridlines = ticks.map(v => `
-      <line x1="0" y1="${py(v).toFixed(1)}" x2="${panelW}" y2="${py(v).toFixed(1)}" stroke="var(--border)" stroke-width="0.5"/>
-      <text x="-6" y="${(py(v)+3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--text-dim)" font-family="var(--mono)">${v.toFixed(3)}</text>`).join('');
-    function group(vals, cx, color, xlabel) {
-      const mean = vals.reduce((a,b)=>a+b,0) / vals.length;
-      const dots = vals.map(v => `<circle cx="${cx}" cy="${py(v).toFixed(1)}" r="4.5" fill="${color}" opacity="0.65"/>`).join('');
-      return `${dots}
-        <line x1="${cx-14}" y1="${py(mean).toFixed(1)}" x2="${cx+14}" y2="${py(mean).toFixed(1)}" stroke="${color}" stroke-width="2"/>
-        <text x="${cx}" y="${py(mean).toFixed(1)-9}" text-anchor="middle" font-size="9" font-weight="700" fill="${color}" font-family="var(--mono)">${mean.toFixed(3)}</text>
-        <text x="${cx}" y="${h-pad+16}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-family="var(--mono)">${xlabel}</text>`;
-    }
-    return `<g transform="translate(${x0},0)">
-      <text x="${panelW/2}" y="14" text-anchor="middle" font-size="11" fill="var(--text)" font-family="var(--mono)">${label}</text>
-      ${gridlines}
-      <line x1="0" y1="${h-pad}" x2="${panelW}" y2="${h-pad}" stroke="var(--border)"/>
-      ${group(vals0, panelW*0.32, 'var(--good)', 'taper=0')}
-      ${group(vals4, panelW*0.68, 'var(--accent)', 'taper=4')}
-    </g>`;
-  }
-  document.getElementById('taper-chart').innerHTML = `
-    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
-      ${panel(t.bulge_taper0, t.bulge_taper4, 'etch bulge, um (10 reps each)', 70, 220, 'um')}
-      ${panel(t.gap_taper0, t.gap_taper4, 'fill tip-gap, um (6 reps each)', 370, 220, 'um')}
-    </svg>
-    <p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.4rem;">
-      Dots = individual runs; thick line + bold number = mean. Left: taper=4's
-      dots stack on one value (near-zero variance); taper=0 splits into a
-      lower cluster and a higher outlier cluster (bimodal). Right: the two
-      tip-gap clusters span almost the same range -- their means differ but
-      the spreads overlap, so there's no reliable separation.
-    </p>`;
-})();
-
-// -- interactive explorer --
-const etchTimeSlider = document.getElementById('etch-time-slider');
-const neutralSlider = document.getElementById('neutral-slider');
-const etchTimeVal = document.getElementById('etch-time-val');
-const neutralVal = document.getElementById('neutral-val');
-document.getElementById('etch-time-ticks').innerHTML = DATA.etch_times.map(v => `<span>${v}</span>`).join('');
-document.getElementById('neutral-ticks').innerHTML = DATA.neutral_rates.map(v => `<span>${v}</span>`).join('');
-
-const YMIN = Math.min(...DATA.sweep.map(r => r.depth)) - 0.1;
-const YMAX = 0.32;
-
-function findRun(etchTimeIdx, neutralIdx) {
-  const etchTime = DATA.etch_times[etchTimeIdx], neutralRate = DATA.neutral_rates[neutralIdx];
-  return DATA.sweep.find(r => r.etch_time === etchTime && r.neutral_rate === neutralRate);
+function findDoe800(et, ns, iet, nr) {
+  return doeRows.find(r => r[0]===et && r[1]===ns && r[2]===iet && r[3]===nr);
 }
 
-// max deviation of the sidewall from the ideal straight wall at the nominal
-// radius (the same dashed reference line drawn on the profile) -- catches
-// symmetric bowing/bulging that a linear best-fit slope averages away.
-function maxWallBulge(profile, depth) {
-  const margin = 0.15 * (0.29 - depth);
-  const lo = depth + margin, hi = 0.29 - margin;
-  let maxDev = 0;
-  for (const [x, y] of profile) {
-    if (y > lo && y < hi && x > 0.2 * DATA.radius) {
-      maxDev = Math.max(maxDev, Math.abs(x - DATA.radius));
-    }
+const eEt = document.getElementById('e-et'), eNr = document.getElementById('e-nr');
+const eNs = document.getElementById('e-ns'), eIet = document.getElementById('e-iet');
+document.getElementById('e-et-ticks').innerHTML = AX.etch_time.map(v=>`<span>${v}</span>`).join('');
+document.getElementById('e-nr-ticks').innerHTML = AX.neutral_rate.map(v=>`<span>${v}</span>`).join('');
+document.getElementById('e-ns-ticks').innerHTML = AX.neutral_sticking.map(v=>`<span>${v}</span>`).join('');
+document.getElementById('e-iet-ticks').innerHTML = AX.initial_etch_time.map(v=>`<span>${v}</span>`).join('');
+
+const EYMIN = Math.min(...DATA.sweep.map(r => r.depth)) - 0.1;
+const EYMAX = 0.32;
+function findRenderRun(et, nr) { return DATA.sweep.find(r => r.etch_time === et && r.neutral_rate === nr); }
+
+function updateEtchExplorer() {
+  const et = AX.etch_time[+eEt.value], nr = AX.neutral_rate[+eNr.value];
+  const ns = AX.neutral_sticking[+eNs.value], iet = AX.initial_etch_time[+eIet.value];
+  document.getElementById('e-et-val').textContent = et;
+  document.getElementById('e-nr-val').textContent = nr;
+  document.getElementById('e-ns-val').textContent = ns;
+  document.getElementById('e-iet-val').textContent = iet;
+
+  const row = findDoe800(et, ns, iet, nr);
+  const bulgeEl = document.getElementById('e-bulge');
+  if (!row || row[5] === null) {
+    bulgeEl.textContent = 'recipe fails to etch'; bulgeEl.className = 'v warn';
+  } else {
+    bulgeEl.textContent = row[5].toFixed(4) + ' um';
+    bulgeEl.className = 'v' + (row[5] < 0.03 ? ' ok' : ' warn');
   }
-  return maxDev;
+
+  const renderRun = findRenderRun(et, nr);
+  document.getElementById('e-pin-note').textContent = renderRun
+    ? `screening bulge, all 4 sliders exact -- but at 3 cycles (fast DOE), not depth-matched (see finding 01: shallower recipes trivially show less bulge). Use for ranking within this table, not as an absolute number. The cross-section shown is the real 14-cycle production geometry at this etch_time/neutral_rate, pinned at neutral_sticking_probability=0.05, initial_etch_time=0.3 -- the combination actually depth-matched and replicated before being adopted.`
+    : `no rendered cross-section for etch_time=${et}, neutral_rate=${nr}`;
+  if (renderRun) renderVia(document.getElementById('e-svg'), renderRun.profile, 'var(--si)', EYMIN, EYMAX, renderRun.depth);
 }
-
-function updateExplorer() {
-  const etchTimeIdx = +etchTimeSlider.value, neutralIdx = +neutralSlider.value;
-  const run = findRun(etchTimeIdx, neutralIdx);
-  etchTimeVal.textContent = DATA.etch_times[etchTimeIdx];
-  neutralVal.textContent = DATA.neutral_rates[neutralIdx];
-  if (!run) {
-    document.getElementById('m-depth').textContent = '--';
-    document.getElementById('m-bulge').textContent = '--';
-    document.getElementById('m-straight').innerHTML = '<span class="pill bad">recipe fails to etch</span>';
-    document.getElementById('sweet-badge').classList.remove('show');
-    return;
-  }
-  const bulge = run.bulge !== null ? run.bulge : maxWallBulge(run.profile, run.depth);
-  document.getElementById('m-depth').textContent = run.depth.toFixed(3) + ' um';
-  document.getElementById('m-bulge').textContent = bulge.toFixed(4) + ' um';
-
-  const straightEl = document.getElementById('m-straight');
-  straightEl.innerHTML = bulge < 0.03 ? '<span class="pill good">straight</span>' : '<span class="pill bad">bulging</span>';
-
-  document.getElementById('sweet-badge').classList.toggle('show', run.etch_time === 0.5 && run.neutral_rate === -0.1);
-  renderVia(document.getElementById('via-svg'), run.profile, 'var(--si)', YMIN, YMAX, run.depth);
-}
-etchTimeSlider.addEventListener('input', updateExplorer);
-neutralSlider.addEventListener('input', updateExplorer);
-updateExplorer();
+[eEt, eNr, eNs, eIet].forEach(el => el.addEventListener('input', updateEtchExplorer));
+updateEtchExplorer();
 
 // -- failure vs fix (etch) --
 const badRun = DATA.sweep.find(r => r.etch_time === 2.0 && r.neutral_rate === -0.3);
 const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral_rate === -0.1);
-renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', YMIN, YMAX, badRun.depth);
-renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', YMIN, YMAX, goodRun.depth);
+renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', EYMIN, EYMAX, badRun.depth);
+renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', EYMIN, EYMAX, goodRun.depth);
 
-// -- Cu fill void vs fix --
+// ============ Cu fill (static compare + explorer) ============
 const fill = DATA.fill;
-const FYMIN = fill.via_floor - 0.1, FYMAX = 0.55;
+const FYMIN = fill.via_floor - 0.1, FYMAX = 0.32; // trimmed -- see trimTop note
 
-function preFillHalfWidthAt(y) {
-  // pre_fill_profile is sorted by y ascending; linear-interpolate x(y)
-  const p = fill.pre_fill_profile;
+function preFillHalfWidthAt(y, p) {
   if (y <= p[0][1]) return p[0][0];
   if (y >= p[p.length-1][1]) return p[p.length-1][0];
   for (let i = 0; i < p.length - 1; i++) {
@@ -585,56 +524,115 @@ function preFillHalfWidthAt(y) {
   return p[p.length-1][0];
 }
 
-function renderFill(svg, profile, seal) {
+// engineering dimension-line callout for the residual gap, not a vague
+// dashed void outline -- two tick marks, a connecting line, a labeled value.
+function gapDimensionLine(w, h, floorY, sealY, x) {
+  if (sealY - floorY <= 0.03) return '';
+  const px = xScale(x, w), yFloor = yScale(floorY, h, FYMIN, FYMAX), ySeal = yScale(sealY, h, FYMIN, FYMAX);
+  return `
+    <line x1="${px}" y1="${yFloor}" x2="${px}" y2="${ySeal}" stroke="var(--amber)" stroke-width="1.5"/>
+    <line x1="${px-6}" y1="${yFloor}" x2="${px+6}" y2="${yFloor}" stroke="var(--amber)" stroke-width="1.5"/>
+    <line x1="${px-6}" y1="${ySeal}" x2="${px+6}" y2="${ySeal}" stroke="var(--amber)" stroke-width="1.5"/>
+    <text x="${px+11}" y="${(yFloor+ySeal)/2+3}" font-size="10" fill="var(--amber)" font-family="var(--mono)">${(sealY-floorY).toFixed(3)}um gap</text>`;
+}
+
+function renderFill(svg, profileRaw, seal, preFillProfile) {
   const w = svg.viewBox.baseVal.width, h = svg.viewBox.baseVal.height;
+  const profile = trimTop(profileRaw, 0.32);
   const filled = profile.filter(([x,y]) => y >= seal);
-  let voidPath = '';
-  if (seal - fill.via_floor > 0.05) {
-    const steps = 24, voidPts = [];
-    for (let i = 0; i <= steps; i++) {
-      const y = fill.via_floor + (seal - fill.via_floor) * i / steps;
-      voidPts.push([xScale(preFillHalfWidthAt(y), w), yScale(y, h, FYMIN, FYMAX)]);
-    }
-    const left = voidPts.slice().reverse().map(([sx,sy], i) => {
-      const y = fill.via_floor + (seal - fill.via_floor) * (steps - i) / steps;
-      return [xScale(-preFillHalfWidthAt(y), w), sy];
-    });
-    const all = voidPts.concat(left);
-    voidPath = `<path d="M${all.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L')} Z"
-      fill="none" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="4,3"/>`;
-  }
-  svg.innerHTML = `<path d="${pathFor(filled, w, h, FYMIN, FYMAX)}" fill="var(--accent)" stroke="none"/>
-    ${voidPath}
+  const dim = gapDimensionLine(w, h, fill.via_floor, seal, 0.02);
+  svg.innerHTML = `<path d="${pathFor(filled, w, h, FYMIN, FYMAX)}" fill="var(--copper)" stroke="none"/>
+    ${dim}
     <line x1="0" y1="${yScale(fill.via_floor,h,FYMIN,FYMAX)}" x2="${w}" y2="${yScale(fill.via_floor,h,FYMIN,FYMAX)}"
-      stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,3"/>`;
+      stroke="var(--ink-dim)" stroke-width="1" stroke-dasharray="2,3" opacity="0.5"/>`;
 }
-renderFill(document.getElementById('svg-void'), fill.naive_fill_profile, fill.seal_naive);
-renderFill(document.getElementById('svg-nofill'), fill.directional_fill_profile, fill.seal_dir);
+renderFill(document.getElementById('svg-void'), fill.naive_fill_profile, fill.seal_naive, fill.pre_fill_profile);
+renderFill(document.getElementById('svg-nofill'), fill.directional_fill_profile, fill.seal_dir, fill.pre_fill_profile);
 
-// -- Cu fill explorer --
-const fillThickSlider = document.getElementById('fill-thick-slider');
-const fillIsoSlider = document.getElementById('fill-iso-slider');
-const fillThickVal = document.getElementById('fill-thick-val');
-const fillIsoVal = document.getElementById('fill-iso-val');
-document.getElementById('fill-thick-ticks').innerHTML = DATA.fill_thicknesses.map(v => `<span>${v}</span>`).join('');
-document.getElementById('fill-iso-ticks').innerHTML = DATA.fill_iso_ratios.map(v => `<span>${v}</span>`).join('');
-
-function findFillRun(thickIdx, isoIdx) {
-  const thickness = DATA.fill_thicknesses[thickIdx], iso = DATA.fill_iso_ratios[isoIdx];
-  return DATA.fill_sweep.find(r => r.thickness === thickness && r.iso_ratio === iso);
-}
+// -- fill explorer --
+const fThick = document.getElementById('f-thick'), fIso = document.getElementById('f-iso');
+document.getElementById('f-thick-ticks').innerHTML = DATA.fill_thicknesses.map(v=>`<span>${v}</span>`).join('');
+document.getElementById('f-iso-ticks').innerHTML = DATA.fill_iso_ratios.map(v=>`<span>${v}</span>`).join('');
 
 function updateFillExplorer() {
-  const thickIdx = +fillThickSlider.value, isoIdx = +fillIsoSlider.value;
-  const run = findFillRun(thickIdx, isoIdx);
-  fillThickVal.textContent = DATA.fill_thicknesses[thickIdx];
-  fillIsoVal.textContent = DATA.fill_iso_ratios[isoIdx];
-  document.getElementById('m-tipgap').textContent = run.tip_gap.toFixed(4) + ' um';
-  const closureEl = document.getElementById('m-closure');
-  closureEl.innerHTML = run.tip_gap < 0.15 ? '<span class="pill good">near-closed</span>' : '<span class="pill bad">residual gap</span>';
-  renderFill(document.getElementById('fill-explorer-svg'), run.profile, fill.via_floor + run.tip_gap);
+  const thickness = DATA.fill_thicknesses[+fThick.value], iso = DATA.fill_iso_ratios[+fIso.value];
+  document.getElementById('f-thick-val').textContent = thickness;
+  document.getElementById('f-iso-val').textContent = iso;
+  const run = DATA.fill_sweep.find(r => r.thickness === thickness && r.iso_ratio === iso);
+  const gapEl = document.getElementById('f-gap');
+  gapEl.textContent = run.tip_gap.toFixed(4) + ' um';
+  gapEl.className = 'v' + (run.tip_gap < 0.15 ? ' ok' : ' warn');
+  renderFill(document.getElementById('f-svg'), run.profile, fill.via_floor + run.tip_gap, fill.pre_fill_profile);
 }
-fillThickSlider.addEventListener('input', updateFillExplorer);
-fillIsoSlider.addEventListener('input', updateFillExplorer);
+fThick.addEventListener('input', updateFillExplorer);
+fIso.addEventListener('input', updateFillExplorer);
 updateFillExplorer();
+
+// ============ CMP dishing curve ============
+(function() {
+  const w = 700, h = 220, pad = 44;
+  const curve = DATA.cmp_curve;
+  const xMax = Math.max(...curve.map(r => r.mult)), yMax = Math.max(...curve.map(r => r.dish));
+  const px = m => pad + (m / xMax) * (w - pad * 1.4);
+  const py = d => h - pad - (d / yMax) * (h - pad * 1.5);
+  const splitIdx = curve.findIndex(r => r.mask_consumed);
+  const linePath = pts => pts.length ? 'M' + pts.map(r => `${px(r.mult).toFixed(1)},${py(r.dish).toFixed(1)}`).join(' L') : '';
+  const before = curve.slice(0, splitIdx + 1), after = curve.slice(splitIdx);
+  const dots = curve.map(r => `<circle cx="${px(r.mult).toFixed(1)}" cy="${py(r.dish).toFixed(1)}" r="3"
+    fill="${r.mask_consumed ? 'var(--amber)' : 'var(--confirmed)'}"/>`).join('');
+  document.getElementById('cmp-chart').innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
+      <line x1="${pad}" y1="${h-pad}" x2="${w-10}" y2="${h-pad}" stroke="var(--line)"/>
+      <line x1="${pad}" y1="10" x2="${pad}" y2="${h-pad}" stroke="var(--line)"/>
+      <path d="${linePath(before)}" fill="none" stroke="var(--confirmed)" stroke-width="1.6"/>
+      <path d="${linePath(after)}" fill="none" stroke="var(--amber)" stroke-width="1.6"/>
+      ${dots}
+      <text x="${w/2}" y="${h-8}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)">overpolish multiplier (x nominal overburden)</text>
+      <text x="14" y="${h/2}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)" transform="rotate(-90 14 ${h/2})">dishing</text>
+    </svg>
+    <p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">
+      <span style="color:var(--confirmed);">&#9632;</span> mask intact &nbsp;
+      <span style="color:var(--amber);">&#9632;</span> mask fully consumed -- acceptable dishing only reached after the mask is already gone
+    </p>`;
+})();
+
+// ============ Taper retraction: labeled range chart ============
+(function() {
+  const w = 700, h = 260, pad = 46;
+  const t = DATA.taper;
+  function panel(vals0, vals4, label, x0, panelW) {
+    const all = vals0.concat(vals4);
+    const yMin = Math.min(...all), yMax = Math.max(...all);
+    const span = (yMax - yMin) || (yMax * 0.1) || 1;
+    const yLo = yMin - span * 0.15, yHi = yMax + span * 0.15;
+    const py = v => (h - pad) - (v - yLo) / (yHi - yLo) * (h - pad * 1.6);
+    const ticks = Array.from({length: 5}, (_, i) => yLo + (yHi - yLo) * i / 4);
+    const grid = ticks.map(v => `
+      <line x1="0" y1="${py(v).toFixed(1)}" x2="${panelW}" y2="${py(v).toFixed(1)}" stroke="var(--line)" stroke-width="0.5"/>
+      <text x="-6" y="${(py(v)+3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--ink-dim)" font-family="var(--mono)">${v.toFixed(3)}</text>`).join('');
+    function group(vals, cx, color, xlabel) {
+      const mean = vals.reduce((a,b)=>a+b,0) / vals.length;
+      const dots = vals.map(v => `<circle cx="${cx}" cy="${py(v).toFixed(1)}" r="4" fill="${color}" opacity="0.6"/>`).join('');
+      return `${dots}
+        <line x1="${cx-14}" y1="${py(mean).toFixed(1)}" x2="${cx+14}" y2="${py(mean).toFixed(1)}" stroke="${color}" stroke-width="2"/>
+        <text x="${cx}" y="${py(mean).toFixed(1)-9}" text-anchor="middle" font-size="9" font-weight="700" fill="${color}" font-family="var(--mono)">${mean.toFixed(3)}</text>
+        <text x="${cx}" y="${h-pad+16}" text-anchor="middle" font-size="9" fill="var(--ink-dim)" font-family="var(--mono)">${xlabel}</text>`;
+    }
+    return `<g transform="translate(${x0},0)">
+      <text x="${panelW/2}" y="14" text-anchor="middle" font-size="10.5" fill="var(--ink)" font-family="var(--mono)">${label}</text>
+      ${grid}
+      <line x1="0" y1="${h-pad}" x2="${panelW}" y2="${h-pad}" stroke="var(--line)"/>
+      ${group(vals0, panelW*0.32, 'var(--confirmed)', 'taper=0')}
+      ${group(vals4, panelW*0.68, 'var(--plasma)', 'taper=4')}
+    </g>`;
+  }
+  document.getElementById('taper-chart').innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
+      ${panel(t.bulge_taper0, t.bulge_taper4, 'etch bulge, um (10 reps each)', 74, 240)}
+      ${panel(t.gap_taper0, t.gap_taper4, 'fill tip-gap, um (6 reps each)', 400, 240)}
+    </svg>
+    <p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">
+      dot = one run &middot; bar + bold number = mean
+    </p>`;
+})();
 </script>
