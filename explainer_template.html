@@ -220,11 +220,12 @@
   <section>
     <h2>Etch parameter explorer</h2>
     <p class="section-sub">
-      etch_time and neutral_sticking_probability, sliced at the current
-      production values for the other two parameters
+      etch_time and neutral_rate -- the two most important etch knobs
+      found by the 800-run top-4 DOE (chart above), not the two originally
+      guessed. Sliced at the current production values for the other two
       (ion_source_exponent=200, deposition_thickness=0.01,
-      initial_etch_time=0.3, neutral_rate=-0.1) &mdash; sliders snap to
-      real computed points, nothing is interpolated.
+      initial_etch_time=0.3, neutral_sticking_probability=0.05) &mdash;
+      sliders snap to real computed points, nothing is interpolated.
     </p>
     <div class="panel explorer">
       <div>
@@ -234,8 +235,8 @@
           <div class="ticks" id="etch-time-ticks"></div>
         </div>
         <div class="control">
-          <label>neutral_sticking_probability (isotropic etch) <span class="val" id="neutral-val"></span></label>
-          <input type="range" id="neutral-slider" min="0" max="7" step="1" value="1">
+          <label>neutral_rate (ion-driven etch rate coefficient) <span class="val" id="neutral-val"></span></label>
+          <input type="range" id="neutral-slider" min="0" max="4" step="1" value="0">
           <div class="ticks" id="neutral-ticks"></div>
         </div>
         <div class="readout">
@@ -257,12 +258,12 @@
     <div class="compare">
       <div class="compare-card fail">
         <h3>Failure mode</h3>
-        <p class="cap">etch_time=2.0, neutral=0.02 &mdash; long etch time, low isotropic component</p>
+        <p class="cap">etch_time=2.0, neutral_rate=-0.3 &mdash; long etch time, aggressive ion-driven rate</p>
         <svg id="svg-fail" viewBox="0 0 300 420"></svg>
       </div>
       <div class="compare-card fix">
         <h3>Fixed</h3>
-        <p class="cap">etch_time=0.5, neutral=0.05 (ion=200) &mdash; the current production recipe</p>
+        <p class="cap">etch_time=0.5, neutral_rate=-0.1 (ion=200) &mdash; the current production recipe</p>
         <svg id="svg-fix" viewBox="0 0 300 420"></svg>
       </div>
     </div>
@@ -286,6 +287,38 @@
         <h3>Superconformal fill</h3>
         <p class="cap">Faster at the floor (swept-optimal) &mdash; reaches the floor, much smaller residual gap</p>
         <svg id="svg-nofill" viewBox="0 0 300 420"></svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cu fill explorer</h2>
+    <p class="section-sub">
+      Directional (superconformal) fill's own two knobs, thickness and
+      iso_ratio, on the same post-liner/barrier via -- sliders snap to
+      real computed points. The residual tip-gap never reaches zero at
+      any setting (the CEAC/curvature-dependent-chemistry ceiling from
+      the notebook) but thinner fill with a low iso_ratio comes closest.
+    </p>
+    <div class="panel explorer">
+      <div>
+        <div class="control">
+          <label>thickness (fill amount, um) <span class="val" id="fill-thick-val"></span></label>
+          <input type="range" id="fill-thick-slider" min="0" max="4" step="1" value="1">
+          <div class="ticks" id="fill-thick-ticks"></div>
+        </div>
+        <div class="control">
+          <label>iso_ratio (isotropic component) <span class="val" id="fill-iso-val"></span></label>
+          <input type="range" id="fill-iso-slider" min="0" max="4" step="1" value="1">
+          <div class="ticks" id="fill-iso-ticks"></div>
+        </div>
+        <div class="readout">
+          <div class="metric"><span class="k">tip gap</span><span class="v" id="m-tipgap"></span></div>
+          <div class="metric"><span class="k">closure</span><span class="v" id="m-closure"></span></div>
+        </div>
+      </div>
+      <div>
+        <svg id="fill-explorer-svg" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
     </div>
   </section>
@@ -426,32 +459,48 @@ document.getElementById('doe4-bars').innerHTML = DATA.effects4.map((e, i) => `
     </p>`;
 })();
 
-// -- taper retraction scatter --
+// -- taper retraction: labeled range chart, not bare dots --
 (function() {
-  const w = 640, h = 200, pad = 40;
+  const w = 640, h = 260, pad = 44;
   const t = DATA.taper;
-  function scatterPanel(vals0, vals4, label, x0) {
+  function panel(vals0, vals4, label, x0, panelW, unit) {
     const all = vals0.concat(vals4);
     const yMin = Math.min(...all), yMax = Math.max(...all);
-    const py = v => (h - pad) - (v - yMin) / (yMax - yMin || 1) * (h - pad * 1.5);
-    const col = (vals, cx, color) => vals.map(v => `<circle cx="${cx}" cy="${py(v).toFixed(1)}" r="4" fill="${color}" opacity="0.75"/>`).join('');
+    const span = (yMax - yMin) || (yMax * 0.1) || 1;
+    const yLo = yMin - span * 0.15, yHi = yMax + span * 0.15;
+    const py = v => (h - pad) - (v - yLo) / (yHi - yLo) * (h - pad * 1.6);
+    const nTicks = 4;
+    const ticks = Array.from({length: nTicks + 1}, (_, i) => yLo + (yHi - yLo) * i / nTicks);
+    const gridlines = ticks.map(v => `
+      <line x1="0" y1="${py(v).toFixed(1)}" x2="${panelW}" y2="${py(v).toFixed(1)}" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="-6" y="${(py(v)+3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--text-dim)" font-family="var(--mono)">${v.toFixed(3)}</text>`).join('');
+    function group(vals, cx, color, xlabel) {
+      const mean = vals.reduce((a,b)=>a+b,0) / vals.length;
+      const dots = vals.map(v => `<circle cx="${cx}" cy="${py(v).toFixed(1)}" r="4.5" fill="${color}" opacity="0.65"/>`).join('');
+      return `${dots}
+        <line x1="${cx-14}" y1="${py(mean).toFixed(1)}" x2="${cx+14}" y2="${py(mean).toFixed(1)}" stroke="${color}" stroke-width="2"/>
+        <text x="${cx}" y="${py(mean).toFixed(1)-9}" text-anchor="middle" font-size="9" font-weight="700" fill="${color}" font-family="var(--mono)">${mean.toFixed(3)}</text>
+        <text x="${cx}" y="${h-pad+16}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-family="var(--mono)">${xlabel}</text>`;
+    }
     return `<g transform="translate(${x0},0)">
-      <text x="60" y="14" text-anchor="middle" font-size="11" fill="var(--text)" font-family="var(--mono)">${label}</text>
-      <line x1="20" y1="${h-pad}" x2="100" y2="${h-pad}" stroke="var(--border)"/>
-      ${col(vals0, 40, 'var(--good)')}
-      ${col(vals4, 80, 'var(--accent)')}
-      <text x="40" y="${h-pad+14}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-family="var(--mono)">taper=0</text>
-      <text x="80" y="${h-pad+14}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-family="var(--mono)">taper=4</text>
+      <text x="${panelW/2}" y="14" text-anchor="middle" font-size="11" fill="var(--text)" font-family="var(--mono)">${label}</text>
+      ${gridlines}
+      <line x1="0" y1="${h-pad}" x2="${panelW}" y2="${h-pad}" stroke="var(--border)"/>
+      ${group(vals0, panelW*0.32, 'var(--good)', 'taper=0')}
+      ${group(vals4, panelW*0.68, 'var(--accent)', 'taper=4')}
     </g>`;
   }
   document.getElementById('taper-chart').innerHTML = `
     <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
-      ${scatterPanel(t.bulge_taper0, t.bulge_taper4, 'etch bulge (10 reps each)', 40)}
-      ${scatterPanel(t.gap_taper0, t.gap_taper4, 'fill tip-gap (6 reps each)', 340)}
+      ${panel(t.bulge_taper0, t.bulge_taper4, 'etch bulge, um (10 reps each)', 70, 220, 'um')}
+      ${panel(t.gap_taper0, t.gap_taper4, 'fill tip-gap, um (6 reps each)', 370, 220, 'um')}
     </svg>
     <p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.4rem;">
-      Left: taper=4's bulge points overlap almost perfectly (near-zero variance); taper=0 splits into two clusters (bimodal).
-      Right: the two tip-gap clusters overlap heavily -- no reliable separation.
+      Dots = individual runs; thick line + bold number = mean. Left: taper=4's
+      dots stack on one value (near-zero variance); taper=0 splits into a
+      lower cluster and a higher outlier cluster (bimodal). Right: the two
+      tip-gap clusters span almost the same range -- their means differ but
+      the spreads overlap, so there's no reliable separation.
     </p>`;
 })();
 
@@ -461,14 +510,14 @@ const neutralSlider = document.getElementById('neutral-slider');
 const etchTimeVal = document.getElementById('etch-time-val');
 const neutralVal = document.getElementById('neutral-val');
 document.getElementById('etch-time-ticks').innerHTML = DATA.etch_times.map(v => `<span>${v}</span>`).join('');
-document.getElementById('neutral-ticks').innerHTML = DATA.neutral_sticking.map(v => `<span>${v}</span>`).join('');
+document.getElementById('neutral-ticks').innerHTML = DATA.neutral_rates.map(v => `<span>${v}</span>`).join('');
 
 const YMIN = Math.min(...DATA.sweep.map(r => r.depth)) - 0.1;
 const YMAX = 0.32;
 
 function findRun(etchTimeIdx, neutralIdx) {
-  const etchTime = DATA.etch_times[etchTimeIdx], neutral = DATA.neutral_sticking[neutralIdx];
-  return DATA.sweep.find(r => r.etch_time === etchTime && r.neutral === neutral);
+  const etchTime = DATA.etch_times[etchTimeIdx], neutralRate = DATA.neutral_rates[neutralIdx];
+  return DATA.sweep.find(r => r.etch_time === etchTime && r.neutral_rate === neutralRate);
 }
 
 // max deviation of the sidewall from the ideal straight wall at the nominal
@@ -490,7 +539,14 @@ function updateExplorer() {
   const etchTimeIdx = +etchTimeSlider.value, neutralIdx = +neutralSlider.value;
   const run = findRun(etchTimeIdx, neutralIdx);
   etchTimeVal.textContent = DATA.etch_times[etchTimeIdx];
-  neutralVal.textContent = DATA.neutral_sticking[neutralIdx];
+  neutralVal.textContent = DATA.neutral_rates[neutralIdx];
+  if (!run) {
+    document.getElementById('m-depth').textContent = '--';
+    document.getElementById('m-bulge').textContent = '--';
+    document.getElementById('m-straight').innerHTML = '<span class="pill bad">recipe fails to etch</span>';
+    document.getElementById('sweet-badge').classList.remove('show');
+    return;
+  }
   const bulge = run.bulge !== null ? run.bulge : maxWallBulge(run.profile, run.depth);
   document.getElementById('m-depth').textContent = run.depth.toFixed(3) + ' um';
   document.getElementById('m-bulge').textContent = bulge.toFixed(4) + ' um';
@@ -498,7 +554,7 @@ function updateExplorer() {
   const straightEl = document.getElementById('m-straight');
   straightEl.innerHTML = bulge < 0.03 ? '<span class="pill good">straight</span>' : '<span class="pill bad">bulging</span>';
 
-  document.getElementById('sweet-badge').classList.toggle('show', run.etch_time === 0.5 && run.neutral === 0.05);
+  document.getElementById('sweet-badge').classList.toggle('show', run.etch_time === 0.5 && run.neutral_rate === -0.1);
   renderVia(document.getElementById('via-svg'), run.profile, 'var(--si)', YMIN, YMAX, run.depth);
 }
 etchTimeSlider.addEventListener('input', updateExplorer);
@@ -506,8 +562,8 @@ neutralSlider.addEventListener('input', updateExplorer);
 updateExplorer();
 
 // -- failure vs fix (etch) --
-const badRun = DATA.sweep.find(r => r.etch_time === 2.0 && r.neutral === 0.02);
-const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral === 0.05);
+const badRun = DATA.sweep.find(r => r.etch_time === 2.0 && r.neutral_rate === -0.3);
+const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral_rate === -0.1);
 renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', YMIN, YMAX, badRun.depth);
 renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', YMIN, YMAX, goodRun.depth);
 
@@ -554,4 +610,31 @@ function renderFill(svg, profile, seal) {
 }
 renderFill(document.getElementById('svg-void'), fill.naive_fill_profile, fill.seal_naive);
 renderFill(document.getElementById('svg-nofill'), fill.directional_fill_profile, fill.seal_dir);
+
+// -- Cu fill explorer --
+const fillThickSlider = document.getElementById('fill-thick-slider');
+const fillIsoSlider = document.getElementById('fill-iso-slider');
+const fillThickVal = document.getElementById('fill-thick-val');
+const fillIsoVal = document.getElementById('fill-iso-val');
+document.getElementById('fill-thick-ticks').innerHTML = DATA.fill_thicknesses.map(v => `<span>${v}</span>`).join('');
+document.getElementById('fill-iso-ticks').innerHTML = DATA.fill_iso_ratios.map(v => `<span>${v}</span>`).join('');
+
+function findFillRun(thickIdx, isoIdx) {
+  const thickness = DATA.fill_thicknesses[thickIdx], iso = DATA.fill_iso_ratios[isoIdx];
+  return DATA.fill_sweep.find(r => r.thickness === thickness && r.iso_ratio === iso);
+}
+
+function updateFillExplorer() {
+  const thickIdx = +fillThickSlider.value, isoIdx = +fillIsoSlider.value;
+  const run = findFillRun(thickIdx, isoIdx);
+  fillThickVal.textContent = DATA.fill_thicknesses[thickIdx];
+  fillIsoVal.textContent = DATA.fill_iso_ratios[isoIdx];
+  document.getElementById('m-tipgap').textContent = run.tip_gap.toFixed(4) + ' um';
+  const closureEl = document.getElementById('m-closure');
+  closureEl.innerHTML = run.tip_gap < 0.15 ? '<span class="pill good">near-closed</span>' : '<span class="pill bad">residual gap</span>';
+  renderFill(document.getElementById('fill-explorer-svg'), run.profile, fill.via_floor + run.tip_gap);
+}
+fillThickSlider.addEventListener('input', updateFillExplorer);
+fillIsoSlider.addEventListener('input', updateFillExplorer);
+updateFillExplorer();
 </script>

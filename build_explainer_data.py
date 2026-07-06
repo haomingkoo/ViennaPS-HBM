@@ -17,9 +17,9 @@ import tsv_process as tp
 
 RADIUS = 0.15
 ETCH_TIMES = [0.5, 1.0, 1.5, 2.0]
-NEUTRAL_STICKING = [0.02, 0.05, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3]
+NEUTRAL_RATES = [-0.1, -0.15, -0.2, -0.3, -0.4]
 FIXED = dict(ion_source_exponent=200, deposition_thickness=0.01,
-             initial_etch_time=0.3, neutral_rate=-0.1)
+             initial_etch_time=0.3, neutral_sticking_probability=0.05)
 PRODUCTION_CYCLES = 14
 LINER = dict(thickness=0.02, sticking=0.2)
 BARRIER = dict(thickness=0.015, iso_ratio=0.1)
@@ -39,15 +39,21 @@ def profile_list(pts, y_ceiling=0.31):
 def main():
     sweep = []
     for et in ETCH_TIMES:
-        for neutral in NEUTRAL_STICKING:
+        for nr in NEUTRAL_RATES:
             geo = tp.make_initial_geometry(radius=RADIUS)
-            geo, depth = tp.bosch_etch(geo, num_cycles=PRODUCTION_CYCLES, radius=RADIUS,
-                                        etch_time=et, neutral_sticking_probability=neutral, **FIXED)
+            try:
+                geo, depth = tp.bosch_etch(geo, num_cycles=PRODUCTION_CYCLES, radius=RADIUS,
+                                            etch_time=et, neutral_rate=nr, **FIXED)
+            except AssertionError as e:
+                # a real non-functional recipe corner (net deposition, not etch) --
+                # skip it rather than lose the whole sweep, same as prepare.md item 17
+                print(f"sweep: etch_time={et} neutral_rate={nr} SKIPPED ({e})")
+                continue
             pts = tp.profile_points(geo)
             bulge = bulge_at(RADIUS, depth, pts)
-            sweep.append({"etch_time": et, "neutral": neutral, "depth": round(depth, 3),
-                          "slope": None, "bulge": bulge, "profile": profile_list(pts)})
-            print(f"sweep: etch_time={et} neutral={neutral} depth={depth:.3f} bulge={bulge:.4f}")
+            sweep.append({"etch_time": et, "neutral_rate": nr, "depth": round(depth, 3),
+                          "bulge": bulge, "profile": profile_list(pts)})
+            print(f"sweep: etch_time={et} neutral_rate={nr} depth={depth:.3f} bulge={bulge:.4f}")
 
     with open("sweep_top4_results.json") as f:
         doe4 = json.load(f)
@@ -69,7 +75,7 @@ def main():
     # current production fill pipeline, for the failure/fix panel
     geo = tp.make_initial_geometry(radius=RADIUS)
     geo, depth = tp.bosch_etch(geo, num_cycles=PRODUCTION_CYCLES, radius=RADIUS,
-                                etch_time=0.5, neutral_sticking_probability=0.05, **FIXED)
+                                etch_time=0.5, **FIXED)
     geo = tp.deposit_conformal(geo, ps.Material.SiO2, LINER["thickness"], directional=False, sticking=LINER["sticking"])
     geo = tp.deposit_conformal(geo, ps.Material.Cu, BARRIER["thickness"], directional=True, iso_ratio=BARRIER["iso_ratio"])
     pre_fill_pts = tp.profile_points(geo)
@@ -98,6 +104,22 @@ def main():
         "seal_dir": round(seal_dir, 3),
     }
 
+    # fill explorer: thickness x iso_ratio grid, directional (superconformal) fill
+    FILL_THICKNESSES = [0.14, 0.18, 0.22, 0.26, 0.30]
+    FILL_ISO_RATIOS = [0.03, 0.05, 0.1, 0.2, 0.3]
+    fill_sweep = []
+    for thick in FILL_THICKNESSES:
+        for iso in FILL_ISO_RATIOS:
+            g = ps.Domain(); g.deepCopy(geo)
+            g = tp.cu_fill(g, thick, directional=True, iso_ratio=iso)
+            pts = tp.profile_points(g)
+            center = pts[np.abs(pts[:, 0]) < 0.02]
+            seal = float(center[:, 1].mean()) if len(center) else None
+            tip_gap = (seal - via_floor) if seal is not None else None
+            fill_sweep.append({"thickness": thick, "iso_ratio": iso, "tip_gap": round(tip_gap, 4),
+                                "profile": profile_list(pts, 0.5)})
+            print(f"fill_sweep: thickness={thick} iso_ratio={iso} tip_gap={tip_gap:.4f}")
+
     with open("sweep_downstream_comprehensive_results.json") as f:
         cmp_data = json.load(f)
     cmp_curve = [{"mult": r["mult"], "dish": r["dish"], "mask_consumed": r["mask_consumed"]}
@@ -114,7 +136,7 @@ def main():
     }
 
     out = {
-        "etch_times": ETCH_TIMES, "neutral_sticking": NEUTRAL_STICKING, "radius": RADIUS,
+        "etch_times": ETCH_TIMES, "neutral_rates": NEUTRAL_RATES, "radius": RADIUS,
         "total_doe_runs": 768, "total_doe4_runs": len(valid4),
         "effects": [{"name": "etch_time", "range": 0.0967},
                     {"name": "neutral_sticking_probability", "range": 0.0856},
@@ -122,6 +144,8 @@ def main():
                     {"name": "ion_source_exponent", "range": 0.0086}],
         "effects4": effects4,
         "sweep": sweep, "fill": fill, "cmp_curve": cmp_curve, "taper": taper,
+        "fill_thicknesses": FILL_THICKNESSES, "fill_iso_ratios": FILL_ISO_RATIOS,
+        "fill_sweep": fill_sweep, "fill_via_floor": round(via_floor, 3),
         "new_winner": {"etch_time": 0.5, "neutral_sticking_probability": 0.05,
                        "initial_etch_time": 0.3, "neutral_rate": -0.1,
                        "cycles": PRODUCTION_CYCLES, "improvement_x": 1.52},
