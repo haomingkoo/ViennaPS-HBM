@@ -9,4 +9,7 @@ __pycache__/
 *.vtp
 *.vtu
 sweep_big.log
+sweep_top4.log
+sweep_downstream_comprehensive.log
+sweep_joint_5steps.log
 .claude/

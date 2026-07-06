@@ -18,9 +18,11 @@ md("""\
 
 A ViennaPS simulation of the real via-middle TSV loop used in HBM
 manufacturing: **pattern -> Bosch DRIE etch -> SiO2 liner -> barrier+seed ->
-Cu fill -> CMP** -- with a 768-run, 4-parameter DOE on the etch step, and
-every downstream step (liner/barrier/fill) separately swept and re-tuned
-against the winning etch geometry, not reused from earlier defaults.
+Cu fill -> CMP** -- every step screened across its *full* real parameter
+set (not just the parameters an earlier pass happened to already vary),
+then combined-DOE'd on whichever knobs the screening found actually
+matter, then checked jointly across all 5 steps together to catch
+cross-stage interactions a step-by-step approach would miss.
 
 **Scope note:** this models topography/process physics (etch, deposition,
 CMP) at single-feature scale. It does not model package-level warpage,
@@ -45,11 +47,15 @@ MATERIAL_COLOR = {
     "Cu_barrier": "#c9a876", "Cu_fill": "#d98a4f",
 }
 
-# Winning parameters from the 768-run etch DOE + downstream sweeps.
-ETCH = dict(ion_source_exponent=200, neutral_sticking_probability=0.2,
-            etch_time=0.5, deposition_thickness=0.01)
-PRODUCTION_CYCLES = 12  # see methodology note: chosen to reach a depth
-                         # comparable to the pre-DOE baseline, not just "more"
+# Winning parameters: the 768-run 4-parameter etch DOE, superseded by an
+# 800-run combined DOE on the top-4 knobs found by screening all 11 real
+# etch parameters (neutral_sticking_probability and neutral_rate now use
+# the new winner -- see the DOE-effects comparison below).
+ETCH = dict(ion_source_exponent=200, neutral_sticking_probability=0.05,
+            etch_time=0.5, deposition_thickness=0.01, initial_etch_time=0.3,
+            neutral_rate=-0.1)
+PRODUCTION_CYCLES = 14  # depth-matched to the new winner (etches slightly
+                         # less per cycle than the old neutral=0.2 recipe)
 LINER = dict(thickness=0.02, sticking=0.2)
 BARRIER = dict(thickness=0.015, iso_ratio=0.1)
 FILL_SUPERCONFORMAL = dict(thickness=0.18, iso_ratio=0.05)
@@ -62,10 +68,19 @@ Real TSVs: ~50um deep, 5-10um diameter (~5-10:1 AR), formed by cycling
 SF6 (isotropic etch) against C4F8 (sidewall passivation) -- the "Bosch
 process" (per the shared "TSV via-middle process" diagram, step 2).
 
-**The DOE:** 768 runs across 4 parameters -- `ion_source_exponent` (ion
-directionality), `neutral_sticking_probability` (isotropic/chemical etch
-component), `etch_time` (per-cycle duration), and `deposition_thickness`
-(passivation coat per cycle) -- 8x8x4x3.
+**The first DOE:** 768 runs across 4 parameters -- `ion_source_exponent`
+(ion directionality), `neutral_sticking_probability` (isotropic/chemical
+etch component), `etch_time` (per-cycle duration), and
+`deposition_thickness` (passivation coat per cycle) -- 8x8x4x3.
+
+**Screening pass, after the fact:** `bosch_etch` actually exposes 11 real
+parameters, not 4 -- the other 7 (`initial_etch_time`, `neutral_rate`,
+`deposition_sticking_probability`, `ion_rate`, `radius`, `mask_height`,
+`theta_r_min`) had only ever been left at their defaults, never varied.
+Screening all 7 (one-factor-at-a-time from the current best point) found
+two, `initial_etch_time` and `neutral_rate`, that ranked *above* two of
+the original DOE's own 4 parameters -- a real, previously-invisible gap,
+not a hypothetical one.
 """)
 
 code("""\
@@ -154,6 +169,100 @@ print(f"improvement: {np.mean(old_bulges)/np.mean(new_bulges):.1f}x")
 """)
 
 md("""\
+### The screening-found knobs, combined-DOE'd (800 runs)
+
+`etch_time` x `neutral_sticking_probability` x `initial_etch_time` x
+`neutral_rate`, 4x8x5x5, holding `ion_source_exponent` and
+`deposition_thickness` at their already-known-good values (a deliberate
+scope limit -- interactions between this top-4 and the other 7 screened-out
+parameters aren't tested).
+""")
+
+code("""\
+with open("sweep_top4_results.json") as f:
+    doe4 = json.load(f)
+valid4 = [r for r in doe4["results"] if r["bulge"] is not None]
+
+def effect_range4(key, values):
+    means = [np.mean([r["bulge"] for r in valid4 if r[key] == v]) for v in values]
+    return max(means) - min(means)
+
+params4 = [
+    ("etch_time", doe4["etch_times"], "etch_time"),
+    ("neutral_sticking_probability", doe4["neutral_sticking"], "neutral"),
+    ("initial_etch_time", doe4["initial_etch_times"], "initial_etch_time"),
+    ("neutral_rate", doe4["neutral_rates"], "neutral_rate"),
+]
+effects4 = [(name, effect_range4(key, values)) for name, values, key in params4]
+effects4.sort(key=lambda e: -e[1])
+
+fig, ax = plt.subplots(figsize=(6, 3.5))
+names4 = [e[0] for e in effects4]
+ranges4 = [e[1] for e in effects4]
+bars4 = ax.barh(names4, ranges4, color=["#2e7d32" if i < 2 else "#8a8f94" for i in range(len(names4))])
+ax.set_xlabel("effect range on wall bulge (mean, across the sweep)")
+ax.set_title(f"800-run top-4 DOE: {len(valid4)} valid points")
+for bar, r in zip(bars4, ranges4):
+    ax.text(bar.get_width(), bar.get_y() + bar.get_height()/2, f"  {r:.4f}", va="center", fontsize=9)
+plt.tight_layout()
+plt.savefig("fig_doe4_effects.png", dpi=130)
+plt.show()
+""")
+
+md("""\
+**A screening-vs-full-DOE ranking reversal, caught rather than assumed:**
+the earlier one-factor-at-a-time screening ranked `initial_etch_time`
+(0.031) above `neutral_rate` (0.028). This full combined DOE found the
+opposite -- `neutral_rate`'s effect range (0.110) is nearly as large as
+`etch_time`'s (0.112), while `initial_etch_time`'s (0.007) turned out to
+be the smallest of the four. Screening from a single baseline point is
+useful for a first pass (it correctly flagged both as worth including),
+but it can mis-rank parameters that interact -- the combined DOE is what
+determines the real ranking, not the screen.
+
+**A boundary optimum, checked rather than assumed:** `etch_time=0.5` was
+the smallest value ever tested, in both this DOE and the original 768-run
+one. Tested below it (0.2, 0.3, 0.4), depth-matched at each: bulge gets
+monotonically *worse* going lower (0.094, 0.054, 0.028, ... 0.013 at
+0.5) -- confirms 0.5 is a genuine local optimum, not an artifact of never
+having tested lower.
+
+**New winner, depth-matched and replicated against the current production
+recipe** (this cell reuses `bulge_at` from the cell above):
+""")
+
+code("""\
+NEW_WINNER = dict(etch_time=0.5, neutral_sticking_probability=0.05,
+                   initial_etch_time=0.3, neutral_rate=-0.1,
+                   ion_source_exponent=200, deposition_thickness=0.01)
+OLD_PRODUCTION = dict(etch_time=0.5, neutral_sticking_probability=0.2,
+                       initial_etch_time=0.3, neutral_rate=-0.2,
+                       ion_source_exponent=200, deposition_thickness=0.01)
+
+print("new top-4 DOE winner (14 cycles, depth-matched) x3:")
+winner_bulges = []
+for _ in range(3):
+    g = tp.make_initial_geometry(radius=0.15)
+    g, d = tp.bosch_etch(g, num_cycles=14, radius=0.15, **NEW_WINNER)
+    b = bulge_at(0.15, d, tp.profile_points(g))
+    winner_bulges.append(b)
+    print(f"  depth={d:.3f} bulge={b:.4f}")
+
+print("previous production recipe (12 cycles) x3:")
+prod_bulges = []
+for _ in range(3):
+    g = tp.make_initial_geometry(radius=0.15)
+    g, d = tp.bosch_etch(g, num_cycles=12, radius=0.15, **OLD_PRODUCTION)
+    b = bulge_at(0.15, d, tp.profile_points(g))
+    prod_bulges.append(b)
+    print(f"  depth={d:.3f} bulge={b:.4f}")
+
+print(f"\\nnew winner: {min(winner_bulges):.4f}-{max(winner_bulges):.4f} (mean {np.mean(winner_bulges):.4f})")
+print(f"prev. production: {min(prod_bulges):.4f}-{max(prod_bulges):.4f} (mean {np.mean(prod_bulges):.4f})")
+print(f"improvement: {np.mean(prod_bulges)/np.mean(winner_bulges):.2f}x -- adopted as the new production recipe (ETCH dict above)")
+""")
+
+md("""\
 **Failure mode vs. fix**, at a *matched* depth for a fair comparison.
 
 This matters concretely: `etch_time=2.0` etches ~4x more per cycle than
@@ -180,7 +289,7 @@ pts_good = tp.trim_for_display(tp.profile_points(geo_good), 0.31)
 fig, axes = plt.subplots(1, 2, figsize=(8, 5), sharey=True)
 for ax, pts, depth, title, color in [
     (axes[0], pts_bad, depth_bad, "Failure mode\\n(long etch_time, low directionality)", "#c0392b"),
-    (axes[1], pts_good, depth_good, "Fixed\\n(DOE winner: etch_time=0.5, ion=200, neutral=0.2)", "#2e7d32"),
+    (axes[1], pts_good, depth_good, "Fixed\\n(DOE winner: etch_time=0.5, neutral=0.05, neutral_rate=-0.1)", "#2e7d32"),
 ]:
     ax.fill_betweenx(pts[:, 1], -pts[:, 0], pts[:, 0], color=MATERIAL_COLOR["Si"], alpha=0.8)
     ax.plot(pts[:, 0], pts[:, 1], color=color, lw=1.5)
@@ -295,8 +404,11 @@ for ax, pre, post, title in [
     (axes[0], pts_pre_liner, pts_bad_liner, "Failure mode\\n(sticking=0.6 -- poor floor reach)"),
     (axes[1], pts_pre_liner, pts_liner, "Fixed\\n(sticking=0.2, swept-optimal)"),
 ]:
-    ax.fill_betweenx(post[:, 1], -post[:, 0], post[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
+    # draw the wider pre-liner Si cavity FIRST, then the narrower post-liner
+    # SiO2 on top -- the other order paints the wider Si fill over the
+    # thinner SiO2 ring and hides it completely (same bug as the barrier cell).
     ax.fill_betweenx(pre[:, 1], -pre[:, 0], pre[:, 0], color=MATERIAL_COLOR["Si"], alpha=0.9)
+    ax.fill_betweenx(post[:, 1], -post[:, 0], post[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
     ax.set_title(title, fontsize=9)
     ax.set_xlabel("x (um)")
 axes[0].set_ylabel("y (um)")
@@ -337,8 +449,12 @@ for ax, post, title in [
     (axes[0], pts_bad_seed, "Failure mode\\n(plain isotropic PVD -- stalls at opening)"),
     (axes[1], pts_seed, "Fixed\\n(iPVD, swept-optimal directional bias)"),
 ]:
-    ax.fill_betweenx(post[:, 1], -post[:, 0], post[:, 0], color=MATERIAL_COLOR["Cu_barrier"], alpha=0.9)
+    # draw the wider pre-deposition SiO2 cavity FIRST, then the narrower
+    # post-deposition Cu on top -- drawing them in the other order (as an
+    # earlier version of this cell did) paints the wider SiO2 fill over the
+    # thinner Cu ring and hides it completely.
     ax.fill_betweenx(pts_pre_seed[:, 1], -pts_pre_seed[:, 0], pts_pre_seed[:, 0], color=MATERIAL_COLOR["SiO2"], alpha=0.9)
+    ax.fill_betweenx(post[:, 1], -post[:, 0], post[:, 0], color=MATERIAL_COLOR["Cu_barrier"], alpha=0.9)
     ax.set_title(title, fontsize=9)
     ax.set_xlabel("x (um)")
 axes[0].set_ylabel("y (um)")
@@ -438,45 +554,153 @@ plt.show()
 """)
 
 md("""\
+## Patterning's mask taper angle: a claim made, checked, and retracted
+
+Every step so far was screened and DOE'd against *its own* metric --
+etch against wall bulge, fill against tip-gap -- which has a blind spot:
+it can't see a knob that helps one stage while hurting another. Checking
+all 5 steps' real parameters jointly was meant to surface exactly that
+for `ps.MakeHole`'s `maskTaperAngle` (never varied in any DOE before this).
+
+**A first pass claimed a real trade-off** -- `maskTaperAngle=0` better for
+etch bulge, `maskTaperAngle=4` better for fill tip-gap, each checked with
+one depth-matched run. Rebuilding this notebook produced the *opposite*
+bulge result from a fresh run of the same nominal comparison -- the
+contradiction itself was the signal to stop and replicate properly rather
+than trust either single run (the same lesson from the depth-confound
+methodology note earlier in this notebook, re-learned the hard way here).
+""")
+
+code("""\
+def taper_pipeline(mask_taper, cycles):
+    geo = ps.Domain(gridDelta=0.01, xExtent=1.0, yExtent=1.5)
+    ps.MakeHole(domain=geo, holeRadius=0.15, holeDepth=0.0, maskHeight=0.3,
+                maskTaperAngle=mask_taper, holeShape=ps.HoleShape.QUARTER).apply()
+    geo, depth = tp.bosch_etch(geo, num_cycles=cycles, radius=0.15, **ETCH)
+    bulge = bulge_at(0.15, depth, tp.profile_points(geo))
+
+    geo = tp.deposit_conformal(geo, ps.Material.SiO2, LINER["thickness"], directional=False, sticking=LINER["sticking"])
+    geo = tp.deposit_conformal(geo, ps.Material.Cu, BARRIER["thickness"], directional=True, iso_ratio=BARRIER["iso_ratio"])
+    via_floor = tp.profile_points(geo)[:, 1].min()
+    geo = tp.cu_fill(geo, FILL_SUPERCONFORMAL["thickness"], directional=True, iso_ratio=FILL_SUPERCONFORMAL["iso_ratio"])
+    pts = tp.profile_points(geo)
+    center = pts[np.abs(pts[:, 0]) < 0.02]
+    tip_gap = float(center[:, 1].mean() - via_floor) if len(center) else None
+    return depth, bulge, tip_gap
+
+N_REPS = 6
+print("taper=0 deg x6 (depth-matched cycles):")
+bulges0, gaps0 = [], []
+for _ in range(N_REPS):
+    d, b, g = taper_pipeline(0.0, PRODUCTION_CYCLES)
+    bulges0.append(b); gaps0.append(g)
+    print(f"  depth={d:.3f} bulge={b:.4f} tip_gap={g:.4f}")
+
+print("taper=4 deg x6 (depth-matched cycles):")
+bulges4, gaps4 = [], []
+for _ in range(N_REPS):
+    d, b, g = taper_pipeline(4.0, PRODUCTION_CYCLES - 1)
+    bulges4.append(b); gaps4.append(g)
+    print(f"  depth={d:.3f} bulge={b:.4f} tip_gap={g:.4f}")
+
+print(f"\\nbulge:    taper=0 mean={np.mean(bulges0):.4f} std={np.std(bulges0):.4f}  |  taper=4 mean={np.mean(bulges4):.4f} std={np.std(bulges4):.4f}")
+print(f"tip_gap:  taper=0 range=[{min(gaps0):.3f},{max(gaps0):.3f}]  |  taper=4 range=[{min(gaps4):.3f},{max(gaps4):.3f}]")
+
+fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+axes[0].scatter([0]*len(bulges0), bulges0, color="#2e7d32", s=40, alpha=0.7, label="taper=0")
+axes[0].scatter([1]*len(bulges4), bulges4, color="#c9752e", s=40, alpha=0.7, label="taper=4")
+axes[0].set_xticks([0, 1]); axes[0].set_xticklabels(["taper=0", "taper=4"])
+axes[0].set_ylabel("etch wall bulge"); axes[0].set_title(f"bulge, {N_REPS} reps each")
+axes[1].scatter([0]*len(gaps0), gaps0, color="#2e7d32", s=40, alpha=0.7, label="taper=0")
+axes[1].scatter([1]*len(gaps4), gaps4, color="#c9752e", s=40, alpha=0.7, label="taper=4")
+axes[1].set_xticks([0, 1]); axes[1].set_xticklabels(["taper=0", "taper=4"])
+axes[1].set_ylabel("fill tip gap"); axes[1].set_title(f"tip-gap, {N_REPS} reps each")
+plt.tight_layout()
+plt.savefig("fig_taper_tradeoff.png", dpi=130)
+plt.show()
+""")
+
+md("""\
+**Retracting the trade-off claim -- it doesn't survive replication.**
+Fill tip-gap: the two ranges above almost completely overlap -- no
+statistical basis for "taper=4 is better," that was a single-run noise
+artifact. **What IS real:** `maskTaperAngle=4` gives an essentially
+deterministic bulge every run (std close to zero, over 10 replicates run
+outside this notebook -- see prepare.md item 21), while
+`maskTaperAngle=0` (a perfectly vertical mask sidewall) produces a
+genuinely bimodal bulge distribution -- usually similar to taper=4's
+value, occasionally much better. That's a real, reproducible numerical-
+stability difference (plausibly: a sharp 90-degree corner at the via
+mouth introduces ray-tracing sampling variance that a slight taper
+removes), not a "which taper produces the better via" finding. Reported
+this way rather than the original, tidier-sounding trade-off because the
+tidier version was wrong.
+""")
+
+md("""\
 ## Step 6: CMP -- planarize back to the pad surface
 
-**Failure mode:** over-polishing past the target plane causes dishing --
-recessing the Cu pad below the surrounding surface, a real hybrid-bonding
-yield killer (per the Samsung wet-ALE dishing-control writeup shared for
-this project). Under-polishing leaves Cu overburden un-removed.
+**A genuine modeling ceiling, found and verified while building this demo
+(not assumed going in).** An earlier version of this section claimed
+"over-polishing causes dishing, stopping at the exact nominal target plane
+fixes it" -- that claim was checked against a field-vs-via measurement and
+found to be backwards. `ps.IsotropicProcess` removes material at the same
+rate everywhere regardless of local topography (it has no concept of
+polish-pad contact pressure, which is the actual real-world mechanism that
+preferentially removes raised regions and is why real CMP planarizes at
+all). The result: stopping at the exact nominal overburden (the simple
+"current max height minus target" calculation) leaves the via floor
+recessed **1.35um below the field** -- severe dishing, not a fixed case.
+Removing more material does reduce this, but only by grinding away far
+more than any real fab would ever polish: the swept-optimal recipe still
+shows 0.70 dishing at 60% over-polish, and getting down to ~0.05-0.1
+requires 5-10x the nominal overburden, which fully consumes the mask layer
+along the way -- destroying real device structure well before the dishing
+would become acceptable. Real Cu CMP avoids this because the barrier layer
+has a different removal rate that lets the process self-limit; that
+mechanism isn't modeled here. This is treated the same way as the Cu-fill
+tip gap (Step 5): a documented ceiling of this simple process model, not
+a recipe to keep tuning.
 """)
 
 code("""\
 target_y = pts_seed[:, 1].max()
+base_overburden = float(tp.profile_points(geo_fill_dir)[:, 1].max()) - target_y
 
-geo_cmp_over = ps.Domain(); geo_cmp_over.deepCopy(geo_fill_dir)
-overburden = float(tp.profile_points(geo_cmp_over)[:, 1].max()) - target_y
-ps.Process(geo_cmp_over, ps.IsotropicProcess(rate=-1.0), overburden * 1.6).apply()  # 60% over-polish
-pts_cmp_over = tp.trim_for_display(tp.profile_points(geo_cmp_over), target_y + 0.02)
+def dish_after(mult):
+    g = ps.Domain(); g.deepCopy(geo_fill_dir)
+    ps.Process(g, ps.IsotropicProcess(rate=-1.0), base_overburden * mult).apply()
+    pts = tp.profile_points(g)
+    field = pts[pts[:, 0] > 0.3][:, 1]
+    via = pts[pts[:, 0] < 0.1][:, 1]
+    return g, pts, float(field.mean() - via.mean())
 
-geo_cmp = ps.Domain(); geo_cmp.deepCopy(geo_fill_dir)
-geo_cmp = tp.cmp_planarize(geo_cmp, target_y=target_y)
-pts_cmp = tp.trim_for_display(tp.profile_points(geo_cmp), target_y + 0.02)
+geo_cmp_nominal, pts_cmp_nominal, dish_nominal = dish_after(1.0)
+geo_cmp_over, pts_cmp_over, dish_over = dish_after(1.6)
 
-dishing = target_y - float(tp.profile_points(geo_cmp_over)[:, 1].max())
 print(f"target plane: {target_y:.4f}")
-print(f"over-polished max height: {tp.profile_points(geo_cmp_over)[:, 1].max():.4f}  (dishing {dishing:.4f})")
-print(f"correctly polished max height: {tp.profile_points(geo_cmp)[:, 1].max():.4f}")
+print(f"nominal overburden (1.0x): dishing = {dish_nominal:.3f}  (severe -- this is the 'textbook correct' amount)")
+print(f"60% over-polish (1.6x):    dishing = {dish_over:.3f}  (less dishing, not more -- opposite of the naive assumption)")
+
+pts_cmp_nominal_trim = tp.trim_for_display(pts_cmp_nominal, target_y + 0.05)
+pts_cmp_over_trim = tp.trim_for_display(pts_cmp_over, target_y + 0.05)
 
 fig, axes = plt.subplots(1, 2, figsize=(8, 5), sharey=True)
-for ax, pts, title in [
-    (axes[0], pts_cmp_over, "Failure mode\\n(over-polished -- dishing)"),
-    (axes[1], pts_cmp, "Fixed\\n(planarized to target)"),
+for ax, pts, title, dish in [
+    (axes[0], pts_cmp_nominal_trim, "'Textbook' nominal overburden\\n(1.0x -- looks right, isn't)", dish_nominal),
+    (axes[1], pts_cmp_over_trim, "60% over-polish\\n(less dishing, still severe)", dish_over),
 ]:
     ax.fill_betweenx(pts[:, 1], -pts[:, 0], pts[:, 0], color=MATERIAL_COLOR["Cu_fill"], alpha=0.9)
     ax.axhline(target_y, color="k", lw=0.7, ls="--", label="target plane")
-    ax.set_title(title, fontsize=9)
+    ax.set_title(f"{title}\\ndishing={dish:.2f}", fontsize=9)
     ax.set_xlabel("x (um)")
 axes[0].set_ylabel("y (um)")
 axes[0].legend(fontsize=8)
 plt.tight_layout()
 plt.savefig("fig_cmp_final.png", dpi=130)
 plt.show()
+
+geo_cmp = geo_cmp_over  # carried forward into the final all-layers figure
 """)
 
 md("### All layers, final structure")
@@ -516,7 +740,10 @@ md("""\
 | Naive Cu fill on high-AR via | traps a void | confirmed -- subconformal panel above |
 | Conformal Cu fill | thin seam, not a big void | confirmed -- conformal panel above |
 | Superconformal Cu fill | reaches the floor, much smaller residual gap | confirmed -- gap reduced to 0.109 vs. subconformal's 1.163 (not zero -- see tip note above) |
-| CMP | planarizes to target plane | confirmed -- final max height clipped to target plane above |
+| Screening vs. full-DOE ranking of `initial_etch_time`/`neutral_rate` | screening's first-pass ranking holds | **refuted** -- full 800-run DOE reversed it (`neutral_rate` far more important than screening suggested) |
+| `etch_time=0.5` boundary optimum | genuine minimum, not an untested cutoff | confirmed -- depth-matched check below 0.5 shows monotonically worse bulge |
+| Patterning mask taper: a claimed etch-vs-fill trade-off | holds up under replication | **retracted after replication** -- tip-gap ranges overlap almost completely (noise, not a real effect); the one real finding is taper=4 giving zero-variance bulge vs. taper=0's bimodal distribution (see dedicated section above) |
+| CMP | uniform etch-back removes dishing | **refuted** -- nominal overburden leaves 1.35 dishing; fixing it needs an unrealistic overpolish that destroys the mask (structural ceiling, see Step 6) |
 
 ## Sources for real parameters used
 - TSV dimensions (~50um deep, 5-10um diameter) and the 6-step via-middle
@@ -596,7 +823,8 @@ for i in range(12):
     bulge = float(np.max(np.abs(body[:, 0] - 0.15))) if len(body) else None
     dies.append({"die": i + 1, "depth": d, "bulge": bulge, "profile": p})
 
-die_height, via_frac = 1.0, 0.75
+die_height = 1.0
+bump_r = 0.06
 fig, ax = plt.subplots(figsize=(6, 10))
 for i, die in enumerate(dies):
     y0 = i * die_height
@@ -605,14 +833,19 @@ for i, die in enumerate(dies):
                                   facecolor="#c9c2b0" if is_base else "#e8e4da",
                                   edgecolor="#8a8a8a", linewidth=0.8))
     if not is_base:
+        # via spans the FULL die height (no gap) -- it's a through-via,
+        # the whole point of a TSV is that it connects top to bottom
         pts, depth = die["profile"], die["depth"]
-        local_y = y0 + die_height - (pts[:, 1] / depth) * die_height * via_frac
+        local_y = y0 + die_height - (pts[:, 1] / depth) * die_height
         ax.fill_betweenx(local_y, -pts[:, 0], pts[:, 0], color=MATERIAL_COLOR["Cu_fill"])
+        # microbump connecting this die's via bottom to the die below
+        # (or to the base logic die's top surface, for die 2)
+        ax.add_patch(plt.Circle((0, y0), bump_r, facecolor="#b0742a", edgecolor="none", zorder=5))
     label = f"Die {die['die']}" + (" (base logic -- no through-via)" if is_base else f"  bulge={die['bulge']:.4f}")
     ax.text(0.55, y0 + die_height / 2, label, va="center", fontsize=8, family="monospace")
 ax.set_xlim(-0.8, 2.2); ax.set_ylim(-0.2, 12 * die_height + 0.2)
 ax.set_aspect("equal"); ax.axis("off")
-ax.set_title("12-die HBM stack -- each TSV independently simulated (real Monte Carlo variation)", fontsize=10)
+ax.set_title("12-die HBM stack -- vias connect through microbumps, each independently simulated", fontsize=10)
 plt.tight_layout()
 plt.savefig("fig_12_stack.png", dpi=130)
 plt.show()

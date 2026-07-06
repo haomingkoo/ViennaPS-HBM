@@ -1,0 +1,337 @@
+{
+  "etch": {
+    "ion_source_exponent": 200,
+    "neutral_sticking_probability": 0.2,
+    "etch_time": 0.5,
+    "deposition_thickness": 0.01,
+    "num_cycles": 12,
+    "depth": -1.1872191563075611
+  },
+  "best_liner": {
+    "thickness": 0.02285714285714286,
+    "sticking": 0.3,
+    "coverage": 0.9961694589249093
+  },
+  "liner_top5": [
+    {
+      "thickness": 0.02285714285714286,
+      "sticking": 0.3,
+      "coverage": 0.9961694589249093
+    },
+    {
+      "thickness": 0.02285714285714286,
+      "sticking": 0.25999999999999995,
+      "coverage": 0.9959172009519952
+    },
+    {
+      "thickness": 0.02828571428571429,
+      "sticking": 0.3,
+      "coverage": 0.9954670783976161
+    },
+    {
+      "thickness": 0.02285714285714286,
+      "sticking": 0.21999999999999995,
+      "coverage": 0.9954527099469647
+    },
+    {
+      "thickness": 0.02828571428571429,
+      "sticking": 0.25999999999999995,
+      "coverage": 0.9948769753874256
+    }
+  ],
+  "best_barrier": {
+    "thickness": 0.014285714285714285,
+    "iso_ratio": 0.1785714285714286,
+    "coverage": 0.9892630486857082
+  },
+  "barrier_top5": [
+    {
+      "thickness": 0.014285714285714285,
+      "iso_ratio": 0.1785714285714286,
+      "coverage": 0.9892630486857082
+    },
+    {
+      "thickness": 0.014285714285714285,
+      "iso_ratio": 0.24285714285714288,
+      "coverage": 0.9892630486857082
+    },
+    {
+      "thickness": 0.014285714285714285,
+      "iso_ratio": 0.30714285714285716,
+      "coverage": 0.9892630486857082
+    },
+    {
+      "thickness": 0.014285714285714285,
+      "iso_ratio": 0.37142857142857144,
+      "coverage": 0.9892630486857082
+    },
+    {
+      "thickness": 0.014285714285714285,
+      "iso_ratio": 0.4357142857142858,
+      "coverage": 0.9892630486857082
+    }
+  ],
+  "best_fill": {
+    "thickness": 0.19666666666666666,
+    "iso_ratio": 0.03,
+    "coverage": 1.0
+  },
+  "fill_top5": [
+    {
+      "thickness": 0.19666666666666666,
+      "iso_ratio": 0.03,
+      "coverage": 1.0
+    },
+    {
+      "thickness": 0.19666666666666666,
+      "iso_ratio": 0.2228571428571429,
+      "coverage": 1.0
+    },
+    {
+      "thickness": 0.19666666666666666,
+      "iso_ratio": 0.26142857142857145,
+      "coverage": 1.0
+    },
+    {
+      "thickness": 0.19666666666666666,
+      "iso_ratio": 0.3,
+      "coverage": 1.0
+    },
+    {
+      "thickness": 0.2222222222222222,
+      "iso_ratio": 0.03,
+      "coverage": 1.0
+    }
+  ],
+  "cmp_target_y": 0.31804656243885676,
+  "cmp_curve": [
+    {
+      "mult": 0.9,
+      "dish": 1.2818865992822313,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.0,
+      "dish": 1.1107435725498893,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.1,
+      "dish": 0.9590660335386325,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.2000000000000002,
+      "dish": 0.8128520887686582,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.3,
+      "dish": 0.6826146809893869,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.4,
+      "dish": 0.5892534660314007,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.5,
+      "dish": 0.47714092569950184,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.6,
+      "dish": 0.3928357196557961,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.7000000000000002,
+      "dish": 0.24471224543893766,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.8,
+      "dish": 0.2282745188890989,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 1.9,
+      "dish": 0.21368818342921947,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 2.0,
+      "dish": 0.202006067541042,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 2.5,
+      "dish": 0.16621249253322135,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 3.571428571428571,
+      "dish": 0.11593758803664755,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 4.642857142857142,
+      "dish": 0.08924883664204541,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 5.714285714285714,
+      "dish": 0.07191773138239954,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 6.785714285714286,
+      "dish": 0.06040596330832049,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 7.857142857142857,
+      "dish": 0.05240333509923811,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 8.928571428571429,
+      "dish": 0.04559176329605785,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    },
+    {
+      "mult": 10.0,
+      "dish": 0.041726053673625696,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ]
+    }
+  ]
+}

@@ -32,7 +32,13 @@ def all_material_profiles(geometry, bin_width=None):
         mat = mat_map.getMaterialAtIdx(i)
         mesh = ls.Mesh()
         ls.ToSurfaceMesh(lvlset, mesh).apply()
-        pts = np.array(mesh.getNodes())[:, :2]
+        nodes = np.array(mesh.getNodes())
+        if nodes.ndim != 2 or len(nodes) == 0:
+            # a level set fully consumed by over-etch (e.g. mask removed by
+            # an aggressive CMP over-polish) has no surface left to mesh.
+            out.append((str(mat), np.empty((0, 2))))
+            continue
+        pts = nodes[:, :2]
         bins = np.round(pts[:, 0] / bin_width).astype(int)
         order = np.argsort(pts[:, 1])
         pts_sorted, bins_sorted = pts[order], bins[order]
@@ -116,7 +122,7 @@ def bosch_etch(geometry, *, num_cycles=10, etch_time=1.5, initial_etch_time=0.3,
                 ion_source_exponent=200, neutral_sticking_probability=0.1,
                 deposition_thickness=0.02, deposition_sticking_probability=0.01,
                 neutral_rate=-0.2, ion_rate=-0.1, on_cycle=None, on_polymer=None,
-                radius=0.15):
+                radius=0.15, theta_r_min=60.0):
     """Step 2: Bosch DRIE -- SF6 (isotropic etch) / C4F8 (passivation) cycling.
 
     ion_source_exponent: ion angular directionality (higher = more forward-
@@ -132,7 +138,7 @@ def bosch_etch(geometry, *, num_cycles=10, etch_time=1.5, initial_etch_time=0.3,
 
     etch_model = ps.MultiParticleProcess()
     etch_model.addNeutralParticle(neutral_sticking_probability)
-    etch_model.addIonParticle(sourcePower=ion_source_exponent, thetaRMin=60.0)
+    etch_model.addIonParticle(sourcePower=ion_source_exponent, thetaRMin=theta_r_min)
 
     def rate_fn(fluxes, material):
         if material == ps.Material.Mask:

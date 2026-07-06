@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import viennaps as ps
+import viennals as ls
 
 ps.setDimension(3)
 ps.Logger.setLogLevel(ps.LogLevel.ERROR)
@@ -54,10 +55,21 @@ for _ in range(5):  # fewer cycles than the 2D production run -- this is an
     geometry.removeTopLevelSet()
     geometry.removeStrayPoints()
 
-mesh = geometry.getSurfaceMesh()
+# geometry.getSurfaceMesh() merges every level set (Mask + Si) into one
+# undifferentiated mesh -- the Mask's flat top plate then renders in the
+# same solid color as the via walls beneath it, showing up as a mysterious
+# flat plane cutting through the via. Get the Si level set on its own
+# instead, matching the 2D figures' convention of not showing the resist
+# plateau (see tsv_process.py's trim_for_display) -- the story is the via
+# shape, not the mask sitting on top of it.
+mat_map = geometry.getMaterialMap()
+si_idx = next(i for i, ls_ in enumerate(geometry.getLevelSets())
+              if mat_map.getMaterialAtIdx(i) == ps.Material.Si)
+mesh = ls.Mesh()
+ls.ToSurfaceMesh(geometry.getLevelSets()[si_idx], mesh).apply()
 nodes = np.array(mesh.getNodes())
 triangles = np.array(mesh.getTriangles())
-print(f"3D mesh: {len(nodes)} nodes, {len(triangles)} triangles")
+print(f"3D mesh (Si only): {len(nodes)} nodes, {len(triangles)} triangles")
 
 fig = plt.figure(figsize=(6, 6), facecolor="white")
 ax = fig.add_subplot(projection="3d")
