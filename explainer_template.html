@@ -141,21 +141,21 @@
         A 768-run, 4-parameter DOE found that <b>etch_time</b> (per-cycle
         duration) &mdash; not the parameter most people would guess
         first &mdash; is the dominant control on TSV wall straightness.
-        Applying the DOE-winning recipe at a depth matched to the
-        original baseline (~1.19 vs. ~1.29, so straightness and depth
-        are compared fairly, not traded off against each other) and
-        re-tuning every downstream step (liner, barrier, Cu fill) against
-        it produced a <b>genuine ~2.8x improvement</b> in wall
-        straightness at that comparable target depth.
+        Screening all 11 of the etch step's real parameters (not just
+        the 4 already being varied) found two more that matter; a second,
+        800-run combined DOE on the new top-4 found a recipe
+        <b>~1.5x better</b> than the original DOE's own winner, depth-
+        matched and replicated before being trusted.
       </p>
       <p style="margin:0; font-size:0.95rem;">
-        Two real mistakes were caught and fixed along the way, not
-        glossed over: the raw sweep's best-looking result was partly an
-        artifact of measuring a shallower via -- exactly the
-        straight-vs-depth tradeoff this project has to get right, caught
-        via depth-matched replicates, below; and an early "defect-free"
-        Cu fill wasn't actually reaching the via floor (found by testing
-        it, then fixed with a proper parameter sweep).
+        Every step's real parameters were screened this way, then checked
+        <i>jointly</i> across all 5 process steps -- not just optimized
+        one at a time -- specifically to catch a knob that helps one
+        stage while hurting another. One looked real at first (patterning's
+        mask taper angle) and then <b>didn't survive replication</b>:
+        reported below as a retraction, not smoothed over. CMP's dishing
+        behavior was also found to be the opposite of what an earlier
+        pass assumed -- also corrected below with real measurements.
       </p>
     </div>
     <p class="scope-note">
@@ -192,12 +192,39 @@
   </section>
 
   <section>
+    <h2>Screening pass: 2 more real knobs, an 800-run follow-up DOE</h2>
+    <p class="section-sub">
+      <code>bosch_etch</code> exposes 11 real parameters, not 4 -- the
+      other 7 had only ever been left at their defaults. Screening all 7
+      found <code>initial_etch_time</code> and <code>neutral_rate</code>
+      ranked above two of the original DOE's own parameters. This chart
+      is the follow-up: a combined 800-run DOE on the new top-4.
+    </p>
+    <div class="panel">
+      <div id="doe4-bars"></div>
+    </div>
+    <p class="finding">
+      <b>A ranking reversal, caught rather than assumed:</b> the earlier
+      screening ranked <code>initial_etch_time</code> above
+      <code>neutral_rate</code>. This full combined DOE found the
+      opposite -- <code>neutral_rate</code>'s effect is nearly as large
+      as <code>etch_time</code>'s, while <code>initial_etch_time</code>
+      turned out to be the smallest of the four. Screening from one
+      baseline point can mis-rank parameters that interact; the combined
+      DOE is what determines the real ranking. This new winner, depth-
+      matched and replicated against the previous production recipe, is
+      <b>~1.5x better</b> and is now the recipe used throughout.
+    </p>
+  </section>
+
+  <section>
     <h2>Etch parameter explorer</h2>
     <p class="section-sub">
-      The two dominant parameters from the DOE above, sliced at the
-      winning ion_source_exponent=200 / deposition_thickness=0.01 (32 of
-      the 768 runs) &mdash; sliders snap to real computed points, nothing
-      is interpolated.
+      etch_time and neutral_sticking_probability, sliced at the current
+      production values for the other two parameters
+      (ion_source_exponent=200, deposition_thickness=0.01,
+      initial_etch_time=0.3, neutral_rate=-0.1) &mdash; sliders snap to
+      real computed points, nothing is interpolated.
     </p>
     <div class="panel explorer">
       <div>
@@ -208,7 +235,7 @@
         </div>
         <div class="control">
           <label>neutral_sticking_probability (isotropic etch) <span class="val" id="neutral-val"></span></label>
-          <input type="range" id="neutral-slider" min="0" max="7" step="1" value="7">
+          <input type="range" id="neutral-slider" min="0" max="7" step="1" value="1">
           <div class="ticks" id="neutral-ticks"></div>
         </div>
         <div class="readout">
@@ -235,7 +262,7 @@
       </div>
       <div class="compare-card fix">
         <h3>Fixed</h3>
-        <p class="cap">etch_time=0.5, neutral=0.3 (ion=200) &mdash; the DOE's real sweet spot</p>
+        <p class="cap">etch_time=0.5, neutral=0.05 (ion=200) &mdash; the current production recipe</p>
         <svg id="svg-fix" viewBox="0 0 300 420"></svg>
       </div>
     </div>
@@ -263,10 +290,63 @@
     </div>
   </section>
 
+  <section>
+    <h2>CMP: a claim found backwards, then corrected</h2>
+    <p class="section-sub">
+      An earlier pass claimed "over-polishing causes dishing, stopping at
+      the exact nominal target plane fixes it." Checked against an actual
+      field-vs-via measurement rather than assumed -- it's backwards.
+    </p>
+    <div class="panel">
+      <div id="cmp-chart"></div>
+      <p class="finding">
+        <b>The nominal, textbook-correct overburden leaves severe
+        dishing.</b> Removing more material does reduce it, but the mask
+        layer is fully consumed by the time dishing drops to a value any
+        real fab would accept -- destroying real device structure well
+        before the numbers look good. <code>ps.IsotropicProcess</code>
+        removes material at the same rate everywhere regardless of local
+        topography; it has no concept of the polish-pad contact pressure
+        that's the actual mechanism letting real CMP planarize. A genuine
+        structural ceiling of this simple process model, documented
+        rather than hidden.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Patterning's mask taper: a claim made, checked, and retracted</h2>
+    <p class="section-sub">
+      Checking all 5 process steps' real parameters jointly (not each
+      step optimized only against its own metric) is how a cross-stage
+      interaction would show up if one existed. `maskTaperAngle` looked
+      like exactly that -- until replication showed otherwise.
+    </p>
+    <div class="panel">
+      <div id="taper-chart"></div>
+      <p class="finding">
+        <b>Retracted after replication.</b> A first pass, checked with
+        one run per taper value, claimed taper=0 wins on etch bulge while
+        taper=4 wins on Cu-fill tip-gap -- a real trade-off. Replicating
+        properly (6-10 runs instead of 1) shows the tip-gap ranges for
+        the two candidates almost completely overlap: no statistical
+        basis for that half of the claim. What IS real: taper=4 gives an
+        essentially deterministic bulge result every run, while taper=0
+        (a perfectly vertical mask sidewall) produces a genuinely
+        <b>bimodal</b> distribution -- usually similar, occasionally much
+        better. A real numerical-stability difference, not a "better via"
+        finding. Reported this way because the tidier trade-off story was
+        wrong.
+      </p>
+    </div>
+  </section>
+
   <footer>
-    Data: 768-run 4-parameter DOE (sweep_big.py) + downstream liner/barrier/
-    fill sweeps (sweep_downstream.py) + naive/directional Cu-fill run, all
-    executed on real ViennaPS geometry (see tsv_process.py in the repo).
+    Data: 768-run 4-parameter DOE (sweep_big.py) + 800-run top-4 DOE
+    (sweep_top4.py) + comprehensive downstream liner/barrier/fill/CMP
+    sweeps (sweep_downstream_comprehensive.py) + joint 5-step replication
+    (sweep_joint_5steps.py), all executed on real ViennaPS geometry
+    (see tsv_process.py in the repo).
     &middot; <a href="https://kooexperience.com" style="color:var(--accent)">kooexperience.com</a>
   </footer>
 </div>
@@ -305,6 +385,75 @@ document.getElementById('doe-bars').innerHTML = DATA.effects.map((e, i) => `
     </div>
     <div style="width:60px; font-family:var(--mono); font-size:0.78rem; text-align:right;">${e.range.toFixed(4)}</div>
   </div>`).join('') + `<p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.6rem;">${DATA.total_doe_runs} total runs &middot; effect = range of mean wall bulge across each parameter's tested values</p>`;
+
+// -- top-4 DOE effects bar chart --
+const maxEffect4 = Math.max(...DATA.effects4.map(e => e.range));
+document.getElementById('doe4-bars').innerHTML = DATA.effects4.map((e, i) => `
+  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;">
+    <div style="width:180px; font-family:var(--mono); font-size:0.78rem; color:var(--text-dim);">${e.name}</div>
+    <div style="flex:1; background:var(--surface-2); border-radius:4px; overflow:hidden;">
+      <div style="width:${(e.range/maxEffect4*100).toFixed(1)}%; height:22px; background:${i<2?'var(--good)':'var(--si)'};"></div>
+    </div>
+    <div style="width:60px; font-family:var(--mono); font-size:0.78rem; text-align:right;">${e.range.toFixed(4)}</div>
+  </div>`).join('') + `<p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.6rem;">${DATA.total_doe4_runs} valid runs &middot; effect = range of mean wall bulge across each parameter's tested values</p>`;
+
+// -- CMP dishing curve --
+(function() {
+  const w = 640, h = 220, pad = 40;
+  const curve = DATA.cmp_curve;
+  const xMax = Math.max(...curve.map(r => r.mult)), yMax = Math.max(...curve.map(r => r.dish));
+  const px = m => pad + (m / xMax) * (w - pad * 1.5);
+  const py = d => h - pad - (d / yMax) * (h - pad * 1.5);
+  const splitIdx = curve.findIndex(r => r.mask_consumed);
+  const linePath = pts => 'M' + pts.map(r => `${px(r.mult).toFixed(1)},${py(r.dish).toFixed(1)}`).join(' L');
+  const before = curve.slice(0, splitIdx + 1), after = curve.slice(splitIdx);
+  const dots = curve.map(r => `<circle cx="${px(r.mult).toFixed(1)}" cy="${py(r.dish).toFixed(1)}" r="3"
+    fill="${r.mask_consumed ? 'var(--bad)' : 'var(--good)'}"/>`).join('');
+  document.getElementById('cmp-chart').innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
+      <line x1="${pad}" y1="${h-pad}" x2="${w-10}" y2="${h-pad}" stroke="var(--border)"/>
+      <line x1="${pad}" y1="10" x2="${pad}" y2="${h-pad}" stroke="var(--border)"/>
+      <path d="${linePath(before)}" fill="none" stroke="var(--good)" stroke-width="2"/>
+      <path d="${linePath(after)}" fill="none" stroke="var(--bad)" stroke-width="2"/>
+      ${dots}
+      <text x="${w/2}" y="${h-8}" text-anchor="middle" font-size="10" fill="var(--text-dim)" font-family="var(--mono)">overpolish multiplier (x nominal overburden)</text>
+      <text x="12" y="${h/2}" text-anchor="middle" font-size="10" fill="var(--text-dim)" font-family="var(--mono)" transform="rotate(-90 12 ${h/2})">dishing</text>
+    </svg>
+    <p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.4rem;">
+      <span style="color:var(--good);">&#9679;</span> mask intact &middot;
+      <span style="color:var(--bad);">&#9679;</span> mask fully consumed --
+      acceptable dishing is only reached after the mask is already gone
+    </p>`;
+})();
+
+// -- taper retraction scatter --
+(function() {
+  const w = 640, h = 200, pad = 40;
+  const t = DATA.taper;
+  function scatterPanel(vals0, vals4, label, x0) {
+    const all = vals0.concat(vals4);
+    const yMin = Math.min(...all), yMax = Math.max(...all);
+    const py = v => (h - pad) - (v - yMin) / (yMax - yMin || 1) * (h - pad * 1.5);
+    const col = (vals, cx, color) => vals.map(v => `<circle cx="${cx}" cy="${py(v).toFixed(1)}" r="4" fill="${color}" opacity="0.75"/>`).join('');
+    return `<g transform="translate(${x0},0)">
+      <text x="60" y="14" text-anchor="middle" font-size="11" fill="var(--text)" font-family="var(--mono)">${label}</text>
+      <line x1="20" y1="${h-pad}" x2="100" y2="${h-pad}" stroke="var(--border)"/>
+      ${col(vals0, 40, 'var(--good)')}
+      ${col(vals4, 80, 'var(--accent)')}
+      <text x="40" y="${h-pad+14}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-family="var(--mono)">taper=0</text>
+      <text x="80" y="${h-pad+14}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-family="var(--mono)">taper=4</text>
+    </g>`;
+  }
+  document.getElementById('taper-chart').innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
+      ${scatterPanel(t.bulge_taper0, t.bulge_taper4, 'etch bulge (10 reps each)', 40)}
+      ${scatterPanel(t.gap_taper0, t.gap_taper4, 'fill tip-gap (6 reps each)', 340)}
+    </svg>
+    <p style="font-size:0.75rem; color:var(--text-dim); margin-top:0.4rem;">
+      Left: taper=4's bulge points overlap almost perfectly (near-zero variance); taper=0 splits into two clusters (bimodal).
+      Right: the two tip-gap clusters overlap heavily -- no reliable separation.
+    </p>`;
+})();
 
 // -- interactive explorer --
 const etchTimeSlider = document.getElementById('etch-time-slider');
@@ -349,7 +498,7 @@ function updateExplorer() {
   const straightEl = document.getElementById('m-straight');
   straightEl.innerHTML = bulge < 0.03 ? '<span class="pill good">straight</span>' : '<span class="pill bad">bulging</span>';
 
-  document.getElementById('sweet-badge').classList.toggle('show', run.etch_time === 0.5 && run.neutral === 0.3);
+  document.getElementById('sweet-badge').classList.toggle('show', run.etch_time === 0.5 && run.neutral === 0.05);
   renderVia(document.getElementById('via-svg'), run.profile, 'var(--si)', YMIN, YMAX, run.depth);
 }
 etchTimeSlider.addEventListener('input', updateExplorer);
@@ -358,7 +507,7 @@ updateExplorer();
 
 // -- failure vs fix (etch) --
 const badRun = DATA.sweep.find(r => r.etch_time === 2.0 && r.neutral === 0.02);
-const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral === 0.3);
+const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral === 0.05);
 renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', YMIN, YMAX, badRun.depth);
 renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', YMIN, YMAX, goodRun.depth);
 
