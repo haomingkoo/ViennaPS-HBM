@@ -482,12 +482,18 @@ function yScale(y, h, yMin, yMax) { return h - 30 - (y - yMin) / (yMax - yMin) *
 // the real jump entirely (the directional/superconformal fill mounds at
 // the via shoulder then drops ~0.2 in one x-step -- that jump, not any
 // specific height, is what needs trimming).
-function trimJaggedTop(profile, jumpThreshold) {
-  const sorted = profile.slice().sort((a, b) => a[0] - b[0]);
-  for (let i = 1; i < sorted.length; i++) {
-    if (Math.abs(sorted[i][1] - sorted[i-1][1]) > jumpThreshold) return sorted.slice(0, i);
-  }
-  return sorted;
+// profile_points() (tsv_process.py) returns points in an order that
+// already traces the real contour coherently -- the notebook plots this
+// same data directly (ax.plot(pts[:,0], pts[:,1])) and gets a clean
+// result even for heavily-bulging/lobed vias. Re-sorting by x (what
+// several earlier attempts here did) destroys that coherent trace order
+// wherever a real lobe or overhang exists (the same x legitimately
+// corresponds to different points at different steps along the true
+// contour) and manufactures fake "jumps" that were never really about
+// debris at all. Fix: don't sort -- just filter by y, exactly like the
+// notebook's own trim_for_display.
+function trimTop(profile, yCeiling) {
+  return profile.filter(([x, y]) => y <= yCeiling);
 }
 
 function pathFor(profile, w, h, yMin, yMax) {
@@ -498,9 +504,16 @@ function pathFor(profile, w, h, yMin, yMax) {
   return 'M' + pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L') + ' Z';
 }
 
-function renderVia(svg, profile, color, yMin, yMax, floorY) {
+function renderVia(svg, profileRaw, color, yMin, yMax, floorY) {
   const w = svg.viewBox.baseVal.width, h = svg.viewBox.baseVal.height;
   const r = DATA.radius;
+  // Past the via mouth, some recipes (especially deliberately extreme
+  // "failure" ones) leave stray/debris mesh points interleaved with the
+  // real flat field data at nearly the same x -- connecting them in x-order
+  // produces a fake wide "shoulder" or "vase" bulge that isn't a real
+  // undercut. Cut at the first big jump outward from center, same fix as
+  // the fill renderer.
+  const profile = trimTop(profileRaw, 0.31);
   const topY = yScale(0.29, h, yMin, yMax), botY = yScale(floorY, h, yMin, yMax);
   svg.innerHTML = `<path d="${pathFor(profile, w, h, yMin, yMax)}" fill="${color}" stroke="none"/>
     <line x1="0" y1="${yScale(0,h,yMin,yMax)}" x2="${w}" y2="${yScale(0,h,yMin,yMax)}" stroke="var(--ink-dim)" stroke-width="1" stroke-dasharray="1,4" opacity="0.5"/>
@@ -626,42 +639,13 @@ function gapDimensionLine(w, h, floorY, sealY, x) {
     <text x="${px+11}" y="${(yFloor+ySeal)/2+3}" font-size="10" fill="var(--amber)" font-family="var(--mono)">${(sealY-floorY).toFixed(3)}um gap</text>`;
 }
 
-// The raw post-fill boundary is genuinely re-entrant right where a void
-// pinches shut (more than one y at the same x -- a thin sealed cap near
-// the centerline sits *above* a much deeper conformal coating that hugs
-// the original sidewall almost to the floor). A simple x-binned envelope
-// (take the highest y per bin) throws away that deeper sidewall data and
-// keeps only the cap, which is what made the render look like an empty
-// tube under a lid instead of a natural, thin-walled void.
-//
-// Take the *lowest* y per x-bin instead: that's the deepest point solid
-// material still reaches at that x -- exactly the boundary between solid
-// (above) and void (below), and it naturally reproduces the real
-// keyhole/taper shape (thin lid near center, coating hugging the wall
-// further out) instead of an artificial full-width rectangular void.
-function solidLowerBoundary(profileRaw, binWidth) {
-  const bins = new Map();
-  for (const [x, y] of profileRaw) {
-    const key = Math.round(x / binWidth);
-    if (!bins.has(key) || y < bins.get(key)) bins.set(key, y);
-  }
-  return Array.from(bins.entries()).map(([key, y]) => [key * binWidth, y]).sort((a, b) => a[0] - b[0]);
-}
-
+// Same lesson as trimTop/renderVia: use profile_points()'s natural point
+// order (the notebook's own working convention -- pts[pts[:,1] >= seal]
+// with no re-sorting), don't re-sort by x. The "solid, sealed" region is
+// just everything at or above the seal height.
 function renderFill(svg, profileRaw, seal, preFillProfile) {
   const w = svg.viewBox.baseVal.width, h = svg.viewBox.baseVal.height;
-  const sortedPre = preFillProfile.slice().sort((a, b) => a[1] - b[1]);
-  const topY = Math.max(seal + 0.02, Math.min(0.3, sortedPre[sortedPre.length - 1][1]));
-  const rimX = sortedPre[sortedPre.length - 1][0];
-  let boundary = solidLowerBoundary(profileRaw, 0.01)
-    .filter(([x, y]) => y >= fill.via_floor - 0.02 && y <= topY && x <= rimX);
-  // if the real data doesn't reach all the way out to the original via
-  // radius, close the shape there using the known sidewall floor level --
-  // conservative (assumes no coating that far out) rather than inventing one
-  if (boundary.length && boundary[boundary.length - 1][0] < rimX - 0.01) {
-    boundary = boundary.concat([[rimX, boundary[boundary.length - 1][1]]]);
-  }
-  const filled = boundary;
+  const filled = profileRaw.filter(([x, y]) => y >= seal);
   const dim = gapDimensionLine(w, h, fill.via_floor, seal, 0.02);
   svg.innerHTML = `<path d="${pathFor(filled, w, h, FYMIN, FYMAX)}" fill="var(--copper)" stroke="none"/>
     ${dim}
