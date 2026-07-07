@@ -171,6 +171,33 @@
     </p>
   </header>
 
+  <section class="finding" style="margin-top:0;">
+    <div class="finding-head">
+      <span class="finding-num">SPEC</span>
+      <h2>Product spec -- the target every finding below is graded against</h2>
+    </div>
+    <p class="claim">
+      Stated once, up front, so no comparison later compares two things at
+      different depths and calls it fair -- that mistake has already
+      happened three times in this project (twice in the notebook, once in
+      an earlier version of this page) before being caught.
+    </p>
+    <div class="panel">
+      <table class="doe-table">
+        <tr><th>Metric</th><th>Spec</th><th>Best achieved</th><th>Status</th></tr>
+        <tr><td>Depth</td><td>1.25 &plusmn; 0.1</td><td>1.25</td><td><span class="stamp confirmed" style="font-size:0.66rem;">meets spec</span></td></tr>
+        <tr><td>Wall bulge (straightness)</td><td>&le; 0.03</td><td>0.013</td><td><span class="stamp confirmed" style="font-size:0.66rem;">meets spec</span></td></tr>
+        <tr><td>Fill tip gap (void-free)</td><td>0 (ideal)</td><td>~0.15-0.19</td><td><span class="stamp retracted" style="font-size:0.66rem;">does not meet spec</span></td></tr>
+      </table>
+    </div>
+    <p class="note">
+      The fill gap is an honest miss, not a rounding error -- it's a
+      documented structural ceiling (finding 05), not a knob still to be
+      tuned. Every depth/bulge number on this page that isn't explicitly
+      labeled otherwise is measured at the 1.25 target above.
+    </p>
+  </section>
+
   <section class="finding">
     <div class="finding-head">
       <span class="finding-num">01</span>
@@ -179,10 +206,21 @@
     <p class="claim">
       A 768-run DOE across 4 etch parameters found <b>etch_time</b> dominant.
       But <code>bosch_etch</code> exposes 11 real parameters -- the other 7
-      had only ever sat at their defaults. Screening all 7 found two,
+      had only ever sat at their defaults. Screening all 7 (one-factor-at-
+      a-time from the current best point, low/high vs. baseline) found two,
       <b>initial_etch_time</b> and <b>neutral_rate</b>, that rank above two of
       the original 4. <span class="stamp confirmed">confirmed</span>
     </p>
+    <div class="panel">
+      <div id="screen-bars"></div>
+    </div>
+    <p class="note">
+      Baseline bulge <span id="screen-baseline"></span>. Each bar is the
+      larger of the two deltas from baseline (low value vs. high value
+      tested) -- this is a screen, not a full sweep, so it tells you which
+      knobs are worth a combined DOE, not the exact optimum.
+    </p>
+    <p class="claim" style="margin-top:1.4rem;">Compare against the original 4-parameter DOE this screening was checking against:</p>
     <div class="panel">
       <div id="doe-bars"></div>
     </div>
@@ -275,16 +313,22 @@
       <span class="finding-num">04</span>
       <h2>Failure mode vs. production recipe</h2>
     </div>
-    <p class="claim">Same via, same cycle count -- only the swept parameters differ.</p>
+    <p class="claim">
+      Depth-matched to spec (1.25 +/- 0.1), not same cycle count -- the FAIL
+      recipe etches faster per cycle, so matching cycle counts instead of
+      depth would make it look worse partly because it's just deeper, not
+      fairly compared on straightness (the exact mistake prepare.md already
+      caught once; almost repeated here until it was pointed out directly).
+    </p>
     <div class="compare">
       <div class="compare-card fail">
         <h3>FAIL</h3>
-        <p class="cap">etch_time=2.0, neutral_rate=-0.3</p>
+        <p class="cap">etch_time=2.0, neutral_rate=-0.3, 2 cycles -- depth <span id="fail-depth"></span>, bulge <span id="fail-bulge"></span></p>
         <svg id="svg-fail" viewBox="0 0 300 420"></svg>
       </div>
       <div class="compare-card fix">
         <h3>PRODUCTION</h3>
-        <p class="cap">etch_time=0.5, neutral_rate=-0.1</p>
+        <p class="cap">etch_time=0.5, neutral_rate=-0.1, 14 cycles -- depth <span id="fix-depth"></span>, bulge <span id="fix-bulge"></span></p>
         <svg id="svg-fix" viewBox="0 0 300 420"></svg>
       </div>
     </div>
@@ -326,7 +370,14 @@
       <span class="finding-num">06</span>
       <h2>Fill explorer: thickness x iso_ratio, gap never reaches zero</h2>
     </div>
-    <p class="claim">Both knobs, real computed points. Watch the tip-gap floor -- it doesn't hit zero anywhere in range.</p>
+    <p class="claim">
+      These are the only 2 real continuous knobs this fill model has --
+      not a cherry-picked subset. Its direction-angle parameter and
+      <code>calculateVisibility</code> flag were both screened separately
+      and found to have no validated effect (findings 08's methodology
+      note, and prepare.md item 11). Watch the tip-gap floor: it doesn't
+      hit the 0 spec anywhere in range.
+    </p>
     <div class="panel explorer">
       <div>
         <div class="control">
@@ -385,6 +436,16 @@
       (6-10 runs, not 1) says otherwise.
       <span class="stamp retracted">retracted after replication</span>
     </p>
+    <div class="panel" style="border-left: 3px solid var(--amber);">
+      <p style="margin:0; font-size:0.92rem;">
+        <b>Plainly:</b> we thought tilting the mask sidewall by 4 degrees
+        traded a straighter etch for a better Cu fill. It doesn't. The etch
+        part is real -- it just makes the etch <i>more repeatable</i>, not
+        more likely to hit a specific number. The fill part isn't real at
+        all; we can't tell taper=0 and taper=4 apart on fill quality once
+        you run it more than once.
+      </p>
+    </div>
     <div class="panel">
       <div id="taper-chart"></div>
     </div>
@@ -415,7 +476,19 @@ function yScale(y, h, yMin, yMax) { return h - 30 - (y - yMin) / (yMax - yMin) *
 // drop the mask-mouth transition zone -- a real but uninformative spike
 // where the fill mounds at the via shoulder before the flat field; keeping
 // it makes the outline look like rendering noise rather than a real via.
-function trimTop(profile, yCeil) { return profile.filter(([x,y]) => y <= yCeil); }
+// Cut at the first real discontinuity outward from center, not a fixed
+// y-value -- a fixed cutoff either slices through legitimate smooth data
+// (the naive/subconformal void's rim genuinely climbs past 0.3) or misses
+// the real jump entirely (the directional/superconformal fill mounds at
+// the via shoulder then drops ~0.2 in one x-step -- that jump, not any
+// specific height, is what needs trimming).
+function trimJaggedTop(profile, jumpThreshold) {
+  const sorted = profile.slice().sort((a, b) => a[0] - b[0]);
+  for (let i = 1; i < sorted.length; i++) {
+    if (Math.abs(sorted[i][1] - sorted[i-1][1]) > jumpThreshold) return sorted.slice(0, i);
+  }
+  return sorted;
+}
 
 function pathFor(profile, w, h, yMin, yMax) {
   const right = profile.map(([x,y]) => [xScale(x,w), yScale(y,h,yMin,yMax)]);
@@ -434,6 +507,18 @@ function renderVia(svg, profile, color, yMin, yMax, floorY) {
     <line x1="${xScale(r,w)}" y1="${topY}" x2="${xScale(r,w)}" y2="${botY}" stroke="var(--plasma)" stroke-width="1" stroke-dasharray="1,3" opacity="0.6"/>
     <line x1="${xScale(-r,w)}" y1="${topY}" x2="${xScale(-r,w)}" y2="${botY}" stroke="var(--plasma)" stroke-width="1" stroke-dasharray="1,3" opacity="0.6"/>`;
 }
+
+// -- screening bar chart (11-param one-factor-at-a-time screen) --
+document.getElementById('screen-baseline').textContent = DATA.screening.baseline_bulge.toFixed(4);
+const maxScreen = Math.max(...DATA.screening.params.map(p => p.effect));
+document.getElementById('screen-bars').innerHTML = DATA.screening.params.map((p, i) => `
+  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.55rem; font-size:0.82rem;">
+    <div style="width:220px; font-family:var(--mono); font-size:0.74rem; color:var(--ink-dim);">${p.name}</div>
+    <div style="flex:1; background:var(--surface-2); overflow:hidden;">
+      <div style="width:${(p.effect/maxScreen*100).toFixed(1)}%; height:18px; background:${i<2?'var(--plasma)':'var(--ink-dim)'}; opacity:${i<2?1:0.55};"></div>
+    </div>
+    <div style="width:58px; font-family:var(--mono); font-size:0.74rem; text-align:right; font-variant-numeric:tabular-nums;">${p.effect.toFixed(4)}</div>
+  </div>`).join('') + `<p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">7 previously-untested parameters, low/high vs. baseline &middot; effect = max |delta bulge| from baseline</p>`;
 
 // -- 768-run DOE effects bar chart --
 const maxEffect = Math.max(...DATA.effects.map(e => e.range));
@@ -503,14 +588,19 @@ function updateEtchExplorer() {
 updateEtchExplorer();
 
 // -- failure vs fix (etch) --
-const badRun = DATA.sweep.find(r => r.etch_time === 2.0 && r.neutral_rate === -0.3);
+const badRun = DATA.fail_matched;
 const goodRun = DATA.sweep.find(r => r.etch_time === 0.5 && r.neutral_rate === -0.1);
-renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', EYMIN, EYMAX, badRun.depth);
-renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', EYMIN, EYMAX, goodRun.depth);
+document.getElementById('fail-depth').textContent = badRun.depth.toFixed(2);
+document.getElementById('fail-bulge').textContent = badRun.bulge.toFixed(3);
+document.getElementById('fix-depth').textContent = goodRun.depth.toFixed(2);
+document.getElementById('fix-bulge').textContent = goodRun.bulge.toFixed(4);
+const FAIL_EYMIN = Math.min(badRun.depth, goodRun.depth) - 0.1;
+renderVia(document.getElementById('svg-fail'), badRun.profile, 'var(--si)', FAIL_EYMIN, EYMAX, badRun.depth);
+renderVia(document.getElementById('svg-fix'), goodRun.profile, 'var(--si)', FAIL_EYMIN, EYMAX, goodRun.depth);
 
 // ============ Cu fill (static compare + explorer) ============
 const fill = DATA.fill;
-const FYMIN = fill.via_floor - 0.1, FYMAX = 0.32; // trimmed -- see trimTop note
+const FYMIN = fill.via_floor - 0.1, FYMAX = 0.42; // clears seal_naive (~0.377, subconformal barely closes)
 
 function preFillHalfWidthAt(y, p) {
   if (y <= p[0][1]) return p[0][0];
@@ -536,10 +626,25 @@ function gapDimensionLine(w, h, floorY, sealY, x) {
     <text x="${px+11}" y="${(yFloor+ySeal)/2+3}" font-size="10" fill="var(--amber)" font-family="var(--mono)">${(sealY-floorY).toFixed(3)}um gap</text>`;
 }
 
+// The actual post-fill Cu boundary is noisy right where the geometry gets
+// re-entrant (a pinched-shut void has more than one y at the same x --
+// simple x-binned envelope extraction can't represent that cleanly, and
+// tracing it raw produces spurious jumps between the mask top and the via
+// floor). Sidestep it: Cu conformally follows the clean pre-fill sidewall
+// down to the measured seal height, then stops -- draw that directly from
+// the pre-fill profile (no re-entrant ambiguity) instead of the raw
+// post-fill envelope. Honest and numerically stable.
 function renderFill(svg, profileRaw, seal, preFillProfile) {
   const w = svg.viewBox.baseVal.width, h = svg.viewBox.baseVal.height;
-  const profile = trimTop(profileRaw, 0.32);
-  const filled = profile.filter(([x,y]) => y >= seal);
+  const sortedPre = preFillProfile.slice().sort((a, b) => a[1] - b[1]);
+  // 0.3 is the usual display ceiling (above it is just the uninformative
+  // mask plateau) -- but if the fill barely closed and its seal sits
+  // *above* 0.3 (subconformal: seal is near the still-open field height),
+  // the ceiling must still clear the seal or the fill region is empty.
+  const topY = Math.max(seal + 0.02, Math.min(0.3, sortedPre[sortedPre.length - 1][1]));
+  const ys = [];
+  for (let y = topY; y >= seal; y -= (topY - seal) / 60 || -0.01) ys.push(y);
+  const filled = ys.map(y => [preFillHalfWidthAt(y, sortedPre), y]);
   const dim = gapDimensionLine(w, h, fill.via_floor, seal, 0.02);
   svg.innerHTML = `<path d="${pathFor(filled, w, h, FYMIN, FYMAX)}" fill="var(--copper)" stroke="none"/>
     ${dim}
@@ -570,25 +675,34 @@ updateFillExplorer();
 
 // ============ CMP dishing curve ============
 (function() {
-  const w = 700, h = 220, pad = 44;
+  const w = 700, h = 250, padBottom = 60, pad = 44;
   const curve = DATA.cmp_curve;
   const xMax = Math.max(...curve.map(r => r.mult)), yMax = Math.max(...curve.map(r => r.dish));
   const px = m => pad + (m / xMax) * (w - pad * 1.4);
-  const py = d => h - pad - (d / yMax) * (h - pad * 1.5);
+  const py = d => h - padBottom - (d / yMax) * (h - padBottom - 26);
   const splitIdx = curve.findIndex(r => r.mask_consumed);
   const linePath = pts => pts.length ? 'M' + pts.map(r => `${px(r.mult).toFixed(1)},${py(r.dish).toFixed(1)}`).join(' L') : '';
   const before = curve.slice(0, splitIdx + 1), after = curve.slice(splitIdx);
   const dots = curve.map(r => `<circle cx="${px(r.mult).toFixed(1)}" cy="${py(r.dish).toFixed(1)}" r="3"
     fill="${r.mask_consumed ? 'var(--amber)' : 'var(--confirmed)'}"/>`).join('');
+  const yTicks = Array.from({length: 5}, (_, i) => yMax * i / 4);
+  const yGrid = yTicks.map(v => `
+    <line x1="${pad}" y1="${py(v).toFixed(1)}" x2="${w-10}" y2="${py(v).toFixed(1)}" stroke="var(--line)" stroke-width="0.5"/>
+    <text x="${pad-8}" y="${(py(v)+3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--ink-dim)" font-family="var(--mono)">${v.toFixed(2)}</text>`).join('');
+  const xTicks = curve.filter((r,i) => i % 3 === 0 || i === curve.length-1).map(r => r.mult);
+  const xLabels = xTicks.map(v => `
+    <text x="${px(v).toFixed(1)}" y="${h-padBottom+16}" text-anchor="middle" font-size="9" fill="var(--ink-dim)" font-family="var(--mono)">${v.toFixed(1)}x</text>`).join('');
   document.getElementById('cmp-chart').innerHTML = `
     <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
-      <line x1="${pad}" y1="${h-pad}" x2="${w-10}" y2="${h-pad}" stroke="var(--line)"/>
-      <line x1="${pad}" y1="10" x2="${pad}" y2="${h-pad}" stroke="var(--line)"/>
+      ${yGrid}
+      <line x1="${pad}" y1="${h-padBottom}" x2="${w-10}" y2="${h-padBottom}" stroke="var(--line)"/>
+      <line x1="${pad}" y1="10" x2="${pad}" y2="${h-padBottom}" stroke="var(--line)"/>
       <path d="${linePath(before)}" fill="none" stroke="var(--confirmed)" stroke-width="1.6"/>
       <path d="${linePath(after)}" fill="none" stroke="var(--amber)" stroke-width="1.6"/>
       ${dots}
-      <text x="${w/2}" y="${h-8}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)">overpolish multiplier (x nominal overburden)</text>
-      <text x="14" y="${h/2}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)" transform="rotate(-90 14 ${h/2})">dishing</text>
+      ${xLabels}
+      <text x="${w/2}" y="${h-14}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)">overpolish multiplier (x nominal overburden)</text>
+      <text x="14" y="${(h-padBottom)/2}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)" transform="rotate(-90 14 ${(h-padBottom)/2})">dishing</text>
     </svg>
     <p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">
       <span style="color:var(--confirmed);">&#9632;</span> mask intact &nbsp;
