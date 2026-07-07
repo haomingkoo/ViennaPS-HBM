@@ -279,12 +279,12 @@
       <div>
         <div class="control">
           <label>etch_time (um/cycle) <span class="val" id="e-et-val"></span></label>
-          <input type="range" id="e-et" min="0" max="3" step="1" value="0">
+          <input type="range" id="e-et" min="0" max="6" step="1" value="0">
           <div class="ticks" id="e-et-ticks"></div>
         </div>
         <div class="control">
           <label>neutral_rate <span class="val" id="e-nr-val"></span></label>
-          <input type="range" id="e-nr" min="0" max="4" step="1" value="0">
+          <input type="range" id="e-nr" min="0" max="8" step="1" value="0">
           <div class="ticks" id="e-nr-ticks"></div>
         </div>
         <div class="control">
@@ -374,20 +374,23 @@
       These are the only 2 real continuous knobs this fill model has --
       not a cherry-picked subset. Its direction-angle parameter and
       <code>calculateVisibility</code> flag were both screened separately
-      and found to have no validated effect (findings 08's methodology
-      note, and prepare.md item 11). Watch the tip-gap floor: it doesn't
-      hit the 0 spec anywhere in range.
+      and found to have no validated effect (finding 08's methodology
+      note, and prepare.md item 11). 100 real points, thickness pushed
+      down to 0.10 and iso_ratio down to 0.01 -- thinner and less
+      isotropic consistently wins (best found: 0.096 at thickness=0.14,
+      iso_ratio=0.01, better than the notebook's production 0.18/0.05).
+      Watch the tip-gap floor: it doesn't hit the 0 spec anywhere in range.
     </p>
     <div class="panel explorer">
       <div>
         <div class="control">
           <label>thickness (um) <span class="val" id="f-thick-val"></span></label>
-          <input type="range" id="f-thick" min="0" max="4" step="1" value="1">
+          <input type="range" id="f-thick" min="0" max="9" step="1" value="4">
           <div class="ticks" id="f-thick-ticks"></div>
         </div>
         <div class="control">
           <label>iso_ratio <span class="val" id="f-iso-val"></span></label>
-          <input type="range" id="f-iso" min="0" max="4" step="1" value="1">
+          <input type="range" id="f-iso" min="0" max="9" step="1" value="3">
           <div class="ticks" id="f-iso-ticks"></div>
         </div>
         <div class="readout">
