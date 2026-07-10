@@ -10,6 +10,7 @@ from pathlib import Path
 
 
 BAD_SCORE = 1e8
+STEPS = ("pattern", "etch", "liner", "barrier", "fill", "cmp")
 
 
 def load_rows(path: Path) -> list[dict]:
@@ -46,6 +47,21 @@ def row_hash(row: dict) -> str:
     return row.get("recipe_hash") or row.get("recipe", {}).get("recipe_hash") or "unknown"
 
 
+def invalid_metric(row: dict) -> bool:
+    score = row.get("total_score")
+    if not isinstance(score, (int, float)) or not math.isfinite(score) or abs(score) >= BAD_SCORE:
+        return True
+    if "cmp_mask_consumed" not in row:
+        return True
+    step_scores = row.get("step_scores", {})
+    return any(
+        step not in step_scores
+        or not isinstance(step_scores[step].get("target_score"), (int, float))
+        or not math.isfinite(step_scores[step]["target_score"])
+        for step in STEPS
+    )
+
+
 def step_names(rows: list[dict]) -> list[str]:
     names = []
     for row in rows:
@@ -53,6 +69,18 @@ def step_names(rows: list[dict]) -> list[str]:
             if step not in names:
                 names.append(step)
     return names
+
+
+def ranking_key(row: dict) -> tuple:
+    """Canonical full-traveler order: hard gates, passes, then replicated loss."""
+    return (
+        row.get("failed_runs") or 0,
+        row.get("invalid_score_runs") or 0,
+        row.get("cmp_mask_consumed_rate") or 0,
+        -(row.get("mean_step_pass_count") or 0),
+        row.get("p90_total_score") if row.get("p90_total_score") is not None else BAD_SCORE,
+        row.get("mean_total_score") if row.get("mean_total_score") is not None else BAD_SCORE,
+    )
 
 
 def aggregate(rows: list[dict]) -> list[dict]:
@@ -63,7 +91,8 @@ def aggregate(rows: list[dict]) -> list[dict]:
     out = []
     for recipe_hash, group in grouped.items():
         ok = [row for row in group if row.get("ok")]
-        scores = [row["total_score"] for row in ok if row.get("total_score") is not None]
+        valid = [row for row in ok if not invalid_metric(row)]
+        scores = [row["total_score"] for row in valid]
         pass_counts = [row.get("step_pass_count", 0) for row in ok]
         steps = step_names(ok)
         step_summary = {}
@@ -79,26 +108,27 @@ def aggregate(rows: list[dict]) -> list[dict]:
             "recipe": group[0].get("recipe", {}),
             "runs": len(group),
             "ok_runs": len(ok),
+            "failed_runs": len(group) - len(ok),
+            "target_pass_rate": mean([1.0 if row.get("full_target_pass") else 0.0 for row in ok]),
             "mean_step_pass_count": mean(pass_counts),
+            "min_step_pass_count": min(pass_counts, default=None),
             "pass_count_range": [min(pass_counts), max(pass_counts)] if pass_counts else None,
             "mean_total_score": mean(scores),
             "p90_total_score": percentile(scores, 0.90),
-            "invalid_score_runs": sum(1 for score in scores if abs(score) >= BAD_SCORE),
+            "invalid_score_runs": sum(invalid_metric(row) for row in ok),
             "mean_depth": mean([abs(row["depth"]) for row in ok if row.get("depth") is not None]),
+            "depth_range": range_or_none([abs(row["depth"]) for row in ok if row.get("depth") is not None]),
             "mean_bulge": mean([row["bulge"] for row in ok if row.get("bulge") is not None]),
+            "mean_liner_coverage": mean([row["liner_coverage"] for row in ok if row.get("liner_coverage") is not None]),
+            "mean_barrier_coverage": mean([row["barrier_coverage"] for row in ok if row.get("barrier_coverage") is not None]),
+            "mean_fill_coverage": mean([row["fill_coverage"] for row in ok if row.get("fill_coverage") is not None]),
             "mean_tip_gap": mean([row["tip_gap"] for row in ok if row.get("tip_gap") is not None]),
             "mean_cmp_dish": mean([row["cmp_dish"] for row in ok if row.get("cmp_dish") is not None]),
             "cmp_mask_consumed_rate": mean([1.0 if row.get("cmp_mask_consumed") else 0.0 for row in ok]),
             "step_summary": step_summary,
         })
 
-    return sorted(out, key=lambda row: (
-        row["invalid_score_runs"],
-        row["cmp_mask_consumed_rate"] or 0,
-        -(row["mean_step_pass_count"] or 0),
-        row["p90_total_score"] if row["p90_total_score"] is not None else BAD_SCORE,
-        row["mean_total_score"] if row["mean_total_score"] is not None else BAD_SCORE,
-    ))
+    return sorted(out, key=ranking_key)
 
 
 def failure_counts(rows: list[dict]) -> Counter:
@@ -112,14 +142,25 @@ def failure_counts(rows: list[dict]) -> Counter:
                 counts[step] += 1
         if row.get("cmp_mask_consumed"):
             counts["cmp_mask_consumed"] += 1
-        if row.get("total_score") is not None and abs(row["total_score"]) >= BAD_SCORE:
+        if invalid_metric(row):
             counts["invalid_metric_penalty"] += 1
     return counts
 
 
-def sampled_boundary_notes(top: list[dict]) -> list[str]:
+def boundary_notes(ranked: list[dict], space: dict | None = None, top_n: int = 4) -> list[str]:
+    top = ranked[:top_n]
     if not top:
         return []
+    if space:
+        notes = []
+        for factor, domain in space.items():
+            values = [row["recipe"][factor] for row in top]
+            lo, hi = min(domain), max(domain)
+            if all(value == lo for value in values):
+                notes.append(f"top {len(top)} all at low boundary {factor}={lo}; expand lower if physically valid")
+            if all(value == hi for value in values):
+                notes.append(f"top {len(top)} all at high boundary {factor}={hi}; expand higher if physically valid")
+        return notes
     factors = list(top[0]["recipe"])
     skip = {"name", "recipe_id", "recipe_hash"}
     notes = []
@@ -130,6 +171,10 @@ def sampled_boundary_notes(top: list[dict]) -> list[str]:
         if len(set(values)) == 1:
             notes.append(f"top recipes all share `{factor}={values[0]}`; verify this is not a boundary artifact")
     return notes
+
+
+def range_or_none(values):
+    return None if not values else [float(min(values)), float(max(values))]
 
 
 def effect_ranges(rows: list[dict], top_n=8) -> list[tuple[str, float]]:
@@ -218,7 +263,7 @@ def write_report(rows: list[dict], out_path: Path, expected_rows: int | None) ->
             lines.append(f"| `{step}` | {fmt(data.get('pass_rate'))} | {fmt(data.get('mean_score'))} |\n")
         lines.append("\n")
 
-    boundary = sampled_boundary_notes(top[:4])
+    boundary = boundary_notes(ranked)
     lines += ["## Boundary checks\n\n"]
     if boundary:
         lines += [f"- {note}\n" for note in boundary]
