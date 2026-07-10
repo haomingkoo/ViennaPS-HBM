@@ -413,6 +413,19 @@ report must show real sampled points only; no interpolated or invented
     describe the published HTML as fully updated until the report is
     rebuilt around these results.
 
+24. **Fresh full-traveler replication confirms that pilot rankings need
+    tails, but does not establish a viable traveler.** Campaign generation
+    002 ran both canonical full-process anchors for 16 fresh Bosch seeds
+    each, preserving one upstream geometry ID per seed. The robustly ranked
+    best miss is `dry_best_downstream_best` (mean 3.375/6 step passes,
+    p90 score 0.5639); it still fails liner in 10/16 runs, fill in 16/16,
+    and CMP in 16/16. `depth_centered_dry_alt` has lower mean tip gap but
+    a worse p90 and only 3.25/6 mean passes. The apparent one-factor effect
+    table from this two-anchor comparison is confounded because both anchors
+    change many knobs; it must not be used for dominance claims. Use at
+    least 4 replicates for broad screening and 16 fresh seeds only for
+    anchor/finalist stability, with p90 and worst step-pass count reported.
+
 ## Open, not yet attempted
 
 - Curvature-dependent (CEAC-like) Cu fill model -- would need a custom
