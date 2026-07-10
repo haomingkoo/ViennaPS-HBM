@@ -184,10 +184,13 @@
     </p>
     <div class="panel">
       <table class="doe-table">
-        <tr><th>Metric</th><th>Spec</th><th>Best achieved</th><th>Status</th></tr>
-        <tr><td>Depth</td><td>1.25 &plusmn; 0.1</td><td>1.25</td><td><span class="stamp confirmed" style="font-size:0.66rem;">meets spec</span></td></tr>
-        <tr><td>Wall bulge (straightness)</td><td>&le; 0.03</td><td>0.013</td><td><span class="stamp confirmed" style="font-size:0.66rem;">meets spec</span></td></tr>
-        <tr><td>Fill tip gap (void-free)</td><td>0 (ideal)</td><td>~0.15-0.19</td><td><span class="stamp retracted" style="font-size:0.66rem;">does not meet spec</span></td></tr>
+        <tr><th>Step</th><th>Target spec</th><th>Status</th></tr>
+        <tr><td>Pattern</td><td>radius 0.15, width 0.30, mask height 0.30</td><td><span class="stamp confirmed" style="font-size:0.66rem;">fixed input spec</span></td></tr>
+        <tr><td>Etch</td><td>depth 1.25 &plusmn; 0.1, width 0.30 &plusmn; 0.06, wall bulge &le; 0.03</td><td><span class="stamp confirmed" style="font-size:0.66rem;">meets spec</span></td></tr>
+        <tr><td>Liner</td><td>thickness &ge; 0.02, floor coverage &ge; 0.995</td><td><span class="stamp confirmed" style="font-size:0.66rem;">target-scored</span></td></tr>
+        <tr><td>Barrier + seed</td><td>thickness &ge; 0.012, floor coverage &ge; 0.985</td><td><span class="stamp confirmed" style="font-size:0.66rem;">target-scored</span></td></tr>
+        <tr><td>Cu fill</td><td>thickness &ge; 0.15, tip gap 0</td><td><span class="stamp retracted" style="font-size:0.66rem;">best miss</span></td></tr>
+        <tr><td>CMP</td><td>dish 0 with mask surviving</td><td><span class="stamp retracted" style="font-size:0.66rem;">best miss</span></td></tr>
       </table>
     </div>
     <p class="note">
@@ -266,14 +269,11 @@
       <h2>All 4 real knobs, explorable -- not the 2 easiest to plot</h2>
     </div>
     <p class="claim">
-      Every one of the 800 screened combinations, looked up exactly (nothing
-      interpolated). The cross-section shown is the real 14-cycle production
-      geometry, pinned to the <code>etch_time</code> / <code>neutral_rate</code>
-      pair (the two knobs with rendered profiles);
-      <code>neutral_sticking_probability</code> and <code>initial_etch_time</code>
-      still pull the real screening-pass bulge for the exact 4-way combination
-      selected -- not depth-matched (see finding 01), so use it for ranking
-      within this table, not as an absolute number.
+      Rendered cross-sections are real sampled geometries around the
+      target-depth sweet spot, not interpolation. The 4-way DOE lookup is
+      still shown when the selected <code>etch_time</code> /
+      <code>neutral_rate</code> pair exists in the original 800-run grid;
+      the target-structure score below is the metric to trust for this view.
     </p>
     <div class="panel explorer">
       <div>
@@ -298,7 +298,11 @@
           <div class="ticks" id="e-iet-ticks"></div>
         </div>
         <div class="readout">
-          <div class="metric"><span class="k">WALL BULGE (exact 4-way)</span><span class="v" id="e-bulge"></span></div>
+          <div class="metric"><span class="k">DEPTH</span><span class="v" id="e-depth"></span></div>
+          <div class="metric"><span class="k">WIDTH ERROR</span><span class="v" id="e-width"></span></div>
+          <div class="metric"><span class="k">WALL BULGE</span><span class="v" id="e-bulge"></span></div>
+          <div class="metric"><span class="k">TARGET SCORE</span><span class="v" id="e-score"></span></div>
+          <div class="metric"><span class="k">4-WAY DOE BULGE</span><span class="v" id="e-doe-bulge"></span></div>
         </div>
         <p class="pin-note" id="e-pin-note"></p>
       </div>
@@ -375,11 +379,12 @@
       not a cherry-picked subset. Its direction-angle parameter and
       <code>calculateVisibility</code> flag were both screened separately
       and found to have no validated effect (finding 08's methodology
-      note, and prepare.md item 11). 100 real points, thickness pushed
-      down to 0.10 and iso_ratio down to 0.01 -- thinner and less
-      isotropic consistently wins (best found: 0.096 at thickness=0.14,
-      iso_ratio=0.01, better than the notebook's production 0.18/0.05).
-      Watch the tip-gap floor: it doesn't hit the 0 spec anywhere in range.
+      note, and prepare.md item 11). The grid is expanded around the
+      low-thickness / low-iso boundary because the previous slider range
+      did not cover the best observed region; `iso_ratio=0` is the
+      physical lower bound tested, not an extrapolated point. Watch the
+      tip-gap floor: it doesn't hit the 0 spec anywhere in the sampled
+      range.
     </p>
     <div class="panel explorer">
       <div>
@@ -395,6 +400,7 @@
         </div>
         <div class="readout">
           <div class="metric"><span class="k">TIP GAP</span><span class="v" id="f-gap"></span></div>
+          <div class="metric"><span class="k">TARGET SCORE</span><span class="v" id="f-score"></span></div>
         </div>
       </div>
       <div>
@@ -561,6 +567,7 @@ document.getElementById('doe4-bars').innerHTML = DATA.effects4.map((e, i) => `
 // ============ Etch explorer: full 4-knob lookup ============
 const AX = DATA.doe800_axes;
 const doeRows = DATA.doe800; // [et, ns, iet, nr, depth, bulge]
+const RENDER_AX = { etch_time: DATA.etch_times, neutral_rate: DATA.neutral_rates };
 
 function findDoe800(et, ns, iet, nr) {
   return doeRows.find(r => r[0]===et && r[1]===ns && r[2]===iet && r[3]===nr);
@@ -568,8 +575,19 @@ function findDoe800(et, ns, iet, nr) {
 
 const eEt = document.getElementById('e-et'), eNr = document.getElementById('e-nr');
 const eNs = document.getElementById('e-ns'), eIet = document.getElementById('e-iet');
-document.getElementById('e-et-ticks').innerHTML = AX.etch_time.map(v=>`<span>${v}</span>`).join('');
-document.getElementById('e-nr-ticks').innerHTML = AX.neutral_rate.map(v=>`<span>${v}</span>`).join('');
+eEt.max = RENDER_AX.etch_time.length - 1;
+eNr.max = RENDER_AX.neutral_rate.length - 1;
+eNs.max = AX.neutral_sticking.length - 1;
+eIet.max = AX.initial_etch_time.length - 1;
+const bestEtchRun = DATA.sweep
+  .filter(r => Number.isFinite(r.target_score))
+  .sort((a,b) => a.target_score - b.target_score)[0];
+if (bestEtchRun) {
+  eEt.value = Math.max(0, RENDER_AX.etch_time.indexOf(bestEtchRun.etch_time));
+  eNr.value = Math.max(0, RENDER_AX.neutral_rate.indexOf(bestEtchRun.neutral_rate));
+}
+document.getElementById('e-et-ticks').innerHTML = RENDER_AX.etch_time.map(v=>`<span>${v}</span>`).join('');
+document.getElementById('e-nr-ticks').innerHTML = RENDER_AX.neutral_rate.map(v=>`<span>${v}</span>`).join('');
 document.getElementById('e-ns-ticks').innerHTML = AX.neutral_sticking.map(v=>`<span>${v}</span>`).join('');
 document.getElementById('e-iet-ticks').innerHTML = AX.initial_etch_time.map(v=>`<span>${v}</span>`).join('');
 
@@ -578,7 +596,7 @@ const EYMAX = 0.32;
 function findRenderRun(et, nr) { return DATA.sweep.find(r => r.etch_time === et && r.neutral_rate === nr); }
 
 function updateEtchExplorer() {
-  const et = AX.etch_time[+eEt.value], nr = AX.neutral_rate[+eNr.value];
+  const et = RENDER_AX.etch_time[+eEt.value], nr = RENDER_AX.neutral_rate[+eNr.value];
   const ns = AX.neutral_sticking[+eNs.value], iet = AX.initial_etch_time[+eIet.value];
   document.getElementById('e-et-val').textContent = et;
   document.getElementById('e-nr-val').textContent = nr;
@@ -586,19 +604,40 @@ function updateEtchExplorer() {
   document.getElementById('e-iet-val').textContent = iet;
 
   const row = findDoe800(et, ns, iet, nr);
-  const bulgeEl = document.getElementById('e-bulge');
+  const doeBulgeEl = document.getElementById('e-doe-bulge');
   if (!row || row[5] === null) {
-    bulgeEl.textContent = 'recipe fails to etch'; bulgeEl.className = 'v warn';
+    doeBulgeEl.textContent = 'not in 800-run grid'; doeBulgeEl.className = 'v warn';
   } else {
-    bulgeEl.textContent = row[5].toFixed(4) + ' um';
-    bulgeEl.className = 'v' + (row[5] < 0.03 ? ' ok' : ' warn');
+    doeBulgeEl.textContent = row[5].toFixed(4) + ' um';
+    doeBulgeEl.className = 'v' + (row[5] < 0.03 ? ' ok' : ' warn');
   }
 
   const renderRun = findRenderRun(et, nr);
-  document.getElementById('e-pin-note').textContent = renderRun
-    ? `screening bulge, all 4 sliders exact -- but at 3 cycles (fast DOE), not depth-matched (see finding 01: shallower recipes trivially show less bulge). Use for ranking within this table, not as an absolute number. The cross-section shown is the real 14-cycle production geometry at this etch_time/neutral_rate, pinned at neutral_sticking_probability=0.05, initial_etch_time=0.3 -- the combination actually depth-matched and replicated before being adopted.`
-    : `no rendered cross-section for etch_time=${et}, neutral_rate=${nr}`;
-  if (renderRun) renderVia(document.getElementById('e-svg'), renderRun.profile, 'var(--si)', EYMIN, EYMAX, renderRun.depth);
+  const depthEl = document.getElementById('e-depth');
+  const widthEl = document.getElementById('e-width');
+  const bulgeEl = document.getElementById('e-bulge');
+  const scoreEl = document.getElementById('e-score');
+  if (renderRun && Number.isFinite(renderRun.bulge) && Number.isFinite(renderRun.width_error)) {
+    depthEl.textContent = Math.abs(renderRun.depth).toFixed(3) + ' um';
+    depthEl.className = 'v' + (renderRun.target_pass ? ' ok' : ' warn');
+    widthEl.textContent = renderRun.width_error.toFixed(4) + ' um';
+    widthEl.className = 'v' + (renderRun.width_error <= DATA.target_specs.etch.max_width_error ? ' ok' : ' warn');
+    bulgeEl.textContent = renderRun.bulge.toFixed(4) + ' um';
+    bulgeEl.className = 'v' + (renderRun.bulge <= DATA.target_specs.etch.max_wall_bulge ? ' ok' : ' warn');
+    scoreEl.textContent = renderRun.target_score.toFixed(4);
+    scoreEl.className = 'v' + (renderRun.target_pass ? ' ok' : ' warn');
+    document.getElementById('e-pin-note').textContent = `rendered geometry uses neutral_sticking_probability=0.05 and initial_etch_time=0.3; score is distance to the depth/width/bulge target spec, lower is better.`;
+    renderVia(document.getElementById('e-svg'), renderRun.profile, 'var(--si)', EYMIN, EYMAX, renderRun.depth);
+  } else {
+    depthEl.textContent = renderRun ? Math.abs(renderRun.depth).toFixed(3) + ' um' : 'no render';
+    widthEl.textContent = 'not fittable';
+    bulgeEl.textContent = 'not fittable';
+    scoreEl.textContent = renderRun ? renderRun.target_score.toFixed(1) : 'no render';
+    [depthEl, widthEl, bulgeEl, scoreEl].forEach(el => el.className = 'v warn');
+    document.getElementById('e-pin-note').textContent = renderRun
+      ? `rendered cross-section exists, but the wall-body metric is not fittable for this over-etched corner; target score is forced high.`
+      : `no rendered cross-section for etch_time=${et}, neutral_rate=${nr}`;
+  }
 }
 [eEt, eNr, eNs, eIet].forEach(el => el.addEventListener('input', updateEtchExplorer));
 updateEtchExplorer();
@@ -660,6 +699,15 @@ renderFill(document.getElementById('svg-nofill'), fill.directional_fill_profile,
 
 // -- fill explorer --
 const fThick = document.getElementById('f-thick'), fIso = document.getElementById('f-iso');
+fThick.max = DATA.fill_thicknesses.length - 1;
+fIso.max = DATA.fill_iso_ratios.length - 1;
+const bestFillRun = DATA.fill_sweep
+  .filter(r => Number.isFinite(r.target_score))
+  .sort((a,b) => a.target_score - b.target_score)[0];
+if (bestFillRun) {
+  fThick.value = Math.max(0, DATA.fill_thicknesses.indexOf(bestFillRun.thickness));
+  fIso.value = Math.max(0, DATA.fill_iso_ratios.indexOf(bestFillRun.iso_ratio));
+}
 document.getElementById('f-thick-ticks').innerHTML = DATA.fill_thicknesses.map(v=>`<span>${v}</span>`).join('');
 document.getElementById('f-iso-ticks').innerHTML = DATA.fill_iso_ratios.map(v=>`<span>${v}</span>`).join('');
 
@@ -670,7 +718,10 @@ function updateFillExplorer() {
   const run = DATA.fill_sweep.find(r => r.thickness === thickness && r.iso_ratio === iso);
   const gapEl = document.getElementById('f-gap');
   gapEl.textContent = run.tip_gap.toFixed(4) + ' um';
-  gapEl.className = 'v' + (run.tip_gap < 0.15 ? ' ok' : ' warn');
+  gapEl.className = 'v' + (run.target_pass ? ' ok' : ' warn');
+  const scoreEl = document.getElementById('f-score');
+  scoreEl.textContent = run.target_score.toFixed(4);
+  scoreEl.className = 'v' + (run.target_pass ? ' ok' : ' warn');
   renderFill(document.getElementById('f-svg'), run.profile, fill.via_floor + run.tip_gap, fill.pre_fill_profile);
 }
 fThick.addEventListener('input', updateFillExplorer);

@@ -16,8 +16,8 @@ import viennaps as ps
 import tsv_process as tp
 
 RADIUS = 0.15
-ETCH_TIMES = [0.5, 1.0, 1.5, 2.0]
-NEUTRAL_RATES = [-0.1, -0.15, -0.2, -0.3, -0.4]
+ETCH_TIMES = [0.3, 0.4, 0.5, 0.6, 0.8]
+NEUTRAL_RATES = [-0.05, -0.08, -0.1, -0.12, -0.15, -0.2, -0.3]
 FIXED = dict(ion_source_exponent=200, deposition_thickness=0.01,
              initial_etch_time=0.3, neutral_sticking_probability=0.05)
 PRODUCTION_CYCLES = 14
@@ -27,8 +27,7 @@ FILL_SUPERCONFORMAL = dict(thickness=0.18, iso_ratio=0.05)
 
 
 def bulge_at(radius, depth, pts):
-    body = pts[(pts[:, 1] > depth * 0.85) & (pts[:, 1] < 0.2) & (pts[:, 0] > 0.2 * radius)]
-    return float(np.max(np.abs(body[:, 0] - radius))) if len(body) else None
+    return tp.wall_bulge(pts, depth, radius)
 
 
 def profile_list(pts, y_ceiling=0.31):
@@ -51,9 +50,19 @@ def main():
                 continue
             pts = tp.profile_points(geo)
             bulge = bulge_at(RADIUS, depth, pts)
+            width_error = tp.width_error(pts, depth, RADIUS)
+            target_pass, target_score = tp.target_score("etch", {
+                "depth": depth, "bulge": bulge, "width_error": width_error,
+            })
+            if not np.isfinite(target_score):
+                target_score = 1e9
             sweep.append({"etch_time": et, "neutral_rate": nr, "depth": round(depth, 3),
-                          "bulge": bulge, "profile": profile_list(pts)})
-            print(f"sweep: etch_time={et} neutral_rate={nr} depth={depth:.3f} bulge={bulge:.4f}")
+                          "bulge": bulge, "width_error": width_error,
+                          "target_pass": target_pass, "target_score": target_score,
+                          "profile": profile_list(pts)})
+            bulge_text = f"{bulge:.4f}" if bulge is not None else "n/a"
+            print(f"sweep: etch_time={et} neutral_rate={nr} depth={depth:.3f} "
+                  f"bulge={bulge_text} score={target_score:.4f}")
 
     with open("sweep_top4_results.json") as f:
         doe4 = json.load(f)
@@ -105,8 +114,8 @@ def main():
     }
 
     # fill explorer: thickness x iso_ratio grid, directional (superconformal) fill
-    FILL_THICKNESSES = [0.14, 0.18, 0.22, 0.26, 0.30]
-    FILL_ISO_RATIOS = [0.03, 0.05, 0.1, 0.2, 0.3]
+    FILL_THICKNESSES = [0.08, 0.10, 0.12, 0.14, 0.15, 0.155, 0.16, 0.18, 0.22, 0.26, 0.30]
+    FILL_ISO_RATIOS = [0.0, 0.001, 0.0025, 0.005, 0.01, 0.02, 0.03, 0.05, 0.1, 0.2, 0.3]
     fill_sweep = []
     for thick in FILL_THICKNESSES:
         for iso in FILL_ISO_RATIOS:
@@ -116,9 +125,16 @@ def main():
             center = pts[np.abs(pts[:, 0]) < 0.02]
             seal = float(center[:, 1].mean()) if len(center) else None
             tip_gap = (seal - via_floor) if seal is not None else None
+            target_pass, target_score = tp.target_score("fill", {
+                "thickness": thick, "tip_gap": tip_gap,
+            })
+            if not np.isfinite(target_score):
+                target_score = 1e9
             fill_sweep.append({"thickness": thick, "iso_ratio": iso, "tip_gap": round(tip_gap, 4),
+                                "target_pass": target_pass, "target_score": target_score,
                                 "profile": profile_list(pts, 0.5)})
-            print(f"fill_sweep: thickness={thick} iso_ratio={iso} tip_gap={tip_gap:.4f}")
+            print(f"fill_sweep: thickness={thick} iso_ratio={iso} "
+                  f"tip_gap={tip_gap:.4f} score={target_score:.4f}")
 
     with open("sweep_downstream_comprehensive_results.json") as f:
         cmp_data = json.load(f)
@@ -137,6 +153,7 @@ def main():
 
     out = {
         "etch_times": ETCH_TIMES, "neutral_rates": NEUTRAL_RATES, "radius": RADIUS,
+        "target_specs": tp.TARGET_SPECS,
         "total_doe_runs": 768, "total_doe4_runs": len(valid4),
         "effects": [{"name": "etch_time", "range": 0.0967},
                     {"name": "neutral_sticking_probability", "range": 0.0856},

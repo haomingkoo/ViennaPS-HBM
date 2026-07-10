@@ -59,22 +59,62 @@ def build_etch_base(mask_taper, etch_time):
     geo, depth = tp.bosch_etch(geo, num_cycles=NUM_CYCLES, radius=RADIUS, etch_time=etch_time,
                                 **ETCH_FIXED, **ETCH_TOP4_WINNER)
     pts = tp.profile_points(geo)
-    body = pts[(pts[:, 1] > depth * 0.85) & (pts[:, 1] < 0.2) & (pts[:, 0] > 0.2 * RADIUS)]
-    bulge = float(np.max(np.abs(body[:, 0] - RADIUS))) if len(body) else None
-    return geo, depth, bulge
+    bulge = tp.wall_bulge(pts, depth, RADIUS)
+    width_error = tp.width_error(pts, depth, RADIUS)
+    return geo, depth, bulge, width_error
 
 
 def run_downstream(geo_etch_base, liner_thick, barrier_thick, fill_thick, fill_iso):
     geo = ps.Domain(); geo.deepCopy(geo_etch_base)
+    y_etched = tp.profile_points(geo)[:, 1].min()
     geo = tp.deposit_conformal(geo, ps.Material.SiO2, liner_thick, directional=False, sticking=LINER_STICKING)
+    pts_liner = tp.profile_points(geo)
+    liner_coverage = tp.floor_reach_metric(y_etched, pts_liner)
+    y_liner = pts_liner[:, 1].min()
     geo = tp.deposit_conformal(geo, ps.Material.Cu, barrier_thick, directional=True, iso_ratio=BARRIER_ISO_RATIO)
-    via_floor = tp.profile_points(geo)[:, 1].min()
+    pts_barrier = tp.profile_points(geo)
+    barrier_coverage = tp.floor_reach_metric(y_liner, pts_barrier)
+    via_floor = pts_barrier[:, 1].min()
     geo_fill = tp.cu_fill(geo, fill_thick, directional=True, iso_ratio=fill_iso)
     pts_fill = tp.profile_points(geo_fill)
-    center = pts_fill[np.abs(pts_fill[:, 0]) < 0.02]
-    seal = float(center[:, 1].mean()) if len(center) else None
-    tip_gap = (seal - via_floor) if seal is not None else None
-    return tip_gap
+    return {
+        "liner_coverage": liner_coverage,
+        "barrier_coverage": barrier_coverage,
+        "tip_gap": tp.fill_tip_gap(pts_fill, via_floor),
+    }
+
+
+def score_row(row):
+    step_scores = {
+        "pattern": tp.with_target_score("pattern", {
+            "radius": RADIUS,
+            "width": 2.0 * RADIUS,
+            "mask_height": 0.3,
+        }),
+        "etch": tp.with_target_score("etch", {
+            "depth": row["depth"],
+            "bulge": row["bulge"],
+            "width_error": row["width_error"],
+        }),
+        "liner": tp.with_target_score("liner", {
+            "thickness": row["liner_thick"],
+            "coverage": row["liner_coverage"],
+        }),
+        "barrier": tp.with_target_score("barrier", {
+            "thickness": row["barrier_thick"],
+            "coverage": row["barrier_coverage"],
+        }),
+        "fill": tp.with_target_score("fill", {
+            "thickness": row["fill_thick"],
+            "tip_gap": row["tip_gap"],
+        }),
+    }
+    row["target_pass"] = all(s["target_pass"] for s in step_scores.values())
+    row["target_score"] = float(sum(s["target_score"] for s in step_scores.values()))
+    row["step_scores"] = {step: {"target_pass": score["target_pass"],
+                                 "target_score": score["target_score"]}
+                          for step, score in step_scores.items()}
+    return row
 
 
 def main():
@@ -85,15 +125,17 @@ def main():
         * len(FILL_THICKNESSES) * len(FILL_ISO_RATIOS)
     for mt in MASK_TAPERS:
         for et in ETCH_TIMES:
-            geo_base, depth, bulge = build_etch_base(mt, et)
+            geo_base, depth, bulge, width_error = build_etch_base(mt, et)
             for lt in LINER_THICKNESSES:
                 for bt in BARRIER_THICKNESSES:
                     for ft in FILL_THICKNESSES:
                         for fi in FILL_ISO_RATIOS:
-                            tip_gap = run_downstream(geo_base, lt, bt, ft, fi)
-                            results.append({"mask_taper": mt, "etch_time": et, "liner_thick": lt,
-                                             "barrier_thick": bt, "fill_thick": ft, "fill_iso": fi,
-                                             "depth": depth, "bulge": bulge, "tip_gap": tip_gap})
+                            downstream = run_downstream(geo_base, lt, bt, ft, fi)
+                            row = {"mask_taper": mt, "etch_time": et, "liner_thick": lt,
+                                   "barrier_thick": bt, "fill_thick": ft, "fill_iso": fi,
+                                   "depth": depth, "bulge": bulge, "width_error": width_error,
+                                   **downstream}
+                            results.append(score_row(row))
                             n += 1
             json.dump(results, open("sweep_joint_5steps_results.json", "w"), indent=2)
             print(f"{n}/{total} ({time.time()-t0:.0f}s) -- finished (mask_taper={mt}, etch_time={et})", flush=True)
@@ -101,15 +143,18 @@ def main():
 
     valid = [r for r in results if r.get("bulge") is not None and r.get("tip_gap") is not None]
     print(f"\ntotal: {len(results)}, valid: {len(valid)}, time={time.time()-t0:.0f}s")
+    by_spec = sorted(valid, key=lambda r: (not r["target_pass"], r["target_score"]))
     by_bulge = sorted(valid, key=lambda r: r["bulge"])
     by_gap = sorted(valid, key=lambda r: r["tip_gap"])
-    print("best 3 by etch bulge:")
-    for r in by_bulge[:3]:
+    print("best 3 by all-step target spec:")
+    for r in by_spec[:3]:
         print(f"  {r}")
-    print("best 3 by fill tip_gap:")
-    for r in by_gap[:3]:
-        print(f"  {r}")
-    print(f"do the two optima coincide? {by_bulge[0] == by_gap[0]}")
+    print("best by etch bulge:")
+    print(f"  {by_bulge[0]}")
+    print("best by fill tip_gap:")
+    print(f"  {by_gap[0]}")
+    print(f"does raw-bulge optimum match all-step spec optimum? {by_bulge[0] == by_spec[0]}")
+    print(f"does raw-gap optimum match all-step spec optimum? {by_gap[0] == by_spec[0]}")
 
 
 if __name__ == "__main__":

@@ -27,3 +27,17 @@ Do not claim a result (a "sweet spot," an "improvement," a coverage
 percentage) without checking it against a metric already defined in
 prepare.md, and do not introduce a new metric without writing it into
 prepare.md first, including why it's needed and what it fixes.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs are tracked as local markdown under `.scratch/`; external PRs are not a triage surface. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default five-label vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This is a single-context repo with `CONTEXT.md` at the root and ADRs under `docs/adr/`. See `docs/agents/domain.md`.

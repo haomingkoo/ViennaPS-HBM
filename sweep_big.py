@@ -29,12 +29,13 @@ def run_point(ion_exp, neutral, etch_time, depo_thick):
     points = tp.profile_points(geometry)
     y_top = float(points[:, 1].max())
     slope, rms = tp.sidewall_fit(points, RADIUS, y_top, depth)
-    body = points[(points[:, 1] > depth * 0.85) & (points[:, 1] < 0.2) & (points[:, 0] > 0.2 * RADIUS)]
-    bulge = float(np.max(np.abs(body[:, 0] - RADIUS))) if len(body) else None
-    return {
+    bulge = tp.wall_bulge(points, depth, RADIUS)
+    result = {
         "ion": ion_exp, "neutral": neutral, "etch_time": etch_time, "depo_thick": depo_thick,
         "depth": depth, "slope": slope, "rms": rms, "bulge": bulge,
+        "width_error": tp.width_error(points, depth, RADIUS),
     }
+    return tp.with_target_score("etch", result)
 
 
 def main():
@@ -64,12 +65,14 @@ def main():
         }, f)
 
     valid = [r for r in results if r["bulge"] is not None]
-    valid.sort(key=lambda r: r["bulge"])
+    valid.sort(key=lambda r: (not r["target_pass"], r["target_score"]))
     print(f"\ntotal runs: {len(results)}, valid (fittable): {len(valid)}")
-    print("top 5 lowest-bulge combinations:")
+    print("top 5 by etch target spec:")
     for r in valid[:5]:
         print(f"  ion={r['ion']:>4} neutral={r['neutral']:.2f} etch_time={r['etch_time']} "
-              f"depo_thick={r['depo_thick']:.2f} -> bulge={r['bulge']:.4f}")
+              f"depo_thick={r['depo_thick']:.2f} -> depth={r['depth']:.3f} "
+              f"bulge={r['bulge']:.4f} score={r['target_score']:.4f} "
+              f"pass={r['target_pass']}")
 
     # which parameter has the biggest effect: range of mean bulge across its levels
     import itertools

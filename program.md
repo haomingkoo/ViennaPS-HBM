@@ -32,12 +32,29 @@ against these numbers, at matched depth:
 | Metric | Spec | Rationale |
 |---|---|---|
 | **Depth** | 1.25 +/- 0.1 (sim units) | matches the adopted production recipe (etch_time=0.5, neutral_rate=-0.1, 14 cycles) -- stands in for "deep enough to connect post-thinning, nowhere near full wafer thickness" |
+| **Width** | 0.30 +/- 0.06 (radius 0.15 +/- 0.03) | the target structure is not just "low bulge"; it must remain the intended via width. In the quarter-via geometry this is equivalent to the wall-bulge limit, but it is named explicitly so DOE scoring cannot ignore structure. |
 | **Wall bulge (straightness)** | <= 0.03 (20% of radius=0.15) | already the informal "straight" threshold used in the explainer's code; production recipe measures ~0.013, well inside spec -- the failure-mode recipe measures ~10x over it |
 | **Fill tip gap (void-free)** | 0 (ideal) | **not currently met by any tested recipe** -- best achieved is ~0.15-0.19 (CEAC ceiling, prepare.md item 6). State this as a miss against spec, not as "much smaller residual gap" |
 
 If a future finding changes what "good" means, update this table
 explicitly and say why -- don't let notebook/explainer prose drift to a
 different implicit target than what's written here.
+
+## Step target specs
+
+Every DOE row must say which step target it is trying to satisfy and rank
+by distance to that target, not by a raw proxy that happens to move. If no
+tested row meets a target, report the best miss and run a wider DOE before
+calling the space understood.
+
+| Step | Target spec | DOE ranking rule |
+|---|---|---|
+| Pattern | radius=0.15, width=0.30, mask_height=0.30 | fixed input spec; taper can vary only if downstream target scores justify it |
+| Etch | depth=1.25 +/- 0.1, width=0.30 +/- 0.06, bulge<=0.03 | rank target-depth, target-width, low-bulge recipes; do not rank shallow vias as winners |
+| Liner | thickness>=0.02 and floor coverage>=0.995 | rank target pass first, then coverage miss toward 1.0 |
+| Barrier+seed | thickness>=0.012 and floor coverage>=0.985 | rank target pass first, then coverage miss toward 1.0 |
+| Cu fill | thickness>=0.15 and tip_gap=0 | rank by tip-gap miss; coverage is only supporting data because it saturates |
+| CMP | dish=0 while mask survives | rank mask survival as a hard gate, then dish miss |
 
 ## Scope
 

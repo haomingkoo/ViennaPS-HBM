@@ -13,6 +13,145 @@ import viennals as ls
 ps.setDimension(2)
 ps.Logger.setLogLevel(ps.LogLevel.ERROR)
 
+TARGET_SPECS = {
+    "pattern": {
+        "radius": 0.15,
+        "width": 0.30,
+        "mask_height": 0.3,
+    },
+    "etch": {
+        "target_depth": 1.25,
+        "depth_tolerance": 0.10,
+        "target_width": 0.30,
+        "max_width_error": 0.06,
+        "max_wall_bulge": 0.03,
+    },
+    "liner": {
+        "min_thickness": 0.02,
+        "min_floor_coverage": 0.995,
+        "target_floor_coverage": 1.0,
+    },
+    "barrier": {
+        "min_thickness": 0.012,
+        "min_floor_coverage": 0.985,
+        "target_floor_coverage": 1.0,
+    },
+    "fill": {
+        "min_thickness": 0.15,
+        "target_tip_gap": 0.0,
+    },
+    "cmp": {
+        "target_dish": 0.0,
+        "mask_must_survive": True,
+    },
+}
+
+
+def wall_bulge(points, depth, radius=0.15, y_top_margin=0.2):
+    body = points[
+        (points[:, 1] > depth * 0.85)
+        & (points[:, 1] < y_top_margin)
+        & (points[:, 0] > 0.2 * radius)
+    ]
+    return float(np.max(np.abs(body[:, 0] - radius))) if len(body) else None
+
+
+def width_error(points, depth, radius=0.15, y_top_margin=0.2):
+    bulge = wall_bulge(points, depth, radius, y_top_margin)
+    return None if bulge is None else float(2.0 * bulge)
+
+
+def floor_reach_metric(y_before, pts_after):
+    floor_after = pts_after[:, 1].min()
+    depth_span = abs(y_before)
+    coverage = 1.0 - abs(floor_after - y_before) / depth_span if depth_span > 1e-6 else 0.0
+    return max(0.0, min(1.0, coverage))
+
+
+def fill_tip_gap(pts_fill, via_floor, center_half_width=0.02):
+    center = pts_fill[np.abs(pts_fill[:, 0]) < center_half_width]
+    if not len(center):
+        return None
+    return float(center[:, 1].mean() - via_floor)
+
+
+def cmp_dish(points):
+    field = points[points[:, 0] > 0.3][:, 1]
+    via = points[points[:, 0] < 0.1][:, 1]
+    return float(field.mean() - via.mean()) if len(field) and len(via) else None
+
+
+def target_score(step, metrics):
+    """Return (passes_target, score). Lower score is closer to the step spec."""
+    spec = TARGET_SPECS[step]
+    if step == "pattern":
+        radius = metrics.get("radius")
+        width = metrics.get("width", 2.0 * radius if radius is not None else None)
+        mask_height = metrics.get("mask_height")
+        if radius is None or width is None or mask_height is None:
+            return False, float("inf")
+        score = (
+            abs(radius - spec["radius"])
+            + abs(width - spec["width"])
+            + abs(mask_height - spec["mask_height"])
+        )
+        return score == 0, float(score)
+
+    if step == "etch":
+        depth = metrics.get("depth")
+        bulge = metrics.get("bulge")
+        if depth is None or bulge is None:
+            return False, float("inf")
+        width_miss_value = metrics.get("width_error")
+        if width_miss_value is None:
+            width_miss_value = 2.0 * bulge
+        depth_error = abs(abs(depth) - spec["target_depth"])
+        depth_miss = max(0.0, depth_error - spec["depth_tolerance"])
+        bulge_miss = max(0.0, bulge - spec["max_wall_bulge"])
+        width_miss = max(0.0, width_miss_value - spec["max_width_error"])
+        passes = depth_miss == 0.0 and bulge_miss == 0.0 and width_miss == 0.0
+        shape_score = max(bulge / spec["max_wall_bulge"], width_miss_value / spec["max_width_error"])
+        score = depth_miss / spec["depth_tolerance"] + shape_score
+        return passes, float(score)
+
+    if step in ("liner", "barrier"):
+        thickness = metrics.get("thickness")
+        coverage = metrics.get("coverage")
+        if thickness is None or coverage is None:
+            return False, float("inf")
+        thickness_miss = max(0.0, spec["min_thickness"] - thickness) / spec["min_thickness"]
+        coverage_miss = max(0.0, spec["target_floor_coverage"] - coverage)
+        passes = thickness >= spec["min_thickness"] and coverage >= spec["min_floor_coverage"]
+        return passes, float(thickness_miss + coverage_miss)
+
+    if step == "fill":
+        thickness = metrics.get("thickness")
+        tip_gap = metrics.get("tip_gap")
+        if thickness is None or tip_gap is None:
+            return False, float("inf")
+        thickness_miss = max(0.0, spec["min_thickness"] - thickness) / spec["min_thickness"]
+        gap_miss = abs(tip_gap - spec["target_tip_gap"])
+        passes = thickness >= spec["min_thickness"] and gap_miss == 0.0
+        return passes, float(thickness_miss + gap_miss)
+
+    if step == "cmp":
+        dish = metrics.get("dish")
+        mask_consumed = bool(metrics.get("mask_consumed"))
+        if dish is None:
+            return False, float("inf")
+        mask_penalty = 10.0 if spec["mask_must_survive"] and mask_consumed else 0.0
+        dish_miss = abs(dish - spec["target_dish"])
+        return (not mask_consumed and dish_miss == 0.0), float(mask_penalty + dish_miss)
+
+    raise ValueError(f"unknown process step: {step}")
+
+
+def with_target_score(step, metrics):
+    passes, score = target_score(step, metrics)
+    if not np.isfinite(score):
+        score = 1e9
+    return {**metrics, "target_pass": bool(passes), "target_score": float(score)}
+
 
 def all_material_profiles(geometry, bin_width=None):
     """Ordered list of (material_name, Nx2 points) -- one per level set,

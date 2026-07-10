@@ -57,6 +57,58 @@ now the production recipe everywhere downstream depends on it. Also:
 `etch_time`'s (0.112) -- it belongs with `etch_time` as a top-tier knob,
 not a minor one.
 
+## Detailed dry-etch DOE protocol
+
+`dry_etch_doe.py` is now the active etch-only DOE. It supersedes using the
+older 768-run / 800-run sweeps as the final etch story because it varies
+cycle count as a first-class recipe factor, records per-cycle traces, and
+ranks against the full etch target spec rather than raw bulge alone.
+
+The active factor set is:
+
+- `mask_taper`
+- `num_cycles`
+- `etch_time`
+- `neutral_rate`
+- `neutral_sticking_probability`
+- `initial_etch_time`
+- `deposition_thickness`
+- `deposition_sticking_probability`
+- `ion_source_exponent`
+- `theta_r_min`
+
+The default design is mixed: broad balanced coverage of the full space
+plus focused coverage around plausible target-depth recipes. The current
+serious run is:
+
+```sh
+.venv/bin/python -u dry_etch_doe.py --recipes 96 --replicates 3 --workers 10 --design mixed --seed 11
+```
+
+After that summary exists, use the autoresearch controller for the next
+generation instead of hand-picking the next grid:
+
+```sh
+.venv/bin/python -u autoresearch_dry_etch.py --bootstrap-summary dry_etch_doe_summary.json --generations 1 --recipes 96 --replicates 4 --workers 10 --top-n 8
+```
+
+Current autoresearch status: generation 2 has completed (`64 recipes x 4
+replicates`) and the current best dry-etch recipe is
+`mask_taper=2, num_cycles=12, etch_time=0.6, neutral_rate=-0.08,
+neutral_sticking_probability=0.2, initial_etch_time=0.3,
+deposition_thickness=0.005, deposition_sticking_probability=0.003,
+ion_source_exponent=600, theta_r_min=45`. It passed 4/4 target checks
+with p90 dry-etch score 1.172, mean depth 1.163, mean bulge 0.00268, and
+mean width-profile error 0.0274. Treat it as the current best simulated
+recipe. The next run should be local replication/perturbation around this
+recipe and the previous carried best (`recipe_hash=1efede9c77d2`), not a
+new broad screen.
+
+If the best target-scored recipes land on a boundary in
+`dry_etch_doe_summary.json`, expand that factor and rerun. Do not update
+the report slider defaults from an edge optimum until the boundary check
+is resolved. The detailed protocol is in `DRY_ETCH_DOE.md`.
+
 ## Downstream steps' tunable parameters (what sweep_downstream.py varies)
 
 - Liner: `thickness` (>= `MIN_LINER_THICKNESS=0.02`), `sticking`
@@ -107,6 +159,26 @@ never overridden). This caught 2 real knobs (`initial_etch_time`,
 Verify screening deltas against a metric that's actually valid at the
 tested parameter values -- a metric tuned for the baseline can silently
 misfire at a different point in the space (see prepare.md's log, item 10).
+
+## Standing methodology: rank against the target spec
+
+Every experiment must declare which step target in `program.md` it is
+trying to satisfy, and every DOE row must carry `target_pass` and
+`target_score` from `tsv_process.TARGET_SPECS`. The winner is the best
+target score, not the lowest raw metric.
+
+- Pattern target: radius=0.15, width=0.30, mask_height=0.30.
+- Etch target: depth=1.25 +/- 0.1, width=0.30 +/- 0.06, bulge<=0.03.
+- Liner target: thickness>=0.02 and floor coverage>=0.995.
+- Barrier target: thickness>=0.012 and floor coverage>=0.985.
+- Fill target: thickness>=0.15 and tip_gap=0; coverage is not the
+  ranking metric because it saturates.
+- CMP target: dish=0 with mask surviving; consuming the mask is a hard
+  failure even if dish improves.
+
+If the best target score lands on a tested range boundary, expand the
+range and rerun before calling it a sweet spot or setting report slider
+defaults.
 
 ## Before adding a new parameter to a sweep
 

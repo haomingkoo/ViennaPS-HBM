@@ -37,12 +37,15 @@ def run_point(etch_time, neutral, initial_etch_time, neutral_rate):
         # (e.g. net deposition instead of etch) -- that's a real DOE finding,
         # not a bug; record it and keep going instead of losing the whole sweep.
         return {"etch_time": etch_time, "neutral": neutral, "initial_etch_time": initial_etch_time,
-                "neutral_rate": neutral_rate, "depth": None, "bulge": None, "error": str(e)}
+                "neutral_rate": neutral_rate, "depth": None, "bulge": None,
+                "width_error": None, "target_pass": False, "target_score": 1e9,
+                "error": str(e)}
     points = tp.profile_points(geometry)
-    body = points[(points[:, 1] > depth * 0.85) & (points[:, 1] < 0.2) & (points[:, 0] > 0.2 * RADIUS)]
-    bulge = float(np.max(np.abs(body[:, 0] - RADIUS))) if len(body) else None
-    return {"etch_time": etch_time, "neutral": neutral, "initial_etch_time": initial_etch_time,
-            "neutral_rate": neutral_rate, "depth": depth, "bulge": bulge}
+    result = {"etch_time": etch_time, "neutral": neutral, "initial_etch_time": initial_etch_time,
+              "neutral_rate": neutral_rate, "depth": depth,
+              "bulge": tp.wall_bulge(points, depth, RADIUS),
+              "width_error": tp.width_error(points, depth, RADIUS)}
+    return tp.with_target_score("etch", result)
 
 
 def save(results):
@@ -78,13 +81,14 @@ def main():
     save(results)
 
     valid = [r for r in results if r["bulge"] is not None]
-    valid.sort(key=lambda r: r["bulge"])
+    valid.sort(key=lambda r: (not r["target_pass"], r["target_score"]))
     print(f"\ntotal runs: {len(results)}, valid: {len(valid)}")
-    print("top 5 lowest-bulge combinations:")
+    print("top 5 by etch target spec:")
     for r in valid[:5]:
         print(f"  etch_time={r['etch_time']} neutral={r['neutral']:.2f} "
               f"initial_etch_time={r['initial_etch_time']} neutral_rate={r['neutral_rate']:.2f} "
-              f"-> bulge={r['bulge']:.4f}")
+              f"-> depth={r['depth']:.3f} bulge={r['bulge']:.4f} "
+              f"score={r['target_score']:.4f} pass={r['target_pass']}")
 
     for name, values, key in [
         ("etch_time", ETCH_TIMES, "etch_time"),

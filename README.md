@@ -43,7 +43,7 @@ This repo's notebook models Phase 2 only, one via at a time.
 | Patterning's mask taper angle | A first pass claimed a real etch-vs-fill trade-off from this never-before-tested knob; replication (6-10 runs, not 1) showed the fill-side half of that claim doesn't survive -- retracted. What's real: one taper value gives a reproducibly stable (near-zero-variance) etch result, the other a genuinely bimodal one | `ps.MakeHole`'s `maskTaperAngle` |
 | Liner (SiO2) | Isotropic deposition, swept-optimal thickness/sticking probability (comprehensive 64-run sweep against the current etch geometry, ~99.6% floor coverage) -- matches SACVD's real thermal-flow conformality | SACVD/TEOS-O3 liner writeup |
 | Barrier + seed (TaN/Ta/Cu) | Plain isotropic deposition physically stalls at the via floor at this aspect ratio; a directional model (iPVD's "ion bullets"), swept-optimal (comprehensive 64-run sweep, ~99% floor coverage) -- `iso_ratio` turned out to have zero measurable effect once thickness clears a functional minimum | iPVD directional-sputter writeup |
-| Cu fill | **Subconformal** (naive isotropic) traps a large void; **conformal** (uniform rate) leaves a thin seam; **superconformal** (directional, swept-optimal via an 80-run sweep) reaches the floor with a much smaller residual gap -- the canonical via-fill spectrum, and the real "popcorning" failure mode that superfill chemistry (suppressor/accelerator/leveler) is engineered to avoid | Cu electroplating superfill writeup + canonical fill-spectrum diagram |
+| Cu fill | **Subconformal** (naive isotropic) traps a large void; **conformal** (uniform rate) leaves a thin seam; **superconformal** (directional, target-scored sweep) reaches the floor but still misses the void-free spec. Best sampled miss is at the functional thickness floor (`thickness=0.15`) and physical lower iso bound (`iso_ratio=0.0`), with tip-gap still nonzero (~0.12-0.15 depending on the etched base geometry) -- the canonical via-fill spectrum, and the real "popcorning" failure mode that superfill chemistry (suppressor/accelerator/leveler) is engineered to avoid | Cu electroplating superfill writeup + canonical fill-spectrum diagram |
 | CMP | **A claim retracted, not a clean success.** An earlier version claimed "over-polish causes dishing, the nominal amount fixes it" -- backwards. The nominal (textbook-correct) overburden leaves severe dishing; fixing it needs 5-10x more material removal than any real fab would polish, destroying the mask along the way. A genuine structural ceiling of this simple uniform-removal model, documented rather than hidden | -- |
 | Closing 3D render | One full 3D run (`render_3d.py`) of the current production parameters, showing the real round via and scalloping (materials now correctly separated -- an earlier version rendered the mask's flat top merged into the via walls, looking like a stray plane) | -- |
 
@@ -93,6 +93,13 @@ they came up during this project and mattered:
    the real ranking. This DOE's winner (~37% better wall bulge than the
    previous production recipe, depth-matched and replicated) is now the
    production recipe used throughout the notebook.
+6. **The DOE now ranks against per-step target specs, not raw proxy
+   minima.** Etch is scored against depth, width, and bulge. Liner and
+   barrier must clear functional thickness and coverage targets. Fill is
+   scored against centerline tip-gap, not floor coverage, because coverage
+   saturates. CMP treats mask survival as a hard gate before comparing
+   dish. Boundary optima trigger wider sampling before being called a
+   sweet spot.
 6. **A claim was made, contradicted itself on rebuild, and got
    retracted.** Checking all 5 process steps' real parameters jointly
    (not each step optimized only against its own metric) is how a

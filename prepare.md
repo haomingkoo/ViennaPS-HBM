@@ -27,6 +27,21 @@ that it doesn't and why that's still meaningful.
 minimum thickness gate**, or the optimizer trivially picks the thinnest
 option tested. See train.md for the specific minimums per layer.
 
+**Every process step needs a target spec before DOE ranking.** A sweep is
+not done when it can sort a raw metric; it is done when each row is scored
+against the step target in `program.md` / `tsv_process.TARGET_SPECS`.
+Rank target pass first, then distance-to-target. For fill, floor coverage
+is supporting data only because it saturates; the target metric is
+centerline tip-gap. For etch, depth and width are part of the target
+structure; a shallower or narrower/wider via is not a winner just because
+its raw bulge is low.
+
+**A slider/report range must cover the best sampled target region.** If
+the best target score sits on a grid boundary, expand the DOE beyond that
+edge and regenerate the report data before calling it a sweet spot. The
+report must show real sampled points only; no interpolated or invented
+"best" values.
+
 ## Running log -- what was tried, what worked, what didn't
 
 1. **2-parameter sweep (ion x neutral), 9 then 25 points.** Found
@@ -344,6 +359,59 @@ option tested. See train.md for the specific minimums per layer.
     trusting a comparison, and if two separate checks of the "same"
     result disagree, that disagreement IS the finding until resolved,
     not something to average away or ignore.
+
+22. **DOE objective correction -- every step now has an explicit target
+    spec, and sweeps must rank by target miss, not raw proxy minima.**
+    The previous downstream DOE was still structurally wrong in two ways:
+    it optimized liner/barrier/fill by floor coverage even though fill
+    coverage saturates at 1.0 while the real void-free target (tip_gap=0)
+    remains unmet, and the explainer sliders did not cover the lower
+    iso_ratio region where the best fill miss had appeared. Corrective
+    rule: pattern, etch, liner, barrier, fill, and CMP each have a target
+    spec in `program.md` and `tsv_process.TARGET_SPECS`; DOE rows record
+    `target_pass` and `target_score`; report sliders default to the best
+    sampled target score and must be expanded when the best point is on a
+    tested boundary. This is a methodology fix, not a prose cleanup.
+    Reran the report-side target grid: etch slider best sampled target
+    score is `etch_time=0.5, neutral_rate=-0.12` (depth -1.332, bulge
+    0.0032, width_error 0.0064) -- a candidate only, not adopted without
+    replication. Expanded fill through the functional thickness floor and
+    physical lower iso bound: best sampled target miss is
+    `thickness=0.15, iso_ratio=0.0`, still nonzero tip_gap (~0.151 on the
+    report base; ~0.119 on a fresh comprehensive-sweep etched base). That
+    base-geometry spread is real etch MC contamination of downstream
+    deterministic fill comparisons, so do not quote one fill number as an
+    absolute winner without naming the base geometry or aggregating across
+    etched bases.
+
+23. **Dry-etch autoresearch loop implemented and run through two
+    generations.** The detailed dry-etch study is now a real iterative
+    harness, not a one-shot grid: `dry_etch_doe.py` is the inner
+    checkpointed runner, and `autoresearch_dry_etch.py` reads a summary,
+    carries forward top recipes as anchors, expands or narrows the factor
+    space, runs the next generation, and appends
+    `autoresearch_dry_etch/research_log.md`. Generation 0 was the clean
+    96-recipe x 3-replicate mixed dry-etch DOE. Generation 1 carried the
+    top 8 recipes and ran 96 x 4; it found two genuine challengers but
+    also many rejected boundary regions. Generation 2 focused on the top
+    4 and ran 64 x 4; current best is recipe hash `15252a63cb7c`:
+    `mask_taper=2`, `num_cycles=12`, `etch_time=0.6`,
+    `neutral_rate=-0.08`, `neutral_sticking_probability=0.2`,
+    `initial_etch_time=0.3`, `deposition_thickness=0.005`,
+    `deposition_sticking_probability=0.003`, `ion_source_exponent=600`,
+    `theta_r_min=45`. It passed target in 4/4 replicates, with p90
+    dry-etch score 1.172, mean depth 1.163, mean bulge 0.00268, and mean
+    width-profile error 0.0274. No boundary notes were triggered in the
+    summary, but several top contenders sit on expanded boundaries
+    (`neutral_sticking_probability=0.2`, low deposition sticking), so the
+    next honest follow-up is targeted replication / a small local
+    perturbation around the top 2 recipes, not another broad screen. The
+    existing explainer's two visible dry-etch sliders cover the winning
+    `etch_time=0.6` and `neutral_rate=-0.08`, but the report UI does not
+    yet expose all important dry-etch knobs from this autoresearch run
+    (e.g. neutral sticking, deposition sticking, ion exponent), so do not
+    describe the published HTML as fully updated until the report is
+    rebuilt around these results.
 
 ## Open, not yet attempted
 

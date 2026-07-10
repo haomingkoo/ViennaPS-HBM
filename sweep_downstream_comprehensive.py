@@ -18,43 +18,34 @@ import numpy as np
 import viennaps as ps
 import tsv_process as tp
 
-ETCH = dict(ion_source_exponent=200, neutral_sticking_probability=0.2,
-            etch_time=0.5, deposition_thickness=0.01)
+ETCH = dict(ion_source_exponent=600, neutral_sticking_probability=0.2,
+            initial_etch_time=0.3, neutral_rate=-0.08,
+            etch_time=0.6, deposition_thickness=0.005,
+            deposition_sticking_probability=0.003, theta_r_min=45.0)
 PRODUCTION_CYCLES = 12
 RADIUS = 0.15
-
-MIN_LINER_THICKNESS = 0.02
-MIN_BARRIER_THICKNESS = 0.012
-MIN_FILL_THICKNESS = 0.15
-
-
-def floor_reach_metric(y_before, pts_after):
-    floor_after = pts_after[:, 1].min()
-    depth_span = abs(y_before)
-    coverage = 1.0 - abs(floor_after - y_before) / depth_span if depth_span > 1e-6 else 0.0
-    return max(0.0, min(1.0, coverage))
+MASK_TAPER = 2.0
 
 
 def sweep_liner(geo_base, y_before):
-    thicknesses = np.linspace(0.012, 0.05, 8)
-    stickings = np.linspace(0.02, 0.3, 8)
+    thicknesses = np.linspace(0.012, 0.055, 10)
+    stickings = np.linspace(0.02, 0.35, 10)
     results = []
     for thick in thicknesses:
         for stick in stickings:
             g = ps.Domain(); g.deepCopy(geo_base)
             g.duplicateTopLevelSet(ps.Material.SiO2)
             ps.Process(g, ps.SingleParticleProcess(rate=float(thick), stickingProbability=float(stick)), 1.0).apply()
-            coverage = floor_reach_metric(y_before, tp.profile_points(g))
-            results.append({"thickness": float(thick), "sticking": float(stick), "coverage": coverage})
-    meeting = [r for r in results if r["thickness"] >= MIN_LINER_THICKNESS]
-    pool = meeting if meeting else results
-    pool.sort(key=lambda r: -r["coverage"])
-    return results, pool
+            coverage = tp.floor_reach_metric(y_before, tp.profile_points(g))
+            metrics = {"thickness": float(thick), "sticking": float(stick), "coverage": coverage}
+            results.append(tp.with_target_score("liner", metrics))
+    ranked = sorted(results, key=lambda r: (not r["target_pass"], r["target_score"]))
+    return results, ranked
 
 
 def sweep_barrier(geo_base, y_before):
-    thicknesses = np.linspace(0.008, 0.03, 8)
-    iso_ratios = np.linspace(0.05, 0.5, 8)
+    thicknesses = np.linspace(0.008, 0.032, 10)
+    iso_ratios = np.linspace(0.0, 0.55, 10)
     results = []
     for thick in thicknesses:
         for ratio in iso_ratios:
@@ -63,17 +54,16 @@ def sweep_barrier(geo_base, y_before):
             model = ps.DirectionalProcess(direction=[0.0, -1.0, 0.0],
                                             directionalVelocity=float(thick), isotropicVelocity=float(thick * ratio))
             ps.Process(g, model, 1.0).apply()
-            coverage = floor_reach_metric(y_before, tp.profile_points(g))
-            results.append({"thickness": float(thick), "iso_ratio": float(ratio), "coverage": coverage})
-    meeting = [r for r in results if r["thickness"] >= MIN_BARRIER_THICKNESS]
-    pool = meeting if meeting else results
-    pool.sort(key=lambda r: -r["coverage"])
-    return results, pool
+            coverage = tp.floor_reach_metric(y_before, tp.profile_points(g))
+            metrics = {"thickness": float(thick), "iso_ratio": float(ratio), "coverage": coverage}
+            results.append(tp.with_target_score("barrier", metrics))
+    ranked = sorted(results, key=lambda r: (not r["target_pass"], r["target_score"]))
+    return results, ranked
 
 
 def sweep_fill(geo_base, y_before):
-    thicknesses = np.linspace(0.12, 0.35, 10)
-    iso_ratios = np.linspace(0.03, 0.3, 8)
+    thicknesses = [0.08, 0.10, 0.12, 0.14, 0.15, 0.155, 0.16, 0.17, 0.18, 0.20, 0.22, 0.26, 0.30, 0.36]
+    iso_ratios = [0.0, 0.0005, 0.001, 0.0025, 0.005, 0.01, 0.02, 0.03, 0.05, 0.08, 0.1, 0.2, 0.3]
     results = []
     for thick in thicknesses:
         for ratio in iso_ratios:
@@ -82,42 +72,50 @@ def sweep_fill(geo_base, y_before):
             model = ps.DirectionalProcess(direction=[0.0, -1.0, 0.0],
                                             directionalVelocity=float(thick), isotropicVelocity=float(thick * ratio))
             ps.Process(g, model, 1.0).apply()
-            coverage = floor_reach_metric(y_before, tp.profile_points(g))
-            results.append({"thickness": float(thick), "iso_ratio": float(ratio), "coverage": coverage})
-    meeting = [r for r in results if r["thickness"] >= MIN_FILL_THICKNESS]
-    pool = meeting if meeting else results
-    pool.sort(key=lambda r: -r["coverage"])
-    return results, pool
+            pts = tp.profile_points(g)
+            coverage = tp.floor_reach_metric(y_before, pts)
+            tip_gap = tp.fill_tip_gap(pts, y_before)
+            metrics = {"thickness": float(thick), "iso_ratio": float(ratio),
+                       "coverage": coverage, "tip_gap": tip_gap}
+            results.append(tp.with_target_score("fill", metrics))
+    ranked = sorted(results, key=lambda r: (not r["target_pass"], r["target_score"]))
+    return results, ranked
 
 
 def sweep_cmp(geo_base, target_y):
     base_overburden = float(tp.profile_points(geo_base)[:, 1].max()) - target_y
-    mults = np.concatenate([np.linspace(0.9, 2.0, 12), np.linspace(2.5, 10.0, 8)])
+    mults = np.concatenate([np.linspace(0.8, 2.2, 15), np.linspace(2.5, 12.0, 11)])
     results = []
     for mult in mults:
         g = ps.Domain(); g.deepCopy(geo_base)
         ps.Process(g, ps.IsotropicProcess(rate=-1.0), base_overburden * float(mult)).apply()
         pts = tp.profile_points(g)
-        field = pts[pts[:, 0] > 0.3][:, 1]
-        via = pts[pts[:, 0] < 0.1][:, 1]
         mats_present = [str(name) for name, p in tp.all_material_profiles(g) if len(p) > 0]
         mask_gone = not any("Mask" in m for m in mats_present)
-        dish = float(field.mean() - via.mean()) if len(field) and len(via) else None
-        results.append({"mult": float(mult), "dish": dish, "mask_consumed": mask_gone,
-                         "materials_present": mats_present})
+        dish = tp.cmp_dish(pts)
+        metrics = {"mult": float(mult), "dish": dish, "mask_consumed": mask_gone,
+                   "materials_present": mats_present}
+        results.append(tp.with_target_score("cmp", metrics))
     return results
 
 
 def main():
     t0 = time.time()
-    geo_etched = tp.make_initial_geometry(radius=RADIUS)
+    geo_etched = tp.make_initial_geometry(radius=RADIUS, taper=MASK_TAPER)
     geo_etched, depth = tp.bosch_etch(geo_etched, num_cycles=PRODUCTION_CYCLES, **ETCH)
-    print(f"production etch: depth={depth:.3f} ({time.time()-t0:.0f}s)")
+    pts_etched = tp.profile_points(geo_etched)
+    etch_metrics = tp.with_target_score("etch", {
+        "depth": depth,
+        "bulge": tp.wall_bulge(pts_etched, depth, RADIUS),
+        "width_error": tp.width_error(pts_etched, depth, RADIUS),
+    })
+    print(f"production etch: depth={depth:.3f} target_pass={etch_metrics['target_pass']} "
+          f"score={etch_metrics['target_score']:.4f} ({time.time()-t0:.0f}s)")
     y_etched = float(tp.profile_points(geo_etched)[:, 1].min())
 
     liner_all, liner_ranked = sweep_liner(geo_etched, y_etched)
     best_liner = liner_ranked[0]
-    print(f"liner: {len(liner_all)} runs, best={best_liner} ({time.time()-t0:.0f}s)")
+    print(f"liner: {len(liner_all)} runs, best_by_spec={best_liner} ({time.time()-t0:.0f}s)")
     geo_liner = ps.Domain(); geo_liner.deepCopy(geo_etched)
     geo_liner.duplicateTopLevelSet(ps.Material.SiO2)
     ps.Process(geo_liner, ps.SingleParticleProcess(
@@ -126,7 +124,7 @@ def main():
 
     barrier_all, barrier_ranked = sweep_barrier(geo_liner, y_liner)
     best_barrier = barrier_ranked[0]
-    print(f"barrier: {len(barrier_all)} runs, best={best_barrier} ({time.time()-t0:.0f}s)")
+    print(f"barrier: {len(barrier_all)} runs, best_by_spec={best_barrier} ({time.time()-t0:.0f}s)")
     geo_barrier = ps.Domain(); geo_barrier.deepCopy(geo_liner)
     geo_barrier.duplicateTopLevelSet(ps.Material.Cu)
     ps.Process(geo_barrier, ps.DirectionalProcess(
@@ -136,7 +134,7 @@ def main():
 
     fill_all, fill_ranked = sweep_fill(geo_barrier, y_barrier)
     best_fill = fill_ranked[0]
-    print(f"fill: {len(fill_all)} runs, best={best_fill} ({time.time()-t0:.0f}s)")
+    print(f"fill: {len(fill_all)} runs, best_by_spec={best_fill} ({time.time()-t0:.0f}s)")
     geo_fill = ps.Domain(); geo_fill.deepCopy(geo_barrier)
     geo_fill.duplicateTopLevelSet(ps.Material.Cu)
     ps.Process(geo_fill, ps.DirectionalProcess(
@@ -147,10 +145,12 @@ def main():
     cmp_curve = sweep_cmp(geo_fill, target_y)
     print(f"CMP: {len(cmp_curve)} points across overpolish multiplier ({time.time()-t0:.0f}s)")
     for r in cmp_curve:
-        print(f"  mult={r['mult']:.2f} dish={r['dish']:.3f} mask_consumed={r['mask_consumed']}")
+        print(f"  mult={r['mult']:.2f} dish={r['dish']:.3f} "
+              f"mask_consumed={r['mask_consumed']} target_score={r['target_score']:.3f}")
 
     out = {
-        "etch": {**ETCH, "num_cycles": PRODUCTION_CYCLES, "depth": depth},
+        "target_specs": tp.TARGET_SPECS,
+        "etch": {**ETCH, "mask_taper": MASK_TAPER, "num_cycles": PRODUCTION_CYCLES, "depth": depth, **etch_metrics},
         "best_liner": best_liner, "liner_top5": liner_ranked[:5],
         "best_barrier": best_barrier, "barrier_top5": barrier_ranked[:5],
         "best_fill": best_fill, "fill_top5": fill_ranked[:5],

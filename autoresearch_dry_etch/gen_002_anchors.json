@@ -1,0 +1,56 @@
+{
+  "anchors": [
+    {
+      "deposition_sticking_probability": 0.01,
+      "deposition_thickness": 0.005,
+      "etch_time": 0.5,
+      "initial_etch_time": 0.3,
+      "ion_source_exponent": 400,
+      "mask_taper": 2.0,
+      "name": "carry_00_carry_01_etch_focus_0023",
+      "neutral_rate": -0.08,
+      "neutral_sticking_probability": 0.08,
+      "num_cycles": 14,
+      "theta_r_min": 45.0
+    },
+    {
+      "deposition_sticking_probability": 0.04,
+      "deposition_thickness": 0.015,
+      "etch_time": 0.55,
+      "initial_etch_time": 0.15,
+      "ion_source_exponent": 50,
+      "mask_taper": 2.0,
+      "name": "carry_01_etch_focus_0026",
+      "neutral_rate": -0.15,
+      "neutral_sticking_probability": 0.16,
+      "num_cycles": 12,
+      "theta_r_min": 45.0
+    },
+    {
+      "deposition_sticking_probability": 0.005,
+      "deposition_thickness": 0.003,
+      "etch_time": 0.6,
+      "initial_etch_time": 0.2,
+      "ion_source_exponent": 600,
+      "mask_taper": 2.0,
+      "name": "carry_02_etch_focus_0014",
+      "neutral_rate": -0.06,
+      "neutral_sticking_probability": 0.12,
+      "num_cycles": 14,
+      "theta_r_min": 45.0
+    },
+    {
+      "deposition_sticking_probability": 0.005,
+      "deposition_thickness": 0.005,
+      "etch_time": 0.5,
+      "initial_etch_time": 0.2,
+      "ion_source_exponent": 600,
+      "mask_taper": 4.0,
+      "name": "carry_03_carry_00_etch_broad_0052",
+      "neutral_rate": -0.08,
+      "neutral_sticking_probability": 0.05,
+      "num_cycles": 15,
+      "theta_r_min": 75.0
+    }
+  ]
+}

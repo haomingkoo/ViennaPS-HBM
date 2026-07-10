@@ -1,113 +1,196 @@
 {
+  "target_specs": {
+    "pattern": {
+      "radius": 0.15,
+      "width": 0.3,
+      "mask_height": 0.3
+    },
+    "etch": {
+      "target_depth": 1.25,
+      "depth_tolerance": 0.1,
+      "target_width": 0.3,
+      "max_width_error": 0.06,
+      "max_wall_bulge": 0.03
+    },
+    "liner": {
+      "min_thickness": 0.02,
+      "min_floor_coverage": 0.995,
+      "target_floor_coverage": 1.0
+    },
+    "barrier": {
+      "min_thickness": 0.012,
+      "min_floor_coverage": 0.985,
+      "target_floor_coverage": 1.0
+    },
+    "fill": {
+      "min_thickness": 0.15,
+      "target_tip_gap": 0.0
+    },
+    "cmp": {
+      "target_dish": 0.0,
+      "mask_must_survive": true
+    }
+  },
   "etch": {
-    "ion_source_exponent": 200,
+    "ion_source_exponent": 600,
     "neutral_sticking_probability": 0.2,
-    "etch_time": 0.5,
-    "deposition_thickness": 0.01,
+    "initial_etch_time": 0.3,
+    "neutral_rate": -0.08,
+    "etch_time": 0.6,
+    "deposition_thickness": 0.005,
+    "deposition_sticking_probability": 0.003,
+    "theta_r_min": 45.0,
+    "mask_taper": 2.0,
     "num_cycles": 12,
-    "depth": -1.1872191563075611
+    "depth": -1.1623857278879792,
+    "bulge": 0.002643765093170325,
+    "width_error": 0.00528753018634065,
+    "target_pass": true,
+    "target_score": 0.0881255031056775
   },
   "best_liner": {
-    "thickness": 0.02285714285714286,
-    "sticking": 0.3,
-    "coverage": 0.9961694589249093
+    "thickness": 0.021555555555555557,
+    "sticking": 0.02,
+    "coverage": 0.9979475592045387,
+    "target_pass": true,
+    "target_score": 0.0020524407954612967
   },
   "liner_top5": [
     {
-      "thickness": 0.02285714285714286,
-      "sticking": 0.3,
-      "coverage": 0.9961694589249093
+      "thickness": 0.021555555555555557,
+      "sticking": 0.02,
+      "coverage": 0.9979475592045387,
+      "target_pass": true,
+      "target_score": 0.0020524407954612967
     },
     {
-      "thickness": 0.02285714285714286,
-      "sticking": 0.25999999999999995,
-      "coverage": 0.9959172009519952
+      "thickness": 0.021555555555555557,
+      "sticking": 0.05666666666666666,
+      "coverage": 0.9979475592045387,
+      "target_pass": true,
+      "target_score": 0.0020524407954612967
     },
     {
-      "thickness": 0.02828571428571429,
-      "sticking": 0.3,
-      "coverage": 0.9954670783976161
+      "thickness": 0.021555555555555557,
+      "sticking": 0.12999999999999998,
+      "coverage": 0.9979475592045387,
+      "target_pass": true,
+      "target_score": 0.0020524407954612967
     },
     {
-      "thickness": 0.02285714285714286,
-      "sticking": 0.21999999999999995,
-      "coverage": 0.9954527099469647
+      "thickness": 0.021555555555555557,
+      "sticking": 0.16666666666666663,
+      "coverage": 0.9979475592045387,
+      "target_pass": true,
+      "target_score": 0.0020524407954612967
     },
     {
-      "thickness": 0.02828571428571429,
-      "sticking": 0.25999999999999995,
-      "coverage": 0.9948769753874256
+      "thickness": 0.021555555555555557,
+      "sticking": 0.20333333333333328,
+      "coverage": 0.9979475592045387,
+      "target_pass": true,
+      "target_score": 0.0020524407954612967
     }
   ],
   "best_barrier": {
-    "thickness": 0.014285714285714285,
-    "iso_ratio": 0.1785714285714286,
-    "coverage": 0.9892630486857082
+    "thickness": 0.013333333333333332,
+    "iso_ratio": 0.12222222222222223,
+    "coverage": 1.0,
+    "target_pass": true,
+    "target_score": 0.0
   },
   "barrier_top5": [
     {
-      "thickness": 0.014285714285714285,
-      "iso_ratio": 0.1785714285714286,
-      "coverage": 0.9892630486857082
+      "thickness": 0.013333333333333332,
+      "iso_ratio": 0.12222222222222223,
+      "coverage": 1.0,
+      "target_pass": true,
+      "target_score": 0.0
     },
     {
-      "thickness": 0.014285714285714285,
-      "iso_ratio": 0.24285714285714288,
-      "coverage": 0.9892630486857082
+      "thickness": 0.013333333333333332,
+      "iso_ratio": 0.18333333333333335,
+      "coverage": 1.0,
+      "target_pass": true,
+      "target_score": 0.0
     },
     {
-      "thickness": 0.014285714285714285,
-      "iso_ratio": 0.30714285714285716,
-      "coverage": 0.9892630486857082
+      "thickness": 0.013333333333333332,
+      "iso_ratio": 0.24444444444444446,
+      "coverage": 1.0,
+      "target_pass": true,
+      "target_score": 0.0
     },
     {
-      "thickness": 0.014285714285714285,
-      "iso_ratio": 0.37142857142857144,
-      "coverage": 0.9892630486857082
+      "thickness": 0.013333333333333332,
+      "iso_ratio": 0.3055555555555556,
+      "coverage": 1.0,
+      "target_pass": true,
+      "target_score": 0.0
     },
     {
-      "thickness": 0.014285714285714285,
-      "iso_ratio": 0.4357142857142858,
-      "coverage": 0.9892630486857082
+      "thickness": 0.013333333333333332,
+      "iso_ratio": 0.3666666666666667,
+      "coverage": 1.0,
+      "target_pass": true,
+      "target_score": 0.0
     }
   ],
   "best_fill": {
-    "thickness": 0.19666666666666666,
-    "iso_ratio": 0.03,
-    "coverage": 1.0
+    "thickness": 0.15,
+    "iso_ratio": 0.01,
+    "coverage": 1.0,
+    "tip_gap": 0.14527810182827716,
+    "target_pass": false,
+    "target_score": 0.14527810182827716
   },
   "fill_top5": [
     {
-      "thickness": 0.19666666666666666,
+      "thickness": 0.15,
+      "iso_ratio": 0.01,
+      "coverage": 1.0,
+      "tip_gap": 0.14527810182827716,
+      "target_pass": false,
+      "target_score": 0.14527810182827716
+    },
+    {
+      "thickness": 0.15,
       "iso_ratio": 0.03,
-      "coverage": 1.0
+      "coverage": 1.0,
+      "tip_gap": 0.14754707681044588,
+      "target_pass": false,
+      "target_score": 0.14754707681044588
     },
     {
-      "thickness": 0.19666666666666666,
-      "iso_ratio": 0.2228571428571429,
-      "coverage": 1.0
+      "thickness": 0.155,
+      "iso_ratio": 0.0,
+      "coverage": 1.0,
+      "tip_gap": 0.14771374347711275,
+      "target_pass": false,
+      "target_score": 0.14771374347711275
     },
     {
-      "thickness": 0.19666666666666666,
-      "iso_ratio": 0.26142857142857145,
-      "coverage": 1.0
+      "thickness": 0.155,
+      "iso_ratio": 0.0005,
+      "coverage": 1.0,
+      "tip_gap": 0.14773957681044592,
+      "target_pass": false,
+      "target_score": 0.14773957681044592
     },
     {
-      "thickness": 0.19666666666666666,
-      "iso_ratio": 0.3,
-      "coverage": 1.0
-    },
-    {
-      "thickness": 0.2222222222222222,
-      "iso_ratio": 0.03,
-      "coverage": 1.0
+      "thickness": 0.155,
+      "iso_ratio": 0.001,
+      "coverage": 1.0,
+      "tip_gap": 0.1477654101437793,
+      "target_pass": false,
+      "target_score": 0.1477654101437793
     }
   ],
-  "cmp_target_y": 0.31804656243885676,
+  "cmp_target_y": 0.3128535228882218,
   "cmp_curve": [
     {
-      "mult": 0.9,
-      "dish": 1.2818865992822313,
+      "mult": 0.8,
+      "dish": 1.4421701986162356,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -115,11 +198,27 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 1.4421701986162356
+    },
+    {
+      "mult": 0.9,
+      "dish": 1.4437939984701476,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ],
+      "target_pass": false,
+      "target_score": 1.4437939984701476
     },
     {
       "mult": 1.0,
-      "dish": 1.1107435725498893,
+      "dish": 1.4219050725725613,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -127,11 +226,13 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 1.4219050725725613
     },
     {
       "mult": 1.1,
-      "dish": 0.9590660335386325,
+      "dish": 1.3862162687608974,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -139,11 +240,13 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 1.3862162687608974
     },
     {
       "mult": 1.2000000000000002,
-      "dish": 0.8128520887686582,
+      "dish": 1.1858857169570067,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -151,11 +254,13 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 1.1858857169570067
     },
     {
       "mult": 1.3,
-      "dish": 0.6826146809893869,
+      "dish": 1.0561717468665444,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -163,11 +268,13 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 1.0561717468665444
     },
     {
-      "mult": 1.4,
-      "dish": 0.5892534660314007,
+      "mult": 1.4000000000000001,
+      "dish": 0.943266707369584,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -175,11 +282,13 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.943266707369584
     },
     {
       "mult": 1.5,
-      "dish": 0.47714092569950184,
+      "dish": 0.8531900473326894,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -187,11 +296,13 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.8531900473326894
     },
     {
       "mult": 1.6,
-      "dish": 0.3928357196557961,
+      "dish": 0.7682281780765663,
       "mask_consumed": false,
       "materials_present": [
         "Material('Mask')",
@@ -199,139 +310,236 @@
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.7682281780765663
     },
     {
       "mult": 1.7000000000000002,
-      "dish": 0.24471224543893766,
-      "mask_consumed": true,
+      "dish": 0.6906601165787906,
+      "mask_consumed": false,
       "materials_present": [
+        "Material('Mask')",
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.6906601165787906
     },
     {
       "mult": 1.8,
-      "dish": 0.2282745188890989,
-      "mask_consumed": true,
+      "dish": 0.568263519671347,
+      "mask_consumed": false,
       "materials_present": [
+        "Material('Mask')",
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.568263519671347
     },
     {
-      "mult": 1.9,
-      "dish": 0.21368818342921947,
-      "mask_consumed": true,
+      "mult": 1.9000000000000001,
+      "dish": 0.5788626905529911,
+      "mask_consumed": false,
       "materials_present": [
+        "Material('Mask')",
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.5788626905529911
     },
     {
       "mult": 2.0,
-      "dish": 0.202006067541042,
-      "mask_consumed": true,
+      "dish": 0.4452101940580008,
+      "mask_consumed": false,
       "materials_present": [
+        "Material('Mask')",
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 0.4452101940580008
+    },
+    {
+      "mult": 2.1,
+      "dish": 0.36271391242350026,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ],
+      "target_pass": false,
+      "target_score": 0.36271391242350026
+    },
+    {
+      "mult": 2.2,
+      "dish": 0.30556983293771944,
+      "mask_consumed": false,
+      "materials_present": [
+        "Material('Mask')",
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ],
+      "target_pass": false,
+      "target_score": 0.30556983293771944
     },
     {
       "mult": 2.5,
-      "dish": 0.16621249253322135,
+      "dish": 0.19476341307291967,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.19476341307292
     },
     {
-      "mult": 3.571428571428571,
-      "dish": 0.11593758803664755,
+      "mult": 3.45,
+      "dish": 0.13211099273046156,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.132110992730462
     },
     {
-      "mult": 4.642857142857142,
-      "dish": 0.08924883664204541,
+      "mult": 4.4,
+      "dish": 0.10279246356235916,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.10279246356236
     },
     {
-      "mult": 5.714285714285714,
-      "dish": 0.07191773138239954,
+      "mult": 5.35,
+      "dish": 0.08194667507165021,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.08194667507165
     },
     {
-      "mult": 6.785714285714286,
-      "dish": 0.06040596330832049,
+      "mult": 6.3,
+      "dish": 0.06895570136499951,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.068955701364999
     },
     {
-      "mult": 7.857142857142857,
-      "dish": 0.05240333509923811,
+      "mult": 7.25,
+      "dish": 0.059572960755912785,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.059572960755913
     },
     {
-      "mult": 8.928571428571429,
-      "dish": 0.04559176329605785,
+      "mult": 8.2,
+      "dish": 0.05294865561738016,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.05294865561738
     },
     {
-      "mult": 10.0,
-      "dish": 0.041726053673625696,
+      "mult": 9.149999999999999,
+      "dish": 0.04830485153044961,
       "mask_consumed": true,
       "materials_present": [
         "Material('Si')",
         "Material('SiO2')",
         "Material('Cu')",
         "Material('Cu')"
-      ]
+      ],
+      "target_pass": false,
+      "target_score": 10.04830485153045
+    },
+    {
+      "mult": 10.1,
+      "dish": 0.04319028371652234,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ],
+      "target_pass": false,
+      "target_score": 10.043190283716523
+    },
+    {
+      "mult": 11.049999999999999,
+      "dish": 0.03906958361229318,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ],
+      "target_pass": false,
+      "target_score": 10.039069583612292
+    },
+    {
+      "mult": 12.0,
+      "dish": 0.036011879321314666,
+      "mask_consumed": true,
+      "materials_present": [
+        "Material('Si')",
+        "Material('SiO2')",
+        "Material('Cu')",
+        "Material('Cu')"
+      ],
+      "target_pass": false,
+      "target_score": 10.036011879321315
     }
   ]
 }
