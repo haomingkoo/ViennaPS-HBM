@@ -111,6 +111,19 @@ ANCHORS = [
     },
 ]
 
+UPSTREAM_FACTORS = (
+    "mask_taper",
+    "num_cycles",
+    "etch_time",
+    "neutral_rate",
+    "neutral_sticking_probability",
+    "initial_etch_time",
+    "deposition_thickness",
+    "deposition_sticking_probability",
+    "ion_source_exponent",
+    "theta_r_min",
+)
+
 
 def jsonable(value):
     if isinstance(value, dict):
@@ -139,6 +152,19 @@ def recipe_key(recipe: dict) -> tuple:
 def recipe_signature(recipe: dict) -> str:
     payload = json.dumps(dict(recipe_key(recipe)), sort_keys=True, separators=(",", ":"))
     return hashlib.sha1(payload.encode()).hexdigest()[:12]
+
+
+def upstream_key(recipe: dict) -> tuple:
+    return tuple((key, recipe[key]) for key in UPSTREAM_FACTORS)
+
+
+def grouped_tasks(recipes: list[dict], replicates: int, done: set[tuple[str, int]]):
+    groups = defaultdict(list)
+    for recipe in recipes:
+        for replicate in range(replicates):
+            if (recipe["recipe_hash"], replicate) not in done:
+                groups[(upstream_key(recipe), replicate)].append(recipe)
+    return [(replicate, group) for (_, replicate), group in groups.items()]
 
 
 def load_space(path: str | None) -> tuple[dict, dict]:
@@ -280,19 +306,9 @@ def apply_cmp(geo_fill, target_y: float, mult: float) -> dict:
     }
 
 
-def run_task(task: tuple[dict, int]) -> dict:
-    recipe, replicate = task
-    t0 = time.time()
-    base = {
-        "recipe_id": recipe["recipe_id"],
-        "recipe_hash": recipe["recipe_hash"],
-        "name": recipe["name"],
-        "replicate": replicate,
-        "recipe": recipe,
-    }
-    try:
-        geo = tp.make_initial_geometry(radius=RADIUS, mask_height=MASK_HEIGHT, taper=recipe["mask_taper"])
-        geo, depth = tp.bosch_etch(
+def build_etched_geometry(recipe: dict):
+    geo = tp.make_initial_geometry(radius=RADIUS, mask_height=MASK_HEIGHT, taper=recipe["mask_taper"])
+    geo, depth = tp.bosch_etch(
             geo,
             num_cycles=recipe["num_cycles"],
             etch_time=recipe["etch_time"],
@@ -305,13 +321,31 @@ def run_task(task: tuple[dict, int]) -> dict:
             theta_r_min=recipe["theta_r_min"],
             radius=RADIUS,
         )
+    pts_etched = tp.profile_points(geo)
+    return geo, {
+        "depth": depth,
+        "bulge": tp.wall_bulge(pts_etched, depth, RADIUS),
+        "width_error": tp.width_error(pts_etched, depth, RADIUS),
+    }
+
+
+def run_from_etched(recipe: dict, replicate: int, geo_etched, upstream_metrics: dict, geometry_id: str | None):
+    t0 = time.time()
+    base = {
+        "recipe_id": recipe["recipe_id"],
+        "recipe_hash": recipe["recipe_hash"],
+        "name": recipe["name"],
+        "replicate": replicate,
+        "recipe": recipe,
+    }
+    if geometry_id is not None:
+        base["upstream_geometry_id"] = geometry_id
+    try:
+        geo = ps.Domain()
+        geo.deepCopy(geo_etched)
         pts_etched = tp.profile_points(geo)
         y_etched = float(pts_etched[:, 1].min())
-        metrics = {
-            "depth": depth,
-            "bulge": tp.wall_bulge(pts_etched, depth, RADIUS),
-            "width_error": tp.width_error(pts_etched, depth, RADIUS),
-        }
+        metrics = dict(upstream_metrics)
 
         geo = tp.deposit_conformal(
             geo, ps.Material.SiO2, recipe["liner_thick"],
@@ -349,6 +383,44 @@ def run_task(task: tuple[dict, int]) -> dict:
         })
     except Exception as exc:
         return jsonable({**base, "ok": False, "error": repr(exc), "elapsed_s": time.time() - t0})
+
+
+def run_task(task: tuple[dict, int]) -> dict:
+    recipe, replicate = task
+    try:
+        geo, metrics = build_etched_geometry(recipe)
+    except Exception as exc:
+        return jsonable({
+            "recipe_id": recipe["recipe_id"],
+            "recipe_hash": recipe["recipe_hash"],
+            "name": recipe["name"],
+            "replicate": replicate,
+            "recipe": recipe,
+            "ok": False,
+            "error": repr(exc),
+            "elapsed_s": 0.0,
+        })
+    return run_from_etched(recipe, replicate, geo, metrics, None)
+
+
+def run_shared_upstream_task(task: tuple[int, list[dict]]) -> list[dict]:
+    replicate, recipes = task
+    geometry_id = f"{hashlib.sha1(repr(upstream_key(recipes[0])).encode()).hexdigest()[:12]}-r{replicate}"
+    try:
+        geo, metrics = build_etched_geometry(recipes[0])
+    except Exception as exc:
+        return [jsonable({
+            "recipe_id": recipe["recipe_id"],
+            "recipe_hash": recipe["recipe_hash"],
+            "name": recipe["name"],
+            "replicate": replicate,
+            "recipe": recipe,
+            "upstream_geometry_id": geometry_id,
+            "ok": False,
+            "error": repr(exc),
+            "elapsed_s": 0.0,
+        }) for recipe in recipes]
+    return [run_from_etched(recipe, replicate, geo, metrics, geometry_id) for recipe in recipes]
 
 
 def row_recipe_hash(row: dict) -> str:
@@ -404,6 +476,8 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
     parser.add_argument("--seed", type=int, default=211)
     parser.add_argument("--design", choices=["broad", "focus", "mixed"], default="mixed")
+    parser.add_argument("--shared-upstream", action="store_true",
+                        help="Reuse each stochastic etch geometry across downstream recipe arms.")
     parser.add_argument("--space-json", default=None)
     parser.add_argument("--anchors-json", default=None)
     parser.add_argument("--out", default="joint_process_doe_results.jsonl")
@@ -422,12 +496,18 @@ def main() -> None:
         if (recipe["recipe_hash"], replicate) not in done
     ]
     print(f"joint process DOE: design={args.design} recipes={len(recipes)} "
-          f"replicates={args.replicates} pending={len(tasks)} workers={args.workers}")
+          f"replicates={args.replicates} pending={len(tasks)} workers={args.workers} "
+          f"shared_upstream={args.shared_upstream}")
 
     t0 = time.time()
     with out_path.open("a") as f:
         with futures.ProcessPoolExecutor(max_workers=args.workers) as pool:
-            for i, row in enumerate(pool.map(run_task, tasks), 1):
+            if args.shared_upstream:
+                grouped = grouped_tasks(recipes, args.replicates, done)
+                completed = (row for rows in pool.map(run_shared_upstream_task, grouped) for row in rows)
+            else:
+                completed = pool.map(run_task, tasks)
+            for i, row in enumerate(completed, 1):
                 f.write(json.dumps(row, separators=(",", ":")) + "\n")
                 f.flush()
                 print(f"{i}/{len(tasks)} recipe={row['recipe_id']} hash={row['recipe_hash']} "
@@ -444,6 +524,7 @@ def main() -> None:
         "space": SPACE,
         "focus_space": FOCUS_SPACE,
         "design": args.design,
+        "shared_upstream": args.shared_upstream,
         "recipes": len(recipes),
         "replicates": args.replicates,
         "rows": len(rows),
