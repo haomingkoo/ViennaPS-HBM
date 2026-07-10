@@ -9,7 +9,6 @@ import sys
 from pathlib import Path
 
 import joint_process_doe as joint
-import review_joint_process_results as review
 
 
 EXPANSION_SPACE = {
@@ -51,8 +50,18 @@ def write_json(path: Path, data: dict | list) -> None:
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
 
 
+def score_key(row: dict) -> tuple:
+    return (
+        row.get("invalid_score_runs") or 0,
+        row.get("cmp_mask_consumed_rate") or 0,
+        -(row.get("mean_step_pass_count") or 0),
+        row.get("p90_total_score") if row.get("p90_total_score") is not None else 1e12,
+        row.get("mean_total_score") if row.get("mean_total_score") is not None else 1e12,
+    )
+
+
 def ranked_rows(summary: dict) -> list[dict]:
-    return sorted(summary.get("ranked", []), key=review.ranking_key)
+    return sorted(summary.get("ranked", []), key=score_key)
 
 
 def index_of(values: list, value) -> int:

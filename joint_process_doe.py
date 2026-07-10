@@ -22,11 +22,11 @@ import numpy as np
 import viennaps as ps
 
 import tsv_process as tp
-import review_joint_process_results as review
 
 
 RADIUS = 0.15
 MASK_HEIGHT = 0.3
+INVALID_SCORE = 1e9
 
 SPACE = {
     "mask_taper": [0.0, 2.0, 4.0, 6.0],
@@ -378,6 +378,65 @@ def mean(values):
     return float(statistics.mean(values)) if values else None
 
 
+def mean_bool(values):
+    return float(sum(bool(value) for value in values) / len(values)) if values else None
+
+
+def percentile(values, q):
+    if not values:
+        return None
+    values = sorted(values)
+    idx = min(len(values) - 1, max(0, math.ceil(q * len(values)) - 1))
+    return float(values[idx])
+
+
+def values_for(rows: list[dict], key: str) -> list:
+    return [row[key] for row in rows if row.get(key) is not None]
+
+
+def range_or_none(values):
+    return None if not values else [float(min(values)), float(max(values))]
+
+
+def aggregate(rows: list[dict]) -> list[dict]:
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[row_recipe_hash(row)].append(row)
+    out = []
+    for recipe_hash, group in grouped.items():
+        ok = [row for row in group if row.get("ok")]
+        scores = values_for(ok, "total_score")
+        out.append({
+            "recipe_hash": recipe_hash,
+            "recipe_id": group[0].get("recipe_id"),
+            "name": group[0]["name"],
+            "recipe": group[0]["recipe"],
+            "runs": len(group),
+            "ok_runs": len(ok),
+            "target_pass_rate": mean_bool([row.get("full_target_pass") for row in ok]),
+            "mean_step_pass_count": mean(values_for(ok, "step_pass_count")),
+            "min_step_pass_count": min(values_for(ok, "step_pass_count"), default=None),
+            "mean_total_score": mean(scores),
+            "p90_total_score": percentile(scores, 0.90),
+            "invalid_score_runs": sum(1 for score in scores if abs(score) >= INVALID_SCORE),
+            "mean_depth": mean([abs(value) for value in values_for(ok, "depth")]),
+            "depth_range": range_or_none([abs(value) for value in values_for(ok, "depth")]),
+            "mean_bulge": mean(values_for(ok, "bulge")),
+            "mean_liner_coverage": mean(values_for(ok, "liner_coverage")),
+            "mean_barrier_coverage": mean(values_for(ok, "barrier_coverage")),
+            "mean_fill_coverage": mean(values_for(ok, "fill_coverage")),
+            "mean_tip_gap": mean(values_for(ok, "tip_gap")),
+            "mean_cmp_dish": mean(values_for(ok, "cmp_dish")),
+            "cmp_mask_consumed_rate": mean_bool([row.get("cmp_mask_consumed") for row in ok]),
+        })
+    return sorted(out, key=lambda r: (
+        r.get("invalid_score_runs") or 0,
+        r.get("cmp_mask_consumed_rate") or 0,
+        -(r["mean_step_pass_count"] or 0),
+        r["p90_total_score"] if r["p90_total_score"] is not None else INVALID_SCORE,
+    ))
+
+
 def main_effects(rows: list[dict]) -> dict:
     effects = {}
     ok_rows = [row for row in rows if row.get("ok")]
@@ -393,6 +452,21 @@ def main_effects(rows: list[dict]) -> dict:
             "range": (max(finite) - min(finite)) if finite else None,
         }
     return effects
+
+
+def boundary_notes(ranked: list[dict], top_n: int = 10) -> list[str]:
+    notes = []
+    top = ranked[:top_n]
+    for factor, values in SPACE.items():
+        if not top:
+            continue
+        winners = [row["recipe"][factor] for row in top]
+        lo, hi = min(values), max(values)
+        if all(value == lo for value in winners):
+            notes.append(f"top {len(top)} all at low boundary {factor}={lo}; expand lower if physically valid")
+        if all(value == hi for value in winners):
+            notes.append(f"top {len(top)} all at high boundary {factor}={hi}; expand higher if physically valid")
+    return notes
 
 
 def main() -> None:
@@ -438,7 +512,7 @@ def main() -> None:
 
     planned_hashes = {recipe["recipe_hash"] for recipe in recipes}
     rows = [row for row in load_rows(out_path) if row_recipe_hash(row) in planned_hashes]
-    ranked = review.aggregate(rows)
+    ranked = aggregate(rows)
     summary = {
         "target_specs": tp.TARGET_SPECS,
         "space": SPACE,
@@ -449,7 +523,7 @@ def main() -> None:
         "rows": len(rows),
         "ranked": ranked,
         "main_effects": main_effects(rows),
-        "boundary_notes": review.boundary_notes(ranked, SPACE, top_n=10),
+        "boundary_notes": boundary_notes(ranked),
     }
     Path(args.summary).write_text(json.dumps(jsonable(summary), indent=2))
     print(f"wrote {args.summary}")
