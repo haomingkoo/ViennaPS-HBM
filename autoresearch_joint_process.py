@@ -198,6 +198,7 @@ def run_generation(args, generation: int, plan: dict) -> Path:
         "--recipes", str(args.recipes),
         "--replicates", str(args.replicates),
         "--workers", str(args.workers),
+        "--shared-upstream",
         "--design", args.design,
         "--seed", str(args.seed + generation),
         "--space-json", str(space_path),

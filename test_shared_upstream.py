@@ -1,4 +1,5 @@
 import joint_process_doe as joint
+from pathlib import Path
 
 
 def recipe(name, upstream=0):
@@ -19,6 +20,12 @@ def test_grouped_tasks_share_only_identical_upstream_recipes():
     assert sizes == [1, 1, 2, 2]
 
 
+def test_generation_controller_requests_shared_upstream():
+    source = Path(__file__).with_name("autoresearch_joint_process.py").read_text()
+    assert '"--shared-upstream",' in source
+
+
 if __name__ == "__main__":
     test_grouped_tasks_share_only_identical_upstream_recipes()
+    test_generation_controller_requests_shared_upstream()
     print("shared-upstream grouping checks: PASS")
