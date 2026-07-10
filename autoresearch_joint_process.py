@@ -207,13 +207,22 @@ def run_generation(args, generation: int, plan: dict) -> Path:
     ]
     print("running:", " ".join(cmd), flush=True)
     subprocess.run(cmd, cwd=args.repo, check=True)
+    rows = review.load_rows(results_path)
+    review_path = out_dir / f"gen_{generation:03d}_review.md"
+    review.write_report(rows, review_path, args.recipes * args.replicates)
+    write_json(out_dir / f"gen_{generation:03d}_metric.json", {
+        "metric": "full_process_loss",
+        "value": review.best_loss(rows),
+        "review": str(review_path),
+        "next_decision": f"See {review_path}#next-decision",
+    })
     return summary_path
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", default=".")
-    parser.add_argument("--workdir", default="autoresearch_joint_process")
+    parser.add_argument("--workdir", default="autoresearch-results/joint-process")
     parser.add_argument("--bootstrap-summary", default="joint_process_doe_summary.json")
     parser.add_argument("--generations", type=int, default=1)
     parser.add_argument("--start-generation", type=int, default=1)
@@ -249,6 +258,12 @@ def main() -> None:
         summary_path = run_generation(args, generation, plan)
         next_summary = load_json(summary_path)
         append_log(log_path, generation, summary, plan, next_summary)
+        write_json(out_dir / "latest.json", {
+            "generation": generation,
+            "summary": str(summary_path),
+            "next_generation": generation + 1,
+            "resume_with": str(summary_path),
+        })
         summary = next_summary
     print(f"wrote {log_path}")
 
