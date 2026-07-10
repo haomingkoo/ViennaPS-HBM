@@ -42,6 +42,15 @@ def test_full_traveler_hard_gates_and_stability_precede_raw_score():
     assert review.best_loss(rows) == 1.2
 
 
+def test_boundary_notes_require_sampled_ranges():
+    ranked = [{"recipe": {"cmp_mult": 2.2}}]
+    assert review.boundary_notes(ranked) == []
+    assert review.boundary_notes(ranked, {"cmp_mult": [1.5, 2.0, 2.2]}) == [
+        "top 1 all at high boundary cmp_mult=2.2; expand higher if physically valid"
+    ]
+
+
 if __name__ == "__main__":
     test_full_traveler_hard_gates_and_stability_precede_raw_score()
+    test_boundary_notes_require_sampled_ranges()
     print("full-process review checks: PASS")

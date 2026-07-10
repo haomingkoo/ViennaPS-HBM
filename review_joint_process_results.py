@@ -161,16 +161,7 @@ def boundary_notes(ranked: list[dict], space: dict | None = None, top_n: int = 4
             if all(value == hi for value in values):
                 notes.append(f"top {len(top)} all at high boundary {factor}={hi}; expand higher if physically valid")
         return notes
-    factors = list(top[0]["recipe"])
-    skip = {"name", "recipe_id", "recipe_hash"}
-    notes = []
-    for factor in factors:
-        if factor in skip:
-            continue
-        values = [row["recipe"].get(factor) for row in top if factor in row.get("recipe", {})]
-        if len(set(values)) == 1:
-            notes.append(f"top recipes all share `{factor}={values[0]}`; verify this is not a boundary artifact")
-    return notes
+    return []
 
 
 def range_or_none(values):
@@ -193,7 +184,8 @@ def effect_ranges(rows: list[dict], top_n=8) -> list[tuple[str, float]]:
     return sorted(effects, key=lambda item: item[1], reverse=True)[:top_n]
 
 
-def write_report(rows: list[dict], out_path: Path, expected_rows: int | None) -> None:
+def write_report(rows: list[dict], out_path: Path, expected_rows: int | None,
+                 space: dict | None = None) -> None:
     ranked = aggregate(rows)
     failures = failure_counts(rows)
     steps = step_names(rows)
@@ -263,12 +255,14 @@ def write_report(rows: list[dict], out_path: Path, expected_rows: int | None) ->
             lines.append(f"| `{step}` | {fmt(data.get('pass_rate'))} | {fmt(data.get('mean_score'))} |\n")
         lines.append("\n")
 
-    boundary = boundary_notes(ranked)
+    boundary = boundary_notes(ranked, space)
     lines += ["## Boundary checks\n\n"]
     if boundary:
         lines += [f"- {note}\n" for note in boundary]
+    elif space is None:
+        lines.append("- Sampled ranges were not supplied; no boundary claim is made.\n")
     else:
-        lines.append("- No single shared factor across the top 4 candidates in the current checkpoint.\n")
+        lines.append("- No top candidate sits on a sampled range boundary.\n")
     lines.append("\n")
 
     effects = effect_ranges(rows)

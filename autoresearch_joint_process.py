@@ -209,7 +209,7 @@ def run_generation(args, generation: int, plan: dict) -> Path:
     subprocess.run(cmd, cwd=args.repo, check=True)
     rows = review.load_rows(results_path)
     review_path = out_dir / f"gen_{generation:03d}_review.md"
-    review.write_report(rows, review_path, args.recipes * args.replicates)
+    review.write_report(rows, review_path, args.recipes * args.replicates, plan["space"])
     write_json(out_dir / f"gen_{generation:03d}_metric.json", {
         "metric": "full_process_loss",
         "value": review.best_loss(rows),
