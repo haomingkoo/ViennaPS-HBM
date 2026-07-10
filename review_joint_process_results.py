@@ -115,6 +115,7 @@ def aggregate(rows: list[dict]) -> list[dict]:
             "pass_count_range": [min(pass_counts), max(pass_counts)] if pass_counts else None,
             "mean_total_score": mean(scores),
             "p90_total_score": percentile(scores, 0.90),
+            "worst_total_score": max(scores, default=None),
             "invalid_score_runs": sum(invalid_metric(row) for row in ok),
             "mean_depth": mean([abs(row["depth"]) for row in ok if row.get("depth") is not None]),
             "depth_range": range_or_none([abs(row["depth"]) for row in ok if row.get("depth") is not None]),
@@ -211,7 +212,7 @@ def write_report(rows: list[dict], out_path: Path, expected_rows: int | None,
             "## Critical read\n\n",
             f"- Current best: `{best['name']}` / `{best['recipe_hash']}` with "
             f"mean step pass count {fmt(best['mean_step_pass_count'])}, "
-            f"p90 score {fmt(best['p90_total_score'])}.\n",
+            f"p90/worst score {fmt(best['p90_total_score'])}/{fmt(best['worst_total_score'])}.\n",
             f"- Failed or unstable specs on current best: {', '.join(failed) if failed else 'none'}.\n",
         ]
         if failed:
@@ -226,14 +227,14 @@ def write_report(rows: list[dict], out_path: Path, expected_rows: int | None,
 
     lines += [
         "## Top candidates\n\n",
-        "| Rank | Recipe | Runs | Step pass mean | Pass range | p90 score | depth | bulge | tip gap | CMP dish | mask consumed |\n",
-        "|---:|---|---:|---:|---|---:|---:|---:|---:|---:|---:|\n",
+        "| Rank | Recipe | Runs | Step pass mean | Pass range | p90 score | worst score | depth | bulge | tip gap | CMP dish | mask consumed |\n",
+        "|---:|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|\n",
     ]
     for i, row in enumerate(top, 1):
         lines.append(
             f"| {i} | `{row['name']}` | {row['ok_runs']}/{row['runs']} | "
             f"{fmt(row['mean_step_pass_count'])} | {row['pass_count_range']} | "
-            f"{fmt(row['p90_total_score'])} | {fmt(row['mean_depth'])} | "
+            f"{fmt(row['p90_total_score'])} | {fmt(row['worst_total_score'])} | {fmt(row['mean_depth'])} | "
             f"{fmt(row['mean_bulge'])} | {fmt(row['mean_tip_gap'])} | "
             f"{fmt(row['mean_cmp_dish'])} | {fmt(row['cmp_mask_consumed_rate'])} |\n"
         )

@@ -40,6 +40,7 @@ def test_full_traveler_hard_gates_and_stability_precede_raw_score():
     assert names.index("invalid") > names.index("missing")
     assert names[-1] == "runner-error"
     assert review.best_loss(rows) == 1.2
+    assert ranked[0]["worst_total_score"] == 1.2
 
 
 def test_boundary_notes_require_sampled_ranges():

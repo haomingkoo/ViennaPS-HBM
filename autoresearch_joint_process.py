@@ -140,6 +140,7 @@ def summarize(summary: dict) -> dict:
         "best_recipe": best.get("recipe"),
         "best_mean_step_pass_count": best.get("mean_step_pass_count"),
         "best_p90_total_score": best.get("p90_total_score"),
+        "best_worst_total_score": best.get("worst_total_score"),
         "best_mean_total_score": best.get("mean_total_score"),
         "best_mean_depth": best.get("mean_depth"),
         "best_mean_bulge": best.get("mean_bulge"),
