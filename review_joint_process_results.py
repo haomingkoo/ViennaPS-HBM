@@ -267,7 +267,12 @@ def write_report(rows: list[dict], out_path: Path, expected_rows: int | None,
     lines.append("\n")
 
     effects = effect_ranges(rows)
-    lines += ["## Largest sampled effects\n\n", "| Factor | Mean-score range |\n", "|---|---:|\n"]
+    lines += [
+        "## Largest marginal sampled effects\n\n",
+        "These are balanced-screen associations, not dominance or causal interaction claims; "
+        "confirm important effects on shared upstream geometries.\n\n",
+        "| Factor | Mean-score range |\n", "|---|---:|\n",
+    ]
     for factor, delta in effects:
         lines.append(f"| `{factor}` | {fmt(delta)} |\n")
     lines.append("\n")
