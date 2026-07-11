@@ -6,7 +6,7 @@ from pathlib import Path
 data = json.loads(Path("publication_campaign_data.json").read_text())
 assert data["total_travelers"] == 1948
 assert data["wired_factor_count"] == 17
-assert len(data["score_history"]) == 12
+assert "score_history" not in data
 assert len(data["window"]) == 81
 assert sum(not row["mask_consumed_runs"] for row in data["window"]) == 48
 assert all(row["full_pass_runs"] == 0 for row in data["window"])
@@ -17,7 +17,7 @@ assert all(value.startswith("data:image/png;base64,") for value in data["visuals
 
 template = Path("explainer_template.html").read_text()
 html = Path("explainer.html").read_text()
-for required in ("id=\"tutorial\"", "id=\"autoresearch\"", "id=\"history-plot\"",
+for required in ("id=\"tutorial\"", "id=\"autoresearch\"", "id=\"stage-tabs\"",
                  "id=\"window-plot\"", "id=\"seed-plot\"", "id=\"visual-reads\""):
     assert required in template
 assert "Using ViennaPS to research a complete TSV traveler" in html

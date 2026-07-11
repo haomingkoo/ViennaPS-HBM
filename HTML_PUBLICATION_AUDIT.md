@@ -56,14 +56,11 @@ more authority than the final gate-first evidence supports.
 
 ## Rewrite standard
 
-The rebuilt page will open with a concise package overview and a reproducible
-tour of the repo, then use the full traveler as a case study. Readers can move
-from one canonical run into screening, controlled interactions, replication,
-boundary expansion, and process-window analysis. The final gate-first decision
-then anchors interactive campaign stages, local process-window points,
-finalist seeds, and real fill/CMP geometry. The precursor etch/fill explorers
-remain as clearly labeled research history. All public claims must be traceable
-to the compact publication dataset generated from checkpointed campaign rows.
+The rebuilt page opens with a concise package overview and a reproducible tour
+of the repo, then uses the complete process as a case study. Readers can move
+from one simulation into screening, controlled comparisons, replication,
+boundary expansion, and nearby-recipe analysis. Public claims are traceable to
+the compact publication dataset generated from saved campaign rows.
 
 ## Post-rewrite technical audit
 
@@ -92,3 +89,24 @@ accepted or rejected without the browser visual pass.
   regression guard.
 - Added generation hypotheses, designs, results, and next experiments.
 - Added accessibility semantics and tests for all interactive controls.
+
+### Plain-language and interaction audit
+
+A reader review exposed three problems that source-level checks missed:
+
+- Internal terms such as “audited wired model space,” “canonical traveler,”
+  and “robust miss” obscured simple ideas. They were replaced with physical
+  process names and direct explanations.
+- The managed-loss history joined scores from different experiments and made a
+  deliberate destructive boundary test look like research regression. The
+  chart was removed. Nine selectable experiment summaries now show the
+  question, simulation count, finding, and next move.
+- The precursor explorers were partially synchronized and failed to draw in
+  the deployed page. They were removed from the public reading path. The
+  81-recipe explorer remains because all four sliders select one saved recipe
+  and update one consistent readout.
+
+The CMP failure image now marks its blank panel explicitly: excessive isotropic
+removal deleted every visible modeled material, including the mask. The result
+and finalist sections explain failure using measured Cu-gap and CMP-recess
+ranges rather than abstract score language.
