@@ -4,6 +4,9 @@ import json
 with open("explainer_data.json") as f:
     data = json.load(f)
 
+with open("publication_campaign_data.json") as f:
+    data["campaign"] = json.load(f)
+
 with open("sweep_top4_results.json") as f:
     doe800 = json.load(f)
 
