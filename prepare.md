@@ -426,6 +426,33 @@ report must show real sampled points only; no interpolated or invented
     least 4 replicates for broad screening and 16 fresh seeds only for
     anchor/finalist stability, with p90 and worst step-pass count reported.
 
+25. **The high-fill-isotropy boundary is a negative controlled result, not an
+    optimum.** Campaign generation 006 held the G003_0056 Bosch geometry and
+    minimum liner/barrier stack fixed, then ran 60 downstream arms x 4 shared
+    geometry replicates with fill isotropic ratio 0.10–0.60, fill thickness
+    0.15–0.26, and CMP multiplier 1.5–2.2. All 240 rows failed liner, fill,
+    and CMP; 184 consumed the mask. The best mask-surviving arm still had
+    tip gap 0.1547 and dish 0.4789, while a top `fill_iso=0.6` arm had a
+    worse 0.3095 gap. This rejects “increase isotropic fill” as the local
+    remedy. It is evidence for, but not proof of, a CEAC/directional-fill
+    structural limitation; retain the distinction in final reporting.
+
+26. **A local process window can be robust yet still infeasible.** G008 ran a
+    complete 3^4 downstream map (liner sticking 0.16/0.24/0.30, fill
+    thickness 0.18/0.22/0.26, fill iso 0/0.05/0.10, CMP multiplier
+    1.2/1.5/1.8) across four shared Bosch geometries. Forty-eight of 81
+    settings preserve the mask in every replicate, but all 324 rows fail the
+    zero-gap fill and zero-dish CMP targets. Do not describe a mask-survival
+    region as a feasible process window; call it a robust-miss window.
+
+27. **Promising post-screen recipes need their own unseen-seed confirmation.**
+    G008's four-seed winner `window_059` was compared against the previously
+    stable G005_061 reference on 16 new shared upstream seeds (G009). Both
+    retained exactly four passing steps, but both still missed fill/CMP. The
+    reference won the specified p90 rank (1.109 vs 1.133); the new candidate
+    had lower mean gap/dish but a slightly worse p90. Preserve that Pareto
+    distinction and never promote either as a manufacturing recipe.
+
 ## Open, not yet attempted
 
 - Curvature-dependent (CEAC-like) Cu fill model -- would need a custom
