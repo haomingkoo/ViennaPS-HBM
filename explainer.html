@@ -144,6 +144,7 @@
   .explorer { display: grid; grid-template-columns: 250px 1fr; gap: 1.8rem; }
   @media (max-width: 700px) { .explorer { grid-template-columns: 1fr; } }
   .control { margin-bottom: 1.3rem; }
+  .control-help { margin: -0.45rem 0 1rem; color: var(--ink-dim); font-size: 0.8rem; line-height: 1.45; }
   .control label {
     display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.78rem;
     color: var(--ink-dim); margin-bottom: 0.5rem; letter-spacing: 0.01em;
@@ -296,13 +297,17 @@
 
   <section class="finding" id="window">
     <div class="finding-head"><span class="finding-num">WINDOW</span><h2>Explore the 3<sup>4</sup> local process-window map</h2></div>
-    <p class="claim">Choose one of the 81 exact downstream recipes. The scatter plot shows the mean tip-gap and CMP-dish tradeoff across four shared Bosch geometries. Amber points consume the mask in at least one replicate and fail the hard gate.</p>
+    <p class="claim" id="window-help">Move one slider at a time to load an exact sampled recipe, or select a point in the scatter to load all four settings. The chart shows the mean tip-gap and CMP-dish tradeoff across four shared Bosch geometries. Amber points consume the mask in at least one replicate and fail the hard gate.</p>
     <div class="evidence-grid">
       <div>
-        <div class="control"><label for="w-liner">liner sticking <span class="val" id="w-liner-val"></span></label><input type="range" id="w-liner" min="0" max="2" step="1" value="1"><div class="ticks" id="w-liner-ticks"></div></div>
-        <div class="control"><label for="w-thick">fill thickness <span class="val" id="w-thick-val"></span></label><input type="range" id="w-thick" min="0" max="2" step="1" value="1"><div class="ticks" id="w-thick-ticks"></div></div>
-        <div class="control"><label for="w-iso">fill iso ratio <span class="val" id="w-iso-val"></span></label><input type="range" id="w-iso" min="0" max="2" step="1" value="1"><div class="ticks" id="w-iso-ticks"></div></div>
-        <div class="control"><label for="w-cmp">CMP multiplier <span class="val" id="w-cmp-val"></span></label><input type="range" id="w-cmp" min="0" max="2" step="1" value="1"><div class="ticks" id="w-cmp-ticks"></div></div>
+        <div class="control"><label for="w-liner">liner sticking probability <span class="val" id="w-liner-val"></span></label><input type="range" id="w-liner" min="0" max="2" step="1" value="1" aria-describedby="window-help"><div class="ticks" id="w-liner-ticks"></div></div>
+        <p class="control-help">Transport/conformality control. It changes liner reach and the remaining aperture.</p>
+        <div class="control"><label for="w-thick">Cu fill thickness (model length) <span class="val" id="w-thick-val"></span></label><input type="range" id="w-thick" min="0" max="2" step="1" value="1" aria-describedby="window-help"><div class="ticks" id="w-thick-ticks"></div></div>
+        <p class="control-help">Total modeled Cu deposition amount. Larger is not automatically better because the centerline void can grow.</p>
+        <div class="control"><label for="w-iso">Cu fill isotropic ratio <span class="val" id="w-iso-val"></span></label><input type="range" id="w-iso" min="0" max="2" step="1" value="1" aria-describedby="window-help"><div class="ticks" id="w-iso-ticks"></div></div>
+        <p class="control-help">Fraction of the directional fill model treated as isotropic. This is not CEAC chemistry.</p>
+        <div class="control"><label for="w-cmp">CMP removal multiplier <span class="val" id="w-cmp-val"></span></label><input type="range" id="w-cmp" min="0" max="2" step="1" value="1" aria-describedby="window-help"><div class="ticks" id="w-cmp-ticks"></div></div>
+        <p class="control-help">Removal distance relative to modeled Cu overburden. More removal can consume the mask.</p>
         <dl class="compact-readout" id="window-readout" aria-live="polite"></dl>
       </div>
       <div class="plot-shell" id="window-plot" aria-label="Interactive process-window scatter plot"></div>
@@ -418,26 +423,29 @@
       still shown when the selected <code>etch_time</code> /
       <code>neutral_rate</code> pair exists in the original 800-run grid;
       the target-structure score below is the metric to trust for this view.
+      Move any slider to load a sampled lookup. The geometry panel changes
+      with etch time and neutral rate; the pinned note states which other
+      factors are held fixed for that render.
     </p>
     <div class="panel explorer">
       <div>
         <div class="control">
-          <label for="e-et">etch_time (um/cycle) <span class="val" id="e-et-val"></span></label>
+          <label for="e-et">etch time (model time / cycle) <span class="val" id="e-et-val"></span></label>
           <input type="range" id="e-et" min="0" max="6" step="1" value="0">
           <div class="ticks" id="e-et-ticks"></div>
         </div>
         <div class="control">
-          <label for="e-nr">neutral_rate <span class="val" id="e-nr-val"></span></label>
+          <label for="e-nr">neutral rate (model length / time) <span class="val" id="e-nr-val"></span></label>
           <input type="range" id="e-nr" min="0" max="8" step="1" value="0">
           <div class="ticks" id="e-nr-ticks"></div>
         </div>
         <div class="control">
-          <label for="e-ns">neutral_sticking_probability <span class="val" id="e-ns-val"></span></label>
+          <label for="e-ns">neutral sticking probability <span class="val" id="e-ns-val"></span></label>
           <input type="range" id="e-ns" min="0" max="7" step="1" value="1">
           <div class="ticks" id="e-ns-ticks"></div>
         </div>
         <div class="control">
-          <label for="e-iet">initial_etch_time <span class="val" id="e-iet-val"></span></label>
+          <label for="e-iet">initial etch time (model time) <span class="val" id="e-iet-val"></span></label>
           <input type="range" id="e-iet" min="0" max="4" step="1" value="2">
           <div class="ticks" id="e-iet-ticks"></div>
         </div>
@@ -529,17 +537,18 @@
       did not cover the best observed region; `iso_ratio=0` is the
       physical lower bound tested, not an extrapolated point. Watch the
       tip-gap floor: it doesn't hit the 0 spec anywhere in the sampled
-      range.
+      range. Every slider position loads a simulated point; the explorer does
+      not interpolate between recipes.
     </p>
     <div class="panel explorer">
       <div>
         <div class="control">
-          <label for="f-thick">thickness (um) <span class="val" id="f-thick-val"></span></label>
+          <label for="f-thick">thickness (model length) <span class="val" id="f-thick-val"></span></label>
           <input type="range" id="f-thick" min="0" max="9" step="1" value="4">
           <div class="ticks" id="f-thick-ticks"></div>
         </div>
         <div class="control">
-          <label for="f-iso">iso_ratio <span class="val" id="f-iso-val"></span></label>
+          <label for="f-iso">isotropic ratio <span class="val" id="f-iso-val"></span></label>
           <input type="range" id="f-iso" min="0" max="9" step="1" value="3">
           <div class="ticks" id="f-iso-ticks"></div>
         </div>
@@ -731,12 +740,17 @@ function renderWindowPlot(selected) {
 }
 function updateWindow() {
   const row = selectedWindow();
-  for (const key of Object.keys(windowLabels)) windowLabels[key].textContent = windowAxes[key][+windowControls[key].value];
+  const units = {liner_sticking: 'probability', fill_thick: 'model length', fill_iso: 'ratio', cmp_mult: 'times modeled overburden'};
+  for (const key of Object.keys(windowLabels)) {
+    const value = windowAxes[key][+windowControls[key].value];
+    windowLabels[key].textContent = value;
+    windowControls[key].setAttribute('aria-valuetext', `${value} ${units[key]}`);
+  }
   document.getElementById('window-readout').innerHTML = `
     <dt>Recipe</dt><dd>${row.name}</dd><dt>Step gates</dt><dd>${row.min_step_passes}/6</dd>
     <dt>p90 / worst loss</dt><dd>${row.p90.toFixed(3)} / ${row.worst.toFixed(3)}</dd>
-    <dt>Mean tip gap</dt><dd class="status-miss">${row.mean_gap.toFixed(4)}</dd>
-    <dt>Mean CMP dish</dt><dd class="status-miss">${row.mean_dish.toFixed(4)}</dd>
+    <dt>Mean tip gap</dt><dd class="status-miss">${row.mean_gap.toFixed(4)} model length</dd>
+    <dt>Mean CMP dish</dt><dd class="status-miss">${row.mean_dish.toFixed(4)} model length</dd>
     <dt>CMP mask</dt><dd class="status-${row.mask_consumed_runs ? 'miss' : 'pass'}">${row.mask_consumed_runs ? `consumed ${row.mask_consumed_runs}/4` : 'survives 4/4'}</dd>`;
   renderWindowPlot(row);
 }
@@ -900,13 +914,17 @@ function updateEtchExplorer() {
   document.getElementById('e-nr-val').textContent = nr;
   document.getElementById('e-ns-val').textContent = ns;
   document.getElementById('e-iet-val').textContent = iet;
+  eEt.setAttribute('aria-valuetext', `${et} model time per cycle`);
+  eNr.setAttribute('aria-valuetext', `${nr} model length per time`);
+  eNs.setAttribute('aria-valuetext', `${ns} probability`);
+  eIet.setAttribute('aria-valuetext', `${iet} model time`);
 
   const row = findDoe800(et, ns, iet, nr);
   const doeBulgeEl = document.getElementById('e-doe-bulge');
   if (!row || row[5] === null) {
     doeBulgeEl.textContent = 'not in 800-run grid'; doeBulgeEl.className = 'v warn';
   } else {
-    doeBulgeEl.textContent = row[5].toFixed(4) + ' um';
+    doeBulgeEl.textContent = row[5].toFixed(4) + ' model length';
     doeBulgeEl.className = 'v' + (row[5] < 0.03 ? ' ok' : ' warn');
   }
 
@@ -916,18 +934,18 @@ function updateEtchExplorer() {
   const bulgeEl = document.getElementById('e-bulge');
   const scoreEl = document.getElementById('e-score');
   if (renderRun && Number.isFinite(renderRun.bulge) && Number.isFinite(renderRun.width_error)) {
-    depthEl.textContent = Math.abs(renderRun.depth).toFixed(3) + ' um';
+    depthEl.textContent = Math.abs(renderRun.depth).toFixed(3) + ' model length';
     depthEl.className = 'v' + (renderRun.target_pass ? ' ok' : ' warn');
-    widthEl.textContent = renderRun.width_error.toFixed(4) + ' um';
+    widthEl.textContent = renderRun.width_error.toFixed(4) + ' model length';
     widthEl.className = 'v' + (renderRun.width_error <= DATA.target_specs.etch.max_width_error ? ' ok' : ' warn');
-    bulgeEl.textContent = renderRun.bulge.toFixed(4) + ' um';
+    bulgeEl.textContent = renderRun.bulge.toFixed(4) + ' model length';
     bulgeEl.className = 'v' + (renderRun.bulge <= DATA.target_specs.etch.max_wall_bulge ? ' ok' : ' warn');
     scoreEl.textContent = renderRun.target_score.toFixed(4);
     scoreEl.className = 'v' + (renderRun.target_pass ? ' ok' : ' warn');
     document.getElementById('e-pin-note').textContent = `rendered geometry uses neutral_sticking_probability=0.05 and initial_etch_time=0.3; score is distance to the depth/width/bulge target spec, lower is better.`;
     renderVia(document.getElementById('e-svg'), renderRun.profile, 'var(--si)', EYMIN, EYMAX, renderRun.depth);
   } else {
-    depthEl.textContent = renderRun ? Math.abs(renderRun.depth).toFixed(3) + ' um' : 'no render';
+    depthEl.textContent = renderRun ? Math.abs(renderRun.depth).toFixed(3) + ' model length' : 'no render';
     widthEl.textContent = 'not fittable';
     bulgeEl.textContent = 'not fittable';
     scoreEl.textContent = renderRun ? renderRun.target_score.toFixed(1) : 'no render';
@@ -976,7 +994,7 @@ function gapDimensionLine(w, h, floorY, sealY, x) {
     <line x1="${px}" y1="${yFloor}" x2="${px}" y2="${ySeal}" stroke="var(--amber)" stroke-width="1.5"/>
     <line x1="${px-6}" y1="${yFloor}" x2="${px+6}" y2="${yFloor}" stroke="var(--amber)" stroke-width="1.5"/>
     <line x1="${px-6}" y1="${ySeal}" x2="${px+6}" y2="${ySeal}" stroke="var(--amber)" stroke-width="1.5"/>
-    <text x="${px+11}" y="${(yFloor+ySeal)/2+3}" font-size="10" fill="var(--amber)" font-family="var(--mono)">${(sealY-floorY).toFixed(3)}um gap</text>`;
+    <text x="${px+11}" y="${(yFloor+ySeal)/2+3}" font-size="10" fill="var(--amber)" font-family="var(--mono)">gap ${(sealY-floorY).toFixed(3)}</text>`;
 }
 
 // Same lesson as trimTop/renderVia: use profile_points()'s natural point
@@ -1013,9 +1031,11 @@ function updateFillExplorer() {
   const thickness = DATA.fill_thicknesses[+fThick.value], iso = DATA.fill_iso_ratios[+fIso.value];
   document.getElementById('f-thick-val').textContent = thickness;
   document.getElementById('f-iso-val').textContent = iso;
+  fThick.setAttribute('aria-valuetext', `${thickness} model length`);
+  fIso.setAttribute('aria-valuetext', `${iso} ratio`);
   const run = DATA.fill_sweep.find(r => r.thickness === thickness && r.iso_ratio === iso);
   const gapEl = document.getElementById('f-gap');
-  gapEl.textContent = run.tip_gap.toFixed(4) + ' um';
+  gapEl.textContent = run.tip_gap.toFixed(4) + ' model length';
   gapEl.className = 'v' + (run.target_pass ? ' ok' : ' warn');
   const scoreEl = document.getElementById('f-score');
   scoreEl.textContent = run.target_score.toFixed(4);
@@ -1055,7 +1075,7 @@ updateFillExplorer();
       ${dots}
       ${xLabels}
       <text x="${w/2}" y="${h-14}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)">overpolish multiplier (x nominal overburden)</text>
-      <text x="14" y="${(h-padBottom)/2}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)" transform="rotate(-90 14 ${(h-padBottom)/2})">dishing</text>
+      <text x="14" y="${(h-padBottom)/2}" text-anchor="middle" font-size="10" fill="var(--ink-dim)" font-family="var(--mono)" transform="rotate(-90 14 ${(h-padBottom)/2})">dish (model length)</text>
     </svg>
     <p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">
       <span style="color:var(--confirmed);">&#9632;</span> mask intact &nbsp;
@@ -1095,8 +1115,8 @@ updateFillExplorer();
   }
   document.getElementById('taper-chart').innerHTML = `
     <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
-      ${panel(t.bulge_taper0, t.bulge_taper4, 'etch bulge, um (10 reps each)', 74, 240)}
-      ${panel(t.gap_taper0, t.gap_taper4, 'fill tip-gap, um (6 reps each)', 400, 240)}
+      ${panel(t.bulge_taper0, t.bulge_taper4, 'etch bulge, model length (10 reps each)', 74, 240)}
+      ${panel(t.gap_taper0, t.gap_taper4, 'fill tip-gap, model length (6 reps each)', 400, 240)}
     </svg>
     <p style="font-size:0.72rem; color:var(--ink-dim); margin-top:0.5rem; font-family:var(--mono);">
       dot = one run &middot; bar + bold number = mean

@@ -26,6 +26,8 @@ assert "Adopted as production" not in html
 assert "All 4 real knobs" not in html
 assert "only 2 real continuous knobs" not in html
 assert "18 wired recipe factors" not in html
+assert "aria-valuetext" in template
+assert "model length" in template
 
 
 class MarkupAudit(HTMLParser):
