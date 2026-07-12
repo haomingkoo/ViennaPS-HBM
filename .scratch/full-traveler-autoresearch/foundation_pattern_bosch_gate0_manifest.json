@@ -1,0 +1,163 @@
+{
+  "manifest_version": 1,
+  "campaign": "foundation-pattern-bosch-gate0",
+  "labels": [
+    "full-traveler",
+    "critical-review"
+  ],
+  "hypothesis": "At the selected depth-matched cycle, full-2D pattern and Bosch metrics agree with the qualified quarter reference and remain stable across the declared grid bridge, while bounded mask erosion produces a monotonic response that brackets resolved survival and failure.",
+  "authority": {
+    "gate": "pattern_bosch_gate0",
+    "may_authorize": "broad_pattern_bosch_screen_only",
+    "recipe_authorized": false,
+    "process_window_authorized": false,
+    "full_traveler_authorized": false,
+    "automatic_downstream_launch_authorized": false
+  },
+  "reference_recipe": {
+    "source_path": ".scratch/full-traveler-autoresearch/foundation_bosch_high_fidelity_manifest.json",
+    "recipe_canonical_sha256": "0c94e62d79254d3d6a018be8f386f985662260ff01305936b0ff30e506b6c1a8"
+  },
+  "geometry": {
+    "radius": 0.15,
+    "mask_height": 0.3,
+    "x_extent": 1.0,
+    "y_extent": 2.0
+  },
+  "recipe": {
+    "mask_taper": 2.0,
+    "num_cycles": 14,
+    "etch_time": 0.5,
+    "neutral_rate": -0.08,
+    "neutral_sticking_probability": 0.08,
+    "initial_etch_time": 0.3,
+    "deposition_thickness": 0.005,
+    "deposition_sticking_probability": 0.01,
+    "ion_source_exponent": 400,
+    "theta_r_min": 45.0,
+    "ion_rate": -0.1
+  },
+  "selected_cycle": 13,
+  "rng_base_seeds": [
+    61000,
+    62000,
+    63000,
+    64000
+  ],
+  "rng_policy": {
+    "shared_base_seed_labels_across_arms": true,
+    "streams_disjoint_within_each_arm": true,
+    "pointwise_common_random_numbers_across_arms": false,
+    "full_vs_quarter_common_random_numbers": false,
+    "interpretation": "Base labels pair comparisons, but changed geometry, surface nodes, and process evolution do not guarantee identical pointwise random draws."
+  },
+  "numerics": {
+    "threads_per_worker": 7,
+    "maximum_workers": 2,
+    "dimension": 2
+  },
+  "target": {
+    "opening_cd": 0.3,
+    "mask_height": 0.3,
+    "etch_depth": 1.25,
+    "depth_tolerance": 0.1,
+    "max_width_error": 0.06,
+    "max_wall_bulge": 0.03,
+    "resolved_mask_cells_strict": 2.0
+  },
+  "review": {
+    "row_recompute_abs_tolerance": 1e-12,
+    "erosion_monotonic_abs_tolerance": 1e-12,
+    "paired_max_absolute_deltas": {
+      "depth": 0.02,
+      "cd_top": 0.01,
+      "cd_middle": 0.01,
+      "cd_bottom": 0.01,
+      "max_cd_error": 0.01,
+      "max_bow": 0.005,
+      "scallop_rms": 0.0025,
+      "mask_remaining_height": 0.01
+    },
+    "full_vs_quarter": {
+      "reference_arm": "quarter_reference_fine",
+      "candidate_arm": "full_reference_fine",
+      "require_all_four_pairs": true,
+      "require_no_gate_flips": true
+    },
+    "grid_bridge": {
+      "reference_arm": "full_reference_fine",
+      "candidate_arm": "full_grid_bridge",
+      "require_all_four_pairs": true,
+      "require_no_gate_flips": true
+    },
+    "erosion_arm_order": [
+      "full_reference_fine",
+      "full_erosion_m0p01",
+      "full_erosion_m0p02",
+      "full_erosion_m0p04"
+    ],
+    "require_one_all_seed_surviving_arm": true,
+    "require_one_all_seed_failed_arm": true
+  },
+  "designs": [
+    {
+      "name": "quarter_reference_fine",
+      "role": "quarter_reference",
+      "hole_shape": "QUARTER",
+      "grid_delta": 0.00125,
+      "rays_per_point": 2000,
+      "mask_ion_rate": 0.0
+    },
+    {
+      "name": "full_reference_fine",
+      "role": "full_reference",
+      "hole_shape": "FULL",
+      "grid_delta": 0.00125,
+      "rays_per_point": 2000,
+      "mask_ion_rate": 0.0
+    },
+    {
+      "name": "full_grid_bridge",
+      "role": "grid_bridge",
+      "hole_shape": "FULL",
+      "grid_delta": 0.0025,
+      "rays_per_point": 2000,
+      "mask_ion_rate": 0.0
+    },
+    {
+      "name": "full_erosion_m0p01",
+      "role": "erosion_challenge",
+      "hole_shape": "FULL",
+      "grid_delta": 0.00125,
+      "rays_per_point": 2000,
+      "mask_ion_rate": -0.01
+    },
+    {
+      "name": "full_erosion_m0p02",
+      "role": "erosion_challenge",
+      "hole_shape": "FULL",
+      "grid_delta": 0.00125,
+      "rays_per_point": 2000,
+      "mask_ion_rate": -0.02
+    },
+    {
+      "name": "full_erosion_m0p04",
+      "role": "erosion_challenge",
+      "hole_shape": "FULL",
+      "grid_delta": 0.00125,
+      "rays_per_point": 2000,
+      "mask_ion_rate": -0.04
+    }
+  ],
+  "runtime": {
+    "viennaps_binary_sha256": "0fb3e28628a60ae1206fde1f584fa55d1590e380569a5d7984fc8b6a34334480",
+    "viennals_binary_sha256": "a92d0fabb3d1cf0e58edb5eb2e55576193a53c2c189b0db5217786d3a6f7fb2a"
+  },
+  "provenance": {
+    "viennaps_package": "4.6.1",
+    "viennaps_source_commit": "2956ed587984c6dc38be24c6e2390e10c9b2f0a7",
+    "executor": "direct_checkpointed_batch_no_llm",
+    "planner": "gpt-5.6-sol",
+    "metric_module": "traveler_metrics.py"
+  }
+}

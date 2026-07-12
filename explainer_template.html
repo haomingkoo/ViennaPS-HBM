@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="An interactive ViennaPS-HBM tutorial and controlled full TSV traveler case study.">
+<meta name="description" content="An interactive ViennaPS-HBM TSV traveler study with experiment results, analysis, process actions, and reproducible code.">
+<meta name="author" content="Haoming Koo">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://kooexperience.com/ViennaPS-HBM/explainer.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230f8b96'/%3E%3Cpath d='M18 14h28v12c0 15-6 24-14 24s-14-9-14-24z' fill='white'/%3E%3C/svg%3E">
+<meta property="og:title" content="ViennaPS-HBM: a full TSV traveler research case study">
+<meta property="og:description" content="Follow the TSV investigation from experiment design to measured result, interpretation, and the next process move.">
+<meta property="og:url" content="https://kooexperience.com/ViennaPS-HBM/explainer.html">
+<meta property="og:type" content="article">
 <title>ViennaPS-HBM: a full TSV traveler research case study</title>
 <style>
   :root {
@@ -11,7 +19,7 @@
     --line: #ccd3d8; --ink: #171b20; --ink-dim: #5b6570;
     --plasma: #0f8b96; --plasma-glow: rgba(15,139,150,0.18);
     --copper: #a85f2e; --si: #5b6570; --oxide: #3f7ea6;
-    --amber: #9a6a12; --confirmed: #2f7d4f;
+    --amber: #9a6a12; --confirmed: #2f7d4f; --failure: oklch(0.53 0.15 29);
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -19,7 +27,7 @@
       --line: #232b37; --ink: #d7dee5; --ink-dim: #7a8494;
       --plasma: #5fd4dc; --plasma-glow: rgba(95,212,220,0.14);
       --copper: #c9884a; --si: #8a94a3; --oxide: #7fa8c9;
-      --amber: #d9a441; --confirmed: #5cb87a;
+      --amber: #d9a441; --confirmed: #5cb87a; --failure: oklch(0.66 0.14 29);
     }
   }
   :root[data-theme="dark"] {
@@ -27,14 +35,14 @@
     --line: #232b37; --ink: #d7dee5; --ink-dim: #7a8494;
     --plasma: #5fd4dc; --plasma-glow: rgba(95,212,220,0.14);
     --copper: #c9884a; --si: #8a94a3; --oxide: #7fa8c9;
-    --amber: #d9a441; --confirmed: #5cb87a;
+    --amber: #d9a441; --confirmed: #5cb87a; --failure: oklch(0.66 0.14 29);
   }
   :root[data-theme="light"] {
     --bg: #eef1f3; --surface: #ffffff; --surface-2: #e6eaed;
     --line: #ccd3d8; --ink: #171b20; --ink-dim: #5b6570;
     --plasma: #0f8b96; --plasma-glow: rgba(15,139,150,0.18);
     --copper: #a85f2e; --si: #5b6570; --oxide: #3f7ea6;
-    --amber: #9a6a12; --confirmed: #2f7d4f;
+    --amber: #9a6a12; --confirmed: #2f7d4f; --failure: oklch(0.53 0.15 29);
   }
   :root { --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
           --sans: "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
@@ -67,6 +75,47 @@
   .process-flow span { padding: 0.85rem 0.5rem; text-align: center; font-family: var(--mono); font-size: 0.72rem; border-right: 1px solid var(--line); }
   .process-flow span:last-child { border-right: 0; }
   @media (max-width: 700px) { .process-flow { grid-template-columns: repeat(2, 1fr); } .process-flow span:nth-child(2n) { border-right: 0; } }
+  .failure-map { margin-top: 1.25rem; border-top: 1px solid var(--line); }
+  .failure-row {
+    display: grid; grid-template-columns: minmax(120px, 0.62fr) 1.15fr 1.1fr 0.95fr;
+    gap: 1.1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); align-items: start;
+  }
+  .failure-stage { min-width: 0; }
+  .failure-stage h3 { margin: 0.25rem 0 0.32rem; font: 650 0.92rem/1.3 var(--sans); }
+  .failure-state { font: 0.67rem var(--mono); color: var(--ink-dim); }
+  .failure-state.pass { color: var(--confirmed); }
+  .failure-state.fail { color: var(--amber); }
+  .failure-cell b { display: block; margin-bottom: 0.25rem; font: 0.68rem var(--mono); color: var(--ink-dim); }
+  .failure-cell span { display: block; font-size: 0.79rem; line-height: 1.48; }
+  .code-map { margin-top: 1.1rem; border: 1px solid var(--line); background: var(--surface); }
+  .code-map > summary { padding: 0.8rem 1rem; cursor: pointer; font: 0.78rem var(--mono); color: var(--plasma); }
+  .code-map[open] > summary { border-bottom: 1px solid var(--line); }
+  .code-map .panel { border: 0; margin: 0; }
+  .mechanism-explorer { margin: 1.7rem 0; padding: 1.1rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .mechanism-controls { display: flex; flex-wrap: wrap; gap: 0.7rem 1.5rem; margin-bottom: 1rem; }
+  .mechanism-controls fieldset { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; border: 0; }
+  .mechanism-controls legend { width: 100%; margin-bottom: 0.2rem; font: 0.68rem var(--mono); color: var(--ink-dim); }
+  .mechanism-controls button {
+    min-height: 44px; padding: 0.42rem 0.68rem; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink-dim); font: 0.74rem var(--mono); cursor: pointer;
+  }
+  .mechanism-controls button[aria-pressed="true"] { border-color: var(--plasma); color: var(--ink); background: var(--plasma-glow); }
+  .mechanism-controls button:focus-visible { outline: 2px solid var(--plasma); outline-offset: 2px; }
+  .mechanism-layout { display: grid; grid-template-columns: minmax(400px, 1.2fr) minmax(250px, 0.8fr); gap: 1.2rem; align-items: stretch; }
+  .mechanism-figure { min-height: 330px; border: 1px solid var(--line); background: var(--surface); }
+  .mechanism-figure svg { display: block; width: 100%; height: auto; }
+  .mechanism-read { padding: 1rem 1.1rem; background: var(--surface-2); }
+  .mechanism-read h4 { margin: 0 0 0.6rem; font-size: 1rem; }
+  .mechanism-read dl { margin: 0; }
+  .mechanism-read dt { margin-top: 0.75rem; font: 0.68rem var(--mono); color: var(--ink-dim); }
+  .mechanism-read dd { margin: 0.2rem 0 0; font-size: 0.82rem; line-height: 1.5; }
+  @media (max-width: 760px) {
+    .failure-row { grid-template-columns: 1fr; gap: 0.6rem; padding: 1.15rem 0; }
+    .failure-cell { display: grid; grid-template-columns: 88px 1fr; gap: 0.55rem; }
+    .failure-cell b { margin: 0; }
+    .mechanism-layout { grid-template-columns: 1fr; }
+    .mechanism-figure { min-height: 0; }
+  }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
   .repo-map dt, .repo-map dd { margin: 0; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
   .repo-map dt { font-family: var(--mono); font-size: 0.76rem; color: var(--plasma); }
@@ -93,6 +142,126 @@
   .compact-readout { display: grid; grid-template-columns: 1fr auto; gap: 0.45rem 1rem; padding-top: 0.8rem; border-top: 1px solid var(--line); font-size: 0.8rem; }
   .compact-readout dt { color: var(--ink-dim); }
   .compact-readout dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .checkpoint-strip {
+    display: grid; grid-template-columns: 1.25fr repeat(3, minmax(145px, 0.7fr));
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    margin: 1.4rem 0 2rem;
+  }
+  .checkpoint-strip > div { padding: 1rem 1.1rem; border-right: 1px solid var(--line); }
+  .checkpoint-strip > div:last-child { border-right: 0; }
+  .checkpoint-strip b { display: block; margin-bottom: 0.25rem; font-size: 0.9rem; }
+  .checkpoint-strip span { color: var(--ink-dim); font-size: 0.78rem; }
+  .gate0-checkpoint {
+    padding: 1.35rem 1.45rem; border: 1px solid var(--line); background: var(--surface);
+  }
+  .gate0-checkpoint .decision-line { margin-bottom: 0.7rem; }
+  .gate0-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .gate0-card { min-width: 0; padding: 1rem 1.1rem; background: var(--surface); }
+  .gate0-card h3 { margin: 0 0 0.35rem; font-size: 0.9rem; }
+  .gate0-card p { margin: 0; color: var(--ink-dim); font-size: 0.8rem; }
+  .gate0-card .exact { margin-top: 0.5rem; color: var(--ink); font: 0.72rem/1.55 var(--mono); }
+  .gate0-erosion { width: 100%; margin-top: 0.55rem; border-collapse: collapse; font: 0.72rem var(--mono); }
+  .gate0-erosion th, .gate0-erosion td { padding: 0.35rem 0.45rem; border-top: 1px solid var(--line); text-align: left; }
+  .gate0-erosion th { color: var(--ink-dim); font-weight: 500; }
+  .gate0-next { margin: 1rem 0 0; padding-top: 0.9rem; border-top: 1px solid var(--line); font-size: 0.86rem; }
+  @media (max-width: 720px) {
+    .checkpoint-strip { grid-template-columns: 1fr; }
+    .checkpoint-strip > div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .checkpoint-strip > div:last-child { border-bottom: 0; }
+    .gate0-grid { grid-template-columns: 1fr; }
+  }
+  .evidence-ledger { border-top: 1px solid var(--line); }
+  .evidence-entry {
+    display: grid; grid-template-columns: minmax(155px, 0.48fr) minmax(0, 1.52fr);
+    gap: 1.2rem; padding: 1.35rem 0; border-bottom: 1px solid var(--line);
+  }
+  .evidence-entry h3 { margin: 0.2rem 0 0; font: 600 1rem/1.35 var(--sans); }
+  .evidence-state { font: 0.72rem var(--mono); color: var(--plasma); }
+  .evidence-state.provisional { color: var(--amber); }
+  .reasoning-chain { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 0; }
+  .reasoning-chain > div { min-width: 0; }
+  .reasoning-chain dt { margin-bottom: 0.28rem; font: 0.72rem var(--mono); color: var(--ink-dim); }
+  .reasoning-chain dd { margin: 0; font-size: 0.82rem; line-height: 1.5; }
+  @media (max-width: 780px) {
+    .evidence-entry { grid-template-columns: 1fr; gap: 0.65rem; }
+    .reasoning-chain { grid-template-columns: 1fr; }
+  }
+  .target-profile {
+    display: grid; grid-template-columns: minmax(220px, 0.7fr) 1.3fr;
+    gap: 1.4rem; align-items: center; padding: 1.2rem 0 0;
+  }
+  .target-profile svg { max-height: 310px; }
+  .target-profile figcaption { color: var(--ink-dim); font-size: 0.84rem; }
+  .target-profile figcaption b { color: var(--ink); }
+  @media (max-width: 720px) { .target-profile { grid-template-columns: 1fr; } }
+  .research-path {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; padding: 0;
+    margin: 1.25rem 0; list-style: none; border: 1px solid var(--line);
+    counter-reset: research-step;
+  }
+  .research-path li { position: relative; min-height: 150px; padding: 2.2rem 0.8rem; border-right: 1px solid var(--line); counter-increment: research-step; }
+  .research-path li:last-child { border-right: 0; }
+  .research-path li::before { content: counter(research-step, decimal-leading-zero); position: absolute; top: 0.65rem; left: 0.8rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .research-path b { display: block; margin-bottom: 0.35rem; font-size: 0.8rem; }
+  .research-path span { display: block; color: var(--ink-dim); font-size: 0.73rem; line-height: 1.45; }
+  .research-path .done::after, .research-path .active::after { content: "complete"; position: absolute; bottom: 0.7rem; left: 0.8rem; font: 0.62rem var(--mono); color: var(--confirmed); }
+  .research-path .active { background: var(--plasma-glow); }
+  .research-path .active::after { content: "now"; color: var(--plasma); }
+  @media (max-width: 820px) {
+    .research-path { grid-template-columns: repeat(2, 1fr); }
+    .research-path li { min-height: 126px; border-bottom: 1px solid var(--line); }
+    .research-path li:nth-child(2n) { border-right: 0; }
+    .research-path li:nth-last-child(-n + 2) { border-bottom: 0; }
+  }
+  .action-table th, .action-table td { text-align: left !important; vertical-align: top; }
+  .action-table td:nth-child(1) { white-space: nowrap; color: var(--ink); }
+  .action-table td:nth-child(2) { color: var(--ink-dim); }
+  .action-table td:nth-child(4) { font-size: 0.72rem; }
+  .surface-explorer { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.25rem 0; }
+  .surface-controls { display: flex; flex-wrap: wrap; gap: 0.55rem 1.2rem; align-items: center; margin-bottom: 1rem; }
+  .surface-controls fieldset { display: flex; flex-wrap: wrap; gap: 0.35rem; border: 0; padding: 0; margin: 0; }
+  .surface-controls legend { float: none; width: 100%; margin-bottom: 0.2rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .surface-controls button {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-dim);
+    min-height: 44px; padding: 0.4rem 0.65rem; font: 0.74rem var(--mono); cursor: pointer;
+  }
+  .surface-controls button[aria-pressed="true"] { color: var(--ink); border-color: var(--plasma); background: var(--plasma-glow); }
+  .surface-controls button:focus-visible, .surface-cell:focus-visible { outline: 2px solid var(--plasma); outline-offset: 2px; }
+  .surface-layout { display: grid; grid-template-columns: minmax(380px, 1.25fr) minmax(250px, 0.75fr); gap: 1.3rem; align-items: start; }
+  .surface-table { width: 100%; border-collapse: collapse; table-layout: fixed; font: 0.74rem var(--mono); }
+  .surface-table th { padding: 0.45rem; color: var(--ink-dim); font-weight: 500; }
+  .surface-table th:first-child { width: 92px; text-align: right; }
+  .surface-table td { padding: 2px; }
+  .surface-cell {
+    width: 100%; min-height: 45px; border: 1px solid var(--line); color: var(--ink);
+    background: var(--surface-2);
+    background: color-mix(in srgb, var(--amber) 13%, var(--surface));
+    font: 0.76rem var(--mono); cursor: pointer;
+  }
+  .surface-cell.near { background: color-mix(in srgb, var(--amber) 20%, var(--surface)); }
+  .surface-cell.far { background: var(--surface-2); background: color-mix(in srgb, var(--failure) 18%, var(--surface)); }
+  .surface-cell.selected { outline: 2px solid var(--ink); outline-offset: -3px; }
+  .surface-read { min-height: 100%; padding: 1rem 1.1rem; background: var(--surface-2); }
+  .surface-read h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+  .surface-read p { margin: 0.55rem 0 0; font-size: 0.82rem; }
+  .surface-read .exact { font-family: var(--mono); color: var(--ink-dim); }
+  .surface-legend { margin: 0.8rem 0 0; color: var(--ink-dim); font-size: 0.77rem; }
+  .boundary-story {
+    display: grid; grid-template-columns: minmax(420px, 1.25fr) minmax(240px, 0.75fr);
+    gap: 1.2rem; align-items: stretch; margin: 1.2rem 0;
+  }
+  .boundary-plot { min-height: 245px; border: 1px solid var(--line); background: var(--surface); padding: 0.6rem; }
+  .boundary-plot svg { width: 100%; height: auto; display: block; }
+  .boundary-read { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.9rem 0; }
+  .boundary-read div { padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
+  .boundary-read div:last-child { border-bottom: 0; }
+  .boundary-read b { display: block; margin-bottom: 0.18rem; font-size: 0.82rem; }
+  .boundary-read span { display: block; color: var(--ink-dim); font-size: 0.78rem; }
+  @media (max-width: 780px) {
+    .surface-layout { grid-template-columns: 1fr; }
+    .surface-table th:first-child { width: 76px; }
+    .boundary-story { grid-template-columns: 1fr; }
+  }
   .plot-shell { border: 1px solid var(--line); background: var(--surface); padding: 0.65rem; min-height: 310px; }
   .plot-shell svg { min-height: 290px; }
   .choice-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
@@ -117,6 +286,10 @@
   }
   .finding h2 {
     font-family: var(--sans); font-size: clamp(1.2rem, 2.2vw, 1.45rem); font-weight: 650; margin: 0; letter-spacing: -0.015em;
+  }
+  @media (max-width: 620px) {
+    .finding-head { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+    .finding-num { white-space: normal; }
   }
   .claim { font-size: 0.94rem; color: var(--ink-dim); max-width: 68ch; margin: 0.5rem 0 1.1rem; }
   .claim b { color: var(--ink); font-weight: 600; }
@@ -197,6 +370,18 @@
   table.doe-table th, table.doe-table td { text-align: right; padding: 0.3rem 0.6rem; font-variant-numeric: tabular-nums; }
   table.doe-table th { text-align: left; color: var(--ink-dim); font-weight: 500; border-bottom: 1px solid var(--line); }
   table.doe-table td:first-child, table.doe-table th:first-child { text-align: left; }
+  .process-code-table td:nth-child(2), .process-code-table th:nth-child(2) { text-align: left; }
+  .process-code-table summary { color: var(--plasma); cursor: pointer; font-family: var(--mono); }
+  .process-code-table pre { margin: 0.5rem 0 0; white-space: pre-wrap; font-size: 0.68rem; }
+  @media (max-width: 620px) {
+    .process-code-table thead { display: none; }
+    .process-code-table, .process-code-table tbody, .process-code-table tr, .process-code-table td { display: block; width: 100%; }
+    .process-code-table tr { padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
+    .process-code-table tr:last-child { border-bottom: 0; }
+    table.process-code-table td { border: 0; padding: 0.25rem 0.6rem; text-align: left; }
+    .process-code-table td:first-child { font-weight: 700; color: var(--ink); }
+    .process-code-table td:last-child { color: var(--ink-dim); }
+  }
 
   footer {
     margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
@@ -208,44 +393,319 @@
 
 <div class="wrap">
   <header>
-    <p class="context-line">ViennaPS / via-middle TSV process / HBM4 case study</p>
+    <p class="context-line">ViennaPS / via-middle TSV process / HBM case study / updated <time datetime="2026-07-13">13 Jul 2026</time></p>
     <h1>Using ViennaPS to research a complete TSV traveler</h1>
     <p class="lede">
-      See how recipe settings reshape a TSV through patterning, Bosch etch,
-      liner, barrier and seed, Cu fill, and CMP. The case study follows 1,948
-      simulated travelers from the first screening run to the final recommendation.
+      Follow an ongoing investigation from mask opening to CMP. Each experiment
+      shows the question, measured result, interpretation, and the process move
+      it supports. The original 1,948 simulations remain visible as research
+      history; a new foundation audit now controls the conclusions.
     </p>
     <p class="scope-note">
       The inputs are ViennaPS model coefficients, not wafer-qualified tool
       recipes. The study covers single-via geometry; it does not cover package
       warpage, bonding reliability, or signaling.
     </p>
+    <p class="scope-note"><b>Current assumptions:</b> one isolated, fully wetted, clean via with uniform local process conditions. Wafer loading, seed resistance, complete plating chemistry, adhesion, film stress, and CMP pad mechanics are not yet represented; each is named where it limits a conclusion.</p>
     <nav class="jump-nav" aria-label="Report sections">
-      <a href="#overview">What it models</a><a href="#tutorial">Run the repo</a>
-      <a href="#knobs">Find the knobs</a><a href="#autoresearch">How we tested</a>
-      <a href="#decision">What passed</a><a href="#window">Tune a recipe</a>
-      <a href="#visual-reads">See the failures</a><a href="#history">Earlier experiments</a>
+      <a href="#latest-checkpoint">Latest checkpoint</a><a href="#overview">Failures and knobs</a><a href="#boundary-atlas">Response surfaces</a><a href="#current">What we learned</a>
+      <a href="#actions">What to change</a><a href="#why-order">Why this order</a><a href="#cu-screen">Explore the Cu result</a>
+      <a href="#tutorial">Run the repo</a><a href="#decision">Earlier campaign</a>
+      <a href="#visual-reads">See the failures</a><a href="#references">Sources</a>
     </nav>
   </header>
 
-  <section class="finding" id="overview" style="margin-top:0;">
+  <section class="finding gate0-checkpoint" id="latest-checkpoint" style="margin-top:0;">
+    <div class="finding-head"><span class="finding-num">FOUNDATION CHECK · INTERIM</span><h2>What the first 24 reruns changed</h2></div>
+    <p class="decision-line"><b>The 24-case check is complete.</b> It rejected two faster simulation shortcuts and the old save-and-reload method. Mask loss increased monotonically through the most aggressive tested setting, but every seed still retained mask; the failure boundary lies outside the tested range. These results define the next experiment; they do not solve the full traveler.</p>
+    <div class="checkpoint-strip" id="gate0-headline" aria-label="Gate-0 headline results"></div>
+    <div class="gate0-grid">
+      <article class="gate0-card"><h3>Quarter-width shortcut: rejected</h3><p id="gate0-full-quarter"></p></article>
+      <article class="gate0-card"><h3>Coarse-grid shortcut: rejected</h3><p id="gate0-grid-bridge"></p></article>
+      <article class="gate0-card"><h3>Mask-loss boundary: not reached</h3><p id="gate0-erosion-summary"></p><div class="table-scroll"><table class="gate0-erosion"><thead><tr><th>Mask ion-rate coefficient</th><th>Mask left (model length)</th><th>Mask survives</th></tr></thead><tbody id="gate0-erosion-rows"></tbody></table></div></article>
+      <article class="gate0-card"><h3>Saved-geometry method: rejected</h3><p id="gate0-handoff"></p></article>
+    </div>
+    <p class="gate0-next"><b>Frozen corrective R1 design:</b> <span id="gate0-next-action"></span></p>
+  </section>
+
+  <section class="finding" id="overview">
     <div class="finding-head"><span class="finding-num">OVERVIEW</span><h2>What ViennaPS-HBM can show</h2></div>
-    <p class="decision-line">ViennaPS connects process settings to the evolving TSV shape. In our tests, pattern through barrier pass reliably. Cu fill and CMP fail because their current models omit key physical effects.</p>
+    <p class="decision-line">The first campaign did not establish a complete working traveler. The active study is rebuilding every handoff: mask transfer, etched shape, functional films, staged Cu fill, and selective CMP.</p>
     <div class="process-flow" aria-label="TSV process sequence">
       <span>Mask opening</span><span>Silicon DRIE</span><span>SiO2 liner</span><span>Barrier + seed</span><span>Cu fill</span><span>CMP</span>
     </div>
-    <p class="note">The workflow defines targets, screens settings, tests interactions, expands boundaries, and checks the best recipes on unseen seeds.</p>
-    <div class="panel table-scroll"><table class="doe-table">
+    <p class="note">The early pattern and film labels used incomplete measurements. The active study now checks top, middle, and bottom CD; film thickness and continuity; Cu void topology; and material survival through CMP. Selected 3D checks remain mandatory before a final recipe.</p>
+    <h3 style="margin:1.5rem 0 0.3rem;">Six handoffs, not one void problem</h3>
+    <p class="claim">A downstream recipe cannot repair a failed upstream handoff. Each row names the failure, the main tuning direction, the upstream geometry that moves its boundary, and the evidence still required.</p>
+    <div class="failure-map" aria-label="Failure modes, tuning knobs, upstream couplings, and current evidence by TSV process step">
+      <article class="failure-row">
+        <div class="failure-stage"><span class="failure-state">DIRECT GEOMETRY INPUT</span><h3>Mask opening</h3></div>
+        <div class="failure-cell"><b>Can fail</b><span>Wrong opening CD, mask height, taper, or 3D placement.</span></div>
+        <div class="failure-cell"><b>Key knobs and coupling</b><span>Fab knobs are focus, dose, bake and develop; their outputs are opening CD, taper and height, which set the etch aperture.</span></div>
+        <div class="failure-cell"><b>Boundary evidence</b><span>The mask is an ideal linear profile and the reference erosion coefficient is zero. Preliminary erosion sensitivity is complete; focus/dose calibration and the mask-failure boundary remain open.</span></div>
+      </article>
+      <article class="failure-row">
+        <div class="failure-stage"><span class="failure-state fail">FOUNDATION CHECK COMPLETE; BROAD SCREEN WAITING</span><h3>Bosch DRIE</h3></div>
+        <div class="failure-cell"><b>Can fail</b><span>Wrong depth, top/middle/bottom CD, taper, bow, necking, or unstable geometry.</span></div>
+        <div class="failure-cell"><b>Key knobs and coupling</b><span>Etch time and cycles versus passivation dose, neutral transport, and ion directionality. Mask CD and taper shift the response.</span></div>
+        <div class="failure-cell"><b>Boundary evidence</b><span>All 24 reruns are valid. Quarter-width and coarse-grid shortcuts change the answer, and the mask-loss test never reached failure.</span></div>
+      </article>
+      <article class="failure-row">
+        <div class="failure-stage"><span class="failure-state fail">BASELINE FAILS 0/4</span><h3>SiO2 liner</h3></div>
+        <div class="failure-cell"><b>Can fail</b><span>Too thin, pinholed, poor lower-wall coverage, or excessive aperture loss.</span></div>
+        <div class="failure-cell"><b>Key knobs and coupling</b><span>Sticking probability controls conformality; dose controls thickness. Etch aspect ratio and bow control transport access.</span></div>
+        <div class="failure-cell"><b>Boundary evidence</b><span>Continuity passes, but lower-wall/field coverage is 0.859 versus the 0.995 target. Sticking-by-dose surface pending.</span></div>
+      </article>
+      <article class="failure-row">
+        <div class="failure-stage"><span class="failure-state fail">BASELINE FAILS 0/4</span><h3>Barrier + seed</h3></div>
+        <div class="failure-cell"><b>Can fail</b><span>Thin or disconnected floor/sidewall film, high resistance, seed loss during pre-clean or strike, shadowing, or aperture closure.</span></div>
+        <div class="failure-cell"><b>Key knobs and coupling</b><span>Conformality, nominal seed dose, and pre-fill seed loss. The liner-reduced aperture and etched wall angle shift the boundary.</span></div>
+        <div class="failure-cell"><b>Boundary evidence</b><span>Combined minimum thickness is 0.00480 versus 0.012. Residual-seed continuity and aperture surface pending.</span></div>
+      </article>
+      <article class="failure-row">
+        <div class="failure-stage"><span class="failure-state fail">TESTED LAW FAILS 0/8</span><h3>Cu electrofill</h3></div>
+        <div class="failure-cell"><b>Can fail</b><span>Incomplete fill, center seam, trapped void, mouth pinch-off, or no positive overburden.</span></div>
+        <div class="failure-cell"><b>Key knobs and coupling</b><span>Bottom-up kinetic selectivity first; total dose second. Post-seed aperture, aspect ratio, necking, and seed continuity shift the boundary.</span></div>
+        <div class="failure-cell"><b>Boundary evidence</b><span>The exact 2D transport surface is below. The same geometry fills under a prescribed bottom-up control; matched 3D is next.</span></div>
+      </article>
+      <article class="failure-row">
+        <div class="failure-stage"><span class="failure-state fail">RECIPE DOE BLOCKED</span><h3>CMP</h3></div>
+        <div class="failure-cell"><b>Can fail</b><span>Residual field Cu, dish, erosion, stop loss, plug loss, disconnection, or deletion of the stack.</span></div>
+        <div class="failure-cell"><b>Key knobs and coupling</b><span>Material selectivity, endpoint, and controlled overpolish. Incoming overburden and plug topology set the starting condition.</span></div>
+        <div class="failure-cell"><b>Boundary evidence</b><span>Connectivity controls pass. Stop-loss and plug-loss limits plus a valid incoming fill are still required.</span></div>
+      </article>
+    </div>
+    <div class="mechanism-explorer" id="mechanism-explorer">
+      <h3 style="margin:0 0 0.3rem;">See how an upstream shape changes the Cu-fill risk</h3>
+      <p class="claim">Use the two controls to separate an etched-shape problem from a growth-law problem. This is a mechanism schematic; the response-surface section uses saved simulations.</p>
+      <div class="mechanism-controls">
+        <fieldset><legend>Etched profile</legend>
+          <button type="button" data-mechanism-profile="straight" aria-pressed="true">Straight and open</button>
+          <button type="button" data-mechanism-profile="bowed" aria-pressed="false">Bowed wall</button>
+          <button type="button" data-mechanism-profile="necked" aria-pressed="false">Re-entrant neck</button>
+        </fieldset>
+        <fieldset><legend>Cu growth ordering</legend>
+          <button type="button" data-mechanism-growth="conformal" aria-pressed="true">Similar wall and floor</button>
+          <button type="button" data-mechanism-growth="bottom_up" aria-pressed="false">Floor much faster</button>
+        </fieldset>
+      </div>
+      <div class="mechanism-layout">
+        <div class="mechanism-figure" id="mechanism-figure" role="img" aria-label="Schematic TSV cross-section showing how etched profile and floor-versus-wall copper growth change pinch-off risk"></div>
+        <aside class="mechanism-read" id="mechanism-read" aria-live="polite"></aside>
+      </div>
+      <p class="note"><b>How to read it:</b> blue is liner, gray is barrier/seed, and copper is brown. Arrow length represents relative growth direction only. It is not a calibrated rate or a simulated cross-section.</p>
+      <p class="note"><b>Staged Cu schedule to test:</b> wet and activate the seed → gentle initiation → bottom-up superfill → faster bulk fill → controlled positive overburden → CMP.</p>
+    </div>
+    <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
+      <h3 style="margin:0 0 0.3rem;">The response surfaces that will define the process window</h3>
+      <p class="claim">A pass/fail boundary is more useful than one winning recipe. Each finished map will show exact simulated points, hard-gate failures, and the upstream condition held fixed. A smooth fitted boundary will appear only if validation supports it.</p>
+      <div class="panel table-scroll"><table class="doe-table action-table">
+        <thead><tr><th>Handoff</th><th>Surface axes</th><th>Failure boundary to display</th><th>Important upstream interaction</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Lithography → mask</td><td>Focus × dose, after calibration</td><td>Top/middle/bottom opening CD, resist height and incomplete opening</td><td>Resist tone, bake and develop move the mapping</td><td>Not modeled; measured-geometry inputs used now</td></tr>
+          <tr><td>Mask → DRIE</td><td>Initial mask profile × mask erosion/selectivity</td><td>Aperture drift, field protection, silicon depth/CD/bow/necking</td><td>Etch/passivation balance and mask shape jointly control access</td><td>Reference erosion is zero; preliminary sensitivity complete; failure boundary next</td></tr>
+          <tr><td>DRIE → liner</td><td>Liner sticking × dose</td><td>Minimum thickness and deep coverage versus remaining aperture</td><td>Etched CD, bow and aspect ratio</td><td>Qualified metrics; response campaign next</td></tr>
+          <tr><td>Liner → barrier/seed</td><td>Conformality/dose × pre-fill seed-loss stress</td><td>Residual connected floor/lower-wall thickness versus aperture closure</td><td>Liner thickness and etched wall angle control shadowing</td><td>Qualified geometry metrics; response campaign next</td></tr>
+          <tr><td>Seed → Cu fill</td><td>Suppressor sticking × source power</td><td>Floor/wall flux and growth ordering</td><td>Post-seed aperture, aspect ratio and seed continuity</td><td><a href="#cu-screen">168-case exact surface available</a>; matched 3D next</td></tr>
+          <tr><td>Cu fill → CMP</td><td>Material selectivity × endpoint/overpolish</td><td>Field clearance, dish, stop loss, plug loss and connectivity</td><td>Incoming Cu overburden and void topology</td><td>Controls ready; loss limits and valid plug required</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note"><b>Interactive rule:</b> every control position must load a saved simulation or be labeled as a schematic mechanism. The report will not animate invented in-between geometry.</p>
+    </div>
+    <details class="code-map">
+      <summary>Open the repo map and code snippets for all six steps</summary>
+    <div class="panel table-scroll"><table class="doe-table process-code-table">
       <thead><tr><th>Physical step</th><th>Code</th><th>What is simulated</th></tr></thead>
       <tbody>
-        <tr><td>Photoresist mask opening</td><td><code>make_initial_geometry()</code></td><td>Creates the mask shape directly; no exposure or develop model</td></tr>
-        <tr><td>Bosch silicon DRIE</td><td><code>bosch_etch()</code></td><td>Alternating SF6 dry etch and C4F8 passivation</td></tr>
-        <tr><td>SiO2 liner deposition</td><td><code>deposit_conformal()</code></td><td>Low-sticking particle transport for conformal coverage</td></tr>
-        <tr><td>Barrier + seed deposition</td><td><code>deposit_conformal()</code></td><td>Directional deposition, simplified as one Cu material layer</td></tr>
-        <tr><td>Cu electrofill approximation</td><td><code>cu_fill()</code></td><td>Directional plus isotropic growth; no CEAC chemistry</td></tr>
-        <tr><td>CMP approximation</td><td><code>apply_cmp()</code></td><td>Isotropic removal; no pad-pressure model</td></tr>
+        <tr><td>Photoresist mask opening</td><td><details><summary>make_initial_geometry()</summary><pre><code>ps.MakeHole(
+    domain=geometry, holeRadius=radius, holeDepth=0.0,
+    maskHeight=mask_height, maskTaperAngle=taper,
+    holeShape=ps.HoleShape.QUARTER,
+).apply()</code></pre></details></td><td>Creates the mask shape directly; no exposure or develop model</td></tr>
+        <tr><td>Bosch silicon DRIE</td><td><details><summary>bosch_etch()</summary><pre><code>geometry.duplicateTopLevelSet(ps.Material.Polymer)
+ps.Process(geometry, depo_model, 1.0).apply()
+ps.Process(geometry, depo_removal, 1.0).apply()
+ps.Process(geometry, etch_model, etch_time).apply()</code></pre></details></td><td>Alternating SF6 dry etch and C4F8 passivation</td></tr>
+        <tr><td>SiO2 liner deposition</td><td><details><summary>deposit_conformal()</summary><pre><code>model = ps.SingleParticleProcess(
+    rate=thickness,
+    stickingProbability=sticking,
+)</code></pre></details></td><td>Low-sticking particle transport for conformal coverage</td></tr>
+        <tr><td>Barrier + seed deposition</td><td><details><summary>deposit_conformal()</summary><pre><code>model = ps.DirectionalProcess(
+    direction=[0.0, -1.0, 0.0],
+    directionalVelocity=thickness,
+    isotropicVelocity=thickness * iso_ratio,
+)</code></pre></details></td><td>Directional deposition, simplified as one Cu material layer</td></tr>
+        <tr><td>Cu electrofill approximation</td><td><details><summary>cu_fill()</summary><pre><code>model = ps.DirectionalProcess(
+    direction=[0.0, -1.0, 0.0],
+    directionalVelocity=thickness,
+    isotropicVelocity=thickness * iso_ratio,
+)</code></pre></details></td><td>Directional plus isotropic growth; no CEAC chemistry</td></tr>
+        <tr><td>CMP approximation</td><td><details><summary>apply_cmp()</summary><pre><code>ps.Process(
+    geo_fill,
+    ps.IsotropicProcess(rate=-1.0),
+    overburden * mult,
+).apply()</code></pre></details></td><td>Isotropic removal; no pad-pressure model</td></tr>
       </tbody>
     </table></div>
+    </details>
+  </section>
+
+  <section class="finding" id="current">
+    <div class="finding-head"><span class="finding-num">CURRENT</span><h2>What the new experiments have taught us</h2></div>
+    <p class="decision-line">On the ideal protected geometry tested, the Cu law does not create enough bottom-up growth. Real etched-shape, liner/seed, and selective-CMP handoffs remain open.</p>
+    <div class="checkpoint-strip" aria-label="Current evidence checkpoint">
+      <div><b>Research status: foundation audit</b><span>Measurements and controlled failure tests come before another large recipe search.</span></div>
+      <div><b>376 unique foundation simulations</b><span>Ten traceable review artifacts are shown; completed comparison settings were reused exactly.</span></div>
+      <div><b>No recipe recommendation yet</b><span>The 2D Cu boundary is closed; a matched 3D check is next.</span></div>
+    </div>
+
+    <div class="evidence-ledger">
+      <article class="evidence-entry">
+        <div><span class="evidence-state provisional">FOUNDATION CHECK COMPLETE</span><h3>Use the verified full-width setup before the broad Bosch screen</h3></div>
+        <dl class="reasoning-chain">
+          <div><dt>Observation</dt><dd>All 24 cases are independently valid. Pattern gates pass 24/24; etch mask, CD, depth, and bow pass 24/24, 23/24, 22/24, and 22/24.</dd></div>
+          <div><dt>Interpretation</dt><dd>The quarter-width shortcut changes depth and top CD; the coarse grid changes six outputs. Mask loss is monotonic, but every tested erosion arm survives.</dd></div>
+          <div><dt>Process move</dt><dd>Keep the full-width fine grid, qualify the lower ray count, extend erosion until failure appears, and save the selected shapes natively.</dd></div>
+        </dl>
+      </article>
+
+      <article class="evidence-entry">
+        <div><span class="evidence-state">MEASUREMENT QUALIFIED</span><h3>The baseline films are continuous, but not functional</h3></div>
+        <dl class="reasoning-chain">
+          <div><dt>Observation</dt><dd>All 12 layer runs remain continuous and leave the aperture open. The baseline still passes 0/4 liner gates and 0/4 barrier/seed gates at the fine setting.</dd></div>
+          <div><dt>Interpretation</dt><dd>The liner has enough local thickness but poor deep coverage: lower-wall/field is 0.859 against a 0.995 target. Barrier plus seed is too thin and highly directional: stack minimum is 0.00480 against 0.012.</dd></div>
+          <div><dt>Process move</dt><dd>Screen lower liner sticking for deeper coverage. For barrier and seed, test more conformal transport and additional dose while protecting the Cu-fill aperture.</dd></div>
+        </dl>
+      </article>
+
+      <article class="evidence-entry">
+        <div><span class="evidence-state">SUCCESSFUL SHAPE CONTROL</span><h3>The model geometry can contain a void-free Cu plug</h3></div>
+        <dl class="reasoning-chain">
+          <div><dt>Observation</dt><dd>The candidate rate law pinches laterally and fails at both tested grids. A prescribed bottom-up control fills the same protected stack at both grids with positive overburden.</dd></div>
+          <div><dt>Interpretation</dt><dd>The failure is not proof that the via shape is unfillable. It isolates the problem to the growth law: the candidate begins near equal floor and wall velocity when roughly a tenfold floor advantage is required.</dd></div>
+          <div><dt>Process move</dt><dd>Establish bottom selectivity before sweeping total Cu thickness. More conformal growth alone closes the sidewalls and traps a void.</dd></div>
+        </dl>
+      </article>
+
+      <article class="evidence-entry">
+        <div><span class="evidence-state provisional">2D BOUNDARY CLOSED</span><h3>Lower sticking helps, but the gain is flattening</h3></div>
+        <dl class="reasoning-chain">
+          <div><dt>Observation</dt><dd>At sticking 0.00625, all 24 new runs are valid and the 1,600- and 3,200-reflection results are identical. Suppressor transport improves in all eight paired streams, but the combined gate still passes 0/8.</dd></div>
+          <div><dt>Interpretation</dt><dd>The worst flux gain is only 0.0041, below the 0.0167 numerical envelope. Realized floor/fastest-wall growth is 1.004–1.011; the depth-to-half-aperture geometry requires about 10.46 for the target-depth via and 25.10 for the deeper case.</dd></div>
+          <div><dt>Process move</dt><dd>Run the same transport question in a cylindrical 3D via. If 3D also misses, replace or extend the growth law before spending compute on Cu morphology or a large recipe sweep.</dd></div>
+        </dl>
+      </article>
+
+      <article class="evidence-entry">
+        <div><span class="evidence-state provisional">PRE-DOE CONTROL READY</span><h3>CMP can now detect a cut film instead of a disappearing picture</h3></div>
+        <dl class="reasoning-chain">
+          <div><dt>Observation</dt><dd>The new metric checks whether each material region connects the via floor to both mouth sides. Controlled planarization preserves SiO2 stop, barrier, seed, and Cu at two grids.</dd></div>
+          <div><dt>Interpretation</dt><dd>We can distinguish a connected layer from a cut layer. The removal model is still height and material dependent only; it has no pad-pressure physics.</dd></div>
+          <div><dt>Process move</dt><dd>Declare allowable stop loss and Cu-plug loss, then screen material selectivity, endpoint, and overpolish. Do not optimize surface recess alone.</dd></div>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section class="finding" id="actions">
+    <div class="finding-head"><span class="finding-num">PROCESS MOVES</span><h2>What to tune next, and what each move risks</h2></div>
+    <p class="claim">These are directions for the next simulation blocks. The coefficients are not yet calibrated to tool recipes, so the page does not invent gas flows, currents, or polish pressures.</p>
+    <div class="panel table-scroll"><table class="doe-table action-table">
+      <thead><tr><th>Process step</th><th>Next useful knob</th><th>Expected benefit and tradeoff</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Photolithography / mask opening</td><td>Opening CD, mask height, taper; later, placement error in 3D</td><td>Controls etch aperture and downstream access. Treat CD and mask height as product inputs until a lithography model is added.</td><td>Registry complete; screen pending</td></tr>
+        <tr><td>Bosch DRIE</td><td>Geometry representation, ray count, mask erosion</td><td>Use full-width fine geometry, qualify 1,000 versus 2,000 rays, then locate the mask-survival boundary without losing depth, CD, or bow.</td><td>24-case foundation check complete; corrective batch next</td></tr>
+        <tr><td>SiO2 liner</td><td>Lower sticking, then adjust total dose</td><td>Lower sticking should improve floor and lower-wall coverage. Extra dose can narrow the aperture, so both coverage and remaining opening stay gated.</td><td>Exploratory screen authorized</td></tr>
+        <tr><td>Barrier and seed</td><td>More conformal transport, dose, and directionality</td><td>Raise lower-wall thickness without closing the fill opening. If directional deposition remains near 0.23 wall/field coverage, test a more conformal model family.</td><td>Baseline fails 0/4</td></tr>
+        <tr><td>Cu electrofill</td><td>Matched 3D transport check; then chemistry-dependent bottom-up kinetics if it also misses</td><td>Test whether cylindrical transport changes the floor advantage. Total thickness is secondary until the bottom grows faster than the walls.</td><td>320 reviewed transport cells; 2D boundary closed</td></tr>
+        <tr><td>CMP</td><td>Material rates, endpoint, selectivity, controlled overpolish</td><td>Clear field Cu while retaining the stop layer and connected Cu plug. Dish, erosion, and material loss must be read together.</td><td>Metric ready; DOE blocked on loss limits</td></tr>
+      </tbody>
+    </table></div>
+
+    <figure class="target-profile">
+      <svg viewBox="0 0 680 320" role="img" aria-labelledby="ideal-title ideal-desc">
+        <title id="ideal-title">Target TSV profile before and after CMP</title>
+        <desc id="ideal-desc">A schematic, not a simulated result. Before CMP, a solid copper plug fills the lined via and extends above the field. After CMP, field copper is removed, the copper plug is level with the stop surface, and the liner, barrier, and seed remain connected.</desc>
+        <rect x="5" y="5" width="670" height="310" rx="2" fill="var(--surface)" stroke="var(--line)"/>
+        <text x="170" y="28" text-anchor="middle" fill="var(--ink)" font-size="15" font-family="var(--sans)">Target after Cu fill</text>
+        <text x="510" y="28" text-anchor="middle" fill="var(--ink)" font-size="15" font-family="var(--sans)">Target after CMP</text>
+        <g transform="translate(38 48)">
+          <path d="M0 20H94V178Q94 220 132 220H168Q206 220 206 178V20H300V238H0Z" fill="var(--surface-2)"/>
+          <path d="M95 20V178Q95 218 132 218H168Q205 218 205 178V20" fill="none" stroke="var(--oxide)" stroke-width="12"/>
+          <path d="M101 20V178Q101 212 134 212H166Q199 212 199 178V20" fill="none" stroke="var(--ink-dim)" stroke-width="4"/>
+          <path d="M105 0H195V180Q195 207 165 207H135Q105 207 105 180Z" fill="var(--copper)"/>
+          <rect x="88" y="0" width="124" height="34" fill="var(--copper)"/>
+          <line x1="0" y1="20" x2="300" y2="20" stroke="var(--ink)" stroke-width="1"/>
+          <text x="150" y="16" text-anchor="middle" fill="var(--surface)" font-size="11" font-family="var(--mono)">positive overburden</text>
+        </g>
+        <g transform="translate(378 48)">
+          <path d="M0 20H94V178Q94 220 132 220H168Q206 220 206 178V20H300V238H0Z" fill="var(--surface-2)"/>
+          <path d="M95 20V178Q95 218 132 218H168Q205 218 205 178V20" fill="none" stroke="var(--oxide)" stroke-width="12"/>
+          <path d="M101 20V178Q101 212 134 212H166Q199 212 199 178V20" fill="none" stroke="var(--ink-dim)" stroke-width="4"/>
+          <path d="M105 20H195V180Q195 207 165 207H135Q105 207 105 180Z" fill="var(--copper)"/>
+          <line x1="0" y1="20" x2="300" y2="20" stroke="var(--ink)" stroke-width="2"/>
+          <text x="150" y="16" text-anchor="middle" fill="var(--ink)" font-size="11" font-family="var(--mono)">flat field, stack intact</text>
+        </g>
+        <g transform="translate(170 294)" font-family="var(--mono)" font-size="10" fill="var(--ink-dim)">
+          <rect x="0" y="-8" width="12" height="12" fill="var(--surface-2)" stroke="var(--line)"/><text x="18" y="2">silicon</text>
+          <rect x="90" y="-8" width="12" height="12" fill="var(--oxide)"/><text x="108" y="2">SiO2</text>
+          <rect x="164" y="-8" width="12" height="12" fill="var(--ink-dim)"/><text x="182" y="2">barrier + seed</text>
+          <rect x="304" y="-8" width="12" height="12" fill="var(--copper)"/><text x="322" y="2">Cu</text>
+        </g>
+      </svg>
+      <figcaption><b>This is the success criterion, not a claimed result.</b> Cu must be void-free with positive overburden before CMP. CMP must then clear field Cu while leaving the stop layer and the connected plug intact. Colors identify silicon, SiO2, barrier/seed, and Cu; no transparent layer is being treated as absent.</figcaption>
+    </figure>
+  </section>
+
+  <section class="finding" id="why-order">
+    <div class="finding-head"><span class="finding-num">EXPERIMENT LOGIC</span><h2>Why we are not launching the large recipe DOE yet</h2></div>
+    <p class="claim">A broad response surface is useful only after the measurements and model can recognize both success and failure. Each block below removes one reason a large sweep could mislead us.</p>
+    <ol class="research-path" aria-label="Current research sequence">
+      <li class="done"><b>Verify measurements</b><span>Replace proxy scores with CD, thickness, continuity, topology, and material-survival checks.</span></li>
+      <li class="done"><b>Reproduce failure</b><span>Make the centerline void and destructive CMP behavior repeat on controlled geometries.</span></li>
+      <li class="done"><b>Prove success is representable</b><span>Use prescribed positive controls so a bad law is not confused with an impossible geometry.</span></li>
+      <li class="done"><b>Screen the mechanism</b><span>Test whether suppressor transport points in the direction required for bottom-up Cu growth.</span></li>
+      <li class="done"><b>Expand one justified edge</b><span>The next halving improves the response only slightly and survives the reflection check, but still fails every stream.</span></li>
+      <li class="active"><b>Check the cylindrical via</b><span>Use matched 3D transport to decide whether this law earns morphology work or must be replaced.</span></li>
+    </ol>
+    <p class="note"><b>Decision rule:</b> a completed batch is not progress by itself. A block advances only when its result survives the relevant hard gates, numerical checks, repeated streams, and boundary test.</p>
+  </section>
+
+  <section class="finding" id="cu-screen">
+    <div class="finding-head"><span class="finding-num">CU RESPONSE</span><h2>Explore why the tested fill law misses bottom-up growth</h2></div>
+    <p class="claim">A successful superfill law must send less suppressor to the floor than to the lower wall, then make Cu grow faster at the floor. Compare the 1.25-deep target via with a 3.0-deep stress case. Every cell is the worst of four paired transport streams at one exact sampled setting.</p>
+    <div class="surface-explorer">
+      <div class="surface-controls">
+        <fieldset><legend>Via geometry</legend><button type="button" data-surface-tier="continuity" aria-pressed="true">Target depth 1.25</button><button type="button" data-surface-tier="nominal_hbm" aria-pressed="false">Deeper case 3.0</button></fieldset>
+        <fieldset><legend>What to measure</legend><button type="button" data-surface-metric="flux" aria-pressed="true">Suppressor reaching floor</button><button type="button" data-surface-metric="velocity" aria-pressed="false">Cu floor growth</button></fieldset>
+      </div>
+      <div class="surface-layout">
+        <div>
+          <div id="transport-surface"></div>
+          <p class="surface-legend" id="transport-legend">For suppressor transport, lower is better. Passing requires a floor/lower-wall ratio below 0.95. A ratio of 1.00 means the floor receives the same suppressor flux as the lower wall.</p>
+        </div>
+        <div class="surface-read" id="transport-readout" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note"><b>Boundary result beyond this plotted range:</b> lowering sticking again to 0.00625 improves the worst suppressor ratio only from 0.993 to 0.989. The 1,600- and 3,200-reflection arms agree exactly, so reflection truncation is not hiding a pass. The combined gate still passes 0/8 streams.</p>
+    <div class="boundary-story">
+      <div class="boundary-plot" id="boundary-plot" role="img" aria-label="Exact confirmed suppressor ratios at three decreasing sticking settings, showing a large first improvement and a much smaller second improvement while remaining above the pass target"></div>
+      <div class="boundary-read">
+        <div><b>First halving: useful signal</b><span>0.025 to 0.0125 improves the worst ratio by 0.0221.</span></div>
+        <div><b>Second halving: trend flattens</b><span>0.0125 to 0.00625 improves it by only 0.0041.</span></div>
+        <div><b>Growth advantage is still far too small</b><span>The floor grows only 1.004–1.011 times as fast as the fastest wall; these geometries require about 10.46–25.10.</span></div>
+        <div><b>Decision</b><span>Stop extending this 2D boundary. Check the same mechanism in 3D before changing the model family.</span></div>
+      </div>
+    </div>
+    <div class="panel table-scroll"><table class="doe-table action-table">
+      <thead><tr><th>Sticking</th><th>Worst suppressor ratio<br>target &lt; 0.95</th><th>Worst Cu growth ratio<br>target &gt; 1.05</th><th>Decision</th></tr></thead>
+      <tbody id="transport-boundary"></tbody>
+    </table></div>
+    <div class="panel table-scroll" style="margin-top:1rem;"><table class="doe-table action-table">
+      <thead><tr><th>Response within the tested range</th><th>Sticking</th><th>Source power</th><th>Interaction</th><th>Run-to-run residual</th></tr></thead>
+      <tbody id="transport-effects"></tbody>
+    </table></div>
+    <p class="note"><b>Analysis:</b> sticking explains 99.6% to 99.9% of the sampled suppressor-flux variation. Cu velocity is more coupled: sticking dominates the 1.25-deep via, while source power dominates the 3.0-deep case. These shares describe this sampled 2D range and calculation scale; they are not universal fab sensitivities.</p>
   </section>
 
   <section class="finding" id="tutorial">
@@ -258,15 +718,17 @@
       <dt>program.md</dt><dd>Declared product targets and non-negotiable scientific rules.</dd>
       <dt>prepare.md</dt><dd>Durable findings, retractions, confounds, and methodological corrections.</dd>
     </dl>
-    <pre class="command" aria-label="Commands to run the study"><code>.venv/bin/python -m py_compile joint_process_doe.py review_joint_process_results.py tsv_process.py
-.venv/bin/python joint_process_doe.py --recipes 2 --replicates 4 --workers 4 --shared-upstream --out tutorial_rows.jsonl --summary tutorial_summary.json
-.venv/bin/python review_joint_process_results.py --results tutorial_rows.jsonl --expected-rows 8 --out tutorial_review.md</code></pre>
+    <pre class="command" aria-label="Commands for the active metric qualification"><code>.venv/bin/python test_traveler_metrics.py
+.venv/bin/python test_process_reproducibility.py
+.venv/bin/python foundation_metric_audit.py --workers 4
+.venv/bin/python review_foundation_metric_audit.py</code></pre>
+    <p class="note">The old joint DOE runner now requires an explicit historical override because its pattern, film, fill, and CMP metrics are under re-audit.</p>
     <p class="note">Reported lengths use ViennaPS model units.</p>
   </section>
 
   <section class="finding" id="knobs">
-    <div class="finding-head"><span class="finding-num">KNOBS</span><h2><span id="wired-factor-count"></span> tuning knobs</h2></div>
-    <p class="claim">These are the factors the campaign could vary without changing the product specification. Numerical controls and missing physics are tracked separately.</p>
+    <div class="finding-head"><span class="finding-num">KNOBS</span><h2><span id="wired-factor-count"></span> tuning knobs connected to the earlier DOE</h2></div>
+    <p class="claim">These are the recipe factors the original full-traveler runner could vary without changing the product specification. The restart audit is adding validated model controls separately rather than pretending this list is the whole ViennaPS API.</p>
     <div class="panel table-scroll"><table class="doe-table">
       <thead><tr><th>Step</th><th>Tuning knobs</th><th>What they control</th></tr></thead>
       <tbody>
@@ -282,14 +744,14 @@
   </section>
 
   <section class="finding" id="autoresearch">
-    <div class="finding-head"><span class="finding-num">METHOD</span><h2>Why we ran nine experiments instead of one sweep</h2></div>
+    <div class="finding-head"><span class="finding-num">EARLIER METHOD</span><h2>Why the first campaign used nine experiments instead of one sweep</h2></div>
     <p class="claim">We searched broadly first, then used each result to choose the next experiment. Random runs were repeated, recipe comparisons started from the same etched shape, and any best setting at the edge of a range was tested beyond that edge.</p>
     <div class="method-chain" aria-label="Autoresearch experiment sequence">
       <div><b>1. List the settings</b><span>Find every input the current workflow can change.</span></div>
       <div><b>2. Search broadly</b><span>Try many combinations across wide ranges, with four repeats each.</span></div>
       <div><b>3. Compare fairly</b><span>Give downstream recipes the same etched via so random shape differences do not bias the result.</span></div>
       <div><b>4. Test the edges</b><span>Expand a range when its best result sits at the minimum or maximum.</span></div>
-      <div><b>5. Repeat the best</b><span>Use sixteen new etched shapes before recommending a recipe.</span></div>
+      <div><b>5. Repeat the best</b><span>Use fresh stochastic etched shapes before recommending a recipe; phase one did not control simulator seeds.</span></div>
     </div>
     <p class="note">Select an experiment to see the question it answered. The internal loss chart was removed because scores from different search ranges were not directly comparable.</p>
     <div class="stage-tabs" id="stage-tabs" role="group" aria-label="Autoresearch generations"></div>
@@ -297,19 +759,19 @@
   </section>
 
   <section class="finding" id="decision">
-    <div class="finding-head"><span class="finding-num">RESULT</span><h2>Four steps pass. Cu fill and CMP do not.</h2></div>
-    <p class="claim"><b><span id="traveler-count"></span> saved full-process simulations</b> support this result. The two best recipes pass the first four steps in all sixteen final repeats. Cu fill and CMP fail every time.</p>
-    <div class="panel table-scroll"><table class="doe-table" id="gate-table"><thead><tr><th>Step</th><th>What counts as a pass</th><th>Final result</th></tr></thead><tbody></tbody></table></div>
+    <div class="finding-head"><span class="finding-num">LEGACY RESULT</span><h2>The phase-one pass conclusion has been withdrawn</h2></div>
+    <p class="claim"><b><span id="traveler-count"></span> saved full-process simulations</b> are retained as research history. The table shows what the old scorer reported. Those labels are not accepted as current physical validation.</p>
+    <div class="panel table-scroll"><table class="doe-table" id="gate-table"><thead><tr><th>Step</th><th>Old target</th><th>Old scorer output</th></tr></thead><tbody></tbody></table></div>
     <div class="compare">
-      <div class="compare-card fail"><h3>Why Cu fill fails</h3><p>The model leaves a centerline void in every repeat. The final two recipes leave gaps of 0.134 to 0.239 model length; the target is zero.</p></div>
-      <div class="compare-card fail"><h3>Why CMP fails</h3><p>Uniform removal leaves the Cu surface recessed by 0.303 to 0.355 model length; the target is zero. Removing more material destroys the mask.</p></div>
+      <div class="compare-card fail"><h3>Why the Cu conclusion is suspended</h3><p>The legacy scalar tracked center height above the floor, not sealed-void topology. A raw 3D topology metric and a coverage/transport fill model are required.</p></div>
+      <div class="compare-card fail"><h3>Why the CMP conclusion is suspended</h3><p>The old one-rate removal could erase Cu, oxide, silicon, and mask together. The new study separates endpoint, overpolish, selectivity, dish, erosion, and material survival.</p></div>
     </div>
-    <p class="note">The next step is to add fill chemistry and CMP pad-pressure effects to the simulator, then calibrate them with measurements.</p>
+    <p class="note">No recipe is currently recommended. The active acceptance criterion is a 3D-confirmed, void-free Cu plug with positive overburden followed by field-clear CMP with the protected stack intact.</p>
   </section>
 
   <section class="finding" id="window">
-    <div class="finding-head"><span class="finding-num">TUNE</span><h2>Try the 81 nearby recipes</h2></div>
-    <p class="claim" id="window-help">We changed four settings around the best stable recipe, using three values for each: 3 x 3 x 3 x 3 = 81 combinations. Move a slider or select a point. Lower and farther left is better; amber means CMP removed the mask.</p>
+    <div class="finding-head"><span class="finding-num">EARLIER SEARCH</span><h2>Explore the old 81-recipe neighborhood</h2></div>
+    <p class="claim" id="window-help">This historical explorer shows why the first model stalled. It changed four settings around its best stable recipe, using three values for each: 3 x 3 x 3 x 3 = 81 exact combinations. It is not the current process window. Lower and farther left is better; amber means the old CMP step removed the mask.</p>
     <div class="evidence-grid">
       <div>
         <div class="control"><label for="w-liner">SiO2 liner sticking probability <span class="val" id="w-liner-val"></span></label><input type="range" id="w-liner" min="0" max="2" step="1" value="1" aria-describedby="window-help"><div class="ticks" id="w-liner-ticks"></div></div>
@@ -328,16 +790,16 @@
   </section>
 
   <section class="finding" id="finalists">
-    <div class="finding-head"><span class="finding-num">CHECK</span><h2>Check the finalists across 16 unseen seeds</h2></div>
-    <p class="claim">A four-seed winner was not enough. We compared it with the previous best recipe on sixteen new DRIE geometries, using the same geometry for both recipes.</p>
+    <div class="finding-head"><span class="finding-num">LEGACY CHECK</span><h2>Sixteen fresh stochastic repetitions</h2></div>
+    <p class="claim">Phase one compared two recipes on sixteen freshly generated DRIE geometries and reused each geometry fairly. Simulator RNG seeds were not explicitly controlled, so these are not reproducible unseen-seed confirmation.</p>
     <div class="choice-row" id="finalist-choices" aria-label="Choose finalist"></div>
     <div class="plot-shell" id="seed-plot" aria-label="Finalist full-process loss across sixteen seeds"></div>
     <p class="note" id="seed-read" aria-live="polite"></p>
   </section>
 
   <section class="finding" id="visual-reads">
-    <div class="finding-head"><span class="finding-num">SHAPES</span><h2>See why the final two steps fail</h2></div>
-    <p class="claim">The cross-sections show the morphology behind the failed gates.</p>
+    <div class="finding-head"><span class="finding-num">LEGACY SHAPES</span><h2>See why the old final two steps failed</h2></div>
+    <p class="claim">These cross-sections explain the old model failures. They remain useful failure reproductions, not current recipe candidates.</p>
     <div class="visual-grid">
       <figure class="visual-read"><img id="visual-best" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Cu fill leaves a centerline void; subsequent isotropic CMP produces a broad recessed profile while the mask survives."><figcaption><b>Best recipe that preserves the mask.</b> Cu reaches the floor and sidewalls but leaves a visible centerline void. Isotropic removal then retreats the profile into a broad bowl rather than planarizing at the target.</figcaption></figure>
       <figure class="visual-read"><img id="visual-mask" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Before CMP the via and layers are visible; after excessive CMP no modeled material remains."><figcaption><b>Excessive CMP.</b> The blank right panel means the removal step deleted Cu, SiO2, silicon, and the mask from the modeled domain. A lower dish number is meaningless once the structure is gone.</figcaption></figure>
@@ -357,6 +819,18 @@
     <p class="note"><b>Practical use:</b> narrow physical experiments, identify sensitive recipe families, and catch recipes that win through a scoring artifact. Calibration data is still required before transferring settings to a fab.</p>
   </section>
 
+  <section class="finding" id="references">
+    <div class="finding-head"><span class="finding-num">SOURCES</span><h2>What informs the model and pass criteria</h2></div>
+    <p class="claim">Simulation results come from this repository. These primary sources explain the API behavior, representative TSV scale, required layer/void measurements, and the electrochemistry missing from the current Cu model.</p>
+    <dl class="repo-map">
+      <dt><a href="https://viennatools.github.io/ViennaPS/process/">ViennaPS process API</a></dt><dd>Documents how a process combines a domain, model, duration, ray controls, and advection controls.</dd>
+      <dt><a href="https://viennatools.github.io/ViennaPS/models/prebuilt/isotropic.html">ViennaPS isotropic process</a></dt><dd>Defines normal surface motion and material-specific rates. It explains what the legacy CMP approximation can and cannot do.</dd>
+      <dt><a href="https://www.nist.gov/publications/metrology-needs-tsv-fabrication">NIST TSV metrology</a></dt><dd>Motivates top-to-bottom profile measurements, complete liner/barrier/seed coverage, void detection, and the nominal 5 micrometer by 50 micrometer scale.</dd>
+      <dt><a href="https://www.nist.gov/publications/modeling-extreme-bottom-filling-through-silicon-vias">NIST bottom-up Cu model</a></dt><dd>Links suppressor disruption, electrical losses, and additive gradients to extreme bottom-up TSV filling.</dd>
+    </dl>
+    <p class="note">These sources motivate the experiment design. They do not calibrate the model coefficients or turn a simulation setting into a wafer recipe.</p>
+  </section>
+
   <section class="finding" id="history">
     <div class="finding-head"><span class="finding-num">HISTORY</span><h2>What the earlier studies changed</h2></div>
     <p class="claim">Earlier etch and fill studies exposed three mistakes: comparing etches at different depths, trusting one random run, and calling an edge setting optimal before expanding the range. The nine experiments above apply those corrections throughout.</p>
@@ -364,10 +838,10 @@
 
 
   <footer>
-    Data: 1,948 saved full-process simulations, plus the earlier 768-run and
-    800-run etch studies. Final campaign evidence includes shared upstream
-    geometries, boundary expansion, 16-seed confirmation, and a 3<sup>4</sup>
-    local process-window map.
+    Evidence shown: 1,948 legacy full-process simulations and 376 unique
+    foundation-audit simulations. Current conclusions remain interim until the
+    matched 3D Cu transport check is reviewed.
+    &middot; <a href="https://github.com/haomingkoo/ViennaPS-HBM">source repository</a>
     &middot; <a href="https://kooexperience.com">kooexperience.com</a>
   </footer>
 </div>
@@ -375,8 +849,324 @@
 <script>
 const DATA = /*__DATA__*/;
 const CAMPAIGN = DATA.campaign;
+const INTERIM = DATA.interim;
+const GATE0 = INTERIM.pattern_bosch_gate0;
 
-// ============ Final controlled campaign ============
+// ============ Latest pattern/Bosch Gate-0 checkpoint ============
+const gate0MetricLabels = {
+  depth: 'depth', cd_top: 'top CD', cd_middle: 'middle CD',
+  cd_bottom: 'bottom CD', max_cd_error: 'maximum CD error',
+  max_bow: 'bow', scallop_rms: 'scallop RMS',
+  mask_remaining_height: 'mask height',
+};
+
+function gate0BridgeReadout(bridge) {
+  const failures = bridge.failed_metrics.map(metric =>
+    `${gate0MetricLabels[metric.name]} ${metric.maximum_absolute_delta.toFixed(6)} &gt; ${metric.tolerance.toFixed(6)} model length`
+  ).join('; ');
+  return `${bridge.failed_metrics.length} of 8 outputs exceeded the predeclared agreement tolerance across ${bridge.paired_cases} shared-seed comparisons, so this shortcut did not qualify. `
+    + `<span class="exact">${failures}. The overall pass/fail classification changed in ${bridge.gate_flip_pairs}/${bridge.paired_cases} comparisons.</span>`;
+}
+
+function renderGate0Checkpoint() {
+  const gates = GATE0.gate_pass_counts;
+  document.getElementById('gate0-headline').innerHTML = `
+    <div><b>${GATE0.independently_valid_cases}/${GATE0.expected_cases} valid cases</b><span>All attempts produced independently reviewable evidence; validity is not a process pass.</span></div>
+    <div><b>Pattern gates: ${gates.pattern_opening}/${GATE0.expected_cases}</b><span>Opening ${gates.pattern_opening}; width ${gates.pattern_width}; height ${gates.pattern_height}.</span></div>
+    <div><b>Etch gates: ${Math.min(gates.etch_mask_resolved, gates.etch_cd_profile, gates.etch_depth, gates.etch_bow)}–${Math.max(gates.etch_mask_resolved, gates.etch_cd_profile, gates.etch_depth, gates.etch_bow)}/${GATE0.expected_cases}</b><span>Mask ${gates.etch_mask_resolved}; CD ${gates.etch_cd_profile}; depth ${gates.etch_depth}; bow ${gates.etch_bow}.</span></div>
+    <div><b>Reference: ${GATE0.full_reference.passes}/${GATE0.full_reference.seeds} pass</b><span>Seed ${GATE0.full_reference.miss_seed} depth ${GATE0.full_reference.miss_depth.toFixed(6)}, or ${GATE0.full_reference.depth_excess.toFixed(6)} above the upper limit.</span></div>`;
+  document.getElementById('gate0-full-quarter').innerHTML = gate0BridgeReadout(GATE0.full_vs_quarter);
+  document.getElementById('gate0-grid-bridge').innerHTML = gate0BridgeReadout(GATE0.grid_bridge);
+  document.getElementById('gate0-erosion-summary').textContent = GATE0.mask_erosion.failure_bracket_established
+    ? 'The response is monotonic and a failure bracket is established.'
+    : 'All four seed sequences erode monotonically, but every tested arm still survives. More negative mask ion rate means faster simulated removal; the failure boundary remains outside the tested range.';
+  document.getElementById('gate0-erosion-rows').innerHTML = GATE0.mask_erosion.ranges.map(row => `
+    <tr><td>${row.mask_ion_rate.toFixed(2)}</td><td>${row.minimum_remaining_height.toFixed(6)}–${row.maximum_remaining_height.toFixed(6)}</td><td>${row.all_four_seeds_survive ? '4/4' : 'not 4/4'}</td></tr>`
+  ).join('');
+  document.getElementById('gate0-handoff').innerHTML = `<span class="exact">${GATE0.handoff.accepted}/${GATE0.handoff.reviewed}</span> eligible reloads met the surface tolerance. One of ${GATE0.handoff.source_checkpoints} source shapes was excluded because its etch depth failed. The next batch writes ViennaPS domains directly, avoiding the mesh reconstruction that caused this drift.`;
+  document.getElementById('gate0-next-action').textContent = GATE0.next_action;
+}
+renderGate0Checkpoint();
+
+// ============ Schematic cross-step mechanism explorer ============
+const mechanismState = { profile: 'straight', growth: 'conformal' };
+const mechanismProfiles = {
+  straight: {
+    label: 'Straight and open',
+    wall: 'M235 58 L235 240 Q235 282 320 292 Q405 282 405 240 L405 58',
+    cavity: 'M235 0 L235 240 Q235 282 320 292 Q405 282 405 240 L405 0 Z',
+    effect: 'The opening stays wider than the lower profile. Transport and film access are least obstructed.',
+  },
+  bowed: {
+    label: 'Bowed wall',
+    wall: 'M235 58 C208 110 207 180 232 240 Q240 282 320 292 Q400 282 408 240 C433 180 432 110 405 58',
+    cavity: 'M235 0 L235 58 C208 110 207 180 232 240 Q240 282 320 292 Q400 282 408 240 C433 180 432 110 405 58 L405 0 Z',
+    effect: 'The changing wall angle creates nonuniform transport and film thickness. A local slope change can become the downstream bottleneck.',
+  },
+  necked: {
+    label: 'Re-entrant neck',
+    wall: 'M235 58 C270 92 263 125 220 176 C215 205 228 228 242 248 Q252 282 320 292 Q388 282 398 248 C412 228 425 205 420 176 C377 125 370 92 405 58',
+    cavity: 'M235 0 L235 58 C270 92 263 125 220 176 C215 205 228 228 242 248 Q252 282 320 292 Q388 282 398 248 C412 228 425 205 420 176 C377 125 370 92 405 58 L405 0 Z',
+    effect: 'The neck shadows the lower wall and consumes the minimum aperture. Downstream deposition cannot assume the wider region below remains accessible.',
+  },
+};
+
+function mechanismAssessment(profile, growth) {
+  if (growth === 'conformal') {
+    return {
+      title: 'Sidewall closure is the dominant risk',
+      implication: profile === 'necked'
+        ? 'Nearly equal wall and floor growth consumes the already narrow neck first. A trapped void is the expected failure direction.'
+        : 'Nearly equal wall and floor growth narrows the opening while the floor advances too slowly. More total dose can worsen pinch-off.',
+      move: 'Increase bottom-up kinetic selectivity before increasing total Cu dose.',
+    };
+  }
+  if (profile === 'necked') {
+    return {
+      title: 'Better kinetics may not repair a bad handoff',
+      implication: 'Faster floor growth helps, but the neck can still starve liner, seed, additives, or current below it.',
+      move: 'Remove the re-entrant etch boundary first, then recheck films and Cu transport on the repaired geometry.',
+    };
+  }
+  return {
+    title: profile === 'straight' ? 'Favorable mechanism, not yet a passing recipe' : 'Bottom-up growth helps, but bow sensitivity remains',
+    implication: profile === 'straight'
+      ? 'The floor advances while the walls preserve an escape path. This is the growth ordering required for void-free fill.'
+      : 'The floor advances in the right direction, but wall-angle-dependent film and transport nonuniformity still need exact simulation.',
+    move: 'Confirm every angular sector in 3D, then run morphology with positive-overburden and topology gates.',
+  };
+}
+
+function renderMechanismExplorer() {
+  document.querySelectorAll('[data-mechanism-profile]').forEach(button => {
+    button.setAttribute('aria-pressed', button.dataset.mechanismProfile === mechanismState.profile);
+  });
+  document.querySelectorAll('[data-mechanism-growth]').forEach(button => {
+    button.setAttribute('aria-pressed', button.dataset.mechanismGrowth === mechanismState.growth);
+  });
+  const profile = mechanismProfiles[mechanismState.profile];
+  const bottomUp = mechanismState.growth === 'bottom_up';
+  const assessment = mechanismAssessment(mechanismState.profile, mechanismState.growth);
+  const copper = bottomUp
+    ? `<path d="M258 218 Q320 188 382 218 L394 250 Q386 282 320 292 Q254 282 246 250 Z" fill="var(--copper)" opacity="0.92"/>
+       <path d="${profile.wall}" fill="none" stroke="var(--copper)" stroke-width="7"/>`
+    : `<path d="${profile.wall}" fill="none" stroke="var(--copper)" stroke-width="12"/>`;
+  const seedAccessWarning = mechanismState.profile === 'necked'
+    ? `<g><circle cx="231" cy="215" r="22" fill="var(--amber)" opacity="0.18"/><circle cx="409" cy="215" r="22" fill="var(--amber)" opacity="0.18"/><path d="M224 190L238 234M416 190L402 234" stroke="var(--amber)" stroke-width="4" stroke-dasharray="5 5"/><text x="320" y="198" text-anchor="middle" fill="var(--amber)" font-family="var(--mono)" font-size="11">lower-wall seed risk</text></g>`
+    : '';
+  const floorArrowY = bottomUp ? 120 : 197;
+  const wallArrow = bottomUp ? 18 : 50;
+  document.getElementById('mechanism-figure').innerHTML = `<svg viewBox="0 0 640 330" aria-hidden="true">
+    <defs><marker id="copper-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--copper)"/></marker></defs>
+    <rect width="640" height="330" fill="var(--surface)"/>
+    <rect y="58" width="640" height="272" fill="var(--surface-2)"/>
+    <path d="${profile.cavity}" fill="var(--surface)"/>
+    <path d="${profile.wall}" fill="none" stroke="var(--oxide)" stroke-width="28"/>
+    <path d="${profile.wall}" fill="none" stroke="var(--ink-dim)" stroke-width="18"/>
+    ${copper}
+    ${seedAccessWarning}
+    <line x1="0" y1="58" x2="640" y2="58" stroke="var(--line)"/>
+    <line x1="320" y1="252" x2="320" y2="${floorArrowY}" stroke="var(--copper)" stroke-width="3" marker-end="url(#copper-arrow)"/>
+    <line x1="265" y1="157" x2="${265 + wallArrow}" y2="157" stroke="var(--copper)" stroke-width="3" marker-end="url(#copper-arrow)"/>
+    <line x1="375" y1="157" x2="${375 - wallArrow}" y2="157" stroke="var(--copper)" stroke-width="3" marker-end="url(#copper-arrow)"/>
+    <text x="320" y="${floorArrowY - 10}" text-anchor="middle" fill="var(--copper)" font-family="var(--mono)" font-size="11">floor growth</text>
+    <text x="320" y="148" text-anchor="middle" fill="var(--copper)" font-family="var(--mono)" font-size="11">wall growth</text>
+    <text x="20" y="28" fill="var(--ink)" font-family="var(--sans)" font-size="14">${profile.label} · ${bottomUp ? 'floor much faster than wall' : 'wall and floor grow at similar rates'}</text>
+    <g transform="translate(18 305)" font-family="var(--mono)" font-size="10" fill="var(--ink-dim)">
+      <rect width="12" height="12" fill="var(--oxide)"/><text x="18" y="10">liner</text>
+      <rect x="72" width="12" height="12" fill="var(--ink-dim)"/><text x="90" y="10">barrier + seed</text>
+      <rect x="208" width="12" height="12" fill="var(--copper)"/><text x="226" y="10">Cu</text>
+    </g>
+  </svg>`;
+  document.getElementById('mechanism-read').innerHTML = `<h4>${assessment.title}</h4><dl>
+    <dt>UPSTREAM SHAPE</dt><dd>${profile.effect}</dd>
+    <dt>CU CONSEQUENCE</dt><dd>${assessment.implication}</dd>
+    <dt>PROCESS MOVE</dt><dd>${assessment.move}</dd>
+    <dt>EVIDENCE LIMIT</dt><dd>This view explains a mechanism. Only the exact sampled response surfaces and saved morphologies can establish a boundary or recipe.</dd>
+  </dl>`;
+}
+document.querySelectorAll('[data-mechanism-profile]').forEach(button => button.addEventListener('click', () => {
+  mechanismState.profile = button.dataset.mechanismProfile;
+  renderMechanismExplorer();
+}));
+document.querySelectorAll('[data-mechanism-growth]').forEach(button => button.addEventListener('click', () => {
+  mechanismState.growth = button.dataset.mechanismGrowth;
+  renderMechanismExplorer();
+}));
+renderMechanismExplorer();
+
+// ============ Current foundation evidence ============
+const transportRows = INTERIM.cu_transport.tier_designs;
+const transportState = { tier: 'continuity', metric: 'flux', sticking: 0.025, sourcePower: 0 };
+const tierLabels = { continuity: 'Target-depth via (1.25)', nominal_hbm: 'Deeper HBM case (3.0)' };
+
+function transportValue(row) {
+  return transportState.metric === 'flux' ? row.worst_flux_ratio : row.worst_velocity_ratio;
+}
+
+function transportDistance(value) {
+  const threshold = transportState.metric === 'flux'
+    ? INTERIM.cu_transport.flux_pass_threshold
+    : INTERIM.cu_transport.velocity_pass_threshold;
+  const miss = transportState.metric === 'flux' ? value - threshold : threshold - value;
+  return miss < 0.08 ? 'near' : 'far';
+}
+
+function processRead(row) {
+  if (row.sticking === 0.025 && row.source_power === 0) {
+    return 'This is the closest point on the plotted coarse surface. Fine-grid checks at sticking 0.0125 and 0.00625 improve the response but still fail; the 2D boundary is now closed and matched 3D is next. Source power cannot move below zero.';
+  }
+  if (row.sticking >= 0.5) {
+    return 'High sticking traps suppressor near the accessible surfaces and strongly starves the via floor. This region should not be refined.';
+  }
+  if (row.source_power > 0) {
+    return 'Added source power does not recover bottom access in this screen. At the same sticking level, it usually pushes the response farther from the required sign.';
+  }
+  return 'Moving toward lower sticking improves access to the floor, but this sampled point still does not create a qualifying bottom-up advantage.';
+}
+
+function renderTransportSurface() {
+  document.querySelectorAll('[data-surface-tier]').forEach(button => {
+    button.setAttribute('aria-pressed', button.dataset.surfaceTier === transportState.tier);
+  });
+  document.querySelectorAll('[data-surface-metric]').forEach(button => {
+    button.setAttribute('aria-pressed', button.dataset.surfaceMetric === transportState.metric);
+  });
+
+  const rows = transportRows.filter(row => row.tier === transportState.tier);
+  const stickings = [...new Set(rows.map(row => row.sticking))].sort((a, b) => a - b);
+  const powers = [...new Set(rows.map(row => row.source_power))].sort((a, b) => a - b);
+  const selected = rows.find(row => row.sticking === transportState.sticking && row.source_power === transportState.sourcePower) || rows[0];
+  transportState.sticking = selected.sticking;
+  transportState.sourcePower = selected.source_power;
+
+  document.getElementById('transport-surface').innerHTML = `<table class="surface-table">
+    <caption>${tierLabels[transportState.tier]}. Exact sampled worst-of-four ${transportState.metric === 'flux' ? 'suppressor-flux' : 'Cu-growth'} ratios.</caption>
+    <thead><tr><th>Sticking</th>${powers.map(power => `<th>Power ${power}</th>`).join('')}</tr></thead>
+    <tbody>${stickings.map(sticking => `<tr><th>${sticking}</th>${powers.map(power => {
+      const row = rows.find(item => item.sticking === sticking && item.source_power === power);
+      const value = transportValue(row);
+      const isSelected = row.sticking === selected.sticking && row.source_power === selected.source_power;
+      return `<td><button type="button" class="surface-cell ${transportDistance(value)}${isSelected ? ' selected' : ''}"
+        data-sticking="${sticking}" data-power="${power}"
+        aria-label="Sticking ${sticking}, source power ${power}, ratio ${value.toFixed(3)}, fails target">${value.toFixed(3)}</button></td>`;
+    }).join('')}</tr>`).join('')}</tbody>
+  </table>`;
+
+  const value = transportValue(selected);
+  const target = transportState.metric === 'flux' ? 'below 0.95' : 'above 1.05';
+  const physicalMeaning = transportState.metric === 'flux'
+    ? 'A value above one means the floor receives at least as much suppressor as the lower wall. That is the wrong direction for bottom-up fill.'
+    : 'A value below one means the Cu floor grows more slowly than the lower wall. The walls can close before the plug fills.';
+  document.getElementById('transport-readout').innerHTML = `
+    <h3>${tierLabels[selected.tier]} · sticking ${selected.sticking} · power ${selected.source_power}</h3>
+    <p class="exact">Worst of four streams: ${value.toFixed(4)} · required ${target} · 0/4 streams pass the combined gate</p>
+    <p><b>What it means:</b> ${physicalMeaning}</p>
+    <p><b>Process read:</b> ${processRead(selected)}</p>`;
+
+  document.getElementById('transport-legend').textContent = transportState.metric === 'flux'
+    ? 'For suppressor transport, lower is better. Passing requires a floor/lower-wall ratio below 0.95. A ratio of 1.00 means equal suppressor flux.'
+    : 'For Cu growth, higher is better. Passing requires a floor/lower-wall velocity ratio above 1.05. A ratio of 1.00 means equal growth speed.';
+
+  document.querySelectorAll('.surface-cell').forEach(button => {
+    button.addEventListener('click', () => {
+      transportState.sticking = Number(button.dataset.sticking);
+      transportState.sourcePower = Number(button.dataset.power);
+      renderTransportSurface();
+    });
+  });
+}
+
+document.querySelectorAll('[data-surface-tier]').forEach(button => button.addEventListener('click', () => {
+  transportState.tier = button.dataset.surfaceTier;
+  renderTransportSurface();
+}));
+document.querySelectorAll('[data-surface-metric]').forEach(button => button.addEventListener('click', () => {
+  transportState.metric = button.dataset.surfaceMetric;
+  renderTransportSurface();
+}));
+
+const confirmedBoundary = INTERIM.cu_confirmation.high_fidelity_results;
+const closedBoundary = INTERIM.cu_boundary;
+const boundaryRows = [
+  { key: 'stick_0p025_power_0p0', sticking: 0.025, decision: 'Fails; lower sticking is better' },
+  { key: 'stick_0p0125_power_0p0', sticking: 0.0125, decision: 'Fails; improvement justifies one wider point' },
+];
+document.getElementById('transport-boundary').innerHTML = boundaryRows.map(item => {
+  const row = confirmedBoundary[item.key];
+  const flux = row.response_summaries.worst_floor_to_each_lower_flux_ratio.worst;
+  const velocity = row.response_summaries.worst_floor_to_each_lower_velocity_ratio.worst;
+  return `<tr><td>${item.sticking}</td><td class="status-miss">${flux.toFixed(3)} · fail</td><td class="status-miss">${velocity.toFixed(3)} · fail</td><td>${item.decision}</td></tr>`;
+}).join('') + (() => {
+  const response = closedBoundary.candidate.response_summaries;
+  const flux = response.worst_floor_to_each_lower_flux_ratio.worst;
+  const velocity = response.worst_floor_to_each_lower_velocity_ratio.worst;
+  return `<tr><td>0.00625</td><td class="status-miss">${flux.toFixed(3)} · fail</td><td class="status-miss">${velocity.toFixed(3)} · fail</td><td>2D trend flattens; matched 3D next</td></tr>`;
+})();
+
+const boundaryPoints = [
+  {
+    sticking: 0.025,
+    ratio: confirmedBoundary.stick_0p025_power_0p0.response_summaries.worst_floor_to_each_lower_flux_ratio.worst,
+  },
+  {
+    sticking: 0.0125,
+    ratio: closedBoundary.control.response_summaries.worst_floor_to_each_lower_flux_ratio.worst,
+  },
+  {
+    sticking: 0.00625,
+    ratio: closedBoundary.candidate.response_summaries.worst_floor_to_each_lower_flux_ratio.worst,
+  },
+];
+function renderBoundaryPlot() {
+  const host = document.getElementById('boundary-plot');
+  const width = Math.max(310, Math.floor(host.clientWidth - 20));
+  const height = 225, left = 52, right = 12, top = 24, bottom = 48;
+  const pointLeft = left + 20, pointRight = width - right - 46;
+  const xs = [pointLeft, (pointLeft + pointRight) / 2, pointRight];
+  const yMin = 0.94, yMax = 1.025;
+  const y = value => top + (yMax - value) * (height - top - bottom) / (yMax - yMin);
+  const targetY = y(0.95);
+  const polyline = boundaryPoints.map((point, index) => `${xs[index]},${y(point.ratio)}`).join(' ');
+  host.innerHTML = `<svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
+    <text x="${left}" y="15" fill="var(--ink)" font-family="var(--sans)" font-size="13">Suppressor reaching the floor · lower is better</text>
+    <line x1="${left}" y1="${targetY}" x2="${width - right}" y2="${targetY}" stroke="var(--confirmed)" stroke-dasharray="5 5"/>
+    <text x="${width - right}" y="${targetY - 6}" text-anchor="end" fill="var(--confirmed)" font-family="var(--mono)" font-size="10">pass target 0.950</text>
+    <line x1="${left}" y1="${y(1.0)}" x2="${width - right}" y2="${y(1.0)}" stroke="var(--line)"/>
+    <text x="${left - 8}" y="${y(1.0) + 4}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">1.000</text>
+    <polyline points="${polyline}" fill="none" stroke="var(--copper)" stroke-width="2"/>
+    ${boundaryPoints.map((point, index) => `<g>
+      <circle cx="${xs[index]}" cy="${y(point.ratio)}" r="5" fill="var(--surface)" stroke="var(--copper)" stroke-width="3"/>
+      <text x="${xs[index]}" y="${y(point.ratio) - 11}" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="11">${point.ratio.toFixed(3)}</text>
+      <text x="${xs[index]}" y="${height - 23}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">s=${point.sticking}</text>
+    </g>`).join('')}
+    <text x="${(left + width - right) / 2}" y="${height - 4}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="9">exact samples · no interpolation</text>
+  </svg>`;
+}
+renderBoundaryPlot();
+window.addEventListener('resize', renderBoundaryPlot);
+
+const effectRows = [];
+for (const [tier, responses] of Object.entries(INTERIM.cu_transport.factor_effects)) {
+  for (const [response, detail] of Object.entries(responses)) {
+    const share = detail.sampled_range_variance_share;
+    effectRows.push({ tier, response, share });
+  }
+}
+const responseLabels = {
+  floor_to_lower_flux_ratio: 'suppressor flux',
+  floor_to_lower_velocity_ratio: 'Cu growth velocity',
+};
+document.getElementById('transport-effects').innerHTML = effectRows.map(row => `<tr>
+  <td>${tierLabels[row.tier]} · ${responseLabels[row.response]}</td>
+  <td>${(100 * row.share.sticking).toFixed(1)}%</td>
+  <td>${(100 * row.share.source_power).toFixed(1)}%</td>
+  <td>${(100 * row.share.sticking_x_source_power).toFixed(1)}%</td>
+  <td>${(100 * row.share.paired_stream_residual).toFixed(1)}%</td>
+</tr>`).join('');
+renderTransportSurface();
+
+// ============ Earlier campaign, retained as research history ============
 document.getElementById('traveler-count').textContent = CAMPAIGN.total_travelers.toLocaleString();
 document.getElementById('wired-factor-count').textContent = CAMPAIGN.wired_factor_count;
 document.querySelector('#gate-table tbody').innerHTML = CAMPAIGN.gate_summary.map(row => `
