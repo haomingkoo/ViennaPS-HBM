@@ -45,6 +45,7 @@ jobs:
             test_traveler_metrics.py \
             test_full_2d_layer_metrics.py \
             test_morphology_fill_control.py \
+            test_explainer_visual.py \
             test_publication_data.py
 
       - name: Type-check the active code path
@@ -83,3 +84,9 @@ jobs:
           script_file="$(mktemp)"
           sed -n '/<script>/,/<\/script>/p' explainer.html | sed '1d;$d' > "$script_file"
           node --check --input-type=commonjs < "$script_file"
+
+      - name: Install browser
+        run: python -m playwright install --with-deps chromium
+
+      - name: Test rendered explainer
+        run: python test_explainer_visual.py

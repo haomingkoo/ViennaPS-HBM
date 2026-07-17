@@ -143,6 +143,8 @@ ty check --python .venv/bin/python --python-version 3.13 \
 .venv/bin/python build_cu_fill_replay.py
 .venv/bin/python build_explainer.py
 .venv/bin/python test_publication_data.py
+playwright install chromium
+.venv/bin/python test_explainer_visual.py
 ```
 
 The wider test suite requires ViennaPS and the research artifacts used by the
