@@ -1,0 +1,133 @@
+{
+  "manifest_version": 1,
+  "campaign": "foundation-pattern-bosch-gate0-r1",
+  "labels": [
+    "full-traveler",
+    "critical-review"
+  ],
+  "hypothesis": "At full width and grid 0.00125, 1000 rays per point agrees with the 2000-ray anchor after per-seed depth matching, and a bounded mask-ion ladder finds and confirms a resolved-survival-to-failure bracket.",
+  "authority": {
+    "gate": "pattern_bosch_gate0_r1",
+    "may_authorize": "broad_pattern_bosch_screen_only",
+    "recipe_authorized": false,
+    "process_window_authorized": false,
+    "full_traveler_authorized": false,
+    "automatic_downstream_launch_authorized": false
+  },
+  "reference_recipe": {
+    "source_path": ".scratch/full-traveler-autoresearch/foundation_bosch_high_fidelity_manifest.json",
+    "recipe_canonical_sha256": "0c94e62d79254d3d6a018be8f386f985662260ff01305936b0ff30e506b6c1a8"
+  },
+  "geometry": {
+    "hole_shape": "FULL",
+    "radius": 0.15,
+    "mask_height": 0.3,
+    "x_extent": 1.0,
+    "y_extent": 2.0
+  },
+  "recipe": {
+    "mask_taper": 2.0,
+    "num_cycles": 14,
+    "etch_time": 0.5,
+    "neutral_rate": -0.08,
+    "neutral_sticking_probability": 0.08,
+    "initial_etch_time": 0.3,
+    "deposition_thickness": 0.005,
+    "deposition_sticking_probability": 0.01,
+    "ion_source_exponent": 400,
+    "theta_r_min": 45.0,
+    "ion_rate": -0.1
+  },
+  "trajectory": {
+    "maximum_cycles": 14,
+    "first_scored_cycle": 1,
+    "early_stop_depth": 1.45,
+    "selection": "minimum absolute depth error among valid checkpoints; an in-window checkpoint outranks every miss",
+    "record_all_scored_cycles": true
+  },
+  "rng_base_seeds": [
+    61000,
+    62000,
+    63000,
+    64000
+  ],
+  "rng_policy": {
+    "shared_base_seed_labels_across_arms": true,
+    "streams_disjoint_within_each_arm": true,
+    "pointwise_common_random_numbers_across_arms": false,
+    "interpretation": "Base labels pair comparisons, but changed ray counts and evolving surfaces do not guarantee identical pointwise random draws."
+  },
+  "numerics": {
+    "grid_delta": 0.00125,
+    "screen_rays_per_point": 1000,
+    "anchor_rays_per_point": 2000,
+    "threads_per_worker": 7,
+    "maximum_workers": 2,
+    "dimension": 2
+  },
+  "mask_bracket": {
+    "search_seed": 61000,
+    "search_rates": [
+      -0.05,
+      -0.06,
+      -0.08
+    ],
+    "confirmation_seeds": [
+      62000,
+      63000,
+      64000
+    ],
+    "selection": "first valid search rate whose depth-matched checkpoint fails etch_mask_resolved",
+    "maximum_executed_cases": 14
+  },
+  "target": {
+    "opening_cd": 0.3,
+    "mask_height": 0.3,
+    "etch_depth": 1.25,
+    "depth_tolerance": 0.1,
+    "max_width_error": 0.06,
+    "max_wall_bulge": 0.03,
+    "resolved_mask_cells_strict": 2.0
+  },
+  "review": {
+    "row_recompute_abs_tolerance": 1e-12,
+    "paired_max_absolute_deltas": {
+      "depth": 0.02,
+      "cd_top": 0.01,
+      "cd_middle": 0.01,
+      "cd_bottom": 0.01,
+      "max_cd_error": 0.01,
+      "max_bow": 0.005,
+      "scallop_rms": 0.0025,
+      "mask_remaining_height": 0.01
+    },
+    "ray_bridge": {
+      "reference_arm": "full_reference_r1000",
+      "candidate_arm": "full_ray_anchor_r2000",
+      "require_all_four_pairs": true,
+      "require_no_gate_flips": true
+    },
+    "require_all_reference_hard_pass": true,
+    "require_all_seed_mask_bracket": true,
+    "require_native_roundtrip_exact": true
+  },
+  "runtime_fingerprint": {
+    "runner_sha256": "6031df7885d65fafe5edc0c951a9e2383e0c466e965d9d143004c08afef5c061",
+    "reviewer_sha256": "491935d96dd8fdf81c4720c446ab7fef2522a19a2164c5bc9cdbc5efceb8164a",
+    "native_checkpoint_sha256": "ae6a3856a8ae51ba7cc8eabec27c592a44647398902f32d69dec34c9fa242664",
+    "screen_runner_sha256": "b7ecdc6bbe6dc8d34906bead6177480bb2fa6a95e0df1f25c6e92208ce3ac822",
+    "gate0_metric_sha256": "fc3d7c8cc7c288555946fca82735c333c03a7fdb46d5d95f2b2ef0a6a701ea38",
+    "traveler_metrics_sha256": "aa48109b33d624a6287c8ee2d5768f08318c73761fd5fff07d6f8ce6fe60387b",
+    "tsv_process_sha256": "7b2f142ead40c1eb2f4437883f5e4dac9ebf7998b0862cd198c29bf2e991ecd1",
+    "viennaps_binary_sha256": "0fb3e28628a60ae1206fde1f584fa55d1590e380569a5d7984fc8b6a34334480",
+    "viennals_binary_sha256": "a92d0fabb3d1cf0e58edb5eb2e55576193a53c2c189b0db5217786d3a6f7fb2a"
+  },
+  "provenance": {
+    "viennaps_package": "4.6.1",
+    "viennaps_source_commit": "2956ed587984c6dc38be24c6e2390e10c9b2f0a7",
+    "executor": "direct_checkpointed_adaptive_batch_no_llm",
+    "planner": "gpt-5.6-sol",
+    "metric_module": "traveler_metrics.py",
+    "native_checkpoint": "ViennaPS .vpsd"
+  }
+}

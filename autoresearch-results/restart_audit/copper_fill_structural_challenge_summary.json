@@ -1,0 +1,237 @@
+{
+  "attempt_count": 4,
+  "cases": [
+    {
+      "all_failure_types": [
+        "pinch_off_or_closed_void"
+      ],
+      "arm": "candidate_rank1_quasi_steady",
+      "case_id": "6623d4f48b6ecebd",
+      "elapsed_s": 84.60139989852905,
+      "first_failure_types": [
+        "pinch_off_or_closed_void"
+      ],
+      "grid_delta": 0.01,
+      "initial_region_rates": {
+        "floor_coverage_mean": 0.9838315694214909,
+        "floor_flux_mean": 0.6364617275311231,
+        "floor_point_count": 17,
+        "floor_to_lower_wall_velocity_ratio": 0.9949490313088161,
+        "floor_velocity_mean": 0.013072001809916727,
+        "lower_wall_coverage_mean": 0.9834822985712934,
+        "lower_wall_flux_mean": 0.6262748430408713,
+        "lower_wall_point_count": 76,
+        "lower_wall_velocity_mean": 0.013138363271454243,
+        "source": "candidate diagnostic surface"
+      },
+      "mechanism_classification": "lateral_closure_failure",
+      "outcome": "hard_failure",
+      "protected_stack_survives": true,
+      "required_floor_to_lower_wall_velocity_ratio": 9.851012029434239,
+      "rng_seed": 94000,
+      "target_pass": false,
+      "terminal_checkpoint": 214,
+      "terminal_elapsed": 5.3500000000000085,
+      "terminal_stage": "candidate",
+      "terminal_topology": {
+        "center_overburden": -1.0446645847284106,
+        "closed_void_count": 1,
+        "field_overburden_min": 0.06298129661718027,
+        "fill_fraction": 0.7988573781749345,
+        "maximum_void_height": 0.039774240832815666,
+        "maximum_void_width": 0.004692507073348633,
+        "mouth_aperture": 0.09827574978958027,
+        "open_void": true,
+        "open_void_depth": 1.0446645847284106,
+        "overburden_mean": -0.01579310037140621,
+        "overburden_min": -1.044664584728411,
+        "overburden_nonuniformity": 1.1076687068051394,
+        "remaining_void_area": 0.050821529915648846,
+        "topology_valid": true,
+        "void_free": false
+      },
+      "terminal_transition_classification": "resolved_closed_void_creation"
+    },
+    {
+      "all_failure_types": [
+        "pinch_off_or_closed_void"
+      ],
+      "arm": "candidate_rank1_quasi_steady",
+      "case_id": "23e5a32868f32c21",
+      "elapsed_s": 383.9448699951172,
+      "first_failure_types": [
+        "pinch_off_or_closed_void"
+      ],
+      "grid_delta": 0.005,
+      "initial_region_rates": {
+        "floor_coverage_mean": 0.9840912833420056,
+        "floor_flux_mean": 0.6444805585788377,
+        "floor_point_count": 33,
+        "floor_to_lower_wall_velocity_ratio": 0.9943534474091617,
+        "floor_velocity_mean": 0.013022656165018928,
+        "lower_wall_coverage_mean": 0.9837020692403845,
+        "lower_wall_flux_mean": 0.6326847571638294,
+        "lower_wall_point_count": 150,
+        "lower_wall_velocity_mean": 0.013096606844326954,
+        "source": "candidate diagnostic surface"
+      },
+      "mechanism_classification": "lateral_closure_failure",
+      "outcome": "hard_failure",
+      "protected_stack_survives": true,
+      "required_floor_to_lower_wall_velocity_ratio": 10.457315990893878,
+      "rng_seed": 94000,
+      "target_pass": false,
+      "terminal_checkpoint": 427,
+      "terminal_elapsed": 5.337500000000042,
+      "terminal_stage": "candidate",
+      "terminal_topology": {
+        "center_overburden": -1.0684399896967287,
+        "closed_void_count": 1,
+        "field_overburden_min": 0.06283117881730652,
+        "fill_fraction": 0.7991913276816999,
+        "maximum_void_height": 0.04778628798792539,
+        "maximum_void_width": 0.00613517092499615,
+        "mouth_aperture": 0.08945440831843204,
+        "open_void": true,
+        "open_void_depth": 1.0684399896967287,
+        "overburden_mean": -0.014303926127559846,
+        "overburden_min": -1.0598206407042128,
+        "overburden_nonuniformity": 1.1226683376251079,
+        "remaining_void_area": 0.050686424809844824,
+        "topology_valid": true,
+        "void_free": false
+      },
+      "terminal_transition_classification": "resolved_closed_void_creation"
+    },
+    {
+      "all_failure_types": [],
+      "arm": "morphology_only_bottom_up_positive_control",
+      "case_id": "a551bb76d4ffe42d",
+      "elapsed_s": 21.41625690460205,
+      "first_failure_types": [],
+      "grid_delta": 0.01,
+      "initial_region_rates": {
+        "floor_point_count": 68,
+        "floor_to_lower_wall_velocity_ratio": 19.999999999999996,
+        "floor_velocity_mean": 0.19999999999999996,
+        "lower_wall_point_count": 304,
+        "lower_wall_velocity_mean": 0.01,
+        "source": "prescribed exact-stack morphology control; not electrochemistry or a recipe"
+      },
+      "mechanism_classification": "resolved_bottom_up_target",
+      "outcome": "target_pass",
+      "protected_stack_survives": true,
+      "required_floor_to_lower_wall_velocity_ratio": 9.851012029434239,
+      "rng_seed": 94000,
+      "target_pass": true,
+      "terminal_checkpoint": 215,
+      "terminal_elapsed": 5.375000000000009,
+      "terminal_stage": "uniform_overburden",
+      "terminal_topology": {
+        "center_overburden": 0.1522670480626388,
+        "closed_void_count": 0,
+        "field_overburden_min": 0.18200000000000002,
+        "fill_fraction": 1.0,
+        "maximum_void_height": 0.0,
+        "maximum_void_width": 0.0,
+        "mouth_aperture": 0.0,
+        "open_void": false,
+        "open_void_depth": 0.0,
+        "overburden_mean": 0.18198881760812302,
+        "overburden_min": 0.15226704806263877,
+        "overburden_nonuniformity": 0.04145409445462783,
+        "remaining_void_area": 0.0,
+        "topology_valid": true,
+        "void_free": true
+      },
+      "terminal_transition_classification": "resolved_front_motion"
+    },
+    {
+      "all_failure_types": [],
+      "arm": "morphology_only_bottom_up_positive_control",
+      "case_id": "c72ca3cc680c4e58",
+      "elapsed_s": 105.88960695266724,
+      "first_failure_types": [],
+      "grid_delta": 0.005,
+      "initial_region_rates": {
+        "floor_point_count": 132,
+        "floor_to_lower_wall_velocity_ratio": 19.999999999999996,
+        "floor_velocity_mean": 0.19999999999999996,
+        "lower_wall_point_count": 600,
+        "lower_wall_velocity_mean": 0.01,
+        "source": "prescribed exact-stack morphology control; not electrochemistry or a recipe"
+      },
+      "mechanism_classification": "resolved_bottom_up_target",
+      "outcome": "target_pass",
+      "protected_stack_survives": true,
+      "required_floor_to_lower_wall_velocity_ratio": 10.457315990893878,
+      "rng_seed": 94000,
+      "target_pass": true,
+      "terminal_checkpoint": 433,
+      "terminal_elapsed": 5.412500000000043,
+      "terminal_stage": "uniform_overburden",
+      "terminal_topology": {
+        "center_overburden": 0.15022307375852997,
+        "closed_void_count": 0,
+        "field_overburden_min": 0.18475000000000003,
+        "fill_fraction": 1.0,
+        "maximum_void_height": 0.0,
+        "maximum_void_width": 0.0,
+        "mouth_aperture": 0.0,
+        "open_void": false,
+        "open_void_depth": 0.0,
+        "overburden_mean": 0.1828627090735313,
+        "overburden_min": 0.1508365966788936,
+        "overburden_nonuniformity": 0.039601563414030455,
+        "remaining_void_area": 0.0,
+        "topology_valid": true,
+        "void_free": true
+      },
+      "terminal_transition_classification": "resolved_front_motion"
+    }
+  ],
+  "duplicate_valid_case_ids": [],
+  "expected_case_count": 4,
+  "grid_classification_agreement": {
+    "candidate_rank1_quasi_steady": {
+      "agrees": true,
+      "classifications": [
+        "lateral_closure_failure"
+      ],
+      "complete": true,
+      "outcomes": [
+        "hard_failure"
+      ]
+    },
+    "morphology_only_bottom_up_positive_control": {
+      "agrees": true,
+      "classifications": [
+        "resolved_bottom_up_target"
+      ],
+      "complete": true,
+      "outcomes": [
+        "target_pass"
+      ]
+    }
+  },
+  "invalid_attempts": [],
+  "missing_case_ids": [],
+  "output_path": "autoresearch-results/restart_audit/copper_fill_structural_challenge_rows.jsonl",
+  "parse_errors": [],
+  "review_scope": "exact-stack structural model/representation challenge; not a recipe DOE",
+  "runtime_fingerprint": {
+    "foundation_fill_runner_sha256": "5e083a42c35e5efa368b61a7ab8cbcf734de4ef4da6f7180806cdf9bc6aca68c",
+    "structural_runner_sha256": "bd54bb920a7e822bfbde7397ff1f0b3cfdff76a9d334a869b032ec653af2caf3",
+    "traveler_metrics_sha256": "e2d5cd51b58e485ce3a5b122d7e69f72a151a4b3c856ef441f1f0a1b302c2eec",
+    "tsv_process_sha256": "b1f57c2dc2766fe5f1563dbb97172cc71d6d3cb18d9221599a6aa6e78e58cfd2",
+    "viennaps_binary_sha256": "8970850eb6d3ffbd621a454e70b8d4504e4d9d7d6e953312915c92fdc1c87a8d"
+  },
+  "selected_valid_case_count": 4,
+  "status": "complete",
+  "structural_conclusion": {
+    "accepted": true,
+    "classification": "candidate_rate_law_rejected_representation_control_passed",
+    "reason": "The candidate fails by lateral closure on both grids while the prescribed bottom-up control reaches void-free positive overburden on the same protected material stack."
+  },
+  "valid_attempt_count": 4
+}

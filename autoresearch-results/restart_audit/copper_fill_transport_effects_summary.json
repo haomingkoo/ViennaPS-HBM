@@ -1,0 +1,139 @@
+{
+  "case_count": 168,
+  "closest_tested_miss": {
+    "design": "stick_0p025_power_0p0",
+    "selection_scope": "closest tested corner on the two headline sign ratios; it is a boundary miss, not a recipe ranking",
+    "tiers": {
+      "continuity": {
+        "flux_ratio_mean": 0.9920354051626802,
+        "flux_ratio_sample_sd": 0.007926702714147206,
+        "flux_ratio_values": [
+          1.001996460445967,
+          0.9906840075772866,
+          0.9927498315935263,
+          0.9827113210339408
+        ],
+        "flux_ratio_worst": 1.001996460445967,
+        "velocity_ratio_mean": 1.0041998843026114,
+        "velocity_ratio_sample_sd": 0.004917998977742129,
+        "velocity_ratio_values": [
+          0.9979298996481252,
+          1.0051830155343306,
+          1.0038179616381349,
+          1.0098686603898548
+        ],
+        "velocity_ratio_worst": 0.9979298996481252
+      },
+      "nominal_hbm": {
+        "flux_ratio_mean": 1.0065774437834651,
+        "flux_ratio_sample_sd": 0.010431644321538262,
+        "flux_ratio_values": [
+          1.0209435921828107,
+          1.0074156876609115,
+          0.9976001176748738,
+          1.0003503776152642
+        ],
+        "flux_ratio_worst": 1.0209435921828107,
+        "velocity_ratio_mean": 0.9781177014965576,
+        "velocity_ratio_sample_sd": 0.01589581853589702,
+        "velocity_ratio_values": [
+          0.9567173497117697,
+          0.9758910118553461,
+          0.9927578274379719,
+          0.9871046169811427
+        ],
+        "velocity_ratio_worst": 0.9567173497117697
+      }
+    }
+  },
+  "factor_effects": {
+    "continuity": {
+      "floor_to_lower_flux_ratio": {
+        "sampled_range_variance_share": {
+          "paired_stream_residual": 0.0006060325143863628,
+          "source_power": 0.0032334463271562735,
+          "sticking": 0.9957142749970823,
+          "sticking_x_source_power": 0.00044624616137505267
+        },
+        "scale": "natural log of the regional ratio",
+        "sum_squares": {
+          "paired_stream_residual": 0.021713674574298236,
+          "source_power": 0.1158518720277281,
+          "sticking": 35.6756695771709,
+          "sticking_x_source_power": 0.015988653575689585
+        },
+        "sum_squares_total": 35.829223777348616
+      },
+      "floor_to_lower_velocity_ratio": {
+        "sampled_range_variance_share": {
+          "paired_stream_residual": 0.0010019099398119345,
+          "source_power": 0.22687264415393293,
+          "sticking": 0.5902011430191229,
+          "sticking_x_source_power": 0.18192430288713232
+        },
+        "scale": "natural log of the regional ratio",
+        "sum_squares": {
+          "paired_stream_residual": 0.006477566362639964,
+          "source_power": 1.4667811446711,
+          "sticking": 3.815779162675984,
+          "sticking_x_source_power": 1.1761803113257983
+        },
+        "sum_squares_total": 6.465218185035522
+      }
+    },
+    "nominal_hbm": {
+      "floor_to_lower_flux_ratio": {
+        "sampled_range_variance_share": {
+          "paired_stream_residual": 0.0003232560907379961,
+          "source_power": 0.000995063314388085,
+          "sticking": 0.99850259260288,
+          "sticking_x_source_power": 0.00017908799199396614
+        },
+        "scale": "natural log of the regional ratio",
+        "sum_squares": {
+          "paired_stream_residual": 0.026615555204448707,
+          "source_power": 0.08192935364513698,
+          "sticking": 82.21252943613399,
+          "sticking_x_source_power": 0.014745356619537337
+        },
+        "sum_squares_total": 82.33581970160311
+      },
+      "floor_to_lower_velocity_ratio": {
+        "sampled_range_variance_share": {
+          "paired_stream_residual": 0.003870570164704625,
+          "source_power": 0.5733302055087057,
+          "sticking": 0.3092275828152011,
+          "sticking_x_source_power": 0.11357164151138857
+        },
+        "scale": "natural log of the regional ratio",
+        "sum_squares": {
+          "paired_stream_residual": 0.004435486245163073,
+          "source_power": 0.6570086918097365,
+          "sticking": 0.3543598570332385,
+          "sticking_x_source_power": 0.13014760935170847
+        },
+        "sum_squares_total": 1.1459516444398465
+      }
+    }
+  },
+  "monotonicity": {
+    "flux_ratio_non_decreasing_with_source_power": {
+      "passing_sequences": 47,
+      "total_sequences": 56
+    },
+    "flux_ratio_non_decreasing_with_sticking": {
+      "passing_sequences": 24,
+      "total_sequences": 24
+    }
+  },
+  "paired_geometry_effect": {
+    "maximum_difference": 8.603144880107086,
+    "median_difference": 1.0685404259844606,
+    "minimum_difference": 0.004850286081347521,
+    "nominal_minus_continuity_flux_ratio_positive_pairs": 84,
+    "pair_count": 84
+  },
+  "scope": "descriptive balanced factor/interaction audit of the audited coarse 2D screen; not calibration or qualification",
+  "status": "complete",
+  "validation_errors": []
+}

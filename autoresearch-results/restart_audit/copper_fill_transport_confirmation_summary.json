@@ -1,0 +1,2195 @@
+{
+  "attempt_count": 128,
+  "campaign": "foundation-copper-fill-transport-numerical-confirmation",
+  "class_changing_interactions": [],
+  "current_error_attempt_rows": [],
+  "decision": {
+    "automatic_launch_authorized": false,
+    "boundary_expansion_evidence": {
+      "B_improvement_over_A": 0.022068191658577985,
+      "B_improvement_strictly_exceeds_numerical_effect": true,
+      "B_improves_in_both_tiers": true,
+      "design_A_high_fidelity_worst": 1.0150426676353013,
+      "design_B_high_fidelity_pass": false,
+      "design_B_high_fidelity_worst": 0.9929744759767233,
+      "largest_absolute_paired_numerical_effect_or_interaction": 0.016714424655445925,
+      "primary_response": "worst_floor_to_each_lower_flux_ratio",
+      "triggered": true
+    },
+    "classification": "lower_sticking_boundary_expansion_required",
+    "conditional_next_design": {
+      "adsorption_strength": 40.0,
+      "grid_delta": 0.005,
+      "max_reflections": [
+        1600,
+        3200
+      ],
+      "name": "stick_0p00625_power_0p0",
+      "rays_per_point": 2000,
+      "reflection_residual_bounds": [
+        4.399736457983885e-05,
+        1.9357680899712586e-09
+      ],
+      "suppressor_source_power": 0.0,
+      "suppressor_sticking_probability": 0.00625
+    },
+    "high_fidelity_cells": {
+      "stick_0p0125_power_0p0": "no_go",
+      "stick_0p025_power_0p0": "no_go"
+    },
+    "matched_3d_required": true,
+    "model_family_pivot_authorized": false,
+    "morphology_authorized": false,
+    "reason": "The lower-sticking design is a boundary result whose improvement exceeds the largest paired numerical effect, or it passes at the high-fidelity cell. Confirm s=0.00625 at 1600/3200 reflections; do not launch it automatically."
+  },
+  "duplicate_success_case_ids": [],
+  "expected_case_count": 128,
+  "expected_new_execution_count": 120,
+  "expected_parent_reuse_count": 8,
+  "expected_runtime_fingerprint": {
+    "coarse_runner_sha256": "c16a1446486ec65085f88cc9d29ffc42aac58b95ac6b8f494af378e7c828cf45",
+    "regional_kinematics_sha256": "0f4371c01195b1144c941107fa509eb82c77431083144c2ca7018ae68b6d872c",
+    "runner_sha256": "7774ff17683abaa9208c7cffdf6cc9bc2cca928f78eae6ab19b176ac3da01ecc",
+    "trajectory_runner_sha256": "5e083a42c35e5efa368b61a7ab8cbcf734de4ef4da6f7180806cdf9bc6aca68c",
+    "traveler_metrics_sha256": "7e34ab0449074be154a556e1a07ab275a9936b56a9964b2462c9a1505900bd20",
+    "tsv_process_sha256": "b1f57c2dc2766fe5f1563dbb97172cc71d6d3cb18d9221599a6aa6e78e58cfd2",
+    "viennaps_binary_sha256": "8970850eb6d3ffbd621a454e70b8d4504e4d9d7d6e953312915c92fdc1c87a8d"
+  },
+  "high_fidelity_results": {
+    "stick_0p0125_power_0p0": {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 3.128915156027263e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": true,
+      "max_reflections": 800,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0004858814053693724,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0018851745479855576,
+          "worst": 0.00046361080931707835
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.0002730469172936512,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0006366728828280238,
+          "worst": 0.00022910256273067642
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9916543671912578,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9892551601910695,
+          "worst": 0.9929744759767233
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0035684052198193,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.00645170220676,
+          "worst": 1.0029776439332272
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9924087150686667,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9898196270854052,
+          "worst": 0.9929744759767233
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9903442158032966,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9886906932967336,
+          "worst": 0.9909779984368958
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    "stick_0p025_power_0p0": {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.469644543078211e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": true,
+      "max_reflections": 800,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0009607793613213044,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007617929281367303,
+          "worst": 0.0009293193363161725
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.007561578526406121,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0035118592900848233,
+          "worst": -0.007827262932998624
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0142131364262716,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 1.0057530472399225,
+          "worst": 1.0150426676353013
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9650550882486104,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9838599521402212,
+          "worst": 0.9640521626926974
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 1.0017729531861488,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.998853968849597,
+          "worst": 1.0025985906209949
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.0146871542600029,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0126521256302483,
+          "worst": 1.0150426676353013
+        }
+      },
+      "transport_sign_pass_count": 0
+    }
+  },
+  "invalid_attempts": [],
+  "manifest_validation_errors": [],
+  "metric_valid_case_count": 128,
+  "missing_cases": [],
+  "morphology_ranking": [],
+  "numerical_artifacts": [],
+  "numerical_cells": [
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.9518735136128505e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0010556151217450643,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007860785539511476,
+          "worst": 0.0010071453387757168
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.006460355018479069,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.002174398427787577,
+          "worst": -0.009158890136682474
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0114740590174813,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9993064244730726,
+          "worst": 1.0209435921828107
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9701389132122732,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9911587928995845,
+          "worst": 0.9567173497117697
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9992224717902348,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9920354051626802,
+          "worst": 1.001996460445967
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.0168852208262409,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0065774437834651,
+          "worst": 1.0209435921828107
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.9518735136128505e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 800,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0010556151217450643,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007860785539511476,
+          "worst": 0.0010071453387757168
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.006460355018479069,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0021740011096763046,
+          "worst": -0.009158890136682474
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0114740590174813,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9993055231185725,
+          "worst": 1.0209435921828107
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9701389132122732,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9911606220053342,
+          "worst": 0.9567173497117697
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9992224717902348,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9920354051626802,
+          "worst": 1.001996460445967
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.0168852208262409,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0065756410744648,
+          "worst": 1.0209435921828107
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.6103310724835986e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0010457568202018222,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.008073005114018662,
+          "worst": 0.0009875880625924947
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.005121891820043611,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0016925020902511106,
+          "worst": -0.008050041713317468
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0070062229901469,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9977245828244088,
+          "worst": 1.0164350531603648
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9767347691799073,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9935349082514411,
+          "worst": 0.9630571981884832
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9980346082979826,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9920080687768893,
+          "worst": 1.0009088326318478
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.0123941259445572,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.003441096871928,
+          "worst": 1.0164350531603648
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.6103310724835986e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 800,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0010457568202018222,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.008073005114018662,
+          "worst": 0.0009875880625924947
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.005121891820043611,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0016923023655666392,
+          "worst": -0.008050041713317468
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0070062229901469,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9977241314600331,
+          "worst": 1.0164350531603648
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9767347691799073,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9935358256631215,
+          "worst": 0.9630571981884832
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9980346082979826,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9920080687768893,
+          "worst": 1.0009088326318478
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.0123941259445572,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.003440194143177,
+          "worst": 1.0164350531603648
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.845365336983139e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0008903664562215699,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007564407332738861,
+          "worst": 0.000848243904530338
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.00879628593686459,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.003822463799966744,
+          "worst": -0.01054122351661313
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0172603789003172,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 1.007581572829802,
+          "worst": 1.023445673039617
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9599818627437111,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9820638366481178,
+          "worst": 0.9516041723075979
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 1.0078889000464233,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0011915011166908,
+          "worst": 1.0106210530454753
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.020794832694203,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0139716445429137,
+          "worst": 1.023445673039617
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.845365336983139e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": false,
+      "max_reflections": 800,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0008903664562215699,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007564407332738861,
+          "worst": 0.000848243904530338
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.00879628593686459,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0038222735638364785,
+          "worst": -0.01054122351661313
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0172603789003172,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 1.0075811303181372,
+          "worst": 1.023445673039617
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9599818627437111,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.982064703863101,
+          "worst": 0.9516041723075979
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 1.0078889000464233,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0011915011166908,
+          "worst": 1.0106210530454753
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.020794832694203,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0139707595195837,
+          "worst": 1.023445673039617
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.469644543078211e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0009607793613213044,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007617929281367303,
+          "worst": 0.0009293193363161725
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.007562116209018,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0035119553048369445,
+          "worst": -0.007827262932998624
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0142143900707716,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 1.005753271105012,
+          "worst": 1.0150426676353013
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9650526824685213,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9838595225366338,
+          "worst": 0.9640521626926974
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 1.0017729531861488,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.998853968849597,
+          "worst": 1.0025985906209949
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.014687691536217,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0126525733604268,
+          "worst": 1.0150426676353013
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.469644543078211e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p025_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": true,
+      "max_reflections": 800,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0009607793613213044,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.007617929281367303,
+          "worst": 0.0009293193363161725
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": -0.007561578526406121,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": -0.0035118592900848233,
+          "worst": -0.007827262932998624
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 1.0142131364262716,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 1.0057530472399225,
+          "worst": 1.0150426676353013
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 0.9650550882486104,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.9838599521402212,
+          "worst": 0.9640521626926974
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 1.0017729531861488,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.998853968849597,
+          "worst": 1.0025985906209949
+        },
+        "nominal_hbm": {
+          "adverse_p90": 1.0146871542600029,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 1.0126521256302483,
+          "worst": 1.0150426676353013
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 3.0478296616163947e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0005517446238349306,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0020355016617941857,
+          "worst": 0.0005197769266912632
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.00046102270723620277,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.001188002816584599,
+          "worst": 0.00022066102511053565
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9914033104094109,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9821065865140715,
+          "worst": 0.993179005429755
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0058388575495025,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.0119134794878686,
+          "worst": 1.002852796538503
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9903619654773752,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9827183937023374,
+          "worst": 0.993179005429755
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.988783499070443,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9814947793258056,
+          "worst": 0.9906422982578349
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 3.0478296616163947e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 800,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0005517446238349306,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0020353333767773284,
+          "worst": 0.0005197769266912632
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.00046102270723620277,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0011880469411253841,
+          "worst": 0.00022066102511053565
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9913992443609482,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9821058569634745,
+          "worst": 0.993179005429755
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0058423910226564,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.0119140691635602,
+          "worst": 1.002852796538503
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9903619654773752,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9827183937023374,
+          "worst": 0.993179005429755
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9887732249361848,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9814933202246117,
+          "worst": 0.9906364896171739
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.5508580685494694e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0005463598346051519,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.002087205866674365,
+          "worst": 0.0005049702878275712
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.0005287735138907901,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0013430079246478516,
+          "worst": 0.0002654895314627703
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9896707386114537,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9807719875762039,
+          "worst": 0.9920580011463753
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0068751055959981,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.0132971735717875,
+          "worst": 1.0034424686951613
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9889048722243684,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9828141715875494,
+          "worst": 0.9920580011463753
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9861878927448683,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9787298035648584,
+          "worst": 0.9886476260964874
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.5508580685494694e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.01,
+      "high_fidelity": false,
+      "max_reflections": 800,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0005463598346051519,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0020870866446043544,
+          "worst": 0.0005049702878275712
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.0005287735138907901,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.001343425636022716,
+          "worst": 0.0002654895314627703
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9896609922475607,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9807682229844707,
+          "worst": 0.9920580011463753
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0068751055959981,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.0133012208171674,
+          "worst": 1.0034424686951613
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9889048722243684,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9828141715875494,
+          "worst": 0.9920580011463753
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9861746163389693,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.978722274381392,
+          "worst": 0.9886337027194972
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.949368851192719e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0004420123548687175,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0018696480887858257,
+          "worst": 0.0004117859041296093
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 7.069336640583846e-05,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0005498313298350627,
+          "worst": -5.362848117573815e-05
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9979694593290377,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9907109999214861,
+          "worst": 1.0010950283355562
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0005774395438953,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.005523898250984,
+          "worst": 0.9993011028586494
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9984926043324455,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9919176713600426,
+          "worst": 1.0010950283355562
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.995067861351662,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9895043284829297,
+          "worst": 0.9966299297548155
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 2.949368851192719e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": false,
+      "max_reflections": 800,
+      "rays_per_point": 1000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0004420123548687175,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0018694160049044185,
+          "worst": 0.0004117859041296093
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 7.089618896214401e-05,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0005503611485447174,
+          "worst": -5.362848117573815e-05
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9979679398619742,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9907060233848112,
+          "worst": 1.0010950283355562
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0005793192828216,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.0055288955894515,
+          "worst": 0.9993011028586494
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9984926043324455,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9919176713600426,
+          "worst": 1.0010950283355562
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9950652461828748,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9894943754095797,
+          "worst": 0.9966277590875819
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 3.128915156027263e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": false,
+      "max_reflections": 400,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0004858814053693724,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.00188541622741548,
+          "worst": 0.00046361080931707835
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.0002730469172936512,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0006362382237425496,
+          "worst": 0.00022910256273067642
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9916543671912578,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9892590225864158,
+          "worst": 0.9929744759767233
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0035684052198193,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.0064475626204552,
+          "worst": 1.0029776439332272
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9924087150686667,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9898196270854052,
+          "worst": 0.9929744759767233
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9903460946378909,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9886984180874263,
+          "worst": 0.9909795474009987
+        }
+      },
+      "transport_sign_pass_count": 0
+    },
+    {
+      "all_eight_transport_sign_pass": false,
+      "analytic_parity_max_abs_error": 3.128915156027263e-14,
+      "broad_analytic_envelope": {
+        "analytic_h_over_a_pass": false,
+        "best_finite": null,
+        "best_worst_normalized_margin": null,
+        "coefficient_boundary_limited": false,
+        "eligible_coefficient_case_count": 0,
+        "exact_pi_a_infinity": null,
+        "exact_pi_a_zero": null,
+        "fixed_flux_gate_all_eight": false,
+        "interior_passing_case_count": 0,
+        "near_threshold": false
+      },
+      "classification": "no_go",
+      "combined_2d_pass": false,
+      "design": "stick_0p0125_power_0p0",
+      "grid_delta": 0.005,
+      "high_fidelity": true,
+      "max_reflections": 800,
+      "rays_per_point": 2000,
+      "response_summaries": {
+        "minimum_floor_minus_middle_upper_velocity": {
+          "adverse_p90": 0.0004858814053693724,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0018851745479855576,
+          "worst": 0.00046361080931707835
+        },
+        "minimum_lower_minus_floor_coverage": {
+          "adverse_p90": 0.0002730469172936512,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 0.0006366728828280238,
+          "worst": 0.00022910256273067642
+        },
+        "worst_floor_to_each_lower_flux_ratio": {
+          "adverse_p90": 0.9916543671912578,
+          "count": 8,
+          "higher_is_better": false,
+          "mean": 0.9892551601910695,
+          "worst": 0.9929744759767233
+        },
+        "worst_floor_to_each_lower_velocity_ratio": {
+          "adverse_p90": 1.0035684052198193,
+          "count": 8,
+          "higher_is_better": true,
+          "mean": 1.00645170220676,
+          "worst": 1.0029776439332272
+        }
+      },
+      "stream_count": 8,
+      "structural_guard_pass_counts": {
+        "diagnostic_balance_valid": 8,
+        "protected_stack_survives": 8,
+        "topology_transition_valid": 8,
+        "topology_valid": 8
+      },
+      "tier_flux_response": {
+        "continuity": {
+          "adverse_p90": 0.9924087150686667,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9898196270854052,
+          "worst": 0.9929744759767233
+        },
+        "nominal_hbm": {
+          "adverse_p90": 0.9903442158032966,
+          "count": 4,
+          "higher_is_better": false,
+          "mean": 0.9886906932967336,
+          "worst": 0.9909779984368958
+        }
+      },
+      "transport_sign_pass_count": 0
+    }
+  ],
+  "paired_factorial_effects": [
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.01647388420843332,
+      "mean_signed_effect": 0.008152089904196719,
+      "minimum_signed_effect": 0.0005548476658714385,
+      "order": 1,
+      "p90_absolute_effect": 0.014201588992269398,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.01647388420843332
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.0024422391237615693,
+      "mean_signed_effect": -0.0017049045275519675,
+      "minimum_signed_effect": -0.006455772213380895,
+      "order": 1,
+      "p90_absolute_effect": 0.005125263247524148,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.006455772213380895
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -5.047739074989788e-07,
+      "minimum_signed_effect": -4.03819125999183e-06,
+      "order": 1,
+      "p90_absolute_effect": 1.2114573779975484e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 4.03819125999183e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.0028801103180285947,
+      "mean_signed_effect": -0.0001232878739503701,
+      "minimum_signed_effect": -0.003467417305180631,
+      "order": 2,
+      "p90_absolute_effect": 0.0030563024141742057,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.003467417305180631
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 1.372684242884059e-06,
+      "mean_signed_effect": 1.715855303605074e-07,
+      "minimum_signed_effect": 0.0,
+      "order": 2,
+      "p90_absolute_effect": 4.118052728652175e-07,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 1.372684242884059e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 1.3372734005145936e-06,
+      "mean_signed_effect": 1.671591750643242e-07,
+      "minimum_signed_effect": 0.0,
+      "order": 2,
+      "p90_absolute_effect": 4.0118202015437786e-07,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 1.3372734005145936e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -5.783588719748822e-08,
+      "minimum_signed_effect": -4.626870975799058e-07,
+      "order": 3,
+      "p90_absolute_effect": 1.3880612927397164e-07,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 4.626870975799058e-07
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": -0.0001734708536508256,
+      "mean_signed_effect": -0.0017338369913608397,
+      "minimum_signed_effect": -0.004886483497087646,
+      "order": 1,
+      "p90_absolute_effect": 0.004170760260059361,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.004886483497087646
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0019114045034897553,
+      "mean_signed_effect": 0.0003961294626318966,
+      "minimum_signed_effect": -0.0008206126723218354,
+      "order": 1,
+      "p90_absolute_effect": 0.0014575869264919937,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.0019114045034897553
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 1.7665873562611178e-06,
+      "mean_signed_effect": 2.2082341953263973e-07,
+      "minimum_signed_effect": 0.0,
+      "order": 1,
+      "p90_absolute_effect": 5.29976206878335e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 1.7665873562611178e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.00080255608012475,
+      "mean_signed_effect": -8.566807819116937e-05,
+      "minimum_signed_effect": -0.0010053169318625654,
+      "order": 2,
+      "p90_absolute_effect": 0.0008633843356460946,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.0010053169318625654
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -7.769797833942493e-08,
+      "minimum_signed_effect": -6.215838267153995e-07,
+      "order": 2,
+      "p90_absolute_effect": 1.8647514801461972e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 6.215838267153995e-07
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -7.295370123630573e-08,
+      "minimum_signed_effect": -5.836296098904459e-07,
+      "order": 2,
+      "p90_absolute_effect": 1.7508888296713365e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 5.836296098904459e-07
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 2.0674409731413768e-07,
+      "mean_signed_effect": 2.584301216426721e-08,
+      "minimum_signed_effect": 0.0,
+      "order": 3,
+      "p90_absolute_effect": 6.202322919424126e-08,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 2.0674409731413768e-07
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": -0.0020196929689424437,
+      "mean_signed_effect": -0.009385533407851858,
+      "minimum_signed_effect": -0.02251930878437658,
+      "order": 1,
+      "p90_absolute_effect": 0.019360185036552024,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.02251930878437658
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.009393919430906561,
+      "mean_signed_effect": 0.0020855632938201057,
+      "minimum_signed_effect": -0.0036224634727189398,
+      "order": 1,
+      "p90_absolute_effect": 0.006727335051610766,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.009393919430906561
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 8.08667200108415e-06,
+      "mean_signed_effect": 1.0108340001355187e-06,
+      "minimum_signed_effect": 0.0,
+      "order": 1,
+      "p90_absolute_effect": 2.4260016003252433e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 8.08667200108415e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.003054070954193022,
+      "mean_signed_effect": -0.00029009621100187927,
+      "minimum_signed_effect": -0.004601318064724413,
+      "order": 2,
+      "p90_absolute_effect": 0.0035182450873524392,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.004601318064724413
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -3.62424714878129e-07,
+      "minimum_signed_effect": -2.899397719025032e-06,
+      "order": 2,
+      "p90_absolute_effect": 8.69819315707509e-07,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 2.899397719025032e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -3.3732636626343515e-07,
+      "minimum_signed_effect": -2.698610930107481e-06,
+      "order": 2,
+      "p90_absolute_effect": 8.095832790322439e-07,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 2.698610930107481e-06
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 9.481653469034512e-07,
+      "mean_signed_effect": 1.185206683629314e-07,
+      "minimum_signed_effect": 0.0,
+      "order": 3,
+      "p90_absolute_effect": 2.844496040710352e-07,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 9.481653469034512e-07
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.00034469390572963894,
+      "mean_signed_effect": -0.00037572701971198645,
+      "minimum_signed_effect": -0.0012637738380859367,
+      "order": 1,
+      "p90_absolute_effect": 0.000991810518853065,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.0012637738380859367
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0008836535037793202,
+      "mean_signed_effect": 0.00013287076156781412,
+      "minimum_signed_effect": -8.567737918447824e-05,
+      "order": 1,
+      "p90_absolute_effect": 0.0003603554583863014,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.0008836535037793202
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": 0.0,
+      "minimum_signed_effect": 0.0,
+      "order": 1,
+      "p90_absolute_effect": 0.0,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 0.0
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 7.278780041676536e-05,
+      "mean_signed_effect": -7.934881293937253e-05,
+      "minimum_signed_effect": -0.000458591545214165,
+      "order": 2,
+      "p90_absolute_effect": 0.00031781811139978164,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.000458591545214165
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": 0.0,
+      "minimum_signed_effect": 0.0,
+      "order": 2,
+      "p90_absolute_effect": 0.0,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 0.0
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": 0.0,
+      "minimum_signed_effect": 0.0,
+      "order": 2,
+      "p90_absolute_effect": 0.0,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 0.0
+    },
+    {
+      "design": "stick_0p025_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": 0.0,
+      "minimum_signed_effect": 0.0,
+      "order": 3,
+      "p90_absolute_effect": 0.0,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 0.0
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.016714424655445925,
+      "mean_signed_effect": 0.008544638011390503,
+      "minimum_signed_effect": 0.003102696891881085,
+      "order": 1,
+      "p90_absolute_effect": 0.013616585538042382,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.016714424655445925
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.002045173562879282,
+      "mean_signed_effect": -0.0013937683614208933,
+      "minimum_signed_effect": -0.0046207783211063,
+      "order": 1,
+      "p90_absolute_effect": 0.004063313857449122,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.0046207783211063
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 3.9206789307633105e-06,
+      "mean_signed_effect": -3.333268587885768e-06,
+      "minimum_signed_effect": -1.3152254139003894e-05,
+      "order": 1,
+      "p90_absolute_effect": 1.2045839115273904e-05,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 1.3152254139003894e-05
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 0.0032852181852707496,
+      "mean_signed_effect": -5.765190298516118e-05,
+      "minimum_signed_effect": -0.0034997740377266107,
+      "order": 2,
+      "p90_absolute_effect": 0.003349584941007508,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.0034997740377266107
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 4.0030965786919115e-06,
+      "mean_signed_effect": -1.086197422815044e-06,
+      "minimum_signed_effect": -9.039125829196637e-06,
+      "order": 2,
+      "p90_absolute_effect": 7.423794045546827e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 9.039125829196637e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 1.4374421166418738e-06,
+      "mean_signed_effect": -4.802249518980062e-07,
+      "minimum_signed_effect": -2.426708492070384e-06,
+      "order": 2,
+      "p90_absolute_effect": 2.0392933573532e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 2.426708492070384e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": false,
+      "maximum_signed_effect": 6.660313338263668e-06,
+      "mean_signed_effect": 1.0372956161970592e-06,
+      "minimum_signed_effect": -5.442681256184745e-06,
+      "order": 3,
+      "p90_absolute_effect": 5.807970880808421e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_flux_ratio",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 6.660313338263668e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": -0.00013049676699755652,
+      "mean_signed_effect": -0.0006723449333575493,
+      "minimum_signed_effect": -0.0014693671980823553,
+      "order": 1,
+      "p90_absolute_effect": 0.0013913706326268093,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.0014693671980823553
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0004194391745007131,
+      "mean_signed_effect": 0.00012077560778784441,
+      "minimum_signed_effect": -0.00020509102765756126,
+      "order": 1,
+      "p90_absolute_effect": 0.00040412818034459285,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.0004194391745007131
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 1.6063018598577727e-06,
+      "mean_signed_effect": 3.5657842769459824e-07,
+      "minimum_signed_effect": -6.319503241536406e-07,
+      "order": 1,
+      "p90_absolute_effect": 1.387924826742881e-06,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 1.6063018598577727e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.00017480743673459198,
+      "mean_signed_effect": -3.441629369244775e-05,
+      "minimum_signed_effect": -0.0003499968870354364,
+      "order": 2,
+      "p90_absolute_effect": 0.00023560291983463209,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.0003499968870354364
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 1.1498296856593537e-06,
+      "mean_signed_effect": 1.2566046986989265e-07,
+      "minimum_signed_effect": -4.5407867849123207e-07,
+      "order": 2,
+      "p90_absolute_effect": 8.345998617209637e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 1.1498296856593537e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 2.810411268427959e-07,
+      "mean_signed_effect": 6.960680247469764e-08,
+      "minimum_signed_effect": -1.358263987671915e-07,
+      "order": 2,
+      "p90_absolute_effect": 2.541260170380033e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 2.810411268427959e-07
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 5.534014109742635e-07,
+      "mean_signed_effect": -1.1718661456494583e-07,
+      "minimum_signed_effect": -7.153050647079606e-07,
+      "order": 3,
+      "p90_absolute_effect": 6.019725070943726e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_lower_minus_floor_coverage",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 7.153050647079606e-07
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": -0.0016617791597872689,
+      "mean_signed_effect": -0.006618471093183191,
+      "minimum_signed_effect": -0.013109724447597337,
+      "order": 1,
+      "p90_absolute_effect": 0.01252045998705369,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.013109724447597337
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0037437477662319307,
+      "mean_signed_effect": 0.0011543291810764064,
+      "minimum_signed_effect": -0.001894993522003452,
+      "order": 1,
+      "p90_absolute_effect": 0.0036166513582647055,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.0037437477662319307
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 1.4915255280523176e-05,
+      "mean_signed_effect": 3.4434614610764913e-06,
+      "minimum_signed_effect": -5.0617523317808555e-06,
+      "order": 1,
+      "p90_absolute_effect": 1.3055649912480093e-05,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 1.4915255280523176e-05
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0016461591315139468,
+      "mean_signed_effect": -0.00023109368768663846,
+      "minimum_signed_effect": -0.0032300664329852347,
+      "order": 2,
+      "p90_absolute_effect": 0.002190647942852286,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.0032300664329852347
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 1.0288648645107035e-05,
+      "mean_signed_effect": 1.1250009252575244e-06,
+      "minimum_signed_effect": -4.205224403919239e-06,
+      "order": 2,
+      "p90_absolute_effect": 7.590546285274335e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 1.0288648645107035e-05
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 2.585061213922213e-06,
+      "mean_signed_effect": 6.499543814472708e-07,
+      "minimum_signed_effect": -1.2918405511430642e-06,
+      "order": 2,
+      "p90_absolute_effect": 2.411755686820838e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 2.585061213922213e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 5.039834074183069e-06,
+      "mean_signed_effect": -1.0788304626793699e-06,
+      "minimum_signed_effect": -6.586967504829122e-06,
+      "order": 3,
+      "p90_absolute_effect": 5.503974103376885e-06,
+      "paired_stratum_count": 8,
+      "response": "worst_floor_to_each_lower_velocity_ratio",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 6.586967504829122e-06
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": -5.241326833333414e-05,
+      "mean_signed_effect": -0.00018386817018973807,
+      "minimum_signed_effect": -0.00045017817456151615,
+      "order": 1,
+      "p90_absolute_effect": 0.00036951112119455054,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement",
+      "worst_absolute_effect": 0.00045017817456151615
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0002030791948393635,
+      "mean_signed_effect": 3.374603860449956e-05,
+      "minimum_signed_effect": -2.428029500946196e-05,
+      "order": 1,
+      "p90_absolute_effect": 0.0001013125011760589,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "ray_refinement",
+      "worst_absolute_effect": 0.0002030791948393635
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 0.0,
+      "mean_signed_effect": -1.9031759954926328e-07,
+      "minimum_signed_effect": -7.478862363947611e-07,
+      "order": 1,
+      "p90_absolute_effect": 4.3943736720269266e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "reflection_refinement",
+      "worst_absolute_effect": 7.478862363947611e-07
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 4.922334063436201e-05,
+      "mean_signed_effect": -1.79826977491029e-05,
+      "minimum_signed_effect": -0.00011709187114584442,
+      "order": 2,
+      "p90_absolute_effect": 7.082623105155327e-05,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement:ray_refinement",
+      "worst_absolute_effect": 0.00011709187114584442
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 1.1207266519073361e-07,
+      "mean_signed_effect": -4.6564056115474053e-08,
+      "minimum_signed_effect": -3.0761818176419653e-07,
+      "order": 2,
+      "p90_absolute_effect": 1.7073632016277247e-07,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement:reflection_refinement",
+      "worst_absolute_effect": 3.0761818176419653e-07
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 8.724209640820213e-08,
+      "mean_signed_effect": 9.866849583033133e-09,
+      "minimum_signed_effect": -9.223858490718662e-08,
+      "order": 2,
+      "p90_absolute_effect": 8.874104295789747e-08,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 9.223858490718662e-08
+    },
+    {
+      "design": "stick_0p0125_power_0p0",
+      "higher_is_better": true,
+      "maximum_signed_effect": 3.060123131802539e-08,
+      "mean_signed_effect": -1.4664623840558375e-08,
+      "minimum_signed_effect": -7.783417833428369e-08,
+      "order": 3,
+      "p90_absolute_effect": 5.916395190899009e-08,
+      "paired_stratum_count": 8,
+      "response": "minimum_floor_minus_middle_upper_velocity",
+      "term": "grid_refinement:ray_refinement:reflection_refinement",
+      "worst_absolute_effect": 7.783417833428369e-08
+    }
+  ],
+  "parse_errors": [],
+  "ranking_policy": "none; this experiment qualifies transport numerics and one lower-sticking boundary",
+  "resolved_current_error_attempt_rows": [],
+  "reviewed_new_execution_count": 120,
+  "reviewer_sha256": "a6de78e88451a3a0e4fb6cecae8f67e1c98bb9af0a5749e2e2b6b3fd138d74df",
+  "rows_missing": false,
+  "selected_current_case_count": 128,
+  "snapshot_or_metric_errors": [],
+  "status": "complete",
+  "unexpected_attempt_rows": [],
+  "verified_parent_reuse_count": 8
+}
