@@ -1128,8 +1128,8 @@ function renderFillReplay() {
     <rect x="-0.24" y="-0.16" width="0.48" height="1.24" fill="var(--surface)"/>
     <g transform="scale(1,-1)">
       <line x1="-0.24" y1="0" x2="0.24" y2="0" stroke="var(--line)" stroke-width="0.002" stroke-dasharray="0.01 0.008"/>
-      <path d="${fillReplay.substrate_path}" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" vector-effect="non-scaling-stroke"/>
-      <path d="${frame.surface_path}" fill="none" stroke="var(--copper)" stroke-width="0.009" vector-effect="non-scaling-stroke"/>
+      <path d="${fillReplay.substrate_path}" fill="none" stroke="var(--ink-dim)" stroke-width="0.004"/>
+      <path d="${frame.surface_path}" fill="none" stroke="var(--copper)" stroke-width="0.007"/>
     </g>
   </svg>`;
   document.getElementById('fill-replay-read').innerHTML = `<h4>${fillReplayStatus(metrics)}</h4>
