@@ -7,6 +7,9 @@ with open("publication_campaign_data.json") as f:
 with open("publication_interim_data.json") as f:
     data["interim"] = json.load(f)
 
+with open("cu_fill_replay.json") as f:
+    data["cu_replay"] = json.load(f)
+
 with open("explainer_template.html") as f:
     template = f.read()
 

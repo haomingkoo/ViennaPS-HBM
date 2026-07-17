@@ -72,7 +72,7 @@ A useful study then follows six rules:
 | `morphology_fill_control.py` | Copper morphology controls. |
 | `config/process.toml` | Runtime defaults, numerical controls, and acceptance limits. |
 | `build_screening_traveler.py` | Builds the prescribed teaching traveler. |
-| `build_cu_fill_animation.py` | Rebuilds the void-versus-control animation. |
+| `build_cu_fill_replay.py` | Exports copper surfaces for the interactive replay. |
 | `explainer_template.html` | Source for the interactive guide. |
 | `build_explainer.py` | Embeds the publication data into `explainer.html`. |
 | `program.md` | Current scientific targets and hard gates. |
@@ -133,14 +133,14 @@ The same lightweight checks can be run locally:
 ruff check tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
   layer_process_models.py morphology_fill_control.py \
   copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_animation.py build_explainer.py
+  build_cu_fill_replay.py build_explainer.py
 ty check --python .venv/bin/python --python-version 3.13 \
   tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
   layer_process_models.py morphology_fill_control.py \
   copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_animation.py build_explainer.py
+  build_cu_fill_replay.py build_explainer.py
 .venv/bin/python test_process_config.py
-.venv/bin/python build_cu_fill_animation.py
+.venv/bin/python build_cu_fill_replay.py
 .venv/bin/python build_explainer.py
 .venv/bin/python test_publication_data.py
 ```
