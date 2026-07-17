@@ -71,6 +71,33 @@ rays_per_point = 1000
 [defaults.fill]
 isotropic_ratio = 0.20
 
+[teaching_experiments]
+rng_seed = 42000
+rays_per_point = 500
+surface_y = 0.0
+measurement_tolerance = 0.000001
+mask_height_tolerance = 0.0002
+profile_max_radius = 0.5
+view_box_full = [-0.5, -0.4, 1.0, 1.8]
+view_box_mask = [-0.5, -0.4, 1.0, 0.8]
+mask_radii = [0.12, 0.15, 0.18]
+liner_dose = 0.04
+liner_sticking = [0.02, 0.05, 0.20]
+barrier_dose = 0.02
+barrier_isotropic_fraction = [0.0, 0.30, 0.80]
+seed_dose = 0.02
+seed_isotropic_fraction = [0.0, 0.30, 0.80]
+cmp_endpoint_offsets = [0.05, 0.0, -0.05]
+cmp_field_x = 0.35
+cmp_plug_x = 0.0
+failure_chain_cycles = 4
+failure_chain_liner_sticking = 0.20
+failure_chain_directional_fraction = 0.0
+failure_chain_fill_thickness = 0.50
+failure_chain_fill_isotropic_ratio = 0.05
+failure_chain_via_x_bounds = [-0.25, 0.25]
+failure_chain_field_sample_xs = [-0.40, 0.40]
+
 [metrics]
 center_half_width = 0.020
 field_min_x = 0.30

@@ -38,6 +38,7 @@ jobs:
             copper_fill_transport_3d.py \
             build_screening_traveler.py \
             build_cu_fill_replay.py \
+            build_step_experiments.py \
             build_explainer.py \
             process_config.py \
             test_process_config.py \
@@ -60,6 +61,7 @@ jobs:
             copper_fill_transport_3d.py \
             build_screening_traveler.py \
             build_cu_fill_replay.py \
+            build_step_experiments.py \
             build_explainer.py \
             process_config.py
 

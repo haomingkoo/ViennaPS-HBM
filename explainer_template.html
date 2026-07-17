@@ -125,6 +125,34 @@
   .fill-metrics dt { color: var(--ink-dim); }
   .fill-metrics dd { margin: 0; font-family: var(--mono); text-align: right; }
   .fill-replay figcaption { margin-top: 0.8rem; max-width: 78ch; color: var(--ink-dim); font-size: 0.86rem; line-height: 1.5; }
+  .output-studies { margin-top: 1.5rem; border-top: 1px solid var(--line); }
+  .output-viewer { padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
+  .output-viewer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 0.55fr); gap: 1.5rem; align-items: end; margin-bottom: 0.9rem; }
+  .output-viewer-head h3 { margin: 0 0 0.25rem; }
+  .output-viewer-head p { margin: 0; color: var(--ink-dim); font-size: 0.84rem; }
+  .output-viewer-head p + p { margin-top: 0.25rem; }
+  .output-control label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.25rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .output-control output { color: var(--ink); }
+  .output-control input { width: 100%; accent-color: var(--plasma); }
+  .output-viewer-layout { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(250px, 0.58fr); border: 1px solid var(--line); background: var(--surface); }
+  .output-figure { min-height: 460px; border-right: 1px solid var(--line); }
+  .output-figure svg { display: block; width: 100%; height: 460px; }
+  .output-read { padding: 1rem 1.1rem; background: var(--surface-2); }
+  .output-status { margin: 0 0 0.65rem; font-weight: 650; }
+  .output-status.pass { color: var(--confirmed); }
+  .output-status.miss { color: var(--amber); }
+  .output-metrics { display: grid; grid-template-columns: 1fr auto; gap: 0.42rem 0.8rem; margin: 0; font-size: 0.78rem; }
+  .output-metrics dt { color: var(--ink-dim); }
+  .output-metrics dd { margin: 0; font-family: var(--mono); text-align: right; }
+  .output-explain { margin: 1rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--line); color: var(--ink-dim); font-size: 0.78rem; }
+  .guardrails { margin: 1rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--line); }
+  .guardrails h4 { margin: 0 0 0.45rem; font: 0.72rem var(--mono); }
+  .guardrails ul { margin: 0; padding-left: 1rem; color: var(--ink-dim); font-size: 0.78rem; }
+  .guardrails li + li { margin-top: 0.35rem; }
+  .guardrails p { margin: 0; color: var(--ink-dim); font-size: 0.78rem; }
+  #failure-chain-viewer .output-viewer-head { grid-template-columns: 1fr; }
+  .material-key { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; margin: 0.7rem 0 0; color: var(--ink-dim); font: 0.68rem var(--mono); }
+  .material-key span::before { content: ""; display: inline-block; width: 1rem; height: 2px; margin: 0 0.35rem 0.2rem 0; background: var(--key-color); }
   @media (max-width: 760px) {
     .failure-map-head { display: none; }
     .failure-row { grid-template-columns: 1fr; gap: 0.6rem; padding: 1.15rem 0; }
@@ -133,6 +161,8 @@
     .failure-details .failure-row { padding-inline: 1rem; }
     .fill-replay-layout { grid-template-columns: 1fr; }
     .fill-replay-figure { border-right: 0; border-bottom: 1px solid var(--line); }
+    .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
+    .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
   }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
   .repo-map dt, .repo-map dd { margin: 0; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
@@ -677,23 +707,22 @@
         </tbody>
       </table>
     </div>
-    <figure class="process-picture">
-      <svg viewBox="0 0 960 430" role="img" aria-labelledby="failure-title failure-desc">
-        <title id="failure-title">Six common TSV failure shapes</title>
-        <desc id="failure-desc">Schematic examples show six common failures. They cover the mask and etched via. They also cover deposited films, copper fill, and polish.</desc>
-        <rect width="960" height="205" fill="var(--surface)"/>
-        <g font-family="var(--sans)" font-size="13" text-anchor="middle" fill="var(--ink)">
-          <g transform="translate(72 10) scale(1.35)"><rect y="42" width="130" height="88" fill="var(--surface-2)"/><rect y="28" width="58" height="14" fill="var(--plasma)"/><rect x="72" y="28" width="58" height="14" fill="var(--plasma)"/><path d="M58 28v18M72 28v18" stroke="var(--amber)" stroke-width="3"/><text x="65" y="158">Mask too narrow</text></g>
-          <g transform="translate(392 10) scale(1.35)"><path d="M0 42H42C38 76 33 103 51 130H79C97 103 92 76 88 42H130V130H0Z" fill="var(--surface-2)"/><path d="M42 42C38 76 33 103 51 130M88 42C92 76 97 103 79 130" fill="none" stroke="var(--amber)" stroke-width="3"/><text x="65" y="158">Bowed etch</text></g>
-          <g transform="translate(712 10) scale(1.35)"><path d="M0 42H43V114Q43 130 59 130H71Q87 130 87 114V42H130V130H0Z" fill="var(--surface-2)"/><path d="M43 42V114M87 42V114" stroke="var(--oxide)" stroke-width="7"/><path d="M49 126H81" stroke="var(--amber)" stroke-width="4" stroke-dasharray="5 4"/><text x="65" y="158">Thin liner floor</text></g>
-          <g transform="translate(72 200) scale(1.35)"><path d="M0 42H43V114Q43 130 59 130H71Q87 130 87 114V42H130V130H0Z" fill="var(--surface-2)"/><path d="M43 42V114Q43 130 59 130M87 42V114Q87 130 71 130" stroke="var(--ink-dim)" stroke-width="5"/><path d="M59 130H71" stroke="var(--amber)" stroke-width="4" stroke-dasharray="3 5"/><text x="65" y="158">Broken seed</text></g>
-          <g transform="translate(392 200) scale(1.35)"><path d="M0 42H43V114Q43 130 59 130H71Q87 130 87 114V42H130V130H0Z" fill="var(--surface-2)"/><path d="M47 42H83V116Q83 126 72 126H58Q47 126 47 116Z" fill="var(--copper)"/><ellipse cx="65" cy="88" rx="9" ry="26" fill="var(--surface)" stroke="var(--amber)" stroke-width="3"/><text x="65" y="158">Trapped void</text></g>
-          <g transform="translate(712 200) scale(1.35)"><path d="M0 42H43V114Q43 130 59 130H71Q87 130 87 114V42H130V130H0Z" fill="var(--surface-2)"/><path d="M48 50Q65 60 82 50V116Q82 126 71 126H59Q48 126 48 116Z" fill="var(--copper)"/><path d="M48 50Q65 60 82 50" fill="none" stroke="var(--amber)" stroke-width="3"/><text x="65" y="158">Recessed plug</text></g>
-        </g>
-      </svg>
-    </figure>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
     <p class="note"><b>Physical recipe knobs:</b> gas flow and pressure; power and temperature; current and chemistry. These are not calibrated in this project.</p>
+    <div class="output-studies" id="step-output-studies">
+      <h3>Inspect the saved result from each step</h3>
+      <p class="claim">Move one control at a time. Each view shows saved simulated geometry or a geometry control.</p>
+      <p class="note">Changing a control selects a saved output. It does not rerun ViennaPS. These independent studies do not feed into one another. Deep/field coverage is deep-wall thickness divided by field thickness; 1 means equal coverage. <a href="step_experiments.json">Open the saved step data.</a></p>
+      <div id="step-output-list"></div>
+      <div class="output-viewer" id="failure-chain-viewer" data-failure-chain>
+        <div class="output-viewer-head"><div><h3></h3><p></p></div></div>
+        <div class="stage-tabs" id="failure-chain-tabs" aria-label="Failure-chain step"></div>
+        <div class="output-viewer-layout">
+          <div class="output-figure" role="img" aria-label="One simulated geometry carried from mask to copper fill"></div>
+          <aside class="output-read" aria-live="polite"><p class="output-status miss"></p><dl class="output-metrics"></dl><div class="guardrails"><h4>Guardrail</h4><p></p></div><div class="material-key"></div></aside>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="finding" id="overview">
@@ -741,12 +770,13 @@
       </article>
     </div>
     </div>
-    <figure class="fill-replay">
-      <h3 style="margin:0 0 0.3rem;">Replay the copper-fill experiment</h3>
-      <p class="claim">Both runs start with the same via. Choose the growth balance, then scrub through the saved simulation checkpoints.</p>
+    <figure class="fill-replay" data-output-viewer="copper">
+      <h3 style="margin:0 0 0.3rem;">Copper-fill results</h3>
+      <p class="claim">Prescribed geometry control. This is not an electroplating prediction.</p>
+      <p class="note">Both runs start with the same via. Choose a case, then inspect the saved checkpoints.</p>
       <div class="fill-replay-controls">
-        <fieldset><legend>Sampled growth balance</legend><button type="button" data-fill-run="wall_dominated" aria-pressed="true">Wall growth faster</button><button type="button" data-fill-run="floor_dominated" aria-pressed="false">Floor growth faster</button></fieldset>
-        <div class="fill-progress"><label for="fill-progress-slider">Saved checkpoint <span id="fill-progress-value">0%</span></label><input id="fill-progress-slider" type="range" min="0" max="23" step="1" value="0"></div>
+        <fieldset><legend>Prescribed geometry case</legend><button type="button" data-fill-run="wall_dominated" aria-pressed="true">Wall growth faster</button><button type="button" data-fill-run="floor_dominated" aria-pressed="false">Floor growth faster</button></fieldset>
+        <div class="fill-progress"><label for="fill-progress-slider">Checkpoint <span id="fill-progress-value">1 of 24</span></label><input id="fill-progress-slider" type="range" min="0" max="23" step="1" value="0"></div>
         <button type="button" id="fill-play">Play</button>
       </div>
       <div class="fill-replay-layout">
@@ -758,7 +788,7 @@
     <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
       <h3 style="margin:0 0 0.3rem;">Why the current copper model falls short</h3>
       <p class="claim">Bottom-up fill needs less suppressor and faster copper growth at the floor.</p>
-      <p class="note">Choose a depth and measurement. Use the sliders or select a cell.</p>
+      <p class="note">Choose a depth and measurement. Then select one of the 21 saved cells.</p>
       <p class="decision-line"><b>Takeaway:</b> these settings do not produce bottom-up copper filling. Changing only sticking and arrival angle is not enough.</p>
       <div class="surface-explorer">
         <div class="surface-controls">
@@ -768,7 +798,6 @@
         <div class="surface-sliders">
           <label for="surface-sticking-slider">Sticking <span id="surface-sticking-value">0.025</span><input type="range" id="surface-sticking-slider" min="0" max="6" step="1" value="0"></label>
           <label for="surface-power-slider">Suppressor arrival-angle exponent <span id="surface-power-value">0</span><input type="range" id="surface-power-slider" min="0" max="2" step="1" value="0"></label>
-          <label for="surface-angle-slider">Rotate view <span id="surface-angle-value">−35°</span><input type="range" id="surface-angle-slider" min="-65" max="25" step="1" value="-35"></label>
         </div>
         <div class="surface-layout">
           <div>
@@ -1102,6 +1131,196 @@ function renderGate0Checkpoint() {
 }
 if (document.getElementById('gate0-headline')) renderGate0Checkpoint();
 
+// ============ Independent saved-output studies ==========
+const stepExperiments = DATA.step_experiments;
+const stepCopy = {
+  mask: {
+    check: 'Opening width 0.300 and mask height 0.300.',
+    boundary: 'The 0.300 opening passes. The 0.240 and 0.360 openings miss.',
+    limit: 'Ideal geometry only. Exposure and develop are not modeled.',
+    why: 'The opening sets the starting width.',
+    tradeoff: 'A larger opening gives less surrounding mask protection.',
+    metrics: ['opening_cd_bottom', 'mask_height'],
+  },
+  bosch: {
+    check: 'Depth 1.25 ± 0.10. Width error ≤ 0.06. Bow ≤ 0.03.',
+    boundary: 'No cycle passes all three checks. Cycle 4 reaches the depth range but misses width and bow.',
+    limit: 'Fixed 2D settings. Cycle count is not fab time.',
+    why: 'More cycles deepen this saved trajectory. They do not repair its wall shape.',
+    tradeoff: 'More removal can increase depth and wall error together.',
+    metrics: ['depth', 'maximum_cd_error', 'bow'],
+  },
+  liner: {
+    check: 'Thickness ≥ 0.020. Deep coverage ≥ 0.995. Layer connected and opening clear.',
+    boundary: 'Lower sticking improves deep coverage. The passing boundary is not bracketed.',
+    limit: 'Particle-transport surrogate. The coefficient is not a deposition recipe.',
+    why: 'Lower sticking lets more simulated particles reach the deep wall.',
+    tradeoff: 'More deposited material also narrows the opening.',
+    metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
+  },
+  barrier: {
+    check: 'Thickness ≥ 0.012. Deep coverage ≥ 0.985. Layer connected and opening clear.',
+    boundary: 'Arrival from more directions improves coverage. No sampled point passes every check.',
+    limit: 'Geometry response only. It does not predict adhesion or resistance.',
+    why: 'The barrier limits copper migration. More all-angle growth reaches the deep wall.',
+    tradeoff: 'Better coverage leaves less room for copper.',
+    metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
+  },
+  seed: {
+    check: 'No independent seed-layer limit is declared. Values are shown for teaching only.',
+    boundary: 'More all-angle growth raises deep coverage in the sampled controls.',
+    limit: 'Continuity is geometric. Electrical continuity is not predicted.',
+    why: 'The seed provides a plating surface. More all-angle growth reaches the deep wall.',
+    tradeoff: 'Better coverage leaves less room for copper.',
+    metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
+  },
+  cmp: {
+    check: 'Compare copper height with the target at one field point and the via center.',
+    boundary: 'The chosen plane matches both sampled heights by construction. ±0.050 shows the direction of residue and recess.',
+    limit: 'This does not prove field clearance, plug connection, stop survival, or a physical endpoint.',
+    why: 'Moving the ideal plane changes the remaining copper height.',
+    tradeoff: 'A lower plane removes more copper and recesses the plug.',
+    metrics: ['field_relative_to_target', 'plug_relative_to_target'],
+  },
+};
+const stepMetricLabels = {
+  opening_cd_bottom: 'Opening width (model units)', mask_height: 'Mask height (model units)', depth: 'Depth (model units)',
+  maximum_cd_error: 'Maximum width error (model units)', bow: 'Bow (model units)',
+  minimum_thickness: 'Minimum thickness (model units)', lower_wall_coverage: 'Deep/field coverage',
+  remaining_aperture: 'Remaining opening (model units)',
+  field_relative_to_target: 'Field relative to target', plug_relative_to_target: 'Plug relative to target',
+  maximum_width_error: 'Maximum width error', deep_coverage: 'Deep coverage',
+  closed_void_count: 'Closed voids', remaining_void_area: 'Unfilled area (model units²)',
+};
+const materialStyle = {
+  mask: ['Mask', 'var(--plasma)', '0.007'], silicon: ['Silicon', 'var(--si)', '0.004'],
+  liner: ['Liner', 'var(--oxide)', '0.007'], barrier: ['Barrier', 'var(--ink)', '0.005'],
+  seed: ['Seed', 'var(--amber)', '0.005'], copper: ['Copper', 'var(--copper)', '0.008'],
+};
+
+function stepValue(value, metric) {
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+  if (metric.endsWith('_count')) return String(value);
+  if (metric.includes('coverage')) return value.toFixed(3);
+  if (metric.includes('relative_to_target')) {
+    if (Math.abs(value) < 0.0005) return 'At target';
+    return `${value > 0 ? '+' : '−'}${Math.abs(value).toFixed(3)} model units`;
+  }
+  return Number(value).toFixed(3);
+}
+
+function renderStepFrame(study, root, frameIndex) {
+  const copy = stepCopy[study.id];
+  const frame = study.frames[frameIndex];
+  const setting = Object.values(frame.setting)[0];
+  root.querySelector('input').value = frameIndex;
+  root.querySelector('output').textContent = setting;
+  const viewBox = study.view_box || stepExperiments.coordinate_system.view_box;
+  root.querySelector('.output-figure').innerHTML = `<svg viewBox="${viewBox.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="${viewBox[0]}" y="${viewBox[1]}" width="${viewBox[2]}" height="${viewBox[3]}" fill="var(--surface)"/>
+    <g transform="scale(1,-1)">${frame.materials.map(material => {
+      const style = materialStyle[material.id] || [material.id, 'var(--ink-dim)', '0.004'];
+      return `<path data-material="${material.id}" d="${material.surface_path}" fill="none" stroke="${style[1]}" stroke-width="${style[2]}"/>`;
+    }).join('')}</g>
+  </svg>`;
+  const status = root.querySelector('.output-status');
+  if (study.id === 'seed') {
+    status.className = 'output-status';
+    status.textContent = 'Teaching result. No independent seed limit is declared.';
+  } else if (study.id === 'cmp') {
+    status.className = `output-status ${frame.metrics.meets_screen ? 'pass' : 'miss'}`;
+    status.textContent = frame.metrics.meets_screen
+      ? 'Matches the target at two sampled positions'
+      : 'Does not match the target plane';
+  } else {
+    status.className = `output-status ${frame.metrics.meets_screen ? 'pass' : 'miss'}`;
+    status.textContent = frame.metrics.meets_screen
+      ? 'Passes this geometry check'
+      : 'Misses this geometry check';
+  }
+  root.querySelector('.output-metrics').innerHTML = copy.metrics.map(metric =>
+    `<dt>${stepMetricLabels[metric]}</dt><dd>${stepValue(frame.metrics[metric], metric)}</dd>`
+  ).join('');
+}
+
+function buildStepViewers() {
+  const list = document.getElementById('step-output-list');
+  stepExperiments.studies.forEach(study => {
+    const copy = stepCopy[study.id];
+    const root = document.createElement('article');
+    root.className = 'output-viewer';
+    root.dataset.outputViewer = study.id;
+    root.innerHTML = `<div class="output-viewer-head">
+      <div><h3>${study.title}</h3><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
+      <div class="output-control"><label>Saved output · ${study.input_label}<output></output></label><input type="range" min="0" max="${study.frames.length - 1}" step="1" value="0" aria-label="${study.input_label}"></div>
+    </div>
+    <div class="output-viewer-layout">
+      <div class="output-figure" role="img" aria-label="Saved ${study.title.toLowerCase()} geometry"></div>
+      <aside class="output-read" aria-live="polite">
+        <p class="output-status"></p><dl class="output-metrics"></dl>
+        <p class="output-explain"><b>Why it changes:</b> ${copy.why}<br><b>Tradeoff:</b> ${copy.tradeoff}</p>
+        <div class="guardrails"><h4>Guardrails</h4><ul><li><b>Internal geometry check:</b> ${copy.check}</li><li><b>Tested range:</b> ${copy.boundary}</li><li><b>Does not prove:</b> ${copy.limit}</li></ul></div>
+        <div class="material-key"></div>
+      </aside>
+    </div>`;
+    const materialIds = [...new Set(study.frames.flatMap(frame => frame.materials.map(item => item.id)))];
+    root.querySelector('.material-key').innerHTML = materialIds.map(id => {
+      const style = materialStyle[id] || [id, 'var(--ink-dim)'];
+      return `<span style="--key-color:${style[1]}">${style[0]}</span>`;
+    }).join('');
+    root.querySelector('input').addEventListener('input', event => renderStepFrame(study, root, Number(event.target.value)));
+    if (study.id === 'cmp') list.appendChild(document.querySelector('[data-output-viewer="copper"]'));
+    list.appendChild(root);
+    renderStepFrame(study, root, study.default_frame || 0);
+  });
+}
+buildStepViewers();
+
+function buildFailureChain() {
+  const chain = stepExperiments.failure_chain;
+  const root = document.getElementById('failure-chain-viewer');
+  root.querySelector('.output-viewer-head h3').textContent = chain.title;
+  root.querySelector('.output-viewer-head p').textContent = chain.scope;
+  root.querySelector('.guardrails p').textContent = chain.guardrail;
+  const tabs = root.querySelector('#failure-chain-tabs');
+
+  function render(index) {
+    const frame = chain.frames[index];
+    tabs.querySelectorAll('button').forEach((button, buttonIndex) => {
+      button.setAttribute('aria-pressed', buttonIndex === index);
+    });
+    root.querySelector('.output-status').textContent = frame.outcome;
+    root.querySelector('.output-status').className = `output-status ${index === 0 ? 'pass' : 'miss'}`;
+    const viewBox = chain.view_box;
+    root.querySelector('.output-figure').innerHTML = `<svg viewBox="${viewBox.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <rect x="${viewBox[0]}" y="${viewBox[1]}" width="${viewBox[2]}" height="${viewBox[3]}" fill="var(--surface)"/>
+      <g transform="scale(1,-1)">${frame.materials.map(material => {
+        const style = materialStyle[material.id] || [material.id, 'var(--ink-dim)', '0.004'];
+        return `<path data-chain-material="${material.id}" d="${material.surface_path}" fill="none" stroke="${style[1]}" stroke-width="${style[2]}"/>`;
+      }).join('')}</g>
+    </svg>`;
+    root.querySelector('.output-metrics').innerHTML = Object.entries(frame.metrics || {}).map(([metric, value]) =>
+      `<dt>${stepMetricLabels[metric]}</dt><dd>${stepValue(value, metric)}</dd>`
+    ).join('');
+    const materialIds = [...new Set(frame.materials.map(material => material.id))];
+    root.querySelector('.material-key').innerHTML = materialIds.map(id => {
+      const style = materialStyle[id] || [id, 'var(--ink-dim)'];
+      return `<span style="--key-color:${style[1]}">${style[0]}</span>`;
+    }).join('');
+  }
+
+  chain.frames.forEach((frame, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = frame.step;
+    button.setAttribute('aria-pressed', index === 0);
+    button.addEventListener('click', () => render(index));
+    tabs.appendChild(button);
+  });
+  render(0);
+}
+buildFailureChain();
+
 // ============ Saved copper-fill geometry replay ============
 const fillReplay = DATA.cu_replay;
 const fillReplayState = { runId: 'wall_dominated', frame: 0, timer: null };
@@ -1116,14 +1335,13 @@ function renderFillReplay() {
   const run = fillReplay.runs.find(item => item.id === fillReplayState.runId);
   const frame = run.frames[fillReplayState.frame];
   const metrics = frame.metrics;
-  const progress = Math.round(frame.progress * 100);
   document.querySelectorAll('[data-fill-run]').forEach(button => {
     button.setAttribute('aria-pressed', button.dataset.fillRun === run.id);
   });
   const slider = document.getElementById('fill-progress-slider');
   slider.value = fillReplayState.frame;
-  slider.setAttribute('aria-valuetext', `${progress}% — ${fillReplayStatus(metrics)}`);
-  document.getElementById('fill-progress-value').textContent = `${progress}%`;
+  slider.setAttribute('aria-valuetext', `Checkpoint ${fillReplayState.frame + 1} of ${run.frames.length}. ${fillReplayStatus(metrics)}`);
+  document.getElementById('fill-progress-value').textContent = `${fillReplayState.frame + 1} of ${run.frames.length}`;
   document.getElementById('fill-replay-figure').innerHTML = `<svg viewBox="-0.24 -0.16 0.48 1.24" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect x="-0.24" y="-0.16" width="0.48" height="1.24" fill="var(--surface)"/>
     <g transform="scale(1,-1)">
@@ -1141,7 +1359,12 @@ function renderFillReplay() {
       <dt>Unfilled area</dt><dd>${metrics.remaining_void_area.toFixed(3)}</dd>
       <dt>Open depth</dt><dd>${metrics.open_void_depth.toFixed(3)}</dd>
       <dt>Minimum overburden</dt><dd>${metrics.overburden_min.toFixed(3)}</dd>
-    </dl>`;
+    </dl>
+    <div class="guardrails"><h4>Guardrails</h4><ul>
+      <li><b>Check:</b> No closed void and positive copper above the surface.</li>
+      <li><b>Tested range:</b> Two prescribed controls confirm that the measurement detects both outcomes.</li>
+      <li><b>Does not prove:</b> This is a geometry control. It is not a plating recipe.</li>
+    </ul></div>`;
 }
 
 function stopFillReplay() {
@@ -1168,7 +1391,11 @@ document.getElementById('fill-play').addEventListener('click', () => {
   }
   document.getElementById('fill-play').textContent = 'Pause';
   fillReplayState.timer = window.setInterval(() => {
-    fillReplayState.frame = (fillReplayState.frame + 1) % fillReplay.frame_count;
+    if (fillReplayState.frame === fillReplay.frame_count - 1) {
+      stopFillReplay();
+      return;
+    }
+    fillReplayState.frame += 1;
     renderFillReplay();
   }, 180);
 });
@@ -1176,7 +1403,7 @@ renderFillReplay();
 
 // ============ Current foundation evidence ============
 const transportRows = INTERIM.cu_transport.tier_designs;
-const transportState = { tier: 'continuity', metric: 'flux', sticking: 0.025, sourcePower: 0, viewAngle: -35 };
+const transportState = { tier: 'continuity', metric: 'flux', sticking: 0.025, sourcePower: 0 };
 
 function transportValue(row) {
   return transportState.metric === 'flux' ? row.worst_flux_ratio : row.worst_velocity_ratio;
@@ -1193,7 +1420,6 @@ function renderTransportSurface() {
   const rows = transportRows.filter(row => row.tier === transportState.tier);
   const stickings = [...new Set(rows.map(row => row.sticking))].sort((a, b) => a - b);
   const powers = [...new Set(rows.map(row => row.source_power))].sort((a, b) => a - b);
-  const values = rows.map(transportValue);
   const threshold = transportState.metric === 'flux'
     ? INTERIM.cu_transport.flux_pass_threshold
     : INTERIM.cu_transport.velocity_pass_threshold;
@@ -1214,70 +1440,32 @@ function renderTransportSurface() {
   powerSlider.value = String(powers.indexOf(selected.source_power));
   document.getElementById('surface-sticking-value').textContent = String(selected.sticking);
   document.getElementById('surface-power-value').textContent = String(selected.source_power);
-  document.getElementById('surface-angle-slider').value = String(transportState.viewAngle);
-  document.getElementById('surface-angle-value').textContent = `${transportState.viewAngle}°`.replace('-', '−');
-  const chart = { centerX: 340, centerY: 205, scale: 210, zScale: 130 };
-  const minSticking = Math.min(...stickings);
-  const maxSticking = Math.max(...stickings);
-  const minPower = Math.min(...powers);
-  const maxPower = Math.max(...powers);
-  const valueMin = Math.min(...values);
-  const valueMax = Math.max(...values);
-  const angle = transportState.viewAngle * Math.PI / 180;
-  const normalized = row => ({
-    x: (Math.log10(row.sticking) - Math.log10(minSticking)) / (Math.log10(maxSticking) - Math.log10(minSticking)),
-    y: (row.source_power - minPower) / (maxPower - minPower),
-    z: (transportValue(row) - valueMin) / Math.max(valueMax - valueMin, 1e-9),
-  });
-  const project = point => {
-    const px = point.x - 0.5;
-    const py = point.y - 0.5;
-    const rx = px * Math.cos(angle) - py * Math.sin(angle);
-    const ry = px * Math.sin(angle) + py * Math.cos(angle);
-    return [chart.centerX + rx * chart.scale, chart.centerY + ry * chart.scale * 0.48 - point.z * chart.zScale];
-  };
-  const pointString = points => points.map(point => project(point).map(value => value.toFixed(1)).join(',')).join(' ');
-  const faces = [];
-  for (let powerIndex = 0; powerIndex < powers.length - 1; powerIndex += 1) {
-    for (let stickingIndex = 0; stickingIndex < stickings.length - 1; stickingIndex += 1) {
-      const corners = [
-        rows.find(row => row.sticking === stickings[stickingIndex] && row.source_power === powers[powerIndex]),
-        rows.find(row => row.sticking === stickings[stickingIndex + 1] && row.source_power === powers[powerIndex]),
-        rows.find(row => row.sticking === stickings[stickingIndex + 1] && row.source_power === powers[powerIndex + 1]),
-        rows.find(row => row.sticking === stickings[stickingIndex] && row.source_power === powers[powerIndex + 1]),
-      ];
-      const depth = corners.reduce((sum, row) => sum + normalized(row).y, 0) / corners.length;
-      faces.push({ depth, svg: `<polygon points="${pointString(corners.map(normalized))}" fill="var(--plasma)" fill-opacity="0.30" stroke="var(--plasma)" stroke-width="1.2"/>` });
-    }
-  }
-  faces.sort((a, b) => b.depth - a.depth);
-  const targetZ = (threshold - valueMin) / Math.max(valueMax - valueMin, 1e-9);
-  const targetPlane = pointString([
-    { x: 0, y: 0, z: targetZ }, { x: 1, y: 0, z: targetZ },
-    { x: 1, y: 1, z: targetZ }, { x: 0, y: 1, z: targetZ },
-  ]);
-  const points = rows.map(row => {
-    const [cx, cy] = project(normalized(row));
-    return `<g data-surface-point="${row.sticking}|${row.source_power}" role="button" tabindex="0"><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><title>Sticking ${row.sticking}; angle exponent ${row.source_power}; ratio ${transportValue(row).toFixed(3)}</title></g>`;
-  }).join('');
-  const [selectedX, selectedY] = project(normalized(selected));
   const metricLabel = transportState.metric === 'flux' ? 'Suppressor ratio' : 'Cu growth ratio';
-  const xOrigin = project({ x: 0, y: 0, z: 0 });
-  const xEnd = project({ x: 1, y: 0, z: 0 });
-  const yEnd = project({ x: 0, y: 1, z: 0 });
-  document.getElementById('transport-surface').innerHTML = `<svg viewBox="0 0 680 300" role="img" aria-labelledby="surface-title surface-desc">
-    <title id="surface-title">${metricLabel} response surface</title>
-    <desc id="surface-desc">A rotatable three-dimensional surface through 21 saved settings. Height shows the selected response. Dots show saved simulations.</desc>
-    <polygon points="${targetPlane}" fill="var(--amber)" fill-opacity="0.10" stroke="var(--amber)" stroke-dasharray="5 5"/>
-    ${faces.map(face => face.svg).join('')}
-    ${points}
-    <circle cx="${selectedX.toFixed(1)}" cy="${selectedY.toFixed(1)}" r="7" fill="none" stroke="var(--ink)" stroke-width="2"/>
-    <line x1="${xOrigin[0]}" y1="${xOrigin[1]}" x2="${xEnd[0]}" y2="${xEnd[1]}" stroke="var(--ink-dim)"/>
-    <line x1="${xOrigin[0]}" y1="${xOrigin[1]}" x2="${yEnd[0]}" y2="${yEnd[1]}" stroke="var(--ink-dim)"/>
-    <text x="${xEnd[0]}" y="${xEnd[1] + 20}" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="11">Sticking</text>
-    <text x="${yEnd[0]}" y="${yEnd[1] + 20}" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="11">Angle exponent</text>
-    <text x="22" y="30" fill="var(--ink)" font-family="var(--mono)" font-size="11">Height: ${metricLabel}</text>
-    <text x="22" y="48" fill="var(--amber)" font-family="var(--mono)" font-size="10">Dashed plane: target ${threshold.toFixed(2)}</text>
+  const cellWidth = 145;
+  const cellHeight = 34;
+  const left = 125;
+  const top = 48;
+  const cells = rows.map(row => {
+    const column = powers.indexOf(row.source_power);
+    const line = stickings.indexOf(row.sticking);
+    const x = left + column * cellWidth;
+    const y = top + line * cellHeight;
+    const isSelected = row === selected;
+    return `<g data-surface-point="${row.sticking}|${row.source_power}" role="button" tabindex="0">
+      <rect x="${x}" y="${y}" width="${cellWidth}" height="${cellHeight}" fill="${isSelected ? 'var(--plasma-glow)' : 'var(--surface)'}" stroke="${isSelected ? 'var(--plasma)' : 'var(--line)'}" stroke-width="${isSelected ? 2 : 1}"/>
+      <text x="${x + cellWidth / 2}" y="${y + 25}" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="12">${transportValue(row).toFixed(3)}</text>
+      <title>Sticking ${row.sticking}; angle exponent ${row.source_power}; ratio ${transportValue(row).toFixed(3)}</title>
+    </g>`;
+  }).join('');
+  document.getElementById('transport-surface').innerHTML = `<svg viewBox="0 0 620 330" role="img" aria-labelledby="surface-title surface-desc">
+    <title id="surface-title">${metricLabel} saved-result grid</title>
+    <desc id="surface-desc">Twenty-one saved simulation cells. Rows are sticking values. Columns are arrival-angle exponents.</desc>
+    <text x="${left}" y="22" fill="var(--ink)" font-family="var(--mono)" font-size="11">Arrival-angle exponent</text>
+    ${powers.map((power, index) => `<text x="${left + index * cellWidth + cellWidth / 2}" y="40" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="11">${power}</text>`).join('')}
+    <text x="10" y="30" fill="var(--ink)" font-family="var(--mono)" font-size="11">Sticking</text>
+    ${stickings.map((sticking, index) => `<text x="110" y="${top + index * cellHeight + 25}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="11">${sticking}</text>`).join('')}
+    ${cells}
+    <text x="${left}" y="${top + stickings.length * cellHeight + 28}" fill="var(--amber)" font-family="var(--mono)" font-size="11">Target ${higherIsBetter ? '&gt;' : '&lt;'} ${threshold.toFixed(2)} · no cell passes</text>
   </svg>`;
 
   const selectedValue = transportValue(selected);
@@ -1289,7 +1477,7 @@ function renderTransportSurface() {
     <h3>Selected point</h3>
     <p class="exact">Sticking ${selected.sticking} · angle exponent ${selected.source_power} · ratio ${selectedValue.toFixed(3)}</p>
     <p>${passes ? 'This point reaches the target.' : selectedMeaning}</p>`;
-  document.getElementById('transport-legend').textContent = `Height shows the response. Dots are the ${rows.length} saved simulations. ${higherIsBetter ? 'Higher' : 'Lower'} is better.`;
+  document.getElementById('transport-legend').textContent = `${rows.length} exact saved results. No interpolation. ${higherIsBetter ? 'Higher' : 'Lower'} is better.`;
   document.querySelectorAll('[data-surface-point]').forEach(point => {
     const selectPoint = () => {
       const [sticking, power] = point.dataset.surfacePoint.split('|').map(Number);
@@ -1324,11 +1512,6 @@ document.getElementById('surface-power-slider').addEventListener('input', event 
   transportState.sourcePower = powers[Number(event.target.value)];
   renderTransportSurface();
 });
-document.getElementById('surface-angle-slider').addEventListener('input', event => {
-  transportState.viewAngle = Number(event.target.value);
-  renderTransportSurface();
-});
-
 renderTransportSurface();
 
 // ============ Earlier campaign, retained as research history ============

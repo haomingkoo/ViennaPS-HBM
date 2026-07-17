@@ -14,7 +14,7 @@ The project is a teaching tool and research scaffold. It shows how ViennaPS
 carries material geometry between process steps. It also demonstrates how to
 measure common failures before running a large parameter sweep.
 
-[Open the interactive guide](https://haomingkoo.github.io/ViennaPS-HBM/explainer.html)
+[Open the interactive guide](https://kooexperience.com/ViennaPS-HBM/explainer.html)
 
 ## What the code is useful for
 
@@ -25,6 +25,8 @@ measure common failures before running a large parameter sweep.
   material connectivity.
 - Testing whether a measurement can distinguish a known failure from a
   prescribed passing control.
+- Following one failed geometry through etch, films, and copper fill without
+  stitching unrelated images together.
 - Mapping a simulated response before spending compute on a larger design of
   experiments.
 
@@ -72,6 +74,7 @@ A useful study then follows six rules:
 | `morphology_fill_control.py` | Copper morphology controls. |
 | `config/process.toml` | Runtime defaults, numerical controls, and acceptance limits. |
 | `build_screening_traveler.py` | Builds the prescribed teaching traveler. |
+| `build_step_experiments.py` | Exports the saved mask, etch, film, and CMP studies. |
 | `build_cu_fill_replay.py` | Exports copper surfaces for the interactive replay. |
 | `explainer_template.html` | Source for the interactive guide. |
 | `build_explainer.py` | Embeds the publication data into `explainer.html`. |
@@ -133,12 +136,12 @@ The same lightweight checks can be run locally:
 ruff check tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
   layer_process_models.py morphology_fill_control.py \
   copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_replay.py build_explainer.py
+  build_cu_fill_replay.py build_step_experiments.py build_explainer.py
 ty check --python .venv/bin/python --python-version 3.13 \
   tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
   layer_process_models.py morphology_fill_control.py \
   copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_replay.py build_explainer.py
+  build_cu_fill_replay.py build_step_experiments.py build_explainer.py
 .venv/bin/python test_process_config.py
 .venv/bin/python build_cu_fill_replay.py
 .venv/bin/python build_explainer.py
@@ -156,10 +159,18 @@ The interactive HTML can be opened from a clean clone. The current repository
 does not yet contain every native checkpoint needed to rebuild the complete
 teaching traveler from scratch. Until those checkpoints are published, do not
 describe `build_screening_traveler.py` as a clean-clone reproduction command.
+`build_step_experiments.py` also needs the local positive-control fill
+checkpoint for its CMP example. A clean clone uses the committed
+`step_experiments.json` when rebuilding the HTML.
 
 Monte Carlo transport also introduces run-to-run variation. Reproducible
 comparisons must record random seeds, geometry inputs, numerical settings, and
 saved outputs.
+
+The interactive step studies are independent examples. Their checks are
+simulation screening limits in model units. They are not fabrication
+specifications. Each viewer states the measurement, the tested range, and the
+physics the model does not cover.
 
 ## Repository shape
 

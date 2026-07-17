@@ -135,9 +135,46 @@ assert "How the software recognizes a passing shape" in html
 assert "Creates the vertical electrical path." in html
 assert "What the new experiments indicate" in html
 assert "Main controls and common failures" in html
-assert "Replay the copper-fill experiment" in html
+assert "Copper-fill results" in html
 assert "The browser does not invent intermediate shapes." in html
 assert 'href="cu_fill_replay.json"' in html
+assert 'id="step-output-list"' in html
+step_experiments = json.loads(Path("step_experiments.json").read_text())
+assert [study["id"] for study in step_experiments["studies"]] == [
+    "mask",
+    "bosch",
+    "liner",
+    "barrier",
+    "seed",
+    "cmp",
+]
+assert [frame["step"] for frame in step_experiments["failure_chain"]["frames"]] == [
+    "Mask",
+    "Dry etch",
+    "Liner",
+    "Barrier",
+    "Seed",
+    "Copper fill",
+]
+assert step_experiments["failure_chain"]["frames"][-1]["metrics"][
+    "closed_void_count"
+] == 1
+assert step_experiments["studies"][0]["frames"][1]["metrics"]["meets_screen"]
+seed_study = next(
+    study for study in step_experiments["studies"] if study["id"] == "seed"
+)
+assert all(frame["metrics"]["meets_screen"] is None for frame in seed_study["frames"])
+chain_frames = step_experiments["failure_chain"]["frames"]
+assert chain_frames[0]["parent_frame_hash"] is None
+assert all(
+    chain_frames[index]["parent_frame_hash"] == chain_frames[index - 1]["frame_hash"]
+    for index in range(1, len(chain_frames))
+)
+assert all(
+    "continuous" in frame["metrics"] for frame in chain_frames if frame["step"] in {"Liner", "Barrier", "Seed"}
+)
+assert step_experiments["provenance"]["rng_seed"] == 42000
+assert "Clear field copper without" not in html
 replay = json.loads(Path("cu_fill_replay.json").read_text())
 assert replay["frame_count"] == 24
 assert len(replay["runs"]) == 2
