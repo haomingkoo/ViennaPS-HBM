@@ -103,6 +103,7 @@
   .code-map > summary { padding: 0.8rem 1rem; cursor: pointer; font: 0.78rem var(--mono); color: var(--plasma); }
   .code-map[open] > summary { border-bottom: 1px solid var(--line); }
   .code-map .panel { border: 0; margin: 0; }
+  .failure-details-title { margin: 0; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); font: 0.78rem var(--mono); color: var(--plasma); }
   .mechanism-explorer { margin: 1.7rem 0; padding: 1.1rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .mechanism-controls { display: flex; flex-wrap: wrap; gap: 0.7rem 1.5rem; margin-bottom: 1rem; }
   .mechanism-controls fieldset { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; border: 0; }
@@ -115,7 +116,7 @@
   .mechanism-controls button:focus-visible { outline: 2px solid var(--plasma); outline-offset: 2px; }
   .mechanism-layout { display: grid; grid-template-columns: 1fr; gap: 0; align-items: stretch; }
   .mechanism-figure { min-height: 0; overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
-  .mechanism-figure svg { display: block; width: 100%; height: auto; }
+  .mechanism-figure svg { display: block; width: 100%; height: clamp(360px, 50vw, 520px); }
   .mechanism-read { padding: 1rem 1.1rem; border: 1px solid var(--line); border-top: 0; background: var(--surface-2); }
   .mechanism-read h4 { margin: 0 0 0.6rem; font-size: 1rem; }
   .mechanism-read p { margin: 0; color: var(--ink-dim); font-size: 0.86rem; line-height: 1.5; }
@@ -456,7 +457,6 @@
   }
   @media (max-width: 700px) {
     .process-picture svg { min-width: 720px; }
-    .mechanism-figure svg { min-width: 600px; }
     #transport-surface svg { min-width: 620px; }
   }
   .research-notes { margin-top: 2.5rem; border: 1px solid var(--line); background: var(--surface); }
@@ -692,8 +692,8 @@
   <section class="finding" id="overview">
     <h2>Explore copper filling</h2>
     <p class="claim">Copper can trap a void when the opening closes before the center fills.</p>
-    <details class="code-map" open>
-      <summary>Advanced: failure modes and tuning details</summary>
+    <div class="code-map failure-details" role="group" aria-labelledby="failure-details-title">
+      <p class="failure-details-title" id="failure-details-title">Advanced: failure modes and tuning details</p>
     <div class="failure-map" aria-label="Failure modes and tuning details by TSV process step">
       <article class="failure-row">
         <div class="failure-stage"><h3>Mask opening</h3></div>
@@ -732,10 +732,10 @@
         <div class="failure-cell"><b>Tradeoff</b><span>More removal clears the surface but can cut into the plug.</span></div>
       </article>
     </div>
-    </details>
+    </div>
     <div class="mechanism-explorer" id="mechanism-explorer">
       <h3 style="margin:0 0 0.3rem;">See how an upstream shape changes the Cu-fill risk</h3>
-      <p class="claim">For bottom-up fill, copper must grow faster at the floor than on the walls. Use the controls to see how the etched shape changes the risk.</p>
+      <p class="claim">For bottom-up fill, copper must grow faster at the floor than on the walls. Use the controls to compare the mechanism.</p>
       <div class="mechanism-controls">
         <fieldset><legend>Etched profile</legend>
           <button type="button" data-mechanism-profile="straight" aria-pressed="true">Straight and open</button>
@@ -751,12 +751,13 @@
         <div class="mechanism-figure" id="mechanism-figure" role="img" aria-label="Schematic TSV cross-section showing how etched profile and floor-versus-wall copper growth change pinch-off risk"></div>
         <aside class="mechanism-read" id="mechanism-read" aria-live="polite"></aside>
       </div>
+      <p class="note">This control changes a teaching schematic. Dry etch and the other process steps are saved ViennaPS runs; they are not recomputed in the browser.</p>
     </div>
     <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
       <h3 style="margin:0 0 0.3rem;">Why the current copper model falls short</h3>
       <p class="claim">Bottom-up fill needs less suppressor and faster copper growth at the floor.</p>
       <p class="note">Choose a depth and measurement. Use the sliders or select a cell.</p>
-      <p class="decision-line">Takeaway: none of the 21 tested settings creates the required floor advantage.</p>
+      <p class="decision-line"><b>Takeaway:</b> these settings do not produce bottom-up copper filling. Changing only sticking and arrival angle is not enough.</p>
       <div class="surface-explorer">
         <div class="surface-controls">
           <fieldset><legend>Via geometry</legend><button type="button" data-surface-tier="continuity" aria-pressed="true">Depth 1.25 model units</button><button type="button" data-surface-tier="nominal_hbm" aria-pressed="false">Depth 3.0 model units</button></fieldset>
@@ -1164,8 +1165,9 @@ function renderMechanismExplorer() {
     : '';
   const floorArrowY = bottomUp ? 120 : 197;
   const wallArrow = bottomUp ? 18 : 50;
-  document.getElementById('mechanism-figure').innerHTML = `<svg viewBox="0 50 640 275" aria-hidden="true">
-    <defs><marker id="copper-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--copper)"/></marker></defs>
+  const leftWallTip = 265 + wallArrow;
+  const rightWallTip = 375 - wallArrow;
+  document.getElementById('mechanism-figure').innerHTML = `<svg viewBox="160 30 320 350" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect width="640" height="330" fill="var(--surface)"/>
     <rect y="58" width="640" height="272" fill="var(--surface-2)"/>
     <path d="${profile.cavity}" fill="var(--surface)"/>
@@ -1174,15 +1176,18 @@ function renderMechanismExplorer() {
     ${copper}
     ${seedAccessWarning}
     <line x1="0" y1="58" x2="640" y2="58" stroke="var(--line)"/>
-    <line x1="320" y1="252" x2="320" y2="${floorArrowY}" stroke="var(--copper)" stroke-width="3" marker-end="url(#copper-arrow)"/>
-    <line x1="265" y1="157" x2="${265 + wallArrow}" y2="157" stroke="var(--copper)" stroke-width="3" marker-end="url(#copper-arrow)"/>
-    <line x1="375" y1="157" x2="${375 - wallArrow}" y2="157" stroke="var(--copper)" stroke-width="3" marker-end="url(#copper-arrow)"/>
-    <text x="320" y="${floorArrowY - 10}" text-anchor="middle" fill="var(--copper)" font-family="var(--mono)" font-size="11">floor growth</text>
-    <text x="320" y="148" text-anchor="middle" fill="var(--copper)" font-family="var(--mono)" font-size="11">wall growth</text>
-    <g transform="translate(18 305)" font-family="var(--mono)" font-size="10" fill="var(--ink-dim)">
-      <rect width="12" height="12" fill="var(--oxide)"/><text x="18" y="10">liner</text>
-      <rect x="72" width="12" height="12" fill="var(--ink-dim)"/><text x="90" y="10">barrier + seed</text>
-      <rect x="208" width="12" height="12" fill="var(--copper)"/><text x="226" y="10">Cu</text>
+    <line x1="320" y1="252" x2="320" y2="${floorArrowY + 12}" stroke="var(--copper)" stroke-width="4"/>
+    <path d="M320 ${floorArrowY} L310 ${floorArrowY + 17} H330 Z" fill="var(--copper)"/>
+    <line x1="245" y1="157" x2="${leftWallTip - 12}" y2="157" stroke="var(--copper)" stroke-width="4"/>
+    <path d="M${leftWallTip} 157 L${leftWallTip - 17} 147 V167 Z" fill="var(--copper)"/>
+    <line x1="395" y1="157" x2="${rightWallTip + 12}" y2="157" stroke="var(--copper)" stroke-width="4"/>
+    <path d="M${rightWallTip} 157 L${rightWallTip + 17} 147 V167 Z" fill="var(--copper)"/>
+    <g font-family="var(--mono)" font-size="10" fill="var(--ink-dim)">
+      <line x1="180" y1="328" x2="180" y2="310" stroke="var(--copper)" stroke-width="3"/><path d="M180 304L174 314H186Z" fill="var(--copper)"/><text x="193" y="320">floor growth</text>
+      <line x1="320" y1="316" x2="340" y2="316" stroke="var(--copper)" stroke-width="3"/><path d="M346 316L336 310V322Z" fill="var(--copper)"/><text x="354" y="320">wall growth</text>
+      <rect x="180" y="344" width="10" height="10" fill="var(--oxide)"/><text x="195" y="353">liner</text>
+      <rect x="245" y="344" width="10" height="10" fill="var(--ink-dim)"/><text x="260" y="353">barrier + seed</text>
+      <rect x="395" y="344" width="10" height="10" fill="var(--copper)"/><text x="410" y="353">Cu</text>
     </g>
   </svg>`;
   document.getElementById('mechanism-read').innerHTML = `<h4>${assessment.title}</h4><p>${assessment.implication}</p>`;
