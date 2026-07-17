@@ -137,6 +137,7 @@ assert "What the new experiments indicate" in html
 assert "Main controls and common failures" in html
 assert "Replay the copper-fill experiment" in html
 assert "The browser does not invent intermediate shapes." in html
+assert 'href="cu_fill_replay.json"' in html
 replay = json.loads(Path("cu_fill_replay.json").read_text())
 assert replay["frame_count"] == 24
 assert len(replay["runs"]) == 2
