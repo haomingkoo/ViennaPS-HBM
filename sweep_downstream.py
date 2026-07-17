@@ -1,16 +1,11 @@
-"""Sweep liner, barrier/seed, and fill parameters on top of the winning
-etch geometry from sweep_big.py -- so "re-tune downstream" means an actual
-swept optimum per step, not a formulaic guess.
-
-Each downstream step is a single Process call (not a multi-cycle loop
-like the etch), so these sweeps are much cheaper than the etch DOE despite
-similar point counts.
-"""
+"""Run the archived downstream parameter sweeps."""
 import json
 import time
-import numpy as np
 import viennaps as ps
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
+
+require_legacy_metric_override()
 
 
 def load_etch_winner():

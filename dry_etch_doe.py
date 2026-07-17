@@ -21,6 +21,9 @@ from pathlib import Path
 import numpy as np
 
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
+
+require_legacy_metric_override()
 
 RADIUS = 0.15
 MASK_HEIGHT = 0.3

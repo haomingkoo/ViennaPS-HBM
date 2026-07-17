@@ -1,12 +1,4 @@
-"""Parallel full-flow DOE for the TSV process.
-
-This is the DOE entrypoint for the actual process flow:
-pattern -> depth-scored etch -> liner -> barrier/seed -> incremental Cu fill -> CMP.
-
-It deliberately does not rank isolated step metrics. Each row is a complete
-recipe replicate, scored against the target structure in tsv_process.TARGET_SPECS.
-Etch is Monte Carlo noisy, so recipes are aggregated across replicates.
-"""
+"""Run the archived parallel full-flow sensitivity study."""
 from __future__ import annotations
 
 import argparse
@@ -24,6 +16,9 @@ import numpy as np
 import viennaps as ps
 
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
+
+require_legacy_metric_override()
 
 RADIUS = 0.15
 MASK_HEIGHT = 0.3

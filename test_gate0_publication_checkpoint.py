@@ -84,8 +84,6 @@ def test_gate0_checkpoint_matches_review_artifacts():
     assert public["corrective_r1"]["maximum_executed_cases"] == 14
 
     template = (ROOT / "explainer_template.html").read_text()
-    assert 'id="latest-checkpoint"' in template
-    assert "What the first 24 reruns changed" in template
-    assert "they do not solve the full traveler" in template
+    assert 'id="foundation-checkpoint"' not in template
     assert "INTERIM.pattern_bosch_gate0" in template
     assert "writes ViennaPS domains directly" in template

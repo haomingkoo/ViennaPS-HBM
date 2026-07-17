@@ -1,11 +1,4 @@
-"""Autoresearch controller for the dry-etch DOE.
-
-This is the outer loop around dry_etch_doe.py:
-read the previous experiment summary, choose the next factor space, carry
-forward strong recipes as anchors, run the next DOE, and append a research
-log. The inner runner remains deterministic code; this file is the
-research harness.
-"""
+"""Coordinate iterative dry-etch studies."""
 from __future__ import annotations
 
 import argparse

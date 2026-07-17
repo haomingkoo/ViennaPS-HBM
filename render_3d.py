@@ -1,9 +1,4 @@
-"""One 3D render of the final tuned TSV geometry -- closing visual only.
-
-Run as a separate process (ps.setDimension is a module-level global; 3D is
-also much more expensive than 2D, so this uses a coarser grid and fewer
-cycles than the 2D sweep/notebook -- it's for a picture, not a measurement).
-"""
+"""Render an illustrative coarse-grid 3D via."""
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -17,7 +12,6 @@ geometry = ps.Domain(gridDelta=0.03, xExtent=0.8, yExtent=0.8)
 ps.MakeHole(domain=geometry, holeRadius=0.15, holeDepth=0.0, maskHeight=0.3,
             holeShape=ps.HoleShape.FULL).apply()
 
-# must match the 768-run DOE winner in build_notebook.py's ETCH dict
 ION_SOURCE_EXPONENT = 200
 NEUTRAL_STICKING_PROBABILITY = 0.2
 ETCH_TIME = 0.5
@@ -42,12 +36,9 @@ def rate_fn(fluxes, material):
 
 etch_model.setRateFunction(rate_fn)
 
-# brief seed etch, not a full cycle-length one -- same fix as bosch_etch's
-# initial_etch_time in tsv_process.py, otherwise the unprotected opening
-# balloons out isotropically before any passivation exists.
+# Open the mask before the first passivation cycle.
 ps.Process(geometry, etch_model, min(0.3, ETCH_TIME)).apply()
-for _ in range(5):  # fewer cycles than the 2D production run -- this is an
-                     # illustrative 3D picture on a coarse grid, not a measurement
+for _ in range(5):
     geometry.duplicateTopLevelSet(ps.Material.Polymer)
     ps.Process(geometry, depo_model, 1.0).apply()
     ps.Process(geometry, depo_removal, 1.0).apply()
@@ -55,15 +46,9 @@ for _ in range(5):  # fewer cycles than the 2D production run -- this is an
     geometry.removeTopLevelSet()
     geometry.removeStrayPoints()
 
-# geometry.getSurfaceMesh() merges every level set (Mask + Si) into one
-# undifferentiated mesh -- the Mask's flat top plate then renders in the
-# same solid color as the via walls beneath it, showing up as a mysterious
-# flat plane cutting through the via. Get the Si level set on its own
-# instead, matching the 2D figures' convention of not showing the resist
-# plateau (see tsv_process.py's trim_for_display) -- the story is the via
-# shape, not the mask sitting on top of it.
+# Render silicon alone because the merged mesh includes the mask plane.
 mat_map = geometry.getMaterialMap()
-si_idx = next(i for i, ls_ in enumerate(geometry.getLevelSets())
+si_idx = next(i for i, _ in enumerate(geometry.getLevelSets())
               if mat_map.getMaterialAtIdx(i) == ps.Material.Si)
 mesh = ls.Mesh()
 ls.ToSurfaceMesh(geometry.getLevelSets()[si_idx], mesh).apply()

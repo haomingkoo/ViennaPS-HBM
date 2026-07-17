@@ -1,13 +1,6 @@
-"""2-parameter sensitivity sweep on the Bosch etch step.
-
-Varies ion directionality (ion_source_exponent) against the isotropic/
-chemical etch component (neutral_sticking_probability) to find which one
-actually drives sidewall straightness vs. scalloping, and where the stable
-"sweet spot" process window sits.
-"""
+"""Sweep ion directionality and neutral sticking in the Bosch model."""
 import json
 import numpy as np
-import viennaps as ps
 import tsv_process as tp
 
 ION_EXPONENTS = [50, 125, 200, 400, 800]

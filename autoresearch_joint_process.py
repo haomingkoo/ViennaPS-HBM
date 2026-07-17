@@ -206,6 +206,7 @@ def run_generation(args, generation: int, plan: dict) -> Path:
         "--anchors-json", str(anchors_path),
         "--out", str(results_path),
         "--summary", str(summary_path),
+        "--allow-legacy-metrics",
     ]
     print("running:", " ".join(cmd), flush=True)
     subprocess.run(cmd, cwd=args.repo, check=True)
@@ -236,7 +237,11 @@ def main() -> None:
     parser.add_argument("--design", choices=["broad", "focus", "mixed"], default="mixed")
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--plan-only", action="store_true")
+    parser.add_argument("--allow-legacy-metrics", action="store_true")
     args = parser.parse_args()
+
+    if not args.allow_legacy_metrics:
+        raise SystemExit(review.LEGACY_METRICS_WARNING)
 
     repo = Path(args.repo)
     args.repo = str(repo)

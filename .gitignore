@@ -13,4 +13,7 @@ sweep_top4.log
 sweep_downstream_comprehensive.log
 sweep_joint_5steps.log
 .claude/
+.playwright-mcp/
+.scratch/
+plane*.vtk
 autoresearch-results/

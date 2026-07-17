@@ -1,5 +1,9 @@
 # Joint Process Autoresearch
 
+> Historical phase-one protocol. Its metrics are under foundation re-audit.
+> The commands below are blocked unless `--allow-legacy-metrics` is supplied
+> explicitly for reproduction; they must not be used to select a new recipe.
+
 This is the full-chain research loop for the TSV traveler:
 
 1. Define target specs once in `program.md` / `tsv_process.TARGET_SPECS`.
@@ -17,12 +21,14 @@ The point is not a single magic recipe. The point is the process discipline:
 - failures are kept as data, not deleted as outliers
 - recipes are ranked by replicated target scores, not raw bulge or coverage
 - CMP mask consumption is a hard gate
-- fill is judged by tip gap, not saturated floor coverage
+- phase one judged fill by a quantity called tip gap; the restart rejects that
+  proxy and requires raw open/sealed-void topology plus positive overburden
 
 ## Current Bootstrap Run
 
 ```sh
 .venv/bin/python -u joint_process_doe.py \
+  --allow-legacy-metrics \
   --recipes 256 \
   --replicates 4 \
   --workers 10 \
@@ -35,7 +41,7 @@ The point is not a single magic recipe. The point is the process discipline:
 Review while running:
 
 ```sh
-.venv/bin/python review_joint_process_results.py --expected-rows 1024
+.venv/bin/python review_joint_process_results.py --allow-legacy-metrics --expected-rows 1024
 ```
 
 The review is written to `joint_process_review.md`.
@@ -46,6 +52,7 @@ After the bootstrap finishes:
 
 ```sh
 .venv/bin/python -u autoresearch_joint_process.py \
+  --allow-legacy-metrics \
   --bootstrap-summary joint_process_doe_summary.json \
   --start-generation 1 \
   --generations 1 \

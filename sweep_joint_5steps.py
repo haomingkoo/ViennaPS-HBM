@@ -1,36 +1,12 @@
-"""Joint multi-step DOE across the *effective* tuning knobs found by
-per-step screening (prepare.md items 10-16), not per-step isolated
-sweeps. Each step so far was optimized against the previous step's own
-output in sequence (sweep_downstream.py / sweep_downstream_comprehensive.py)
--- this checks whether that sequential-local optimum is also the joint/
-global one, by varying the effective knobs from all 5 steps together and
-looking for cross-step interaction.
-
-Effective knobs included (per-step screening rationale in prepare.md):
-- Patterning: maskTaperAngle (real, non-monotonic effect, item 16)
-- Etch: etch_time (dominant knob, near the sweep_top4 winner)
-- Liner: thickness (sticking plateaus above ~0.2 -- item 15, held fixed)
-- Barrier: thickness (iso_ratio has zero effect -- item 15, held fixed)
-- Fill: thickness AND iso_ratio (both matter for the strict tip-gap
-  metric, even though the coarser coverage metric saturates -- item 6, 15)
-
-CMP is deliberately NOT part of this search: item 13/14 already found it's
-a documented trade-off curve (dishing vs. mask survival), not a knob with
-a joint optimum to discover. It's applied once at the end at a fixed,
-realistic setting for reporting only.
-
-Two metrics are tracked, not collapsed into one fake composite score:
-etch wall bulge (straightness) and the fill tip-gap (CEAC-limited
-residual, the stricter metric from item 6) -- if their optima don't
-coincide, that's reported as a real trade-off, not hidden.
-"""
+"""Run the archived joint five-step sensitivity study."""
 import json
 import time
-import numpy as np
 import viennaps as ps
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
 
-# etch's non-varied knobs, fixed at the sweep_top4.py winner (prepare.md item 17)
+require_legacy_metric_override()
+
 ETCH_FIXED = dict(ion_source_exponent=200, deposition_thickness=0.01)
 ETCH_TOP4_WINNER = dict(neutral_sticking_probability=0.05, initial_etch_time=0.3, neutral_rate=-0.1)
 NUM_CYCLES = 14  # depth-matched to the new winner, see prepare.md item 17
@@ -44,15 +20,8 @@ BARRIER_THICKNESSES = [0.012, 0.018]
 BARRIER_ISO_RATIO = 0.2  # confirmed zero-effect knob, held at a reasonable default
 FILL_THICKNESSES = [0.18, 0.22]
 FILL_ISO_RATIOS = [0.03, 0.1]
-CMP_MULT = 1.0  # realistic "clear the nominal overburden" choice -- not searched, see module docstring
-
-
 def build_etch_base(mask_taper, etch_time):
-    # etch uses a ray-traced MultiParticleProcess with real run-to-run MC
-    # noise (prepare.md item 12) -- build ONCE per (mask_taper, etch_time)
-    # and deep-copy it for every downstream combo, or the etch noise
-    # contaminates the liner/barrier/fill comparison (exactly the item-12
-    # trap: this script hit it once already before this fix).
+    # Reuse one etched shape for fair downstream comparisons.
     geo = ps.Domain(gridDelta=0.01, xExtent=1.0, yExtent=1.5)
     ps.MakeHole(domain=geo, holeRadius=RADIUS, holeDepth=0.0, maskHeight=0.3,
                 maskTaperAngle=mask_taper, holeShape=ps.HoleShape.QUARTER).apply()

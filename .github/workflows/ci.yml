@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install lint tools
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Lint the active code path
+        run: |
+          ruff check \
+            tsv_process.py \
+            traveler_metrics.py \
+            full_2d_layer_metrics.py \
+            layer_process_models.py \
+            morphology_fill_control.py \
+            copper_fill_transport_3d.py \
+            build_screening_traveler.py \
+            build_explainer.py \
+            process_config.py \
+            test_process_config.py \
+            test_target_specs.py \
+            test_traveler_metrics.py \
+            test_full_2d_layer_metrics.py \
+            test_morphology_fill_control.py \
+            test_publication_data.py
+
+      - name: Type-check the active code path
+        run: |
+          ty check --python-version 3.13 \
+            tsv_process.py \
+            traveler_metrics.py \
+            full_2d_layer_metrics.py \
+            layer_process_models.py \
+            morphology_fill_control.py \
+            copper_fill_transport_3d.py \
+            build_screening_traveler.py \
+            build_explainer.py \
+            process_config.py
+
+      - name: Compile Python sources
+        run: |
+          python -m compileall -q \
+            -x '(^|/)(\.venv|autoresearch-results|\.scratch)/' .
+
+      - name: Run dependency-free checks
+        run: |
+          python test_process_config.py
+          python test_freeze_pattern_bosch_screen_manifest.py
+          python test_publication_data.py
+
+      - name: Rebuild the explainer
+        run: |
+          python build_explainer.py
+          git diff --exit-code -- explainer.html
+
+      - name: Check embedded JavaScript
+        run: |
+          script_file="$(mktemp)"
+          sed -n '/<script>/,/<\/script>/p' explainer.html | sed '1d;$d' > "$script_file"
+          node --check --input-type=commonjs < "$script_file"

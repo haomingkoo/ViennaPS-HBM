@@ -6,6 +6,7 @@ hashes so a published claim can be traced back to the reviewed artifact.
 """
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 from pathlib import Path
@@ -14,6 +15,9 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 AUDIT = ROOT / "autoresearch-results" / "restart_audit"
 OUTPUT = ROOT / "publication_interim_data.json"
+TRAVELER_RENDER = ROOT / "autoresearch-results" / \
+    "screening_traveler_aac0e99de49584cc" / \
+    "complete_traveler_500ray_screening.png"
 SOURCES = {
     "bosch_resolution": AUDIT / "bosch_resolution_summary.json",
     "bosch_cycle_history": AUDIT / "bosch_cycle_history_summary.json",
@@ -31,6 +35,8 @@ SOURCES = {
     "pattern_bosch_gate0_r1_manifest": ROOT / ".scratch" /
         "full-traveler-autoresearch" /
         "foundation_pattern_bosch_gate0_r1_manifest.json",
+    "screening_traveler": ROOT / "autoresearch-results" /
+        "screening_traveler_aac0e99de49584cc" / "summary.json",
 }
 
 
@@ -42,7 +48,26 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def image_uri(path: Path) -> str:
+    return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
+
+
 source = {name: load(path) for name, path in SOURCES.items()}
+
+traveler = source["screening_traveler"]
+assert traveler["status"] == "complete_screening_traveler"
+assert traveler["qualification_scope"]["two_thousand_ray_confirmation"] == "deferred"
+assert traveler["etch_metrics"]["rays_per_point"] == 500
+assert all(traveler["layer_gates"].values())
+assert traveler["fill"]["void_free"]
+assert traveler["fill"]["closed_void_count"] == 0
+assert traveler["fill"]["remaining_void_area"] == 0.0
+assert traveler["fill"]["overburden_min"] >= 0.15
+assert traveler["cmp"]["all_field_metals_clear"]
+assert traveler["cmp"]["plug_connected"]
+assert traveler["cmp"]["stop_continuous"]
+assert traveler["cmp"]["dish"] == 0.0
+assert TRAVELER_RENDER.is_file()
 
 assert source["bosch_resolution"]["status"] == "complete"
 assert source["bosch_resolution"]["ok_count"] == 20
@@ -240,8 +265,8 @@ compact_surface = [{
 } for row in transport["tier_designs"]]
 
 data = {
-    "checkpoint": "foundation-audit-2026-07-13",
-    "status": "interim",
+    "checkpoint": "screening-traveler-2026-07-17",
+    "status": "complete_screening_traveler",
     "selected_foundation_cases": 376,
     "reviewed_logical_cells": 384,
     "selected_case_accounting": {
@@ -259,6 +284,18 @@ data = {
         "path": str(path.relative_to(ROOT)),
         "sha256": sha256(path),
     } for name, path in SOURCES.items()],
+    "screening_traveler": {
+        "status": traveler["status"],
+        "scope": traveler["qualification_scope"],
+        "source": traveler["source"],
+        "etch": traveler["etch_metrics"],
+        "layers": traveler["layer_gates"],
+        "fill": traveler["fill"],
+        "cmp": traveler["cmp"],
+        "artifacts": traveler["artifacts"],
+        "render": image_uri(TRAVELER_RENDER),
+        "render_sha256": sha256(TRAVELER_RENDER),
+    },
     "pattern_bosch_gate0": {
         "status": gate0["status"],
         "attempts": gate0["attempt_count"],

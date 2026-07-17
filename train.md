@@ -1,5 +1,27 @@
 # train.md -- what's fixed, what's varied
 
+> **Legacy protocol under re-audit.** Its phase-one recipe spaces and execution
+> history remain reproducible, but its pattern, film-coverage, fill, CMP, 2D,
+> resolution, and RNG assumptions are not accepted for a new DOE. Follow
+> `RESEARCH_PLAN_V3.md`, `FOUNDATION_REAUDIT.md`, and issue 06 first. Do not
+> resume from the old winner or the “closed hidden knobs” statements below.
+> Every executable below that still uses a phase-one target score now requires
+> `--allow-legacy-metrics`; that flag authorizes historical reproduction only,
+> never active recipe selection.
+
+Current reset checkpoint (2026-07-11): the qualified four-seed Bosch handoff is
+cycle 13; grid 0.00125 and 2,000 rays are qualified for exploratory
+liner/barrier screening; and the candidate Cu-fill model has only reproduced
+unresolved centerline-merger/seam failures or unfinished open fills so far. The
+clean 32-case access/coverage surface has been reviewed, but its consecutive
+base seeds overlap after the runner adds checkpoint indices and are not
+independent replicates. The corrected 72-case expansion used four base streams
+separated beyond its 320-checkpoint horizon and completed with 72 hard failures,
+zero target events, and zero censors. Its best area closure still advances the
+floor only 0.0915 of a 1.25-deep via. The next fill experiment must change the
+growth mechanism, not merely extend lambda or sticking. None of these model
+coefficients is a fab recipe, and no downstream phase-one winner is active.
+
 The experimental protocol. When running a new sweep or test, check here
 first: don't silently change something this file says should be held
 constant, and don't forget to vary something it says should be tested.
@@ -59,7 +81,12 @@ not a minor one.
 
 ## Detailed dry-etch DOE protocol
 
-`dry_etch_doe.py` is now the active etch-only DOE. It supersedes using the
+**Historical only.** The commands and local-refinement recommendation below
+must not be resumed. The active sequence is broad skew screening, effect and
+correlation ranking, exact downstream propagation, then focused DOE under
+`RESEARCH_PLAN_V3.md`.
+
+`dry_etch_doe.py` was the phase-one etch-only DOE. It superseded using the
 older 768-run / 800-run sweeps as the final etch story because it varies
 cycle count as a first-class recipe factor, records per-cycle traces, and
 ranks against the full etch target spec rather than raw bulge alone.
@@ -92,7 +119,7 @@ generation instead of hand-picking the next grid:
 .venv/bin/python -u autoresearch_dry_etch.py --bootstrap-summary dry_etch_doe_summary.json --generations 1 --recipes 96 --replicates 4 --workers 10 --top-n 8
 ```
 
-Current autoresearch status: generation 2 has completed (`64 recipes x 4
+Historical autoresearch status: generation 2 completed (`64 recipes x 4
 replicates`) and the current best dry-etch recipe is
 `mask_taper=2, num_cycles=12, etch_time=0.6, neutral_rate=-0.08,
 neutral_sticking_probability=0.2, initial_etch_time=0.3,

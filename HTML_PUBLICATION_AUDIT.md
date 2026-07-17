@@ -110,3 +110,90 @@ The CMP failure image now marks its blank panel explicitly: excessive isotropic
 removal deleted every visible modeled material, including the mask. The result
 and finalist sections explain failure using measured Cu-gap and CMP-recess
 ranges rather than abstract score language.
+
+## Interim foundation update, 2026-07-12
+
+### Editorial decision
+
+The public page now leads with the active investigation. The 1,948-run campaign
+remains below it as clearly labeled history. Its withdrawn pass labels no
+longer control the opening claim or process recommendation.
+
+Each current finding has three separate fields:
+
+- observation: the measured result;
+- interpretation: what that result supports and what it does not support;
+- process move: the next knob, direction, tradeoff, and validation needed.
+
+This structure removes the earlier failure mode where a result table asked the
+reader to infer the analysis.
+
+### Evidence bound into the page
+
+The compact interim dataset contains 328 unique foundation simulations and 336
+reviewed logical cells, including eight exact parent reuses. Seven reviewed
+summary files are bound by SHA-256. The page now reports:
+
+- the four-seed, cycle-13 Bosch handoff geometry;
+- numerical qualification and baseline failures for liner and barrier/seed;
+- the failed candidate Cu law and successful prescribed bottom-up control;
+- the 168-case coarse Cu transport surface;
+- the 128-cell grid, ray-count, and reflection confirmation;
+- the next justified lower-sticking boundary;
+- the CMP connectivity rule and why its recipe DOE remains blocked.
+
+The Cu explorer uses the exact 42 coarse tier cells. It does not interpolate.
+The newer sticking 0.0125 confirmation is shown as a separate result because it
+uses a different numerical design and sits outside the plotted range.
+
+### Language audit
+
+The copy now uses physical questions and process actions instead of phrases such
+as “audited wired model space,” “canonical traveler,” “compliant traveler,” and
+“model-limited miss.” Internal geometry tiers are displayed as the 1.25-deep
+target via and the 3.0-deep stress case. “Foundation audit” is defined on the
+page as measurement and controlled failure testing before another broad DOE.
+
+### Verification status
+
+- publication data guard: pass;
+- Python compilation: pass;
+- embedded JavaScript syntax: pass;
+- duplicate IDs, form labels, image sources, and alt text: pass;
+- locally served HTML byte-for-byte matches the generated file;
+- in-app rendered audit: pending because the browser runtime exposed no browser
+  instance during this update.
+
+The page must not be described as visually audited until a browser instance is
+available for desktop, mobile, light, dark, and keyboard checks.
+
+## Completed screening-traveler update, 2026-07-17
+
+### Editorial decision
+
+The completed screening traveler is now the lead result. The report opens with
+the measured outcome, the five saved geometry stages, the acceptance table, and
+the limit of the claim. Earlier foundation checks and failed campaigns remain
+below it as methods and research history.
+
+### Evidence added
+
+- the exact `aac0e99de49584cc` etched geometry at 500-ray screening fidelity;
+- conformal liner and barrier/seed gate decisions;
+- zero open or closed Cu voids and 0.17056 minimum overburden;
+- field-clear endpoint CMP, a connected plug, a continuous stop, and zero dish;
+- SHA-256 provenance for the source etch and final CMP domains;
+- the complete five-panel traveler rendered from native ViennaPS checkpoints.
+
+The page calls the downstream stages morphology controls. It does not describe
+them as calibrated deposition, plating, or CMP recipes. The 2,000-ray etch
+confirmation is recorded as deferred.
+
+### Verification status
+
+- publication data guard: pass;
+- Gate-0 publication checkpoint guard: pass;
+- Python compilation: pass;
+- embedded JavaScript syntax: pass;
+- rendered desktop/mobile audit: pending because no browser instance was
+  available in this session.

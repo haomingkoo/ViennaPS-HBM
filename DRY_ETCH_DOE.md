@@ -1,5 +1,10 @@
 # Dry Etch DOE Protocol
 
+Status: historical reproduction protocol. Do not launch the 96x3, 512x6, or
+local autoresearch commands below as active research. The active method is
+`RESEARCH_PLAN_V3.md`: broad low/nominal/high screening, effect/correlation
+ranking, downstream propagation, and only then focused DOE on sensitive knobs.
+
 This is the standing protocol for the Bosch dry-etch study. The etch step
 is not "done" because one raw bulge sweep found a nice-looking profile; it
 is done only when recipes are scored against the target structure:

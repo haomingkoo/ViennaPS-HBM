@@ -11,6 +11,11 @@ from pathlib import Path
 
 BAD_SCORE = 1e8
 STEPS = ("pattern", "etch", "liner", "barrier", "fill", "cmp")
+LEGACY_METRICS_WARNING = (
+    "Phase-one traveler metrics are under foundation re-audit and are not "
+    "authorized for optimization or recipe selection. Use "
+    "--allow-legacy-metrics only for explicit historical reproduction."
+)
 
 
 def load_rows(path: Path) -> list[dict]:
@@ -311,7 +316,11 @@ def main() -> None:
     parser.add_argument("--out", default="joint_process_review.md")
     parser.add_argument("--expected-rows", type=int, default=None)
     parser.add_argument("--metric-only", action="store_true")
+    parser.add_argument("--allow-legacy-metrics", action="store_true")
     args = parser.parse_args()
+
+    if not args.allow_legacy_metrics:
+        raise SystemExit(LEGACY_METRICS_WARNING)
 
     rows = load_rows(Path(args.results))
     if not rows:

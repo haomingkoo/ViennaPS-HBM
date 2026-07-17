@@ -1,16 +1,11 @@
-"""Combined 4-parameter DOE on the *real* top-4 knobs found by the
-screening pass (screen_all_knobs.py): etch_time and
-neutral_sticking_probability (already known, from the original 768-run
-DOE) x initial_etch_time and neutral_rate (newly found to matter more
-than deposition_thickness/ion_source_exponent, which this sweep holds
-fixed at their already-known-good values -- a deliberate scope limit,
-not a silent omission: interactions between the top-4 and the
-lower-ranked 7 are not tested here).
-"""
+"""Run the archived four-factor Bosch follow-up sweep."""
 import json
 import time
 import numpy as np
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
+
+require_legacy_metric_override()
 
 ETCH_TIMES = [0.5, 1.0, 1.5, 2.0]
 NEUTRAL_STICKING = [0.02, 0.05, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3]

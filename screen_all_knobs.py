@@ -1,13 +1,4 @@
-"""Screening design across all 11 real tuning knobs in bosch_etch, not
-just the 4 the original DOE covered.
-
-One-factor-at-a-time from the current best point: for each of the 7
-previously-untested parameters, test a low and high value (holding
-everything else at the known-best point) and compare against baseline.
-This is a screening pass to find out which of the 7 matter at all,
-before deciding what deserves a deeper combined sweep -- not a full
-factorial (7 params x N levels would be enormous; screen first).
-"""
+"""Run the archived one-factor Bosch parameter screen."""
 import json
 import time
 import numpy as np
@@ -40,11 +31,7 @@ def run(params):
     etch_kwargs = {k: v for k, v in params.items() if k not in ("radius", "mask_height")}
     geo, depth = tp.bosch_etch(geo, num_cycles=NUM_CYCLES, radius=radius, **etch_kwargs)
     pts = tp.profile_points(geo)
-    # bulge's y-window must scale with mask_height -- a hardcoded "0.2" upper
-    # bound was tuned for the baseline mask_height=0.3 and silently picks up
-    # mask-edge noise instead of real sidewall data at other mask heights
-    # (caught during this exact screening run: mask_height=0.2 falsely
-    # showed bulge=0.35 before this fix).
+    # Scale the wall window with mask height to exclude the mask edge.
     y_top_margin = mask_height * (2.0 / 3.0)  # baseline: 0.3 * 2/3 = 0.2
     body = pts[(pts[:, 1] > depth * 0.85) & (pts[:, 1] < y_top_margin) & (pts[:, 0] > 0.2 * radius)]
     bulge = float(np.max(np.abs(body[:, 0] - radius))) if len(body) else None

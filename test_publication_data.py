@@ -1,4 +1,7 @@
 """Small publication guard: the public report must match final campaign evidence."""
+
+import base64
+import hashlib
 import json
 from html.parser import HTMLParser
 from pathlib import Path
@@ -14,8 +17,27 @@ assert all(row["full_pass_runs"] == 0 for row in data["window"])
 assert len(data["finalist_seeds"]) == 32
 assert all(row["step_passes"] == 4 for row in data["finalist_seeds"])
 assert all(row["tip_gap"] > 0 and row["dish"] > 0 for row in data["finalist_seeds"])
-assert all(value.startswith("data:image/png;base64,") for value in data["visuals"].values())
-assert interim["status"] == "interim"
+assert all(
+    value.startswith("data:image/png;base64,") for value in data["visuals"].values()
+)
+assert interim["status"] == "complete_screening_traveler"
+traveler = interim["screening_traveler"]
+assert traveler["status"] == "complete_screening_traveler"
+assert traveler["scope"]["two_thousand_ray_confirmation"] == "deferred"
+assert traveler["etch"]["rays_per_point"] == 500
+assert traveler["layers"] == {"liner": True, "barrier_seed": True}
+assert traveler["fill"]["void_free"]
+assert traveler["fill"]["closed_void_count"] == 0
+assert traveler["fill"]["remaining_void_area"] == 0.0
+assert traveler["fill"]["overburden_min"] >= 0.15
+assert traveler["cmp"]["all_field_metals_clear"]
+assert traveler["cmp"]["plug_connected"]
+assert traveler["cmp"]["stop_continuous"]
+assert traveler["cmp"]["dish"] == 0.0
+assert traveler["render"].startswith("data:image/png;base64,")
+assert len(traveler["render_sha256"]) == 64
+render_bytes = base64.b64decode(traveler["render"].split(",", 1)[1])
+assert hashlib.sha256(render_bytes).hexdigest() == traveler["render_sha256"]
 assert interim["selected_foundation_cases"] == 376
 assert interim["reviewed_logical_cells"] == 384
 assert sum(interim["selected_case_accounting"].values()) == 376
@@ -40,7 +62,10 @@ assert interim["cu_confirmation"]["parent_reuses"] == 8
 assert interim["cu_confirmation"]["new_executions"] == 120
 assert interim["cu_confirmation"]["class_changing_numerical_interactions"] == 0
 assert interim["cu_confirmation"]["numerical_artifacts"] == 0
-assert interim["cu_confirmation"]["decision"]["classification"] == "lower_sticking_boundary_expansion_required"
+assert (
+    interim["cu_confirmation"]["decision"]["classification"]
+    == "lower_sticking_boundary_expansion_required"
+)
 assert interim["cu_boundary"]["logical_cells"] == 24
 assert interim["cu_boundary"]["metric_valid_cells"] == 24
 assert interim["cu_boundary"]["new_executions"] == 24
@@ -48,15 +73,24 @@ assert interim["cu_boundary"]["matched_control_cells"] == 8
 assert interim["cu_boundary"]["reflection_convergence"]["converged"]
 assert not interim["cu_boundary"]["boundary_trend"]["continued_boundary_improvement"]
 assert interim["cu_boundary"]["boundary_trend"]["improves_every_stream_in_both_tiers"]
-assert interim["cu_boundary"]["multiresponse_paired_directions"]["responses"][
-    "worst_floor_to_each_lower_flux_ratio"
-]["improved_count"] == 8
-assert interim["cu_boundary"]["realized_kinematic_ratio_by_tier"]["continuity"][
-    "stream_pass_count"
-] == 0
-assert interim["cu_boundary"]["realized_kinematic_ratio_by_tier"]["nominal_hbm"][
-    "stream_pass_count"
-] == 0
+assert (
+    interim["cu_boundary"]["multiresponse_paired_directions"]["responses"][
+        "worst_floor_to_each_lower_flux_ratio"
+    ]["improved_count"]
+    == 8
+)
+assert (
+    interim["cu_boundary"]["realized_kinematic_ratio_by_tier"]["continuity"][
+        "stream_pass_count"
+    ]
+    == 0
+)
+assert (
+    interim["cu_boundary"]["realized_kinematic_ratio_by_tier"]["nominal_hbm"][
+        "stream_pass_count"
+    ]
+    == 0
+)
 assert interim["cu_boundary"]["analytic_envelope"]["evaluation_status"] == (
     "not_evaluated_preliminary_flux_gate_failed"
 )
@@ -66,29 +100,47 @@ assert interim["cu_boundary"]["decision"]["classification"] == (
 assert interim["cu_boundary"]["decision"]["matched_3d_required"]
 assert not interim["cu_boundary"]["decision"]["morphology_authorized"]
 assert not interim["cmp"]["recipe_doe_authorized"]
-assert len(interim["source_artifacts"]) == 12
+assert len(interim["source_artifacts"]) == 13
 assert all(len(source["sha256"]) == 64 for source in interim["source_artifacts"])
+for source in interim["source_artifacts"]:
+    path = Path(source["path"])
+    if path.is_file():
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == source["sha256"]
 
 template = Path("explainer_template.html").read_text()
 html = Path("explainer.html").read_text()
-for required in ("id=\"latest-checkpoint\"", "id=\"current\"", "id=\"mechanism-explorer\"", "id=\"boundary-atlas\"", "id=\"actions\"", "id=\"why-order\"", "id=\"cu-screen\"",
-                 "id=\"transport-surface\"", "id=\"transport-boundary\"", "id=\"tutorial\"", "id=\"autoresearch\"",
-                 "id=\"stage-tabs\"", "id=\"window-plot\"", "id=\"seed-plot\"",
-                 "id=\"visual-reads\"", "id=\"references\""):
+for required in (
+    'id="screening-result"',
+    'id="screening-traveler-visual"',
+    'id="current"',
+    'id="mechanism-explorer"',
+    'id="boundary-atlas"',
+    'id="actions"',
+    'id="why-order"',
+    'id="cu-screen"',
+    'id="transport-surface"',
+    'id="tutorial"',
+    'id="raw-output"',
+    'id="autoresearch"',
+    'id="stage-tabs"',
+    'id="window-plot"',
+    'id="seed-plot"',
+    'id="visual-reads"',
+    'id="references"',
+):
     assert required in template
-assert "Using ViennaPS to research a complete TSV traveler" in html
+assert "A simplified TSV traveler" in html
 assert '"total_travelers":1948' in html
 assert '"selected_foundation_cases":376' in html
-assert "What the first 24 reruns changed" in html
-assert "These results define the next experiment; they do not solve the full traveler." in html
-assert "What the new experiments have taught us" in html
-assert "Six handoffs, not one void problem" in html
+assert "How the software recognizes a passing shape" in html
+assert "Creates the vertical electrical path." in html
+assert "What the new experiments indicate" in html
+assert "Main controls and common failures" in html
 assert "See how an upstream shape changes the Cu-fill risk" in html
-assert "The response surfaces that will define the process window" in html
-assert "FOUNDATION CHECK COMPLETE" in html
+assert "Copper response map" in html
 assert "SELECTED HANDOFF PASSES 4/4" not in html
-assert "What to tune next, and what each move risks" in html
-assert "This is the success criterion, not a claimed result" in html
+assert "What to tune next" in html
+assert "Target only." in html
 assert "https://www.nist.gov/publications/metrology-needs-tsv-fabrication" in html
 assert "https://viennatools.github.io/ViennaPS/process/" in html
 assert "Adopted as production" not in html
@@ -97,9 +149,13 @@ assert "only 2 real continuous knobs" not in html
 assert "18 wired recipe factors" not in html
 assert "aria-valuetext" in template
 assert "model length" in template
-for banned in ("audited wired model space", "one canonical traveler",
-               "No compliant full traveler", "model-limited misses",
-               "fab-calibrated DOE"):
+for banned in (
+    "audited wired model space",
+    "one canonical traveler",
+    "No compliant full traveler",
+    "model-limited misses",
+    "fab-calibrated DOE",
+):
     assert banned not in template
 
 
@@ -132,5 +188,8 @@ assert all(input_id in audit.label_fors for input_id in audit.range_ids)
 assert all(image.get("src") and image.get("alt") for image in audit.images)
 assert all(button.get("type") == "button" for button in audit.buttons)
 assert all(link.get("href") for link in audit.links)
-assert 'rel="canonical" href="https://kooexperience.com/ViennaPS-HBM/explainer.html"' in template
+assert (
+    'rel="canonical" href="https://kooexperience.com/ViennaPS-HBM/explainer.html"'
+    in template
+)
 print("publication campaign data checks: PASS")

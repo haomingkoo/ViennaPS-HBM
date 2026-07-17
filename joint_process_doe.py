@@ -482,7 +482,11 @@ def main() -> None:
     parser.add_argument("--anchors-json", default=None)
     parser.add_argument("--out", default="joint_process_doe_results.jsonl")
     parser.add_argument("--summary", default="joint_process_doe_summary.json")
+    parser.add_argument("--allow-legacy-metrics", action="store_true")
     args = parser.parse_args()
+
+    if not args.allow_legacy_metrics:
+        raise SystemExit(review.LEGACY_METRICS_WARNING)
 
     SPACE, FOCUS_SPACE = load_space(args.space_json)
     anchors = load_anchors(args.anchors_json)

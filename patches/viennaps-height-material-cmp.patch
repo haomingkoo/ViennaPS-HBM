@@ -1,0 +1,361 @@
+diff --git a/include/viennaps/viennaps.hpp b/include/viennaps/viennaps.hpp
+index 297a315..afea91c 100644
+--- a/include/viennaps/viennaps.hpp
++++ b/include/viennaps/viennaps.hpp
+@@ -28,6 +28,7 @@
+ #include <models/psFluorocarbonEtching.hpp>
+ #include <models/psGeometricDistributionModels.hpp>
+ #include <models/psHBrO2Etching.hpp>
++#include <models/psHeightMaterialCMP.hpp>
+ #include <models/psIonBeamEtching.hpp>
+ #include <models/psIsotropicProcess.hpp>
+ #include <models/psMultiParticleProcess.hpp>
+diff --git a/python/pyWrap.cpp b/python/pyWrap.cpp
+index 6fdc94a..9a96a8b 100644
+--- a/python/pyWrap.cpp
++++ b/python/pyWrap.cpp
+@@ -622,6 +622,28 @@ PYBIND11_MODULE(VIENNAPS_MODULE_NAME, module) {
+       .def_readwrite("coverageDiffusionCoefficient",
+                      &SingleParticleALDParams::coverageDiffusionCoefficient);
+
++  py::class_<HeightMaterialCMPParams>(module, "HeightMaterialCMPParams")
++      .def(py::init<>())
++      .def_readwrite("stopHeight", &HeightMaterialCMPParams::stopHeight)
++      .def_readwrite("complianceLength",
++                     &HeightMaterialCMPParams::complianceLength)
++      .def_readwrite("residualContact",
++                     &HeightMaterialCMPParams::residualContact)
++      .def_readwrite("platedCuRemovalRate",
++                     &HeightMaterialCMPParams::platedCuRemovalRate)
++      .def_readwrite("cuSeedMaterial",
++                     &HeightMaterialCMPParams::cuSeedMaterial)
++      .def_readwrite("cuSeedRemovalRate",
++                     &HeightMaterialCMPParams::cuSeedRemovalRate)
++      .def_readwrite("tantalumNitrideRemovalRate",
++                     &HeightMaterialCMPParams::tantalumNitrideRemovalRate)
++      .def_readwrite("siliconDioxideRemovalRate",
++                     &HeightMaterialCMPParams::siliconDioxideRemovalRate)
++      .def_readwrite("siliconRemovalRate",
++                     &HeightMaterialCMPParams::siliconRemovalRate)
++      .def("toProcessMetaData", &HeightMaterialCMPParams::toProcessMetaData,
++           "Return uncalibrated CMP model metadata.");
++
+   // ***************************************************************************
+   //                                 PROCESS
+   // ***************************************************************************
+diff --git a/python/pyWrapDimension.hpp b/python/pyWrapDimension.hpp
+index 07764b8..67897dd 100644
+--- a/python/pyWrapDimension.hpp
++++ b/python/pyWrapDimension.hpp
+@@ -58,6 +58,7 @@
+ #include <models/psFluorocarbonEtching.hpp>
+ #include <models/psGeometricDistributionModels.hpp>
+ #include <models/psHBrO2Etching.hpp>
++#include <models/psHeightMaterialCMP.hpp>
+ #include <models/psIonBeamEtching.hpp>
+ #include <models/psIsotropicProcess.hpp>
+ #include <models/psMultiParticleProcess.hpp>
+@@ -1318,6 +1319,18 @@ template <int D> void bindApi(py::module &module) {
+                     const SingleParticleALDParams &>),
+            py::arg("parameters"));
+
++  // Uncalibrated no-ray height/material CMP abstraction
++  py::class_<HeightMaterialCMP<T, D>, SmartPointer<HeightMaterialCMP<T, D>>>(
++      module, "HeightMaterialCMP", processModel)
++      .def(py::init(&SmartPointer<HeightMaterialCMP<T, D>>::template New<
++                    const HeightMaterialCMPParams &>),
++           py::arg("parameters"))
++      .def("evaluateContactWeight",
++           &HeightMaterialCMP<T, D>::evaluateContactWeight,
++           py::arg("height"))
++      .def("evaluateVelocity", &HeightMaterialCMP<T, D>::evaluateVelocity,
++           py::arg("height"), py::arg("material"));
++
+   // ***************************************************************************
+   //                               GEOMETRIES
+   // ***************************************************************************
+diff --git a/python/viennaps/__init__.pyi b/python/viennaps/__init__.pyi
+index 9a26a2a..19badcd 100644
+--- a/python/viennaps/__init__.pyi
++++ b/python/viennaps/__init__.pyi
+@@ -34,6 +34,7 @@ from viennaps._core import FluxEngineType
+ from viennaps._core import GpuMode
+ from viennaps._core import GpuPreconditioner
+ from viennaps._core import HoleShape
++from viennaps._core import HeightMaterialCMPParams
+ from viennaps._core import OxidantType
+ from viennaps._core import SiliconOrientation
+ from viennaps._core import IBEParameters
+@@ -87,6 +88,7 @@ from viennaps.d2 import GDSReader
+ from viennaps.d2 import GeometricTrenchDeposition
+ from viennaps.d2 import GeometryFactory
+ from viennaps.d2 import HBrO2Etching
++from viennaps.d2 import HeightMaterialCMP
+ from viennaps.d2 import Interpolation
+ from viennaps.d2 import IonBeamEtching
+ from viennaps.d2 import IsotropicProcess
+@@ -122,6 +124,7 @@ from . import _core
+ from . import d2
+ from . import d3
+ __all__: list[str] = ['AdvectionCallback', 'AdvectionParameters', 'AtomicLayerProcessParameters', 'BoundaryType', 'BoxDistribution', 'BuiltInMaterial', 'CF4O2Etching', 'CF4O2Parameters', 'CF4O2ParametersIons', 'CF4O2ParametersMask', 'CF4O2ParametersPassivation', 'CF4O2ParametersSi', 'CF4O2ParametersSiGe', 'CSVFileProcess', 'CoverageParameters', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'Extrude', 'FaradayCageEtching', 'FaradayCageParameters', 'FluorocarbonEtching', 'FluorocarbonMaterialParameters', 'FluorocarbonParameters', 'FluorocarbonParametersIons', 'FluxEngineType', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'GpuMode', 'GpuPreconditioner', 'HBrO2Etching', 'HoleShape', 'IBEParameters', 'IBEParametersCos4Yield', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'Length', 'LengthUnit', 'LogLevel', 'Logger', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'Material', 'MaterialCategory', 'MaterialInfo', 'MaterialKind', 'MaterialMap', 'MaterialRegistry', 'MaterialValueMap', 'MetaDataLevel', 'MultiParticleProcess', 'NeutralTransport', 'NeutralTransportParameters', 'NormalizationType', 'Oxidation', 'OxidantType', 'OxideRegrowth', 'PROXY_DIM', 'Planarize', 'PlasmaEtchingParameters', 'PlasmaEtchingParametersIons', 'PlasmaEtchingParametersMask', 'PlasmaEtchingParametersPassivation', 'PlasmaEtchingParametersPolymer', 'PlasmaEtchingParametersSubstrate', 'Process', 'ProcessModel', 'ProcessModelBase', 'ProcessParams', 'RateGrid', 'RateSet', 'RayTracingParameters', 'Reader', 'RenderMode', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SiliconOrientation', 'SingleParticleALD', 'SingleParticleALDParams', 'SingleParticleProcess', 'Slice', 'SpatialScheme', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'SurfaceDiffusionParameters', 'TEOSDeposition', 'TEOSPECVD', 'TemporalScheme', 'Time', 'TimeUnit', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'constants', 'd2', 'd3', 'gpu', 'gpuAvailable', 'ls', 'readConfigFile', 'setDimension', 'setNumThreads', 'util', 'version']
++__all__ += ['HeightMaterialCMP', 'HeightMaterialCMPParams']
+ def __dir__():
+     ...
+ def __getattr__(name):
+diff --git a/python/viennaps/_core/__init__.pyi b/python/viennaps/_core/__init__.pyi
+index 5fd4906..534f77a 100644
+--- a/python/viennaps/_core/__init__.pyi
++++ b/python/viennaps/_core/__init__.pyi
+@@ -14,6 +14,7 @@ from . import constants
+ from . import gpu
+ from . import util
+ __all__: list[str] = ['AdvectionParameters', 'AtomicLayerProcessParameters', 'BuiltInMaterial', 'CF4O2Parameters', 'CF4O2ParametersIons', 'CF4O2ParametersMask', 'CF4O2ParametersPassivation', 'CF4O2ParametersSi', 'CF4O2ParametersSiGe', 'CoverageParameters', 'Extrude', 'FaradayCageParameters', 'FluorocarbonMaterialParameters', 'FluorocarbonParameters', 'FluorocarbonParametersIons', 'FluxEngineType', 'GpuMode', 'GpuPreconditioner', 'HoleShape', 'IBEParameters', 'IBEParametersCos4Yield', 'Length', 'LengthUnit', 'Logger', 'Material', 'MaterialCategory', 'MaterialInfo', 'MaterialKind', 'MaterialMap', 'MaterialRegistry', 'MaterialValueMap', 'MetaDataLevel',  'NeutralTransportParameters', 'NormalizationType', 'OxidantType', 'PlasmaEtchingParameters', 'PlasmaEtchingParametersIons', 'PlasmaEtchingParametersMask', 'PlasmaEtchingParametersPassivation', 'PlasmaEtchingParametersPolymer', 'PlasmaEtchingParametersSubstrate', 'ProcessParams', 'RateSet', 'RayTracingParameters', 'RenderMode', 'SingleParticleALDParams', 'SiliconOrientation', 'Slice', 'SurfaceDiffusionParameters', 'Time', 'TimeUnit', 'constants', 'd2', 'd3', 'gpu', 'gpuAvailable', 'setNumThreads', 'util', 'version']
++__all__ += ['HeightMaterialCMPParams']
+ class OxidantType(enum.IntEnum):
+     Dry: int = ...
+     Wet: int = ...
+@@ -1575,6 +1576,20 @@ class RenderMode(enum.IntEnum):
+         """
+         Convert to a string according to format_spec.
+         """
++class HeightMaterialCMPParams:
++    complianceLength: float
++    cuSeedMaterial: Material
++    cuSeedRemovalRate: float
++    platedCuRemovalRate: float
++    residualContact: float
++    siliconDioxideRemovalRate: float
++    siliconRemovalRate: float
++    stopHeight: float
++    tantalumNitrideRemovalRate: float
++    def __init__(self) -> None:
++        ...
++    def toProcessMetaData(self) -> dict[str, list[float]]:
++        ...
+ class SingleParticleALDParams:
+     def __init__(self) -> None:
+         ...
+diff --git a/python/viennaps/d2/__init__.pyi b/python/viennaps/d2/__init__.pyi
+index 1956141..1235447 100644
+--- a/python/viennaps/d2/__init__.pyi
++++ b/python/viennaps/d2/__init__.pyi
+@@ -10,6 +10,7 @@ import viennals.d2
+ import viennaps._core
+ from . import gpu
+ __all__: list[str] = ['AdvectionCallback', 'BoxDistribution', 'CF4O2Etching', 'CSVFileProcess', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'FaradayCageEtching', 'FluorocarbonEtching', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'HBrO2Etching', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'MultiParticleProcess', 'NeutralTransport', 'Oxidation', 'OxideRegrowth', 'Planarize', 'Process', 'ProcessModel', 'ProcessModelBase', 'RateGrid', 'Reader', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SingleParticleALD', 'SingleParticleProcess', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'TEOSDeposition', 'TEOSPECVD', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'gpu']
++__all__ += ['HeightMaterialCMP']
+ class AdvectionCallback:
+     domain: Domain
+     def __init__(self) -> None:
+@@ -1025,6 +1026,13 @@ class SelectiveEpitaxy(ProcessModel):
+         ...
+     def setMaterialRate(self, material: viennaps._core.Material, rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
+         ...
++class HeightMaterialCMP(ProcessModel):
++    def __init__(self, parameters: viennaps._core.HeightMaterialCMPParams) -> None:
++        ...
++    def evaluateContactWeight(self, height: typing.SupportsFloat | typing.SupportsIndex) -> float:
++        ...
++    def evaluateVelocity(self, height: typing.SupportsFloat | typing.SupportsIndex, material: viennaps._core.Material) -> float:
++        ...
+ class SingleParticleALD(ProcessModel):
+     def __init__(self, parameters: viennaps._core.SingleParticleALDParams) -> None:
+         ...
+diff --git a/python/viennaps/d3/__init__.pyi b/python/viennaps/d3/__init__.pyi
+index a9fc8b8..daad57c 100644
+--- a/python/viennaps/d3/__init__.pyi
++++ b/python/viennaps/d3/__init__.pyi
+@@ -10,6 +10,7 @@ import viennals.d3
+ import viennaps._core
+ from . import gpu
+ __all__: list[str] = ['AdvectionCallback', 'BoxDistribution', 'CF4O2Etching', 'CSVFileProcess', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'FaradayCageEtching', 'FluorocarbonEtching', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'HBrO2Etching', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'MultiParticleProcess', 'NeutralTransport', 'Oxidation', 'OxideRegrowth', 'Planarize', 'Process', 'ProcessModel', 'ProcessModelBase', 'RateGrid', 'Reader', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SingleParticleALD', 'SingleParticleProcess', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'TEOSDeposition', 'TEOSPECVD', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'gpu']
++__all__ += ['HeightMaterialCMP']
+ class AdvectionCallback:
+     domain: Domain
+     def __init__(self) -> None:
+@@ -1025,6 +1026,13 @@ class SelectiveEpitaxy(ProcessModel):
+         ...
+     def setMaterialRate(self, material: viennaps._core.Material, rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
+         ...
++class HeightMaterialCMP(ProcessModel):
++    def __init__(self, parameters: viennaps._core.HeightMaterialCMPParams) -> None:
++        ...
++    def evaluateContactWeight(self, height: typing.SupportsFloat | typing.SupportsIndex) -> float:
++        ...
++    def evaluateVelocity(self, height: typing.SupportsFloat | typing.SupportsIndex, material: viennaps._core.Material) -> float:
++        ...
+ class SingleParticleALD(ProcessModel):
+     def __init__(self, parameters: viennaps._core.SingleParticleALDParams) -> None:
+         ...
+diff --git a/include/viennaps/models/psHeightMaterialCMP.hpp b/include/viennaps/models/psHeightMaterialCMP.hpp
+new file mode 100644
+index 0000000..c4f8a57
+--- /dev/null
++++ b/include/viennaps/models/psHeightMaterialCMP.hpp
+@@ -0,0 +1,166 @@
++#pragma once
++
++#include "../materials/psMaterialMap.hpp"
++#include "../process/psProcessModel.hpp"
++#include "../process/psSurfaceModel.hpp"
++#include "../process/psVelocityField.hpp"
++
++namespace viennaps {
++
++using namespace viennacore;
++
++/// Parameters for an uncalibrated height/material CMP abstraction.
++///
++/// This model does not calculate pad contact pressure, pad deformation,
++/// slurry transport, or endpoint-sensor response. Rates are dimensionless
++/// morphology coefficients until calibrated.
++struct HeightMaterialCMPParams {
++  double stopHeight = 0.;
++  double complianceLength = 0.1;
++  double residualContact = 0.05;
++  double platedCuRemovalRate = 1.;
++  Material cuSeedMaterial = Material::Undefined;
++  double cuSeedRemovalRate = 1.;
++  double tantalumNitrideRemovalRate = 0.25;
++  double siliconDioxideRemovalRate = 0.01;
++  double siliconRemovalRate = 0.01;
++
++  auto toProcessMetaData() const {
++    std::unordered_map<std::string, std::vector<double>> processData;
++    processData["stopHeight"] = {stopHeight};
++    processData["complianceLength"] = {complianceLength};
++    processData["residualContact"] = {residualContact};
++    processData["platedCuRemovalRate"] = {platedCuRemovalRate};
++    processData["cuSeedMaterial"] = {
++        static_cast<double>(cuSeedMaterial.legacyId())};
++    processData["cuSeedRemovalRate"] = {cuSeedRemovalRate};
++    processData["tantalumNitrideRemovalRate"] = {
++        tantalumNitrideRemovalRate};
++    processData["siliconDioxideRemovalRate"] = {siliconDioxideRemovalRate};
++    processData["siliconRemovalRate"] = {siliconRemovalRate};
++    processData["UncalibratedHeightMaterialAbstraction"] = {1.};
++    processData["PadPressurePhysicsRepresented"] = {0.};
++    processData["RayTracingUsed"] = {0.};
++    return processData;
++  }
++};
++
++namespace impl {
++
++template <typename NumericType>
++NumericType heightMaterialCMPWeight(const NumericType height,
++                                    const HeightMaterialCMPParams &params) {
++  const auto fraction = std::clamp(
++      (height - static_cast<NumericType>(params.stopHeight)) /
++          static_cast<NumericType>(params.complianceLength),
++      NumericType(0.), NumericType(1.));
++  const auto smooth =
++      fraction * fraction * (NumericType(3.) - NumericType(2.) * fraction);
++  return static_cast<NumericType>(params.residualContact) +
++         (NumericType(1.) -
++          static_cast<NumericType>(params.residualContact)) *
++             smooth;
++}
++
++template <typename NumericType>
++NumericType heightMaterialCMPRate(const int material,
++                                  const HeightMaterialCMPParams &params) {
++  if (MaterialMap::isMaterial(material, params.cuSeedMaterial))
++    return static_cast<NumericType>(params.cuSeedRemovalRate);
++  if (MaterialMap::isMaterial(material, Material::Cu))
++    return static_cast<NumericType>(params.platedCuRemovalRate);
++  if (MaterialMap::isMaterial(material, Material::TaN))
++    return static_cast<NumericType>(params.tantalumNitrideRemovalRate);
++  if (MaterialMap::isMaterial(material, Material::SiO2))
++    return static_cast<NumericType>(params.siliconDioxideRemovalRate);
++  if (MaterialMap::isMaterial(material, Material::Si))
++    return static_cast<NumericType>(params.siliconRemovalRate);
++  return NumericType(0.);
++}
++
++template <typename NumericType, int D>
++class HeightMaterialCMPVelocityField : public VelocityField<NumericType, D> {
++  const HeightMaterialCMPParams &params_;
++
++public:
++  explicit HeightMaterialCMPVelocityField(
++      const HeightMaterialCMPParams &params)
++      : params_(params) {}
++
++  NumericType getScalarVelocity(const Vec3D<NumericType> &coordinate,
++                                int material,
++                                const Vec3D<NumericType> &,
++                                unsigned long) override {
++    const auto rate = heightMaterialCMPRate<NumericType>(material, params_);
++    const auto weight =
++        heightMaterialCMPWeight<NumericType>(coordinate[D - 1], params_);
++    return -rate * weight;
++  }
++};
++
++} // namespace impl
++
++template <typename NumericType, int D>
++class HeightMaterialCMP : public ProcessModelCPU<NumericType, D> {
++  HeightMaterialCMPParams params_;
++
++  void validate() const {
++    const std::array<double, 8> scalars = {
++        params_.stopHeight,
++        params_.complianceLength,
++        params_.residualContact,
++        params_.platedCuRemovalRate,
++        params_.cuSeedRemovalRate,
++        params_.tantalumNitrideRemovalRate,
++        params_.siliconDioxideRemovalRate,
++        params_.siliconRemovalRate};
++    if (!std::all_of(scalars.begin(), scalars.end(),
++                     [](double value) { return std::isfinite(value); }))
++      throw std::invalid_argument("all HeightMaterialCMP scalars must be finite");
++    if (params_.complianceLength <= 0.)
++      throw std::invalid_argument("complianceLength must be positive");
++    if (params_.residualContact < 0. || params_.residualContact > 1.)
++      throw std::invalid_argument("residualContact must be in [0, 1]");
++    const std::array<double, 5> rates = {
++        params_.platedCuRemovalRate,
++        params_.cuSeedRemovalRate,
++        params_.tantalumNitrideRemovalRate,
++        params_.siliconDioxideRemovalRate,
++        params_.siliconRemovalRate};
++    if (!std::all_of(rates.begin(), rates.end(),
++                     [](double value) { return value >= 0.; }))
++      throw std::invalid_argument("material removal rates must be nonnegative");
++    if (params_.cuSeedMaterial == Material::Undefined)
++      throw std::invalid_argument("cuSeedMaterial must be explicitly assigned");
++    if (params_.cuSeedMaterial == Material::Cu)
++      throw std::invalid_argument(
++          "cuSeedMaterial must remain distinct from plated Cu");
++  }
++
++public:
++  explicit HeightMaterialCMP(const HeightMaterialCMPParams &params)
++      : params_(params) {
++    validate();
++    auto surfaceModel = SmartPointer<SurfaceModel<NumericType>>::New();
++    auto velocityField = SmartPointer<
++        impl::HeightMaterialCMPVelocityField<NumericType, D>>::New(params_);
++    this->setSurfaceModel(surfaceModel);
++    this->setVelocityField(velocityField);
++    this->setProcessName("HeightMaterialCMP");
++    this->processMetaData = params_.toProcessMetaData();
++  }
++
++  NumericType evaluateContactWeight(NumericType height) const {
++    return impl::heightMaterialCMPWeight<NumericType>(height, params_);
++  }
++
++  NumericType evaluateVelocity(NumericType height, Material material) const {
++    return -impl::heightMaterialCMPRate<NumericType>(material.legacyId(),
++                                                     params_) *
++           evaluateContactWeight(height);
++  }
++};
++
++PS_PRECOMPILE_PRECISION_DIMENSION(HeightMaterialCMP)
++
++} // namespace viennaps
