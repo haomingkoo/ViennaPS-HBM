@@ -1,15 +1,11 @@
-"""Expanded 4-parameter sweep on the Bosch etch step.
-
-768 real ViennaPS runs (8x8x4x3): ion_source_exponent x
-neutral_sticking_probability x etch_time x deposition_thickness.
-Explicitly NOT a calibrated DOE (no fab measurement data, no replication
-for noise) -- this is a dense sensitivity sweep over simulation model
-coefficients. See README for that caveat in full.
-"""
+"""Run the archived four-factor Bosch sensitivity sweep."""
 import json
 import time
 import numpy as np
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
+
+require_legacy_metric_override()
 
 ION_EXPONENTS = [50, 125, 200, 300, 400, 600, 800, 1000]
 NEUTRAL_STICKING = [0.02, 0.05, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3]
@@ -75,7 +71,6 @@ def main():
               f"pass={r['target_pass']}")
 
     # which parameter has the biggest effect: range of mean bulge across its levels
-    import itertools
     for name, values, key in [
         ("ion_source_exponent", ION_EXPONENTS, "ion"),
         ("neutral_sticking_probability", NEUTRAL_STICKING, "neutral"),

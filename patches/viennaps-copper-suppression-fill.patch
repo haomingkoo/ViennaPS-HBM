@@ -1,0 +1,560 @@
+diff --git a/include/viennaps/viennaps.hpp b/include/viennaps/viennaps.hpp
+index 297a315..5aaf6a6 100644
+--- a/include/viennaps/viennaps.hpp
++++ b/include/viennaps/viennaps.hpp
+@@ -23,6 +23,7 @@
+
+ #include <models/psCF4O2Etching.hpp>
+ #include <models/psCSVFileProcess.hpp>
++#include <models/psCopperSuppressionFill.hpp>
+ #include <models/psDirectionalProcess.hpp>
+ #include <models/psFaradayCageEtching.hpp>
+ #include <models/psFluorocarbonEtching.hpp>
+diff --git a/python/pyWrap.cpp b/python/pyWrap.cpp
+index 6fdc94a..d1206f5 100644
+--- a/python/pyWrap.cpp
++++ b/python/pyWrap.cpp
+@@ -622,6 +622,26 @@ PYBIND11_MODULE(VIENNAPS_MODULE_NAME, module) {
+       .def_readwrite("coverageDiffusionCoefficient",
+                      &SingleParticleALDParams::coverageDiffusionCoefficient);
+
++  py::class_<CopperSuppressionFillParams>(module,
++                                          "CopperSuppressionFillParams")
++      .def(py::init<>())
++      .def_readwrite("suppressorStickingProbability",
++                     &CopperSuppressionFillParams::suppressorStickingProbability)
++      .def_readwrite("suppressorSourcePower",
++                     &CopperSuppressionFillParams::suppressorSourcePower)
++      .def_readwrite("gasMeanFreePath",
++                     &CopperSuppressionFillParams::gasMeanFreePath)
++      .def_readwrite("adsorptionStrength",
++                     &CopperSuppressionFillParams::adsorptionStrength)
++      .def_readwrite("deactivationRate",
++                     &CopperSuppressionFillParams::deactivationRate)
++      .def_readwrite("activeDepositionRate",
++                     &CopperSuppressionFillParams::activeDepositionRate)
++      .def_readwrite("suppressedDepositionRate",
++                     &CopperSuppressionFillParams::suppressedDepositionRate)
++      .def_readwrite("platingMaterials",
++                     &CopperSuppressionFillParams::platingMaterials);
++
+   // ***************************************************************************
+   //                                 PROCESS
+   // ***************************************************************************
+diff --git a/python/pyWrapDimension.hpp b/python/pyWrapDimension.hpp
+index 07764b8..c11b78f 100644
+--- a/python/pyWrapDimension.hpp
++++ b/python/pyWrapDimension.hpp
+@@ -53,6 +53,7 @@
+ // models
+ #include <models/psCF4O2Etching.hpp>
+ #include <models/psCSVFileProcess.hpp>
++#include <models/psCopperSuppressionFill.hpp>
+ #include <models/psDirectionalProcess.hpp>
+ #include <models/psFaradayCageEtching.hpp>
+ #include <models/psFluorocarbonEtching.hpp>
+@@ -1318,6 +1319,28 @@ template <int D> void bindApi(py::module &module) {
+                     const SingleParticleALDParams &>),
+            py::arg("parameters"));
+
++  // Reduced quasi-steady suppressor-access Cu fill
++  py::class_<CopperSuppressionFill<T, D>,
++             SmartPointer<CopperSuppressionFill<T, D>>>(
++      module, "CopperSuppressionFill", processModel)
++      .def(py::init(&SmartPointer<CopperSuppressionFill<T, D>>::template New<
++                    const CopperSuppressionFillParams &>),
++           py::arg("parameters"))
++      .def("getLastCoordinates",
++           &CopperSuppressionFill<T, D>::getLastCoordinates)
++      .def("getLastMaterialIds",
++           &CopperSuppressionFill<T, D>::getLastMaterialIds)
++      .def("getLastSuppressorFlux",
++           &CopperSuppressionFill<T, D>::getLastSuppressorFlux)
++      .def("getLastCoverage", &CopperSuppressionFill<T, D>::getLastCoverage)
++      .def("getLastVelocity", &CopperSuppressionFill<T, D>::getLastVelocity)
++      .def("getLastAdsorptionTerm",
++           &CopperSuppressionFill<T, D>::getLastAdsorptionTerm)
++      .def("getLastDeactivationTerm",
++           &CopperSuppressionFill<T, D>::getLastDeactivationTerm)
++      .def("getLastRelativeBalanceError",
++           &CopperSuppressionFill<T, D>::getLastRelativeBalanceError);
++
+   // ***************************************************************************
+   //                               GEOMETRIES
+   // ***************************************************************************
+diff --git a/python/viennaps/__init__.pyi b/python/viennaps/__init__.pyi
+index 9a26a2a..b814afc 100644
+--- a/python/viennaps/__init__.pyi
++++ b/python/viennaps/__init__.pyi
+@@ -25,6 +25,7 @@ from viennaps._core import CF4O2ParametersPassivation
+ from viennaps._core import CF4O2ParametersSi
+ from viennaps._core import CF4O2ParametersSiGe
+ from viennaps._core import CoverageParameters
++from viennaps._core import CopperSuppressionFillParams
+ from viennaps._core import Extrude
+ from viennaps._core import FaradayCageParameters
+ from viennaps._core import FluorocarbonMaterialParameters
+@@ -74,6 +75,7 @@ from viennaps._core import util
+ from viennaps.d2 import AdvectionCallback
+ from viennaps.d2 import BoxDistribution
+ from viennaps.d2 import CF4O2Etching
++from viennaps.d2 import CopperSuppressionFill
+ from viennaps.d2 import CSVFileProcess
+ from viennaps.d2 import CustomSphereDistribution
+ from viennaps.d2 import DenseCellSet
+@@ -121,7 +123,7 @@ from viennaps.d2 import Writer
+ from . import _core
+ from . import d2
+ from . import d3
+-__all__: list[str] = ['AdvectionCallback', 'AdvectionParameters', 'AtomicLayerProcessParameters', 'BoundaryType', 'BoxDistribution', 'BuiltInMaterial', 'CF4O2Etching', 'CF4O2Parameters', 'CF4O2ParametersIons', 'CF4O2ParametersMask', 'CF4O2ParametersPassivation', 'CF4O2ParametersSi', 'CF4O2ParametersSiGe', 'CSVFileProcess', 'CoverageParameters', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'Extrude', 'FaradayCageEtching', 'FaradayCageParameters', 'FluorocarbonEtching', 'FluorocarbonMaterialParameters', 'FluorocarbonParameters', 'FluorocarbonParametersIons', 'FluxEngineType', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'GpuMode', 'GpuPreconditioner', 'HBrO2Etching', 'HoleShape', 'IBEParameters', 'IBEParametersCos4Yield', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'Length', 'LengthUnit', 'LogLevel', 'Logger', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'Material', 'MaterialCategory', 'MaterialInfo', 'MaterialKind', 'MaterialMap', 'MaterialRegistry', 'MaterialValueMap', 'MetaDataLevel', 'MultiParticleProcess', 'NeutralTransport', 'NeutralTransportParameters', 'NormalizationType', 'Oxidation', 'OxidantType', 'OxideRegrowth', 'PROXY_DIM', 'Planarize', 'PlasmaEtchingParameters', 'PlasmaEtchingParametersIons', 'PlasmaEtchingParametersMask', 'PlasmaEtchingParametersPassivation', 'PlasmaEtchingParametersPolymer', 'PlasmaEtchingParametersSubstrate', 'Process', 'ProcessModel', 'ProcessModelBase', 'ProcessParams', 'RateGrid', 'RateSet', 'RayTracingParameters', 'Reader', 'RenderMode', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SiliconOrientation', 'SingleParticleALD', 'SingleParticleALDParams', 'SingleParticleProcess', 'Slice', 'SpatialScheme', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'SurfaceDiffusionParameters', 'TEOSDeposition', 'TEOSPECVD', 'TemporalScheme', 'Time', 'TimeUnit', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'constants', 'd2', 'd3', 'gpu', 'gpuAvailable', 'ls', 'readConfigFile', 'setDimension', 'setNumThreads', 'util', 'version']
++__all__: list[str] = ['AdvectionCallback', 'AdvectionParameters', 'AtomicLayerProcessParameters', 'BoundaryType', 'BoxDistribution', 'BuiltInMaterial', 'CF4O2Etching', 'CF4O2Parameters', 'CF4O2ParametersIons', 'CF4O2ParametersMask', 'CF4O2ParametersPassivation', 'CF4O2ParametersSi', 'CF4O2ParametersSiGe', 'CopperSuppressionFill', 'CopperSuppressionFillParams', 'CSVFileProcess', 'CoverageParameters', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'Extrude', 'FaradayCageEtching', 'FaradayCageParameters', 'FluorocarbonEtching', 'FluorocarbonMaterialParameters', 'FluorocarbonParameters', 'FluorocarbonParametersIons', 'FluxEngineType', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'GpuMode', 'GpuPreconditioner', 'HBrO2Etching', 'HoleShape', 'IBEParameters', 'IBEParametersCos4Yield', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'Length', 'LengthUnit', 'LogLevel', 'Logger', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'Material', 'MaterialCategory', 'MaterialInfo', 'MaterialKind', 'MaterialMap', 'MaterialRegistry', 'MaterialValueMap', 'MetaDataLevel', 'MultiParticleProcess', 'NeutralTransport', 'NeutralTransportParameters', 'NormalizationType', 'Oxidation', 'OxidantType', 'OxideRegrowth', 'PROXY_DIM', 'Planarize', 'PlasmaEtchingParameters', 'PlasmaEtchingParametersIons', 'PlasmaEtchingParametersMask', 'PlasmaEtchingParametersPassivation', 'PlasmaEtchingParametersPolymer', 'PlasmaEtchingParametersSubstrate', 'Process', 'ProcessModel', 'ProcessModelBase', 'ProcessParams', 'RateGrid', 'RateSet', 'RayTracingParameters', 'Reader', 'RenderMode', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SiliconOrientation', 'SingleParticleALD', 'SingleParticleALDParams', 'SingleParticleProcess', 'Slice', 'SpatialScheme', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'SurfaceDiffusionParameters', 'TEOSDeposition', 'TEOSPECVD', 'TemporalScheme', 'Time', 'TimeUnit', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'constants', 'd2', 'd3', 'gpu', 'gpuAvailable', 'ls', 'readConfigFile', 'setDimension', 'setNumThreads', 'util', 'version']
+ def __dir__():
+     ...
+ def __getattr__(name):
+diff --git a/python/viennaps/_core/__init__.pyi b/python/viennaps/_core/__init__.pyi
+index 5fd4906..c0cc894 100644
+--- a/python/viennaps/_core/__init__.pyi
++++ b/python/viennaps/_core/__init__.pyi
+@@ -13,7 +13,7 @@ import viennaps.d3
+ from . import constants
+ from . import gpu
+ from . import util
+-__all__: list[str] = ['AdvectionParameters', 'AtomicLayerProcessParameters', 'BuiltInMaterial', 'CF4O2Parameters', 'CF4O2ParametersIons', 'CF4O2ParametersMask', 'CF4O2ParametersPassivation', 'CF4O2ParametersSi', 'CF4O2ParametersSiGe', 'CoverageParameters', 'Extrude', 'FaradayCageParameters', 'FluorocarbonMaterialParameters', 'FluorocarbonParameters', 'FluorocarbonParametersIons', 'FluxEngineType', 'GpuMode', 'GpuPreconditioner', 'HoleShape', 'IBEParameters', 'IBEParametersCos4Yield', 'Length', 'LengthUnit', 'Logger', 'Material', 'MaterialCategory', 'MaterialInfo', 'MaterialKind', 'MaterialMap', 'MaterialRegistry', 'MaterialValueMap', 'MetaDataLevel',  'NeutralTransportParameters', 'NormalizationType', 'OxidantType', 'PlasmaEtchingParameters', 'PlasmaEtchingParametersIons', 'PlasmaEtchingParametersMask', 'PlasmaEtchingParametersPassivation', 'PlasmaEtchingParametersPolymer', 'PlasmaEtchingParametersSubstrate', 'ProcessParams', 'RateSet', 'RayTracingParameters', 'RenderMode', 'SingleParticleALDParams', 'SiliconOrientation', 'Slice', 'SurfaceDiffusionParameters', 'Time', 'TimeUnit', 'constants', 'd2', 'd3', 'gpu', 'gpuAvailable', 'setNumThreads', 'util', 'version']
++__all__: list[str] = ['AdvectionParameters', 'AtomicLayerProcessParameters', 'BuiltInMaterial', 'CF4O2Parameters', 'CF4O2ParametersIons', 'CF4O2ParametersMask', 'CF4O2ParametersPassivation', 'CF4O2ParametersSi', 'CF4O2ParametersSiGe', 'CoverageParameters', 'CopperSuppressionFillParams', 'Extrude', 'FaradayCageParameters', 'FluorocarbonMaterialParameters', 'FluorocarbonParameters', 'FluorocarbonParametersIons', 'FluxEngineType', 'GpuMode', 'GpuPreconditioner', 'HoleShape', 'IBEParameters', 'IBEParametersCos4Yield', 'Length', 'LengthUnit', 'Logger', 'Material', 'MaterialCategory', 'MaterialInfo', 'MaterialKind', 'MaterialMap', 'MaterialRegistry', 'MaterialValueMap', 'MetaDataLevel',  'NeutralTransportParameters', 'NormalizationType', 'OxidantType', 'PlasmaEtchingParameters', 'PlasmaEtchingParametersIons', 'PlasmaEtchingParametersMask', 'PlasmaEtchingParametersPassivation', 'PlasmaEtchingParametersPolymer', 'PlasmaEtchingParametersSubstrate', 'ProcessParams', 'RateSet', 'RayTracingParameters', 'RenderMode', 'SingleParticleALDParams', 'SiliconOrientation', 'Slice', 'SurfaceDiffusionParameters', 'Time', 'TimeUnit', 'constants', 'd2', 'd3', 'gpu', 'gpuAvailable', 'setNumThreads', 'util', 'version']
+ class OxidantType(enum.IntEnum):
+     Dry: int = ...
+     Wet: int = ...
+@@ -1620,6 +1620,57 @@ class SingleParticleALDParams:
+     @stickingProbability.setter
+     def stickingProbability(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+         ...
++class CopperSuppressionFillParams:
++    def __init__(self) -> None:
++        ...
++    @property
++    def suppressorStickingProbability(self) -> float:
++        ...
++    @suppressorStickingProbability.setter
++    def suppressorStickingProbability(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def suppressorSourcePower(self) -> float:
++        ...
++    @suppressorSourcePower.setter
++    def suppressorSourcePower(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def gasMeanFreePath(self) -> float:
++        ...
++    @gasMeanFreePath.setter
++    def gasMeanFreePath(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def adsorptionStrength(self) -> float:
++        ...
++    @adsorptionStrength.setter
++    def adsorptionStrength(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def deactivationRate(self) -> float:
++        ...
++    @deactivationRate.setter
++    def deactivationRate(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def activeDepositionRate(self) -> float:
++        ...
++    @activeDepositionRate.setter
++    def activeDepositionRate(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def suppressedDepositionRate(self) -> float:
++        ...
++    @suppressedDepositionRate.setter
++    def suppressedDepositionRate(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
++        ...
++    @property
++    def platingMaterials(self) -> list[Material]:
++        ...
++    @platingMaterials.setter
++    def platingMaterials(self, arg0: collections.abc.Sequence[Material]) -> None:
++        ...
+ class Slice:
+     @typing.overload
+     def __init__(self) -> None:
+diff --git a/python/viennaps/d2/__init__.pyi b/python/viennaps/d2/__init__.pyi
+index 1956141..ebd85f4 100644
+--- a/python/viennaps/d2/__init__.pyi
++++ b/python/viennaps/d2/__init__.pyi
+@@ -9,7 +9,7 @@ import viennals._core
+ import viennals.d2
+ import viennaps._core
+ from . import gpu
+-__all__: list[str] = ['AdvectionCallback', 'BoxDistribution', 'CF4O2Etching', 'CSVFileProcess', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'FaradayCageEtching', 'FluorocarbonEtching', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'HBrO2Etching', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'MultiParticleProcess', 'NeutralTransport', 'Oxidation', 'OxideRegrowth', 'Planarize', 'Process', 'ProcessModel', 'ProcessModelBase', 'RateGrid', 'Reader', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SingleParticleALD', 'SingleParticleProcess', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'TEOSDeposition', 'TEOSPECVD', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'gpu']
++__all__: list[str] = ['AdvectionCallback', 'BoxDistribution', 'CF4O2Etching', 'CopperSuppressionFill', 'CSVFileProcess', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'FaradayCageEtching', 'FluorocarbonEtching', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'HBrO2Etching', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'MultiParticleProcess', 'NeutralTransport', 'Oxidation', 'OxideRegrowth', 'Planarize', 'Process', 'ProcessModel', 'ProcessModelBase', 'RateGrid', 'Reader', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SingleParticleALD', 'SingleParticleProcess', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'TEOSDeposition', 'TEOSPECVD', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'gpu']
+ class AdvectionCallback:
+     domain: Domain
+     def __init__(self) -> None:
+@@ -1028,6 +1028,25 @@ class SelectiveEpitaxy(ProcessModel):
+ class SingleParticleALD(ProcessModel):
+     def __init__(self, parameters: viennaps._core.SingleParticleALDParams) -> None:
+         ...
++class CopperSuppressionFill(ProcessModel):
++    def __init__(self, parameters: viennaps._core.CopperSuppressionFillParams) -> None:
++        ...
++    def getLastCoordinates(self) -> list[list[float]]:
++        ...
++    def getLastMaterialIds(self) -> list[float]:
++        ...
++    def getLastSuppressorFlux(self) -> list[float]:
++        ...
++    def getLastCoverage(self) -> list[float]:
++        ...
++    def getLastVelocity(self) -> list[float]:
++        ...
++    def getLastAdsorptionTerm(self) -> list[float]:
++        ...
++    def getLastDeactivationTerm(self) -> list[float]:
++        ...
++    def getLastRelativeBalanceError(self) -> float:
++        ...
+ class SingleParticleProcess(ProcessModel):
+     @typing.overload
+     def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex = 1.0, stickingProbability: typing.SupportsFloat | typing.SupportsIndex = 1.0, sourceExponent: typing.SupportsFloat | typing.SupportsIndex = 1.0, maskMaterial: viennaps._core.Material = ...) -> None:
+diff --git a/python/viennaps/d3/__init__.pyi b/python/viennaps/d3/__init__.pyi
+index a9fc8b8..eb6b2cd 100644
+--- a/python/viennaps/d3/__init__.pyi
++++ b/python/viennaps/d3/__init__.pyi
+@@ -9,7 +9,7 @@ import viennals._core
+ import viennals.d3
+ import viennaps._core
+ from . import gpu
+-__all__: list[str] = ['AdvectionCallback', 'BoxDistribution', 'CF4O2Etching', 'CSVFileProcess', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'FaradayCageEtching', 'FluorocarbonEtching', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'HBrO2Etching', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'MultiParticleProcess', 'NeutralTransport', 'Oxidation', 'OxideRegrowth', 'Planarize', 'Process', 'ProcessModel', 'ProcessModelBase', 'RateGrid', 'Reader', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SingleParticleALD', 'SingleParticleProcess', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'TEOSDeposition', 'TEOSPECVD', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'gpu']
++__all__: list[str] = ['AdvectionCallback', 'BoxDistribution', 'CF4O2Etching', 'CopperSuppressionFill', 'CSVFileProcess', 'CustomSphereDistribution', 'DenseCellSet', 'DirectionalProcess', 'Domain', 'DomainSetup', 'FaradayCageEtching', 'FluorocarbonEtching', 'GDSGeometry', 'GDSReader', 'GeometricTrenchDeposition', 'GeometryFactory', 'HBrO2Etching', 'Interpolation', 'IonBeamEtching', 'IsotropicProcess', 'MakeFin', 'MakeHole', 'MakePlane', 'MakeStack', 'MakeTrench', 'MultiParticleProcess', 'NeutralTransport', 'Oxidation', 'OxideRegrowth', 'Planarize', 'Process', 'ProcessModel', 'ProcessModelBase', 'RateGrid', 'Reader', 'SF6C4F8Etching', 'SF6O2Etching', 'SelectiveEpitaxy', 'SingleParticleALD', 'SingleParticleProcess', 'SphereDistribution', 'StencilLocalLaxFriedrichsScalar', 'TEOSDeposition', 'TEOSPECVD', 'ToDiskMesh', 'VTKRenderWindow', 'WetEtching', 'Writer', 'gpu']
+ class AdvectionCallback:
+     domain: Domain
+     def __init__(self) -> None:
+@@ -1028,6 +1028,25 @@ class SelectiveEpitaxy(ProcessModel):
+ class SingleParticleALD(ProcessModel):
+     def __init__(self, parameters: viennaps._core.SingleParticleALDParams) -> None:
+         ...
++class CopperSuppressionFill(ProcessModel):
++    def __init__(self, parameters: viennaps._core.CopperSuppressionFillParams) -> None:
++        ...
++    def getLastCoordinates(self) -> list[list[float]]:
++        ...
++    def getLastMaterialIds(self) -> list[float]:
++        ...
++    def getLastSuppressorFlux(self) -> list[float]:
++        ...
++    def getLastCoverage(self) -> list[float]:
++        ...
++    def getLastVelocity(self) -> list[float]:
++        ...
++    def getLastAdsorptionTerm(self) -> list[float]:
++        ...
++    def getLastDeactivationTerm(self) -> list[float]:
++        ...
++    def getLastRelativeBalanceError(self) -> float:
++        ...
+ class SingleParticleProcess(ProcessModel):
+     @typing.overload
+     def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex = 1.0, stickingProbability: typing.SupportsFloat | typing.SupportsIndex = 1.0, sourceExponent: typing.SupportsFloat | typing.SupportsIndex = 1.0, maskMaterial: viennaps._core.Material = ...) -> None:
+diff --git a/include/viennaps/models/psCopperSuppressionFill.hpp b/include/viennaps/models/psCopperSuppressionFill.hpp
+new file mode 100644
+index 0000000..97a8190
+--- /dev/null
++++ b/include/viennaps/models/psCopperSuppressionFill.hpp
+@@ -0,0 +1,292 @@
++#pragma once
++
++#include "../materials/psMaterialMap.hpp"
++#include "../process/psProcessModel.hpp"
++
++namespace viennaps {
++
++using namespace viennacore;
++
++/// Reduced quasi-steady suppressor-transport model for morphology-scale Cu TSV
++/// filling.
++///
++/// All rates are model coefficients until calibrated. This model retains the
++/// quasi-steady limit of the adsorption/deposition-deactivation structure with
++/// active/suppressed growth. It does not represent transient chemistry, Cu-ion
++/// concentration, electrolyte potential, or a fab current waveform and must
++/// not be described as an S-NDR result.
++struct CopperSuppressionFillParams {
++  double suppressorStickingProbability = 0.1;
++  double suppressorSourcePower = 1.;
++  double gasMeanFreePath = -1.;
++  double adsorptionStrength = 1.; // combined k_ads * suppressor activity
++  double deactivationRate = 1.;
++  double activeDepositionRate = 1.;
++  double suppressedDepositionRate = 0.01;
++  std::vector<Material> platingMaterials = {Material::Cu};
++
++  auto toProcessMetaData() const {
++    std::unordered_map<std::string, std::vector<double>> processData;
++    processData["suppressorStickingProbability"] = {
++        suppressorStickingProbability};
++    processData["suppressorSourcePower"] = {suppressorSourcePower};
++    processData["gasMeanFreePath"] = {gasMeanFreePath};
++    processData["adsorptionStrength"] = {adsorptionStrength};
++    processData["deactivationRate"] = {deactivationRate};
++    processData["activeDepositionRate"] = {activeDepositionRate};
++    processData["suppressedDepositionRate"] = {suppressedDepositionRate};
++    std::vector<double> materialIds;
++    materialIds.reserve(platingMaterials.size());
++    for (const auto material : platingMaterials)
++      materialIds.push_back(static_cast<double>(material.legacyId()));
++    processData["platingMaterials"] = std::move(materialIds);
++    return processData;
++  }
++};
++
++namespace impl {
++
++template <typename NumericType>
++class CopperSuppressionFillSurfaceModel : public SurfaceModel<NumericType> {
++  CopperSuppressionFillParams const &params_;
++  std::vector<Vec3D<NumericType>> lastCoordinates_;
++  std::vector<NumericType> lastMaterialIds_;
++  std::vector<NumericType> lastSuppressorFlux_;
++  std::vector<NumericType> lastCoverage_;
++  std::vector<NumericType> lastVelocity_;
++  std::vector<NumericType> lastAdsorptionTerm_;
++  std::vector<NumericType> lastDeactivationTerm_;
++  NumericType lastRelativeBalanceError_ = 0.;
++
++  NumericType velocity(NumericType theta, NumericType materialId) const {
++    const auto platingSurface = std::any_of(
++        params_.platingMaterials.begin(), params_.platingMaterials.end(),
++        [materialId](const auto material) {
++          return MaterialMap::isMaterial(materialId, material);
++        });
++    if (!platingSurface)
++      return 0.;
++    return params_.activeDepositionRate * (NumericType(1.) - theta) +
++           params_.suppressedDepositionRate * theta;
++  }
++
++  NumericType equilibriumCoverage(NumericType adsorption,
++                                  NumericType materialId) const {
++    if (adsorption <= 0.)
++      return 0.;
++    const auto activeVelocity = velocity(0., materialId);
++    const auto suppressedVelocity = velocity(1., materialId);
++    const auto deactivationActive =
++        params_.deactivationRate * activeVelocity;
++    const auto quadratic =
++        params_.deactivationRate * (activeVelocity - suppressedVelocity);
++    const auto scale = std::max(adsorption, deactivationActive);
++    if (scale <= 0.)
++      return 1.;
++    const auto normalizedLinear = adsorption / scale +
++                                  deactivationActive / scale;
++    const auto normalizedConstant = adsorption / scale;
++    const auto normalizedQuadratic = quadratic / scale;
++    if (normalizedQuadratic <=
++        std::numeric_limits<NumericType>::epsilon() * normalizedLinear)
++      return std::clamp(normalizedConstant / normalizedLinear,
++                        NumericType(0.), NumericType(1.));
++    const auto discriminant = std::max(
++        NumericType(0.), normalizedLinear * normalizedLinear -
++                            NumericType(4.) * normalizedQuadratic *
++                                normalizedConstant);
++    const auto denominator = normalizedLinear + std::sqrt(discriminant);
++    if (denominator <= 0.)
++      return 1.;
++    return std::clamp(NumericType(2.) * normalizedConstant / denominator,
++                      NumericType(0.), NumericType(1.));
++  }
++
++public:
++  explicit CopperSuppressionFillSurfaceModel(
++      CopperSuppressionFillParams const &params)
++      : params_(params) {}
++
++  SmartPointer<std::vector<NumericType>>
++  calculateVelocities(SmartPointer<PointData<NumericType>> fluxes,
++                      const std::vector<Vec3D<NumericType>> &coordinates,
++                      const std::vector<NumericType> &materialIds) override {
++    auto suppressorFlux = fluxes->getScalarData("SuppressorFlux");
++    assert(suppressorFlux && suppressorFlux->size() == materialIds.size());
++
++    auto rates = SmartPointer<std::vector<NumericType>>::New(
++        materialIds.size(), NumericType(0.));
++    std::vector<NumericType> coverage(materialIds.size(), 0.);
++    lastAdsorptionTerm_.assign(materialIds.size(), 0.);
++    lastDeactivationTerm_.assign(materialIds.size(), 0.);
++    lastRelativeBalanceError_ = 0.;
++    for (size_t i = 0; i < materialIds.size(); ++i) {
++      const auto adsorption = params_.adsorptionStrength *
++                              params_.suppressorStickingProbability *
++                              suppressorFlux->at(i);
++      if (!std::isfinite(adsorption))
++        throw std::runtime_error("non-finite suppressor adsorption term");
++      const auto theta = equilibriumCoverage(adsorption, materialIds[i]);
++      const auto localVelocity = velocity(theta, materialIds[i]);
++      const auto adsorptionTerm = adsorption * (NumericType(1.) - theta);
++      const auto deactivation =
++          params_.deactivationRate * localVelocity * theta;
++      const auto balanceScale = std::max(
++          {std::abs(adsorptionTerm), std::abs(deactivation),
++           std::numeric_limits<NumericType>::epsilon()});
++      coverage[i] = theta;
++      rates->at(i) = localVelocity;
++      lastAdsorptionTerm_[i] = adsorptionTerm;
++      lastDeactivationTerm_[i] = deactivation;
++      lastRelativeBalanceError_ = std::max(
++          lastRelativeBalanceError_,
++          std::abs(adsorptionTerm - deactivation) / balanceScale);
++    }
++
++    lastCoordinates_ = coordinates;
++    lastMaterialIds_ = materialIds;
++    lastSuppressorFlux_ = *suppressorFlux;
++    lastCoverage_ = std::move(coverage);
++    lastVelocity_ = *rates;
++    return rates;
++  }
++
++  const auto &getLastCoordinates() const { return lastCoordinates_; }
++  const auto &getLastMaterialIds() const { return lastMaterialIds_; }
++  const auto &getLastSuppressorFlux() const { return lastSuppressorFlux_; }
++  const auto &getLastCoverage() const { return lastCoverage_; }
++  const auto &getLastVelocity() const { return lastVelocity_; }
++  const auto &getLastAdsorptionTerm() const { return lastAdsorptionTerm_; }
++  const auto &getLastDeactivationTerm() const { return lastDeactivationTerm_; }
++  NumericType getLastRelativeBalanceError() const {
++    return lastRelativeBalanceError_;
++  }
++};
++
++template <typename NumericType, int D>
++class CopperSuppressorParticle
++    : public viennaray::Particle<CopperSuppressorParticle<NumericType, D>,
++                                 NumericType> {
++  const NumericType sticking_;
++  const NumericType sourcePower_;
++  const NumericType gasMeanFreePath_;
++
++public:
++  CopperSuppressorParticle(const NumericType sticking,
++                           const NumericType sourcePower,
++                           const NumericType gasMeanFreePath)
++      : sticking_(sticking), sourcePower_(sourcePower),
++        gasMeanFreePath_(gasMeanFreePath) {}
++
++  void surfaceCollision(NumericType rayWeight, const Vec3D<NumericType> &,
++                        const Vec3D<NumericType> &, const unsigned int primID,
++                        const int, PointData<NumericType> &localData,
++                        const PointData<NumericType> *, RNG &) override final {
++    localData.addToScalarData(0, primID, rayWeight);
++  }
++
++  std::pair<NumericType, Vec3D<NumericType>>
++  surfaceReflection(NumericType, const Vec3D<NumericType> &,
++                    const Vec3D<NumericType> &geomNormal,
++                    const unsigned int, const int,
++                    const PointData<NumericType> *,
++                    RNG &rng) override final {
++    const auto direction =
++        viennaray::ReflectionDiffuse<NumericType, D>(geomNormal, rng);
++    return {sticking_, direction};
++  }
++
++  NumericType getSourceDistributionPower() const override final {
++    return sourcePower_;
++  }
++  std::vector<std::string> getLocalDataLabels() const override final {
++    return {"SuppressorFlux"};
++  }
++  NumericType getMeanFreePath() const override final {
++    return gasMeanFreePath_;
++  }
++};
++
++} // namespace impl
++
++template <typename NumericType, int D>
++class CopperSuppressionFill : public ProcessModelCPU<NumericType, D> {
++  CopperSuppressionFillParams params_;
++  SmartPointer<impl::CopperSuppressionFillSurfaceModel<NumericType>>
++      surfaceModel_;
++
++public:
++  explicit CopperSuppressionFill(const CopperSuppressionFillParams &params)
++      : params_(params) {
++    if (params_.suppressorStickingProbability < 0. ||
++        params_.suppressorStickingProbability > 1.)
++      throw std::invalid_argument(
++          "suppressorStickingProbability must be in [0, 1]");
++    if (params_.suppressorSourcePower < 0.)
++      throw std::invalid_argument("suppressorSourcePower must be nonnegative");
++    const std::array<double, 7> finiteParameters = {
++        params_.suppressorStickingProbability,
++        params_.suppressorSourcePower,
++        params_.gasMeanFreePath,
++        params_.adsorptionStrength,
++        params_.deactivationRate,
++        params_.activeDepositionRate,
++        params_.suppressedDepositionRate};
++    if (!std::all_of(finiteParameters.begin(), finiteParameters.end(),
++                     [](double value) { return std::isfinite(value); }))
++      throw std::invalid_argument("all scalar parameters must be finite");
++    if (params_.adsorptionStrength < 0. || params_.deactivationRate < 0.)
++      throw std::invalid_argument(
++          "adsorptionStrength and deactivationRate must be nonnegative");
++    if (params_.suppressedDepositionRate < 0. ||
++        params_.activeDepositionRate < params_.suppressedDepositionRate)
++      throw std::invalid_argument(
++          "deposition rates require active >= suppressed >= 0");
++    if (params_.platingMaterials.empty())
++      throw std::invalid_argument("platingMaterials must not be empty");
++    if (!std::isfinite(params_.deactivationRate *
++                       params_.activeDepositionRate))
++      throw std::invalid_argument(
++          "deactivationRate * activeDepositionRate must be finite");
++    if (!std::isfinite(params_.adsorptionStrength *
++                       params_.suppressorStickingProbability))
++      throw std::invalid_argument(
++          "adsorptionStrength * stickingProbability must be finite");
++
++    auto particle =
++        std::make_unique<impl::CopperSuppressorParticle<NumericType, D>>(
++            params_.suppressorStickingProbability,
++            params_.suppressorSourcePower, params_.gasMeanFreePath);
++    surfaceModel_ = SmartPointer<
++        impl::CopperSuppressionFillSurfaceModel<NumericType>>::New(params_);
++    auto velocityField =
++        SmartPointer<DefaultVelocityField<NumericType, D>>::New();
++
++    this->setSurfaceModel(surfaceModel_);
++    this->setVelocityField(velocityField);
++    this->insertNextParticleType(particle);
++    this->setProcessName("CopperSuppressionFill");
++    this->processMetaData = params_.toProcessMetaData();
++  }
++
++  auto getLastCoordinates() const { return surfaceModel_->getLastCoordinates(); }
++  auto getLastMaterialIds() const { return surfaceModel_->getLastMaterialIds(); }
++  auto getLastSuppressorFlux() const {
++    return surfaceModel_->getLastSuppressorFlux();
++  }
++  auto getLastCoverage() const { return surfaceModel_->getLastCoverage(); }
++  auto getLastVelocity() const { return surfaceModel_->getLastVelocity(); }
++  auto getLastAdsorptionTerm() const {
++    return surfaceModel_->getLastAdsorptionTerm();
++  }
++  auto getLastDeactivationTerm() const {
++    return surfaceModel_->getLastDeactivationTerm();
++  }
++  NumericType getLastRelativeBalanceError() const {
++    return surfaceModel_->getLastRelativeBalanceError();
++  }
++};
++
++PS_PRECOMPILE_PRECISION_DIMENSION(CopperSuppressionFill)
++
++} // namespace viennaps

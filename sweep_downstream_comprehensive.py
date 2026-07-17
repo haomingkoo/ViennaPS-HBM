@@ -1,22 +1,12 @@
-"""Comprehensive combined DOE for liner, barrier+seed, Cu fill, and CMP --
-denser grids than sweep_downstream.py's earlier 20-30 point passes, matching
-the etch DOE's rigor (screen_all_knobs.py already confirmed these are the
-only real parameters left to sweep for each step -- see train.md).
-
-Sequential, like sweep_downstream.py: each step's DOE runs on top of the
-PREVIOUS step's own winner, not a shared fixed base -- liner tunes against
-the real etched via, barrier tunes against the real best-liner via, etc.
-
-CMP is different in kind: screening (prepare.md item 13/14) already found
-there's no "winner" -- realistic overpolish always leaves severe dishing,
-and eliminating it destroys the mask. So the CMP sweep here reports the
-full dishing-vs-overpolish curve honestly, not a single best pick.
-"""
+"""Run the archived downstream and CMP sensitivity sweeps."""
 import json
 import time
 import numpy as np
 import viennaps as ps
 import tsv_process as tp
+from legacy_metric_guard import require_legacy_metric_override
+
+require_legacy_metric_override()
 
 ETCH = dict(ion_source_exponent=600, neutral_sticking_probability=0.2,
             initial_etch_time=0.3, neutral_rate=-0.08,
