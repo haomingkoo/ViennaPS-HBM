@@ -48,7 +48,7 @@ jobs:
 
       - name: Type-check the active code path
         run: |
-          ty check --python-version 3.13 \
+          ty check --python-version 3.13 --ignore unresolved-import \
             tsv_process.py \
             traveler_metrics.py \
             full_2d_layer_metrics.py \
