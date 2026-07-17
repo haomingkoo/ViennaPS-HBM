@@ -113,7 +113,6 @@ for required in (
     'id="screening-result"',
     'id="screening-traveler-visual"',
     'id="current"',
-    'id="mechanism-explorer"',
     'id="boundary-atlas"',
     'id="actions"',
     'id="why-order"',
@@ -136,7 +135,10 @@ assert "How the software recognizes a passing shape" in html
 assert "Creates the vertical electrical path." in html
 assert "What the new experiments indicate" in html
 assert "Main controls and common failures" in html
-assert "See how an upstream shape changes the Cu-fill risk" in html
+assert "Watch a copper void form" in html
+assert "They are not electroplating predictions or fab recipes." in html
+animation = Path("cu_fill_void_vs_control.gif")
+assert animation.read_bytes().startswith(b"GIF89a")
 assert "Copper response map" in html
 assert "SELECTED HANDOFF PASSES 4/4" not in html
 assert "What to tune next" in html

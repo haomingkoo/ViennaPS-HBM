@@ -37,6 +37,7 @@ jobs:
             morphology_fill_control.py \
             copper_fill_transport_3d.py \
             build_screening_traveler.py \
+            build_cu_fill_animation.py \
             build_explainer.py \
             process_config.py \
             test_process_config.py \
@@ -57,6 +58,7 @@ jobs:
             morphology_fill_control.py \
             copper_fill_transport_3d.py \
             build_screening_traveler.py \
+            build_cu_fill_animation.py \
             build_explainer.py \
             process_config.py
 
