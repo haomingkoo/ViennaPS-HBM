@@ -184,6 +184,328 @@
     },
     {
       "original_workspace_source": {
+        "bytes": 285369,
+        "lines": 12,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows.jsonl",
+        "sha256": "d92174db65fcdf14b5ba102d6d2a176354f085a714bb83ebced385f530bb4d46"
+      },
+      "published": {
+        "bytes": 285369,
+        "lines": 12,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows.jsonl",
+        "sha256": "d92174db65fcdf14b5ba102d6d2a176354f085a714bb83ebced385f530bb4d46"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 99529,
+        "lines": 4,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows.jsonl",
+        "sha256": "3f812f7bd1b87b50bc265c7268960aea625a5c2297a69015d4cb074640b6a6d5"
+      },
+      "published": {
+        "bytes": 99529,
+        "lines": 4,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_rows.jsonl",
+        "sha256": "3f812f7bd1b87b50bc265c7268960aea625a5c2297a69015d4cb074640b6a6d5"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 102553,
+        "lines": 4,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_phase_b_rows.jsonl",
+        "sha256": "1ffddab8aacfdee17083b60886de8b00e7534cf01dcdc98217d6c53cacc45408"
+      },
+      "published": {
+        "bytes": 102553,
+        "lines": 4,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_rows.jsonl",
+        "sha256": "1ffddab8aacfdee17083b60886de8b00e7534cf01dcdc98217d6c53cacc45408"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 103418,
+        "lines": 425,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/068d5b037565a50c_cycle020.vpsd",
+        "sha256": "20ffd14740ea797bd4ac475ed79ad94a229652dd6f7d6c168782ce593d239256"
+      },
+      "published": {
+        "bytes": 103418,
+        "lines": 425,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/068d5b037565a50c_cycle020.vpsd",
+        "sha256": "20ffd14740ea797bd4ac475ed79ad94a229652dd6f7d6c168782ce593d239256"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 103434,
+        "lines": 361,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/1cf4ff64c506b271_cycle020.vpsd",
+        "sha256": "3ad28816f106a129c4a571d8ef57340edf8879216e0165c9e8addd2d86ca3d9a"
+      },
+      "published": {
+        "bytes": 103434,
+        "lines": 361,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/1cf4ff64c506b271_cycle020.vpsd",
+        "sha256": "3ad28816f106a129c4a571d8ef57340edf8879216e0165c9e8addd2d86ca3d9a"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 105896,
+        "lines": 385,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/3367ceca63385f61_cycle017.vpsd",
+        "sha256": "6e4ef34348278bcbfbc54ebf3975a64b8bcab42ed312a9816d0ebb3118d1fb0c"
+      },
+      "published": {
+        "bytes": 105896,
+        "lines": 385,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/3367ceca63385f61_cycle017.vpsd",
+        "sha256": "6e4ef34348278bcbfbc54ebf3975a64b8bcab42ed312a9816d0ebb3118d1fb0c"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 103995,
+        "lines": 393,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/3c7ef8b4fb1adf56_cycle026.vpsd",
+        "sha256": "46a81f11c684611a3ce33c0cc0815c0a0c27423052d4b82e954a24a768562d1a"
+      },
+      "published": {
+        "bytes": 103995,
+        "lines": 393,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/3c7ef8b4fb1adf56_cycle026.vpsd",
+        "sha256": "46a81f11c684611a3ce33c0cc0815c0a0c27423052d4b82e954a24a768562d1a"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 105385,
+        "lines": 441,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/4ce7cae7837b9b50_cycle029.vpsd",
+        "sha256": "1f84fa38fee629da1fbcb10ca2fafb8e83af7d29e881a22da3996ebea57e0fc6"
+      },
+      "published": {
+        "bytes": 105385,
+        "lines": 441,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/4ce7cae7837b9b50_cycle029.vpsd",
+        "sha256": "1f84fa38fee629da1fbcb10ca2fafb8e83af7d29e881a22da3996ebea57e0fc6"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 106057,
+        "lines": 400,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/5f841d553d8100f9_cycle029.vpsd",
+        "sha256": "1432df27442d3055ba4158c8aaf1498be11ecbbb41c898ec37ca4af6c91ea3aa"
+      },
+      "published": {
+        "bytes": 106057,
+        "lines": 400,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/5f841d553d8100f9_cycle029.vpsd",
+        "sha256": "1432df27442d3055ba4158c8aaf1498be11ecbbb41c898ec37ca4af6c91ea3aa"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 103928,
+        "lines": 396,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/7ad7974bd53c39f2_cycle019.vpsd",
+        "sha256": "d11e84b9181fa1a22b9059caeffa4bbaa9931f512e21fa356261c0e48c3f6003"
+      },
+      "published": {
+        "bytes": 103928,
+        "lines": 396,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/7ad7974bd53c39f2_cycle019.vpsd",
+        "sha256": "d11e84b9181fa1a22b9059caeffa4bbaa9931f512e21fa356261c0e48c3f6003"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 107555,
+        "lines": 382,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/afbb2ad399f523a7_cycle012.vpsd",
+        "sha256": "986e3dbe47a8219db3b7f34487b6d8c61d76a7604163b1f3932abe849ebb4c40"
+      },
+      "published": {
+        "bytes": 107555,
+        "lines": 382,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/afbb2ad399f523a7_cycle012.vpsd",
+        "sha256": "986e3dbe47a8219db3b7f34487b6d8c61d76a7604163b1f3932abe849ebb4c40"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 103614,
+        "lines": 399,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/b550a7d966b8ddbc_cycle020.vpsd",
+        "sha256": "8546db07b8e32655facc3974ac255cda8cc9b3fc2402a837360f6e84c267f25c"
+      },
+      "published": {
+        "bytes": 103614,
+        "lines": 399,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/b550a7d966b8ddbc_cycle020.vpsd",
+        "sha256": "8546db07b8e32655facc3974ac255cda8cc9b3fc2402a837360f6e84c267f25c"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 104717,
+        "lines": 401,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/c73b26411eee567f_cycle023.vpsd",
+        "sha256": "390a5e36820590120e76608ee4829e47f7f351a6193e81909acb5c5b4ae6d44b"
+      },
+      "published": {
+        "bytes": 104717,
+        "lines": 401,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/c73b26411eee567f_cycle023.vpsd",
+        "sha256": "390a5e36820590120e76608ee4829e47f7f351a6193e81909acb5c5b4ae6d44b"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 103455,
+        "lines": 395,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/fb41cac9be26aacb_cycle026.vpsd",
+        "sha256": "1601afc9fbca40d2eeb144b7801899369614f96dd11e712b37c132ccb27b9d93"
+      },
+      "published": {
+        "bytes": 103455,
+        "lines": 395,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/fb41cac9be26aacb_cycle026.vpsd",
+        "sha256": "1601afc9fbca40d2eeb144b7801899369614f96dd11e712b37c132ccb27b9d93"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 101568,
+        "lines": 402,
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows_checkpoints/ff24c524558aa913_cycle014.vpsd",
+        "sha256": "45d79e1c62927031d8a1c6ec08f5239e66128d6824a426b6c4653b78ecfa28d4"
+      },
+      "published": {
+        "bytes": 101568,
+        "lines": 402,
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/ff24c524558aa913_cycle014.vpsd",
+        "sha256": "45d79e1c62927031d8a1c6ec08f5239e66128d6824a426b6c4653b78ecfa28d4"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 52394,
+        "lines": 217,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows_checkpoints/2d28afa05ca75718_cycle020.vpsd",
+        "sha256": "4d2b82ded8a5e1727ece1e5a6f78a9e0feed64eb15cc256ec8981bf81600d65f"
+      },
+      "published": {
+        "bytes": 52394,
+        "lines": 217,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_rows_checkpoints/2d28afa05ca75718_cycle020.vpsd",
+        "sha256": "4d2b82ded8a5e1727ece1e5a6f78a9e0feed64eb15cc256ec8981bf81600d65f"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 51599,
+        "lines": 205,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows_checkpoints/42896640bba58b61_cycle029.vpsd",
+        "sha256": "1cd8b143ce42502bc2ef25f8d5edb73a089b27aa181194c84eed603f1f977994"
+      },
+      "published": {
+        "bytes": 51599,
+        "lines": 205,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_rows_checkpoints/42896640bba58b61_cycle029.vpsd",
+        "sha256": "1cd8b143ce42502bc2ef25f8d5edb73a089b27aa181194c84eed603f1f977994"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 26311,
+        "lines": 92,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows_checkpoints/494968a8af2bdb59_cycle020.vpsd",
+        "sha256": "eb7f390136db370bb495f71cf729faaff34c7208277d1e200a42425abf880be1"
+      },
+      "published": {
+        "bytes": 26311,
+        "lines": 92,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_rows_checkpoints/494968a8af2bdb59_cycle020.vpsd",
+        "sha256": "eb7f390136db370bb495f71cf729faaff34c7208277d1e200a42425abf880be1"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 26368,
+        "lines": 91,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows_checkpoints/e51d4f0492f43b7c_cycle030.vpsd",
+        "sha256": "b07cf0e1a55769f7d3e194de5c01abae42742ffa1c416418bdcf22d82c8ad0f3"
+      },
+      "published": {
+        "bytes": 26368,
+        "lines": 91,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_rows_checkpoints/e51d4f0492f43b7c_cycle030.vpsd",
+        "sha256": "b07cf0e1a55769f7d3e194de5c01abae42742ffa1c416418bdcf22d82c8ad0f3"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 52519,
+        "lines": 190,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/2f8dbd4a40297919_cycle020.vpsd",
+        "sha256": "dc35b25e0ae478559e57aca134ec43e0bac55db0f90dd364bad462287071f1a4"
+      },
+      "published": {
+        "bytes": 52519,
+        "lines": 190,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/2f8dbd4a40297919_cycle020.vpsd",
+        "sha256": "dc35b25e0ae478559e57aca134ec43e0bac55db0f90dd364bad462287071f1a4"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 52367,
+        "lines": 193,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/34ecef14457260a1_cycle020.vpsd",
+        "sha256": "62ce04e6b4ae34639191bad040087b0a78af892c225e244618f7ff53bae5d89f"
+      },
+      "published": {
+        "bytes": 52367,
+        "lines": 193,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/34ecef14457260a1_cycle020.vpsd",
+        "sha256": "62ce04e6b4ae34639191bad040087b0a78af892c225e244618f7ff53bae5d89f"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 51889,
+        "lines": 171,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/6970f68e2dc8fcbe_cycle029.vpsd",
+        "sha256": "5f14a7f0a0a68e4b8e546ff31ac5bb7d89f56542b6e342f44a7004ae5706c516"
+      },
+      "published": {
+        "bytes": 51889,
+        "lines": 171,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/6970f68e2dc8fcbe_cycle029.vpsd",
+        "sha256": "5f14a7f0a0a68e4b8e546ff31ac5bb7d89f56542b6e342f44a7004ae5706c516"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 51668,
+        "lines": 208,
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/a0ef04184d5f1f06_cycle029.vpsd",
+        "sha256": "867bf48d745b5454d2f8d2211552c7e99565655859f4ebdf439c838760739267"
+      },
+      "published": {
+        "bytes": 51668,
+        "lines": 208,
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints/a0ef04184d5f1f06_cycle029.vpsd",
+        "sha256": "867bf48d745b5454d2f8d2211552c7e99565655859f4ebdf439c838760739267"
+      }
+    },
+    {
+      "original_workspace_source": {
         "bytes": 106781,
         "lines": 32,
         "path": "autoresearch-results/restart_audit/bosch_ray_phase_a_events.jsonl",
@@ -268,10 +590,10 @@
     }
   ],
   "generator": {
-    "bytes": 4495,
-    "lines": 135,
+    "bytes": 4986,
+    "lines": 146,
     "path": "build_numerical_evidence_bundle.py",
-    "sha256": "df582ddd33d105a0e815c2f69fd5cb96a88c78e7a0fc3dc0d13f8ff65319e727"
+    "sha256": "eeabbed13ebe5a9556c2859e910369cc8b10468c55c24d0de30a10608db982d8"
   },
   "purpose": "exact source rows for the published numerical charts and Bosch tutorial",
   "schema_version": 1

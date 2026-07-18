@@ -1,3 +1,5 @@
 [lint.per-file-ignores]
 # This executed recovery source is hash-frozen by its manifest.
 "run_pattern_bosch_range_pilot_recovery.py" = ["F401"]
+# This completed campaign builder is hash-frozen by its manifest.
+"build_v3_bosch_grid_speed_bridge.py" = ["F841"]

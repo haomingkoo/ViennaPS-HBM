@@ -1,0 +1,722 @@
+{
+  "campaign": "v3-bosch-grid-speed-bridge-phase-b-review",
+  "comparison_a_two_stream_grid_movement": [
+    {
+      "cell_id": "e141_i0.06324555",
+      "repeat_behavior": {
+        "cd_bottom": {
+          "fine_values": [
+            0.3239500518350336,
+            0.3261940481308431
+          ],
+          "grid_0.0025_values": [
+            0.3187935179717551,
+            0.3268289390239455
+          ],
+          "signed_movements": [
+            -0.005156533863278523,
+            0.0006348908931024244
+          ]
+        },
+        "cd_middle": {
+          "fine_values": [
+            0.3227480676919807,
+            0.32518892925320925
+          ],
+          "grid_0.0025_values": [
+            0.3235934129532732,
+            0.3263031359063414
+          ],
+          "signed_movements": [
+            0.000845345261292485,
+            0.001114206653132166
+          ]
+        },
+        "cd_top": {
+          "fine_values": [
+            0.3310803137650578,
+            0.33092273661105076
+          ],
+          "grid_0.0025_values": [
+            0.3291583682640959,
+            0.32962884255101904
+          ],
+          "signed_movements": [
+            -0.001921945500961919,
+            -0.0012938940600317195
+          ]
+        },
+        "depth": {
+          "fine_values": [
+            1.2489277093454347,
+            1.2492273956772588
+          ],
+          "grid_0.0025_values": [
+            1.2586746828258963,
+            1.2510613284803795
+          ],
+          "signed_movements": [
+            0.009746973480461607,
+            0.0018339328031207192
+          ]
+        },
+        "max_bow": {
+          "fine_values": [
+            0.005473720626635814,
+            0.006611388340929003
+          ],
+          "grid_0.0025_values": [
+            0.008884980765349326,
+            0.006541893237327234
+          ],
+          "signed_movements": [
+            0.003411260138713512,
+            -6.94951036017688e-05
+          ]
+        },
+        "scallop_rms": {
+          "fine_values": [
+            0.0022060569344643306,
+            0.0022928079373515237
+          ],
+          "grid_0.0025_values": [
+            0.0021014960306886374,
+            0.002103323249339998
+          ],
+          "signed_movements": [
+            -0.00010456090377569324,
+            -0.00018948468801152554
+          ]
+        },
+        "sidewall_angle_deg": {
+          "fine_values": [
+            0.21807077099013925,
+            0.14458713621363523
+          ],
+          "grid_0.0025_values": [
+            0.31454048149651515,
+            0.08548610285460016
+          ],
+          "signed_movements": [
+            0.0964697105063759,
+            -0.05910103335903506
+          ]
+        }
+      },
+      "streams": [
+        {
+          "movement_0.00125_to_0.0025": {
+            "cd_bottom": {
+              "absolute_delta": 0.005156533863278523,
+              "first": 0.3239500518350336,
+              "second": 0.3187935179717551,
+              "signed_delta_second_minus_first": -0.005156533863278523
+            },
+            "cd_middle": {
+              "absolute_delta": 0.000845345261292485,
+              "first": 0.3227480676919807,
+              "second": 0.3235934129532732,
+              "signed_delta_second_minus_first": 0.000845345261292485
+            },
+            "cd_top": {
+              "absolute_delta": 0.001921945500961919,
+              "first": 0.3310803137650578,
+              "second": 0.3291583682640959,
+              "signed_delta_second_minus_first": -0.001921945500961919
+            },
+            "depth": {
+              "absolute_delta": 0.009746973480461607,
+              "first": 1.2489277093454347,
+              "second": 1.2586746828258963,
+              "signed_delta_second_minus_first": 0.009746973480461607
+            },
+            "max_bow": {
+              "absolute_delta": 0.003411260138713512,
+              "first": 0.005473720626635814,
+              "second": 0.008884980765349326,
+              "signed_delta_second_minus_first": 0.003411260138713512
+            },
+            "scallop_rms": {
+              "absolute_delta": 0.00010456090377569324,
+              "first": 0.0022060569344643306,
+              "second": 0.0021014960306886374,
+              "signed_delta_second_minus_first": -0.00010456090377569324
+            },
+            "sidewall_angle_deg": {
+              "absolute_delta": 0.0964697105063759,
+              "first": 0.21807077099013925,
+              "second": 0.31454048149651515,
+              "signed_delta_second_minus_first": 0.0964697105063759
+            }
+          },
+          "profile_0.0025": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_middle",
+              "cd_bottom"
+            ]
+          },
+          "profile_fine": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_bottom",
+              "cd_middle"
+            ]
+          },
+          "raw_runtime": {
+            "fine_elapsed_s": 981.9464218616486,
+            "fine_over_0.0025_ratio": 5.003088794770276,
+            "grid_0.0025_elapsed_s": 196.2680380344391
+          },
+          "rng_seed": 950273,
+          "stream": "phase_a_stream"
+        },
+        {
+          "movement_0.00125_to_0.0025": {
+            "cd_bottom": {
+              "absolute_delta": 0.0006348908931024244,
+              "first": 0.3261940481308431,
+              "second": 0.3268289390239455,
+              "signed_delta_second_minus_first": 0.0006348908931024244
+            },
+            "cd_middle": {
+              "absolute_delta": 0.001114206653132166,
+              "first": 0.32518892925320925,
+              "second": 0.3263031359063414,
+              "signed_delta_second_minus_first": 0.001114206653132166
+            },
+            "cd_top": {
+              "absolute_delta": 0.0012938940600317195,
+              "first": 0.33092273661105076,
+              "second": 0.32962884255101904,
+              "signed_delta_second_minus_first": -0.0012938940600317195
+            },
+            "depth": {
+              "absolute_delta": 0.0018339328031207192,
+              "first": 1.2492273956772588,
+              "second": 1.2510613284803795,
+              "signed_delta_second_minus_first": 0.0018339328031207192
+            },
+            "max_bow": {
+              "absolute_delta": 6.94951036017688e-05,
+              "first": 0.006611388340929003,
+              "second": 0.006541893237327234,
+              "signed_delta_second_minus_first": -6.94951036017688e-05
+            },
+            "scallop_rms": {
+              "absolute_delta": 0.00018948468801152554,
+              "first": 0.0022928079373515237,
+              "second": 0.002103323249339998,
+              "signed_delta_second_minus_first": -0.00018948468801152554
+            },
+            "sidewall_angle_deg": {
+              "absolute_delta": 0.05910103335903506,
+              "first": 0.14458713621363523,
+              "second": 0.08548610285460016,
+              "signed_delta_second_minus_first": -0.05910103335903506
+            }
+          },
+          "profile_0.0025": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_bottom",
+              "cd_middle"
+            ]
+          },
+          "profile_fine": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_bottom",
+              "cd_middle"
+            ]
+          },
+          "raw_runtime": {
+            "fine_elapsed_s": 960.2989947795868,
+            "fine_over_0.0025_ratio": 3.5971636584199,
+            "grid_0.0025_elapsed_s": 266.9600512981415
+          },
+          "rng_seed": 950910,
+          "stream": "additional_stream"
+        }
+      ]
+    },
+    {
+      "cell_id": "e50_i0.04",
+      "repeat_behavior": {
+        "cd_bottom": {
+          "fine_values": [
+            0.317956768964584,
+            0.3238236270421728
+          ],
+          "grid_0.0025_values": [
+            0.32008417387114935,
+            0.32333230839871246
+          ],
+          "signed_movements": [
+            0.0021274049065653222,
+            -0.0004913186434603589
+          ]
+        },
+        "cd_middle": {
+          "fine_values": [
+            0.32889778804335734,
+            0.32211364689442734
+          ],
+          "grid_0.0025_values": [
+            0.33051442679844273,
+            0.32918743205733586
+          ],
+          "signed_movements": [
+            0.0016166387550853867,
+            0.007073785162908519
+          ]
+        },
+        "cd_top": {
+          "fine_values": [
+            0.3307794483862439,
+            0.33166273025468007
+          ],
+          "grid_0.0025_values": [
+            0.32958630125676375,
+            0.32986038530656153
+          ],
+          "signed_movements": [
+            -0.0011931471294801543,
+            -0.0018023449481185394
+          ]
+        },
+        "depth": {
+          "fine_values": [
+            1.247665456193101,
+            1.2532833034440678
+          ],
+          "grid_0.0025_values": [
+            1.2507076664218582,
+            1.2541340130120495
+          ],
+          "signed_movements": [
+            0.0030422102287570585,
+            0.0008507095679817223
+          ]
+        },
+        "max_bow": {
+          "fine_values": [
+            0.007940120939260498,
+            0.013611961836445557
+          ],
+          "grid_0.0025_values": [
+            0.005790627547731603,
+            0.005035600603346541
+          ],
+          "signed_movements": [
+            -0.002149493391528895,
+            -0.008576361233099017
+          ]
+        },
+        "scallop_rms": {
+          "fine_values": [
+            0.002513088216546205,
+            0.0035756045497144684
+          ],
+          "grid_0.0025_values": [
+            0.0018022742553563311,
+            0.0016787304583931204
+          ],
+          "signed_movements": [
+            -0.000710813961189874,
+            -0.001896874091321348
+          ]
+        },
+        "sidewall_angle_deg": {
+          "fine_values": [
+            0.39255924642599926,
+            0.23891641246917333
+          ],
+          "grid_0.0025_values": [
+            0.29019685134662543,
+            0.1988249793191263
+          ],
+          "signed_movements": [
+            -0.10236239507937384,
+            -0.04009143315004704
+          ]
+        }
+      },
+      "streams": [
+        {
+          "movement_0.00125_to_0.0025": {
+            "cd_bottom": {
+              "absolute_delta": 0.0021274049065653222,
+              "first": 0.317956768964584,
+              "second": 0.32008417387114935,
+              "signed_delta_second_minus_first": 0.0021274049065653222
+            },
+            "cd_middle": {
+              "absolute_delta": 0.0016166387550853867,
+              "first": 0.32889778804335734,
+              "second": 0.33051442679844273,
+              "signed_delta_second_minus_first": 0.0016166387550853867
+            },
+            "cd_top": {
+              "absolute_delta": 0.0011931471294801543,
+              "first": 0.3307794483862439,
+              "second": 0.32958630125676375,
+              "signed_delta_second_minus_first": -0.0011931471294801543
+            },
+            "depth": {
+              "absolute_delta": 0.0030422102287570585,
+              "first": 1.247665456193101,
+              "second": 1.2507076664218582,
+              "signed_delta_second_minus_first": 0.0030422102287570585
+            },
+            "max_bow": {
+              "absolute_delta": 0.002149493391528895,
+              "first": 0.007940120939260498,
+              "second": 0.005790627547731603,
+              "signed_delta_second_minus_first": -0.002149493391528895
+            },
+            "scallop_rms": {
+              "absolute_delta": 0.000710813961189874,
+              "first": 0.002513088216546205,
+              "second": 0.0018022742553563311,
+              "signed_delta_second_minus_first": -0.000710813961189874
+            },
+            "sidewall_angle_deg": {
+              "absolute_delta": 0.10236239507937384,
+              "first": 0.39255924642599926,
+              "second": 0.29019685134662543,
+              "signed_delta_second_minus_first": -0.10236239507937384
+            }
+          },
+          "profile_0.0025": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_middle",
+              "cd_top",
+              "cd_bottom"
+            ]
+          },
+          "profile_fine": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_middle",
+              "cd_bottom"
+            ]
+          },
+          "raw_runtime": {
+            "fine_elapsed_s": 941.1737909317017,
+            "fine_over_0.0025_ratio": 4.692014375562554,
+            "grid_0.0025_elapsed_s": 200.59055995941162
+          },
+          "rng_seed": 950728,
+          "stream": "phase_a_stream"
+        },
+        {
+          "movement_0.00125_to_0.0025": {
+            "cd_bottom": {
+              "absolute_delta": 0.0004913186434603589,
+              "first": 0.3238236270421728,
+              "second": 0.32333230839871246,
+              "signed_delta_second_minus_first": -0.0004913186434603589
+            },
+            "cd_middle": {
+              "absolute_delta": 0.007073785162908519,
+              "first": 0.32211364689442734,
+              "second": 0.32918743205733586,
+              "signed_delta_second_minus_first": 0.007073785162908519
+            },
+            "cd_top": {
+              "absolute_delta": 0.0018023449481185394,
+              "first": 0.33166273025468007,
+              "second": 0.32986038530656153,
+              "signed_delta_second_minus_first": -0.0018023449481185394
+            },
+            "depth": {
+              "absolute_delta": 0.0008507095679817223,
+              "first": 1.2532833034440678,
+              "second": 1.2541340130120495,
+              "signed_delta_second_minus_first": 0.0008507095679817223
+            },
+            "max_bow": {
+              "absolute_delta": 0.008576361233099017,
+              "first": 0.013611961836445557,
+              "second": 0.005035600603346541,
+              "signed_delta_second_minus_first": -0.008576361233099017
+            },
+            "scallop_rms": {
+              "absolute_delta": 0.001896874091321348,
+              "first": 0.0035756045497144684,
+              "second": 0.0016787304583931204,
+              "signed_delta_second_minus_first": -0.001896874091321348
+            },
+            "sidewall_angle_deg": {
+              "absolute_delta": 0.04009143315004704,
+              "first": 0.23891641246917333,
+              "second": 0.1988249793191263,
+              "signed_delta_second_minus_first": -0.04009143315004704
+            }
+          },
+          "profile_0.0025": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_middle",
+              "cd_bottom"
+            ]
+          },
+          "profile_fine": {
+            "available": true,
+            "point_count": 76,
+            "width_order_widest_to_narrowest": [
+              "cd_top",
+              "cd_bottom",
+              "cd_middle"
+            ]
+          },
+          "raw_runtime": {
+            "fine_elapsed_s": 947.6381211280823,
+            "fine_over_0.0025_ratio": 4.0901498780315535,
+            "grid_0.0025_elapsed_s": 231.6878719329834
+          },
+          "rng_seed": 950819,
+          "stream": "additional_stream"
+        }
+      ]
+    }
+  ],
+  "comparison_b_same_stream_ray_movement": [
+    {
+      "cell_id": "e141_i0.06324555",
+      "movement_500_to_1000": {
+        "cd_bottom": {
+          "absolute_delta": 0.004083802547939219,
+          "first": 0.3187935179717551,
+          "second": 0.3228773205196943,
+          "signed_delta_second_minus_first": 0.004083802547939219
+        },
+        "cd_middle": {
+          "absolute_delta": 0.0008049537389953065,
+          "first": 0.3235934129532732,
+          "second": 0.3227884592142779,
+          "signed_delta_second_minus_first": -0.0008049537389953065
+        },
+        "cd_top": {
+          "absolute_delta": 0.0002308896422573148,
+          "first": 0.3291583682640959,
+          "second": 0.3293892579063532,
+          "signed_delta_second_minus_first": 0.0002308896422573148
+        },
+        "depth": {
+          "absolute_delta": 0.0028653266509519604,
+          "first": 1.2586746828258963,
+          "second": 1.2615400094768483,
+          "signed_delta_second_minus_first": 0.0028653266509519604
+        },
+        "max_bow": {
+          "absolute_delta": 0.0036725487976561333,
+          "first": 0.008884980765349326,
+          "second": 0.005212431967693193,
+          "signed_delta_second_minus_first": -0.0036725487976561333
+        },
+        "scallop_rms": {
+          "absolute_delta": 7.435551962107004e-05,
+          "first": 0.0021014960306886374,
+          "second": 0.0020271405110675674,
+          "signed_delta_second_minus_first": -7.435551962107004e-05
+        },
+        "sidewall_angle_deg": {
+          "absolute_delta": 0.11737138494035113,
+          "first": 0.31454048149651515,
+          "second": 0.19716909655616402,
+          "signed_delta_second_minus_first": -0.11737138494035113
+        }
+      },
+      "profile_1000": {
+        "available": true,
+        "point_count": 76,
+        "width_order_widest_to_narrowest": [
+          "cd_top",
+          "cd_bottom",
+          "cd_middle"
+        ]
+      },
+      "profile_500": {
+        "available": true,
+        "point_count": 76,
+        "width_order_widest_to_narrowest": [
+          "cd_top",
+          "cd_middle",
+          "cd_bottom"
+        ]
+      },
+      "raw_runtime": {
+        "rays_1000_elapsed_s": 388.9113829135895,
+        "rays_1000_over_500_ratio": 1.9815319234268156,
+        "rays_500_elapsed_s": 196.2680380344391
+      },
+      "rng_seed": 950273
+    },
+    {
+      "cell_id": "e50_i0.04",
+      "movement_500_to_1000": {
+        "cd_bottom": {
+          "absolute_delta": 0.0022585174038201594,
+          "first": 0.32008417387114935,
+          "second": 0.3223426912749695,
+          "signed_delta_second_minus_first": 0.0022585174038201594
+        },
+        "cd_middle": {
+          "absolute_delta": 0.0055306254984514025,
+          "first": 0.33051442679844273,
+          "second": 0.3249838012999913,
+          "signed_delta_second_minus_first": -0.0055306254984514025
+        },
+        "cd_top": {
+          "absolute_delta": 0.0004089259297971881,
+          "first": 0.32958630125676375,
+          "second": 0.32999522718656094,
+          "signed_delta_second_minus_first": 0.0004089259297971881
+        },
+        "depth": {
+          "absolute_delta": 0.0029368849072364256,
+          "first": 1.2507076664218582,
+          "second": 1.2477707815146217,
+          "signed_delta_second_minus_first": -0.0029368849072364256
+        },
+        "max_bow": {
+          "absolute_delta": 0.0009432621557797227,
+          "first": 0.005790627547731603,
+          "second": 0.00484736539195188,
+          "signed_delta_second_minus_first": -0.0009432621557797227
+        },
+        "scallop_rms": {
+          "absolute_delta": 0.00015170005824081457,
+          "first": 0.0018022742553563311,
+          "second": 0.0016505741971155165,
+          "signed_delta_second_minus_first": -0.00015170005824081457
+        },
+        "sidewall_angle_deg": {
+          "absolute_delta": 0.05593610752471337,
+          "first": 0.29019685134662543,
+          "second": 0.23426074382191206,
+          "signed_delta_second_minus_first": -0.05593610752471337
+        }
+      },
+      "profile_1000": {
+        "available": true,
+        "point_count": 76,
+        "width_order_widest_to_narrowest": [
+          "cd_top",
+          "cd_middle",
+          "cd_bottom"
+        ]
+      },
+      "profile_500": {
+        "available": true,
+        "point_count": 76,
+        "width_order_widest_to_narrowest": [
+          "cd_middle",
+          "cd_top",
+          "cd_bottom"
+        ]
+      },
+      "raw_runtime": {
+        "rays_1000_elapsed_s": 463.1696729660034,
+        "rays_1000_over_500_ratio": 2.3090302607446893,
+        "rays_500_elapsed_s": 200.59055995941162
+      },
+      "rng_seed": 950728
+    }
+  ],
+  "interpretation": {
+    "accuracy_limit_used": false,
+    "reference_treated_as_truth": false,
+    "repeat_range_treated_as_limit": false,
+    "runtime_statement": "raw wall time from recorded execution contexts; not a causal or general benchmark",
+    "setting_promotion_authorized": false,
+    "weighted_score_used": false
+  },
+  "provenance": {
+    "focused_rows": {
+      "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows.jsonl",
+      "sha256": "d92174db65fcdf14b5ba102d6d2a176354f085a714bb83ebced385f530bb4d46"
+    },
+    "manifest": {
+      "path": "evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_manifest.json",
+      "sha256": "74e16c885d3aecb99a7987422f01c445deed76156dcd4fe53ca4a87dbdc4bb73"
+    },
+    "new_rows": {
+      "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_phase_b_rows.jsonl",
+      "sha256": "1ffddab8aacfdee17083b60886de8b00e7534cf01dcdc98217d6c53cacc45408"
+    },
+    "phase_a_rows": {
+      "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows.jsonl",
+      "sha256": "3f812f7bd1b87b50bc265c7268960aea625a5c2297a69015d4cb074640b6a6d5"
+    },
+    "source_artifacts": {
+      "builder": {
+        "path": "build_v3_bosch_grid_speed_bridge_phase_b.py",
+        "sha256": "f0e49dff6a0896be3659b3dbe43ea0d14416c74d032719118c388b2bccc5cda5"
+      },
+      "focused_manifest": {
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_manifest.json",
+        "sha256": "e1950b610b3c444fc16cd08cc4646ef2ba801d004718b071ffe106e777827a7a"
+      },
+      "focused_review": {
+        "path": "evidence/numerical/v3_bosch_focused_ion_map_review.json",
+        "sha256": "db837e778c3c46eebc3d4e72e80e9413685b91deb19933da70365a0d383f02cd"
+      },
+      "focused_rows": {
+        "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows.jsonl",
+        "sha256": "d92174db65fcdf14b5ba102d6d2a176354f085a714bb83ebced385f530bb4d46"
+      },
+      "phase_a_manifest": {
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_manifest.json",
+        "sha256": "8c1ad120c34222812f05bd36862063e057e04d9d319ec4a82d156953473c957f"
+      },
+      "phase_a_review": {
+        "path": "evidence/numerical/v3_bosch_grid_speed_bridge_review.json",
+        "sha256": "fd7fdd51bc1ce8a0ff164715af8cc7de78ff539d32c4ddf20d69c65354c46108"
+      },
+      "phase_a_rows": {
+        "path": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows.jsonl",
+        "sha256": "3f812f7bd1b87b50bc265c7268960aea625a5c2297a69015d4cb074640b6a6d5"
+      },
+      "review_schema": {
+        "path": "schemas/v3-bosch-grid-speed-bridge-phase-b-review.schema.json",
+        "sha256": "5eb8b67c1a404b2b5cd39a1dd20b77b688c1f444972179cf7308d3e20ce722cf"
+      },
+      "reviewer": {
+        "path": "build_v3_bosch_grid_speed_bridge_phase_b_review.py",
+        "sha256": "4d16232f399fa35070432e53d08075fa34a3711d12cfe06185965798a1bd325c"
+      },
+      "runner": {
+        "path": "v3_bosch_grid_speed_bridge_phase_b_runner.py",
+        "sha256": "b157df0053909235fe3786deabad5a3ad63df630719f7439dda470cd9d73846f"
+      }
+    }
+  },
+  "schema_version": 1,
+  "status": "complete_observational_review",
+  "stopped_grid_0.005": {
+    "reason": "it altered the selected top-middle-bottom profile measurements in both cells",
+    "scope": "these two cells and recorded streams only",
+    "source_case_ids": [
+      "e51d4f0492f43b7c",
+      "494968a8af2bdb59"
+    ],
+    "status": "stopped_after_phase_a"
+  }
+}

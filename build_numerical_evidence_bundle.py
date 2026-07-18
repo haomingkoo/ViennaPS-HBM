@@ -26,8 +26,18 @@ FILES = (
     "v3_bosch_cheap_interactions_rows.jsonl",
     "v3_bosch_cheap_interactions_review.json",
     "v3_bosch_interior_refinement_rows.jsonl",
+    "v3_bosch_focused_ion_map_rows.jsonl",
+    "v3_bosch_grid_speed_bridge_rows.jsonl",
+    "v3_bosch_grid_speed_bridge_phase_b_rows.jsonl",
 )
 SOURCES = {name: SOURCE / name for name in FILES}
+for directory in (
+    "v3_bosch_focused_ion_map_rows_checkpoints",
+    "v3_bosch_grid_speed_bridge_rows_checkpoints",
+    "v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints",
+):
+    for path in sorted((SOURCE / directory).glob("*.vpsd")):
+        SOURCES[f"{directory}/{path.name}"] = path
 SOURCES.update(
     {
         "bosch_ray_phase_a_events.jsonl": SOURCE / "bosch_ray_phase_a_events.jsonl",
@@ -67,6 +77,7 @@ def export():
     files = []
     for name, source in SOURCES.items():
         target = OUTPUT / name
+        target.parent.mkdir(parents=True, exist_ok=True)
         data = source.read_bytes()
         target.write_bytes(data)
         files.append(
