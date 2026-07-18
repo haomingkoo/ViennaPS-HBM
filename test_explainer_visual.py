@@ -153,6 +153,20 @@ def assert_bosch_multifactor(page):
     assert lab.locator('a[href="bosch_tutorial_data.json"]').count() == 1
 
 
+def assert_focused_etch(page):
+    lab = page.locator("#focused-etch-map")
+    assert lab.locator("#focused-etch-grid button").count() == 9
+    assert lab.locator("#focused-etch-grid button[aria-pressed='true']").count() == 1
+    assert "3 saved runs" in lab.inner_text()
+    profile = lab.locator("#focused-etch-profile path").nth(1)
+    first_path = profile.get_attribute("d")
+    lab.locator("#focused-etch-repeat").click()
+    assert profile.get_attribute("d") != first_path
+    assert "Run 2 of 3" in lab.inner_text()
+    assert "Floor peak-to-valley" in lab.inner_text()
+    assert lab.locator('a[href*="v3_bosch_focused_ion_map_rows.jsonl"]').count() == 1
+
+
 def assert_range_pilot(page):
     study = page.locator("#pattern-bosch-range-pilot")
     text = study.inner_text()
@@ -232,6 +246,7 @@ def main():
         assert_numerical_evidence(page)
         assert_measurement_atlas(page)
         assert_range_pilot(page)
+        assert_focused_etch(page)
         assert_bosch_multifactor(page)
         assert_bosch_interactions(page)
         assert_saved_trajectories(page)

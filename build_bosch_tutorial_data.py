@@ -24,6 +24,8 @@ ROOT = Path(__file__).resolve().parent
 INTERACTION_ROWS = ROOT / "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl"
 INTERACTION_REVIEW = ROOT / "evidence/numerical/v3_bosch_cheap_interactions_review.json"
 INTERIOR_ROWS = ROOT / "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl"
+FOCUSED_ROWS = ROOT / "evidence/numerical/v3_bosch_focused_ion_map_rows.jsonl"
+FOCUSED_REVIEW = ROOT / "evidence/numerical/v3_bosch_focused_ion_map_review.json"
 OUTPUT = ROOT / "bosch_tutorial_data.json"
 PUBLIC_EVIDENCE = Path("evidence/numerical")
 TUTORIAL_CHECKPOINTS = ROOT / "evidence/bosch/tutorial_checkpoints"
@@ -112,7 +114,19 @@ def material_id(material) -> str:
 
 
 def silicon_mesh(row: dict) -> dict:
-    checkpoint_path = TUTORIAL_CHECKPOINTS / Path(row["checkpoint_path"]).name
+    checkpoint_name = Path(row["checkpoint_path"]).name
+    candidates = [TUTORIAL_CHECKPOINTS / checkpoint_name]
+    candidates.extend(
+        (PUBLIC_EVIDENCE / directory / checkpoint_name)
+        for directory in (
+            "v3_bosch_focused_ion_map_rows_checkpoints",
+            "v3_bosch_grid_speed_bridge_rows_checkpoints",
+            "v3_bosch_grid_speed_bridge_phase_b_rows_checkpoints",
+        )
+    )
+    checkpoint_path = next((path for path in candidates if path.is_file()), None)
+    if checkpoint_path is None:
+        raise FileNotFoundError(checkpoint_name)
     domain = checkpoint.load_domain_checkpoint(
         checkpoint_path, expected_sha256=row["checkpoint_sha256"]
     )
@@ -234,6 +248,24 @@ def interior_case(row: dict, line_number: int) -> dict:
     }
 
 
+def focused_case(row: dict, line_number: int) -> dict:
+    mesh = silicon_mesh(row)
+    return {
+        "case_id": row["case_id"],
+        "recipe": row["recipe"],
+        "metrics": public_metrics(row, mesh),
+        "materials": materials(mesh),
+        "elapsed_s": row["elapsed_s"],
+        "rays_per_point": row["numerics"]["rays_per_point"],
+        "checkpoint_sha256": row["checkpoint_sha256"],
+        "citation": {
+            "path": str(PUBLIC_EVIDENCE / FOCUSED_ROWS.name),
+            "line_number": line_number,
+            "sha256": sha256(FOCUSED_ROWS),
+        },
+    }
+
+
 def build_case_group(kind: str) -> list[dict]:
     """Build one checkpoint group in a fresh process."""
     if kind == "interaction":
@@ -242,12 +274,16 @@ def build_case_group(kind: str) -> list[dict]:
     if kind == "interior":
         rows = load_rows(INTERIOR_ROWS)
         return [interior_case(row, index) for index, row in enumerate(rows, 1)]
+    if kind == "focused":
+        rows = load_rows(FOCUSED_ROWS)
+        return [focused_case(row, index) for index, row in enumerate(rows, 1)]
     raise ValueError(f"unknown case group: {kind}")
 
 
 def main() -> None:
     interaction_rows = load_rows(INTERACTION_ROWS)
     interior_rows = load_rows(INTERIOR_ROWS)
+    focused_review = json.loads(FOCUSED_REVIEW.read_text())
     review = json.loads(INTERACTION_REVIEW.read_text())
     if len(interaction_rows) != 28 or review["valid_case_count"] != 28:
         raise ValueError("expected 28 reviewed interaction cases")
@@ -257,7 +293,7 @@ def main() -> None:
     with tempfile.TemporaryDirectory() as directory:
         paths = {
             kind: Path(directory) / f"{kind}.json"
-            for kind in ("interaction", "interior")
+            for kind in ("interaction", "interior", "focused")
         }
         for kind, path in paths.items():
             subprocess.run(
@@ -266,11 +302,12 @@ def main() -> None:
             )
         interactions = json.loads(paths["interaction"].read_text())
         interior = json.loads(paths["interior"].read_text())
+        focused = json.loads(paths["focused"].read_text())
     remeasured_passes = sum(
         case["metrics"]["hard_gate_pass"] for case in interactions
     )
     document = {
-        "schema_version": 3,
+        "schema_version": 4,
         "title": "Dry-etch multi-factor study",
         "scope": (
             "Exact 500-ray discovery cases, remeasured from both saved via walls. "
@@ -312,6 +349,17 @@ def main() -> None:
         },
         "interactions": interactions,
         "interior_cases": interior,
+        "focused_cases": focused,
+        "focused_study": {
+            "case_count": len(focused),
+            "unique_cells": len(focused_review["cells"]),
+            "factor_order": ["ion_source_exponent", "ion_rate"],
+            "repeated_cell": "e141_i0.06324555",
+            "interpretation": (
+                "Nine saved factor combinations form a local map. The center "
+                "has three independent runs; the browser shows every raw run."
+            ),
+        },
         "interior_study": {
             "case_count": len(interior),
             "factor_order": [
@@ -347,7 +395,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--group", choices=("interaction", "interior"))
+    parser.add_argument("--group", choices=("interaction", "interior", "focused"))
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.group:

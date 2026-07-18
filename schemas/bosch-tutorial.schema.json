@@ -3,9 +3,9 @@
   "title": "Bosch tutorial evidence",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "title", "scope", "equipment_mapping", "measurement_implementation", "factors", "targets", "interactions", "interior_study", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
+  "required": ["schema_version", "title", "scope", "equipment_mapping", "measurement_implementation", "factors", "targets", "interactions", "interior_study", "interior_cases", "focused_study", "focused_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
   "properties": {
-    "schema_version": {"const": 3},
+    "schema_version": {"const": 4},
     "title": {"type": "string", "minLength": 1},
     "scope": {"type": "string", "minLength": 1},
     "equipment_mapping": {
@@ -77,6 +77,19 @@
       }
     },
     "interior_cases": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/case"}},
+    "focused_study": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_count", "unique_cells", "factor_order", "repeated_cell", "interpretation"],
+      "properties": {
+        "case_count": {"const": 12},
+        "unique_cells": {"const": 9},
+        "factor_order": {"const": ["ion_source_exponent", "ion_rate"]},
+        "repeated_cell": {"const": "e141_i0.06324555"},
+        "interpretation": {"type": "string", "minLength": 1}
+      }
+    },
+    "focused_cases": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"$ref": "#/$defs/case"}},
     "default_interaction": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}},
     "default_interior_case": {"type": "string", "minLength": 16},
     "measurement_example_case_id": {"type": "string", "minLength": 16},

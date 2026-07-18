@@ -156,6 +156,14 @@
   .bosch-multifactor-read dl { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 0.8rem; margin: 0; font-size: 0.74rem; }
   .bosch-multifactor-read dt { color: var(--ink-dim); }
   .bosch-multifactor-read dd { margin: 0; font-family: var(--mono); text-align: right; }
+  .focused-etch-map { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
+  .focused-etch-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.45rem; margin: 1rem 0; }
+  .focused-etch-grid button { min-height: 70px; padding: 0.65rem; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); text-align: left; cursor: pointer; }
+  .focused-etch-grid button[aria-pressed="true"] { border-color: var(--plasma); box-shadow: inset 0 0 0 2px var(--plasma); }
+  .focused-etch-grid button b, .focused-etch-grid button span { display: block; }
+  .focused-etch-grid button span { margin-top: 0.2rem; color: var(--ink-dim); font: 0.7rem var(--mono); }
+  .focused-etch-actions { display: flex; gap: 0.55rem; align-items: center; margin: 0.75rem 0; }
+  .focused-etch-actions button { min-height: 42px; padding: 0.45rem 0.8rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
   .archive-method { margin: 1.8rem 0; padding: 1.25rem 1.35rem; border: 1px solid var(--line); background: var(--surface); }
   .archive-method h3 { margin: 0 0 0.4rem; }
   .archive-method > p { max-width: 70ch; margin: 0; color: var(--ink-dim); }
@@ -252,6 +260,7 @@
     .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
     .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .bosch-multifactor-workspace, .bosch-multifactor-layout, .bosch-multifactor-controls, .archive-method-grid { grid-template-columns: 1fr; }
+    .focused-etch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .bosch-multifactor-explorer { border-right: 0; border-bottom: 1px solid var(--line); }
     .bosch-profile { border-right: 0; border-bottom: 1px solid var(--line); }
     .bosch-multifactor-profile { border-right: 0; border-bottom: 1px solid var(--line); }
@@ -926,7 +935,18 @@
     <p class="note" id="numerical-takeaway"></p>
     <p class="note">Points are saved simulations from one research machine. Lines connect sampled grid settings. They are not a fitted response surface.</p>
     <h3>How the study will run</h3>
-    <p>Use 500 rays for broad 2D exploration. Recheck promoted cases at 1,000 rays. Treat deep unstable profiles separately because more rays did not stabilize them. This is a compute-budget choice, not a physical accuracy claim.</p>
+    <p>Use grid spacing 0.0025 and 500 rays for broad 2D exploration in the focused etch region. Recheck promoted cases at 1,000 rays. This is a compute-budget choice, not a physical accuracy claim.</p>
+    <div class="table-scroll">
+      <table class="journal-table" aria-label="Focused etch speed bridge">
+        <thead><tr><th>Comparison</th><th>Saved cases</th><th>Observed cost</th><th>What changed</th></tr></thead>
+        <tbody>
+          <tr><td>Grid 0.00125 → 0.0025<br>500 rays</td><td>Two settings, two streams each</td><td>0.0025 was 3.6–5.0× faster</td><td>Depth moved 0.0009–0.0097. Individual CDs moved 0.0005–0.0071. Bow moved 0.0001–0.0086.</td></tr>
+          <tr><td>500 → 1,000 rays<br>grid 0.0025</td><td>Two paired settings</td><td>1,000 rays took 2.0–2.3× longer</td><td>Depth moved about 0.0029. Individual CDs moved 0.0002–0.0055. Bow moved 0.0009–0.0037.</td></tr>
+          <tr><td>Grid 0.005</td><td>Two paired settings</td><td>Faster, but stopped</td><td>It changed the selected top, middle, and bottom profile enough to alter the geometry being studied.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">These are paired movements, not errors against ground truth. The result is local to the two focused settings and recorded random streams. <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json">Open the citable review.</a></p>
     <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/bosch_ray_current_grid_ladder_review.json">Citable five-level review and source hashes</a></p>
   </section>
 
@@ -980,6 +1000,19 @@
       <div class="archive-method-links"><a href="pattern_bosch_range_pilot_review.json">Read the corrected review</a><a href="evidence/bosch/range_pilot/source_bundle.json">Inspect the 25 archived profiles</a></div>
     </aside>
     <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. The handoff viewer later on the page is the separate example that carries one geometry forward.</p>
+    <div class="focused-etch-map" id="focused-etch-map">
+      <h3>A focused map found a repeatable straight-wall region</h3>
+      <p class="claim">Ion arrival direction and directional removal were changed together across nine saved settings.</p>
+      <p class="note">Select a setting to view the exact simulated profile. The center was run three times. Other cells have one run, so they show direction but not repeatability.</p>
+      <div class="focused-etch-grid" id="focused-etch-grid" aria-label="Nine saved focused etch settings"></div>
+      <div class="focused-etch-actions"><button type="button" id="focused-etch-repeat">Next repeat</button><span id="focused-etch-repeat-label" class="note"></span></div>
+      <div class="bosch-lab-layout">
+        <div class="bosch-profile" id="focused-etch-profile" role="img" aria-label="Selected saved focused dry-etch profile"></div>
+        <aside class="bosch-read" id="focused-etch-read" aria-live="polite"></aside>
+      </div>
+      <p class="note"><b>Takeaway:</b> the repeated center stays near the target depth and its walls remain close to vertical. The saved floors are still rounded or uneven. Floor shape therefore remains a separate optimization objective.</p>
+      <p class="note"><a href="bosch_tutorial_data.json">Open all 12 raw profiles and source-row citations.</a></p>
+    </div>
     <div class="bosch-multifactor" id="bosch-multifactor-lab">
       <h3>Explore a six-control dry-etch study</h3>
       <p class="claim">Each line is one saved run in which six model controls changed together.</p>
@@ -989,7 +1022,7 @@
         <div class="bosch-multifactor-explorer">
           <div class="bosch-multifactor-controls">
             <label for="bosch-multifactor-index">Saved DOE run <span id="bosch-multifactor-value"></span><input id="bosch-multifactor-index" type="range" min="0" max="17" step="1" value="0"></label>
-            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show closest saved shape</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
+            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show default saved run</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
           </div>
           <figure class="bosch-multifactor-map">
             <svg id="bosch-multifactor-map" viewBox="0 0 600 280" role="img" aria-label="Eighteen saved dry-etch runs across six model controls"></svg>
@@ -1658,12 +1691,6 @@ function profileScorecard(metric) {
   </div>`;
 }
 
-function profileShapeDiagnosis(metric) {
-  if (metric.profile_shape_rmse == null) return 'Wall shape measured; the floor could not be measured reliably';
-  const largestRegion = metric.profile_floor_rmse > metric.profile_wall_rmse ? 'floor' : 'walls';
-  return `Additional outline check: most difference is in the ${largestRegion}`;
-}
-
 function boschMeasurementOverlay(metric) {
   const widthBar = (label, cd, fraction) => {
     const y = fraction * metric.depth;
@@ -1690,6 +1717,52 @@ function boschProfileMarkup(row) {
   </svg>`;
 }
 
+const focusedEtchCases = BOSCH.focused_cases;
+const focusedEtchCells = [50, 141, 400].flatMap(direction => [-0.04, -0.06324555, -0.1].map(removal => `${direction}|${removal}`));
+let focusedEtchCell = '141|-0.06324555';
+let focusedEtchRepeat = 0;
+
+function focusedEtchRows() {
+  return focusedEtchCases.filter(row => `${row.recipe.ion_source_exponent}|${row.recipe.ion_rate}` === focusedEtchCell);
+}
+
+function renderFocusedEtch() {
+  const grid = document.getElementById('focused-etch-grid');
+  grid.innerHTML = focusedEtchCells.map(cell => {
+    const rows = focusedEtchCases.filter(row => `${row.recipe.ion_source_exponent}|${row.recipe.ion_rate}` === cell);
+    const [direction, removal] = cell.split('|');
+    return `<button type="button" data-cell="${cell}" aria-pressed="${cell === focusedEtchCell}"><b>Direction ${direction} · removal ${removal}</b><span>${rows.length} saved ${rows.length === 1 ? 'run' : 'runs'}</span></button>`;
+  }).join('');
+  grid.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+    focusedEtchCell = button.dataset.cell;
+    focusedEtchRepeat = 0;
+    renderFocusedEtch();
+  }));
+  const rows = focusedEtchRows();
+  focusedEtchRepeat %= rows.length;
+  const row = rows[focusedEtchRepeat];
+  const metric = row.metrics;
+  document.getElementById('focused-etch-profile').innerHTML = boschProfileMarkup(row);
+  document.getElementById('focused-etch-repeat').disabled = rows.length < 2;
+  document.getElementById('focused-etch-repeat-label').textContent = `Run ${focusedEtchRepeat + 1} of ${rows.length}`;
+  const source = `https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${row.citation.path}#L${row.citation.line_number}`;
+  document.getElementById('focused-etch-read').innerHTML = `<h4>${rows.length > 1 ? `Repeated setting · run ${focusedEtchRepeat + 1}` : 'Single saved run'}</h4>
+    <p>Dashed outline: the common teaching target. Values below are measurements from this saved profile.</p>
+    ${profileScorecard(metric)}
+    <dl>
+      <dt>Floor peak-to-valley</dt><dd>${boschMetric(metric.floor_flatness_pv)}</dd>
+      <dt>Left–right symmetry</dt><dd>${boschMetric(metric.profile_symmetry_rms, 4)}</dd>
+      <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
+      <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
+    </dl>
+    <p style="margin-top:1rem"><a href="${source}">Open this simulation row</a></p>`;
+}
+document.getElementById('focused-etch-repeat').addEventListener('click', () => {
+  focusedEtchRepeat = (focusedEtchRepeat + 1) % focusedEtchRows().length;
+  renderFocusedEtch();
+});
+renderFocusedEtch();
+
 const multiFactorCases = BOSCH.interior_cases;
 const multiFactorOrder = BOSCH.interior_study.factor_order;
 const multiFactorShortLabels = {
@@ -1700,30 +1773,8 @@ const multiFactorShortLabels = {
   neutral_rate: 'Neutral etch',
   neutral_sticking_probability: 'Reaction',
 };
-const multiFactorCandidateScore = row => {
-  const metric = row.metrics;
-  return metric.profile_shape_rmse == null ? Number.POSITIVE_INFINITY : metric.profile_shape_rmse;
-};
-const bestMultiFactorIndex = multiFactorCases.reduce((best, row, index) => {
-  return best < 0 || multiFactorCandidateScore(row) < multiFactorCandidateScore(multiFactorCases[best]) ? index : best;
-}, -1);
-let multiFactorIndex = bestMultiFactorIndex >= 0 ? bestMultiFactorIndex : 0;
-
-function multiFactorDiagnosis(metric) {
-  const depthLow = BOSCH.targets.depth - BOSCH.targets.depth_tolerance;
-  const depthHigh = BOSCH.targets.depth + BOSCH.targets.depth_tolerance;
-  const depthPass = metric.depth >= depthLow && metric.depth <= depthHigh;
-  const widthPass = metric.maximum_cd_error <= BOSCH.targets.maximum_cd_error;
-  const bowPass = metric.bow <= BOSCH.targets.maximum_bow;
-  if (depthPass && widthPass && bowPass) return 'Inside the three earlier geometry bands';
-  if (!depthPass && widthPass && bowPass) {
-    return metric.depth < depthLow
-      ? 'Wall width is close to target, but the etch is too shallow'
-      : 'Wall width is close to target, but the etch is too deep';
-  }
-  const misses = [!depthPass && 'depth', !widthPass && 'width', !bowPass && 'wall bow'].filter(Boolean);
-  return `This run misses the ${misses.join(', ')} ${misses.length === 1 ? 'check' : 'checks'}`;
-}
+const defaultMultiFactorIndex = Math.max(0, multiFactorCases.findIndex(row => row.case_id === BOSCH.default_interior_case));
+let multiFactorIndex = defaultMultiFactorIndex;
 
 function renderMultiFactorMap() {
   const svg = document.getElementById('bosch-multifactor-map');
@@ -1738,8 +1789,8 @@ function renderMultiFactorMap() {
   }).join('');
   const runs = multiFactorCases.map((row, index) => {
     const points = multiFactorOrder.map((name, axis) => `${xFor(axis)},${yFor(row.normalized_coordinates[name])}`).join(' ');
-    const classes = ['factor-run', row.metrics.hard_gate_pass ? 'pass' : '', index === multiFactorIndex ? 'selected' : ''].filter(Boolean).join(' ');
-    return `<polyline class="${classes}" data-index="${index}" points="${points}" tabindex="0" role="button" aria-label="Select saved run ${index + 1}"><title>Run ${index + 1}: ${row.metrics.hard_gate_pass ? 'inside' : 'outside'} the assumed study bands</title></polyline>`;
+    const classes = ['factor-run', index === multiFactorIndex ? 'selected' : ''].filter(Boolean).join(' ');
+    return `<polyline class="${classes}" data-index="${index}" points="${points}" tabindex="0" role="button" aria-label="Select saved run ${index + 1}"><title>Saved run ${index + 1}</title></polyline>`;
   }).join('');
   svg.innerHTML = axes + runs;
   svg.querySelectorAll('.factor-run').forEach(line => {
@@ -1753,15 +1804,14 @@ function renderMultiFactor() {
   const row = multiFactorCases[multiFactorIndex];
   const metric = row.metrics;
   document.getElementById('bosch-multifactor-index').value = multiFactorIndex;
-  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === bestMultiFactorIndex ? ' · closest saved shape' : ''}`;
+  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === defaultMultiFactorIndex ? ' · default saved run' : ''}`;
   document.getElementById('bosch-multifactor-profile').innerHTML = boschProfileMarkup(row);
   const controls = multiFactorOrder.map(name => `<dt>${BOSCH.factors[name].label}</dt><dd>${row.recipe[name]}</dd>`).join('');
   const depthDifference = metric.depth - BOSCH.targets.depth;
-  document.getElementById('bosch-multifactor-read').innerHTML = `<h4>${multiFactorDiagnosis(metric)}</h4>
-    <p>Dashed outline: target depth ${BOSCH.targets.depth.toFixed(2)} and width ${BOSCH.targets.target_cd.toFixed(2)}. The selected depth is ${Math.abs(depthDifference).toFixed(3)} ${depthDifference < 0 ? 'shorter' : 'deeper'}. ${profileShapeDiagnosis(metric)}.</p>
+  document.getElementById('bosch-multifactor-read').innerHTML = `<h4>Saved run ${multiFactorIndex + 1}</h4>
+    <p>Dashed outline: teaching target depth ${BOSCH.targets.depth.toFixed(2)} and width ${BOSCH.targets.target_cd.toFixed(2)}. This run is ${Math.abs(depthDifference).toFixed(3)} ${depthDifference < 0 ? 'shallower' : 'deeper'}.</p>
     ${profileScorecard(metric)}
     <dl>${controls}
-      <dt>Overall outline difference</dt><dd>${metric.profile_shape_rmse == null ? 'not measurable' : `${(100 * metric.profile_shape_rmse / BOSCH.targets.target_cd).toFixed(1)}% of target CD`}</dd>
       <dt>Left–right symmetry diagnostic</dt><dd>${metric.profile_symmetry_rms == null ? 'not measurable' : `${(100 * metric.profile_symmetry_rms / BOSCH.targets.target_cd).toFixed(1)}% of target CD`}</dd>
       <dt>Bottom-shape diagnostic</dt><dd>${boschMetric(metric.floor_flatness_pv)} model units</dd>
       <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
@@ -1776,7 +1826,7 @@ document.getElementById('bosch-multifactor-index').addEventListener('input', eve
   renderMultiFactor();
 });
 document.getElementById('bosch-multifactor-best').addEventListener('click', () => {
-  multiFactorIndex = bestMultiFactorIndex;
+  multiFactorIndex = defaultMultiFactorIndex;
   renderMultiFactor();
 });
 document.getElementById('bosch-multifactor-next').addEventListener('click', () => {
