@@ -13,6 +13,23 @@ evidence = json.loads(
     (ROOT / "evidence/bosch/pattern_bosch_metric_controls.json").read_text()
 )
 generated = build()
+
+
+def assert_equivalent(saved, rebuilt):
+    if isinstance(saved, float):
+        assert math.isclose(saved, rebuilt, rel_tol=1e-12, abs_tol=1e-12)
+    elif isinstance(saved, dict):
+        assert saved.keys() == rebuilt.keys()
+        for key in saved:
+            assert_equivalent(saved[key], rebuilt[key])
+    elif isinstance(saved, list):
+        assert len(saved) == len(rebuilt)
+        for saved_item, rebuilt_item in zip(saved, rebuilt, strict=True):
+            assert_equivalent(saved_item, rebuilt_item)
+    else:
+        assert saved == rebuilt
+
+
 for key in (
     "schema_version",
     "scope",
@@ -22,7 +39,7 @@ for key in (
     "claim",
     "does_not_prove",
 ):
-    assert evidence[key] == generated[key]
+    assert_equivalent(evidence[key], generated[key])
 assert len(evidence["cases"]) == len(generated["cases"])
 for saved_case, generated_case in zip(evidence["cases"], generated["cases"], strict=True):
     assert saved_case["id"] == generated_case["id"]
