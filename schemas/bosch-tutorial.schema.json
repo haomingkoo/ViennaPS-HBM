@@ -3,7 +3,7 @@
   "title": "Bosch tutorial evidence",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
+  "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_study", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
   "properties": {
     "schema_version": {"const": 2},
     "title": {"type": "string", "minLength": 1},
@@ -54,6 +54,18 @@
       }
     },
     "interactions": {"type": "array", "minItems": 28, "maxItems": 28, "items": {"$ref": "#/$defs/case"}},
+    "interior_study": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "case_count", "factor_order", "coordinate_levels", "interpretation"],
+      "properties": {
+        "method": {"type": "string", "minLength": 1},
+        "case_count": {"const": 18},
+        "factor_order": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "coordinate_levels": {"type": "array", "minItems": 3, "items": {"type": "number"}},
+        "interpretation": {"type": "string", "minLength": 1}
+      }
+    },
     "interior_cases": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/case"}},
     "default_interaction": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}},
     "default_interior_case": {"type": "string", "minLength": 16},
