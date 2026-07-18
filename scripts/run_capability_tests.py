@@ -147,6 +147,7 @@ TESTS_BY_RUNTIME = {
         "test_pattern_bosch_range_pilot_review.py",
         "test_bosch_ray_phase_a_review.py",
         "test_bosch_ray_phase_b_review.py",
+        "test_bosch_ray_current_grid_ladder_review.py",
     ),
 }
 
