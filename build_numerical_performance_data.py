@@ -212,7 +212,7 @@ def v3_ray_points(reference, thresholds, cheap_review):
         if rays == 500:
             decision = cheap_review["decision"]
             status = (
-                "provisional_discovery_bridge" if decision["pass"]
+                "commissioning_discovery_bridge" if decision["pass"]
                 else "saved_review_mismatch"
             )
         elif rays == 2000:

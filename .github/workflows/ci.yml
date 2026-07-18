@@ -50,6 +50,10 @@ jobs:
             build_step_experiments.py \
             build_explainer.py \
             build_numerical_performance_data.py \
+            build_bosch_tutorial_data.py \
+            build_bosch_trajectory_replay.py \
+            v3_bosch_clean_ray_ladder.py \
+            review_v3_bosch_clean_ray_ladder.py \
             scripts/autoresearch_event_log.py \
             scripts/validate_evidence.py \
             process_config.py
@@ -59,6 +63,7 @@ jobs:
           python build_numerical_evidence_bundle.py --check
           python build_numerical_performance_data.py
           python scripts/validate_evidence.py numerical_performance_data.json schemas/numerical-performance.schema.json
+          python scripts/validate_evidence.py bosch_tutorial_data.json schemas/bosch-tutorial.schema.json
           python test_evidence_schema.py
           python test_autoresearch_event_schema.py
           python test_autoresearch_event_log.py

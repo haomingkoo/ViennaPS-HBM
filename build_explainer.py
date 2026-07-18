@@ -14,6 +14,7 @@ INPUTS = {
     "cu_replay": "cu_fill_replay.json",
     "step_experiments": "step_experiments.json",
     "numerical_performance": "numerical_performance_data.json",
+    "bosch_tutorial": "bosch_tutorial_data.json",
 }
 
 

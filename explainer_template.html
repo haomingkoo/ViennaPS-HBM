@@ -48,9 +48,9 @@
           --sans: "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
   * { box-sizing: border-box; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
-  html { background: var(--bg); }
+  html { background: var(--bg); overflow-x: clip; }
   body {
-    margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans);
+    margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); overflow-x: clip;
     line-height: 1.55; font-size: 15.5px;
   }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
@@ -126,6 +126,28 @@
   .fill-metrics dd { margin: 0; font-family: var(--mono); text-align: right; }
   .fill-replay figcaption { margin-top: 0.8rem; max-width: 78ch; color: var(--ink-dim); font-size: 0.86rem; line-height: 1.5; }
   .output-studies { margin-top: 1.5rem; border-top: 1px solid var(--line); }
+  .bosch-lab { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
+  .bosch-causal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 1rem 0; background: var(--line); border: 1px solid var(--line); }
+  .bosch-causal span { padding: 0.7rem; background: var(--surface-2); color: var(--ink-dim); font-size: 0.75rem; text-align: center; }
+  .bosch-controls { display: grid; grid-template-columns: minmax(220px, 0.7fr) 1.3fr; gap: 1rem; align-items: end; margin: 1rem 0; }
+  .bosch-controls > * { min-width: 0; }
+  .bosch-controls label { display: grid; gap: 0.3rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .bosch-controls select { width: 100%; max-width: 100%; min-height: 44px; padding: 0.5rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+  .bosch-factor-note { margin: 0; color: var(--ink-dim); font-size: 0.78rem; }
+  .bosch-corners { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; margin-bottom: 0.8rem; }
+  .bosch-corners button { min-height: 70px; padding: 0.55rem; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); text-align: left; cursor: pointer; }
+  .bosch-corners button[aria-pressed="true"] { border-color: var(--plasma); background: var(--plasma-glow); }
+  .bosch-corners b, .bosch-corners span { display: block; }
+  .bosch-corners span { margin-top: 0.25rem; color: var(--ink-dim); font: 0.67rem var(--mono); }
+  .bosch-lab-layout { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(260px, 0.65fr); border: 1px solid var(--line); }
+  .bosch-profile { min-height: 560px; border-right: 1px solid var(--line); }
+  .bosch-profile svg { display: block; width: 100%; height: 560px; }
+  .bosch-read { padding: 1rem; background: var(--surface-2); }
+  .bosch-read h4 { margin: 0 0 0.4rem; }
+  .bosch-read p { margin: 0 0 0.9rem; color: var(--ink-dim); font-size: 0.8rem; }
+  .bosch-read dl { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem 0.8rem; margin: 0; font-size: 0.76rem; }
+  .bosch-read dt { color: var(--ink-dim); }
+  .bosch-read dd { margin: 0; font-family: var(--mono); text-align: right; }
   .output-viewer { padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
   .output-viewer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 0.55fr); gap: 1.5rem; align-items: end; margin-bottom: 0.9rem; padding-inline: 0.75rem; }
   .output-viewer-head h3 { margin: 0 0 0.25rem; }
@@ -166,6 +188,8 @@
     .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
     .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
+    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout { grid-template-columns: 1fr; }
+    .bosch-profile { border-right: 0; border-bottom: 1px solid var(--line); }
   }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
   .repo-map dt, .repo-map dd { margin: 0; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
@@ -464,7 +488,7 @@
 
   svg { width: 100%; height: auto; display: block; }
 
-  .process-picture { margin: 1.4rem 0 1rem; overflow-x: auto; }
+  .process-picture { margin: 1.4rem 0 1rem; overflow-x: auto; overflow-y: hidden; contain: inline-size; }
   .process-picture svg { background: var(--surface); border: 1px solid var(--line); }
   .process-picture figcaption { margin-top: 0.6rem; color: var(--ink-dim); font-size: 0.82rem; }
   .material-legend { display: flex; flex-wrap: wrap; gap: 0.55rem 1rem; margin-top: 0.75rem; font-family: var(--mono); font-size: 0.76rem; color: var(--ink-dim); }
@@ -759,15 +783,15 @@
       </table>
     </div>
     <p class="note">Both runs reached the depth and bow requirements. Width alone changed the overall decision. This rejects 250 rays for the broad search, but it does not tell us whether the useful threshold is 500, 1,000, or somewhere else. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/program.md#L38">width requirement</a>.</p>
-    <h3>How 500 rays will be checked</h3>
+    <h3>Why 500 rays is the current exploration setting</h3>
     <div class="method-chain" aria-label="Ray-count accuracy check">
       <div><b>1. Freeze cases</b><span>Include clear passes, clear failures, difficult shapes and cases close to each limit.</span></div>
       <div><b>2. Change rays only</b><span>Use the same physical inputs, random streams and stopping rule at 500 and 2,000 rays.</span></div>
       <div><b>3. Compare measurements</b><span>Check depth, top/middle/bottom width, bow and shape class.</span></div>
       <div><b>4. Check boundaries</b><span>Confirm that pass/fail limits do not move enough to change a decision.</span></div>
-      <div><b>5. Approve a use</b><span>If every check agrees, use 500 for broad search. Confirm finalists at 2,000.</span></div>
+      <div><b>5. Approve one use</b><span>A clean paired ladder must pass before 500 rays is approved as the discovery setting. Boundaries and finalists still use 2,000.</span></div>
     </div>
-    <p class="note"><b>Current status:</b> 500 rays is promising but not approved. The earlier comparison changed more than ray count, so it cannot answer this question cleanly.</p>
+    <p class="note"><b>Current status:</b> 500 rays is used provisionally for exploration. Across 16 commissioning anchors it preserved gate decisions, trajectory classes, strong-effect directions, and the factor ranking, with a 4.47× median speedup. That comparison also changed random streams and the stopping depth, so a clean paired ladder is still required.</p>
     <p class="note"><b>What matters:</b> the two settings do not need identical decimals. They need the same major shape, failure mode, pass/fail result and useful tuning direction. Small differences are acceptable when they cannot change a decision.</p>
     <h3>How the parameter search will work</h3>
     <div class="method-chain" aria-label="Sequential parameter search">
@@ -800,6 +824,24 @@
     </div>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
     <p class="note"><b>Physical recipe knobs:</b> gas flow and pressure; power and temperature; current and chemistry. These are not calibrated in this project.</p>
+    <div class="bosch-lab" id="bosch-interaction-lab">
+      <h3>Dry etch: controls work together</h3>
+      <p class="claim">Choose an interaction, then inspect the four actual simulated profiles.</p>
+      <p class="note">These 28 saved cases vary two model controls at a time around a fixed reference recipe. The shapes are loaded from native ViennaPS checkpoints. They are discovery evidence, not calibrated equipment recipes.</p>
+      <div class="bosch-causal" aria-label="Equipment to measurement relationship">
+        <span>Equipment controls</span><span>Plasma and surface state</span><span>ViennaPS model controls</span><span>Simulated profile</span><span>Geometry measurements</span>
+      </div>
+      <div class="bosch-controls">
+        <label for="bosch-interaction-select">Controls to compare<select id="bosch-interaction-select"></select></label>
+        <p class="bosch-factor-note" id="bosch-factor-note"></p>
+      </div>
+      <div class="bosch-corners" id="bosch-corners" aria-label="Saved interaction cases"></div>
+      <div class="bosch-lab-layout">
+        <div class="bosch-profile" id="bosch-profile" role="img" aria-label="Actual saved ViennaPS dry-etch profile"></div>
+        <aside class="bosch-read" id="bosch-read" aria-live="polite"></aside>
+      </div>
+      <p class="note"><a href="bosch_tutorial_data.json">Open the exported profiles and citations.</a> The browser does not interpolate between the four sampled combinations.</p>
+    </div>
     <div class="output-studies" id="step-output-studies">
       <h3>Inspect the saved result from each step</h3>
       <p class="claim">Each panel compares two controls and shows the resulting saved shape.</p>
@@ -1279,7 +1321,7 @@ function renderNumericalEvidence() {
     partial_not_qualified: 'Incomplete; no decision',
     complete_with_mismatch_observed: 'Rejected because a required decision changed',
     complete_awaiting_saved_review: 'Complete; review pending',
-    provisional_discovery_bridge: 'Promising, but not approved because the test changed more than ray count',
+    commissioning_discovery_bridge: 'Provisional exploration setting; clean paired ladder pending',
     saved_review_mismatch: 'Rejected because the saved review found a mismatch',
     tested_reference: 'Current comparison baseline, not guaranteed truth',
   };
@@ -1289,6 +1331,72 @@ function renderNumericalEvidence() {
 document.querySelectorAll('[data-numerical-axis]').forEach(button => button.addEventListener('click', () => { numericalState.axis = button.dataset.numericalAxis; renderNumericalEvidence(); }));
 document.getElementById('numerical-metric').addEventListener('change', event => { numericalState.metric = event.target.value; renderNumericalEvidence(); });
 renderNumericalEvidence();
+
+// ============ Reviewed Bosch interaction profiles ============
+const BOSCH = DATA.bosch_tutorial;
+const boschPairs = [...new Map(BOSCH.interactions.map(row => [row.interaction.join('|'), row.interaction])).values()];
+const boschSelect = document.getElementById('bosch-interaction-select');
+const factorLabel = key => BOSCH.factors[key].label;
+boschPairs.forEach(pair => {
+  const option = document.createElement('option');
+  option.value = pair.join('|');
+  option.textContent = `${factorLabel(pair[0])} × ${factorLabel(pair[1])}`;
+  boschSelect.appendChild(option);
+});
+boschSelect.value = BOSCH.default_interaction.join('|');
+
+function boschMetric(value, digits = 3) {
+  return Number(value).toFixed(digits);
+}
+
+function renderBoschCase(row) {
+  document.querySelectorAll('#bosch-corners button').forEach(button => {
+    button.setAttribute('aria-pressed', button.dataset.caseId === row.case_id);
+  });
+  const target = BOSCH.targets;
+  const metric = row.metrics;
+  const depthPass = Math.abs(metric.depth - target.depth) <= target.depth_tolerance;
+  const cdPass = metric.maximum_cd_error <= target.maximum_cd_error;
+  const bowPass = metric.bow <= target.maximum_bow;
+  const path = row.materials.find(material => material.id === 'silicon').surface_path;
+  document.getElementById('bosch-profile').innerHTML = `<svg viewBox="-0.5 -0.4 1 1.9" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="-0.5" y="-0.4" width="1" height="1.9" fill="var(--surface)"/>
+    <g transform="scale(1,-1)">
+      <path d="M-0.15 0L-0.15 -1.25L0.15 -1.25L0.15 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
+      <path d="${path}" fill="none" stroke="var(--si)" stroke-width="0.006"/>
+    </g>
+  </svg>`;
+  const source = `https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${row.citation.path}#L${row.citation.line_number}`;
+  document.getElementById('bosch-read').innerHTML = `<h4 class="status-${row.metrics.hard_gate_pass ? 'pass' : 'miss'}">${row.metrics.hard_gate_pass ? 'All three geometry checks pass' : 'One or more geometry checks fail'}</h4>
+    <p>Dashed line: target width and depth. Solid line: saved silicon surface.</p>
+    <dl>
+      <dt>Depth · target 1.15–1.35</dt><dd class="status-${depthPass ? 'pass' : 'miss'}">${boschMetric(metric.depth)}</dd>
+      <dt>Top width</dt><dd>${boschMetric(metric.cd_top)}</dd>
+      <dt>Middle width</dt><dd>${boschMetric(metric.cd_middle)}</dd>
+      <dt>Bottom width</dt><dd>${boschMetric(metric.cd_bottom)}</dd>
+      <dt>Maximum width error · limit 0.060</dt><dd class="status-${cdPass ? 'pass' : 'miss'}">${boschMetric(metric.maximum_cd_error)}</dd>
+      <dt>Bow · limit 0.030</dt><dd class="status-${bowPass ? 'pass' : 'miss'}">${boschMetric(metric.bow)}</dd>
+      <dt>Scallop RMS · diagnostic</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
+      <dt>Selected cycle</dt><dd>${metric.selected_cycle}</dd>
+      <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
+    </dl>
+    <p style="margin-top:1rem"><a href="${source}">Open the supporting simulation row</a></p>`;
+}
+
+function renderBoschInteraction() {
+  const pair = boschSelect.value.split('|');
+  const rows = BOSCH.interactions.filter(row => row.interaction.join('|') === boschSelect.value);
+  const first = BOSCH.factors[pair[0]], second = BOSCH.factors[pair[1]];
+  document.getElementById('bosch-factor-note').textContent = `Closest equipment influences: ${first.equipment_influences.join(', ')}; ${second.equipment_influences.join(', ')}. The mapping to these model controls requires calibration.`;
+  const corners = document.getElementById('bosch-corners');
+  corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${row.levels[pair[0]]} × ${row.levels[pair[1]]}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'passes geometry checks' : 'fails geometry checks'}</span></button>`).join('');
+  corners.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+    renderBoschCase(rows.find(row => row.case_id === button.dataset.caseId));
+  }));
+  renderBoschCase(rows.find(row => row.metrics.hard_gate_pass) || rows[0]);
+}
+boschSelect.addEventListener('change', renderBoschInteraction);
+renderBoschInteraction();
 
 // ============ Independent saved-output studies ==========
 const stepExperiments = DATA.step_experiments;

@@ -79,9 +79,24 @@ def assert_numerical_evidence(page):
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
     status = page.locator("#numerical-ray-status").inner_text()
     assert "rejected" in status.lower()
-    assert "Promising, but not approved" in status
+    assert "Provisional exploration setting; clean paired ladder pending" in status
     assert "Current comparison baseline" in status
     assert page.locator('a[href*="numerical_performance_data.json"]').count() == 1
+
+
+def assert_bosch_interactions(page):
+    lab = page.locator("#bosch-interaction-lab")
+    assert lab.locator("#bosch-corners button").count() == 4
+    assert "actual simulated profiles" in lab.inner_text().lower()
+    first_path = lab.locator("#bosch-profile path").nth(1).get_attribute("d")
+    lab.locator("#bosch-corners button").nth(2).click()
+    assert lab.locator("#bosch-profile path").nth(1).get_attribute("d") != first_path
+    page.select_option(
+        "#bosch-interaction-select", "ion_source_exponent|ion_rate"
+    )
+    assert lab.locator("#bosch-corners button").count() == 4
+    assert "Maximum width error" in lab.locator("#bosch-read").inner_text()
+    assert lab.locator('a[href*="v3_bosch_cheap_interactions_rows.jsonl"]').count() == 1
 
 
 def main():
@@ -96,6 +111,7 @@ def main():
         page.wait_for_selector('[data-output-viewer="cmp"] svg')
         assert_step_viewers(page)
         assert_numerical_evidence(page)
+        assert_bosch_interactions(page)
 
         page.get_by_role("button", name="Wall growth faster").click()
         page.locator("#fill-progress-slider").fill("23")

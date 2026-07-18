@@ -1014,7 +1014,7 @@
   "provenance": {
     "builder": {
       "path": "build_numerical_performance_data.py",
-      "sha256": "d5aa9e073f452d3eda2985811b28618ec908001c47e0967c2abcaf576af76fc4"
+      "sha256": "7e9b1e1f73b88a70484d2e5cb224c18561057ac398d5a62b5ed431f0589df3fb"
     },
     "inputs": [
       {
@@ -1212,7 +1212,7 @@
         "maximum_change_over_screen_threshold": 0.6792065809522526,
         "paired_anchor_median_speedup_vs_2000": 4.4701011734508915,
         "runs": 16,
-        "status": "provisional_discovery_bridge",
+        "status": "commissioning_discovery_bridge",
         "trajectory_mismatches": 0,
         "value": 500
       },

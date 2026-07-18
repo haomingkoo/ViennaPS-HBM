@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bosch tutorial evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_cases", "default_interaction", "default_interior_case", "review"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "title": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "equipment_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relationship", "chain"],
+      "properties": {
+        "relationship": {"const": "many-to-many and uncalibrated"},
+        "chain": {"type": "array", "minItems": 5, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "factors": {
+      "type": "object",
+      "minProperties": 6,
+      "additionalProperties": {"$ref": "#/$defs/factor"}
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "depth_tolerance", "target_cd", "maximum_cd_error", "maximum_bow"],
+      "properties": {
+        "depth": {"type": "number"},
+        "depth_tolerance": {"type": "number", "exclusiveMinimum": 0},
+        "target_cd": {"type": "number", "exclusiveMinimum": 0},
+        "maximum_cd_error": {"type": "number", "minimum": 0},
+        "maximum_bow": {"type": "number", "minimum": 0}
+      }
+    },
+    "interactions": {"type": "array", "minItems": 28, "maxItems": 28, "items": {"$ref": "#/$defs/case"}},
+    "interior_cases": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/case"}},
+    "default_interaction": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}},
+    "default_interior_case": {"type": "string", "minLength": 16},
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valid_cases", "hard_gate_passes", "decision", "citation"],
+      "properties": {
+        "valid_cases": {"const": 28},
+        "hard_gate_passes": {"type": "integer", "minimum": 0, "maximum": 28},
+        "decision": {"type": "object"},
+        "citation": {"$ref": "#/$defs/citation"}
+      }
+    }
+  },
+  "$defs": {
+    "factor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "kind", "equipment_influences", "meaning"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["model control", "model coefficient"]},
+        "equipment_influences": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "meaning": {"type": "string", "minLength": 1}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms", "sidewall_angle_deg", "selected_cycle", "hard_gate_pass", "trajectory_class"],
+      "properties": {
+        "depth": {"type": "number"},
+        "cd_top": {"type": "number"},
+        "cd_middle": {"type": "number"},
+        "cd_bottom": {"type": "number"},
+        "maximum_cd_error": {"type": "number", "minimum": 0},
+        "bow": {"type": "number", "minimum": 0},
+        "scallop_rms": {"type": "number", "minimum": 0},
+        "sidewall_angle_deg": {"type": "number"},
+        "selected_cycle": {"type": "integer", "minimum": 0},
+        "hard_gate_pass": {"type": "boolean"},
+        "trajectory_class": {"type": "string", "minLength": 1}
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "surface_path"],
+      "properties": {
+        "id": {"const": "silicon"},
+        "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"}
+      }
+    },
+    "citation": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "line_number": {"type": "integer", "minimum": 1},
+        "selector": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "case": {
+      "type": "object",
+      "required": ["case_id", "recipe", "metrics", "materials", "elapsed_s", "rays_per_point", "checkpoint_sha256", "citation"],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+        "interaction": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}},
+        "levels": {"type": "object", "minProperties": 2, "additionalProperties": {"enum": ["low", "high"]}},
+        "values": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "number"}},
+        "normalized_coordinates": {"type": "object", "additionalProperties": {"type": "number"}},
+        "recipe": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number"}},
+        "metrics": {"$ref": "#/$defs/metrics"},
+        "materials": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/material"}},
+        "elapsed_s": {"type": "number", "minimum": 0},
+        "rays_per_point": {"const": 500},
+        "checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "citation": {"$ref": "#/$defs/citation"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

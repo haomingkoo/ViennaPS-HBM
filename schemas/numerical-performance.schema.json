@@ -140,12 +140,12 @@
         "gate_mismatches": {"type": "integer", "minimum": 0},
         "trajectory_mismatches": {"type": "integer", "minimum": 0},
         "maximum_change_over_screen_threshold": {"type": ["number", "null"], "minimum": 0},
-        "status": {"enum": ["partial_with_mismatch_observed", "partial_not_qualified", "complete_with_mismatch_observed", "complete_awaiting_saved_review", "provisional_discovery_bridge", "saved_review_mismatch", "tested_reference"]},
+        "status": {"enum": ["partial_with_mismatch_observed", "partial_not_qualified", "complete_with_mismatch_observed", "complete_awaiting_saved_review", "commissioning_discovery_bridge", "saved_review_mismatch", "tested_reference"]},
         "citations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/citation"}}
       },
       "allOf": [
         {
-          "if": {"properties": {"status": {"const": "provisional_discovery_bridge"}}},
+          "if": {"properties": {"status": {"const": "commissioning_discovery_bridge"}}},
           "then": {"properties": {"value": {"const": 500}, "runs": {"minimum": 16}, "gate_mismatches": {"const": 0}, "trajectory_mismatches": {"const": 0}}}
         },
         {

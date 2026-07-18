@@ -74,6 +74,23 @@ Current evidence:
 - All 16 saved 250-ray cases completed. The review found one hard-gate mismatch and one strong-effect direction mismatch, despite a 0.943 factor-ranking Spearman and a 10.83x paired median speedup. It receives no discovery authority.
 - Older grid results were non-monotonic. No universal grid optimum has been established.
 
+The ViennaPS sources also do not define one universal ray count. The current
+library default is 1,000 rays per point, the official process tutorial shows
+500, bundled process examples commonly use 500 or 1,000, and flux-engine
+benchmarks use 10,000. These are defaults and example settings, not accuracy
+guarantees for this TSV geometry. The project therefore selects rays from
+paired measurement and decision stability, not by copying the largest or most
+common published value.
+
+The clean ray ladder holds geometry, recipe, cycle horizon, stopping depth,
+measurement code, and base random-stream labels fixed. It compares 250, 375,
+500, 750, 1,000, and 2,000 rays on passing, near-limit, shallow, over-etched,
+and interaction-sensitive profiles. A discovery setting must preserve every
+trajectory class and hard-gate decision. Its depth, top/middle/bottom CD,
+maximum CD error, bow, scallop, sidewall angle, selected cycle, and remaining
+mask must also stay within the predeclared paired allowances. Grid spacing is
+tested only after the ray ladder; the two controls are not changed together.
+
 The 2,000-ray profile is an accepted tested reference for these comparisons, not numerical truth. A clean qualification must hold the morphology panel and stopping rules fixed while varying the numerical control. It must include null, near-gate, failure, curvature, and interaction sentinels, and it must gate absolute metric drift and boundary movement as well as rankings.
 
 ## Search sequence
@@ -103,6 +120,8 @@ The numerical program is complete only when named discovery and confirmation pro
 
 - [ViennaPS process controls](https://viennatools.github.io/ViennaPS/process/)
 - [ViennaPS ray-tracing controls](https://viennatools.github.io/ViennaPS/process/rayTracingParams.html)
+- [ViennaPS ray-tracing default](ViennaPS/include/viennaps/process/psProcessParams.hpp)
+- [ViennaPS bundled ray-count examples](ViennaPS/examples/)
 - [ViennaPS advection controls](https://viennatools.github.io/ViennaPS/process/advectionParams.html)
 - [NIST guidance on choosing an experimental design](https://www.itl.nist.gov/div898/handbook/pri/section3/pri33.htm)
 - [Hyperband early-stopping method](https://www.jmlr.org/papers/v18/16-558.html)

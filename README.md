@@ -99,6 +99,8 @@ A useful study then follows six rules:
 | `evidence/numerical/` | Committed rows, manifests, reviews, and hashes behind the numerical charts. |
 | `scripts/autoresearch_event_log.py` | Hash-chained attempt log and retry/stop hook. |
 | `numerical_performance_data.json` | Citable grid/ray cost and response evidence. |
+| `bosch_tutorial_data.json` | Reviewed dry-etch interaction profiles and measurements. |
+| `v3_bosch_clean_ray_ladder.py` | Runs the paired ray-count cost and accuracy study. |
 | `build_screening_traveler.py` | Builds the prescribed teaching traveler. |
 | `build_step_experiments.py` | Exports the saved mask, etch, film, and CMP studies. |
 | `build_cu_fill_replay.py` | Exports copper surfaces for the interactive replay. |
@@ -224,6 +226,11 @@ committed `step_experiments.json` when rebuilding the HTML.
 The numerical charts are portable: their exact source rows, manifests, review,
 and hashes are committed under `evidence/numerical/`. CI rebuilds the chart data
 and fails if it differs.
+
+The dry-etch interaction export contains the actual silicon contours from 28
+reviewed native checkpoints. The committed JSON and HTML are portable, but
+regenerating that export requires the local native checkpoint archive named by
+each source row and hash.
 
 Monte Carlo transport also introduces run-to-run variation. Reproducible
 comparisons must record random seeds, geometry inputs, numerical settings, and
