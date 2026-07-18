@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/schemas/v3-bosch-interior-descriptive-review.schema.json",
+  "title": "V3 Bosch interior descriptive review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign", "status", "completeness", "provenance", "design", "effects", "limitations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "v3-bosch-interior-descriptive-review"},
+    "status": {"const": "complete_descriptive_review"},
+    "completeness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_cases", "observed_cases", "unique_case_ids", "all_metrics_finite", "rays_per_point", "level_counts"],
+      "properties": {
+        "expected_cases": {"const": 18},
+        "observed_cases": {"const": 18},
+        "unique_case_ids": {"const": 18},
+        "all_metrics_finite": {"const": true},
+        "rays_per_point": {"const": 500},
+        "level_counts": {
+          "type": "object",
+          "minProperties": 6,
+          "maxProperties": 6,
+          "propertyNames": {"$ref": "#/$defs/factor_name"},
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high"],
+            "properties": {
+              "low": {"type": "integer", "minimum": 8, "maximum": 10},
+              "high": {"type": "integer", "minimum": 8, "maximum": 10}
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["analysis_input", "simulation_rows", "case_citations", "measurement_method"],
+      "properties": {
+        "analysis_input": {"$ref": "#/$defs/source"},
+        "simulation_rows": {"$ref": "#/$defs/source"},
+        "case_citations": {
+          "type": "array",
+          "minItems": 18,
+          "maxItems": 18,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["case_id", "source_line"],
+            "properties": {
+              "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+              "source_line": {"type": "integer", "minimum": 1, "maximum": 18}
+            }
+          }
+        },
+        "measurement_method": {"const": "full_width_two_wall_remeasurement"}
+      }
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "coded_low", "coded_high", "factor_order", "control_levels", "estimator"],
+      "properties": {
+        "method": {"const": "18-case D-optimal interior refinement"},
+        "coded_low": {"const": -0.5},
+        "coded_high": {"const": 0.5},
+        "factor_order": {"$ref": "#/$defs/factors"},
+        "control_levels": {
+          "type": "object",
+          "minProperties": 6,
+          "maxProperties": 6,
+          "propertyNames": {"$ref": "#/$defs/factor_name"},
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high"],
+            "properties": {"low": {"type": "number"}, "high": {"type": "number"}}
+          }
+        },
+        "estimator": {"type": "string", "minLength": 1}
+      }
+    },
+    "effects": {
+      "type": "object",
+      "minProperties": 6,
+      "maxProperties": 6,
+      "propertyNames": {"enum": ["depth", "cd_top", "cd_middle", "cd_bottom", "bow", "sidewall_angle_deg"]},
+      "additionalProperties": {"$ref": "#/$defs/metric_effect"}
+    },
+    "limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repeats_per_combination", "within_combination_noise_estimated", "statistical_significance_estimated", "interpretation", "prohibited_claims"],
+      "properties": {
+        "repeats_per_combination": {"const": 1},
+        "within_combination_noise_estimated": {"const": false},
+        "statistical_significance_estimated": {"const": false},
+        "interpretation": {"type": "string", "minLength": 1},
+        "prohibited_claims": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "factor_name": {
+      "enum": ["etch_time", "deposition_thickness", "ion_source_exponent", "ion_rate", "neutral_rate", "neutral_sticking_probability"]
+    },
+    "source": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "selector": {"type": "string"},
+        "line_numbers": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1}}
+      },
+      "additionalProperties": false
+    },
+    "factors": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "etch_time"},
+        {"const": "deposition_thickness"},
+        {"const": "ion_source_exponent"},
+        {"const": "ion_rate"},
+        {"const": "neutral_rate"},
+        {"const": "neutral_sticking_probability"}
+      ],
+      "items": false
+    },
+    "metric_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed_minimum", "observed_maximum", "ranked_factors"],
+      "properties": {
+        "observed_minimum": {"type": "number"},
+        "observed_maximum": {"type": "number"},
+        "ranked_factors": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["factor", "adjusted_high_minus_low", "leave_one_out_minimum", "leave_one_out_maximum", "leave_one_out_sign_stable", "absolute_effect_rank"],
+            "properties": {
+              "factor": {"$ref": "#/$defs/factor_name"},
+              "adjusted_high_minus_low": {"type": "number"},
+              "leave_one_out_minimum": {"type": "number"},
+              "leave_one_out_maximum": {"type": "number"},
+              "leave_one_out_sign_stable": {"type": "boolean"},
+              "absolute_effect_rank": {"type": "integer", "minimum": 1, "maximum": 6}
+            }
+          }
+        }
+      }
+    }
+  }
+}

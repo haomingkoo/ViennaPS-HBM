@@ -1,0 +1,521 @@
+{
+  "campaign": "v3-bosch-interior-descriptive-review",
+  "completeness": {
+    "all_metrics_finite": true,
+    "expected_cases": 18,
+    "level_counts": {
+      "deposition_thickness": {
+        "high": 9,
+        "low": 9
+      },
+      "etch_time": {
+        "high": 9,
+        "low": 9
+      },
+      "ion_rate": {
+        "high": 9,
+        "low": 9
+      },
+      "ion_source_exponent": {
+        "high": 8,
+        "low": 10
+      },
+      "neutral_rate": {
+        "high": 10,
+        "low": 8
+      },
+      "neutral_sticking_probability": {
+        "high": 10,
+        "low": 8
+      }
+    },
+    "observed_cases": 18,
+    "rays_per_point": 500,
+    "unique_case_ids": 18
+  },
+  "design": {
+    "coded_high": 0.5,
+    "coded_low": -0.5,
+    "control_levels": {
+      "deposition_thickness": {
+        "high": 0.01414214,
+        "low": 0.00387298
+      },
+      "etch_time": {
+        "high": 1.0,
+        "low": 0.31622777
+      },
+      "ion_rate": {
+        "high": -0.06324555,
+        "low": -0.14832397
+      },
+      "ion_source_exponent": {
+        "high": 632,
+        "low": 141
+      },
+      "neutral_rate": {
+        "high": -0.04898979,
+        "low": -0.12649111
+      },
+      "neutral_sticking_probability": {
+        "high": 0.15491933,
+        "low": 0.04
+      }
+    },
+    "estimator": "ordinary least squares with intercept and six coded main effects; adjusted_high_minus_low is the fitted +0.5 minus -0.5 contrast",
+    "factor_order": [
+      "etch_time",
+      "deposition_thickness",
+      "ion_source_exponent",
+      "ion_rate",
+      "neutral_rate",
+      "neutral_sticking_probability"
+    ],
+    "method": "18-case D-optimal interior refinement"
+  },
+  "effects": {
+    "bow": {
+      "observed_maximum": 0.04553441363171995,
+      "observed_minimum": 0.0038737406527687146,
+      "ranked_factors": [
+        {
+          "absolute_effect_rank": 1,
+          "adjusted_high_minus_low": 0.016795866482211548,
+          "factor": "etch_time",
+          "leave_one_out_maximum": 0.019045763747520227,
+          "leave_one_out_minimum": 0.015620745110012432,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 2,
+          "adjusted_high_minus_low": -0.01061010692259479,
+          "factor": "neutral_rate",
+          "leave_one_out_maximum": -0.009288170574253723,
+          "leave_one_out_minimum": -0.012054741180943766,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 3,
+          "adjusted_high_minus_low": -0.007955608686221041,
+          "factor": "ion_rate",
+          "leave_one_out_maximum": -0.006976340876055128,
+          "leave_one_out_minimum": -0.009830523073978284,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 4,
+          "adjusted_high_minus_low": -0.006277297016285333,
+          "factor": "deposition_thickness",
+          "leave_one_out_maximum": -0.004926470177309664,
+          "leave_one_out_minimum": -0.008152211404042545,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 5,
+          "adjusted_high_minus_low": -0.006105587477885573,
+          "factor": "neutral_sticking_probability",
+          "leave_one_out_maximum": -0.005073705864779171,
+          "leave_one_out_minimum": -0.007480524695574214,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 6,
+          "adjusted_high_minus_low": -0.0032271085923746804,
+          "factor": "ion_source_exponent",
+          "leave_one_out_maximum": -0.0018521713746860462,
+          "leave_one_out_minimum": -0.004258990205481072,
+          "leave_one_out_sign_stable": true
+        }
+      ]
+    },
+    "cd_bottom": {
+      "observed_maximum": 0.4022338477323447,
+      "observed_minimum": 0.04237633729213138,
+      "ranked_factors": [
+        {
+          "absolute_effect_rank": 1,
+          "adjusted_high_minus_low": -0.1405783252591525,
+          "factor": "deposition_thickness",
+          "leave_one_out_maximum": -0.1315183921964961,
+          "leave_one_out_minimum": -0.15088426414098205,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 2,
+          "adjusted_high_minus_low": 0.10270436276757224,
+          "factor": "etch_time",
+          "leave_one_out_maximum": 0.11227140403045648,
+          "leave_one_out_minimum": 0.09183244309238464,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 3,
+          "adjusted_high_minus_low": -0.06564511512564565,
+          "factor": "neutral_rate",
+          "leave_one_out_maximum": -0.0514744491631301,
+          "leave_one_out_minimum": -0.07295327164590476,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 4,
+          "adjusted_high_minus_low": -0.05236255152671354,
+          "factor": "neutral_sticking_probability",
+          "leave_one_out_maximum": -0.038191885564197836,
+          "leave_one_out_minimum": -0.059670708046972554,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 5,
+          "adjusted_high_minus_low": -0.02948439940062078,
+          "factor": "ion_source_exponent",
+          "leave_one_out_maximum": -0.015313733438105142,
+          "leave_one_out_minimum": -0.03832293300604546,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 6,
+          "adjusted_high_minus_low": -0.017432242168590423,
+          "factor": "ion_rate",
+          "leave_one_out_maximum": -0.008372309105934162,
+          "leave_one_out_minimum": -0.02773818105041984,
+          "leave_one_out_sign_stable": true
+        }
+      ]
+    },
+    "cd_middle": {
+      "observed_maximum": 0.46825940464238525,
+      "observed_minimum": 0.14351687338800106,
+      "ranked_factors": [
+        {
+          "absolute_effect_rank": 1,
+          "adjusted_high_minus_low": -0.11591734584985801,
+          "factor": "deposition_thickness",
+          "leave_one_out_maximum": -0.10982885325578037,
+          "leave_one_out_minimum": -0.12093589961092235,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 2,
+          "adjusted_high_minus_low": 0.10951950076416045,
+          "factor": "etch_time",
+          "leave_one_out_maximum": 0.11315753836345255,
+          "leave_one_out_minimum": 0.1044457569357626,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 3,
+          "adjusted_high_minus_low": -0.06252339218151651,
+          "factor": "neutral_rate",
+          "leave_one_out_maximum": -0.05562288076005293,
+          "leave_one_out_minimum": -0.06903469676129391,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 4,
+          "adjusted_high_minus_low": -0.038507060565639704,
+          "factor": "neutral_sticking_probability",
+          "leave_one_out_maximum": -0.031606549144175954,
+          "leave_one_out_minimum": -0.04250890192486168,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 5,
+          "adjusted_high_minus_low": -0.03190186513579535,
+          "factor": "ion_rate",
+          "leave_one_out_maximum": -0.02826382753650303,
+          "leave_one_out_minimum": -0.03697560896419299,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 6,
+          "adjusted_high_minus_low": -0.0274903361357245,
+          "factor": "ion_source_exponent",
+          "leave_one_out_maximum": -0.020589824714260876,
+          "leave_one_out_minimum": -0.03214126797842247,
+          "leave_one_out_sign_stable": true
+        }
+      ]
+    },
+    "cd_top": {
+      "observed_maximum": 0.4727499680868395,
+      "observed_minimum": 0.26676106595459836,
+      "ranked_factors": [
+        {
+          "absolute_effect_rank": 1,
+          "adjusted_high_minus_low": 0.06388393490806071,
+          "factor": "etch_time",
+          "leave_one_out_maximum": 0.0702635330505755,
+          "leave_one_out_minimum": 0.05405447476165693,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 2,
+          "adjusted_high_minus_low": -0.057119124675527586,
+          "factor": "neutral_rate",
+          "leave_one_out_maximum": -0.04961050928591374,
+          "leave_one_out_minimum": -0.06437766815901601,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 3,
+          "adjusted_high_minus_low": -0.03308499515157073,
+          "factor": "deposition_thickness",
+          "leave_one_out_maximum": -0.024893778362901027,
+          "leave_one_out_minimum": -0.0407405129225892,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 4,
+          "adjusted_high_minus_low": -0.02113442620478374,
+          "factor": "neutral_sticking_probability",
+          "leave_one_out_maximum": -0.01362581081516982,
+          "leave_one_out_minimum": -0.02839296968827203,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 5,
+          "adjusted_high_minus_low": -0.018066894066957336,
+          "factor": "ion_rate",
+          "leave_one_out_maximum": -0.009875677278287625,
+          "leave_one_out_minimum": -0.023345834782221547,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 6,
+          "adjusted_high_minus_low": -0.003562264499637498,
+          "factor": "ion_source_exponent",
+          "leave_one_out_maximum": 0.0034552934571292332,
+          "leave_one_out_minimum": -0.011070879889251354,
+          "leave_one_out_sign_stable": false
+        }
+      ]
+    },
+    "depth": {
+      "observed_maximum": 1.2756522826297005,
+      "observed_minimum": 0.6300620717363846,
+      "ranked_factors": [
+        {
+          "absolute_effect_rank": 1,
+          "adjusted_high_minus_low": -0.08929604255802091,
+          "factor": "ion_rate",
+          "leave_one_out_maximum": -0.02607795334339885,
+          "leave_one_out_minimum": -0.12618464237818033,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 2,
+          "adjusted_high_minus_low": -0.07225452584059032,
+          "factor": "neutral_sticking_probability",
+          "leave_one_out_maximum": -0.025894593749867387,
+          "leave_one_out_minimum": -0.10606907567573658,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 3,
+          "adjusted_high_minus_low": 0.07024250384804166,
+          "factor": "etch_time",
+          "leave_one_out_maximum": 0.11450882363223296,
+          "leave_one_out_minimum": -0.005619203209504767,
+          "leave_one_out_sign_stable": false
+        },
+        {
+          "absolute_effect_rank": 4,
+          "adjusted_high_minus_low": -0.058377878166967705,
+          "factor": "neutral_rate",
+          "leave_one_out_maximum": -0.012017946076245282,
+          "leave_one_out_minimum": -0.09219242800211452,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 5,
+          "adjusted_high_minus_low": 0.0381700836996556,
+          "factor": "ion_source_exponent",
+          "leave_one_out_maximum": 0.0719846335348024,
+          "leave_one_out_minimum": -0.008189848391066854,
+          "leave_one_out_sign_stable": false
+        },
+        {
+          "absolute_effect_rank": 6,
+          "adjusted_high_minus_low": -0.007324321091790936,
+          "factor": "deposition_thickness",
+          "leave_one_out_maximum": 0.055893768122830624,
+          "leave_one_out_minimum": -0.044212920911950934,
+          "leave_one_out_sign_stable": false
+        }
+      ]
+    },
+    "sidewall_angle_deg": {
+      "observed_maximum": 13.35592094236848,
+      "observed_minimum": -1.229756104703766,
+      "ranked_factors": [
+        {
+          "absolute_effect_rank": 1,
+          "adjusted_high_minus_low": 4.04062918995125,
+          "factor": "deposition_thickness",
+          "leave_one_out_maximum": 4.891911002109788,
+          "leave_one_out_minimum": 2.8973571133756773,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 2,
+          "adjusted_high_minus_low": -2.0502782059602342,
+          "factor": "etch_time",
+          "leave_one_out_maximum": -0.6783517140695464,
+          "leave_one_out_minimum": -3.071816380550474,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 3,
+          "adjusted_high_minus_low": 1.593751795812374,
+          "factor": "neutral_sticking_probability",
+          "leave_one_out_maximum": 2.3740934569577035,
+          "leave_one_out_minimum": 0.7553522729902894,
+          "leave_one_out_sign_stable": true
+        },
+        {
+          "absolute_effect_rank": 4,
+          "adjusted_high_minus_low": 0.7523267904618198,
+          "factor": "neutral_rate",
+          "leave_one_out_maximum": 1.5326684516071472,
+          "leave_one_out_minimum": -0.08607273236026655,
+          "leave_one_out_sign_stable": false
+        },
+        {
+          "absolute_effect_rank": 5,
+          "adjusted_high_minus_low": 0.7284051901734075,
+          "factor": "ion_rate",
+          "leave_one_out_maximum": 1.5796870023319496,
+          "leave_one_out_minimum": -0.41486688640216274,
+          "leave_one_out_sign_stable": false
+        },
+        {
+          "absolute_effect_rank": 6,
+          "adjusted_high_minus_low": 0.31943133199350254,
+          "factor": "ion_source_exponent",
+          "leave_one_out_maximum": 1.1578308548155907,
+          "leave_one_out_minimum": -0.46091032915182173,
+          "leave_one_out_sign_stable": false
+        }
+      ]
+    }
+  },
+  "limitations": {
+    "interpretation": "Effects and leave-one-out sign stability are descriptive for these 18 saved combinations. With no repeated combinations, residual variation cannot separate stochastic noise from curvature or interactions.",
+    "prohibited_claims": [
+      "statistically significant effect",
+      "confirmed causal main effect",
+      "qualified recipe or process window"
+    ],
+    "repeats_per_combination": 1,
+    "statistical_significance_estimated": false,
+    "within_combination_noise_estimated": false
+  },
+  "provenance": {
+    "analysis_input": {
+      "path": "bosch_tutorial_data.json",
+      "selector": "/interior_cases",
+      "sha256": "4e8ce526a3cf83c1bc8e58537ceb25641115a500d27535f16b963523145e30c3"
+    },
+    "case_citations": [
+      {
+        "case_id": "003058b457f9b933",
+        "source_line": 1
+      },
+      {
+        "case_id": "2a38b05d234e2ead",
+        "source_line": 2
+      },
+      {
+        "case_id": "142a8a6288351f36",
+        "source_line": 3
+      },
+      {
+        "case_id": "dca486193f58dbdb",
+        "source_line": 4
+      },
+      {
+        "case_id": "c6795e5a3a7b56db",
+        "source_line": 5
+      },
+      {
+        "case_id": "aac0e99de49584cc",
+        "source_line": 6
+      },
+      {
+        "case_id": "7133ca159d408190",
+        "source_line": 7
+      },
+      {
+        "case_id": "be829ff2cbe7b14d",
+        "source_line": 8
+      },
+      {
+        "case_id": "b2b6e894e7056087",
+        "source_line": 9
+      },
+      {
+        "case_id": "bb3b31eacf93e6c8",
+        "source_line": 10
+      },
+      {
+        "case_id": "b6a2763b74cb579a",
+        "source_line": 11
+      },
+      {
+        "case_id": "90f66bc04f81d94f",
+        "source_line": 12
+      },
+      {
+        "case_id": "5e3a68ad9b65a792",
+        "source_line": 13
+      },
+      {
+        "case_id": "85f492042ff4e15a",
+        "source_line": 14
+      },
+      {
+        "case_id": "9548f92a9f14ccc1",
+        "source_line": 15
+      },
+      {
+        "case_id": "39f57e028c34770e",
+        "source_line": 16
+      },
+      {
+        "case_id": "0bd95a54b05f1d84",
+        "source_line": 17
+      },
+      {
+        "case_id": "19e5cdd7466000d6",
+        "source_line": 18
+      }
+    ],
+    "measurement_method": "full_width_two_wall_remeasurement",
+    "simulation_rows": {
+      "line_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "path": "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl",
+      "sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
+    }
+  },
+  "schema_version": 1,
+  "status": "complete_descriptive_review"
+}
