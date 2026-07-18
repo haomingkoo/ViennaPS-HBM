@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/schemas/v3-bosch-focused-ion-map-review.schema.json",
+  "title": "V3 focused Bosch ion-map review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign", "status", "completeness", "provenance", "cells", "pareto_analysis", "confirmation_candidates", "authority"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "v3-bosch-focused-ion-map-review"},
+    "status": {"const": "complete_descriptive_review"},
+    "completeness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_new_rows", "observed_new_rows", "unique_new_case_ids", "unique_factor_cells", "all_new_rows_successful"],
+      "properties": {
+        "required_new_rows": {"const": 12},
+        "observed_new_rows": {"const": 12},
+        "unique_new_case_ids": {"const": 12},
+        "unique_factor_cells": {"const": 9},
+        "all_new_rows_successful": {"const": true}
+      }
+    },
+    "provenance": {"type": "object", "required": ["manifest", "new_rows", "saved_prior_best"]},
+    "cells": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cell_id", "ion_source_exponent", "ion_rate", "new_run_count", "case_ids", "measurements"],
+        "properties": {
+          "cell_id": {"type": "string", "minLength": 1},
+          "ion_source_exponent": {"enum": [50, 141, 400]},
+          "ion_rate": {"enum": [-0.04, -0.06324555, -0.1]},
+          "new_run_count": {"type": "integer", "minimum": 1, "maximum": 3},
+          "case_ids": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string", "pattern": "^[0-9a-f]{16}$"}},
+          "measurements": {"$ref": "#/$defs/measurements"}
+        }
+      }
+    },
+    "pareto_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "comparison_targets", "objectives_by_entry", "pareto_front", "weighted_score_used", "pass_limits_applied"],
+      "properties": {
+        "method": {"const": "strict Pareto dominance; every objective is minimized"},
+        "comparison_targets": {"type": "object"},
+        "objectives_by_entry": {"type": "object", "minProperties": 10, "maxProperties": 10},
+        "pareto_front": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "weighted_score_used": {"const": false},
+        "pass_limits_applied": {"const": false}
+      }
+    },
+    "confirmation_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cell_id", "basis"],
+        "properties": {
+          "cell_id": {"type": "string", "minLength": 1},
+          "basis": {"const": "pareto_nondominated_against_all_new_cells_and_saved_prior_best"}
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_meaning", "recipe_authorized", "process_window_authorized", "statistical_significance_authorized"],
+      "properties": {
+        "candidate_meaning": {"type": "string", "minLength": 1},
+        "recipe_authorized": {"const": false},
+        "process_window_authorized": {"const": false},
+        "statistical_significance_authorized": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "statistic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["values"],
+      "properties": {
+        "values": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "number"}},
+        "mean": {"type": "number"},
+        "sample_sd": {"type": "number", "minimum": 0}
+      },
+      "dependentRequired": {"mean": ["sample_sd"], "sample_sd": ["mean"]}
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "max_bow", "sidewall_angle_deg"],
+      "properties": {
+        "depth": {"$ref": "#/$defs/statistic"},
+        "cd_top": {"$ref": "#/$defs/statistic"},
+        "cd_middle": {"$ref": "#/$defs/statistic"},
+        "cd_bottom": {"$ref": "#/$defs/statistic"},
+        "max_bow": {"$ref": "#/$defs/statistic"},
+        "sidewall_angle_deg": {"$ref": "#/$defs/statistic"}
+      }
+    }
+  }
+}
