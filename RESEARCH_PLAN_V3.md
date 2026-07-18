@@ -341,24 +341,29 @@ shapes, distinct failure morphologies, and tested extremes.
    availability challenge changed the assumed depth-band decision. Do not
    advance 250 rays. The low-movement recipes triggered the same configured
    minimum-depth guard in both arms and remain guard evidence, not measurements.
-3. Run a capped fresh 500-versus-2,000-ray panel on unseen seed labels. Include
-   the current-grid reference, center, narrow profile, availability challenge,
-   nearest assumed-band cases, and at least one Phase A agreement. Treat 2,000
-   rays as a tested reference, not numerical truth.
-4. After the ray study, check grid, advection, domain, cap, execution layout,
+3. The fresh 500-versus-2,000-ray panel is complete. All 26 runs returned usable
+   measurements. All three depth-boundary pairs changed the assumed depth
+   classification, and one of three narrow-profile pairs changed the assumed
+   bow classification. Do not advance 500 rays for this categorical scope.
+4. Freeze a bounded intermediate-ray bridge on the four Phase B disagreement
+   pairs plus at least one agreement anchor. Reuse the exact completed 2,000-ray
+   arm only when every provenance and payload field matches; otherwise rerun it.
+   This bridge may advance a setting to later checks but cannot establish
+   continuous equivalence.
+5. After the ray study, check grid, advection, domain, cap, execution layout,
    and save cadence separately on a bounded representative panel. Derive
    response-specific numerical and repeat envelopes. Do not invent a universal
    tolerance or approve a setting from runtime alone.
-5. Freeze and run the repeated 54-case mask/Bosch screen only after its metric,
+6. Freeze and run the repeated 54-case mask/Bosch screen only after its metric,
    factor-range, and numerical-profile blockers are resolved. It may estimate
    broad main effects and curvature flags, but not interactions or an optimum.
-6. Confirm promoted effects and interactions in separate held-out bridge
+7. Confirm promoted effects and interactions in separate held-out bridge
    panels. Select saved profiles by both factor-space and morphology diversity.
-7. Use those exact saved geometries for liner, barrier, seed, copper, and CMP
+8. Use those exact saved geometries for liner, barrier, seed, copper, and CMP
    studies. Each study must show multiple controls, immediate measurements,
    at least one reproduced failure, a passing geometric control when the model
    can express one, and downstream tradeoffs.
-8. Publish only sampled profiles and measurements in the tutorial. Label model
+9. Publish only sampled profiles and measurements in the tutorial. Label model
    controls, equipment controls, numerical settings, assumed study bands, and
    calibrated limits separately.
 

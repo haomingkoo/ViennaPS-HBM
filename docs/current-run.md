@@ -12,6 +12,34 @@ control, not a TSV process knob or the learner-facing result.
 
 | Item | Value |
 |---|---|
+| Stage | Fresh 500-versus-2,000-ray Bosch comparison |
+| Status | Complete review: 500 rays does not advance |
+| Scope | 13 exact seed-labelled pairs at grid 0.005; 26 runs |
+| Result | All 26 runs completed with usable measurements; four pairs changed a tutorial-band classification |
+| Runtime | The observed 2,000/500 paired ratio ranged from 2.81 to 4.23; median 3.71 |
+| Review | [`evidence/numerical/bosch_ray_phase_b_review.json`](../evidence/numerical/bosch_ray_phase_b_review.json) |
+| Manifest | [`evidence/numerical/bosch_ray_phase_b_manifest.json`](../evidence/numerical/bosch_ray_phase_b_manifest.json) |
+
+All three depth-boundary pairs changed the assumed depth classification between
+500 and 2,000 rays. One of three narrow-profile pairs changed the assumed bow
+classification. The selected cycle matched within every affected pair, so the
+changes are not endpoint-selection artifacts. These are tutorial comparisons,
+not fabrication pass/fail claims.
+
+The width candidate was useful: its closest observed width-band margin was
+0.00025 model units at grid 0.005. No width classification changed, but the
+continuous agreement remains unqualified. The 2,000-ray arm is still a tested
+comparator, not numerical truth.
+
+The next numerical question is whether a bounded intermediate setting can
+preserve the four disagreement pairs and at least one agreement anchor. Reuse
+the completed 2,000-ray arms only when the physical payload, seed label,
+extractor, endpoint rule, binaries, and source hashes match exactly.
+
+## Earlier completed Phase A
+
+| Item | Value |
+|---|---|
 | Stage | Fresh 250-versus-500-ray Bosch triage |
 | Status | Complete review: 250 rays does not advance |
 | Scope | Eight profile categories at grid 0.005; 32 runs |
@@ -31,10 +59,8 @@ Both low-movement recipes triggered the configured minimum-etch-depth guard at
 not profile measurements. The review keeps these states separate from the 20
 measured runs.
 
-Phase A cannot qualify 500 rays. The next comparison is a fresh same-grid
-500-versus-2,000-ray panel containing the current-grid reference, center,
-narrow profile, availability challenge, and at least one agreement case. The
-2,000-ray arm is a tested comparator, not numerical truth.
+Phase A could not qualify 500 rays. Phase B above completed that comparison and
+found that 500 rays also changes required tutorial classifications.
 
 ## Earlier completed range pilot
 
@@ -95,12 +121,12 @@ evidence, but it does not isolate ray count or prove numerical convergence.
 
 ## Next action
 
-Freeze and run the fresh same-grid 500-versus-2,000-ray Phase B panel. Include
-mandatory reference cases even when 250 and 500 agreed, so shared low-ray bias
-cannot escape review. Use unseen seed labels and retain exact availability,
-assumed-band, morphology, and measurement comparisons. After ray selection,
-check grid, advection, domain, caps, execution layout, and save cadence
-separately.
+Freeze a small intermediate-ray bridge using the four Phase B disagreement
+pairs plus at least one agreement anchor. Compare categorical outcomes and raw
+measurement differences against compatible 2,000-ray rows. If no intermediate
+setting survives, use 2,000 rays for scoped confirmation and redesign the broad
+screen rather than calling a cheaper setting accurate. Grid, advection, domain,
+caps, execution layout, and save cadence remain separate checks.
 
 ## Clean ray ladder checkpoint
 

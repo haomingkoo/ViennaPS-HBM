@@ -1,0 +1,1755 @@
+{
+  "archived_mismatch_checkpoints": [
+    {
+      "case_key": "72d61d269c397f1b",
+      "pair_id": "depth_boundary:stream_1",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/72d61d269c397f1b_cycle004.npz",
+      "rays_per_point": 500,
+      "sha256": "5279738e352193df19b83b44a66a9a5680ca080fee26ba7a88a9a1cb391e9db4"
+    },
+    {
+      "case_key": "d57998a2ae5ed6cf",
+      "pair_id": "depth_boundary:stream_1",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/d57998a2ae5ed6cf_cycle004.npz",
+      "rays_per_point": 2000,
+      "sha256": "a396f5420318a0b73dc01d26592e170899e39bec673898d25883414a5acd6d12"
+    },
+    {
+      "case_key": "d79f3ec74b19a0c5",
+      "pair_id": "depth_boundary:stream_2",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/d79f3ec74b19a0c5_cycle004.npz",
+      "rays_per_point": 500,
+      "sha256": "54a62083591cab8d32a4b7155ad959aee7dc2143c7eb37bdadc7da48345be578"
+    },
+    {
+      "case_key": "1cdca72aacc77680",
+      "pair_id": "depth_boundary:stream_2",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/1cdca72aacc77680_cycle004.npz",
+      "rays_per_point": 2000,
+      "sha256": "3d1c45d88d45f247ff7943effd29d26e19b879a1ae1f66bce071ba3e19797ffd"
+    },
+    {
+      "case_key": "1d7866e8ce82bc30",
+      "pair_id": "depth_boundary:stream_3",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/1d7866e8ce82bc30_cycle004.npz",
+      "rays_per_point": 500,
+      "sha256": "37c29258d93c55e99528910e2479d1dfdf366ae1e6e8bf7acb6b00d37c09ee1c"
+    },
+    {
+      "case_key": "f3f3c4b555733bbd",
+      "pair_id": "depth_boundary:stream_3",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/f3f3c4b555733bbd_cycle004.npz",
+      "rays_per_point": 2000,
+      "sha256": "ea989dc5479646cc1b0767fd3df86b488c6692af74ea3ffd88da32ad04e8a369"
+    },
+    {
+      "case_key": "fce988e990ee9a30",
+      "pair_id": "narrow_profile:stream_2",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/fce988e990ee9a30_cycle016.npz",
+      "rays_per_point": 500,
+      "sha256": "73b52c3b8d8b3919d09ff3658ef418bad01345d3c1fb59e664ff972674c5f7c3"
+    },
+    {
+      "case_key": "0c4f535257ee3b40",
+      "pair_id": "narrow_profile:stream_2",
+      "path": "evidence/numerical/bosch_ray_phase_b_checkpoints/0c4f535257ee3b40_cycle016.npz",
+      "rays_per_point": 2000,
+      "sha256": "3d01ee9d95b923b04014e9512e113884d0d1edc2ea3459d4eb2803f0c78697d3"
+    }
+  ],
+  "campaign": "bosch-ray-phase-b-v3",
+  "categorical_mismatches": [
+    {
+      "mismatches": [
+        "assumed_band_depth"
+      ],
+      "pair_id": "depth_boundary:stream_1",
+      "panel_id": "depth_boundary"
+    },
+    {
+      "mismatches": [
+        "assumed_band_depth"
+      ],
+      "pair_id": "depth_boundary:stream_2",
+      "panel_id": "depth_boundary"
+    },
+    {
+      "mismatches": [
+        "assumed_band_depth"
+      ],
+      "pair_id": "depth_boundary:stream_3",
+      "panel_id": "depth_boundary"
+    },
+    {
+      "mismatches": [
+        "assumed_band_bow"
+      ],
+      "pair_id": "narrow_profile:stream_2",
+      "panel_id": "narrow_profile"
+    }
+  ],
+  "comparisons": [
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.009659682911924317,
+        "cd_max": 0.007920066421027883,
+        "cd_middle": 0.0031559950074808163,
+        "cd_min": 0.0016046766007890012,
+        "cd_top": 0.0008221096547377793,
+        "depth": 0.017549498311566047,
+        "max_bow": 0.0009259251662017132,
+        "max_cd_error": 0.007920066421027883,
+        "maximum_center_shift": 0.0017287373336271755,
+        "scallop_rms": 7.040950809823168e-05,
+        "sidewall_angle_deg": 0.3259315487333327
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "646904d3221d1cf1",
+        "500": "ab1ff65b1b688bd8"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.021884467906204963,
+            "depth_lower": 0.11315259908252195,
+            "depth_upper": 0.08684740091747822,
+            "width": 0.015035461217305313
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.33998294990816313,
+            "cd_max": 0.3449645387826947,
+            "cd_middle": 0.3276773304167818,
+            "cd_min": 0.3154679172093283,
+            "cd_top": 0.32936195591927286,
+            "depth": 1.2631525990825219,
+            "max_bow": 0.008115532093795036,
+            "max_cd_error": 0.044964538782694685,
+            "maximum_center_shift": 0.0009642324995672025,
+            "scallop_rms": 0.0017465309726432685,
+            "sidewall_angle_deg": -0.32117088439228886
+          },
+          "minimum_width_cells": 63.09358344186566,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 30
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.02095854274000325,
+            "depth_lower": 0.0956031007709559,
+            "depth_upper": 0.10439689922904427,
+            "width": 0.00711539479627743
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.34964263282008745,
+            "cd_max": 0.35288460520372256,
+            "cd_middle": 0.33083332542426264,
+            "cd_min": 0.3138632406085393,
+            "cd_top": 0.3285398462645351,
+            "depth": 1.2456031007709558,
+            "max_bow": 0.009041457259996749,
+            "max_cd_error": 0.05288460520372257,
+            "maximum_center_shift": 0.002692969833194378,
+            "scallop_rms": 0.0018169404807415002,
+            "sidewall_angle_deg": -0.6471024331256215
+          },
+          "minimum_width_cells": 62.77264812170786,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 30
+        }
+      },
+      "pair_id": "current_grid_reference:stream_1",
+      "panel_id": "current_grid_reference",
+      "repeat_index": 0,
+      "runtime_ratio_2000_to_500": 3.593503177502425,
+      "runtime_s": {
+        "2000": 209.8575108749792,
+        "500": 58.399144374998286
+      },
+      "seed_label": 1900000,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": 0.009659682911924317,
+        "cd_max": 0.007920066421027883,
+        "cd_middle": 0.0031559950074808163,
+        "cd_min": -0.0016046766007890012,
+        "cd_top": -0.0008221096547377793,
+        "depth": -0.017549498311566047,
+        "max_bow": 0.0009259251662017132,
+        "max_cd_error": 0.007920066421027883,
+        "maximum_center_shift": 0.0017287373336271755,
+        "scallop_rms": 7.040950809823168e-05,
+        "sidewall_angle_deg": -0.3259315487333327
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.011174754732670933,
+        "cd_max": 3.636233503734321e-05,
+        "cd_middle": 0.016436977279895237,
+        "cd_min": 0.003467035693503151,
+        "cd_top": 0.003209185129173009,
+        "depth": 0.004000352451145384,
+        "max_bow": 0.004931836642000698,
+        "max_cd_error": 3.636233503745423e-05,
+        "maximum_center_shift": 0.003130686175193298,
+        "scallop_rms": 0.00014549562025726812,
+        "sidewall_angle_deg": 0.39135019135050175
+      },
+      "arm_order_in_log": [
+        2000,
+        500
+      ],
+      "case_keys": {
+        "2000": "d57998a2ae5ed6cf",
+        "500": "72d61d269c397f1b"
+      },
+      "categorical_mismatches": [
+        "assumed_band_depth"
+      ],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": true,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.05206286840051125,
+            "depth_lower": 0.1965888867603236,
+            "depth_upper": 0.0034111132396765775,
+            "width": -0.6115766132453229
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.8362457395638206,
+            "cd_max": 0.971576613245323,
+            "cd_middle": 0.8575041223204495,
+            "cd_min": 0.6005005995733974,
+            "cd_top": 0.6819875442806768,
+            "depth": 1.3465888867603235,
+            "max_bow": 0.08206286840051125,
+            "max_cd_error": 0.6715766132453229,
+            "maximum_center_shift": 0.0069754818812750585,
+            "scallop_rms": 0.019480304136230097,
+            "sidewall_angle_deg": -4.367193148775464
+          },
+          "minimum_width_cells": 120.10011991467948,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 4
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.04713103175851055,
+            "depth_lower": 0.20058923921146898,
+            "depth_upper": -0.0005892392114688061,
+            "width": -0.6116129755803603
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.8474204942964916,
+            "cd_max": 0.9716129755803603,
+            "cd_middle": 0.8739410996003447,
+            "cd_min": 0.6039676352669006,
+            "cd_top": 0.6787783591515038,
+            "depth": 1.350589239211469,
+            "max_bow": 0.07713103175851055,
+            "max_cd_error": 0.6716129755803604,
+            "maximum_center_shift": 0.0038447957060817606,
+            "scallop_rms": 0.019625799756487365,
+            "sidewall_angle_deg": -4.758543340125966
+          },
+          "minimum_width_cells": 120.7935270533801,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 4
+        }
+      },
+      "pair_id": "depth_boundary:stream_1",
+      "panel_id": "depth_boundary",
+      "repeat_index": 0,
+      "runtime_ratio_2000_to_500": 3.713150619009554,
+      "runtime_s": {
+        "2000": 575.3892337080033,
+        "500": 154.95984212498297
+      },
+      "seed_label": 1900679,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": 0.011174754732670933,
+        "cd_max": 3.636233503734321e-05,
+        "cd_middle": 0.016436977279895237,
+        "cd_min": 0.003467035693503151,
+        "cd_top": -0.003209185129173009,
+        "depth": 0.004000352451145384,
+        "max_bow": -0.004931836642000698,
+        "max_cd_error": 3.636233503745423e-05,
+        "maximum_center_shift": -0.003130686175193298,
+        "scallop_rms": 0.00014549562025726812,
+        "sidewall_angle_deg": -0.39135019135050175
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.016011179325129854,
+        "cd_max": 0.030209616479371038,
+        "cd_middle": 0.020491911825838316,
+        "cd_min": 0.0031727511117944918,
+        "cd_top": 0.0012603115268061682,
+        "depth": 0.023121752851002597,
+        "max_bow": 0.00934088403136818,
+        "max_cd_error": 0.030209616479371038,
+        "maximum_center_shift": 0.0021437833195567246,
+        "scallop_rms": 9.82975054860287e-05,
+        "sidewall_angle_deg": 0.3293757538852429
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "1cdca72aacc77680",
+        "500": "d79f3ec74b19a0c5"
+      },
+      "categorical_mismatches": [
+        "assumed_band_depth"
+      ],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.049358747542933595,
+            "depth_lower": 0.22300421119530656,
+            "depth_upper": -0.02300421119530638,
+            "width": -0.6254639698940432
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.8585481345005528,
+            "cd_max": 0.9854639698940433,
+            "cd_middle": 0.9025748191584361,
+            "cd_min": 0.6002185128906552,
+            "cd_top": 0.6787515749958501,
+            "depth": 1.3730042111953065,
+            "max_bow": 0.0793587475429336,
+            "max_cd_error": 0.6854639698940432,
+            "maximum_center_shift": 0.0017391526648970757,
+            "scallop_rms": 0.01939760154221211,
+            "sidewall_angle_deg": -4.989318090127821
+          },
+          "minimum_width_cells": 120.04370257813103,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 4
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": true,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.040017863511565416,
+            "depth_lower": 0.19988245834430396,
+            "depth_upper": 0.00011754165569621833,
+            "width": -0.5952543534146721
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.8425369551754229,
+            "cd_max": 0.9552543534146722,
+            "cd_middle": 0.8820829073325978,
+            "cd_min": 0.6033912640024497,
+            "cd_top": 0.677491263469044,
+            "depth": 1.3498824583443039,
+            "max_bow": 0.07001786351156541,
+            "max_cd_error": 0.6552543534146722,
+            "maximum_center_shift": 0.0038829359844538003,
+            "scallop_rms": 0.019495899047698138,
+            "sidewall_angle_deg": -4.659942336242578
+          },
+          "minimum_width_cells": 120.67825280048993,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 4
+        }
+      },
+      "pair_id": "depth_boundary:stream_2",
+      "panel_id": "depth_boundary",
+      "repeat_index": 1,
+      "runtime_ratio_2000_to_500": 4.22749180172827,
+      "runtime_s": {
+        "2000": 620.7354257919942,
+        "500": 146.8330288750003
+      },
+      "seed_label": 1900776,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.016011179325129854,
+        "cd_max": -0.030209616479371038,
+        "cd_middle": -0.020491911825838316,
+        "cd_min": 0.0031727511117944918,
+        "cd_top": -0.0012603115268061682,
+        "depth": -0.023121752851002597,
+        "max_bow": -0.00934088403136818,
+        "max_cd_error": -0.030209616479371038,
+        "maximum_center_shift": 0.0021437833195567246,
+        "scallop_rms": 9.82975054860287e-05,
+        "sidewall_angle_deg": 0.3293757538852429
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.021575619920003675,
+        "cd_max": 0.024337920713364936,
+        "cd_middle": 0.011110292652727338,
+        "cd_min": 0.019362085412690133,
+        "cd_top": 0.005554119729059281,
+        "depth": 0.03156791107320034,
+        "max_bow": 0.004377004239693449,
+        "max_cd_error": 0.024337920713364936,
+        "maximum_center_shift": 0.005315303187817616,
+        "scallop_rms": 0.002172395475752313,
+        "sidewall_angle_deg": 0.6537428247987567
+      },
+      "arm_order_in_log": [
+        2000,
+        500
+      ],
+      "case_keys": {
+        "2000": "f3f3c4b555733bbd",
+        "500": "1d7866e8ce82bc30"
+      },
+      "categorical_mismatches": [
+        "assumed_band_depth"
+      ],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.04839823140119334,
+            "depth_lower": 0.21650875371903688,
+            "depth_upper": -0.016508753719036706,
+            "width": -0.620102761683069
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.8553481552086617,
+            "cd_max": 0.9801027616830691,
+            "cd_middle": 0.8754373619467892,
+            "cd_min": 0.6151195100116527,
+            "cd_top": 0.6765537573344133,
+            "depth": 1.3665087537190368,
+            "max_bow": 0.07839823140119334,
+            "max_cd_error": 0.680102761683069,
+            "maximum_center_shift": 0.005598163356939384,
+            "scallop_rms": 0.020815350863782868,
+            "sidewall_angle_deg": -4.985113264478619
+          },
+          "minimum_width_cells": 123.02390200233053,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 4
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": true,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.04402122716149989,
+            "depth_lower": 0.18494084264583655,
+            "depth_upper": 0.015059157354163633,
+            "width": -0.5957648409697041
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.833772535288658,
+            "cd_max": 0.9557648409697042,
+            "cd_middle": 0.8643270692940619,
+            "cd_min": 0.5957574245989625,
+            "cd_top": 0.6821078770634725,
+            "depth": 1.3349408426458365,
+            "max_bow": 0.07402122716149989,
+            "max_cd_error": 0.6557648409697041,
+            "maximum_center_shift": 0.010913466544757,
+            "scallop_rms": 0.018642955388030555,
+            "sidewall_angle_deg": -4.331370439679862
+          },
+          "minimum_width_cells": 119.15148491979251,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 4
+        }
+      },
+      "pair_id": "depth_boundary:stream_3",
+      "panel_id": "depth_boundary",
+      "repeat_index": 2,
+      "runtime_ratio_2000_to_500": 4.1979341041025116,
+      "runtime_s": {
+        "2000": 600.2832538329822,
+        "500": 142.99492058399483
+      },
+      "seed_label": 1900873,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.021575619920003675,
+        "cd_max": -0.024337920713364936,
+        "cd_middle": -0.011110292652727338,
+        "cd_min": -0.019362085412690133,
+        "cd_top": 0.005554119729059281,
+        "depth": -0.03156791107320034,
+        "max_bow": -0.004377004239693449,
+        "max_cd_error": -0.024337920713364936,
+        "maximum_center_shift": 0.005315303187817616,
+        "scallop_rms": -0.002172395475752313,
+        "sidewall_angle_deg": 0.6537428247987567
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.000777602833310076,
+        "cd_max": 0.000805793595424098,
+        "cd_middle": 0.0004242252623247178,
+        "cd_min": 0.0006128882245560741,
+        "cd_top": 0.00016592795311798358,
+        "depth": 0.0012245828106942636,
+        "max_bow": 0.00021124663811519784,
+        "max_cd_error": 0.000805793595424098,
+        "maximum_center_shift": 0.0005610703293248975,
+        "scallop_rms": 1.1065367375342593e-05,
+        "sidewall_angle_deg": 0.026624110286377595
+      },
+      "arm_order_in_log": [
+        2000,
+        500
+      ],
+      "case_keys": {
+        "2000": "c73ae59197c79d0b",
+        "500": "36d6869bc32e6141"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.020619428194085437,
+            "depth_lower": -0.2772918311307351,
+            "depth_upper": 0.47729183113073526,
+            "width": 0.022370807254311287
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.3275697104317076,
+            "cd_max": 0.3376291927456887,
+            "cd_middle": 0.33106880065748,
+            "cd_min": 0.31053728354154075,
+            "cd_top": 0.3293704570167725,
+            "depth": 0.8727081688692648,
+            "max_bow": 0.009380571805914562,
+            "max_cd_error": 0.03762919274568871,
+            "maximum_center_shift": 0.0007354998379899974,
+            "scallop_rms": 0.00291312926102499,
+            "sidewall_angle_deg": 0.07881604863163098
+          },
+          "minimum_width_cells": 62.10745670830815,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 10
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.02040818155597024,
+            "depth_lower": -0.2760672483200408,
+            "depth_upper": 0.476067248320041,
+            "width": 0.023176600849735385
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.3267921075983975,
+            "cd_max": 0.3368233991502646,
+            "cd_middle": 0.3306445753951553,
+            "cd_min": 0.3099243953169847,
+            "cd_top": 0.3292045290636545,
+            "depth": 0.8739327516799591,
+            "max_bow": 0.00959181844402976,
+            "max_cd_error": 0.03682339915026461,
+            "maximum_center_shift": 0.001296570167314895,
+            "scallop_rms": 0.0029241946284003324,
+            "sidewall_angle_deg": 0.10544015891800858
+          },
+          "minimum_width_cells": 61.98487906339693,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 10
+        }
+      },
+      "pair_id": "design_center:stream_1",
+      "panel_id": "design_center",
+      "repeat_index": 0,
+      "runtime_ratio_2000_to_500": 3.6935825751228606,
+      "runtime_s": {
+        "2000": 131.776815833,
+        "500": 35.67723562498577
+      },
+      "seed_label": 1900097,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.000777602833310076,
+        "cd_max": -0.000805793595424098,
+        "cd_middle": -0.0004242252623247178,
+        "cd_min": -0.0006128882245560741,
+        "cd_top": -0.00016592795311798358,
+        "depth": 0.0012245828106942636,
+        "max_bow": 0.00021124663811519784,
+        "max_cd_error": -0.000805793595424098,
+        "maximum_center_shift": 0.0005610703293248975,
+        "scallop_rms": 1.1065367375342593e-05,
+        "sidewall_angle_deg": 0.026624110286377595
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.0010900402041985613,
+        "cd_max": 0.00015249969409264486,
+        "cd_middle": 0.0002712574530542855,
+        "cd_min": 0.0007719579825525846,
+        "cd_top": 0.0001835977471005279,
+        "depth": 0.002840966774940279,
+        "max_bow": 0.00027605126858407103,
+        "max_cd_error": 0.00015249969409264486,
+        "maximum_center_shift": 0.00019891936845656266,
+        "scallop_rms": 0.00011287736286972813,
+        "sidewall_angle_deg": 0.03921789297943665
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "1fc175582a416946",
+        "500": "db196566e15f7bb5"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.02063242706696658,
+            "depth_lower": -0.27776233663613115,
+            "depth_upper": 0.4777623366361313,
+            "width": 0.022368903621839797
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.32679226776538683,
+            "cd_max": 0.3376310963781602,
+            "cd_middle": 0.3312027508257917,
+            "cd_min": 0.31040782672092226,
+            "cd_top": 0.3292409186212225,
+            "depth": 0.8722376633638688,
+            "max_bow": 0.009367572933033419,
+            "max_cd_error": 0.0376310963781602,
+            "maximum_center_shift": 0.0008540115055865605,
+            "scallop_rms": 0.0028837347445441522,
+            "sidewall_angle_deg": 0.10723162705736575
+          },
+          "minimum_width_cells": 62.081565344184455,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 10
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.02035637579838251,
+            "depth_lower": -0.27492136986119087,
+            "depth_upper": 0.47492136986119105,
+            "width": 0.022216403927747153
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.3257022275611883,
+            "cd_max": 0.33778359607225283,
+            "cd_middle": 0.3309314933727374,
+            "cd_min": 0.3096358687383697,
+            "cd_top": 0.329057320874122,
+            "depth": 0.875078630138809,
+            "max_bow": 0.00964362420161749,
+            "max_cd_error": 0.037783596072252845,
+            "maximum_center_shift": 0.0010529308740431231,
+            "scallop_rms": 0.0029966121074138804,
+            "sidewall_angle_deg": 0.1464495200368024
+          },
+          "minimum_width_cells": 61.92717374767393,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 10
+        }
+      },
+      "pair_id": "design_center:stream_2",
+      "panel_id": "design_center",
+      "repeat_index": 1,
+      "runtime_ratio_2000_to_500": 3.645229314764049,
+      "runtime_s": {
+        "2000": 133.7150292500155,
+        "500": 36.682199583010515
+      },
+      "seed_label": 1900194,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.0010900402041985613,
+        "cd_max": 0.00015249969409264486,
+        "cd_middle": -0.0002712574530542855,
+        "cd_min": -0.0007719579825525846,
+        "cd_top": -0.0001835977471005279,
+        "depth": 0.002840966774940279,
+        "max_bow": 0.00027605126858407103,
+        "max_cd_error": 0.00015249969409264486,
+        "maximum_center_shift": 0.00019891936845656266,
+        "scallop_rms": 0.00011287736286972813,
+        "sidewall_angle_deg": 0.03921789297943665
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.00146433676149349,
+        "cd_max": 0.00016769911578240482,
+        "cd_middle": 0.00011600872052486277,
+        "cd_min": 0.00022225343526904862,
+        "cd_top": 0.00013160762076902532,
+        "depth": 0.001568379758023375,
+        "max_bow": 1.86683244355057e-05,
+        "max_cd_error": 0.00016769911578240482,
+        "maximum_center_shift": 0.0005947664778074152,
+        "scallop_rms": 2.3619945392198017e-05,
+        "sidewall_angle_deg": 0.05803286599414101
+      },
+      "arm_order_in_log": [
+        2000,
+        500
+      ],
+      "case_keys": {
+        "2000": "8c6672ee457e4059",
+        "500": "6b4b1ec01bbf3a2c"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.020511638305500096,
+            "depth_lower": -0.27712922495949655,
+            "depth_upper": 0.4771292249594967,
+            "width": 0.022243016876886124
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.32682534462741336,
+            "cd_max": 0.33775698312311386,
+            "cd_middle": 0.33119786112020566,
+            "cd_min": 0.31008693839539836,
+            "cd_top": 0.3291569249992725,
+            "depth": 0.8728707750405034,
+            "max_bow": 0.009488361694499903,
+            "max_cd_error": 0.037756983123113874,
+            "maximum_center_shift": 0.0010564665031487647,
+            "scallop_rms": 0.0028977377510441054,
+            "sidewall_angle_deg": 0.10203081411497072
+          },
+          "minimum_width_cells": 62.01738767907967,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 10
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.02049296998106459,
+            "depth_lower": -0.27556084520147317,
+            "depth_upper": 0.47556084520147335,
+            "width": 0.02241071599266853
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.32536100786591987,
+            "cd_max": 0.33758928400733146,
+            "cd_middle": 0.3313138698407305,
+            "cd_min": 0.3098646849601293,
+            "cd_top": 0.3290253173785035,
+            "depth": 0.8744391547985267,
+            "max_bow": 0.009507030018935408,
+            "max_cd_error": 0.03758928400733147,
+            "maximum_center_shift": 0.0016512329809561799,
+            "scallop_rms": 0.0029213576964363035,
+            "sidewall_angle_deg": 0.16006368010911173
+          },
+          "minimum_width_cells": 61.97293699202586,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 10
+        }
+      },
+      "pair_id": "design_center:stream_3",
+      "panel_id": "design_center",
+      "repeat_index": 2,
+      "runtime_ratio_2000_to_500": 3.6774468739585404,
+      "runtime_s": {
+        "2000": 129.29863216599915,
+        "500": 35.159891249990324
+      },
+      "seed_label": 1900291,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.00146433676149349,
+        "cd_max": -0.00016769911578240482,
+        "cd_middle": 0.00011600872052486277,
+        "cd_min": -0.00022225343526904862,
+        "cd_top": -0.00013160762076902532,
+        "depth": 0.001568379758023375,
+        "max_bow": 1.86683244355057e-05,
+        "max_cd_error": -0.00016769911578240482,
+        "maximum_center_shift": 0.0005947664778074152,
+        "scallop_rms": 2.3619945392198017e-05,
+        "sidewall_angle_deg": 0.05803286599414101
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.0036441353883727642,
+        "cd_max": 0.011761582622511035,
+        "cd_middle": 0.002460416462103765,
+        "cd_min": 0.0016919807201009052,
+        "cd_top": 0.011761582622511035,
+        "depth": 0.0645193330700029,
+        "max_bow": 0.0004769889792474377,
+        "max_cd_error": 0.0016919807201009052,
+        "maximum_center_shift": 0.0002593109657946565,
+        "scallop_rms": 6.680688913016076e-05,
+        "sidewall_angle_deg": 1.2855440941864469
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "bfce88c826f8ab8b",
+        "500": "f0241f3202aac9e2"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.0006846254286071649,
+            "depth_lower": -0.35028980524030373,
+            "depth_upper": 0.5502898052403039,
+            "width": -0.22255729980624211
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.02047577154599868,
+            "cd_max": 0.14000401332262047,
+            "cd_middle": 0.024608021163577895,
+            "cd_min": 0.017442700193757897,
+            "cd_top": 0.14000401332262047,
+            "depth": 0.7997101947596962,
+            "max_bow": 0.030684625428607164,
+            "max_cd_error": 0.2825572998062421,
+            "maximum_center_shift": 0.0008240070382115154,
+            "scallop_rms": 0.0018176314058937243,
+            "sidewall_angle_deg": 5.690338333857085
+          },
+          "minimum_width_cells": 3.4885400387515793,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 16
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.00020763644935972714,
+            "depth_lower": -0.41480913831030664,
+            "depth_upper": 0.6148091383103068,
+            "width": -0.22424928052634302
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.016831636157625916,
+            "cd_max": 0.1517655959451315,
+            "cd_middle": 0.02706843762568166,
+            "cd_min": 0.015750719473656992,
+            "cd_top": 0.1517655959451315,
+            "depth": 0.7351908616896933,
+            "max_bow": 0.030207636449359726,
+            "max_cd_error": 0.284249280526343,
+            "maximum_center_shift": 0.001083318004006172,
+            "scallop_rms": 0.001884438295023885,
+            "sidewall_angle_deg": 6.975882428043532
+          },
+          "minimum_width_cells": 3.150143894731398,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 16
+        }
+      },
+      "pair_id": "narrow_profile:stream_1",
+      "panel_id": "narrow_profile",
+      "repeat_index": 0,
+      "runtime_ratio_2000_to_500": 3.678765759246436,
+      "runtime_s": {
+        "2000": 206.99138104199665,
+        "500": 56.26652920799097
+      },
+      "seed_label": 1900388,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.0036441353883727642,
+        "cd_max": 0.011761582622511035,
+        "cd_middle": 0.002460416462103765,
+        "cd_min": -0.0016919807201009052,
+        "cd_top": 0.011761582622511035,
+        "depth": -0.0645193330700029,
+        "max_bow": -0.0004769889792474377,
+        "max_cd_error": 0.0016919807201009052,
+        "maximum_center_shift": 0.0002593109657946565,
+        "scallop_rms": 6.680688913016076e-05,
+        "sidewall_angle_deg": 1.2855440941864469
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.0002741040108204286,
+        "cd_max": 0.0012242633177547702,
+        "cd_middle": 0.0028235513806093883,
+        "cd_min": 0.0011197981951386882,
+        "cd_top": 0.0012242633177547702,
+        "depth": 0.030870789455168746,
+        "max_bow": 0.0011265287026009235,
+        "max_cd_error": 0.0011197981951386882,
+        "maximum_center_shift": 0.00032522880077436814,
+        "scallop_rms": 3.530634190603943e-05,
+        "sidewall_angle_deg": 0.2735605655818798
+      },
+      "arm_order_in_log": [
+        2000,
+        500
+      ],
+      "case_keys": {
+        "2000": "0c4f535257ee3b40",
+        "500": "fce988e990ee9a30"
+      },
+      "categorical_mismatches": [
+        "assumed_band_bow"
+      ],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.0005557499037975727,
+            "depth_lower": -0.3463340935146626,
+            "depth_upper": 0.5463340935146628,
+            "width": -0.22265302585404645
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.0190726440374726,
+            "cd_max": 0.13993969285936964,
+            "cd_middle": 0.023937231667967584,
+            "cd_min": 0.017346974145953518,
+            "cd_top": 0.13993969285936964,
+            "depth": 0.8036659064853373,
+            "max_bow": 0.03055574990379757,
+            "max_cd_error": 0.28265302585404645,
+            "maximum_center_shift": 0.000394305563194689,
+            "scallop_rms": 0.0017919418918909181,
+            "sidewall_angle_deg": 5.7255178317377675
+          },
+          "minimum_width_cells": 3.4693948291907035,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 16
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": 0.0005707787988033508,
+            "depth_lower": -0.37720488296983135,
+            "depth_upper": 0.5772048829698315,
+            "width": -0.22377282404918514
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.01934674804829303,
+            "cd_max": 0.1411639561771244,
+            "cd_middle": 0.026760783048576972,
+            "cd_min": 0.01622717595081483,
+            "cd_top": 0.1411639561771244,
+            "depth": 0.7727951170301686,
+            "max_bow": 0.029429221201196648,
+            "max_cd_error": 0.28377282404918514,
+            "maximum_center_shift": 0.0007195343639690571,
+            "scallop_rms": 0.0018272482337969576,
+            "sidewall_angle_deg": 5.999078397319647
+          },
+          "minimum_width_cells": 3.245435190162966,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 16
+        }
+      },
+      "pair_id": "narrow_profile:stream_2",
+      "panel_id": "narrow_profile",
+      "repeat_index": 1,
+      "runtime_ratio_2000_to_500": 3.78222259498031,
+      "runtime_s": {
+        "2000": 204.53058008299558,
+        "500": 54.07682254197425
+      },
+      "seed_label": 1900485,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": 0.0002741040108204286,
+        "cd_max": 0.0012242633177547702,
+        "cd_middle": 0.0028235513806093883,
+        "cd_min": -0.0011197981951386882,
+        "cd_top": 0.0012242633177547702,
+        "depth": -0.030870789455168746,
+        "max_bow": -0.0011265287026009235,
+        "max_cd_error": 0.0011197981951386882,
+        "maximum_center_shift": 0.00032522880077436814,
+        "scallop_rms": 3.530634190603943e-05,
+        "sidewall_angle_deg": 0.2735605655818798
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.0022704622430735795,
+        "cd_max": 0.009852757959658037,
+        "cd_middle": 0.0016220943651417755,
+        "cd_min": 0.000924385293016982,
+        "cd_top": 0.009852757959658037,
+        "depth": 0.055283620834337355,
+        "max_bow": 0.0005428698771896764,
+        "max_cd_error": 0.0009243852930170271,
+        "maximum_center_shift": 0.001591048126367664,
+        "scallop_rms": 6.469770597692498e-05,
+        "sidewall_angle_deg": 1.055794526145153
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "c90ef984f720c50a",
+        "500": "63295a0c23453e04"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.0002268815519963982,
+            "depth_lower": -0.35858930187919946,
+            "depth_upper": 0.5585893018791996,
+            "width": -0.22363980018365465
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.019716742892493283,
+            "cd_max": 0.14107742427431041,
+            "cd_middle": 0.025491767556388586,
+            "cd_min": 0.016360199816345324,
+            "cd_top": 0.14107742427431041,
+            "depth": 0.7914106981208004,
+            "max_bow": 0.030226881551996397,
+            "max_cd_error": 0.28363980018365464,
+            "maximum_center_shift": 0.0012878671801099858,
+            "scallop_rms": 0.0019052168209233945,
+            "sidewall_angle_deg": 5.837155904102901
+          },
+          "minimum_width_cells": 3.2720399632690644,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 16
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": false,
+            "depth": false,
+            "width": false
+          },
+          "assumed_band_margins": {
+            "bow": -0.0007697514291860746,
+            "depth_lower": -0.4138729227135368,
+            "depth_upper": 0.613872922713537,
+            "width": -0.22456418547667167
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.017446280649419704,
+            "cd_max": 0.15093018223396845,
+            "cd_middle": 0.027113861921530362,
+            "cd_min": 0.015435814523328342,
+            "cd_top": 0.15093018223396845,
+            "depth": 0.7361270772864631,
+            "max_bow": 0.030769751429186074,
+            "max_cd_error": 0.28456418547667167,
+            "maximum_center_shift": 0.00287891530647765,
+            "scallop_rms": 0.0018405191149464695,
+            "sidewall_angle_deg": 6.892950430248054
+          },
+          "minimum_width_cells": 3.0871629046656683,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 16
+        }
+      },
+      "pair_id": "narrow_profile:stream_3",
+      "panel_id": "narrow_profile",
+      "repeat_index": 2,
+      "runtime_ratio_2000_to_500": 3.904341874055403,
+      "runtime_s": {
+        "2000": 206.52422670798842,
+        "500": 52.89604070800124
+      },
+      "seed_label": 1900582,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.0022704622430735795,
+        "cd_max": 0.009852757959658037,
+        "cd_middle": 0.0016220943651417755,
+        "cd_min": -0.000924385293016982,
+        "cd_top": 0.009852757959658037,
+        "depth": -0.055283620834337355,
+        "max_bow": 0.0005428698771896764,
+        "max_cd_error": 0.0009243852930170271,
+        "maximum_center_shift": 0.001591048126367664,
+        "scallop_rms": -6.469770597692498e-05,
+        "sidewall_angle_deg": 1.055794526145153
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.001476655515822517,
+        "cd_max": 1.8002543765938128e-05,
+        "cd_middle": 0.0019906880858076015,
+        "cd_min": 0.001476655515822517,
+        "cd_top": 1.8002543765938128e-05,
+        "depth": 0.0008650096826205989,
+        "max_bow": 0.0008022660314704333,
+        "max_cd_error": 0.001476655515822517,
+        "maximum_center_shift": 0.00017174005238968643,
+        "scallop_rms": 0.00018280539217239349,
+        "sidewall_angle_deg": 0.04332161859292527
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "369855a08f07f56c",
+        "500": "e7ecfb50b0c3d121"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.02528522520513199,
+            "depth_lower": 0.10071257557646973,
+            "depth_upper": 0.09928742442353045,
+            "width": 0.005386166278246424
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.24538616627824641,
+            "cd_max": 0.30021859477249824,
+            "cd_middle": 0.26154508331916126,
+            "cd_min": 0.24538616627824641,
+            "cd_top": 0.30021859477249824,
+            "depth": 1.2507125755764696,
+            "max_bow": 0.00471477479486801,
+            "max_cd_error": 0.054613833721753574,
+            "maximum_center_shift": 0.0019010439780436789,
+            "scallop_rms": 0.0008878614344379173,
+            "sidewall_angle_deg": 1.6741243771680223
+          },
+          "minimum_width_cells": 49.07723325564928,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 19
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.026087491236602423,
+            "depth_lower": 0.10157758525909033,
+            "depth_upper": 0.09842241474090985,
+            "width": 0.003909510762423907
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.2439095107624239,
+            "cd_max": 0.3002005922287323,
+            "cd_middle": 0.26353577140496887,
+            "cd_min": 0.2439095107624239,
+            "cd_top": 0.3002005922287323,
+            "depth": 1.2515775852590902,
+            "max_bow": 0.003912508763397576,
+            "max_cd_error": 0.05609048923757609,
+            "maximum_center_shift": 0.0017293039256539924,
+            "scallop_rms": 0.0007050560422655238,
+            "sidewall_angle_deg": 1.7174459957609476
+          },
+          "minimum_width_cells": 48.781902152484776,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 19
+        }
+      },
+      "pair_id": "width_boundary_candidate:stream_1",
+      "panel_id": "width_boundary_candidate",
+      "repeat_index": 0,
+      "runtime_ratio_2000_to_500": 3.736869402266998,
+      "runtime_s": {
+        "2000": 457.41553329199087,
+        "500": 122.40607954200823
+      },
+      "seed_label": 1900970,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.001476655515822517,
+        "cd_max": -1.8002543765938128e-05,
+        "cd_middle": 0.0019906880858076015,
+        "cd_min": -0.001476655515822517,
+        "cd_top": -1.8002543765938128e-05,
+        "depth": 0.0008650096826205989,
+        "max_bow": -0.0008022660314704333,
+        "max_cd_error": 0.001476655515822517,
+        "maximum_center_shift": -0.00017174005238968643,
+        "scallop_rms": -0.00018280539217239349,
+        "sidewall_angle_deg": 0.04332161859292527
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.0005692975584528082,
+        "cd_max": 0.0005942810122142039,
+        "cd_middle": 0.002952893643236698,
+        "cd_min": 0.000999992730478405,
+        "cd_top": 0.0005942810122142039,
+        "depth": 0.0006634191533942957,
+        "max_bow": 0.00034229970982027624,
+        "max_cd_error": 0.000999992730478405,
+        "maximum_center_shift": 0.0004119473684137051,
+        "scallop_rms": 5.3113367349039565e-05,
+        "sidewall_angle_deg": 0.03456805424622811
+      },
+      "arm_order_in_log": [
+        2000,
+        500
+      ],
+      "case_keys": {
+        "2000": "116629c24b95a264",
+        "500": "9c7e35c8b81e251b"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.026400152227952778,
+            "depth_lower": 0.10133860141819717,
+            "depth_upper": 0.098661398581803,
+            "width": 0.003759211487199432
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.24375921148719942,
+            "cd_max": 0.2994261858533322,
+            "cd_middle": 0.2666105685605622,
+            "cd_min": 0.24375921148719942,
+            "cd_top": 0.2994261858533322,
+            "depth": 1.251338601418197,
+            "max_bow": 0.003599847772047221,
+            "max_cd_error": 0.056240788512800566,
+            "maximum_center_shift": 0.000569929699629726,
+            "scallop_rms": 0.0007246694371807141,
+            "sidewall_angle_deg": 1.698739824408333
+          },
+          "minimum_width_cells": 48.751842297439886,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 19
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.0260578525181325,
+            "depth_lower": 0.10200202057159147,
+            "depth_upper": 0.09799797942840871,
+            "width": 0.002759218756721027
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.24318991392874661,
+            "cd_max": 0.3000204668655464,
+            "cd_middle": 0.2636576749173255,
+            "cd_min": 0.24275921875672102,
+            "cd_top": 0.3000204668655464,
+            "depth": 1.2520020205715914,
+            "max_bow": 0.003942147481867497,
+            "max_cd_error": 0.05724078124327897,
+            "maximum_center_shift": 0.000981877068043431,
+            "scallop_rms": 0.0006715560698316745,
+            "sidewall_angle_deg": 1.733307878654561
+          },
+          "minimum_width_cells": 48.5518437513442,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 19
+        }
+      },
+      "pair_id": "width_boundary_candidate:stream_2",
+      "panel_id": "width_boundary_candidate",
+      "repeat_index": 1,
+      "runtime_ratio_2000_to_500": 3.9826970067921685,
+      "runtime_s": {
+        "2000": 521.3378534580115,
+        "500": 130.90070687499247
+      },
+      "seed_label": 1901067,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.0005692975584528082,
+        "cd_max": 0.0005942810122142039,
+        "cd_middle": -0.002952893643236698,
+        "cd_min": -0.000999992730478405,
+        "cd_top": 0.0005942810122142039,
+        "depth": 0.0006634191533942957,
+        "max_bow": 0.00034229970982027624,
+        "max_cd_error": 0.000999992730478405,
+        "maximum_center_shift": 0.0004119473684137051,
+        "scallop_rms": -5.3113367349039565e-05,
+        "sidewall_angle_deg": 0.03456805424622811
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "absolute_deltas": {
+        "cd_bottom": 0.006079653586519462,
+        "cd_max": 3.140299227988308e-06,
+        "cd_middle": 0.0015986258541015874,
+        "cd_min": 0.0068795747836171706,
+        "cd_top": 3.140299227988308e-06,
+        "depth": 0.0022565371873426443,
+        "max_bow": 0.0010444294404531596,
+        "max_cd_error": 0.0068795747836171706,
+        "maximum_center_shift": 0.0014578582693592287,
+        "scallop_rms": 0.00015088869652311312,
+        "sidewall_angle_deg": 0.18179909116824944
+      },
+      "arm_order_in_log": [
+        500,
+        2000
+      ],
+      "case_keys": {
+        "2000": "7be76f7f584b06a5",
+        "500": "8f8e9eda023a3902"
+      },
+      "categorical_mismatches": [],
+      "continuous_equivalence_qualified": false,
+      "measurements": {
+        "2000": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.025262784621042228,
+            "depth_lower": 0.10329497413243005,
+            "depth_upper": 0.09670502586757013,
+            "width": 0.007133073325534589
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.24713307332553458,
+            "cd_max": 0.30013268957354866,
+            "cd_middle": 0.2623917968166923,
+            "cd_min": 0.24713307332553458,
+            "cd_top": 0.30013268957354866,
+            "depth": 1.25329497413243,
+            "max_bow": 0.004737215378957771,
+            "max_cd_error": 0.05286692667446541,
+            "maximum_center_shift": 0.002477456520687149,
+            "scallop_rms": 0.0009283985455077744,
+            "sidewall_angle_deg": 1.6148633613983385
+          },
+          "minimum_width_cells": 49.42661466510692,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 19
+        },
+        "500": {
+          "all_required_metrics_finite": true,
+          "assumed_band_checks": {
+            "bow": true,
+            "depth": true,
+            "width": true
+          },
+          "assumed_band_margins": {
+            "bow": 0.026307214061495388,
+            "depth_lower": 0.1055515113197727,
+            "depth_upper": 0.09444848868022748,
+            "width": 0.0002534985419174185
+          },
+          "availability": "complete",
+          "etch": {
+            "cd_bottom": 0.24105341973901512,
+            "cd_max": 0.3001295492743207,
+            "cd_middle": 0.26399042267079387,
+            "cd_min": 0.2402534985419174,
+            "cd_top": 0.3001295492743207,
+            "depth": 1.2555515113197726,
+            "max_bow": 0.0036927859385046113,
+            "max_cd_error": 0.05974650145808258,
+            "maximum_center_shift": 0.0010195982513279203,
+            "scallop_rms": 0.0007775098489846612,
+            "sidewall_angle_deg": 1.796662452566588
+          },
+          "minimum_width_cells": 48.05069970838348,
+          "reason_codes": [],
+          "resolution_available": true,
+          "selected_cycle": 19
+        }
+      },
+      "pair_id": "width_boundary_candidate:stream_3",
+      "panel_id": "width_boundary_candidate",
+      "repeat_index": 2,
+      "runtime_ratio_2000_to_500": 2.8115287490571794,
+      "runtime_s": {
+        "2000": 409.8396330419928,
+        "500": 145.77109808300156
+      },
+      "seed_label": 1901164,
+      "signed_deltas_500_minus_2000": {
+        "cd_bottom": -0.006079653586519462,
+        "cd_max": -3.140299227988308e-06,
+        "cd_middle": 0.0015986258541015874,
+        "cd_min": -0.0068795747836171706,
+        "cd_top": -3.140299227988308e-06,
+        "depth": 0.0022565371873426443,
+        "max_bow": -0.0010444294404531596,
+        "max_cd_error": 0.0068795747836171706,
+        "maximum_center_shift": -0.0014578582693592287,
+        "scallop_rms": -0.00015088869652311312,
+        "sidewall_angle_deg": 0.18179909116824944
+      },
+      "states": {
+        "2000": "complete_measured",
+        "500": "complete_measured"
+      }
+    }
+  ],
+  "decision": {
+    "candidate_500_rays": "does_not_advance",
+    "next_action": "Do not use 500 rays as the broad Bosch exploration setting. Evaluate a fresh intermediate ray count or redesign the numerical ladder.",
+    "result": "reject_500_for_categorical_triage_on_this_panel"
+  },
+  "execution": {
+    "maximum_runtime_ratio_2000_to_500": 4.22749180172827,
+    "median_runtime_ratio_2000_to_500": 3.713150619009554,
+    "minimum_runtime_ratio_2000_to_500": 2.8115287490571794,
+    "pair_count": 13,
+    "planned_runs": 26,
+    "runtime_interpretation": "Descriptive wall time on one host only. Two concurrent workers prevent a causal ray-count speedup claim.",
+    "state_counts": {
+      "complete_measured": 26
+    }
+  },
+  "highest_supported_claim": "Across 13 exact unseen seed-labelled pairs at grid 0.005, 500 rays changed the assumed depth classification in all three depth-boundary pairs and the assumed bow classification in one of three narrow-profile pairs relative to 2,000 rays.",
+  "limits": [
+    "Any positive result applies only to the 13 exact seed-labelled pairs.",
+    "Assumed-band decisions are not fabrication specifications.",
+    "Continuous metric differences have no engineering-equivalence allowance yet.",
+    "No per-run wall-time timeout is configured; the source-case cycle count bounds model duration.",
+    "Only independently selected cycles are saved. A selected-cycle mismatch blocks ray-effect attribution.",
+    "Per-cycle histories are not retained, so the result does not qualify trajectory agreement.",
+    "The study does not qualify grid, advection, domain, caps, or execution layout.",
+    "Important boundaries and finalists still require 2,000-ray confirmation."
+  ],
+  "maximum_absolute_deltas": {
+    "cd_bottom": {
+      "pair_id": "depth_boundary:stream_3",
+      "value": 0.021575619920003675
+    },
+    "cd_max": {
+      "pair_id": "depth_boundary:stream_2",
+      "value": 0.030209616479371038
+    },
+    "cd_middle": {
+      "pair_id": "depth_boundary:stream_2",
+      "value": 0.020491911825838316
+    },
+    "cd_min": {
+      "pair_id": "depth_boundary:stream_3",
+      "value": 0.019362085412690133
+    },
+    "cd_top": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.011761582622511035
+    },
+    "depth": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.0645193330700029
+    },
+    "max_bow": {
+      "pair_id": "depth_boundary:stream_2",
+      "value": 0.00934088403136818
+    },
+    "max_cd_error": {
+      "pair_id": "depth_boundary:stream_2",
+      "value": 0.030209616479371038
+    },
+    "maximum_center_shift": {
+      "pair_id": "depth_boundary:stream_3",
+      "value": 0.005315303187817616
+    },
+    "scallop_rms": {
+      "pair_id": "depth_boundary:stream_3",
+      "value": 0.002172395475752313
+    },
+    "sidewall_angle_deg": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 1.2855440941864469
+    }
+  },
+  "panel_summaries": [
+    {
+      "categorical_mismatch_pairs": 0,
+      "closest_absolute_width_margin": 0.00711539479627743,
+      "pair_count": 1,
+      "panel_id": "current_grid_reference",
+      "width_boundary_interpretation": "Observed margin only; no numerical-equivalence allowance."
+    },
+    {
+      "categorical_mismatch_pairs": 3,
+      "closest_absolute_width_margin": 0.5952543534146721,
+      "pair_count": 3,
+      "panel_id": "depth_boundary",
+      "width_boundary_interpretation": "Observed margin only; no numerical-equivalence allowance."
+    },
+    {
+      "categorical_mismatch_pairs": 0,
+      "closest_absolute_width_margin": 0.022216403927747153,
+      "pair_count": 3,
+      "panel_id": "design_center",
+      "width_boundary_interpretation": "Observed margin only; no numerical-equivalence allowance."
+    },
+    {
+      "categorical_mismatch_pairs": 1,
+      "closest_absolute_width_margin": 0.22255729980624211,
+      "pair_count": 3,
+      "panel_id": "narrow_profile",
+      "width_boundary_interpretation": "Observed margin only; no numerical-equivalence allowance."
+    },
+    {
+      "categorical_mismatch_pairs": 0,
+      "closest_absolute_width_margin": 0.0002534985419174185,
+      "pair_count": 3,
+      "panel_id": "width_boundary_candidate",
+      "width_boundary_interpretation": "Observed margin only; no numerical-equivalence allowance."
+    }
+  ],
+  "prohibited_claims": [
+    "2,000 rays is numerical truth.",
+    "500 rays is universally inaccurate.",
+    "Continuous measurement equivalence was tested.",
+    "The assumed comparison bands are fabrication specifications.",
+    "Grid, advection, domain, caps, or execution layout are qualified."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "evidence/numerical/bosch_ray_phase_b_manifest.json",
+      "sha256": "02548a25947337a392ad089972cf32b2d099996ab80799c0e348e75dcab3243c"
+    },
+    {
+      "path": "evidence/numerical/bosch_ray_phase_b_events.jsonl",
+      "sha256": "61db52f11c23cec6a22c2520e57dba3e8411bbc93aa303e6401fa59a0515c4e2"
+    },
+    {
+      "path": "build_bosch_ray_phase_b_review.py",
+      "sha256": "1184675d6bfb7f016f867f91ed361034077d53b2188fbed3851354134b0b15e5"
+    }
+  ],
+  "status": "complete_reviewed"
+}

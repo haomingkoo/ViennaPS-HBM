@@ -198,6 +198,20 @@
     },
     {
       "original_workspace_source": {
+        "bytes": 100042,
+        "lines": 26,
+        "path": "autoresearch-results/restart_audit/bosch_ray_phase_b_events.jsonl",
+        "sha256": "61db52f11c23cec6a22c2520e57dba3e8411bbc93aa303e6401fa59a0515c4e2"
+      },
+      "published": {
+        "bytes": 100042,
+        "lines": 26,
+        "path": "evidence/numerical/bosch_ray_phase_b_events.jsonl",
+        "sha256": "61db52f11c23cec6a22c2520e57dba3e8411bbc93aa303e6401fa59a0515c4e2"
+      }
+    },
+    {
+      "original_workspace_source": {
         "bytes": 34850,
         "lines": 937,
         "path": ".scratch/full-traveler-autoresearch/v3_bosch_r125_qualification_manifest.json",
@@ -254,10 +268,10 @@
     }
   ],
   "generator": {
-    "bytes": 4410,
-    "lines": 134,
+    "bytes": 4495,
+    "lines": 135,
     "path": "build_numerical_evidence_bundle.py",
-    "sha256": "7b7b82aa0c8259bb37d7168bbc338f87a8f37d02ee0741bc353354bcdaa5a797"
+    "sha256": "df582ddd33d105a0e815c2f69fd5cb96a88c78e7a0fc3dc0d13f8ff65319e727"
   },
   "purpose": "exact source rows for the published numerical charts and Bosch tutorial",
   "schema_version": 1

@@ -68,6 +68,14 @@ Choose the cheapest discovery profile with margin before the observed cliff. It 
 
 Current evidence:
 
+- A fresh 26-run Phase B panel compared 500 and 2,000 rays at grid 0.005.
+  Every run completed with usable measurements. All three depth-boundary pairs
+  changed the assumed depth classification, and one of three narrow-profile
+  pairs changed the assumed bow classification. Therefore 500 rays does not
+  advance for categorical triage on this panel. The observed paired runtime
+  ratio ranged from 2.81 to 4.23, with a median of 3.71. These timings are
+  descriptive, and 2,000 rays is not numerical truth.
+
 - A fresh 32-run Phase A panel compared 250 and 500 rays at grid 0.005. Twenty
   runs returned measurements. Twelve low-movement runs triggered the configured
   minimum-depth guard symmetrically. The narrow profile changed the assumed

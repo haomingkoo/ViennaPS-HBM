@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/schemas/bosch-ray-phase-b-review.schema.json",
+  "title": "Bosch ray Phase B review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "campaign",
+    "status",
+    "highest_supported_claim",
+    "sources",
+    "execution",
+    "comparisons",
+    "categorical_mismatches",
+    "maximum_absolute_deltas",
+    "panel_summaries",
+    "archived_mismatch_checkpoints",
+    "decision",
+    "prohibited_claims",
+    "limits"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "bosch-ray-phase-b-v3"},
+    "status": {"const": "complete_reviewed"},
+    "highest_supported_claim": {"type": "string", "minLength": 1},
+    "sources": {"type": "array", "minItems": 3},
+    "execution": {
+      "type": "object",
+      "required": ["planned_runs", "state_counts", "pair_count", "median_runtime_ratio_2000_to_500", "runtime_interpretation"],
+      "properties": {
+        "planned_runs": {"const": 26},
+        "state_counts": {"type": "object"},
+        "pair_count": {"const": 13},
+        "median_runtime_ratio_2000_to_500": {"type": "number", "exclusiveMinimum": 0},
+        "minimum_runtime_ratio_2000_to_500": {"type": "number", "exclusiveMinimum": 0},
+        "maximum_runtime_ratio_2000_to_500": {"type": "number", "exclusiveMinimum": 0},
+        "runtime_interpretation": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "comparisons": {"type": "array", "minItems": 13, "maxItems": 13},
+    "categorical_mismatches": {"type": "array"},
+    "maximum_absolute_deltas": {"type": "object"},
+    "panel_summaries": {"type": "array", "minItems": 5, "maxItems": 5},
+    "archived_mismatch_checkpoints": {"type": "array"},
+    "decision": {
+      "type": "object",
+      "required": ["result", "candidate_500_rays", "next_action"],
+      "properties": {
+        "result": {"enum": ["reject_500_for_categorical_triage_on_this_panel", "advance_500_to_later_numerical_checks_categorical_agreement_only", "inconclusive_due_to_missing_or_failed_comparison"]},
+        "candidate_500_rays": {"enum": ["does_not_advance", "advances_to_later_checks"]},
+        "next_action": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "prohibited_claims": {"type": "array", "minItems": 5},
+    "limits": {"type": "array", "minItems": 5}
+  }
+}
