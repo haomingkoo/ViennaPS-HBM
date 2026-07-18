@@ -9,6 +9,8 @@ fi
 
 PYTHON="$python" scripts/check_published_evidence.sh
 "$python" test_profile_shape_metrics.py
+"$python" test_v3_bosch_focused_ion_map_review.py
+"$python" test_v3_bosch_grid_speed_bridge_phase_b.py
 "$python" test_publication_data.py
 "$python" build_explainer.py
 if ! git diff --quiet -- explainer.html; then

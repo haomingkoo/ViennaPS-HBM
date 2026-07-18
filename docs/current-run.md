@@ -155,6 +155,24 @@ adaptive panel uses a new frozen manifest and fresh ray arms. A lower-ray
 setting is promoted only if it preserves the required measurements and
 boundary decisions on the held-out panel.
 
+## Focused etch speed bridge
+
+A later local bridge tested the repeatable ion-direction/removal region. It
+used two physical settings and two random streams per setting.
+
+- Moving from grid 0.00125 to 0.0025 at 500 rays reduced recorded wall time by
+  3.6 to 5.0 times. The largest paired movements were 0.0097 in depth, 0.0071
+  among the three CDs, and 0.0086 in bow.
+- Moving from 500 to 1,000 rays at grid 0.0025 took 2.0 to 2.3 times longer.
+  The paired movements did not decrease uniformly across every response.
+- Grid 0.005 was stopped because it changed the selected width profile in both
+  tested settings.
+
+Use grid 0.0025 and 500 rays for broad 2D exploration inside this focused
+region. Recheck promoted cases at 1,000 rays. This is a local compute policy,
+not an accuracy claim or a universal ViennaPS default. The source review is
+[`v3_bosch_grid_speed_bridge_phase_b_review.json`](../evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json).
+
 Validate the committed evidence from a clean clone:
 
 ```bash

@@ -58,6 +58,8 @@ process window remain active work.
   feedback loop, error states, early stopping, and numerical-cost study.
 - [`docs/current-run.md`](docs/current-run.md) identifies the latest completed
   checkpoint, exact runner, outputs, and blocker.
+- [`docs/adaptive-etch-search.md`](docs/adaptive-etch-search.md) defines the
+  small sequential search used after screening.
 - [`docs/evidence-map.md`](docs/evidence-map.md) links each public claim to saved
   evidence and its limit.
 - [`docs/metric-study.md`](docs/metric-study.md) separates core TSV feedback
@@ -131,6 +133,7 @@ A useful study then follows six rules:
 | `docs/range-research-log.json` | Schema-validated search log, including searches that found no transferable range. |
 | `docs/screening-doe-plan.md` | Evidence requirements, staged DOE method, feedback, promotion, and stopping rules. |
 | `docs/current-run.md` | Current research checkpoint and reproduction command. |
+| `docs/adaptive-etch-search.md` | Adaptive etch search, stopping rules, and method choice. |
 | `docs/metric-study.md` | Measurement choices, roughness status, and validation plan. |
 | `TUTORIAL_PRD.md` | Public teaching requirements and evidence rules. |
 

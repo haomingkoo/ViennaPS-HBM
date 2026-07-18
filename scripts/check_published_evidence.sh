@@ -27,6 +27,9 @@ pattern_bosch_range_pilot_review.json schemas/pattern-bosch-range-pilot-review.s
 evidence/numerical/bosch_grid_preflight.json schemas/bosch-grid-preflight.schema.json
 evidence/numerical/bosch_ray_phase_a_review.json schemas/bosch-ray-phase-a-review.schema.json
 evidence/numerical/bosch_ray_phase_b_review.json schemas/bosch-ray-phase-b-review.schema.json
+evidence/numerical/v3_bosch_focused_ion_map_review.json schemas/v3-bosch-focused-ion-map-review.schema.json
+evidence/numerical/v3_bosch_grid_speed_bridge_review.json schemas/v3-bosch-grid-speed-bridge-review.schema.json
+evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json schemas/v3-bosch-grid-speed-bridge-phase-b-review.schema.json
 docs/range-research-log.json schemas/range-research-log.schema.json
 EOF
 

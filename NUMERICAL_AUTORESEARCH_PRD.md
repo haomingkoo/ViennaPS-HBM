@@ -91,6 +91,15 @@ Current evidence:
 - All 16 saved 250-ray cases completed. The review found one hard-gate mismatch and one strong-effect direction mismatch, despite a 0.943 factor-ranking Spearman and a 10.83x paired median speedup. It receives no discovery authority.
 - Older grid results were non-monotonic. No universal grid optimum has been established.
 
+- A later focused bridge compared grid 0.00125 with 0.0025 at 500 rays on two
+  ion-direction/removal settings and two streams per setting. Grid 0.0025 was
+  3.6 to 5.0 times faster in recorded wall time. The largest observed paired
+  movements were 0.0097 in depth, 0.0071 among top/middle/bottom CD, and 0.0086
+  in bow. Grid 0.005 changed the selected width profiles and was stopped.
+- On the same two settings, 1,000 rays took 2.0 to 2.3 times longer than 500.
+  The response movements did not shrink uniformly. These observations support
+  a local compute policy, not an accuracy claim.
+
 The ViennaPS sources also do not define one universal ray count. The current
 library default is 1,000 rays per point, the official process tutorial shows
 500, bundled process examples commonly use 500 or 1,000, and flux-engine
@@ -99,24 +108,14 @@ guarantees for this TSV geometry. The project therefore selects rays from
 paired measurement and decision stability, not by copying the largest or most
 common published value.
 
-The active next study is a current-grid ray ladder. Use matched cases and seeds
-at 250, 500, 750, 1,000, and 2,000 rays where exact saved arms can be reused.
-Include a center geometry, a narrow or unstable geometry, and a contrasting
-depth geometry. Plot wall time, repeat spread, successive response movement,
-trajectory class, and factor direction. Keep raw points visible and keep
-geometry panels separate. Do not decide from inherited depth, width, or bow
-bands.
+For the next local etch batch, use grid 0.0025 and 500 rays. Recheck promoted
+cases at 1,000 rays. This working profile applies only near the two tested
+focused settings. A boundary, unstable shape, different aspect ratio, or
+different process model requires another paired check.
 
 Reuse a saved arm only when its manifest, geometry, recipe, seed policy,
 stopping rule, extractor, and checkpoint match. Otherwise rerun it. Never join
-Phase A and Phase B arms into an apparently continuous ladder merely because
-their ray counts overlap.
-
-The ladder does not need a universal numerical cutoff. It should show whether
-added rays reduce the movement relevant to the planned screen and whether that
-benefit is worth the runtime. Until then, 500 rays remains an exploration
-candidate, not an authorized setting. Promoted effects, cliffs, and finalists
-must be rerun at higher settings.
+incompatible ray arms merely because their ray counts overlap.
 
 After the ray bridge, test grid spacing, advection, domain clearance, numerical
 caps, execution layout, and save cadence one at a time on bounded representative
@@ -129,10 +128,19 @@ measurements and decisions required by the planned screen.
 2. Run repeated nominal cases and low/high range finding.
 3. Screen factors with a bounded design and exact shared upstream geometries.
 4. Confirm only mechanism-supported interactions.
-5. Refine at most five active factors with a response surface. Use constrained Bayesian optimization only when held-out checks reject the simpler surface.
-6. Confirm up to three finalists with unseen streams, adverse boundary points, higher fidelity, and required 3D checks.
+5. Refine at most five active factors in three-case adaptive batches: one
+   predicted improvement, one uncertain boundary, and one diverse case.
+6. Use separate models for depth, each CD, bow, floor shape, validity, and
+   runtime. Do not collapse them into one fitness value.
+7. Confirm up to three finalists with unseen streams, adverse boundary points,
+   a higher ray setting, and required 3D checks.
 
 Adam is not the default. This simulator is expensive, partly discrete, stochastic, and discontinuous at topology and validity boundaries. Designed experiments and constrained black-box optimization are more suitable.
+
+The implementation details and stopping rules are in
+[`docs/adaptive-etch-search.md`](docs/adaptive-etch-search.md). Numerical
+settings and process settings are optimized in separate stages so a cheap but
+biased numerical profile cannot appear to be a better recipe.
 
 ## Guardrails and completion
 

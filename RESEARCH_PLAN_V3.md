@@ -59,60 +59,28 @@ interaction.
 
 ## What counts as a detectable change
 
-A change counts only when it is larger than engineering relevance, numerical
-error, run-to-run variation, and geometry resolution.
+A change is reported with its raw size, units, measurement resolution,
+numerical-setting movement, and repeat variation. The study does not invent a
+universal percentage or a model-unit cutoff when no calibrated requirement
+exists.
 
-For each output `y`, define the screening threshold:
+The fixed values in `program.md` remain named teaching comparisons. They may
+show distance from a common target, but they do not turn a simulation into a
+qualified fabrication recipe.
 
-```text
-T_y = max(
-    practical engineering change,
-    observed numerical-fidelity shift,
-    3 * paired stochastic SD,
-    two grid cells for geometry outputs
-)
-```
+A factor advances when its effect is visible in the required measurement,
+repeats in the same direction on new random streams, and remains visible at
+the confirmation numerical setting. A topology or validity change is reported
+as a separate categorical result.
 
-Initial practical engineering changes are provisional one-fifth-of-target
-heuristics. Minimum specifications are not literally symmetric margins. These
-values are effect-resolution rules, not replacement specifications, and must
-be revised when product provenance supplies better practical limits.
+An interaction advances when its direction repeats on confirmation cases and
+it improves held-out prediction of a decision-critical response. The review
+must show the raw paired rows; a fitted coefficient alone is insufficient.
 
-All dimensional values below are in model length.
-
-| Output | Initial practical change |
-|---|---:|
-| Etch depth | 0.020 |
-| CD at any scored depth | 0.012 |
-| Wall bow | 0.006 |
-| Liner minimum thickness | 0.004 |
-| Liner conformality | 0.001 fraction |
-| Barrier/seed minimum thickness | 0.0024 |
-| Barrier/seed conformality | 0.003 fraction |
-| Fill overburden | 0.030 |
-| Void, seam, pinch-off, continuity, endpoint, or survival | repeated topology or gate transition |
-| Exact-zero targets without a tolerance | metric-convergence error and at least two grid cells |
-
-A main effect advances only when:
-
-- its magnitude is at least `T_y`;
-- its bootstrap 95% interval excludes zero;
-- its direction repeats in at least 75% of paired runs that reuse the same
-  upstream geometry; and
-- recipes excluded from model fitting show the same effect.
-
-Here, paired stochastic SD is the standard deviation of within-seed
-differences, not the spread of unrelated recipes. Uncertainty uses a grouped
-bootstrap over recipes or shared-geometry blocks.
-
-An interaction advances when its difference-of-differences exceeds `T_y`, its
-sign repeats on confirmation data, and adding it reduces grouped held-out RMSE
-by at least 5%.
-
-For an upstream control to become traveler-relevant, the exact shared-geometry
-comparison must additionally cause a downstream effect of at least the
-downstream `T_y`, a repeated gate/topology transition in at least three of four
-paired blocks, or a material change in distance to a failure boundary.
+For an upstream control to become traveler-relevant, an exact shared-geometry
+comparison must change a downstream measurement, topology, or validity state.
+If its practical importance is unknown, report the observed movement without
+calling it significant.
 
 ## Broad ranges and useful input steps
 
@@ -228,9 +196,9 @@ mask/Bosch sequence is the smaller pilot, speed confirmation, and repeated
 
 The first broad decision checkpoint is 147 cases: the simulation fidelity
 check, pattern matrix, broad Bosch screen, and targeted repeatability check.
-The later conditional program is at least 1,500 cases plus adaptive
-promoted-effect and full-downstream confirmation blocks. It is never launched
-as one blind batch; every stage stops for review and model-gate decisions.
+The later traveler program is conditional. It is not a commitment to exhaust
+every row in the table. Screening is followed by small adaptive batches, with
+each batch stopped and reviewed before another is authorized.
 
 | Stage | Design | Simulation cases | Decision |
 |---|---|---:|---|
@@ -254,7 +222,7 @@ as one blind batch; every stage stops for review and model-gate decisions.
 | 7c. Full downstream consequence test | Continue the 24 morphology-diverse layer states through accepted fill/CMP probe paths | conditional | Establish fill/CMP traveler relevance |
 | 8. 2D versus 3D cross-check | 24 deliberately diverse recipes, each in 2D and 3D | 48 | Authorize which 2D effects and rankings transfer |
 | 9. Full-traveler DOE | 160 unique active-factor combinations plus 32 targeted repeats | 192 | Cross-step interactions and joint feasibility |
-| 10. Focused refinement | New points around every credible feasible/Pareto region | 96 | Local response surfaces |
+| 10. Focused refinement | Three-case adaptive batches around each repeatable region, capped before launch | up to 12 per region | Improve measured responses without hiding constraints in one score |
 | 11. Boundary expansion | Up to eight edge directions x three outward levels x two seeds | up to 48 | Reject false boundary optima |
 | 12a. Finalist screening | Six finalists x at least 32 unseen seeds in the qualified screening dimension | at least 192 | Tail/worst-case ranking; report tolerance bounds, not a stable p90 from sparse tails |
 | 12b. Final 3D confirmation | Two finalists x 32 unseen nominal-HBM seeds, plus two finalists x 8 high-AR stress seeds | 80 | Required 3D authority and reported stress result |
