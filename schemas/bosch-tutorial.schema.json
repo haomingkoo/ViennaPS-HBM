@@ -54,18 +54,19 @@
     "factor": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["label", "kind", "equipment_influences", "meaning"],
+      "required": ["label", "kind", "equipment_influences", "meaning", "direction"],
       "properties": {
         "label": {"type": "string", "minLength": 1},
         "kind": {"enum": ["model control", "model coefficient"]},
         "equipment_influences": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
-        "meaning": {"type": "string", "minLength": 1}
+        "meaning": {"type": "string", "minLength": 1},
+        "direction": {"type": "string", "minLength": 1}
       }
     },
     "metrics": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms", "sidewall_angle_deg", "selected_cycle", "hard_gate_pass", "trajectory_class"],
+      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms", "sidewall_angle_deg", "selected_cycle", "hard_gate_pass", "trajectory_class", "maximum_cd_error_fraction", "maximum_cd_error_cd", "maximum_bow_fraction", "maximum_bow_actual_radius", "maximum_bow_reference_radius"],
       "properties": {
         "depth": {"type": "number"},
         "cd_top": {"type": "number"},
@@ -77,7 +78,12 @@
         "sidewall_angle_deg": {"type": "number"},
         "selected_cycle": {"type": "integer", "minimum": 0},
         "hard_gate_pass": {"type": "boolean"},
-        "trajectory_class": {"type": "string", "minLength": 1}
+        "trajectory_class": {"type": "string", "minLength": 1},
+        "maximum_cd_error_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_cd_error_cd": {"type": "number", "minimum": 0},
+        "maximum_bow_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_bow_actual_radius": {"type": "number", "minimum": 0},
+        "maximum_bow_reference_radius": {"type": "number", "minimum": 0}
       }
     },
     "material": {

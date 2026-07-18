@@ -83,6 +83,9 @@ def assert_bosch_interactions(page):
     lab = page.locator("#bosch-interaction-lab")
     assert lab.locator("#bosch-corners button").count() == 4
     assert "actual simulated profiles" in lab.inner_text().lower()
+    assert "These are not simulated equipment inputs" in lab.inner_text()
+    assert lab.locator(".bosch-measure").count() >= 5
+    assert lab.locator(".bosch-depth").count() == 1
     first_path = lab.locator("#bosch-profile path").nth(1).get_attribute("d")
     lab.locator("#bosch-corners button").nth(2).click()
     assert lab.locator("#bosch-profile path").nth(1).get_attribute("d") != first_path

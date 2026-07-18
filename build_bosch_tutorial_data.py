@@ -10,6 +10,7 @@ import numpy as np
 import viennaps as ps
 
 import native_domain_checkpoint as checkpoint
+from process_config import PROCESS_CONFIG
 import traveler_metrics as tm
 
 
@@ -19,6 +20,7 @@ INTERACTION_REVIEW = ROOT / "autoresearch-results/restart_audit/v3_bosch_cheap_i
 INTERIOR_ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl"
 OUTPUT = ROOT / "bosch_tutorial_data.json"
 PUBLIC_EVIDENCE = Path("evidence/numerical")
+ETCH_TARGETS = PROCESS_CONFIG["targets"]["etch"]
 INTERIOR_PUBLIC_CASES = {
     "aac0e99de49584cc",
     "5e3a68ad9b65a792",
@@ -31,36 +33,42 @@ FACTOR_COPY = {
         "kind": "model control",
         "equipment_influences": ["etch-step duration", "reactive-gas delivery"],
         "meaning": "Changes the etch dose applied during every cycle.",
+        "direction": "Higher means a longer simulated etch phase.",
     },
     "deposition_thickness": {
         "label": "Passivation added per cycle",
         "kind": "model control",
         "equipment_influences": ["passivation-step duration", "passivation-gas delivery"],
         "meaning": "Changes the protective layer added before the next etch phase.",
+        "direction": "Higher means more passivation is added per cycle.",
     },
     "neutral_rate": {
         "label": "Neutral removal strength",
         "kind": "model coefficient",
         "equipment_influences": ["etch chemistry", "reactive-species flux"],
         "meaning": "Scales removal driven by simulated neutral particles.",
+        "direction": "More negative means stronger neutral removal.",
     },
     "neutral_sticking_probability": {
         "label": "Neutral surface-reaction probability",
         "kind": "model coefficient",
         "equipment_influences": ["chemistry", "pressure", "temperature", "surface condition"],
         "meaning": "Changes whether a neutral particle reacts or reflects.",
+        "direction": "Higher means more reactions on first contact and fewer reflections.",
     },
     "ion_rate": {
         "label": "Directional removal strength",
         "kind": "model coefficient",
         "equipment_influences": ["platen bias", "ion energy", "plasma state"],
         "meaning": "Scales removal driven by simulated ions.",
+        "direction": "More negative means stronger directional removal.",
     },
     "ion_source_exponent": {
         "label": "Ion arrival directionality",
         "kind": "model coefficient",
         "equipment_influences": ["pressure", "source and bias conditions", "reactor geometry"],
         "meaning": "Higher values concentrate simulated ion arrival toward the surface normal.",
+        "direction": "Higher means a narrower arrival-angle distribution.",
     },
 }
 
@@ -102,6 +110,12 @@ def materials(row: dict) -> list[dict]:
 
 def public_metrics(row: dict) -> dict:
     etch = row["selected_cycle_metrics"]["etch"]
+    fractions = np.asarray(etch["sample_fractions"], dtype=float)
+    cds = np.asarray(etch["sample_cds"], dtype=float)
+    radii = cds / 2.0
+    straight = np.linspace(radii[0], radii[-1], len(radii))
+    cd_index = int(np.argmax(np.abs(cds - ETCH_TARGETS["target_width"])))
+    bow_index = int(np.argmax(np.abs(radii - straight)))
     return {
         "depth": etch["depth"],
         "cd_top": etch["cd_top"],
@@ -114,6 +128,11 @@ def public_metrics(row: dict) -> dict:
         "selected_cycle": row["selected_cycle"],
         "hard_gate_pass": row["hard_gate_pass"],
         "trajectory_class": row["trajectory_classification"],
+        "maximum_cd_error_fraction": float(fractions[cd_index]),
+        "maximum_cd_error_cd": float(cds[cd_index]),
+        "maximum_bow_fraction": float(fractions[bow_index]),
+        "maximum_bow_actual_radius": float(radii[bow_index]),
+        "maximum_bow_reference_radius": float(straight[bow_index]),
     }
 
 
@@ -194,11 +213,11 @@ def main() -> None:
         },
         "factors": FACTOR_COPY,
         "targets": {
-            "depth": 1.25,
-            "depth_tolerance": 0.10,
-            "target_cd": 0.30,
-            "maximum_cd_error": 0.06,
-            "maximum_bow": 0.03,
+            "depth": ETCH_TARGETS["target_depth"],
+            "depth_tolerance": ETCH_TARGETS["depth_tolerance"],
+            "target_cd": ETCH_TARGETS["target_width"],
+            "maximum_cd_error": ETCH_TARGETS["max_width_error"],
+            "maximum_bow": ETCH_TARGETS["max_wall_bulge"],
         },
         "interactions": interactions,
         "interior_cases": interior,

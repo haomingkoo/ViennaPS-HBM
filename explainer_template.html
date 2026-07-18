@@ -142,6 +142,11 @@
   .bosch-lab-layout { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(260px, 0.65fr); border: 1px solid var(--line); }
   .bosch-profile { min-height: 560px; border-right: 1px solid var(--line); }
   .bosch-profile svg { display: block; width: 100%; height: 560px; }
+  .bosch-measure line, .bosch-depth line { stroke: var(--plasma); stroke-width: 0.004; vector-effect: non-scaling-stroke; }
+  .bosch-measure text, .bosch-depth text { fill: var(--ink-dim); font: 0.026px var(--mono); }
+  .bosch-measure.maximum line { stroke: var(--fail); stroke-dasharray: 0.012 0.009; }
+  .bosch-measure.maximum text { fill: var(--fail); }
+  .bosch-measure.bow line, .bosch-measure.bow circle { stroke: var(--warn); fill: var(--warn); }
   .bosch-read { padding: 1rem; background: var(--surface-2); }
   .bosch-read h4 { margin: 0 0 0.4rem; }
   .bosch-read p { margin: 0 0 0.9rem; color: var(--ink-dim); font-size: 0.8rem; }
@@ -681,7 +686,7 @@
     </figure>
     <div class="table-scroll">
       <table class="journal-table" aria-label="Major TSV steps and their purpose">
-        <thead><tr><th>Step</th><th>What happens</th><th>Why it matters</th></tr></thead>
+        <thead><tr><th>Step</th><th>What happens</th><th>Purpose in fabrication</th></tr></thead>
         <tbody>
           <tr><td>1. Open the mask</td><td>A pattern marks where the hole will be made.</td><td>Sets the via's position and width.</td></tr>
           <tr><td>2. Etch the silicon</td><td>A deep hole is cut into the silicon.</td><td>Creates the via and shapes its walls.</td></tr>
@@ -764,7 +769,7 @@
       </figure>
       <figure class="numerical-plot">
         <svg id="numerical-runtime-chart" viewBox="0 0 520 300" role="img" aria-label="Median runtime across numerical settings"></svg>
-        <figcaption>Typical wall time across eight runs. Lower is faster.</figcaption>
+        <figcaption>Typical saved wall time. The run count is shown below each setting. Lower is faster.</figcaption>
       </figure>
     </div>
     <div class="numerical-status" id="numerical-gate-status" aria-label="Product-check counts at each sampled setting"></div>
@@ -782,7 +787,7 @@
         </tbody>
       </table>
     </div>
-    <p class="note">Both runs reached the depth and bow requirements. Width alone changed the overall decision. This rejects 250 rays for the broad search, but it does not tell us whether the useful threshold is 500, 1,000, or somewhere else. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/program.md#L38">width requirement</a>.</p>
+    <p class="note">The commissioning comparison disagreed on this width decision and on one strong tuning direction. It also changed random streams and the stopping interval, so it is not a clean ray-only test. It rejects 250 rays for the broad search, but it does not locate the useful threshold. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/docs/current-run.md">review</a>.</p>
     <h3>Why 500 rays is the current exploration setting</h3>
     <div class="method-chain" aria-label="Ray-count accuracy check">
       <div><b>1. Freeze cases</b><span>Include clear passes, clear failures, difficult shapes and cases close to each limit.</span></div>
@@ -832,7 +837,7 @@
         <span>Equipment controls</span><span>Plasma and surface state</span><span>ViennaPS model controls</span><span>Simulated profile</span><span>Geometry measurements</span>
       </div>
       <div class="bosch-controls">
-        <label for="bosch-interaction-select">Controls to compare<select id="bosch-interaction-select"></select></label>
+        <label for="bosch-interaction-select">ViennaPS controls to compare<select id="bosch-interaction-select"></select></label>
         <p class="bosch-factor-note" id="bosch-factor-note"></p>
       </div>
       <div class="bosch-corners" id="bosch-corners" aria-label="Saved interaction cases"></div>
@@ -919,10 +924,10 @@
       <figcaption>The lines are rendered from the simulated surface nodes and edges saved by this repository. The browser does not invent intermediate shapes. <a href="cu_fill_replay.json">Open the generated checkpoint data.</a> These prescribed geometry controls test the void measurement; they are not electroplating predictions or fab recipes.</figcaption>
     </figure>
     <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
-      <h3 style="margin:0 0 0.3rem;">Why the current copper model falls short</h3>
+      <h3 style="margin:0 0 0.3rem;">What the sampled copper settings show</h3>
       <p class="claim">Bottom-up fill needs less suppressor and faster copper growth at the floor.</p>
       <p class="note">Choose a depth and measurement. Then select one of the 21 saved cells.</p>
-      <p class="decision-line"><b>Takeaway:</b> these settings do not produce bottom-up copper filling. Changing only sticking and arrival angle is not enough.</p>
+      <p class="decision-line"><b>Takeaway:</b> none of the 21 sampled 2D settings produces the needed bottom-up advantage.</p>
       <div class="surface-explorer">
         <div class="surface-controls">
           <fieldset><legend>Via geometry</legend><button type="button" data-surface-tier="continuity" aria-pressed="true">Depth 1.25 model units</button><button type="button" data-surface-tier="nominal_hbm" aria-pressed="false">Depth 3.0 model units</button></fieldset>
@@ -950,7 +955,7 @@
     <p class="decision-line">On the ideal protected geometry tested, the Cu law does not create enough bottom-up growth. Real etched-shape, liner/seed, and selective-CMP handoffs remain open.</p>
     <div class="checkpoint-strip" aria-label="Current evidence checkpoint">
       <div><b>Research status: foundation audit</b><span>Measurements and controlled failure tests come before another large recipe search.</span></div>
-      <div><b>376 unique foundation simulations</b><span>Ten traceable review artifacts are shown; completed comparison settings were reused exactly.</span></div>
+      <div><b>Evidence is counted by reviewed cases</b><span>Current case counts and limits are recorded in the evidence map.</span></div>
       <div><b>No recipe recommendation yet</b><span>The tested 2D expansion has stopped; a matched 3D check is next.</span></div>
     </div>
 
@@ -965,7 +970,7 @@
       </article>
 
       <article class="evidence-entry">
-        <div><span class="evidence-state">MEASUREMENT QUALIFIED</span><h3>The baseline films are continuous, but not functional</h3></div>
+        <div><span class="evidence-state">GEOMETRY CHECKS EXERCISED</span><h3>The baseline films are continuous, but not functional</h3></div>
         <dl class="reasoning-chain">
           <div><dt>Observation</dt><dd>All 12 layer runs remain continuous and leave the aperture open. The baseline still passes 0/4 liner gates and 0/4 barrier/seed gates at the fine setting.</dd></div>
           <div><dt>Interpretation</dt><dd>The liner has enough local thickness but poor deep coverage: lower-wall/field is 0.859 against a 0.995 target. Barrier plus seed is too thin and highly directional: stack minimum is 0.00480 against 0.012.</dd></div>
@@ -1009,8 +1014,8 @@
       <thead><tr><th>Process step</th><th>Next useful knob</th><th>Expected benefit and tradeoff</th><th>Evidence</th></tr></thead>
       <tbody>
         <tr><td>Photolithography / mask opening</td><td>Opening width and mask height; taper; later 3D placement error</td><td>Controls etch aperture and downstream access. Treat width and mask height as product inputs until a lithography model is added.</td><td>Registry complete; screen pending</td></tr>
-        <tr><td>Bosch DRIE</td><td>Geometry representation, ray count, and mask erosion</td><td>Use full-width fine geometry. Qualify 1,000 versus 2,000 rays. Then locate the mask-survival boundary without losing depth, width, or bow.</td><td>24-case foundation check complete; corrective batch next</td></tr>
-        <tr><td>SiO2 liner</td><td>Lower sticking, then adjust total dose</td><td>Lower sticking should improve floor and lower-wall coverage. Extra dose can narrow the aperture, so both coverage and remaining opening stay gated.</td><td>Exploratory screen authorized</td></tr>
+        <tr><td>Bosch DRIE</td><td>Geometry representation, ray count, and mask erosion</td><td>Use full-width fine geometry. Complete the clean 250–2,000-ray ladder. Then locate the mask-survival boundary without losing depth, width, or bow.</td><td>500-ray exploration setting remains provisional</td></tr>
+        <tr><td>SiO2 liner</td><td>Lower sticking, then adjust total dose</td><td>Lower sticking may improve floor and lower-wall coverage. Extra dose can narrow the aperture, so both coverage and remaining opening stay gated.</td><td>Geometry trends only; passing boundary not bracketed</td></tr>
         <tr><td>Barrier and seed</td><td>More conformal transport, dose, and directionality</td><td>Raise lower-wall thickness without closing the fill opening. If directional deposition remains near 0.23 wall/field coverage, test a more conformal model family.</td><td>Baseline fails 0/4</td></tr>
         <tr><td>Cu electrofill</td><td>Matched 3D transport check; then chemistry-dependent bottom-up kinetics if it also misses</td><td>Test whether cylindrical transport changes the floor advantage. Total thickness is secondary until the bottom grows faster than the walls.</td><td>320 reviewed transport cells; tested 2D expansion stopped</td></tr>
         <tr><td>CMP</td><td>Material rates and endpoint; selectivity and controlled overpolish</td><td>Clear field Cu while retaining the stop layer and connected Cu plug. Dish, erosion, and material loss must be read together.</td><td>Metric ready; DOE blocked on loss limits</td></tr>
@@ -1056,7 +1061,7 @@
     <div class="finding-head"><span class="finding-num">EXPERIMENT LOGIC</span><h2>Why the large DOE is waiting</h2></div>
     <p class="claim">A broad response surface is useful only after the measurements and model can recognize both success and failure. Each block below removes one reason a large sweep could mislead us.</p>
     <ol class="research-path" aria-label="Current research sequence">
-      <li class="done"><b>Verify measurements</b><span>Replace proxy scores with width and thickness checks. Add continuity, topology, and material-survival checks.</span></li>
+      <li><b>Verify measurements</b><span>Width, thickness, and topology checks exist. Physical limits and downstream material-survival checks remain incomplete.</span></li>
       <li class="done"><b>Reproduce failure</b><span>Make the centerline void and destructive CMP behavior repeat on controlled geometries.</span></li>
       <li class="done"><b>Check the passing control</b><span>Use a prescribed positive control to verify that the geometry and measurements can register the intended state.</span></li>
       <li class="done"><b>Screen the mechanism</b><span>Test whether suppressor transport points in the direction required for bottom-up Cu growth.</span></li>
@@ -1208,7 +1213,7 @@ python3 -m http.server 8000</code></pre>
       <dt><a href="https://viennatools.github.io/ViennaPS/domain/">ViennaPS simulation domain</a></dt><dd>Explains how material geometry and interfaces are represented.</dd>
       <dt><a href="https://www.nist.gov/publications/metrology-needs-tsv-fabrication">NIST TSV metrology</a></dt><dd>Explains why via shape, coating coverage, and copper voids must be checked.</dd>
       <dt><a href="https://www.asml.com/en/en/news/stories/2021/semiconductor-manufacturing-process-steps">ASML fabrication overview</a></dt><dd>Connects resist, exposure, pattern transfer, and etching without implying that this page models lithography.</dd>
-      <dt><a href="https://plasma.oxinst.com/technologies/dsie/plasmapro-100-estrelas-dsie">Oxford Instruments DRIE</a></dt><dd>Shows the equipment-side gas delivery, pressure control, plasma, and thermal controls behind Bosch etching.</dd>
+      <dt><a href="https://plasma.oxinst.com/technologies/dsie/plasmapro-100-estrelas-dsie">Oxford Instruments DRIE</a></dt><dd>Shows the gas delivery, pumping, plasma, and thermal controls behind Bosch etching.</dd>
       <dt><a href="https://www.appliedmaterials.com/us/en/product-library/producer-invia-cvd.html">Applied Materials TSV liner</a></dt><dd>Shows why liner conformality, electrical isolation, and the thermal budget matter in high-aspect-ratio vias.</dd>
       <dt><a href="https://www.appliedmaterials.com/us/en/product-library/endura-ventura-pvd.html">Applied Materials TSV barrier and seed</a></dt><dd>Connects ion direction and energy to continuous barrier and seed coverage in deep vias.</dd>
       <dt><a href="https://www.nist.gov/publications/modeling-extreme-bottom-filling-through-silicon-vias">NIST bottom-up Cu model</a></dt><dd>Explains why copper must grow in the right order to avoid a trapped void.</dd>
@@ -1355,6 +1360,19 @@ function boschMetric(value, digits = 3) {
   return Number(value).toFixed(digits);
 }
 
+function boschMeasurementOverlay(metric) {
+  const widthBar = (label, cd, fraction) => {
+    const y = fraction * metric.depth;
+    return `<g class="bosch-measure"><line x1="${-cd / 2}" y1="${y}" x2="${cd / 2}" y2="${y}"/><line x1="${-cd / 2}" y1="${y - 0.018}" x2="${-cd / 2}" y2="${y + 0.018}"/><line x1="${cd / 2}" y1="${y - 0.018}" x2="${cd / 2}" y2="${y + 0.018}"/><text x="0.19" y="${y + 0.009}">${label}</text></g>`;
+  };
+  const errorY = metric.maximum_cd_error_fraction * metric.depth;
+  const bowY = metric.maximum_bow_fraction * metric.depth;
+  return `${widthBar('top', metric.cd_top, 0.10)}${widthBar('middle', metric.cd_middle, 0.50)}${widthBar('bottom', metric.cd_bottom, 0.85)}
+    <g class="bosch-measure maximum"><line x1="${-metric.maximum_cd_error_cd / 2}" y1="${errorY}" x2="${metric.maximum_cd_error_cd / 2}" y2="${errorY}"/><text x="-0.47" y="${errorY + 0.009}">max width error</text></g>
+    <g class="bosch-measure bow"><line x1="${metric.maximum_bow_reference_radius}" y1="${bowY}" x2="${metric.maximum_bow_actual_radius}" y2="${bowY}"/><circle cx="${metric.maximum_bow_actual_radius}" cy="${bowY}" r="0.009"/><text x="0.32" y="${bowY + 0.009}">bow</text></g>
+    <g class="bosch-depth"><line x1="-0.31" y1="0" x2="-0.31" y2="${metric.depth}"/><line x1="-0.325" y1="0" x2="-0.295" y2="0"/><line x1="-0.325" y1="${metric.depth}" x2="-0.295" y2="${metric.depth}"/><text x="-0.34" y="${metric.depth / 2}" transform="rotate(-90 -0.34 ${metric.depth / 2})">depth</text></g>`;
+}
+
 function renderBoschCase(row) {
   document.querySelectorAll('#bosch-corners button').forEach(button => {
     button.setAttribute('aria-pressed', button.dataset.caseId === row.case_id);
@@ -1371,10 +1389,11 @@ function renderBoschCase(row) {
       <path d="M-0.15 0L-0.15 -1.25L0.15 -1.25L0.15 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
       <path d="${path}" fill="none" stroke="var(--si)" stroke-width="0.006"/>
     </g>
+    ${boschMeasurementOverlay(metric)}
   </svg>`;
   const source = `https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${row.citation.path}#L${row.citation.line_number}`;
   document.getElementById('bosch-read').innerHTML = `<h4 class="status-${row.metrics.hard_gate_pass ? 'pass' : 'miss'}">${row.metrics.hard_gate_pass ? 'All three geometry checks pass' : 'One or more geometry checks fail'}</h4>
-    <p>Dashed line: target width and depth. Solid line: saved silicon surface.</p>
+    <p>Dashed outline: target. Measurement bars show where the reported geometry is read.</p>
     <dl>
       <dt>Depth · target 1.15–1.35</dt><dd class="status-${depthPass ? 'pass' : 'miss'}">${boschMetric(metric.depth)}</dd>
       <dt>Top width</dt><dd>${boschMetric(metric.cd_top)}</dd>
@@ -1393,7 +1412,7 @@ function renderBoschInteraction() {
   const pair = boschSelect.value.split('|');
   const rows = BOSCH.interactions.filter(row => row.interaction.join('|') === boschSelect.value);
   const first = BOSCH.factors[pair[0]], second = BOSCH.factors[pair[1]];
-  document.getElementById('bosch-factor-note').textContent = `Closest equipment influences: ${first.equipment_influences.join(', ')}; ${second.equipment_influences.join(', ')}. The mapping to these model controls requires calibration.`;
+  document.getElementById('bosch-factor-note').innerHTML = `<b>${first.label}</b> · ${first.kind}. ${first.meaning} ${first.direction}<br><b>${second.label}</b> · ${second.kind}. ${second.meaning} ${second.direction}<br>Possible equipment influences: ${first.equipment_influences.join(', ')}; ${second.equipment_influences.join(', ')}. These are not simulated equipment inputs. Tool-specific calibration is required.`;
   const corners = document.getElementById('bosch-corners');
   corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${row.levels[pair[0]]} × ${row.levels[pair[1]]}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'passes geometry checks' : 'fails geometry checks'}</span></button>`).join('');
   corners.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
