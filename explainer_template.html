@@ -1515,7 +1515,7 @@ function renderStepFrame(study, root, frameIndex) {
 
 function buildStepViewers() {
   const list = document.getElementById('step-output-list');
-  stepExperiments.studies.forEach(study => {
+  stepExperiments.studies.filter(study => study.id !== 'bosch').forEach(study => {
     const copy = stepCopy[study.id];
     const root = document.createElement('article');
     root.className = 'output-viewer';

@@ -29,12 +29,13 @@ def assert_copper_geometry(page):
 
 
 def assert_step_viewers(page):
-    viewer_ids = ["mask", "bosch", "liner", "barrier", "seed", "cmp"]
+    viewer_ids = ["mask", "liner", "barrier", "seed", "cmp"]
     assert page.locator("[data-output-viewer]").count() == len(viewer_ids) + 1
     assert page.locator('[data-output-viewer="copper"]').count() == 1
     assert page.locator("#step-output-list [data-output-viewer]").evaluate_all(
         "elements => elements.map(element => element.dataset.outputViewer)"
-    ) == ["mask", "bosch", "liner", "barrier", "seed", "copper", "cmp"]
+    ) == ["mask", "liner", "barrier", "seed", "copper", "cmp"]
+    assert page.locator('[data-output-viewer="bosch"]').count() == 0
     for viewer_id in viewer_ids:
         viewer = page.locator(f'[data-output-viewer="{viewer_id}"]')
         assert viewer.count() == 1
@@ -54,12 +55,6 @@ def assert_step_viewers(page):
         controls.nth(0).fill(controls.nth(0).get_attribute("max"))
         controls.nth(1).fill(controls.nth(1).get_attribute("max"))
         assert geometry_path.get_attribute("d") != original_path
-
-    mask = page.locator('[data-output-viewer="mask"]')
-    etch = page.locator('[data-output-viewer="bosch"]')
-    original_etch_path = etch.locator('path[data-material="silicon"]').get_attribute("d")
-    mask.locator('[data-parameter="opening_width"]').fill("0")
-    assert etch.locator('path[data-material="silicon"]').get_attribute("d") == original_etch_path
 
     chain = page.locator("#failure-chain-viewer")
     start_path = chain.locator('path[data-chain-material="silicon"]').get_attribute("d")

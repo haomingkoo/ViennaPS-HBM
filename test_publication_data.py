@@ -144,7 +144,7 @@ assert '"selected_foundation_cases":376' in html
 assert "How the software recognizes a passing shape" in html
 assert "Creates the vertical electrical path." in html
 assert "What the new experiments indicate" in html
-assert "Main controls and common failures" in html
+assert "Equipment controls, model controls, and feedback" in html
 assert "Copper-fill results" in html
 assert "The browser does not invent intermediate shapes." in html
 assert 'href="cu_fill_replay.json"' in html
