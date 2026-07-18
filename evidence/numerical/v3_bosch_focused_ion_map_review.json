@@ -1,0 +1,622 @@
+{
+  "authority": {
+    "candidate_meaning": "cells meriting independent sensitivity or confirmation checks",
+    "process_window_authorized": false,
+    "recipe_authorized": false,
+    "statistical_significance_authorized": false
+  },
+  "campaign": "v3-bosch-focused-ion-map-review",
+  "cells": [
+    {
+      "case_ids": [
+        "5f841d553d8100f9",
+        "4ce7cae7837b9b50"
+      ],
+      "cell_id": "e50_i0.04",
+      "ion_rate": -0.04,
+      "ion_source_exponent": 50,
+      "measurements": {
+        "cd_bottom": {
+          "mean": 0.3208901980033784,
+          "sample_sd": 0.004148495130922112,
+          "values": [
+            0.317956768964584,
+            0.3238236270421728
+          ]
+        },
+        "cd_middle": {
+          "mean": 0.32550571746889234,
+          "sample_sd": 0.004797112210935099,
+          "values": [
+            0.32889778804335734,
+            0.32211364689442734
+          ]
+        },
+        "cd_top": {
+          "mean": 0.331221089320462,
+          "sample_sd": 0.0006245745988703396,
+          "values": [
+            0.3307794483862439,
+            0.33166273025468007
+          ]
+        },
+        "depth": {
+          "mean": 1.2504743798185844,
+          "sample_sd": 0.003972417886828759,
+          "values": [
+            1.247665456193101,
+            1.2532833034440678
+          ]
+        },
+        "max_bow": {
+          "mean": 0.010776041387853028,
+          "sample_sd": 0.004010597160210748,
+          "values": [
+            0.007940120939260498,
+            0.013611961836445557
+          ]
+        },
+        "sidewall_angle_deg": {
+          "mean": 0.3157378294475863,
+          "sample_sd": 0.10864188977159037,
+          "values": [
+            0.39255924642599926,
+            0.23891641246917333
+          ]
+        }
+      },
+      "new_run_count": 2
+    },
+    {
+      "case_ids": [
+        "c73b26411eee567f"
+      ],
+      "cell_id": "e50_i0.06324555",
+      "ion_rate": -0.06324555,
+      "ion_source_exponent": 50,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.3896887078782358
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.3699280578092768
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.32973637796566263
+          ]
+        },
+        "depth": {
+          "values": [
+            1.2648011974464266
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.009717183986435451
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            -1.8099670696035675
+          ]
+        }
+      },
+      "new_run_count": 1
+    },
+    {
+      "case_ids": [
+        "3367ceca63385f61"
+      ],
+      "cell_id": "e50_i0.1",
+      "ion_rate": -0.1,
+      "ion_source_exponent": 50,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.3806372395928822
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.4190677343851403
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.3497343926190795
+          ]
+        },
+        "depth": {
+          "values": [
+            1.272748717528052
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.04246854050966853
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            -0.9273619444874778
+          ]
+        }
+      },
+      "new_run_count": 1
+    },
+    {
+      "case_ids": [
+        "3c7ef8b4fb1adf56"
+      ],
+      "cell_id": "e141_i0.04",
+      "ion_rate": -0.04,
+      "ion_source_exponent": 141,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.2914100354024556
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.30652417242151825
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.3160476362613715
+          ]
+        },
+        "depth": {
+          "values": [
+            1.242129180312589
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.006056196164860361
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            0.757596069793804
+          ]
+        }
+      },
+      "new_run_count": 1
+    },
+    {
+      "case_ids": [
+        "1cf4ff64c506b271",
+        "b550a7d966b8ddbc",
+        "068d5b037565a50c"
+      ],
+      "cell_id": "e141_i0.06324555",
+      "ion_rate": -0.06324555,
+      "ion_source_exponent": 141,
+      "measurements": {
+        "cd_bottom": {
+          "mean": 0.324752377585273,
+          "sample_sd": 0.001251179910879732,
+          "values": [
+            0.3239500518350336,
+            0.3261940481308431,
+            0.32411303278994225
+          ]
+        },
+        "cd_middle": {
+          "mean": 0.32448071579342763,
+          "sample_sd": 0.0015088243905616453,
+          "values": [
+            0.3227480676919807,
+            0.32518892925320925,
+            0.325505150435093
+          ]
+        },
+        "cd_top": {
+          "mean": 0.3311125509032204,
+          "sample_sd": 0.00020781666956882282,
+          "values": [
+            0.3310803137650578,
+            0.33092273661105076,
+            0.3313346023335526
+          ]
+        },
+        "depth": {
+          "mean": 1.2464594254261112,
+          "sample_sd": 0.004537204125637593,
+          "values": [
+            1.2489277093454347,
+            1.2492273956772588,
+            1.24122317125564
+          ]
+        },
+        "max_bow": {
+          "mean": 0.006298521022696596,
+          "sample_sd": 0.0007211993927946674,
+          "values": [
+            0.005473720626635814,
+            0.006611388340929003,
+            0.006810454100524971
+          ]
+        },
+        "sidewall_angle_deg": {
+          "mean": 0.19496403996333792,
+          "sample_sd": 0.043677315453726245,
+          "values": [
+            0.21807077099013925,
+            0.14458713621363523,
+            0.2222342126862393
+          ]
+        }
+      },
+      "new_run_count": 3
+    },
+    {
+      "case_ids": [
+        "ff24c524558aa913"
+      ],
+      "cell_id": "e141_i0.1",
+      "ion_rate": -0.1,
+      "ion_source_exponent": 141,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.31049347930146043
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.35166515213545113
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.33811150822382224
+          ]
+        },
+        "depth": {
+          "values": [
+            1.2248110442412323
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.023913845744131967
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            0.8612361469331007
+          ]
+        }
+      },
+      "new_run_count": 1
+    },
+    {
+      "case_ids": [
+        "fb41cac9be26aacb"
+      ],
+      "cell_id": "e400_i0.04",
+      "ion_rate": -0.04,
+      "ion_source_exponent": 400,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.285160181376938
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.30194475079229344
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.31027554262613694
+          ]
+        },
+        "depth": {
+          "values": [
+            1.262002141437472
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.009321995013187978
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            0.7601253744735026
+          ]
+        }
+      },
+      "new_run_count": 1
+    },
+    {
+      "case_ids": [
+        "7ad7974bd53c39f2"
+      ],
+      "cell_id": "e400_i0.06324555",
+      "ion_rate": -0.06324555,
+      "ion_source_exponent": 400,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.2907565108714329
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.31393085363347534
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.33124125873472166
+          ]
+        },
+        "depth": {
+          "values": [
+            1.2780653846126793
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.008720193376910518
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            1.2097766367175675
+          ]
+        }
+      },
+      "new_run_count": 1
+    },
+    {
+      "case_ids": [
+        "afbb2ad399f523a7"
+      ],
+      "cell_id": "e400_i0.1",
+      "ion_rate": -0.1,
+      "ion_source_exponent": 400,
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.25913045556712433
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.32243871262532847
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.3091596446151608
+          ]
+        },
+        "depth": {
+          "values": [
+            1.2117787911762472
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.02927350930046055
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            1.5766012161381733
+          ]
+        }
+      },
+      "new_run_count": 1
+    }
+  ],
+  "completeness": {
+    "all_new_rows_successful": true,
+    "observed_new_rows": 12,
+    "required_new_rows": 12,
+    "unique_factor_cells": 9,
+    "unique_new_case_ids": 12
+  },
+  "confirmation_candidates": [
+    {
+      "basis": "pareto_nondominated_against_all_new_cells_and_saved_prior_best",
+      "cell_id": "e141_i0.04"
+    },
+    {
+      "basis": "pareto_nondominated_against_all_new_cells_and_saved_prior_best",
+      "cell_id": "e141_i0.06324555"
+    },
+    {
+      "basis": "pareto_nondominated_against_all_new_cells_and_saved_prior_best",
+      "cell_id": "e400_i0.04"
+    },
+    {
+      "basis": "pareto_nondominated_against_all_new_cells_and_saved_prior_best",
+      "cell_id": "e400_i0.1"
+    },
+    {
+      "basis": "pareto_nondominated_against_all_new_cells_and_saved_prior_best",
+      "cell_id": "e50_i0.04"
+    }
+  ],
+  "pareto_analysis": {
+    "comparison_targets": {
+      "depth": 1.25,
+      "source": "frozen manifest teaching-comparison values; not pass limits",
+      "top_middle_bottom_cd": 0.3
+    },
+    "method": "strict Pareto dominance; every objective is minimized",
+    "objectives_by_entry": {
+      "e141_i0.04": {
+        "absolute_bottom_cd_deviation": 0.008589964597544408,
+        "absolute_depth_deviation": 0.007870819687411101,
+        "absolute_middle_cd_deviation": 0.0065241724215182595,
+        "absolute_sidewall_angle": 0.757596069793804,
+        "absolute_top_cd_deviation": 0.016047636261371512,
+        "bow": 0.006056196164860361
+      },
+      "e141_i0.06324555": {
+        "absolute_bottom_cd_deviation": 0.02475237758527299,
+        "absolute_depth_deviation": 0.0035405745738887884,
+        "absolute_middle_cd_deviation": 0.024480715793427643,
+        "absolute_sidewall_angle": 0.19496403996333792,
+        "absolute_top_cd_deviation": 0.031112550903220404,
+        "bow": 0.006298521022696596
+      },
+      "e141_i0.1": {
+        "absolute_bottom_cd_deviation": 0.01049347930146044,
+        "absolute_depth_deviation": 0.025188955758767673,
+        "absolute_middle_cd_deviation": 0.05166515213545114,
+        "absolute_sidewall_angle": 0.8612361469331007,
+        "absolute_top_cd_deviation": 0.038111508223822255,
+        "bow": 0.023913845744131967
+      },
+      "e400_i0.04": {
+        "absolute_bottom_cd_deviation": 0.014839818623061996,
+        "absolute_depth_deviation": 0.012002141437472025,
+        "absolute_middle_cd_deviation": 0.0019447507922934482,
+        "absolute_sidewall_angle": 0.7601253744735026,
+        "absolute_top_cd_deviation": 0.010275542626136946,
+        "bow": 0.009321995013187978
+      },
+      "e400_i0.06324555": {
+        "absolute_bottom_cd_deviation": 0.009243489128567095,
+        "absolute_depth_deviation": 0.028065384612679267,
+        "absolute_middle_cd_deviation": 0.013930853633475349,
+        "absolute_sidewall_angle": 1.2097766367175675,
+        "absolute_top_cd_deviation": 0.031241258734721666,
+        "bow": 0.008720193376910518
+      },
+      "e400_i0.1": {
+        "absolute_bottom_cd_deviation": 0.04086954443287566,
+        "absolute_depth_deviation": 0.038221208823752795,
+        "absolute_middle_cd_deviation": 0.022438712625328483,
+        "absolute_sidewall_angle": 1.5766012161381733,
+        "absolute_top_cd_deviation": 0.009159644615160834,
+        "bow": 0.02927350930046055
+      },
+      "e50_i0.04": {
+        "absolute_bottom_cd_deviation": 0.020890198003378435,
+        "absolute_depth_deviation": 0.0004743798185844472,
+        "absolute_middle_cd_deviation": 0.025505717468892353,
+        "absolute_sidewall_angle": 0.3157378294475863,
+        "absolute_top_cd_deviation": 0.031221089320462025,
+        "bow": 0.010776041387853028
+      },
+      "e50_i0.06324555": {
+        "absolute_bottom_cd_deviation": 0.0896887078782358,
+        "absolute_depth_deviation": 0.014801197446426606,
+        "absolute_middle_cd_deviation": 0.0699280578092768,
+        "absolute_sidewall_angle": 1.8099670696035675,
+        "absolute_top_cd_deviation": 0.02973637796566264,
+        "bow": 0.009717183986435451
+      },
+      "e50_i0.1": {
+        "absolute_bottom_cd_deviation": 0.08063723959288221,
+        "absolute_depth_deviation": 0.022748717528052076,
+        "absolute_middle_cd_deviation": 0.11906773438514029,
+        "absolute_sidewall_angle": 0.9273619444874778,
+        "absolute_top_cd_deviation": 0.049734392619079526,
+        "bow": 0.04246854050966853
+      },
+      "prior_saved_best": {
+        "absolute_bottom_cd_deviation": 0.01650346768593519,
+        "absolute_depth_deviation": 0.00010293707427821985,
+        "absolute_middle_cd_deviation": 0.024874412502200627,
+        "absolute_sidewall_angle": 0.43815301039775867,
+        "absolute_top_cd_deviation": 0.030841090137431026,
+        "bow": 0.006646119389695754
+      }
+    },
+    "pareto_front": [
+      "e141_i0.04",
+      "e141_i0.06324555",
+      "e400_i0.04",
+      "e400_i0.1",
+      "e50_i0.04",
+      "prior_saved_best"
+    ],
+    "pass_limits_applied": false,
+    "weighted_score_used": false
+  },
+  "provenance": {
+    "manifest": {
+      "path": "evidence/numerical/v3_bosch_focused_ion_map_manifest.json",
+      "sha256": "e1950b610b3c444fc16cd08cc4646ef2ba801d004718b071ffe106e777827a7a"
+    },
+    "new_rows": {
+      "line_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows.jsonl",
+      "sha256": "d92174db65fcdf14b5ba102d6d2a176354f085a714bb83ebced385f530bb4d46"
+    },
+    "saved_prior_best": {
+      "case_id": "7405eb159356c564",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/7405eb159356c564_cycle029.vpsd",
+      "checkpoint_sha256": "ed0cd3081086f56bbdb3ae89629cc561d22463885d4b1ee37afa5d93e496cad3",
+      "line_numbers": [
+        21
+      ],
+      "measurements": {
+        "cd_bottom": {
+          "values": [
+            0.3165034676859352
+          ]
+        },
+        "cd_middle": {
+          "values": [
+            0.3248744125022006
+          ]
+        },
+        "cd_top": {
+          "values": [
+            0.330841090137431
+          ]
+        },
+        "depth": {
+          "values": [
+            1.2498970629257218
+          ]
+        },
+        "max_bow": {
+          "values": [
+            0.006646119389695754
+          ]
+        },
+        "sidewall_angle_deg": {
+          "values": [
+            0.43815301039775867
+          ]
+        }
+      },
+      "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
+      "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
+    }
+  },
+  "schema_version": 1,
+  "status": "complete_descriptive_review"
+}
