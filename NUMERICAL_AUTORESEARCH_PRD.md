@@ -4,7 +4,7 @@ Status: active. This document defines how the project learns quickly without con
 
 ## Outcome
 
-Find the cheapest geometry-scoped simulation profile that preserves the decisions made by a declared reference profile. Use it for exploration, then confirm boundaries and finalists at higher fidelity.
+Measure what extra numerical work buys. Choose a geometry-scoped exploration profile from runtime, repeat spread, response movement, and stability of factor direction. Recheck promoted cases at higher settings without treating any setting as truth.
 
 This work does not calibrate a wafer recipe. Physical controls, model coefficients, numerical controls, and execution settings remain separate.
 
@@ -64,31 +64,29 @@ Map cost and response for rays, grid spacing, advection step, domain clearance, 
 
 The representative panel spans aspect ratio, opening, depth, bow, necking, and near-gate cases. Numerical profiles are geometry-scoped until the panel shows otherwise.
 
-Choose the cheapest discovery profile with margin before the observed cliff. It may screen ranges. It may not confirm a boundary or finalist. Promotion requires unseen streams and the reference profile.
+Choose an exploration profile from the observed cost-versus-stability curve. It may screen ranges. It may not confirm a boundary or finalist. Promotion requires unseen streams and a higher-setting sensitivity check.
 
 Current evidence:
 
 - A fresh 26-run Phase B panel compared 500 and 2,000 rays at grid 0.005.
-  Every run completed with usable measurements. All three depth-boundary pairs
-  changed the assumed depth classification, and one of three narrow-profile
-  pairs changed the assumed bow classification. Therefore 500 rays does not
-  advance for categorical triage on this panel. The observed paired runtime
-  ratio ranged from 2.81 to 4.23, with a median of 3.71. These timings are
-  descriptive, and 2,000 rays is not numerical truth.
+  Every run completed with usable measurements and selected the same cycle.
+  Median wall time was 58.4 seconds at 500 rays and 209.9 seconds at 2,000.
+  Median absolute movement was 0.00400 in depth, 0.00688 in the largest sampled
+  absolute change among the five reported CD metrics, and 0.00080 in bow.
+  Movement varied across the sampled geometries, with a few substantially
+  larger observed changes.
+  These are observed changes in model units, not errors against truth.
 
-- A fresh 32-run Phase A panel compared 250 and 500 rays at grid 0.005. Twenty
-  runs returned measurements. Twelve low-movement runs triggered the configured
-  minimum-depth guard symmetrically. The narrow profile changed the assumed
-  bow-band decision in all three paired streams, and the availability challenge
-  changed the assumed depth-band decision. Therefore 250 rays does not advance.
-  Phase A does not qualify 500 rays.
+- A fresh Phase A panel compared 250 and 500 rays at grid 0.005. Ten complete
+  measurement pairs remain useful for cost and movement. Twelve other runs
+  triggered the same configured minimum-depth guard in both arms. The inherited
+  assumed-band labels are retained as history, not used as accuracy limits.
 
 - The saved 500-ray bridge preserved the reviewed Bosch classifications and factor ranking while reducing paired runtime by about 4.5 times. It is provisional because the campaign also changed random streams and early-stop intervals. It does not isolate ray count.
-- An earlier fine-grid study rejected 1,000 rays against 2,000 because the
-  largest paired shifts exceeded its frozen continuous limits for depth, bottom
-  CD, and bow. No product-gate decision changed. This remains valid for that
-  grid, panel, extractor, and decision rule; it does not answer the newer
-  grid-0.005 categorical question.
+- An earlier fine-grid study found no gate flips between 1,000 and 2,000 rays
+  in four pairs. Its hard-coded continuous limits did not have sufficient
+  provenance for a general accuracy claim, so the raw paired movements remain
+  evidence while the old rejection is archived.
 - The five saved 125-ray cases include a required-anchor mismatch. The run ended without a frozen stop event, so this is a partial mismatch observation rather than a formal rejection.
 - All 16 saved 250-ray cases completed. The review found one hard-gate mismatch and one strong-effect direction mismatch, despite a 0.943 factor-ranking Spearman and a 10.83x paired median speedup. It receives no discovery authority.
 - Older grid results were non-monotonic. No universal grid optimum has been established.
@@ -101,22 +99,24 @@ guarantees for this TSV geometry. The project therefore selects rays from
 paired measurement and decision stability, not by copying the largest or most
 common published value.
 
-The exhaustive ray ladder is retired. Phase A and Phase B used frozen panels to
-remove weak candidates without changing grid spacing at the same time. The
-active next study is a six-case bridge at 1,000 rays. It contains the four Phase
-B disagreement pairs, `width_boundary_candidate:stream_3` as the closest-band
-agreement, and `current_grid_reference:stream_1` as the current-grid agreement
-anchor. The exact completed 2,000-ray arms may be reused only after their
-manifest, expanded case payload, measurements, and archived checkpoint all
-match.
+The active next study is a current-grid ray ladder. Use matched cases and seeds
+at 250, 500, 750, 1,000, and 2,000 rays where exact saved arms can be reused.
+Include a center geometry, a narrow or unstable geometry, and a contrasting
+depth geometry. Plot wall time, repeat spread, successive response movement,
+trajectory class, and factor direction. Keep raw points visible and keep
+geometry panels separate. Do not decide from inherited depth, width, or bow
+bands.
 
-This bridge has a narrow decision rule. Every pair must preserve complete
-measurement availability, reason codes, selected cycle, adequate resolution,
-finite required metrics, and each depth, width, and bow band result. If all six
-pairs match, 1,000 rays advances only to continuous-response and trajectory
-checks. Any mismatch stops it for this Phase B scope. Runtime is descriptive
-and cannot override a mismatch. The bridge neither treats 2,000 rays as truth
-nor supersedes the older fine-grid rejection of 1,000 rays.
+Reuse a saved arm only when its manifest, geometry, recipe, seed policy,
+stopping rule, extractor, and checkpoint match. Otherwise rerun it. Never join
+Phase A and Phase B arms into an apparently continuous ladder merely because
+their ray counts overlap.
+
+The ladder does not need a universal numerical cutoff. It should show whether
+added rays reduce the movement relevant to the planned screen and whether that
+benefit is worth the runtime. Until then, 500 rays remains an exploration
+candidate, not an authorized setting. Promoted effects, cliffs, and finalists
+must be rerun at higher settings.
 
 After the ray bridge, test grid spacing, advection, domain clearance, numerical
 caps, execution layout, and save cadence one at a time on bounded representative

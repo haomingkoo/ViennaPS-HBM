@@ -92,31 +92,29 @@ def assert_step_viewers(page):
 
 
 def assert_numerical_evidence(page):
+    runtime = page.locator("#ray-runtime-chart")
+    spread = page.locator("#ray-spread-chart")
+    movement = page.locator("#ray-movement-chart")
+    assert runtime.locator("rect").count() == 4
+    assert spread.locator("rect").count() == 4
+    assert movement.locator("rect").count() == 3
+    assert "12.3 to 89.1 seconds" in page.locator("#ray-ladder-takeaway").inner_text()
+    page.select_option("#ray-benefit-metric", "cd_bottom")
+    assert "bottom width spread" in page.locator("#ray-ladder-takeaway").inner_text().lower()
+    assert "58.4 s" in page.locator("#ray-pair-runtime").inner_text()
+    assert "209.9 s" in page.locator("#ray-pair-runtime").inner_text()
+    assert page.locator("#ray-pair-movements tr").count() == 3
+    assert "0.06452" in page.locator("#ray-pair-movements").inner_text()
+    assert "without judging them against an accuracy limit" in page.locator("#ray-pair-takeaway").inner_text()
+
     response = page.locator("#numerical-response-chart")
     assert response.locator("circle").count() == 4
     assert "observed spread" in page.locator("#numerical-response-caption").inner_text()
-    page.get_by_role("button", name="Ray sampling").click()
     page.select_option("#numerical-metric", "cd_bottom")
     assert response.locator("circle").count() == 4
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
-    phase_b = page.locator("#phase-b-ray-chart")
-    assert phase_b.locator(".phase-b-row").count() == 5
-    assert phase_b.locator(".phase-b-mark").count() == 13
-    assert phase_b.locator(".phase-b-mark.changed").count() == 4
-    assert "3 of 3 different" in phase_b.inner_text()
-    assert "depth band" in phase_b.inner_text()
-    assert "1 of 3 different" in phase_b.inner_text()
-    assert "bow band" in phase_b.inner_text()
-    mismatch = page.locator("#phase-b-mismatch-chart")
-    assert mismatch.locator(".phase-b-pair").count() == 4
-    assert mismatch.locator(".phase-b-lane").count() == 8
-    assert "1.3506" in mismatch.inner_text()
-    assert "1.3466" in mismatch.inner_text()
-    assert "inside" in mismatch.inner_text()
-    assert "outside" in mismatch.inner_text()
-    assert "same 13 etch cases" in page.locator("#phase-b-takeaway").inner_text()
-    assert "median was 3.7×" in page.locator("#phase-b-runtime").inner_text().lower()
-    assert page.locator('a[href*="numerical_performance_data.json"]').count() == 1
+    assert page.locator('a[href*="ray_benefit_review.json"]').count() == 1
+    assert page.locator('a[href*="ray-benefit-review.schema.json"]').count() == 1
 
 
 def assert_bosch_interactions(page):

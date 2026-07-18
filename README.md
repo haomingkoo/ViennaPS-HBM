@@ -103,9 +103,11 @@ A useful study then follows six rules:
 | `evidence/numerical/` | Committed rows, manifests, reviews, and hashes behind the numerical charts. |
 | `scripts/autoresearch_event_log.py` | Hash-chained attempt log and retry/stop hook. |
 | `numerical_performance_data.json` | Citable grid/ray cost and response evidence. |
+| `evidence/numerical/ray_benefit_review.json` | Citable ray-count runtime, repeat-spread, and response-movement review. |
 | `bosch_tutorial_data.json` | Reviewed dry-etch factor-pair profiles and measurements. |
 | `bosch_trajectory_replay.json` | Seven replayed checkpoints; the final frame matches a saved native checkpoint. |
-| `v3_bosch_clean_ray_ladder.py` | Runs the paired ray-count cost and accuracy study. |
+| `v3_bosch_clean_ray_ladder.py` | Runs the paired ray-count cost and response-movement study. |
+| `build_ray_benefit_review.py` | Summarizes compatible ray studies without treating any setting as truth. |
 | `build_screening_traveler.py` | Builds the prescribed teaching traveler. |
 | `build_step_experiments.py` | Exports the saved mask, etch, film, and CMP studies. |
 | `build_cu_fill_replay.py` | Exports copper surfaces for the interactive replay. |
@@ -201,8 +203,12 @@ ty check --python .venv/bin/python --python-version 3.13 \
   build_step_experiments.py build_explainer.py
 .venv/bin/python test_process_config.py
 .venv/bin/python build_cu_fill_replay.py
+.venv/bin/python build_ray_benefit_review.py
 .venv/bin/python build_explainer.py
 .venv/bin/python test_publication_data.py
+.venv/bin/python test_ray_benefit_review.py
+.venv/bin/python scripts/validate_evidence.py evidence/numerical/ray_benefit_review.json \
+  schemas/ray-benefit-review.schema.json
 .venv/bin/python scripts/validate_evidence.py numerical_performance_data.json \
   schemas/numerical-performance.schema.json
 .venv/bin/python scripts/validate_evidence.py step_experiments.json \

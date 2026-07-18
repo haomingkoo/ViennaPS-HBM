@@ -10,13 +10,13 @@ repeat, numerical, and useful-change checks remain incomplete.
 
 Tracker: [fast-setting confirmation #12](https://github.com/haomingkoo/ViennaPS-HBM/issues/12)
 must finish before [the repeated screen #13](https://github.com/haomingkoo/ViennaPS-HBM/issues/13)
-can run. Phase A did not advance 250 rays and Phase B did not advance 500 rays
-for their tested categorical scopes. The next unit is a six-case 1,000-ray
-bridge with four disagreement cases, `width_boundary_candidate:stream_3`, and
-`current_grid_reference:stream_1`. Each pair must preserve measurement
-availability, reason codes, selected cycle, resolution, finite required metrics,
-and its depth, width, and bow band results. The bridge does not qualify a
-screening profile by itself.
+can run. The saved Phase A and B panels now support cost and raw-response
+comparisons only. Their inherited categorical bands are not accuracy limits.
+The next unit is a matched current-grid ladder at 250, 500, 750, 1,000, and
+2,000 rays on contrasting geometries. It compares wall time, repeat spread,
+successive response movement, trajectory class, and factor direction. Until
+then, 500 rays is an exploration candidate and promoted cases must be rechecked
+higher.
 
 ## Next freezeable screening unit
 

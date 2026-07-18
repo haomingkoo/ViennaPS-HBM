@@ -624,44 +624,39 @@
   .numerical-status b, .numerical-status span { display: block; }
   .numerical-status b { font-family: var(--mono); font-size: 0.8rem; }
   .numerical-status span { margin-top: 0.25rem; color: var(--ink-dim); font-size: 0.75rem; }
-  .phase-b-result { margin: 1rem 0 1.35rem; }
-  .phase-b-result > p { max-width: 72ch; }
-  .phase-b-chart { border-block: 1px solid var(--line); padding: 0.55rem 0; }
-  .phase-b-row { display: grid; grid-template-columns: minmax(9rem, 1.2fr) minmax(8rem, 1fr) minmax(10rem, 1.4fr); align-items: center; gap: 1rem; min-height: 3rem; border-bottom: 1px solid var(--line); }
-  .phase-b-row:last-child { border-bottom: 0; }
-  .phase-b-label { font-weight: 650; }
-  .phase-b-marks { display: flex; gap: 0.4rem; }
-  .phase-b-mark { display: inline-grid; place-items: center; width: 1.45rem; height: 1.45rem; border: 1px solid var(--line); border-radius: 50%; font: 700 0.72rem var(--mono); }
-  .phase-b-mark.changed { border-color: var(--amber); color: var(--amber); }
-  .phase-b-reading { color: var(--ink-dim); font-size: 0.82rem; }
-  .phase-b-reading b { color: var(--ink); }
-  .phase-b-key { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.65rem 0 0; color: var(--ink-dim); font: 0.74rem var(--mono); }
-  .phase-b-key span { display: inline-flex; align-items: center; gap: 0.35rem; }
-  .phase-b-key i { width: 0.7rem; height: 0.7rem; border: 1px solid var(--line); border-radius: 50%; }
-  .phase-b-key .changed { border-color: var(--amber); }
-  .phase-b-mismatch-chart { margin-top: 1rem; border-top: 1px solid var(--line); }
-  .phase-b-pair { padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
-  .phase-b-pair-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.45rem; }
-  .phase-b-pair-head span { color: var(--ink-dim); font: 0.72rem var(--mono); }
-  .phase-b-lane { display: grid; grid-template-columns: 4.2rem 4.8rem minmax(8rem, 1fr) 5.5rem; align-items: center; gap: 0.55rem; min-height: 1.8rem; font-size: 0.78rem; }
-  .phase-b-lane-label, .phase-b-lane-value { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-  .phase-b-track { position: relative; height: 1rem; }
-  .phase-b-track::before { content: ""; position: absolute; inset: calc(50% - 0.5px) 0 auto; border-top: 1px solid var(--line); }
-  .phase-b-boundary { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px dashed var(--amber); }
-  .phase-b-dot { position: absolute; top: 50%; width: 0.72rem; height: 0.72rem; transform: translate(-50%, -50%); border: 2px solid var(--plasma); background: var(--surface); border-radius: 50%; }
-  .phase-b-dot.reference { border-color: var(--ink-dim); border-radius: 1px; }
-  .phase-b-side { color: var(--ink-dim); }
+  .ray-result { margin: 1rem 0 1.35rem; }
+  .ray-result > p { max-width: 72ch; }
+  .ray-controls { display: flex; align-items: end; gap: 1rem; margin: 1rem 0; }
+  .ray-controls label { display: grid; gap: 0.3rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .ray-controls select { min-height: 44px; padding: 0.45rem 2rem 0.45rem 0.55rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+  .ray-chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .ray-chart { margin: 0; min-width: 0; }
+  .ray-chart svg { display: block; width: 100%; height: auto; border-block: 1px solid var(--line); background: var(--surface); }
+  .ray-chart figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
+  .ray-pair-panel { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .ray-pair-panel h3 { margin-top: 0; }
+  .ray-pair-runtime { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0.8rem 0 1rem; border: 1px solid var(--line); background: var(--line); }
+  .ray-pair-runtime div { padding: 0.8rem 1rem; background: var(--surface); }
+  .ray-pair-runtime b, .ray-pair-runtime span { display: block; }
+  .ray-pair-runtime b { font: 650 1.05rem var(--mono); }
+  .ray-pair-runtime span { margin-top: 0.2rem; color: var(--ink-dim); font-size: 0.75rem; }
+  .ray-movement-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .ray-movement-table th, .ray-movement-table td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+  .ray-movement-table th:first-child, .ray-movement-table td:first-child { text-align: left; }
+  .ray-movement-table thead th { background: var(--surface-2); color: var(--ink-dim); font: 0.68rem var(--mono); }
   @media (max-width: 700px) {
     .numerical-controls label { width: 100%; margin-left: 0; }
     .numerical-plots { grid-template-columns: 1fr; }
     .numerical-status { grid-template-columns: 1fr 1fr; }
     .numerical-status div:nth-child(2) { border-right: 0; }
     .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
-    .phase-b-row { grid-template-columns: minmax(7.5rem, 1fr) minmax(6rem, auto); gap: 0.35rem 0.75rem; padding: 0.6rem 0; }
-    .phase-b-reading { grid-column: 1 / -1; }
-    .phase-b-pair-head { display: block; }
-    .phase-b-pair-head span { display: block; margin-top: 0.15rem; }
-    .phase-b-lane { grid-template-columns: 3.4rem 4.4rem minmax(5rem, 1fr) 4.3rem; gap: 0.35rem; font-size: 0.72rem; }
+    .ray-chart-grid { grid-template-columns: 1fr; }
+    .ray-movement-table thead { display: none; }
+    .ray-movement-table, .ray-movement-table tbody, .ray-movement-table tr, .ray-movement-table td { display: block; width: 100%; }
+    .ray-movement-table tr { display: grid; grid-template-columns: repeat(3, 1fr); padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
+    .ray-movement-table td { padding: 0.35rem 0.5rem; border: 0; text-align: left; }
+    .ray-movement-table td:first-child { grid-column: 1 / -1; font-weight: 650; }
+    .ray-movement-table td:not(:first-child)::before { content: attr(data-label); display: block; margin-bottom: 0.12rem; color: var(--ink-dim); font: 0.62rem var(--mono); }
   }
 
   footer {
@@ -830,24 +825,42 @@
   </section>
 
   <section class="finding" id="numerical-tuning">
-    <h2>Advanced: choosing a faster simulation setting</h2>
-    <p class="claim">A faster setting is useful only when it preserves the measured shape and the conclusions drawn from it.</p>
-    <p class="note"><b>Important:</b> the inherited depth, width, and bow bands are assumed study targets. They are not wafer specifications and do not have enough provenance to qualify a process. This section therefore compares measurement and shape changes directly.</p>
-    <div class="phase-b-result">
-      <h3>What the 500 versus 2,000 ray check found</h3>
-      <p id="phase-b-takeaway"></p>
-      <p class="note" id="phase-b-method"></p>
-      <div class="phase-b-chart" id="phase-b-ray-chart" role="img" aria-label="Paired classification results for five Bosch profile groups"></div>
-      <div class="phase-b-key"><span><i aria-hidden="true"></i>Same side of teaching band</span><span><i class="changed" aria-hidden="true"></i>Different side</span><span>Each circle is one case run at both ray counts.</span></div>
-      <div class="phase-b-mismatch-chart" id="phase-b-mismatch-chart" aria-label="Measurements for the four cases that changed sides"></div>
-      <p class="note" id="phase-b-runtime"></p>
-      <p class="note"><b>Limit:</b> 500 rays does not advance as the Bosch screening setting for these 13 cases. This does not prove that 2,000 rays is exact or that 500 rays fails for every geometry.</p>
+    <h2>How ray count changes cost and results</h2>
+    <p class="claim">More rays mean more sampled particle paths and more computation. They do not automatically make every measured result more stable.</p>
+    <p class="note">The plots report runtime, repeat-to-repeat spread, and movement between ray levels. No ray count is treated as the correct answer.</p>
+    <div class="ray-result">
+      <h3>One recipe tested at four ray counts</h3>
+      <p>The same eight random-stream labels were used at 250, 1,000, 2,000, and 4,000 rays on one recipe and the same 0.01 grid.</p>
+      <div class="ray-controls">
+        <label for="ray-benefit-metric">Shape measurement
+          <select id="ray-benefit-metric">
+            <option value="depth">Etch depth</option>
+            <option value="cd_bottom">Bottom width</option>
+            <option value="max_bow">Wall bow</option>
+          </select>
+        </label>
+      </div>
+      <div class="ray-chart-grid">
+        <figure class="ray-chart"><svg id="ray-runtime-chart" viewBox="0 0 340 250" role="img" aria-label="Median runtime by ray count"></svg><figcaption>Median wall time. Lower is faster.</figcaption></figure>
+        <figure class="ray-chart"><svg id="ray-spread-chart" viewBox="0 0 340 250" role="img" aria-label="Repeat spread by ray count"></svg><figcaption>Standard deviation across eight saved runs. Lower means the repeats were closer together.</figcaption></figure>
+        <figure class="ray-chart"><svg id="ray-movement-chart" viewBox="0 0 340 250" role="img" aria-label="Measurement movement between successive ray counts"></svg><figcaption>For the same random-stream label, this is the median absolute difference from the previous ray level. It is not error against truth.</figcaption></figure>
+      </div>
+      <p class="note" id="ray-ladder-takeaway"></p>
+      <div class="ray-pair-panel">
+        <h3>A separate 500 versus 2,000 ray check</h3>
+        <p>Thirteen etched shapes were rerun at grid 0.005. All configured inputs except ray count matched within each pair. Matching random-stream labels do not mean the individual simulated particle paths were identical.</p>
+        <div class="ray-pair-runtime" id="ray-pair-runtime"></div>
+        <table class="ray-movement-table">
+          <thead><tr><th>Observed movement · model units</th><th>Median</th><th>90% at or below</th><th>Largest</th></tr></thead>
+          <tbody id="ray-pair-movements"></tbody>
+        </table>
+        <p class="note" id="ray-pair-takeaway"></p>
+        <p class="note"><b>Do not compare absolute runtimes across the two panels.</b> Their grids, geometries, and cycle scopes differ.</p>
+      </div>
     </div>
-    <h3>Earlier coarse-grid sensitivity</h3>
-    <p class="note">These older runs show how runtime and measured geometry moved across four numerical settings. They help locate changes, but they do not approve a production setting.</p>
-    <div class="numerical-controls" aria-label="Numerical sensitivity chart controls">
-      <button type="button" data-numerical-axis="grid" aria-pressed="true">Shape detail</button>
-      <button type="button" data-numerical-axis="rays" aria-pressed="false">Ray sampling</button>
+    <h3>Grid spacing is a separate choice</h3>
+    <p class="note">This older single-recipe study varies the grid while leaving ray count fixed. It is shown separately because changing grid and rays answers different questions.</p>
+    <div class="numerical-controls" aria-label="Grid sensitivity chart controls">
       <label for="numerical-metric">Measurement
         <select id="numerical-metric">
           <option value="depth">Etch depth</option>
@@ -867,12 +880,11 @@
         <figcaption>Typical saved wall time. The run count is shown below each setting. Lower is faster.</figcaption>
       </figure>
     </div>
-    <div class="numerical-status" id="numerical-gate-status" aria-label="Product-check counts at each sampled setting"></div>
     <p class="note" id="numerical-takeaway"></p>
-    <p class="note">Points are saved simulations from one research machine. Lines connect sampled settings on a log x-axis; they are not fitted response surfaces. This benchmark uses one coarse-grid Bosch recipe, so its turning points do not transfer automatically to deeper or narrower vias.</p>
+    <p class="note">Points are saved simulations from one research machine. Lines connect sampled grid settings. They are not a fitted response surface.</p>
     <h3>What happens next</h3>
-    <p>Test one intermediate ray count on the four pairs that changed and on at least one pair that agreed. Matching sides of the teaching bands would only advance it to further measurement and trajectory checks. It would not approve the setting.</p>
-    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/numerical_performance_data.json">See the citable chart data and source selectors</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/manifest.json">See the committed source-evidence manifest</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/schemas/numerical-performance.schema.json">See its JSON Schema</a></p>
+    <p>Run the matched current-grid ladder at 250, 500, 750, 1,000, and 2,000 rays on contrasting shapes. Then choose an exploration candidate and recheck promoted or sensitive cases higher. Do not name a general sweet spot yet.</p>
+    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/ray_benefit_review.json">See the citable ray review and source hashes</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/schemas/ray-benefit-review.schema.json">See its JSON Schema</a></p>
   </section>
 
   <section class="finding" id="knobs-guide">
@@ -1391,6 +1403,7 @@ const INTERIM = DATA.interim;
 const SCREENING = INTERIM.screening_traveler;
 const GATE0 = INTERIM.pattern_bosch_gate0;
 const NUMERICAL = DATA.numerical_performance;
+const RAY_BENEFIT = DATA.ray_benefit;
 const ACTIVE_CONTRACT = DATA.active_contract;
 const PATTERN_BOSCH_FACTORS = DATA.pattern_bosch_factor_projection;
 const BOSCH = DATA.bosch_tutorial;
@@ -1468,49 +1481,46 @@ if (document.getElementById('gate0-headline')) renderGate0Checkpoint();
 const numericalState = { axis: 'grid', metric: 'depth' };
 const numericalLabels = { depth: 'Etch depth', cd_bottom: 'Bottom width', max_bow: 'Wall bow', scallop_rms: 'Scallop RMS' };
 
-function renderPhaseBRayCheck() {
-  const study = NUMERICAL.phase_b;
-  const changed = study.panels.reduce((total, panel) => total + panel.mismatch_pairs, 0);
-  document.getElementById('phase-b-takeaway').innerHTML = `<b>Takeaway:</b> We reran the same ${study.pair_count} etch cases with 500 and 2,000 rays. Four moved to the other side of an assumed teaching band.`;
-  document.getElementById('phase-b-method').textContent = study.method;
-  const chart = document.getElementById('phase-b-ray-chart');
-  chart.setAttribute('aria-label', `500 versus 2,000 ray comparison. ${changed} of ${study.pair_count} paired cases moved to a different side of an assumed teaching band. Three moved across the depth edge and one moved across the bow edge.`);
-  chart.innerHTML = study.panels.map(panel => {
-    const measurement = panel.changed_measurements.length
-      ? `${panel.changed_measurements.join(' and ')} band`
-      : 'same side';
-    const marks = Array.from({ length: panel.pairs }, (_, index) => {
-      const isChanged = index < panel.mismatch_pairs;
-      return `<span class="phase-b-mark${isChanged ? ' changed' : ''}">${isChanged ? '×' : '='}</span>`;
-    }).join('');
-    return `<div class="phase-b-row" aria-label="${panel.label}: ${panel.mismatch_pairs} of ${panel.pairs} pairs moved to a different side; ${measurement}">
-      <span class="phase-b-label">${panel.label}</span>
-      <span class="phase-b-marks" aria-hidden="true">${marks}</span>
-      <span class="phase-b-reading"><b>${panel.mismatch_pairs} of ${panel.pairs} different</b>${panel.changed_measurements.length ? ` · ${measurement}` : ''}</span>
-    </div>`;
-  }).join('');
-  const metricLabel = { depth: 'Etch depth', bow: 'Wall bow', width: 'Width error' };
-  document.getElementById('phase-b-mismatch-chart').innerHTML = study.mismatches.map(row => {
-    const values = [row.values['500'], row.values['2000']];
-    const distance = Math.max(...values.map(value => Math.abs(value - row.boundary)));
-    const span = Math.max(distance * 1.5, Math.abs(row.boundary) * 0.002, 0.001);
-    const position = value => Math.max(5, Math.min(95, 50 + 50 * (value - row.boundary) / span));
-    const lanes = [500, 2000].map(rays => {
-      const value = row.values[String(rays)], inside = row.inside_band[String(rays)];
-      return `<div class="phase-b-lane">
-        <span class="phase-b-lane-label">${rays.toLocaleString()}</span>
-        <span class="phase-b-lane-value">${value.toFixed(4)}</span>
-        <span class="phase-b-track" aria-hidden="true"><i class="phase-b-boundary"></i><i class="phase-b-dot${rays === 2000 ? ' reference' : ''}" style="left:${position(value).toFixed(1)}%"></i></span>
-        <span class="phase-b-side">${inside ? 'inside' : 'outside'}</span>
-      </div>`;
-    }).join('');
-    return `<div class="phase-b-pair">
-      <div class="phase-b-pair-head"><b>${row.label}</b><span>${metricLabel[row.measurement]} edge ${row.boundary.toFixed(4)}</span></div>
-      ${lanes}
-    </div>`;
-  }).join('');
-  const runtime = study.runtime_ratio;
-  document.getElementById('phase-b-runtime').innerHTML = `<b>Observed cost:</b> 2,000 rays took ${runtime.minimum.toFixed(1)}–${runtime.maximum.toFixed(1)}× as long as 500 rays across these pairs. The median was ${runtime.median.toFixed(1)}×. Timing is descriptive because two runs shared the host.`;
+const rayStudy = id => RAY_BENEFIT.datasets.find(study => study.id === id);
+const rayMetricLabels = { depth: 'Etch depth', cd_bottom: 'Bottom width', max_bow: 'Wall bow' };
+
+function rayBarPlot(svgId, rows, valueFor, yLabel, format) {
+  const svg = document.getElementById(svgId);
+  const w = 340, h = 250, left = 62, right = 14, top = 24, bottom = 54;
+  const values = rows.map(valueFor).filter(value => value !== null);
+  const maximum = Math.max(...values) * 1.14 || 1;
+  const plotHeight = h - top - bottom;
+  const slot = (w - left - right) / rows.length;
+  const barWidth = Math.min(42, slot * 0.58);
+  const py = value => top + (maximum - value) * plotHeight / maximum;
+  svg.innerHTML = `<line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" stroke="var(--line)"/>
+    ${[0, maximum / 2, maximum].map(value => `<g><line x1="${left-4}" y1="${py(value)}" x2="${w-right}" y2="${py(value)}" stroke="var(--line)" stroke-opacity="0.45"/><text x="${left-8}" y="${py(value)+3}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="9">${format(value)}</text></g>`).join('')}
+    ${rows.map((row, index) => {
+      const value = valueFor(row), x = left + slot * (index + 0.5);
+      const mark = value === null
+        ? `<text x="${x}" y="${h-bottom-8}" text-anchor="middle" fill="var(--ink-dim)" font-size="10">start</text>`
+        : `<rect x="${x-barWidth/2}" y="${py(value)}" width="${barWidth}" height="${h-bottom-py(value)}" fill="var(--plasma)" opacity="0.82"><title>${format(value)}</title></rect><text x="${x}" y="${py(value)-7}" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="9">${format(value)}</text>`;
+      return `<g>${mark}<text x="${x}" y="${h-bottom+20}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${row.rays_per_point.toLocaleString()}</text></g>`;
+    }).join('')}
+    <text x="${w/2}" y="${h-10}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">rays per point</text>
+    <text x="15" y="${h/2}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="9" transform="rotate(-90 15 ${h/2})">${yLabel}</text>`;
+}
+
+function renderRayBenefit() {
+  const ladder = rayStudy('same_recipe_ray_ladder');
+  const paired = rayStudy('diverse_500_to_2000_pairs');
+  const metric = document.getElementById('ray-benefit-metric').value;
+  const formatSeconds = value => `${value.toFixed(value >= 10 ? 0 : 1)} s`;
+  const formatModel = value => value.toFixed(metric === 'depth' ? 4 : 5);
+  rayBarPlot('ray-runtime-chart', ladder.levels, row => row.latency_s.median, 'median wall time', formatSeconds);
+  rayBarPlot('ray-spread-chart', ladder.levels, row => row.between_seed_spread[metric].sample_sd, `${rayMetricLabels[metric]} spread`, formatModel);
+  rayBarPlot('ray-movement-chart', ladder.levels, row => row.change_from_previous_level?.paired_absolute_change[metric].median ?? null, `${rayMetricLabels[metric]} movement`, formatModel);
+  document.getElementById('ray-ladder-takeaway').innerHTML = `<b>What this shows:</b> runtime rises from ${ladder.levels[0].latency_s.median.toFixed(1)} to ${ladder.levels.at(-1).latency_s.median.toFixed(1)} seconds. The ${rayMetricLabels[metric].toLowerCase()} spread and step-to-step movement do not shrink steadily as rays increase.`;
+  document.getElementById('ray-pair-runtime').innerHTML = [500, 2000].map(rays => `<div><b>${rays.toLocaleString()} rays · ${paired.latency_s[String(rays)].median.toFixed(1)} s</b><span>median across ${paired.pair_count} saved shapes</span></div>`).join('');
+  const labels = { depth: 'Etch depth', largest_sampled_cd: 'Largest absolute change among five reported width metrics', max_bow: 'Wall bow' };
+  document.getElementById('ray-pair-movements').innerHTML = Object.entries(paired.paired_absolute_change).map(([name, values]) => `<tr><td>${labels[name]}</td><td data-label="Median">${values.median.toFixed(5)}</td><td data-label="90% at or below">${values.p90.toFixed(5)}</td><td data-label="Largest">${values.maximum.toFixed(5)}</td></tr>`).join('');
+  const ratio = paired.latency_s['2000'].median / paired.latency_s['500'].median;
+  document.getElementById('ray-pair-takeaway').innerHTML = `<b>Takeaway:</b> on the recorded machine with two concurrent workers, 2,000 rays took about ${ratio.toFixed(1)}× as long by the ratio of median wall times. Paired movement varied across the 13 shapes. The table reports the observations without judging them against an accuracy limit.`;
 }
 
 function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorAtZero = false) {
@@ -1526,7 +1536,7 @@ function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorA
   const px = index => points.length === 1 ? w / 2 : left + (xValues[index] - xMin) * (w - left - right) / (xMax - xMin);
   const py = value => top + (yMax - value) * (h - top - bottom) / (yMax - yMin);
   const path = points.map((point, index) => `${index ? 'L' : 'M'}${px(index)} ${py(valueFor(point))}`).join(' ');
-  const xLabel = numericalState.axis === 'grid' ? 'Cells across the 0.30 opening · more cells = finer' : 'Rays per point · log scale';
+  const xLabel = 'Cells across the 0.30 opening · more cells = finer';
   svg.innerHTML = `<line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" stroke="var(--line)"/>
     <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" stroke="var(--line)"/>
     ${[yMin, (yMin + yMax) / 2, yMax].map(value => `<g><line x1="${left-4}" y1="${py(value)}" x2="${w-right}" y2="${py(value)}" stroke="var(--line)" stroke-opacity="0.45"/><text x="${left-8}" y="${py(value)+3}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="9">${format(value)}</text></g>`).join('')}
@@ -1534,7 +1544,7 @@ function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorA
     ${points.map((point, index) => {
       const [low, high] = rangeFor(point), x = px(index), y = py(valueFor(point));
       const whisker = low === high ? '' : `<line x1="${x}" y1="${py(low)}" x2="${x}" y2="${py(high)}" stroke="var(--plasma)" stroke-width="2"/><line x1="${x-5}" y1="${py(low)}" x2="${x+5}" y2="${py(low)}" stroke="var(--plasma)"/><line x1="${x-5}" y1="${py(high)}" x2="${x+5}" y2="${py(high)}" stroke="var(--plasma)"/>`;
-      const tick = numericalState.axis === 'grid' ? Math.round(0.30 / point.value) : point.value;
+      const tick = Math.round(0.30 / point.value);
       return `<g>${whisker}<circle cx="${x}" cy="${y}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"><title>${point.value}: ${format(valueFor(point))}</title></circle><text x="${x}" y="${h-bottom+22}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${tick}</text></g>`;
     }).join('')}
     <text x="${w/2}" y="${h-12}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${xLabel}</text>
@@ -1542,7 +1552,6 @@ function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorA
 }
 
 function renderNumericalEvidence() {
-  document.querySelectorAll('[data-numerical-axis]').forEach(button => button.setAttribute('aria-pressed', button.dataset.numericalAxis === numericalState.axis));
   const study = NUMERICAL.foundation[numericalState.axis], points = study.points;
   numericalPlot('numerical-response-chart', points,
     point => point.responses[numericalState.metric].mean,
@@ -1554,13 +1563,12 @@ function renderNumericalEvidence() {
   document.getElementById('numerical-response-caption').textContent = `${numericalLabels[numericalState.metric]}: dot is the average of ${points[0].runs} runs; the vertical bar shows their observed spread.`;
   const changes = study.adjacent_changes.map(change => ({ ...change, response: change.responses[numericalState.metric] }));
   const largest = changes.reduce((best, change) => change.response.mean_abs_change > best.response.mean_abs_change ? change : best);
-  document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. This chart alone cannot approve a faster setting; use the paired accuracy check below.`;
-  document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${numericalState.axis === 'grid' ? `${Math.round(BOSCH.targets.target_cd / point.value)} cells across opening` : `${point.value} rays`}</b><span>${numericalState.axis === 'grid' ? `Grid spacing ${point.value}. ` : ''}Inside assumed bands: depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
+  document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed movement:</b> ${largest.from} → ${largest.to} changes ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. This does not establish the best grid for other via shapes.`;
 }
 
-document.querySelectorAll('[data-numerical-axis]').forEach(button => button.addEventListener('click', () => { numericalState.axis = button.dataset.numericalAxis; renderNumericalEvidence(); }));
+document.getElementById('ray-benefit-metric').addEventListener('change', renderRayBenefit);
 document.getElementById('numerical-metric').addEventListener('change', event => { numericalState.metric = event.target.value; renderNumericalEvidence(); });
-renderPhaseBRayCheck();
+renderRayBenefit();
 renderNumericalEvidence();
 
 // ============ Claim-limited 25-case range pilot ============

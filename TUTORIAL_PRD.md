@@ -101,17 +101,14 @@ completed screening DOE, an interaction estimate, or a process window.
    detection limits, numerical drift, repeat variation, useful-change
    thresholds, and the ray/grid/advection/domain/execution checks. The current
    numeric bands remain assumed comparisons rather than fabrication limits.
-   Fresh 250-versus-500-ray pairs are complete at grid 0.005. The observed
-   decision mismatches stop 250 rays from advancing. The fresh 500-versus-2,000
-   panel is also complete: depth classifications changed in all three
-   depth-boundary pairs, and one narrow-profile bow classification changed.
-   Therefore 500 rays also does not advance for this categorical scope. The
-   next bounded check is a six-case 1,000-versus-2,000 bridge: four disagreement
-   cases plus `width_boundary_candidate:stream_3` and
-   `current_grid_reference:stream_1` as agreement anchors. Every required
-   availability, reason, cycle, resolution, finite-metric, depth, width, and bow
-   result must match. A clean match advances 1,000 rays only to stricter response
-   and trajectory checks; it is not approval.
+   Fresh 250-versus-500 and 500-versus-2,000 ray panels are complete at grid
+   0.005. Publish their runtime and raw depth, width, and bow movement without
+   calling the higher setting truth. The inherited categorical bands remain
+   historical study labels. The next bounded check is a matched current-grid
+   ladder at 250, 500, 750, 1,000, and 2,000 rays on contrasting geometries.
+   It must show runtime, repeat spread, successive response movement,
+   trajectory class, and factor-direction stability. Until that exists, treat
+   500 rays as a candidate and recheck promoted cases higher.
 3. **Range pilot complete:** the first mask-plus-Bosch pilot used 25
    three-level cases across 12 implemented controls. The legacy extractor
    returned values for 20 rows, but its etch-shape values are suspended because

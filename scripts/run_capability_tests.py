@@ -134,6 +134,7 @@ TESTS_BY_RUNTIME = {
         "test_autoresearch_event_log.py",
         "test_autoresearch_event_schema.py",
         "test_evidence_schema.py",
+        "test_ray_benefit_review.py",
         "test_explainer_visual.py",
         "test_factor_registry_provenance.py",
         "test_pattern_bosch_factor_projection.py",

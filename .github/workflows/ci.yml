@@ -50,6 +50,7 @@ jobs:
             build_candidate_cu_replay.py \
             build_step_experiments.py \
             build_explainer.py \
+            build_ray_benefit_review.py \
             build_numerical_performance_data.py \
             build_bosch_tutorial_data.py \
             build_bosch_trajectory_replay.py \
@@ -68,11 +69,14 @@ jobs:
             review_v3_bosch_clean_ray_ladder.py \
             scripts/autoresearch_event_log.py \
             scripts/validate_evidence.py \
+            test_ray_benefit_review.py \
             process_config.py
 
       - name: Validate published evidence schemas
         run: |
           python build_numerical_evidence_bundle.py --check
+          python build_ray_benefit_review.py
+          python scripts/validate_evidence.py evidence/numerical/ray_benefit_review.json schemas/ray-benefit-review.schema.json
           python build_numerical_performance_data.py
           python scripts/validate_evidence.py numerical_performance_data.json schemas/numerical-performance.schema.json
           python scripts/validate_evidence.py bosch_tutorial_data.json schemas/bosch-tutorial.schema.json
@@ -92,9 +96,11 @@ jobs:
           python scripts/validate_evidence.py evidence/numerical/bosch_ray_phase_b_review.json schemas/bosch-ray-phase-b-review.schema.json
           python scripts/validate_evidence.py docs/range-research-log.json schemas/range-research-log.schema.json
           python test_evidence_schema.py
+          python test_ray_benefit_review.py
           python test_autoresearch_event_schema.py
           python test_autoresearch_event_log.py
           git diff --exit-code -- numerical_performance_data.json
+          git diff --exit-code -- evidence/numerical/ray_benefit_review.json
 
       - name: Compile Python sources
         run: |

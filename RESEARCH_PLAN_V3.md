@@ -336,27 +336,18 @@ shapes, distinct failure morphologies, and tested extremes.
    now classified, and the active etch extractor requires both walls in the
    declared full geometry. Freeze response-specific resolution, numerical,
    repeat, and useful-change rules before screening authority.
-2. The fresh 250-versus-500-ray panel is complete at grid 0.005. The narrow
-   profile changed the assumed bow-band decision in all three streams, and the
-   availability challenge changed the assumed depth-band decision. Do not
-   advance 250 rays. The low-movement recipes triggered the same configured
-   minimum-depth guard in both arms and remain guard evidence, not measurements.
-3. The fresh 500-versus-2,000-ray panel is complete. All 26 runs returned usable
-   measurements. All three depth-boundary pairs changed the assumed depth
-   classification, and one of three narrow-profile pairs changed the assumed
-   bow classification. Do not advance 500 rays for this categorical scope.
-4. Freeze a six-case intermediate-ray bridge at 1,000 rays: the four Phase B
-   disagreement pairs, `width_boundary_candidate:stream_3` as the closest-band
-   agreement, and `current_grid_reference:stream_1` as the current-grid anchor.
-   Reuse each completed 2,000-ray comparator only
-   when its manifest, payload, measurements, and checkpoint match exactly;
-   otherwise rerun it. The earlier fine-grid study rejected 1,000 rays under
-   continuous shape-drift limits. This new bridge asks only whether 1,000 rays
-   preserves complete measurement availability, reason codes, selected cycle,
-   resolution, finite required metrics, and every depth, width, and bow band
-   result at grid 0.005. A pass advances 1,000 rays to continuous-response and
-   trajectory checks; it does not qualify the setting or supersede the earlier
-   rejection.
+2. The fresh 250-versus-500 and 500-versus-2,000 ray panels are complete at
+   grid 0.005. Use them for runtime and raw response movement. Archive their
+   inherited categorical-band verdicts; those bands are not accuracy limits.
+3. Build one matched current-grid ladder at 250, 500, 750, 1,000, and 2,000
+   rays. Include center, narrow or unstable, and contrasting-depth geometries.
+   Reuse an arm only when its manifest, payload, measurements, and checkpoint
+   match exactly. Plot raw wall time, repeat spread, successive response
+   movement, trajectory class, and factor direction. Do not pool geometries.
+4. Treat 500 rays as an exploration candidate, not an authorized setting.
+   Recheck promoted effects, response cliffs, and finalists at higher settings.
+   Do not name a universal sweet spot until the current-grid ladder shows the
+   cost and stability tradeoff.
 5. After the ray study, check grid, advection, domain, cap, execution layout,
    and save cadence separately on a bounded representative panel. Derive
    response-specific numerical and repeat envelopes. Do not invent a universal

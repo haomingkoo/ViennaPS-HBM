@@ -1,0 +1,610 @@
+{
+  "datasets": [
+    {
+      "citations": [
+        {
+          "line_numbers": [
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88
+          ],
+          "path": "evidence/numerical/metric_convergence_rows.jsonl",
+          "selector": "design=ray_convergence; grid_delta=0.01; rng_seed=53000..53007",
+          "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+        }
+      ],
+      "comparison_type": "Successive ray refinement; no level is treated as truth.",
+      "id": "same_recipe_ray_ladder",
+      "levels": [
+        {
+          "between_seed_spread": {
+            "cd_bottom": {
+              "count": 8,
+              "maximum": 0.3124555398137319,
+              "median": 0.3105673985391054,
+              "minimum": 0.30998419904448715,
+              "p10": 0.3101212387766379,
+              "p90": 0.31181649113817295,
+              "sample_sd": 0.0008313377460940297
+            },
+            "cd_middle": {
+              "count": 8,
+              "maximum": 0.32384663695423516,
+              "median": 0.3204814458025479,
+              "minimum": 0.3199812949615109,
+              "p10": 0.32001283962879845,
+              "p90": 0.32256875280842756,
+              "sample_sd": 0.0013198019198230584
+            },
+            "cd_top": {
+              "count": 8,
+              "maximum": 0.33740817358565117,
+              "median": 0.3364346841967435,
+              "minimum": 0.3353584385037431,
+              "p10": 0.33542059832051624,
+              "p90": 0.3372976187026794,
+              "sample_sd": 0.0007529068714992342
+            },
+            "depth": {
+              "count": 8,
+              "maximum": 1.2438121197364282,
+              "median": 1.2353669198902157,
+              "minimum": 1.23,
+              "p10": 1.2306455221534294,
+              "p90": 1.2421381438870438,
+              "sample_sd": 0.004740301407182188
+            },
+            "max_bow": {
+              "count": 8,
+              "maximum": 0.0117108280497831,
+              "median": 0.010702814130701496,
+              "minimum": 0.009418299138167024,
+              "p10": 0.010037049545453508,
+              "p90": 0.011676232670976658,
+              "sample_sd": 0.0007795061825820442
+            }
+          },
+          "change_from_previous_level": null,
+          "latency_s": {
+            "count": 8,
+            "maximum": 15.012526035308838,
+            "median": 12.269564628601074,
+            "minimum": 10.504582166671753,
+            "p10": 10.523211097717285,
+            "p90": 14.883966183662412,
+            "sample_sd": 2.0242232951861974
+          },
+          "rays_per_point": 250,
+          "run_count": 8
+        },
+        {
+          "between_seed_spread": {
+            "cd_bottom": {
+              "count": 8,
+              "maximum": 0.3138397326352932,
+              "median": 0.31161922320618646,
+              "minimum": 0.31015046839678817,
+              "p10": 0.31038265326181763,
+              "p90": 0.3128095896427086,
+              "sample_sd": 0.0012105183657732117
+            },
+            "cd_middle": {
+              "count": 8,
+              "maximum": 0.32464855100624296,
+              "median": 0.3209863002686851,
+              "minimum": 0.319234492005289,
+              "p10": 0.31974481148623757,
+              "p90": 0.32276278374699435,
+              "sample_sd": 0.0017015680015276037
+            },
+            "cd_top": {
+              "count": 8,
+              "maximum": 0.3381241812626621,
+              "median": 0.3373344567261538,
+              "minimum": 0.33562989438666335,
+              "p10": 0.33593962699299196,
+              "p90": 0.33805697512168986,
+              "sample_sd": 0.0009151497231044634
+            },
+            "depth": {
+              "count": 8,
+              "maximum": 1.2460543618680526,
+              "median": 1.2385035822859392,
+              "minimum": 1.233907806723497,
+              "p10": 1.234496560280436,
+              "p90": 1.2434993211535024,
+              "sample_sd": 0.004188900422564467
+            },
+            "max_bow": {
+              "count": 8,
+              "maximum": 0.011723552006512733,
+              "median": 0.010577533309545945,
+              "minimum": 0.00968343320600637,
+              "p10": 0.009889822201847004,
+              "p90": 0.01158628497927123,
+              "sample_sd": 0.000751826807294853
+            }
+          },
+          "change_from_previous_level": {
+            "from_rays": 250,
+            "paired_absolute_change": {
+              "cd_bottom": {
+                "count": 8,
+                "maximum": 0.003659762544876377,
+                "median": 0.000897792837465522,
+                "minimum": 0.00033344697275389246,
+                "p10": 0.0003626149932312528,
+                "p90": 0.0027666592844425683,
+                "sample_sd": 0.0012007435189602931
+              },
+              "cd_middle": {
+                "count": 8,
+                "maximum": 0.004622192234321254,
+                "median": 0.0007297986486472507,
+                "minimum": 8.479309698267157e-05,
+                "p10": 0.00017266859629625487,
+                "p90": 0.0027110850931395085,
+                "sample_sd": 0.0014770066356832824
+              },
+              "cd_top": {
+                "count": 8,
+                "maximum": 0.0026697339861015412,
+                "median": 0.000905693503922278,
+                "minimum": 0.00011262781012111311,
+                "p10": 0.00032303326614213645,
+                "p90": 0.0021915987678883305,
+                "sample_sd": 0.0008362109023818559
+              },
+              "depth": {
+                "count": 8,
+                "maximum": 0.011811319297154066,
+                "median": 0.002910529295793829,
+                "minimum": 0.0009835780385305526,
+                "p10": 0.0018871674408030836,
+                "p90": 0.007539032261548505,
+                "sample_sd": 0.0034028607106179054
+              },
+              "max_bow": {
+                "count": 8,
+                "maximum": 0.002027394843776731,
+                "median": 0.0007337575751924091,
+                "minimum": 0.00032395366279758253,
+                "p10": 0.0003242289323908548,
+                "p90": 0.001502209673906432,
+                "sample_sd": 0.000583076126990038
+              }
+            },
+            "ratio_of_median_latencies": 2.209802367108308,
+            "to_rays": 1000
+          },
+          "latency_s": {
+            "count": 8,
+            "maximum": 28.3355610370636,
+            "median": 27.11331295967102,
+            "minimum": 24.648253202438354,
+            "p10": 25.734863018989564,
+            "p90": 27.945719003677368,
+            "sample_sd": 1.173128471761437
+          },
+          "rays_per_point": 1000,
+          "run_count": 8
+        },
+        {
+          "between_seed_spread": {
+            "cd_bottom": {
+              "count": 8,
+              "maximum": 0.3137380944421133,
+              "median": 0.31255654568912683,
+              "minimum": 0.3113967686093781,
+              "p10": 0.3118108935677116,
+              "p90": 0.3137083543354286,
+              "sample_sd": 0.0008911756536017039
+            },
+            "cd_middle": {
+              "count": 8,
+              "maximum": 0.3239979716909003,
+              "median": 0.3224443935233412,
+              "minimum": 0.3200660221533505,
+              "p10": 0.32089918083972596,
+              "p90": 0.3238617819605898,
+              "sample_sd": 0.0013491085180739387
+            },
+            "cd_top": {
+              "count": 8,
+              "maximum": 0.33740625297106036,
+              "median": 0.3362904456949143,
+              "minimum": 0.3356935145504396,
+              "p10": 0.3359154703296755,
+              "p90": 0.33678971420379206,
+              "sample_sd": 0.0005060620600579188
+            },
+            "depth": {
+              "count": 8,
+              "maximum": 1.2449970251969145,
+              "median": 1.2431242565328104,
+              "minimum": 1.239946776818592,
+              "p10": 1.2399840330455776,
+              "p90": 1.244468433449717,
+              "sample_sd": 0.001876208309921162
+            },
+            "max_bow": {
+              "count": 8,
+              "maximum": 0.011526088361902193,
+              "median": 0.010136248419472041,
+              "minimum": 0.00945816944239089,
+              "p10": 0.00950447359589134,
+              "p90": 0.0109298250495217,
+              "sample_sd": 0.000679229629565793
+            }
+          },
+          "change_from_previous_level": {
+            "from_rays": 1000,
+            "paired_absolute_change": {
+              "cd_bottom": {
+                "count": 8,
+                "maximum": 0.0029992937223705662,
+                "median": 0.0008382169538926065,
+                "minimum": 0.00016194348777492928,
+                "p10": 0.00018619734333947258,
+                "p90": 0.002562783812510566,
+                "sample_sd": 0.0011472713995644482
+              },
+              "cd_middle": {
+                "count": 8,
+                "maximum": 0.0037754323427235947,
+                "median": 0.0009578373475000734,
+                "minimum": 0.0002664012938392579,
+                "p10": 0.0004032249300292279,
+                "p90": 0.002790699450085765,
+                "sample_sd": 0.0012080178146837192
+              },
+              "cd_top": {
+                "count": 8,
+                "maximum": 0.002113587027599728,
+                "median": 0.000979380610335201,
+                "minimum": 0.00016501256839585032,
+                "p10": 0.00016938677509690804,
+                "p90": 0.0016859585386972075,
+                "sample_sd": 0.000689574162144132
+              },
+              "depth": {
+                "count": 8,
+                "maximum": 0.01033408740599251,
+                "median": 0.002903445791754722,
+                "minimum": 0.0005045098778002632,
+                "p10": 0.000788271496701487,
+                "p90": 0.0093900438017535,
+                "sample_sd": 0.0038402726203828953
+              },
+              "max_bow": {
+                "count": 8,
+                "maximum": 0.0018426551558958226,
+                "median": 0.0010330759251550026,
+                "minimum": 0.00019574455425952486,
+                "p10": 0.00023836649677063114,
+                "p90": 0.0016991574627732375,
+                "sample_sd": 0.0006167471033496641
+              }
+            },
+            "ratio_of_median_latencies": 1.824056637955907,
+            "to_rays": 2000
+          },
+          "latency_s": {
+            "count": 8,
+            "maximum": 51.35168695449829,
+            "median": 49.45621848106384,
+            "minimum": 47.05677127838135,
+            "p10": 48.60444588661194,
+            "p90": 50.641569066047666,
+            "sample_sd": 1.2067672501268067
+          },
+          "rays_per_point": 2000,
+          "run_count": 8
+        },
+        {
+          "between_seed_spread": {
+            "cd_bottom": {
+              "count": 8,
+              "maximum": 0.312902244152555,
+              "median": 0.3113705984413882,
+              "minimum": 0.31067865949136203,
+              "p10": 0.3109074599478996,
+              "p90": 0.31242681911419634,
+              "sample_sd": 0.0007161165703880582
+            },
+            "cd_middle": {
+              "count": 8,
+              "maximum": 0.3265103541648196,
+              "median": 0.3221115556882759,
+              "minimum": 0.32007851948682003,
+              "p10": 0.3209045551857197,
+              "p90": 0.324878593955034,
+              "sample_sd": 0.002042731039579891
+            },
+            "cd_top": {
+              "count": 8,
+              "maximum": 0.3375955010230935,
+              "median": 0.3365815658479103,
+              "minimum": 0.33516057241685354,
+              "p10": 0.3354627889128417,
+              "p90": 0.33756436279663815,
+              "sample_sd": 0.0008828700141676648
+            },
+            "depth": {
+              "count": 8,
+              "maximum": 1.2461309632777957,
+              "median": 1.2419916467459928,
+              "minimum": 1.2322420501325093,
+              "p10": 1.2331770335659908,
+              "p90": 1.2452167931213993,
+              "sample_sd": 0.005019393485233034
+            },
+            "max_bow": {
+              "count": 8,
+              "maximum": 0.012206264201477968,
+              "median": 0.010754888194550491,
+              "minimum": 0.010018014712327716,
+              "p10": 0.010046907257319581,
+              "p90": 0.01186390568758432,
+              "sample_sd": 0.0008062282858184792
+            }
+          },
+          "change_from_previous_level": {
+            "from_rays": 2000,
+            "paired_absolute_change": {
+              "cd_bottom": {
+                "count": 8,
+                "maximum": 0.002304571279030665,
+                "median": 0.001289811826849896,
+                "minimum": 0.0003912513229623604,
+                "p10": 0.0006288907485635541,
+                "p90": 0.0018950269530523588,
+                "sample_sd": 0.000587505401086391
+              },
+              "cd_middle": {
+                "count": 8,
+                "maximum": 0.002706939231505723,
+                "median": 0.001238976497093952,
+                "minimum": 0.00018716527862094878,
+                "p10": 0.0002132801111169258,
+                "p90": 0.0021050358431203287,
+                "sample_sd": 0.0008162559460947682
+              },
+              "cd_top": {
+                "count": 8,
+                "maximum": 0.001548547594610039,
+                "median": 0.00032246537299651656,
+                "minimum": 0.00010120428217441635,
+                "p10": 0.00017209916937505065,
+                "p90": 0.0014200018990594809,
+                "sample_sd": 0.0006013591936017338
+              },
+              "depth": {
+                "count": 8,
+                "maximum": 0.007704726686082575,
+                "median": 0.0024632549180062524,
+                "minimum": 0.0002951767614254308,
+                "p10": 0.0005845420481287888,
+                "p90": 0.006806999479586651,
+                "sample_sd": 0.0026905425685798314
+              },
+              "max_bow": {
+                "count": 8,
+                "maximum": 0.002484622616403226,
+                "median": 0.0009329271274140932,
+                "minimum": 1.7822242837389757e-05,
+                "p10": 5.286186277623784e-05,
+                "p90": 0.001979269488585189,
+                "sample_sd": 0.0008563856488386066
+              }
+            },
+            "ratio_of_median_latencies": 1.8017373298447126,
+            "to_rays": 4000
+          },
+          "latency_s": {
+            "count": 8,
+            "maximum": 93.73441314697266,
+            "median": 89.1071150302887,
+            "minimum": 84.35297775268555,
+            "p10": 86.3149155139923,
+            "p90": 93.26487336158752,
+            "sample_sd": 3.1494551380646367
+          },
+          "rays_per_point": 4000,
+          "run_count": 8
+        }
+      ],
+      "limits": [
+        "The ladder does not contain 500 rays.",
+        "Base seed labels are paired; pointwise common random numbers are not claimed.",
+        "Between-seed spread and paired ray-count movement are different quantities.",
+        "This single recipe does not establish behavior for every geometry."
+      ],
+      "scope": "One 2D Bosch recipe at grid 0.01 with eight matched seed labels."
+    },
+    {
+      "citations": [
+        {
+          "line_numbers": null,
+          "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+          "selector": "/comparisons",
+          "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+        }
+      ],
+      "comparison_type": "All configured inputs except ray count match within each pair. Matching seed labels do not imply identical particle histories; neither arm is truth.",
+      "complete_measurement_pairs": 13,
+      "id": "diverse_500_to_2000_pairs",
+      "latency_s": {
+        "2000": {
+          "count": 13,
+          "maximum": 620.7354257919942,
+          "median": 209.8575108749792,
+          "minimum": 129.29863216599915,
+          "p10": 132.1644585164031,
+          "p90": 595.3044498079864,
+          "sample_sd": 194.6375158223009
+        },
+        "500": {
+          "count": 13,
+          "maximum": 154.95984212498297,
+          "median": 58.399144374998286,
+          "minimum": 35.159891249990324,
+          "p10": 35.878228416590716,
+          "p90": 146.62064271660057,
+          "sample_sd": 49.745935804432285
+        }
+      },
+      "limits": [
+        "Only two ray levels were sampled in this panel.",
+        "Runtime came from two concurrent workers and is descriptive.",
+        "The former assumed-band decision is not used as a fidelity limit here."
+      ],
+      "pair_count": 13,
+      "paired_absolute_change": {
+        "depth": {
+          "count": 13,
+          "maximum": 0.0645193330700029,
+          "median": 0.004000352451145384,
+          "minimum": 0.0006634191533942957,
+          "p10": 0.0009369243082353318,
+          "p90": 0.05054047888210997,
+          "sample_sd": 0.021888162370298652
+        },
+        "largest_sampled_cd": {
+          "count": 13,
+          "maximum": 0.030209616479371038,
+          "median": 0.0068795747836171706,
+          "minimum": 0.000805793595424098,
+          "p10": 0.001164899515657547,
+          "p90": 0.022757732026671,
+          "sample_sd": 0.009412837582730888
+        },
+        "max_bow": {
+          "count": 13,
+          "maximum": 0.00934088403136818,
+          "median": 0.0008022660314704333,
+          "minimum": 1.86683244355057e-05,
+          "p10": 0.0002242075642089725,
+          "p90": 0.004820870161539248,
+          "sample_sd": 0.0027309030457300376
+        }
+      },
+      "scope": "Thirteen 2D Bosch pairs at grid 0.005 across five profile roles.",
+      "selected_cycle_match_count": 13
+    },
+    {
+      "anchor_count": 13,
+      "broad_outcome_matches": 13,
+      "candidate_rays": 500,
+      "citations": [
+        {
+          "line_numbers": null,
+          "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+          "selector": "/gate_comparison",
+          "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+        },
+        {
+          "line_numbers": null,
+          "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+          "selector": "/factor_score_ranking_spearman",
+          "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+        },
+        {
+          "line_numbers": null,
+          "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+          "selector": "/runtime",
+          "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+        }
+      ],
+      "comparison_rays": 2000,
+      "factor_ranking_spearman": 1.0,
+      "id": "commissioning_factor_direction_check",
+      "limit": "Commissioning evidence only: ray count, random streams, and early-stop intervals were not isolated.",
+      "median_descriptive_speedup": 4.4701011734508915,
+      "scope": "Six Bosch factors with 13 low/high or nominal anchors.",
+      "trajectory_matches": 13
+    }
+  ],
+  "excluded_studies": [
+    "The current Phase A 250-to-500 panel is not included because only ten pairs returned complete measurements.",
+    "The earlier fine-grid 1,000-to-2,000 bridge is not included because it used a different grid, extractor scope, and hard-coded limits.",
+    "The partial clean 250/375/500/750 ladder is not included because it has only two cases at 750 rays and no 1,000- or 2,000-ray arm.",
+    "The 125- and 250-ray qualification reviews are not included because they belong to a confounded commissioning comparison."
+  ],
+  "highest_supported_claim": "Saved results show a substantial runtime cost for added rays, no monotonic reduction in between-seed spread on the single-profile ladder, and geometry-dependent paired movement between 500 and 2,000 rays. Commissioning data preserved broad factor ordering at 500 rays, but a current-grid multi-level ladder is still missing.",
+  "interpretation_rules": [
+    "No ray count is ground truth.",
+    "No fabrication or product limit is used.",
+    "Raw response movement is reported in model units.",
+    "Different grids and geometry panels are not merged into one curve.",
+    "More rays are useful only when the added cost changes a decision or materially stabilizes a needed response."
+  ],
+  "next_evidence": "Before running a current-grid ladder, freeze response-specific useful-change and repeat-spread criteria. Examine successive levels without assuming monotonic improvement, and do not declare a plateau from one adjacent comparison.",
+  "provenance": {
+    "builder": {
+      "line_numbers": null,
+      "path": "build_ray_benefit_review.py",
+      "selector": "source file",
+      "sha256": "0cc117b022067e0f41db4848e51b6961c6e390962f42e50f67119ca2ad1f666b"
+    },
+    "schema": {
+      "line_numbers": null,
+      "path": "schemas/ray-benefit-review.schema.json",
+      "selector": "schema file",
+      "sha256": "fe6cb4230f0abd5adf4aca9ef0c67fcdc4c27459e97f43df6dcaf639073e2c6a"
+    }
+  },
+  "question": "How do latency, between-seed spread, paired response movement, and factor-direction stability change as rays increase?",
+  "schema_version": 1,
+  "sources": [
+    {
+      "line_numbers": null,
+      "path": "evidence/numerical/metric_convergence_rows.jsonl",
+      "selector": "all ray-convergence rows",
+      "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+    },
+    {
+      "line_numbers": null,
+      "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+      "selector": "/comparisons",
+      "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+    },
+    {
+      "line_numbers": null,
+      "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+      "selector": "/gate_comparison",
+      "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+    }
+  ],
+  "status": "reviewed_selected_saved_evidence",
+  "title": "Selected evidence on the benefit and cost of more Bosch rays"
+}

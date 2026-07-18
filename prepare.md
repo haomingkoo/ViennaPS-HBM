@@ -1518,3 +1518,15 @@ report must show real sampled points only; no interpolated or invented
   Durable rule: do not refine the rejected extreme corners. Use transformed
   half-steps between each low/nominal/high anchor for the interior response
   surface, then confirm only promoted interior candidates at 2,000 rays.
+- Ray-benefit interpretation correction (2026-07-18): no saved ray count is
+  physical or numerical truth. The inherited depth, CD, and bow bands remain
+  teaching references and cannot define ray accuracy. The citable review now
+  reports wall time, between-seed spread, and successive paired response
+  movement. In the same-recipe grid-0.01 ladder, median wall time rises from
+  12.3 seconds at 250 rays to 89.1 seconds at 4,000, while depth and bow spread
+  do not improve monotonically. In the fresh grid-0.005 panel, median wall time
+  is 58.4 seconds at 500 rays and 209.9 seconds at 2,000; paired movement has
+  geometry-dependent tails. Durable rule: treat 500 rays as an exploration
+  candidate, keep incompatible campaigns separate, and recheck promoted or
+  sensitive cases higher. Do not describe a higher ray count as more accurate
+  without an independently justified measurement criterion.
