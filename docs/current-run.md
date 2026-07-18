@@ -101,7 +101,7 @@ or numerical qualification.
 |---|---|
 | Stage | 250-ray Bosch commissioning comparison |
 | Status | 16 of 16 cases completed; saved review found a gate mismatch and a strong-effect direction mismatch |
-| Result | No discovery authority; 500 rays remains a provisional bridge, not a qualified profile |
+| Result | At this checkpoint, 500 rays remained provisional. Phase B above later rejected it for the tested categorical panel. |
 | Runtime | 10.83x paired median speedup versus the tested 2,000-ray anchors |
 | Review | [`evidence/numerical/v3_bosch_low_ray_qualification_review.json`](../evidence/numerical/v3_bosch_low_ray_qualification_review.json) |
 | Rows | [`evidence/numerical/v3_bosch_r250_qualification_rows.jsonl`](../evidence/numerical/v3_bosch_r250_qualification_rows.jsonl) |
