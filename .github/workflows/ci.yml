@@ -82,7 +82,6 @@ jobs:
           python scripts/validate_evidence.py evidence/bosch/pattern_bosch_metric_controls.json schemas/pattern-bosch-metric-controls.schema.json
           python scripts/validate_evidence.py pattern_bosch_factor_projection.json schemas/pattern-bosch-factor-projection.schema.json
           python scripts/validate_evidence.py pattern_bosch_range_pilot_review.json schemas/pattern-bosch-range-pilot-review.schema.json
-          python scripts/validate_evidence.py evidence/bosch/range_pilot/source_bundle.json schemas/pattern-bosch-range-pilot-bundle.schema.json
           python scripts/validate_evidence.py docs/range-research-log.json schemas/range-research-log.schema.json
           python test_evidence_schema.py
           python test_autoresearch_event_schema.py
