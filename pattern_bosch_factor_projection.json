@@ -1563,7 +1563,7 @@
   "sources": [
     {
       "path": "factor_registry.json",
-      "sha256": "cf1857abc6c271e723f9443cfcf58458fb47c7e9873648d883f34d907af27eda"
+      "sha256": "e3bed364e36f4195807d791af533d14e482ba7fe3da561198889acbbebe65cf4"
     },
     {
       "path": "build_pattern_bosch_factor_projection.py",

@@ -2193,7 +2193,7 @@
     },
     {
       "path": "pattern_bosch_measurement_contract.json",
-      "sha256": "e601f12d9bc821f89a40ad27d938c18a7a6709268cc496e8c49caf3b26616518"
+      "sha256": "0da16e191793cba70b79f0359bed1c77d06454cc40904fe35a055bdaaaf30286"
     },
     {
       "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
