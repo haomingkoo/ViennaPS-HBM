@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bosch-ray-current-grid-ladder-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study",
+    "question",
+    "result_scope",
+    "execution",
+    "levels",
+    "pairs",
+    "adjacent_levels",
+    "repeat_spread_by_panel",
+    "interpretation_rules",
+    "limits",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "study": {"const": "bosch-ray-current-grid-ladder-v1"},
+    "question": {"type": "string", "minLength": 1},
+    "result_scope": {"type": "string", "minLength": 1},
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["planned_runs", "complete_runs", "pair_count", "profile_samples_per_wall", "grid_delta", "rays_per_point"],
+      "properties": {
+        "planned_runs": {"const": 45},
+        "complete_runs": {"const": 45},
+        "pair_count": {"const": 9},
+        "profile_samples_per_wall": {"const": 76},
+        "grid_delta": {"const": 0.005},
+        "rays_per_point": {"const": [250, 500, 750, 1000, 2000]}
+      }
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["rays_per_point", "run_count", "runtime_s", "measurements"]
+      }
+    },
+    "pairs": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": ["pair_id", "panel_id", "repeat_index", "rng_seed", "arms", "adjacent_movements"]
+      }
+    },
+    "adjacent_levels": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["from_rays", "to_rays", "runtime_ratio_of_medians", "movement"]
+      }
+    },
+    "repeat_spread_by_panel": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "required": ["panel_id", "rays_per_point", "stream_count", "pairwise_comparison_count", "measurement_spread", "profile_spread"]
+      }
+    },
+    "interpretation_rules": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "limits": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

@@ -12,29 +12,31 @@ control, not a TSV process knob or the learner-facing result.
 
 | Item | Value |
 |---|---|
-| Stage | Fresh 500-versus-2,000-ray Bosch comparison |
-| Status | Complete review: 500 rays does not advance |
-| Scope | 13 exact seed-labelled pairs at grid 0.005; 26 runs |
-| Result | All 26 runs completed with usable measurements; four pairs changed a tutorial-band classification |
-| Runtime | The observed 2,000/500 paired ratio ranged from 2.81 to 4.23; median 3.71 |
-| Review | [`evidence/numerical/bosch_ray_phase_b_review.json`](../evidence/numerical/bosch_ray_phase_b_review.json) |
-| Manifest | [`evidence/numerical/bosch_ray_phase_b_manifest.json`](../evidence/numerical/bosch_ray_phase_b_manifest.json) |
+| Stage | Matched current-grid ray ladder |
+| Status | Complete: operational exploration profile selected |
+| Scope | Three etched-shape panels × five ray counts × three streams; 45 runs |
+| Ray counts | 250, 500, 750, 1,000, and 2,000 rays per point |
+| Runtime | Median across nine runs: 33.1, 54.1, 91.2, 121.6, and 206.5 seconds |
+| Result | Successive depth and full-wall movement was not monotonic with ray count |
+| Review | [`evidence/numerical/bosch_ray_current_grid_ladder_review.json`](../evidence/numerical/bosch_ray_current_grid_ladder_review.json) |
+| Manifest | [`evidence/numerical/bosch_ray_current_grid_ladder_manifest.json`](../evidence/numerical/bosch_ray_current_grid_ladder_manifest.json) |
 
-All three depth-boundary pairs changed the assumed depth classification between
-500 and 2,000 rays. One of three narrow-profile pairs changed the assumed bow
-classification. The selected cycle matched within every affected pair, so the
-changes are not endpoint-selection artifacts. These are tutorial comparisons,
-not fabrication pass/fail claims.
+For this scoped 2D study, use 500 rays for broad exploration and 1,000 rays for
+sensitivity checks. Investigate deep unstable profiles with a separate grid or
+model study. This is a compute-budget decision, not proof that 500 rays is
+accurate or that 2,000 rays is truth.
 
-The width candidate was useful: its closest observed width-band margin was
-0.00025 model units at grid 0.005. No width classification changed, but the
-continuous agreement remains unqualified. The 2,000-ray arm is still a tested
-comparator, not numerical truth.
+The median full-wall change from 1,000 to 2,000 rays was larger than the change
+from 750 to 1,000 rays. More rays therefore did not produce a simple monotonic
+convergence pattern on these shapes. Promoted effects and boundaries still need
+higher-setting and held-out checks.
 
-The next numerical question is whether a bounded intermediate setting can
-preserve the four disagreement pairs and at least one agreement anchor. Reuse
-the completed 2,000-ray arms only when the physical payload, seed label,
-extractor, endpoint rule, binaries, and source hashes match exactly.
+## Earlier completed Phase B
+
+The earlier 13-pair 500-versus-2,000 panel found four changes in assumed
+tutorial-band classifications. Those bands are not fabrication limits. The
+panel remains useful disagreement evidence and is superseded as the current
+cost comparison by the five-level ladder above.
 
 ## Earlier completed Phase A
 

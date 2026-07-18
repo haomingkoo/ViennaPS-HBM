@@ -101,14 +101,12 @@ completed screening DOE, an interaction estimate, or a process window.
    detection limits, numerical drift, repeat variation, useful-change
    thresholds, and the ray/grid/advection/domain/execution checks. The current
    numeric bands remain assumed comparisons rather than fabrication limits.
-   Fresh 250-versus-500 and 500-versus-2,000 ray panels are complete at grid
-   0.005. Publish their runtime and raw depth, width, and bow movement without
-   calling the higher setting truth. The inherited categorical bands remain
-   historical study labels. The next bounded check is a matched current-grid
-   ladder at 250, 500, 750, 1,000, and 2,000 rays on contrasting geometries.
-   It must show runtime, repeat spread, successive response movement,
-   trajectory class, and factor-direction stability. Until that exists, treat
-   500 rays as a candidate and recheck promoted cases higher.
+   The matched current-grid ladder now compares 250, 500, 750, 1,000, and
+   2,000 rays on three contrasting geometries. It reports runtime, repeat
+   spread, and successive profile movement without treating the highest value
+   as truth. Use 500 rays as the broad-exploration budget for this scoped 2D
+   study, recheck promoted cases at 1,000 rays, and investigate unstable deep
+   profiles with a separate grid/model check.
 3. **Range pilot complete:** the first mask-plus-Bosch pilot used 25
    three-level cases across 12 implemented controls. The legacy extractor
    returned values for 20 rows, but its etch-shape values are suspended because
@@ -127,10 +125,11 @@ completed screening DOE, an interaction estimate, or a process window.
    interactions on held-out cases before using them downstream.
 6. **Experiments pending:** run bounded per-step screens before focused tuning.
    Preserve invalid, missing, stopped, and retried cases as separate outcomes.
-7. **Tutorial in progress:** the 28 saved 500-ray factor-pair profiles and the
-   seven-frame etch replay are now remeasured from both walls. Continue replacing
-   remaining teaching sketches with saved simulation frames, measurement
-   overlays, and evidence-linked conclusions.
+7. **Tutorial in progress:** the page now exposes 18 saved six-control dry-etch
+   runs, 28 saved factor-pair cases, and a seven-frame etch replay. All public
+   profiles are remeasured from both walls. Continue replacing remaining
+   teaching sketches with saved simulation frames, measurement overlays, and
+   evidence-linked conclusions.
 8. **Current release published:** the committed explainer passes CI and browser
    checks and is deployed. Later releases must continue to publish the same
    reviewed artifact rather than an untracked local build.
@@ -157,7 +156,7 @@ full-traveler process window.
 | Step | Current saved evidence | Boundary status |
 |---|---|---|
 | Mask | 27 ideal-geometry combinations of opening, height, and taper | Contrasting inputs only; exposure and develop are not modeled |
-| Bosch etch | 25 multi-factor pilot profiles; five incomplete rows now have explicit availability classes | Full-width extractor resolution and numerical qualification remain open |
+| Bosch etch | 18 six-control refinement profiles, 28 factor-pair cases, and 25 archived pilot profiles | Effects remain discovery evidence; independent confirmation and equipment calibration remain open |
 | Liner | Saved two-factor sensitivity examples | No confirmed failure/recovery bracket |
 | Barrier and seed | Saved sensitivity examples with separate layer measurements | No confirmed electrical-seed or physical boundary |
 | Copper fill | Candidate-model failures and a prescribed passing geometry control | The prescribed control validates measurements, not the fill law |

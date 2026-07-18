@@ -1,0 +1,454 @@
+{
+  "assumed_comparison_bands": {
+    "depth_tolerance": 0.1,
+    "etch_depth": 1.25,
+    "evidence_class": "assumed_model_study",
+    "mask_height": 0.3,
+    "max_wall_bulge": 0.03,
+    "max_width_error": 0.06,
+    "opening_cd": 0.3
+  },
+  "authority": "Observed cost and response movement for nine exact Phase B pairs. No ray count is truth and no inherited tutorial band is an accuracy limit.",
+  "campaign": "bosch-ray-current-grid-ladder-v1",
+  "execution": {
+    "checkpoint_policy": "save one selected-cycle checkpoint per new run",
+    "new_case_cap": 27,
+    "retry_policy": "one identical retry for a first transient infrastructure error only",
+    "scientific_stop_rule": "run every frozen case to a logged terminal state"
+  },
+  "interpretation_rules": [
+    "Report raw observations without converting movement into accuracy error.",
+    "Keep the three geometry panels separate.",
+    "Do not assume that spread or movement improves monotonically.",
+    "Do not select an exploration setting from runtime alone.",
+    "The selected-cycle rule is inherited for exact compatibility with Phase B; its tutorial bands are not accuracy limits."
+  ],
+  "measurements": [
+    "selected cycle",
+    "etch depth",
+    "top, middle, bottom, minimum, and maximum CD",
+    "maximum bow",
+    "scallop RMS",
+    "sidewall angle",
+    "measurement availability and reason codes",
+    "wall time"
+  ],
+  "numerics": {
+    "complete_ladder": [
+      250,
+      500,
+      750,
+      1000,
+      2000
+    ],
+    "grid_delta": 0.005,
+    "maximum_workers": 2,
+    "new_ray_arms": [
+      250,
+      750,
+      1000
+    ],
+    "reused_ray_arms": [
+      500,
+      2000
+    ],
+    "simulation_dimension": 2,
+    "threads_per_worker": 4
+  },
+  "pairs": [
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": 2.0,
+        "radius": 0.15,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 10,
+      "pair_id": "design_center:stream_1",
+      "panel_id": "design_center",
+      "phase_b_case_ids": {
+        "2000": "c73ae59197c79d0b",
+        "500": "36d6869bc32e6141"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 10,
+        "radius": 0.15,
+        "theta_r_min": 45.0
+      },
+      "repeat_index": 0,
+      "rng_seed": 1900097,
+      "roles": [
+        "design_center"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": 2.0,
+        "radius": 0.15,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 10,
+      "pair_id": "design_center:stream_2",
+      "panel_id": "design_center",
+      "phase_b_case_ids": {
+        "2000": "1fc175582a416946",
+        "500": "db196566e15f7bb5"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 10,
+        "radius": 0.15,
+        "theta_r_min": 45.0
+      },
+      "repeat_index": 1,
+      "rng_seed": 1900194,
+      "roles": [
+        "design_center"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": 2.0,
+        "radius": 0.15,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 10,
+      "pair_id": "design_center:stream_3",
+      "panel_id": "design_center",
+      "phase_b_case_ids": {
+        "2000": "8c6672ee457e4059",
+        "500": "6b4b1ec01bbf3a2c"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 10,
+        "radius": 0.15,
+        "theta_r_min": 45.0
+      },
+      "repeat_index": 2,
+      "rng_seed": 1900291,
+      "roles": [
+        "design_center"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 16,
+      "pair_id": "narrow_profile:stream_1",
+      "panel_id": "narrow_profile",
+      "phase_b_case_ids": {
+        "2000": "bfce88c826f8ab8b",
+        "500": "f0241f3202aac9e2"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "repeat_index": 0,
+      "rng_seed": 1900388,
+      "roles": [
+        "narrow_valid_profile"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 16,
+      "pair_id": "narrow_profile:stream_2",
+      "panel_id": "narrow_profile",
+      "phase_b_case_ids": {
+        "2000": "0c4f535257ee3b40",
+        "500": "fce988e990ee9a30"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "repeat_index": 1,
+      "rng_seed": 1900485,
+      "roles": [
+        "narrow_valid_profile"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 16,
+      "pair_id": "narrow_profile:stream_3",
+      "panel_id": "narrow_profile",
+      "phase_b_case_ids": {
+        "2000": "c90ef984f720c50a",
+        "500": "63295a0c23453e04"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "repeat_index": 2,
+      "rng_seed": 1900582,
+      "roles": [
+        "narrow_valid_profile"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 16,
+      "pair_id": "depth_boundary:stream_1",
+      "panel_id": "depth_boundary",
+      "phase_b_case_ids": {
+        "2000": "d57998a2ae5ed6cf",
+        "500": "72d61d269c397f1b"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 45.0
+      },
+      "repeat_index": 0,
+      "rng_seed": 1900679,
+      "roles": [
+        "one_sided_availability_challenge"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 16,
+      "pair_id": "depth_boundary:stream_2",
+      "panel_id": "depth_boundary",
+      "phase_b_case_ids": {
+        "2000": "1cdca72aacc77680",
+        "500": "d79f3ec74b19a0c5"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 45.0
+      },
+      "repeat_index": 1,
+      "rng_seed": 1900776,
+      "roles": [
+        "one_sided_availability_challenge"
+      ]
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "grid_delta": 0.005,
+      "maximum_cycles": 16,
+      "pair_id": "depth_boundary:stream_3",
+      "panel_id": "depth_boundary",
+      "phase_b_case_ids": {
+        "2000": "f3f3c4b555733bbd",
+        "500": "1d7866e8ce82bc30"
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 45.0
+      },
+      "repeat_index": 2,
+      "rng_seed": 1900873,
+      "roles": [
+        "one_sided_availability_challenge"
+      ]
+    }
+  ],
+  "question": "How do wall time, repeat spread, and measured shape movement change across 250, 500, 750, 1,000, and 2,000 rays at grid 0.005?",
+  "rng_policy": {
+    "pair_count": 9,
+    "paired_by_seed_label": true,
+    "pointwise_common_random_numbers_claimed": false,
+    "seed_labels": [
+      1900097,
+      1900194,
+      1900291,
+      1900388,
+      1900485,
+      1900582,
+      1900679,
+      1900776,
+      1900873
+    ]
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "bosch_ray_current_grid_ladder.py",
+      "sha256": "3d34e12e895829a12c469f05933de3ffb0c19c2f5a5f0de9772f74182f33c17a"
+    },
+    {
+      "path": "evidence/numerical/bosch_ray_phase_b_manifest.json",
+      "sha256": "02548a25947337a392ad089972cf32b2d099996ab80799c0e348e75dcab3243c"
+    },
+    {
+      "path": "evidence/numerical/bosch_ray_phase_b_events.jsonl",
+      "sha256": "61db52f11c23cec6a22c2520e57dba3e8411bbc93aa303e6401fa59a0515c4e2"
+    },
+    {
+      "path": "bosch_ray_phase_b.py",
+      "sha256": "629b319a7ebdb215431643ca7d037ed27ca131529b3fd8ee1abb7c3837442838"
+    },
+    {
+      "path": "bosch_ray_phase_a.py",
+      "sha256": "12bfd029fe69138f9d3d062d83aca17709905b8090299f751d051eda841dca57"
+    },
+    {
+      "path": "traveler_metrics.py",
+      "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290"
+    },
+    {
+      "path": "tsv_process.py",
+      "sha256": "358bb45cd9e48f4e5e78f6123a763b0922fc42fe1c9c365b1981a83d3d293a80"
+    },
+    {
+      "path": "scripts/autoresearch_event_log.py",
+      "sha256": "2c91da41910531a20becc9e4dfac5c9dca24639445301e678f71d48772df512e"
+    }
+  ]
+}

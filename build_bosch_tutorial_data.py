@@ -22,11 +22,6 @@ OUTPUT = ROOT / "bosch_tutorial_data.json"
 PUBLIC_EVIDENCE = Path("evidence/numerical")
 TUTORIAL_CHECKPOINTS = ROOT / "evidence/bosch/tutorial_checkpoints"
 ETCH_TARGETS = PROCESS_CONFIG["targets"]["etch"]
-INTERIOR_PUBLIC_CASES = {
-    "aac0e99de49584cc",
-    "5e3a68ad9b65a792",
-    "39f57e028c34770e",
-}
 
 FACTOR_COPY = {
     "etch_time": {
@@ -223,14 +218,13 @@ def main() -> None:
     interior = [
         interior_case(row, index)
         for index, row in enumerate(interior_rows, 1)
-        if row["case_id"] in INTERIOR_PUBLIC_CASES
     ]
     remeasured_passes = sum(
         case["metrics"]["hard_gate_pass"] for case in interactions
     )
     document = {
         "schema_version": 2,
-        "title": "Dry-etch factor pairs",
+        "title": "Dry-etch multi-factor study",
         "scope": (
             "Exact 500-ray discovery cases, remeasured from both saved via walls. "
             "They compare factor pairs against "
@@ -266,6 +260,23 @@ def main() -> None:
         },
         "interactions": interactions,
         "interior_cases": interior,
+        "interior_study": {
+            "case_count": len(interior),
+            "factor_order": [
+                "etch_time",
+                "deposition_thickness",
+                "ion_source_exponent",
+                "ion_rate",
+                "neutral_rate",
+                "neutral_sticking_probability",
+            ],
+            "coordinate_levels": [-0.5, 0.0, 0.5],
+            "method": "18-case D-optimal interior refinement",
+            "interpretation": (
+                "Each profile is one saved six-control combination. The browser "
+                "does not interpolate or rerun ViennaPS."
+            ),
+        },
         "default_interaction": ["neutral_rate", "neutral_sticking_probability"],
         "default_interior_case": "aac0e99de49584cc",
         "measurement_example_case_id": "7405eb159356c564",

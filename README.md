@@ -104,7 +104,7 @@ A useful study then follows six rules:
 | `scripts/autoresearch_event_log.py` | Hash-chained attempt log and retry/stop hook. |
 | `numerical_performance_data.json` | Citable grid/ray cost and response evidence. |
 | `evidence/numerical/ray_benefit_review.json` | Citable ray-count runtime, repeat-spread, and response-movement review. |
-| `bosch_tutorial_data.json` | Reviewed dry-etch factor-pair profiles and measurements. |
+| `bosch_tutorial_data.json` | Eighteen six-control dry-etch profiles, 28 factor-pair profiles, measurements, and citations. |
 | `bosch_trajectory_replay.json` | Seven replayed checkpoints; the final frame matches a saved native checkpoint. |
 | `v3_bosch_clean_ray_ladder.py` | Runs the paired ray-count cost and response-movement study. |
 | `build_ray_benefit_review.py` | Summarizes compatible ray studies without treating any setting as truth. |

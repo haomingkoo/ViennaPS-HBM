@@ -95,17 +95,14 @@ def assert_numerical_evidence(page):
     runtime = page.locator("#ray-runtime-chart")
     spread = page.locator("#ray-spread-chart")
     movement = page.locator("#ray-movement-chart")
-    assert runtime.locator("rect").count() == 4
-    assert spread.locator("rect").count() == 4
-    assert movement.locator("rect").count() == 3
-    assert "12.3 to 89.1 seconds" in page.locator("#ray-ladder-takeaway").inner_text()
+    assert runtime.locator("rect").count() == 5
+    assert spread.locator("rect").count() == 5
+    assert movement.locator("rect").count() == 4
+    assert "3.8× as long" in page.locator("#ray-ladder-takeaway").inner_text()
     page.select_option("#ray-benefit-metric", "cd_bottom")
-    assert "bottom width spread" in page.locator("#ray-ladder-takeaway").inner_text().lower()
-    assert "58.4 s" in page.locator("#ray-pair-runtime").inner_text()
-    assert "209.9 s" in page.locator("#ray-pair-runtime").inner_text()
-    assert page.locator("#ray-pair-movements tr").count() == 3
-    assert "0.06452" in page.locator("#ray-pair-movements").inner_text()
-    assert "without judging them against an accuracy limit" in page.locator("#ray-pair-takeaway").inner_text()
+    assert "bottom width movement" in page.locator("#ray-ladder-takeaway").inner_text().lower()
+    page.select_option("#ray-panel", "narrow_profile")
+    assert page.locator("#ray-profile-overlay path").count() == 6
 
     response = page.locator("#numerical-response-chart")
     assert response.locator("circle").count() == 4
@@ -113,8 +110,7 @@ def assert_numerical_evidence(page):
     page.select_option("#numerical-metric", "cd_bottom")
     assert response.locator("circle").count() == 4
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
-    assert page.locator('a[href*="ray_benefit_review.json"]').count() == 1
-    assert page.locator('a[href*="ray-benefit-review.schema.json"]').count() == 1
+    assert page.locator('a[href*="bosch_ray_current_grid_ladder_review.json"]').count() == 1
 
 
 def assert_bosch_interactions(page):
@@ -135,6 +131,24 @@ def assert_bosch_interactions(page):
     assert lab.locator('a[href*="v3_bosch_cheap_interactions_rows.jsonl"]').count() == 1
 
 
+def assert_bosch_multifactor(page):
+    lab = page.locator("#bosch-multifactor-lab")
+    assert lab.locator("#bosch-multifactor-map .factor-axis").count() == 6
+    assert lab.locator("#bosch-multifactor-map .factor-run").count() == 18
+    assert lab.locator("#bosch-multifactor-map .factor-run.selected").count() == 1
+    assert "six model controls changed together" in lab.inner_text().lower()
+    assert "does not interpolate" in lab.inner_text().lower()
+    profile = lab.locator("#bosch-multifactor-profile path").nth(1)
+    first_path = profile.get_attribute("d")
+    lab.locator("#bosch-multifactor-index").fill("1")
+    assert profile.get_attribute("d") != first_path
+    readout = lab.locator("#bosch-multifactor-read").inner_text()
+    assert "Etch phase time per cycle" in readout
+    assert "Neutral surface-reaction probability" in readout
+    assert "Top / middle / bottom width" in readout
+    assert lab.locator('a[href="bosch_tutorial_data.json"]').count() == 1
+
+
 def assert_range_pilot(page):
     study = page.locator("#pattern-bosch-range-pilot")
     buttons = study.locator("#pilot-case-grid button")
@@ -142,8 +156,8 @@ def assert_range_pilot(page):
     assert study.locator('#pilot-case-grid button[data-state="legacy_row_complete"]').count() == 18
     assert study.locator('#pilot-case-grid button[data-state="legacy_low_movement_row"]').count() == 2
     assert study.locator('#pilot-case-grid button[data-state="legacy_row_incomplete"]').count() == 5
-    assert "no factor effects" in study.inner_text().lower()
-    assert "does not locate a failure boundary" in study.inner_text().lower()
+    assert "shape variation rather than factor effects" in study.inner_text().lower()
+    assert "measurement method is wrong" in study.inner_text().lower()
     profile = study.locator("#pilot-profile path")
     first_path = profile.get_attribute("d")
     unavailable = study.locator('#pilot-case-grid button[data-state="legacy_row_incomplete"]').first
@@ -151,22 +165,12 @@ def assert_range_pilot(page):
     assert profile.get_attribute("d") != first_path
     assert "etch measurement" in study.locator("#pilot-read").inner_text().lower()
     assert "Twelve controls changed together" in study.locator("#pilot-read").inner_text()
-    assert study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count() == 2
-
-
-def assert_active_factor_contract(page):
-    rows = page.locator("#active-factor-rows tr")
-    assert rows.count() == 12
-    assert "range finding" in page.locator("#knobs-guide").inner_text().lower()
-    assert page.locator('a[href="active_experiment_contract.json"]').count() == 1
-    factor_scope = page.locator("#pattern-bosch-factor-scope")
-    assert "12 · Main range finding" in factor_scope.inner_text()
-    assert "2 · Mask erosion block" in factor_scope.inner_text()
-    assert "11 · Fixed choices" in factor_scope.inner_text()
-    assert "6 · Assumed study targets" in factor_scope.inner_text()
-    assert "2 · Save callbacks" in factor_scope.inner_text()
-    assert "1 · Model limitation" in factor_scope.inner_text()
-    assert "only a few controls" in factor_scope.inner_text()
+    assert study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count() >= 1
+    assert (
+        page.locator("#active-factor-rows").count()
+        == 0
+    )
+    assert page.locator("#pattern-bosch-factor-scope").count() == 0
     assert (
         page.evaluate("document.getElementById('knobs-guide').nextElementSibling.id")
         == "numerical-tuning"
@@ -207,11 +211,11 @@ def assert_saved_trajectories(page):
     page.locator("#candidate-cu-slider").fill("10")
     assert candidate_path.get_attribute("d") != first_candidate_path
     assert (
-        "Stop: a narrow seam cannot be resolved"
+        "Incomplete fill: unresolved center seam"
         in page.locator("#candidate-cu-read h4").inner_text()
     )
     assert page.locator("#candidate-cu-figure .cu-warning").count() == 1
-    assert "Lowest copper point" in page.locator("#candidate-cu-read").inner_text()
+    assert "Copper overburden" in page.locator("#candidate-cu-read").inner_text()
 
 
 def main():
@@ -226,9 +230,9 @@ def main():
         page.wait_for_selector('[data-output-viewer="cmp"] svg')
         assert_step_viewers(page)
         assert_numerical_evidence(page)
-        assert_active_factor_contract(page)
         assert_measurement_atlas(page)
         assert_range_pilot(page)
+        assert_bosch_multifactor(page)
         assert_bosch_interactions(page)
         assert_saved_trajectories(page)
 

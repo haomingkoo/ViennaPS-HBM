@@ -132,6 +132,27 @@
   .trajectory-replay .fill-replay-figure svg { height: 500px; }
   .output-studies { margin-top: 1.5rem; border-top: 1px solid var(--line); }
   .bosch-lab { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
+  .bosch-multifactor { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
+  .bosch-multifactor-controls { display: grid; grid-template-columns: minmax(220px, 1fr) auto; gap: 0.8rem; align-items: end; margin: 1rem 0; }
+  .bosch-multifactor-controls label { display: grid; gap: 0.25rem; color: var(--ink-dim); font: 0.72rem var(--mono); }
+  .bosch-multifactor-controls button { min-height: 44px; padding: 0.45rem 0.8rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .bosch-multifactor-map { margin: 0; border: 1px solid var(--line); background: var(--surface-2); overflow-x: auto; }
+  .bosch-multifactor-map svg { display: block; width: 100%; min-width: 760px; height: 330px; }
+  .bosch-multifactor-map .factor-axis { stroke: var(--line); stroke-width: 1; }
+  .bosch-multifactor-map .factor-run { fill: none; stroke: var(--ink-dim); stroke-width: 1.2; opacity: 0.24; cursor: pointer; }
+  .bosch-multifactor-map .factor-run.pass { stroke: var(--confirmed); opacity: 0.38; }
+  .bosch-multifactor-map .factor-run.selected { stroke: var(--plasma); stroke-width: 4; opacity: 1; }
+  .bosch-multifactor-map text { fill: var(--ink-dim); font: 11px var(--mono); }
+  .bosch-multifactor-map .axis-label { fill: var(--ink); font-weight: 650; }
+  .bosch-multifactor-layout { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(280px, 0.75fr); border: 1px solid var(--line); border-top: 0; }
+  .bosch-multifactor-profile { min-height: 560px; border-right: 1px solid var(--line); }
+  .bosch-multifactor-profile svg { display: block; width: 100%; height: 560px; }
+  .bosch-multifactor-read { padding: 1rem; background: var(--surface-2); }
+  .bosch-multifactor-read h4 { margin: 0 0 0.45rem; }
+  .bosch-multifactor-read p { margin: 0 0 0.8rem; color: var(--ink-dim); font-size: 0.8rem; }
+  .bosch-multifactor-read dl { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 0.8rem; margin: 0; font-size: 0.74rem; }
+  .bosch-multifactor-read dt { color: var(--ink-dim); }
+  .bosch-multifactor-read dd { margin: 0; font-family: var(--mono); text-align: right; }
   .pilot-study { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
   .pilot-badge { display: inline-flex; margin: 0.4rem 0 1rem; padding: 0.35rem 0.55rem; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-dim); font: 0.68rem var(--mono); }
   .pilot-legend { display: flex; flex-wrap: wrap; gap: 0.55rem 1rem; margin: 0.8rem 0; color: var(--ink-dim); font-size: 0.76rem; }
@@ -227,8 +248,9 @@
     .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
     .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
-    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .pilot-detail { grid-template-columns: 1fr; }
+    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .pilot-detail, .bosch-multifactor-layout, .bosch-multifactor-controls { grid-template-columns: 1fr; }
     .bosch-profile { border-right: 0; border-bottom: 1px solid var(--line); }
+    .bosch-multifactor-profile { border-right: 0; border-bottom: 1px solid var(--line); }
     .pilot-profile { border-right: 0; border-bottom: 1px solid var(--line); }
   }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
@@ -476,9 +498,8 @@
     padding: 0.7rem 0.65rem; border-bottom: 1px solid var(--line);
     text-align: left; vertical-align: top;
   }
-  .journal-table th { color: var(--ink-dim); font: 0.7rem var(--mono); }
+  .journal-table th { color: var(--ink-dim); font: 650 0.72rem var(--sans); }
   .journal-table td:first-child { font-weight: 650; white-space: nowrap; }
-  .journal-table td:nth-child(2), .journal-table td:nth-child(3) { font-family: var(--mono); font-size: 0.74rem; }
   .decision-pass { color: var(--confirmed); font: 700 0.72rem var(--mono); }
   .analysis-columns {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem;
@@ -633,6 +654,9 @@
   .ray-chart { margin: 0; min-width: 0; }
   .ray-chart svg { display: block; width: 100%; height: auto; border-block: 1px solid var(--line); background: var(--surface); }
   .ray-chart figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
+  .ray-profile-overlay { margin: 1.25rem 0 0; max-width: 760px; }
+  .ray-profile-overlay svg { display: block; width: 100%; height: min(52rem, 72vh); min-height: 32rem; border-block: 1px solid var(--line); background: var(--surface); }
+  .ray-profile-overlay figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
   .ray-pair-panel { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
   .ray-pair-panel h3 { margin-top: 0; }
   .ray-pair-runtime { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0.8rem 0 1rem; border: 1px solid var(--line); background: var(--line); }
@@ -651,6 +675,8 @@
     .numerical-status div:nth-child(2) { border-right: 0; }
     .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .ray-chart-grid { grid-template-columns: 1fr; }
+    .ray-controls { align-items: stretch; flex-direction: column; }
+    .ray-profile-overlay svg { min-height: 26rem; }
     .ray-movement-table thead { display: none; }
     .ray-movement-table, .ray-movement-table tbody, .ray-movement-table tr, .ray-movement-table td { display: block; width: 100%; }
     .ray-movement-table tr { display: grid; grid-template-columns: repeat(3, 1fr); padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
@@ -753,7 +779,7 @@
   <section class="finding primary-result" id="screening-result" aria-label="Simulation result">
     <p class="context-line">PRESCRIBED GEOMETRY CONTROL · MEASUREMENT CHECK</p>
     <h2>How the measurement code checks a known geometry</h2>
-    <p class="note">The scripted control produces continuous geometric layers, no resolved 2D void, and a connected plug after ideal planarization. It checks the measurements, not process physics.</p>
+    <p class="note">The scripted control gives the measurement code one clear passing example: continuous layers, no resolved 2D void, and a connected plug after ideal planarization. This shows that the checks can recognize those simulated features. It does not show that a real fabrication tool would produce them.</p>
     <figure class="result-figure">
       <img id="screening-traveler-visual" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Five simulated TSV cross-sections from etch through polish.">
       <figcaption>The gray tails below the floor come from the simulation boundary. They are not physical tips.</figcaption>
@@ -776,7 +802,9 @@
 
   <section class="finding" id="software">
     <h2>How the software works</h2>
-    <p class="claim">Each simulated step uses the same loop. The current geometry and one process model go in. The updated geometry moves to the next step.</p>
+    <p class="claim">ViennaPS is a process simulator. It calculates how material boundaries move under a chosen model. It does not emulate the control software of a specific fabrication tool.</p>
+    <p>ViennaPS stores each material interface as a level set. A process model supplies a local growth or removal speed. Some models use prescribed rates. Particle models instead trace many simulated paths, estimate where particles reach the surface, and use sticking or reflection rules to turn that arrival flux into surface motion.</p>
+    <p>The level-set solver advances the interfaces for the requested duration. The resulting geometry becomes the input to the next TSV step. Measurements such as depth, width, coating thickness, voids, and connectivity provide feedback for the next tested settings.</p>
     <figure class="software-diagram">
       <svg viewBox="0 0 900 235" role="img" aria-labelledby="software-title software-desc">
         <title id="software-title">The ViennaPS process loop</title>
@@ -819,9 +847,13 @@
           <text x="468" y="208" text-anchor="middle" font-size="11" fill="var(--ink-dim)">Measurements guide the next tested model settings</text>
         </g>
       </svg>
-      <figcaption>Each step changes the shape. <code>build_screening_traveler.py</code> runs the steps and records the measurements. Mapping equipment settings into model controls requires separate calibration.</figcaption>
+      <figcaption>Each step changes the material boundaries. <code>build_screening_traveler.py</code> runs the steps in sequence and records the measurements.</figcaption>
     </figure>
-    <p class="note">The software stores the outline of each material. ViennaPS calls this stored geometry a domain. This tutorial uses a 2D trench-like surrogate. A cylindrical 3D via can change particle transport and void topology.</p>
+    <div class="scope-box">
+      <article><span class="scope-label">What the model provides</span><h3>Geometry under declared rules</h3><ul><li>Surface motion from the selected rate or particle-transport model.</li><li>Material handoffs between simulated process steps.</li><li>Geometry measurements at the chosen grid and sampling settings.</li></ul></article>
+      <article><span class="scope-label">What still needs calibration</span><h3>A real equipment recipe</h3><ul><li>Gas flow, pressure, power, current, chemistry, or polishing settings.</li><li>Coefficients matched to wafer measurements.</li><li>Reactor-scale, electrical, thermal, stress, and full-wafer effects not included by the chosen models.</li></ul></article>
+    </div>
+    <p class="note">This tutorial uses a 2D trench-like surrogate. A cylindrical 3D via can change particle access and whether a void is truly connected.</p>
   </section>
 
   <section class="finding" id="numerical-tuning">
@@ -829,9 +861,16 @@
     <p class="claim">More rays mean more sampled particle paths and more computation. They do not automatically make every measured result more stable.</p>
     <p class="note">The plots report runtime, repeat-to-repeat spread, and movement between ray levels. No ray count is treated as the correct answer.</p>
     <div class="ray-result">
-      <h3>One recipe tested at four ray counts</h3>
-      <p>The same eight random-stream labels were used at 250, 1,000, 2,000, and 4,000 rays on one recipe and the same 0.01 grid.</p>
+      <h3>Five ray counts on three etched shapes</h3>
+      <p>Each shape was run with three random streams at 250, 500, 750, 1,000, and 2,000 rays. The grid and process inputs stay fixed within each shape.</p>
       <div class="ray-controls">
+        <label for="ray-panel">Etched shape
+          <select id="ray-panel">
+            <option value="design_center">Open profile</option>
+            <option value="narrow_profile">Narrow profile</option>
+            <option value="depth_boundary">Deep, unstable profile</option>
+          </select>
+        </label>
         <label for="ray-benefit-metric">Shape measurement
           <select id="ray-benefit-metric">
             <option value="depth">Etch depth</option>
@@ -842,21 +881,14 @@
       </div>
       <div class="ray-chart-grid">
         <figure class="ray-chart"><svg id="ray-runtime-chart" viewBox="0 0 340 250" role="img" aria-label="Median runtime by ray count"></svg><figcaption>Median wall time. Lower is faster.</figcaption></figure>
-        <figure class="ray-chart"><svg id="ray-spread-chart" viewBox="0 0 340 250" role="img" aria-label="Repeat spread by ray count"></svg><figcaption>Standard deviation across eight saved runs. Lower means the repeats were closer together.</figcaption></figure>
-        <figure class="ray-chart"><svg id="ray-movement-chart" viewBox="0 0 340 250" role="img" aria-label="Measurement movement between successive ray counts"></svg><figcaption>For the same random-stream label, this is the median absolute difference from the previous ray level. It is not error against truth.</figcaption></figure>
+        <figure class="ray-chart"><svg id="ray-spread-chart" viewBox="0 0 340 250" role="img" aria-label="Repeat spread by ray count"></svg><figcaption>Standard deviation across three random streams for the selected shape.</figcaption></figure>
+        <figure class="ray-chart"><svg id="ray-movement-chart" viewBox="0 0 340 250" role="img" aria-label="Measurement movement between successive ray counts"></svg><figcaption>Median absolute movement from the previous ray level. It is not error against truth.</figcaption></figure>
       </div>
+      <figure class="ray-profile-overlay">
+        <svg id="ray-profile-overlay" viewBox="-0.5 -0.1 1 1.65" role="img" aria-label="Five saved wall profiles overlaid for one random stream"></svg>
+        <figcaption>One saved stream from the selected shape. Each line is the measured wall profile at a different ray count.</figcaption>
+      </figure>
       <p class="note" id="ray-ladder-takeaway"></p>
-      <div class="ray-pair-panel">
-        <h3>A separate 500 versus 2,000 ray check</h3>
-        <p>Thirteen etched shapes were rerun at grid 0.005. All configured inputs except ray count matched within each pair. Matching random-stream labels do not mean the individual simulated particle paths were identical.</p>
-        <div class="ray-pair-runtime" id="ray-pair-runtime"></div>
-        <table class="ray-movement-table">
-          <thead><tr><th>Observed movement · model units</th><th>Median</th><th>90% at or below</th><th>Largest</th></tr></thead>
-          <tbody id="ray-pair-movements"></tbody>
-        </table>
-        <p class="note" id="ray-pair-takeaway"></p>
-        <p class="note"><b>Do not compare absolute runtimes across the two panels.</b> Their grids, geometries, and cycle scopes differ.</p>
-      </div>
     </div>
     <h3>Grid spacing is a separate choice</h3>
     <p class="note">This older single-recipe study varies the grid while leaving ray count fixed. It is shown separately because changing grid and rays answers different questions.</p>
@@ -882,9 +914,9 @@
     </div>
     <p class="note" id="numerical-takeaway"></p>
     <p class="note">Points are saved simulations from one research machine. Lines connect sampled grid settings. They are not a fitted response surface.</p>
-    <h3>What happens next</h3>
-    <p>Run the matched current-grid ladder at 250, 500, 750, 1,000, and 2,000 rays on contrasting shapes. Then choose an exploration candidate and recheck promoted or sensitive cases higher. Do not name a general sweet spot yet.</p>
-    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/ray_benefit_review.json">See the citable ray review and source hashes</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/schemas/ray-benefit-review.schema.json">See its JSON Schema</a></p>
+    <h3>How the study will run</h3>
+    <p>Use 500 rays for broad 2D exploration. Recheck promoted cases at 1,000 rays. Treat deep unstable profiles separately because more rays did not stabilize them. This is a compute-budget choice, not a physical accuracy claim.</p>
+    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/bosch_ray_current_grid_ladder_review.json">Citable five-level review and source hashes</a></p>
   </section>
 
   <section class="finding" id="knobs-guide">
@@ -905,15 +937,6 @@
     </div>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
     <p class="note"><b>Qualitative influence only:</b> the two middle columns are not a conversion table. Equipment settings change the physical process. Mapping them to model inputs requires measurements from a specific tool.</p>
-    <h3>Which model inputs the saved examples vary</h3>
-    <p class="note">These values come from the checked-in configuration and select saved sensitivity examples. They still need range finding before a screening DOE.</p>
-    <div class="table-scroll">
-      <table class="journal-table" aria-label="Active teaching controls and measured responses">
-        <thead><tr><th>Step</th><th>Model control</th><th>Saved values</th><th>Measured feedback</th></tr></thead>
-        <tbody id="active-factor-rows"></tbody>
-      </table>
-    </div>
-    <p class="note"><a href="active_experiment_contract.json">Open this teaching-factor contract</a> · <a href="schemas/active-experiment-contract.schema.json">schema</a> · <a href="docs/range-research-log.json">source-search log</a>. The <a href="factor_registry.json">complete audit registry</a> remains available for advanced provenance.</p>
     <div class="measurement-atlas" id="etch-measurement-atlas">
       <div class="measurement-atlas-head">
         <h3>Where the etch measurements come from</h3>
@@ -921,37 +944,42 @@
       </div>
       <figure>
         <div id="etch-measurement-figure" role="img" aria-label="Saved dry-etch profile annotated with depth and width measurement locations"></div>
-        <figcaption>Saved simulation geometry · one fixed random stream · 500-ray sensitivity case · not a designed experiment or fab qualification. Bow and scallop are calculated from 76 wall samples. <a href="pattern_bosch_measurement_contract.json">Open the measurement definitions and unresolved checks.</a></figcaption>
+        <figcaption>Saved ViennaPS profile. Lines show where each measurement is taken. <a href="pattern_bosch_measurement_contract.json">Measurement definitions and evidence details.</a></figcaption>
       </figure>
     </div>
-    <div class="factor-scope" id="pattern-bosch-factor-scope">
-      <h3>Why each viewer shows only a few controls</h3>
-      <p class="claim">Each viewer changes two or three controls and holds the others fixed so the shape is easy to read. It is one view of the study, not the full experiment.</p>
-      <p>The full plan assigns every current factor, setting, response, and assumption to range finding, a separate study, a fixed role, or a documented exclusion.</p>
-      <div class="method-chain" id="pattern-bosch-factor-counts" aria-label="Mask and Bosch factor dispositions"></div>
-      <p class="note">The inventory comes from the current code and API. Earlier runs provide examples, but they do not define the factor list. <a href="pattern_bosch_factor_projection.json">Open every mask and etch item and its decision.</a></p>
-    </div>
     <div class="pilot-study" id="pattern-bosch-range-pilot">
-      <h3>What the 25 coarse cases taught us</h3>
-      <p class="claim">The pilot exposed a measurement mistake before the larger experiment.</p>
-      <p class="pilot-badge">Coarse range pilot · one shared seed label · numerical settings unqualified · no factor effects</p>
-      <p>The old etch code measured the right wall and mirrored it, even though these simulations used a full-width via. Its etch values are now suspended. All saved profiles remain available for remeasurement.</p>
-      <div class="pilot-legend" aria-label="Range-pilot result states">
-        <span data-icon="○">18 legacy rows retained</span>
-        <span data-icon="—">2 legacy low-movement flags retained</span>
-        <span data-icon="!">5 incomplete rows classified</span>
-      </div>
+      <h3>Explore 25 saved etch profiles</h3>
+      <p class="claim">These profiles show how widely the simulated shape can change when several inputs move together.</p>
+      <p>Select a profile to enlarge it. The first measurement code assumed both walls were mirror images. These full-width profiles are being remeasured from both walls, so this gallery teaches shape variation rather than factor effects.</p>
       <div class="pilot-grid" id="pilot-case-grid" aria-label="Twenty-five range-pilot cases in design order"></div>
-      <p class="boundary-result"><b>Takeaway:</b> measure both walls before estimating factor effects. This pilot does not locate a failure boundary or identify a best recipe.</p>
+      <p class="boundary-result"><b>Takeaway:</b> a profile can look plausible while its measurement method is wrong. Check the geometry and the measurements before ranking settings.</p>
       <div class="pilot-detail">
         <div class="pilot-profile" id="pilot-profile" role="img" aria-label="Selected saved final dry-etch profile"></div>
         <aside class="pilot-read" id="pilot-read" aria-live="polite"></aside>
       </div>
-      <p class="note"><a href="pattern_bosch_range_pilot_review.json">Open the corrected review</a> · <a href="evidence/bosch/pattern_bosch_unavailable_profile_review.json">five-profile diagnosis</a> · <a href="evidence/bosch/range_pilot/source_bundle.json">source bundle</a> · <a href="schemas/pattern-bosch-range-pilot-review.schema.json">schema</a></p>
+      <p class="note"><a href="pattern_bosch_range_pilot_review.json">Corrected review</a> · <a href="evidence/bosch/range_pilot/source_bundle.json">saved source profiles</a></p>
     </div>
     <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. The handoff viewer later on the page is the separate example that carries one geometry forward.</p>
+    <div class="bosch-multifactor" id="bosch-multifactor-lab">
+      <h3>Explore a six-control dry-etch study</h3>
+      <p class="claim">Each line is one saved run in which six model controls changed together.</p>
+      <p class="note">This 18-run design samples combinations efficiently instead of testing every possible combination. Select a line or scrub through the runs. The browser shows the exact saved profile; it does not interpolate or rerun ViennaPS.</p>
+      <p class="note">Earlier comparisons nominated these six controls for closer study. Initial etch time, passivation sticking, and ion reflection angle were held fixed here. Cycle count, mask geometry, and mask erosion need separate studies because they change cumulative exposure or the incoming shape.</p>
+      <div class="bosch-multifactor-controls">
+        <label for="bosch-multifactor-index">Saved DOE run <span id="bosch-multifactor-value"></span><input id="bosch-multifactor-index" type="range" min="0" max="17" step="1" value="0"></label>
+        <button type="button" id="bosch-multifactor-next">Next saved run</button>
+      </div>
+      <figure class="bosch-multifactor-map">
+        <svg id="bosch-multifactor-map" viewBox="0 0 900 330" role="img" aria-label="Eighteen saved dry-etch runs across six model controls"></svg>
+      </figure>
+      <div class="bosch-multifactor-layout">
+        <div class="bosch-multifactor-profile" id="bosch-multifactor-profile" role="img" aria-label="Selected saved multi-factor dry-etch profile"></div>
+        <aside class="bosch-multifactor-read" id="bosch-multifactor-read" aria-live="polite"></aside>
+      </div>
+      <p class="note"><a href="bosch_tutorial_data.json">Open all 18 profiles, measurements, model settings, and source-row citations.</a></p>
+    </div>
     <div class="bosch-lab" id="bosch-interaction-lab">
-      <h3>Dry etch: compare saved factor-pair corners</h3>
+      <h3>Compare four saved dry-etch settings</h3>
       <p class="evidence-badge">Saved sensitivity · one stream per case · not DOE · model units</p>
       <p class="claim">Choose a factor pair, then inspect the four saved simulated profiles.</p>
       <p class="note">These 28 saved cases vary two model controls at a time around one fixed model setup. Each case has one random stream. There is no interpolation or interaction estimate. The shapes show sensitivity for this model and geometry, not a calibrated equipment recipe.</p>
@@ -1403,41 +1431,10 @@ const INTERIM = DATA.interim;
 const SCREENING = INTERIM.screening_traveler;
 const GATE0 = INTERIM.pattern_bosch_gate0;
 const NUMERICAL = DATA.numerical_performance;
-const RAY_BENEFIT = DATA.ray_benefit;
-const ACTIVE_CONTRACT = DATA.active_contract;
-const PATTERN_BOSCH_FACTORS = DATA.pattern_bosch_factor_projection;
+const RAY_CURRENT = DATA.ray_current_grid;
 const BOSCH = DATA.bosch_tutorial;
 
 document.getElementById('knobs-guide').after(document.getElementById('numerical-tuning'));
-
-const activeFactorRows = document.getElementById('active-factor-rows');
-for (const factor of ACTIVE_CONTRACT.factors) {
-  const row = document.createElement('tr');
-  for (const value of [
-    factor.step.replaceAll('_', ' '),
-    factor.label,
-    `${factor.explored_values.join(', ')} ${factor.units}`,
-    factor.measurements.join(', ').replaceAll('_', ' '),
-  ]) {
-    const cell = document.createElement('td');
-    cell.textContent = value;
-    row.appendChild(cell);
-  }
-activeFactorRows.appendChild(row);
-}
-
-const factorCounts = PATTERN_BOSCH_FACTORS.counts_by_disposition;
-document.getElementById('pattern-bosch-factor-counts').innerHTML = [
-  [factorCounts.include_range_finding, 'Main range finding', 'Implemented geometry and etch controls'],
-  [factorCounts.separate_mask_erosion_block, 'Mask erosion block', 'Mask height and modeled mask loss'],
-  [factorCounts.separate_accuracy_study, 'Accuracy study', 'Grid, domain, rays, and random sampling'],
-  [factorCounts.blocked_requires_model_and_calibration, 'Equipment mapping open', 'Real controls without calibrated model conversion'],
-  [factorCounts.blocked_not_wired, 'API inputs not wired', 'Visible in the inventory; excluded from the current wrapper'],
-  [factorCounts.fixed_structural_choice, 'Fixed choices', 'Materials, geometry representation, and process path'],
-  [factorCounts.response_or_derived_input, 'Assumed study targets', 'Comparison values; not wafer specifications'],
-  [factorCounts.observation_only, 'Save callbacks', 'Record intermediate geometry; do not change the process'],
-  [factorCounts.model_limitation, 'Model limitation', 'Missing physics; not a tuning control'],
-].map(([count, label, note]) => `<div><b>${count} · ${label}</b><span>${note}</span></div>`).join('');
 
 document.getElementById('screening-traveler-visual').src = SCREENING.render;
 
@@ -1481,7 +1478,6 @@ if (document.getElementById('gate0-headline')) renderGate0Checkpoint();
 const numericalState = { axis: 'grid', metric: 'depth' };
 const numericalLabels = { depth: 'Etch depth', cd_bottom: 'Bottom width', max_bow: 'Wall bow', scallop_rms: 'Scallop RMS' };
 
-const rayStudy = id => RAY_BENEFIT.datasets.find(study => study.id === id);
 const rayMetricLabels = { depth: 'Etch depth', cd_bottom: 'Bottom width', max_bow: 'Wall bow' };
 
 function rayBarPlot(svgId, rows, valueFor, yLabel, format) {
@@ -1507,20 +1503,46 @@ function rayBarPlot(svgId, rows, valueFor, yLabel, format) {
 }
 
 function renderRayBenefit() {
-  const ladder = rayStudy('same_recipe_ray_ladder');
-  const paired = rayStudy('diverse_500_to_2000_pairs');
+  const panel = document.getElementById('ray-panel').value;
   const metric = document.getElementById('ray-benefit-metric').value;
   const formatSeconds = value => `${value.toFixed(value >= 10 ? 0 : 1)} s`;
   const formatModel = value => value.toFixed(metric === 'depth' ? 4 : 5);
-  rayBarPlot('ray-runtime-chart', ladder.levels, row => row.latency_s.median, 'median wall time', formatSeconds);
-  rayBarPlot('ray-spread-chart', ladder.levels, row => row.between_seed_spread[metric].sample_sd, `${rayMetricLabels[metric]} spread`, formatModel);
-  rayBarPlot('ray-movement-chart', ladder.levels, row => row.change_from_previous_level?.paired_absolute_change[metric].median ?? null, `${rayMetricLabels[metric]} movement`, formatModel);
-  document.getElementById('ray-ladder-takeaway').innerHTML = `<b>What this shows:</b> runtime rises from ${ladder.levels[0].latency_s.median.toFixed(1)} to ${ladder.levels.at(-1).latency_s.median.toFixed(1)} seconds. The ${rayMetricLabels[metric].toLowerCase()} spread and step-to-step movement do not shrink steadily as rays increase.`;
-  document.getElementById('ray-pair-runtime').innerHTML = [500, 2000].map(rays => `<div><b>${rays.toLocaleString()} rays · ${paired.latency_s[String(rays)].median.toFixed(1)} s</b><span>median across ${paired.pair_count} saved shapes</span></div>`).join('');
-  const labels = { depth: 'Etch depth', largest_sampled_cd: 'Largest absolute change among five reported width metrics', max_bow: 'Wall bow' };
-  document.getElementById('ray-pair-movements').innerHTML = Object.entries(paired.paired_absolute_change).map(([name, values]) => `<tr><td>${labels[name]}</td><td data-label="Median">${values.median.toFixed(5)}</td><td data-label="90% at or below">${values.p90.toFixed(5)}</td><td data-label="Largest">${values.maximum.toFixed(5)}</td></tr>`).join('');
-  const ratio = paired.latency_s['2000'].median / paired.latency_s['500'].median;
-  document.getElementById('ray-pair-takeaway').innerHTML = `<b>Takeaway:</b> on the recorded machine with two concurrent workers, 2,000 rays took about ${ratio.toFixed(1)}× as long by the ratio of median wall times. Paired movement varied across the 13 shapes. The table reports the observations without judging them against an accuracy limit.`;
+  const repeatRows = RAY_CURRENT.repeat_spread_by_panel.filter(row => row.panel_id === panel);
+  const panelPairs = RAY_CURRENT.pairs.filter(row => row.panel_id === panel);
+  const median = values => {
+    const sorted = [...values].sort((a, b) => a - b);
+    const middle = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+  };
+  const movementRows = RAY_CURRENT.levels.map((level, index) => {
+    if (index === 0) return { rays_per_point: level.rays_per_point, value: null };
+    const values = panelPairs.map(pair => pair.adjacent_movements[index - 1].measurement_delta[metric]);
+    return { rays_per_point: level.rays_per_point, value: median(values) };
+  });
+  rayBarPlot('ray-runtime-chart', RAY_CURRENT.levels, row => row.runtime_s.median, 'median wall time', formatSeconds);
+  rayBarPlot('ray-spread-chart', repeatRows, row => row.measurement_spread[metric].sample_sd, `${rayMetricLabels[metric]} repeat spread`, formatModel);
+  rayBarPlot('ray-movement-chart', movementRows, row => row.value, `${rayMetricLabels[metric]} movement`, formatModel);
+
+  const representative = [...panelPairs].sort((a, b) => a.repeat_index - b.repeat_index)[0];
+  const styles = [
+    ['var(--plasma)', ''], ['var(--teal)', '0.025 0.012'], ['var(--warn)', '0.012 0.009'],
+    ['var(--copper)', '0.035 0.012'], ['var(--ink)', '0.006 0.008'],
+  ];
+  const profilePaths = representative.arms.map((arm, index) => {
+    const points = arm.profile.samples;
+    const depth = arm.measurements.depth;
+    const wallPath = side => points.map((point, pointIndex) =>
+      `${pointIndex ? 'L' : 'M'}${point[side].toFixed(5)} ${(point.depth_fraction * depth).toFixed(5)}`
+    ).join('');
+    return `<path d="${wallPath('left_wall_x')}${wallPath('right_wall_x')}" fill="none" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}" vector-effect="non-scaling-stroke"/>`;
+  }).join('');
+  const legend = representative.arms.map((arm, index) => `<g transform="translate(${-0.46 + index * 0.19} -0.055)"><line x1="0" y1="0" x2="0.045" y2="0" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}"/><text x="0.055" y="0.008" fill="var(--ink-dim)" font-size="0.025">${arm.rays_per_point}</text></g>`).join('');
+  document.getElementById('ray-profile-overlay').innerHTML = `<rect x="-0.5" y="-0.1" width="1" height="1.65" fill="var(--surface)"/><path d="M-0.15 0V1.25H0.15V0" fill="none" stroke="var(--line)" stroke-width="0.004" stroke-dasharray="0.018 0.012"/>${profilePaths}${legend}`;
+
+  const level500 = RAY_CURRENT.levels.find(row => row.rays_per_point === 500);
+  const level2000 = RAY_CURRENT.levels.find(row => row.rays_per_point === 2000);
+  const ratio = level2000.runtime_s.median / level500.runtime_s.median;
+  document.getElementById('ray-ladder-takeaway').innerHTML = `<b>Takeaway:</b> 2,000 rays took ${ratio.toFixed(1)}× as long as 500 rays by median wall time. For the selected shape, ${rayMetricLabels[metric].toLowerCase()} movement and repeat spread do not decrease steadily. More rays alone do not resolve every unstable profile.`;
 }
 
 function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorAtZero = false) {
@@ -1567,6 +1589,7 @@ function renderNumericalEvidence() {
 }
 
 document.getElementById('ray-benefit-metric').addEventListener('change', renderRayBenefit);
+document.getElementById('ray-panel').addEventListener('change', renderRayBenefit);
 document.getElementById('numerical-metric').addEventListener('change', event => { numericalState.metric = event.target.value; renderNumericalEvidence(); });
 renderRayBenefit();
 renderNumericalEvidence();
@@ -1661,6 +1684,85 @@ function boschMeasurementOverlay(metric) {
     <g class="bosch-depth"><line x1="-0.31" y1="0" x2="-0.31" y2="${metric.depth}"/><line x1="-0.325" y1="0" x2="-0.295" y2="0"/><line x1="-0.325" y1="${metric.depth}" x2="-0.295" y2="${metric.depth}"/><text x="-0.34" y="${metric.depth / 2}" transform="rotate(-90 -0.34 ${metric.depth / 2})">depth</text></g>`;
 }
 
+function boschProfileMarkup(row) {
+  const target = BOSCH.targets;
+  const path = row.materials.find(material => material.id === 'silicon').surface_path;
+  return `<svg viewBox="-0.5 -0.4 1 1.9" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="-0.5" y="-0.4" width="1" height="1.9" fill="var(--surface)"/>
+    <g transform="scale(1,-1)">
+      <path d="M${-target.target_cd / 2} 0L${-target.target_cd / 2} ${-target.depth}L${target.target_cd / 2} ${-target.depth}L${target.target_cd / 2} 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
+      <path d="${path}" fill="none" stroke="var(--si)" stroke-width="0.006"/>
+    </g>
+    ${boschMeasurementOverlay(row.metrics)}
+  </svg>`;
+}
+
+const multiFactorCases = BOSCH.interior_cases;
+const multiFactorOrder = BOSCH.interior_study.factor_order;
+const multiFactorShortLabels = {
+  etch_time: 'Etch time',
+  deposition_thickness: 'Passivation',
+  ion_source_exponent: 'Ion direction',
+  ion_rate: 'Directional removal',
+  neutral_rate: 'Neutral removal',
+  neutral_sticking_probability: 'Neutral reaction',
+};
+let multiFactorIndex = Math.max(0, multiFactorCases.findIndex(row => row.case_id === BOSCH.default_interior_case));
+
+function renderMultiFactorMap() {
+  const svg = document.getElementById('bosch-multifactor-map');
+  const left = 74, right = 826, top = 72, bottom = 272;
+  const xFor = index => left + index * (right - left) / (multiFactorOrder.length - 1);
+  const yFor = value => top + (0.5 - value) * (bottom - top);
+  const axes = multiFactorOrder.map((name, index) => {
+    const x = xFor(index);
+    return `<line class="factor-axis" x1="${x}" y1="${top}" x2="${x}" y2="${bottom}"/>
+      <text class="axis-label" x="${x}" y="28" text-anchor="middle">${multiFactorShortLabels[name]}</text>
+      <text x="${x}" y="55" text-anchor="middle">high</text><text x="${x}" y="${top + (bottom - top) / 2 + 4}" text-anchor="middle">center</text><text x="${x}" y="300" text-anchor="middle">low</text>`;
+  }).join('');
+  const runs = multiFactorCases.map((row, index) => {
+    const points = multiFactorOrder.map((name, axis) => `${xFor(axis)},${yFor(row.normalized_coordinates[name])}`).join(' ');
+    const classes = ['factor-run', row.metrics.hard_gate_pass ? 'pass' : '', index === multiFactorIndex ? 'selected' : ''].filter(Boolean).join(' ');
+    return `<polyline class="${classes}" data-index="${index}" points="${points}" tabindex="0" role="button" aria-label="Select saved run ${index + 1}"><title>Run ${index + 1}: ${row.metrics.hard_gate_pass ? 'inside' : 'outside'} the assumed study bands</title></polyline>`;
+  }).join('');
+  svg.innerHTML = axes + runs;
+  svg.querySelectorAll('.factor-run').forEach(line => {
+    const choose = () => { multiFactorIndex = Number(line.dataset.index); renderMultiFactor(); };
+    line.addEventListener('click', choose);
+    line.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(); } });
+  });
+}
+
+function renderMultiFactor() {
+  const row = multiFactorCases[multiFactorIndex];
+  const metric = row.metrics;
+  document.getElementById('bosch-multifactor-index').value = multiFactorIndex;
+  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}`;
+  document.getElementById('bosch-multifactor-profile').innerHTML = boschProfileMarkup(row);
+  const controls = multiFactorOrder.map(name => `<dt>${BOSCH.factors[name].label}</dt><dd>${row.recipe[name]}</dd>`).join('');
+  document.getElementById('bosch-multifactor-read').innerHTML = `<h4>${metric.hard_gate_pass ? 'Inside the assumed teaching bands' : 'Outside one or more assumed teaching bands'}</h4>
+    <p>Dashed outline: the teaching target. These are model inputs, not equipment settings.</p>
+    <dl>${controls}
+      <dt>Depth</dt><dd>${boschMetric(metric.depth)}</dd>
+      <dt>Top / middle / bottom width</dt><dd>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</dd>
+      <dt>Bow</dt><dd>${boschMetric(metric.bow)}</dd>
+      <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
+      <dt>Saved cycle</dt><dd>${metric.selected_cycle}</dd>
+      <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
+    </dl>`;
+  renderMultiFactorMap();
+}
+
+document.getElementById('bosch-multifactor-index').addEventListener('input', event => {
+  multiFactorIndex = Number(event.target.value);
+  renderMultiFactor();
+});
+document.getElementById('bosch-multifactor-next').addEventListener('click', () => {
+  multiFactorIndex = (multiFactorIndex + 1) % multiFactorCases.length;
+  renderMultiFactor();
+});
+renderMultiFactor();
+
 function renderBoschCase(row) {
   document.querySelectorAll('#bosch-corners button').forEach(button => {
     button.setAttribute('aria-pressed', button.dataset.caseId === row.case_id);
@@ -1670,15 +1772,7 @@ function renderBoschCase(row) {
   const depthPass = Math.abs(metric.depth - target.depth) <= target.depth_tolerance;
   const cdPass = metric.maximum_cd_error <= target.maximum_cd_error;
   const bowPass = metric.bow <= target.maximum_bow;
-  const path = row.materials.find(material => material.id === 'silicon').surface_path;
-  document.getElementById('bosch-profile').innerHTML = `<svg viewBox="-0.5 -0.4 1 1.9" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-    <rect x="-0.5" y="-0.4" width="1" height="1.9" fill="var(--surface)"/>
-    <g transform="scale(1,-1)">
-      <path d="M${-target.target_cd / 2} 0L${-target.target_cd / 2} ${-target.depth}L${target.target_cd / 2} ${-target.depth}L${target.target_cd / 2} 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
-      <path d="${path}" fill="none" stroke="var(--si)" stroke-width="0.006"/>
-    </g>
-    ${boschMeasurementOverlay(metric)}
-  </svg>`;
+  document.getElementById('bosch-profile').innerHTML = boschProfileMarkup(row);
   const source = `https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${row.citation.path}#L${row.citation.line_number}`;
   document.getElementById('bosch-read').innerHTML = `<h4>${row.metrics.hard_gate_pass ? 'Inside all three assumed study bands' : 'Outside one or more assumed study bands'}</h4>
     <p>Dashed outline: assumed teaching target. Measurement bars show where the reported geometry is read.</p>
@@ -2133,7 +2227,7 @@ function renderFillReplay() {
   document.getElementById('fill-replay-read').innerHTML = `<h4>${fillReplayStatus(metrics)}</h4>
     <p><b>Input:</b> ${run.input}. Copper added: ${Math.round(100 * frame.progress)}% of this saved control run.</p>
     <dl class="fill-metrics">
-      <dt>Filled cavity</dt><dd>${(100 * metrics.fill_fraction).toFixed(1)}%</dd>
+      <dt>Copper area fraction</dt><dd>${(100 * metrics.fill_fraction).toFixed(1)}%</dd>
       <dt>Mouth aperture</dt><dd>${metrics.mouth_aperture.toFixed(3)}</dd>
       <dt>Trapped voids</dt><dd>${metrics.closed_void_count}</dd>
       <dt>Unfilled area</dt><dd>${metrics.remaining_void_area.toFixed(3)}</dd>
@@ -2213,13 +2307,13 @@ function renderCandidateCu() {
   const frameNote = metric.unresolved_seam_risk
     ? 'The highlighted region is smaller than this coarse model can classify reliably.'
     : 'The opening and unfilled area are measured after this checkpoint.';
-  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Stop: a narrow seam cannot be resolved' : 'Copper is still filling the opening'}</h4>
+  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Incomplete fill: unresolved center seam' : 'Copper is still filling the opening'}</h4>
     <p>Checkpoint ${frame.checkpoint}. ${frameNote}</p>
     <dl class="fill-metrics">
-      <dt>Filled cavity</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
+      <dt>Copper area fraction</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
       <dt>Opening width</dt><dd>${metric.mouth_aperture.toFixed(3)} model units</dd>
       <dt>Unfilled area</dt><dd>${metric.remaining_void_area.toFixed(3)} model units²</dd>
-      <dt>Lowest copper point · assumed target ≥ ${candidateCu.target.min_overburden.toFixed(3)} above wafer surface</dt><dd>${surfaceStatus}</dd>
+      <dt>Copper overburden</dt><dd>${surfaceStatus}</dd>
     </dl>
     <div class="material-key"><span style="--key-color:var(--si)">Silicon</span><span style="--key-color:var(--oxide)">Liner</span><span style="--key-color:var(--ink)">Barrier</span><span style="--key-color:var(--amber)">Seed</span><span style="--key-color:var(--copper)">Copper</span></div>`;
 }
