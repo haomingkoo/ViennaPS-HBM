@@ -31,8 +31,12 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def event_source() -> Path:
+    return RUNTIME_EVENTS if RUNTIME_EVENTS.exists() else PUBLIC_EVENTS
+
+
 def load_events() -> list[dict]:
-    errors, rows = validate_log(RUNTIME_EVENTS)
+    errors, rows = validate_log(event_source())
     if errors:
         raise ValueError("invalid Phase A event log: " + "; ".join(errors))
     return [row for _, row in rows]
@@ -110,7 +114,9 @@ def compare(pair_id: str, arms: dict[int, tuple[int, dict]]) -> dict:
 
 def build() -> dict:
     events = load_events()
-    PUBLIC_EVENTS.write_text(RUNTIME_EVENTS.read_text())
+    source_events = event_source()
+    if source_events != PUBLIC_EVENTS:
+        PUBLIC_EVENTS.write_text(source_events.read_text())
     public_sha = digest(PUBLIC_EVENTS)
     by_pair: dict[str, dict[int, tuple[int, dict]]] = defaultdict(dict)
     for line_number, row in enumerate(events, 1):
@@ -153,7 +159,10 @@ def build() -> dict:
             continue
         source = ROOT / row["checkpoint"]["path"]
         target = ARCHIVE / source.name
-        shutil.copyfile(source, target)
+        if source.exists():
+            shutil.copyfile(source, target)
+        elif not target.exists():
+            raise FileNotFoundError(f"checkpoint missing: {source}")
         if digest(target) != row["checkpoint"]["sha256"]:
             raise ValueError(f"checkpoint copy differs: {source}")
         archived.append({
