@@ -1011,10 +1011,229 @@
     "no_interpolation": true,
     "runtime_boundary": "fine-grid speedups use paired anchors on one research machine; raw medians from different cases are not compared"
   },
+  "phase_b": {
+    "assumed_bands": {
+      "bow": {
+        "maximum": 0.03
+      },
+      "depth": {
+        "lower": 1.15,
+        "upper": 1.35
+      },
+      "width": {
+        "maximum": 0.06
+      }
+    },
+    "candidate_rays": 500,
+    "citations": [
+      {
+        "line_numbers": [
+          1695
+        ],
+        "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+        "selector": "/panel_summaries",
+        "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+      },
+      {
+        "line_numbers": [
+          61
+        ],
+        "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+        "selector": "/categorical_mismatches",
+        "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+      },
+      {
+        "line_numbers": [
+          1627
+        ],
+        "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+        "selector": "/execution",
+        "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+      },
+      {
+        "line_numbers": [
+          1622
+        ],
+        "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+        "selector": "/decision",
+        "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+      }
+    ],
+    "completed_runs": 26,
+    "decision": "does_not_advance",
+    "highest_supported_claim": "Across 13 exact unseen seed-labelled pairs at grid 0.005, 500 rays changed the assumed depth classification in all three depth-boundary pairs and the assumed bow classification in one of three narrow-profile pairs relative to 2,000 rays.",
+    "limits": [
+      "Any positive result applies only to the 13 exact seed-labelled pairs.",
+      "Assumed-band decisions are not fabrication specifications.",
+      "Continuous metric differences have no engineering-equivalence allowance yet.",
+      "No per-run wall-time timeout is configured; the source-case cycle count bounds model duration.",
+      "Only independently selected cycles are saved. A selected-cycle mismatch blocks ray-effect attribution.",
+      "Per-cycle histories are not retained, so the result does not qualify trajectory agreement.",
+      "The study does not qualify grid, advection, domain, caps, or execution layout.",
+      "Important boundaries and finalists still require 2,000-ray confirmation."
+    ],
+    "method": "Each pair keeps the recipe, geometry, grid, stopping rule, and seed label fixed. Only ray count changes.",
+    "mismatches": [
+      {
+        "boundary": 1.35,
+        "citation": {
+          "line_numbers": [
+            301
+          ],
+          "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+          "selector": "/comparisons/1",
+          "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+        },
+        "inside_band": {
+          "2000": true,
+          "500": false
+        },
+        "label": "Case near depth band 1",
+        "measurement": "depth",
+        "pair_id": "depth_boundary:stream_1",
+        "selected_cycles": {
+          "2000": 4,
+          "500": 4
+        },
+        "values": {
+          "2000": 1.3465888867603235,
+          "500": 1.350589239211469
+        }
+      },
+      {
+        "boundary": 1.35,
+        "citation": {
+          "line_numbers": [
+            420
+          ],
+          "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+          "selector": "/comparisons/2",
+          "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+        },
+        "inside_band": {
+          "2000": false,
+          "500": true
+        },
+        "label": "Case near depth band 2",
+        "measurement": "depth",
+        "pair_id": "depth_boundary:stream_2",
+        "selected_cycles": {
+          "2000": 4,
+          "500": 4
+        },
+        "values": {
+          "2000": 1.3730042111953065,
+          "500": 1.3498824583443039
+        }
+      },
+      {
+        "boundary": 1.35,
+        "citation": {
+          "line_numbers": [
+            539
+          ],
+          "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+          "selector": "/comparisons/3",
+          "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+        },
+        "inside_band": {
+          "2000": false,
+          "500": true
+        },
+        "label": "Case near depth band 3",
+        "measurement": "depth",
+        "pair_id": "depth_boundary:stream_3",
+        "selected_cycles": {
+          "2000": 4,
+          "500": 4
+        },
+        "values": {
+          "2000": 1.3665087537190368,
+          "500": 1.3349408426458365
+        }
+      },
+      {
+        "boundary": 0.03,
+        "citation": {
+          "line_numbers": [
+            1126
+          ],
+          "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+          "selector": "/comparisons/8",
+          "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+        },
+        "inside_band": {
+          "2000": false,
+          "500": true
+        },
+        "label": "Narrow case 2",
+        "measurement": "bow",
+        "pair_id": "narrow_profile:stream_2",
+        "selected_cycles": {
+          "2000": 16,
+          "500": 16
+        },
+        "values": {
+          "2000": 0.03055574990379757,
+          "500": 0.029429221201196648
+        }
+      }
+    ],
+    "pair_count": 13,
+    "panels": [
+      {
+        "changed_measurements": [],
+        "id": "current_grid_reference",
+        "label": "Reference recipe",
+        "mismatch_pairs": 0,
+        "pairs": 1
+      },
+      {
+        "changed_measurements": [],
+        "id": "design_center",
+        "label": "Middle settings",
+        "mismatch_pairs": 0,
+        "pairs": 3
+      },
+      {
+        "changed_measurements": [
+          "bow"
+        ],
+        "id": "narrow_profile",
+        "label": "Narrow etched shape",
+        "mismatch_pairs": 1,
+        "pairs": 3
+      },
+      {
+        "changed_measurements": [
+          "depth"
+        ],
+        "id": "depth_boundary",
+        "label": "Cases near depth band",
+        "mismatch_pairs": 3,
+        "pairs": 3
+      },
+      {
+        "changed_measurements": [],
+        "id": "width_boundary_candidate",
+        "label": "Case near width band",
+        "mismatch_pairs": 0,
+        "pairs": 3
+      }
+    ],
+    "reference_rays": 2000,
+    "runtime_ratio": {
+      "interpretation": "Descriptive wall time on one host only. Two concurrent workers prevent a causal ray-count speedup claim.",
+      "maximum": 4.22749180172827,
+      "median": 3.713150619009554,
+      "minimum": 2.8115287490571794
+    },
+    "scope": "the same 13 Bosch cases rerun at 500 and 2,000 rays"
+  },
   "provenance": {
     "builder": {
       "path": "build_numerical_performance_data.py",
-      "sha256": "7e9b1e1f73b88a70484d2e5cb224c18561057ac398d5a62b5ed431f0589df3fb"
+      "sha256": "4e7ac327970dad67db6f99d533695b1bddb5de4c38687344fdfb1fc8295b2a3a"
     },
     "inputs": [
       {
@@ -1052,6 +1271,14 @@
       {
         "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
         "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+      },
+      {
+        "path": "evidence/numerical/bosch_ray_phase_b_review.json",
+        "sha256": "cf41672a2bec29e401d96a6fff7c2666b125bb30ed696234b35b44fabeb8fe10"
+      },
+      {
+        "path": "evidence/numerical/bosch_ray_phase_b_manifest.json",
+        "sha256": "02548a25947337a392ad089972cf32b2d099996ab80799c0e348e75dcab3243c"
       }
     ],
     "raw_inputs_committed": true,
@@ -1061,7 +1288,7 @@
     }
   },
   "purpose": "show cost, noise, and response cliffs for numerical settings",
-  "schema_version": 2,
+  "schema_version": 3,
   "v3_ray_qualification": {
     "points": [
       {

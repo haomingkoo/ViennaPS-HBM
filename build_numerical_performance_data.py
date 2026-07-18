@@ -20,6 +20,8 @@ FOUNDATION_SUMMARY = AUDIT / "metric_convergence_summary.json"
 V3_REFERENCE_ROWS = AUDIT / "v3_pattern_bosch_stage2a_rows.jsonl"
 V3_REFERENCE_SUMMARY = AUDIT / "v3_pattern_bosch_stage2a_summary.json"
 V3_CHEAP_REVIEW = AUDIT / "v3_bosch_cheap_qualification_review.json"
+PHASE_B_REVIEW = AUDIT / "bosch_ray_phase_b_review.json"
+PHASE_B_MANIFEST = AUDIT / "bosch_ray_phase_b_manifest.json"
 V3_RAY_ROWS = {
     125: AUDIT / "v3_bosch_r125_qualification_rows.jsonl",
     250: AUDIT / "v3_bosch_r250_qualification_rows.jsonl",
@@ -58,6 +60,30 @@ def matching_lines(path: Path, predicate):
         for line_number, line in enumerate(path.read_text().splitlines(), 1)
         if line.strip() and predicate(json.loads(line))
     ]
+
+
+def top_level_key_line(path: Path, key: str):
+    prefix = f'  "{key}":'
+    return [
+        line_number
+        for line_number, line in enumerate(path.read_text().splitlines(), 1)
+        if line.startswith(prefix)
+    ]
+
+
+def comparison_pair_line(path: Path, pair_id: str):
+    lines = path.read_text().splitlines()
+    start = next(
+        index
+        for index, line in enumerate(lines)
+        if line.startswith('  "comparisons":')
+    )
+    token = f'"pair_id": "{pair_id}"'
+    return [
+        line_number
+        for line_number, line in enumerate(lines[start:], start + 1)
+        if token in line
+    ][:1]
 
 
 def load_rows(path: Path):
@@ -268,6 +294,136 @@ def v3_ray_points(reference, thresholds, cheap_review):
     return points
 
 
+def phase_b_summary(review, manifest):
+    panel_labels = {
+        "current_grid_reference": "Reference recipe",
+        "design_center": "Middle settings",
+        "narrow_profile": "Narrow etched shape",
+        "depth_boundary": "Cases near depth band",
+        "width_boundary_candidate": "Case near width band",
+    }
+    panel_order = {panel_id: index for index, panel_id in enumerate(panel_labels)}
+    mismatches = {}
+    for row in review["categorical_mismatches"]:
+        mismatches.setdefault(row["panel_id"], set()).update(row["mismatches"])
+    panels = []
+    for row in sorted(
+        review["panel_summaries"], key=lambda item: panel_order[item["panel_id"]]
+    ):
+        panel_id = row["panel_id"]
+        panels.append({
+            "id": panel_id,
+            "label": panel_labels[panel_id],
+            "pairs": row["pair_count"],
+            "mismatch_pairs": row["categorical_mismatch_pairs"],
+            "changed_measurements": sorted(
+                value.removeprefix("assumed_band_")
+                for value in mismatches.get(panel_id, set())
+            ),
+        })
+    execution = review["execution"]
+    assumed = manifest["assumed_comparison_bands"]
+    bands = {
+        "depth": {
+            "lower": assumed["etch_depth"] - assumed["depth_tolerance"],
+            "upper": assumed["etch_depth"] + assumed["depth_tolerance"],
+        },
+        "bow": {"maximum": assumed["max_wall_bulge"]},
+        "width": {"maximum": assumed["max_width_error"]},
+    }
+    metric_for_check = {
+        "assumed_band_depth": ("depth", "depth"),
+        "assumed_band_bow": ("bow", "max_bow"),
+        "assumed_band_width": ("width", "max_cd_error"),
+    }
+    mismatch_rows = []
+    for comparison_index, comparison in enumerate(review["comparisons"]):
+        for mismatch in comparison["categorical_mismatches"]:
+            metric, source_metric = metric_for_check[mismatch]
+            values = {
+                rays: comparison["measurements"][str(rays)]["etch"][source_metric]
+                for rays in (500, 2000)
+            }
+            boundaries = list(bands[metric].values())
+            boundary = next(
+                (
+                    value for value in boundaries
+                    if min(values.values()) <= value <= max(values.values())
+                ),
+                min(
+                    boundaries,
+                    key=lambda value: min(abs(value - item) for item in values.values()),
+                ),
+            )
+            stream = comparison["pair_id"].rsplit("_", 1)[-1]
+            mismatch_rows.append({
+                "pair_id": comparison["pair_id"],
+                "label": (
+                    f"Case near depth band {stream}"
+                    if metric == "depth" else f"Narrow case {stream}"
+                ),
+                "measurement": metric,
+                "boundary": boundary,
+                "values": {str(rays): values[rays] for rays in (500, 2000)},
+                "inside_band": {
+                    str(rays): comparison["measurements"][str(rays)]
+                    ["assumed_band_checks"][metric]
+                    for rays in (500, 2000)
+                },
+                "selected_cycles": {
+                    str(rays): comparison["measurements"][str(rays)]["selected_cycle"]
+                    for rays in (500, 2000)
+                },
+                "citation": citation(
+                    PHASE_B_REVIEW,
+                    f"/comparisons/{comparison_index}",
+                    comparison_pair_line(PHASE_B_REVIEW, comparison["pair_id"]),
+                ),
+            })
+    return {
+        "scope": "the same 13 Bosch cases rerun at 500 and 2,000 rays",
+        "method": "Each pair keeps the recipe, geometry, grid, stopping rule, and seed label fixed. Only ray count changes.",
+        "candidate_rays": 500,
+        "reference_rays": 2000,
+        "pair_count": execution["pair_count"],
+        "completed_runs": execution["state_counts"]["complete_measured"],
+        "panels": panels,
+        "assumed_bands": bands,
+        "mismatches": mismatch_rows,
+        "runtime_ratio": {
+            "minimum": execution["minimum_runtime_ratio_2000_to_500"],
+            "median": execution["median_runtime_ratio_2000_to_500"],
+            "maximum": execution["maximum_runtime_ratio_2000_to_500"],
+            "interpretation": execution["runtime_interpretation"],
+        },
+        "decision": review["decision"]["candidate_500_rays"],
+        "highest_supported_claim": review["highest_supported_claim"],
+        "limits": review["limits"],
+        "citations": [
+            citation(
+                PHASE_B_REVIEW,
+                "/panel_summaries",
+                top_level_key_line(PHASE_B_REVIEW, "panel_summaries"),
+            ),
+            citation(
+                PHASE_B_REVIEW,
+                "/categorical_mismatches",
+                top_level_key_line(PHASE_B_REVIEW, "categorical_mismatches"),
+            ),
+            citation(
+                PHASE_B_REVIEW,
+                "/execution",
+                top_level_key_line(PHASE_B_REVIEW, "execution"),
+            ),
+            citation(
+                PHASE_B_REVIEW,
+                "/decision",
+                top_level_key_line(PHASE_B_REVIEW, "decision"),
+            ),
+        ],
+    }
+
+
 def main():
     required = tuple(dict.fromkeys((
         *FOUNDATION_ROW_FILES,
@@ -275,6 +431,8 @@ def main():
         *V3_RAY_ROWS.values(),
         V3_REFERENCE_SUMMARY,
         V3_CHEAP_REVIEW,
+        PHASE_B_REVIEW,
+        PHASE_B_MANIFEST,
     )))
     missing = [str(path.relative_to(ROOT)) for path in required if not path.is_file()]
     if missing:
@@ -286,6 +444,8 @@ def main():
     reference = load_rows(V3_REFERENCE_ROWS)
     reference_summary = load(V3_REFERENCE_SUMMARY)
     cheap_review = load(V3_CHEAP_REVIEW)
+    phase_b_review = load(PHASE_B_REVIEW)
+    phase_b_manifest = load(PHASE_B_MANIFEST)
     noise = {
         name: values["sd"]
         for name, values in foundation_summary["baseline"]["metrics"].items()
@@ -295,7 +455,7 @@ def main():
         for name, values in reference_summary["effective_screen_thresholds"].items()
     }
     result = {
-        "schema_version": 2,
+        "schema_version": 3,
         "claim_level": "numerically_characterized",
         "purpose": "show cost, noise, and response cliffs for numerical settings",
         "foundation": {
@@ -321,6 +481,7 @@ def main():
             "scope": "active fine-grid 2D Pattern/Bosch discovery qualification",
             "points": v3_ray_points(reference, thresholds, cheap_review),
         },
+        "phase_b": phase_b_summary(phase_b_review, phase_b_manifest),
         "interpretation": {
             "baseline_sd_units": "descriptive mean absolute paired change divided by baseline sample standard deviation; it is not a pass threshold",
             "no_interpolation": True,

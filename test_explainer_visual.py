@@ -99,10 +99,23 @@ def assert_numerical_evidence(page):
     page.select_option("#numerical-metric", "cd_bottom")
     assert response.locator("circle").count() == 4
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
-    status = page.locator("#numerical-ray-status").inner_text()
-    assert "rejected" in status.lower()
-    assert "Provisional exploration setting; adaptive held-out confirmation pending" in status
-    assert "Current comparison baseline" in status
+    phase_b = page.locator("#phase-b-ray-chart")
+    assert phase_b.locator(".phase-b-row").count() == 5
+    assert phase_b.locator(".phase-b-mark").count() == 13
+    assert phase_b.locator(".phase-b-mark.changed").count() == 4
+    assert "3 of 3 different" in phase_b.inner_text()
+    assert "depth band" in phase_b.inner_text()
+    assert "1 of 3 different" in phase_b.inner_text()
+    assert "bow band" in phase_b.inner_text()
+    mismatch = page.locator("#phase-b-mismatch-chart")
+    assert mismatch.locator(".phase-b-pair").count() == 4
+    assert mismatch.locator(".phase-b-lane").count() == 8
+    assert "1.3506" in mismatch.inner_text()
+    assert "1.3466" in mismatch.inner_text()
+    assert "inside" in mismatch.inner_text()
+    assert "outside" in mismatch.inner_text()
+    assert "same 13 etch cases" in page.locator("#phase-b-takeaway").inner_text()
+    assert "median was 3.7×" in page.locator("#phase-b-runtime").inner_text().lower()
     assert page.locator('a[href*="numerical_performance_data.json"]').count() == 1
 
 

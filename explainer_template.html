@@ -624,12 +624,44 @@
   .numerical-status b, .numerical-status span { display: block; }
   .numerical-status b { font-family: var(--mono); font-size: 0.8rem; }
   .numerical-status span { margin-top: 0.25rem; color: var(--ink-dim); font-size: 0.75rem; }
+  .phase-b-result { margin: 1rem 0 1.35rem; }
+  .phase-b-result > p { max-width: 72ch; }
+  .phase-b-chart { border-block: 1px solid var(--line); padding: 0.55rem 0; }
+  .phase-b-row { display: grid; grid-template-columns: minmax(9rem, 1.2fr) minmax(8rem, 1fr) minmax(10rem, 1.4fr); align-items: center; gap: 1rem; min-height: 3rem; border-bottom: 1px solid var(--line); }
+  .phase-b-row:last-child { border-bottom: 0; }
+  .phase-b-label { font-weight: 650; }
+  .phase-b-marks { display: flex; gap: 0.4rem; }
+  .phase-b-mark { display: inline-grid; place-items: center; width: 1.45rem; height: 1.45rem; border: 1px solid var(--line); border-radius: 50%; font: 700 0.72rem var(--mono); }
+  .phase-b-mark.changed { border-color: var(--amber); color: var(--amber); }
+  .phase-b-reading { color: var(--ink-dim); font-size: 0.82rem; }
+  .phase-b-reading b { color: var(--ink); }
+  .phase-b-key { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.65rem 0 0; color: var(--ink-dim); font: 0.74rem var(--mono); }
+  .phase-b-key span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .phase-b-key i { width: 0.7rem; height: 0.7rem; border: 1px solid var(--line); border-radius: 50%; }
+  .phase-b-key .changed { border-color: var(--amber); }
+  .phase-b-mismatch-chart { margin-top: 1rem; border-top: 1px solid var(--line); }
+  .phase-b-pair { padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .phase-b-pair-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.45rem; }
+  .phase-b-pair-head span { color: var(--ink-dim); font: 0.72rem var(--mono); }
+  .phase-b-lane { display: grid; grid-template-columns: 4.2rem 4.8rem minmax(8rem, 1fr) 5.5rem; align-items: center; gap: 0.55rem; min-height: 1.8rem; font-size: 0.78rem; }
+  .phase-b-lane-label, .phase-b-lane-value { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .phase-b-track { position: relative; height: 1rem; }
+  .phase-b-track::before { content: ""; position: absolute; inset: calc(50% - 0.5px) 0 auto; border-top: 1px solid var(--line); }
+  .phase-b-boundary { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px dashed var(--amber); }
+  .phase-b-dot { position: absolute; top: 50%; width: 0.72rem; height: 0.72rem; transform: translate(-50%, -50%); border: 2px solid var(--plasma); background: var(--surface); border-radius: 50%; }
+  .phase-b-dot.reference { border-color: var(--ink-dim); border-radius: 1px; }
+  .phase-b-side { color: var(--ink-dim); }
   @media (max-width: 700px) {
     .numerical-controls label { width: 100%; margin-left: 0; }
     .numerical-plots { grid-template-columns: 1fr; }
     .numerical-status { grid-template-columns: 1fr 1fr; }
     .numerical-status div:nth-child(2) { border-right: 0; }
     .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .phase-b-row { grid-template-columns: minmax(7.5rem, 1fr) minmax(6rem, auto); gap: 0.35rem 0.75rem; padding: 0.6rem 0; }
+    .phase-b-reading { grid-column: 1 / -1; }
+    .phase-b-pair-head { display: block; }
+    .phase-b-pair-head span { display: block; margin-top: 0.15rem; }
+    .phase-b-lane { grid-template-columns: 3.4rem 4.4rem minmax(5rem, 1fr) 4.3rem; gap: 0.35rem; font-size: 0.72rem; }
   }
 
   footer {
@@ -642,7 +674,7 @@
 
 <div class="wrap">
   <header>
-    <p class="context-line">ViennaPS teaching example · updated <time datetime="2026-07-17">17 Jul 2026</time></p>
+    <p class="context-line">ViennaPS teaching example · updated <time datetime="2026-07-18">18 Jul 2026</time></p>
     <h1>A simplified TSV traveler</h1>
     <p class="lede">
       This guide uses one simplified TSV flow to show how ViennaPS carries geometry
@@ -801,6 +833,18 @@
     <h2>Advanced: choosing a faster simulation setting</h2>
     <p class="claim">A faster setting is useful only when it preserves the measured shape and the conclusions drawn from it.</p>
     <p class="note"><b>Important:</b> the inherited depth, width, and bow bands are assumed study targets. They are not wafer specifications and do not have enough provenance to qualify a process. This section therefore compares measurement and shape changes directly.</p>
+    <div class="phase-b-result">
+      <h3>What the 500 versus 2,000 ray check found</h3>
+      <p id="phase-b-takeaway"></p>
+      <p class="note" id="phase-b-method"></p>
+      <div class="phase-b-chart" id="phase-b-ray-chart" role="img" aria-label="Paired classification results for five Bosch profile groups"></div>
+      <div class="phase-b-key"><span><i aria-hidden="true"></i>Same side of teaching band</span><span><i class="changed" aria-hidden="true"></i>Different side</span><span>Each circle is one case run at both ray counts.</span></div>
+      <div class="phase-b-mismatch-chart" id="phase-b-mismatch-chart" aria-label="Measurements for the four cases that changed sides"></div>
+      <p class="note" id="phase-b-runtime"></p>
+      <p class="note"><b>Limit:</b> 500 rays does not advance as the Bosch screening setting for these 13 cases. This does not prove that 2,000 rays is exact or that 500 rays fails for every geometry.</p>
+    </div>
+    <h3>Earlier coarse-grid sensitivity</h3>
+    <p class="note">These older runs show how runtime and measured geometry moved across four numerical settings. They help locate changes, but they do not approve a production setting.</p>
     <div class="numerical-controls" aria-label="Numerical sensitivity chart controls">
       <button type="button" data-numerical-axis="grid" aria-pressed="true">Shape detail</button>
       <button type="button" data-numerical-axis="rays" aria-pressed="false">Ray sampling</button>
@@ -815,50 +859,19 @@
     </div>
     <div class="numerical-plots">
       <figure class="numerical-plot">
-        <svg id="numerical-response-chart" viewBox="0 0 520 300" role="img" aria-label="Observed response spread across saved numerical settings"></svg>
+        <svg id="numerical-response-chart" viewBox="0 0 520 240" role="img" aria-label="Observed response spread across saved numerical settings"></svg>
         <figcaption id="numerical-response-caption"></figcaption>
       </figure>
       <figure class="numerical-plot">
-        <svg id="numerical-runtime-chart" viewBox="0 0 520 300" role="img" aria-label="Median runtime across numerical settings"></svg>
+        <svg id="numerical-runtime-chart" viewBox="0 0 520 240" role="img" aria-label="Median runtime across numerical settings"></svg>
         <figcaption>Typical saved wall time. The run count is shown below each setting. Lower is faster.</figcaption>
       </figure>
     </div>
     <div class="numerical-status" id="numerical-gate-status" aria-label="Product-check counts at each sampled setting"></div>
-    <div class="numerical-status" id="numerical-ray-status" aria-label="Current fine-grid ray-count checks"></div>
     <p class="note" id="numerical-takeaway"></p>
     <p class="note">Points are saved simulations from one research machine. Lines connect sampled settings on a log x-axis; they are not fitted response surfaces. This benchmark uses one coarse-grid Bosch recipe, so its turning points do not transfer automatically to deeper or narrower vias.</p>
-    <h3>Why 250 rays needs more checking</h3>
-    <p>In one commissioning case, changing the numerical setup changed the maximum width error from 0.0564 to 0.0742 model units. That 0.0178 difference is large enough to change how the profile is interpreted, regardless of the assumed acceptance band.</p>
-    <div class="table-scroll">
-      <table class="journal-table" aria-label="The 250 and 2000 ray mismatch">
-        <thead><tr><th>Setting</th><th>Maximum width error</th><th>Difference from 2,000 rays</th><th>Interpretation</th></tr></thead>
-        <tbody>
-          <tr><td>250 rays</td><td>0.0742</td><td>+0.0178</td><td>Different profile measurement</td></tr>
-          <tr><td>2,000 rays</td><td>0.0564</td><td>Reference</td><td>Not numerical truth</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">This comparison also changed random streams and the stopping interval, so it cannot isolate the effect of ray count. It is a warning, not a qualification result. The clean paired ladder changes ray count only. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/docs/current-run.md">review</a>.</p>
-    <h3>Why 500 rays is the current exploration setting</h3>
-    <div class="method-chain" aria-label="Ray-count accuracy check">
-      <div><b>1. Freeze cases</b><span>Include clear passes, clear failures, difficult shapes and cases close to each limit.</span></div>
-      <div><b>2. Change rays only</b><span>Use the same physical inputs, random streams and stopping rule at 500 and 2,000 rays.</span></div>
-      <div><b>3. Compare measurements</b><span>Check depth, top/middle/bottom width, bow and shape class.</span></div>
-      <div><b>4. Check stability</b><span>Confirm that measurement error, shape class, and tuning direction remain useful.</span></div>
-      <div><b>5. Approve one use</b><span>A clean paired ladder must pass before 500 rays is approved as the discovery setting. Boundaries and finalists still use 2,000.</span></div>
-    </div>
-    <p class="note"><b>Current status:</b> 500 rays is a provisional exploration setting. An earlier 16-case check preserved the major shape classes and factor ranking. It was 4.47× faster at the median. That check also changed random streams and stopping depth, so it did not isolate ray count.</p>
-    <p class="note"><b>What matters:</b> the two settings do not need identical decimals. They need the same major shape, failure mode, pass/fail result and useful tuning direction. Small differences are acceptable when they cannot change a decision.</p>
-    <h3>How the parameter search will work</h3>
-    <div class="method-chain" aria-label="Sequential parameter search">
-      <div><b>Spread out</b><span>Try a small set across the allowed ranges.</span></div>
-      <div><b>Measure</b><span>Record the real outputs and every failed requirement.</span></div>
-      <div><b>Focus</b><span>Keep controls that move useful measurements or failure boundaries.</span></div>
-      <div><b>Learn locally</b><span>Try promising points and uncertain boundary points in small batches.</span></div>
-      <div><b>Confirm</b><span>Stop when added runs cannot change the decision. Recheck finalists with the slower setting.</span></div>
-    </div>
-    <p class="note">This is a measured search, not Adam. Adam expects reliable gradients and many cheap, smooth evaluations. This simulator has expensive runs, hard failures and shape changes.</p>
-    <p class="note"><b>Use compute where it matters:</b> screen many settings cheaply, remove clear failures, then spend more rays and repeats on survivors. Once a passing and failing setting bracket a boundary, test their midpoint. Stop when another split cannot change the engineering decision.</p>
+    <h3>What happens next</h3>
+    <p>Test one intermediate ray count on the four pairs that changed and on at least one pair that agreed. Matching sides of the teaching bands would only advance it to further measurement and trajectory checks. It would not approve the setting.</p>
     <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/numerical_performance_data.json">See the citable chart data and source selectors</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/manifest.json">See the committed source-evidence manifest</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/schemas/numerical-performance.schema.json">See its JSON Schema</a></p>
   </section>
 
@@ -1455,9 +1468,54 @@ if (document.getElementById('gate0-headline')) renderGate0Checkpoint();
 const numericalState = { axis: 'grid', metric: 'depth' };
 const numericalLabels = { depth: 'Etch depth', cd_bottom: 'Bottom width', max_bow: 'Wall bow', scallop_rms: 'Scallop RMS' };
 
+function renderPhaseBRayCheck() {
+  const study = NUMERICAL.phase_b;
+  const changed = study.panels.reduce((total, panel) => total + panel.mismatch_pairs, 0);
+  document.getElementById('phase-b-takeaway').innerHTML = `<b>Takeaway:</b> We reran the same ${study.pair_count} etch cases with 500 and 2,000 rays. Four moved to the other side of an assumed teaching band.`;
+  document.getElementById('phase-b-method').textContent = study.method;
+  const chart = document.getElementById('phase-b-ray-chart');
+  chart.setAttribute('aria-label', `500 versus 2,000 ray comparison. ${changed} of ${study.pair_count} paired cases moved to a different side of an assumed teaching band. Three moved across the depth edge and one moved across the bow edge.`);
+  chart.innerHTML = study.panels.map(panel => {
+    const measurement = panel.changed_measurements.length
+      ? `${panel.changed_measurements.join(' and ')} band`
+      : 'same side';
+    const marks = Array.from({ length: panel.pairs }, (_, index) => {
+      const isChanged = index < panel.mismatch_pairs;
+      return `<span class="phase-b-mark${isChanged ? ' changed' : ''}">${isChanged ? '×' : '='}</span>`;
+    }).join('');
+    return `<div class="phase-b-row" aria-label="${panel.label}: ${panel.mismatch_pairs} of ${panel.pairs} pairs moved to a different side; ${measurement}">
+      <span class="phase-b-label">${panel.label}</span>
+      <span class="phase-b-marks" aria-hidden="true">${marks}</span>
+      <span class="phase-b-reading"><b>${panel.mismatch_pairs} of ${panel.pairs} different</b>${panel.changed_measurements.length ? ` · ${measurement}` : ''}</span>
+    </div>`;
+  }).join('');
+  const metricLabel = { depth: 'Etch depth', bow: 'Wall bow', width: 'Width error' };
+  document.getElementById('phase-b-mismatch-chart').innerHTML = study.mismatches.map(row => {
+    const values = [row.values['500'], row.values['2000']];
+    const distance = Math.max(...values.map(value => Math.abs(value - row.boundary)));
+    const span = Math.max(distance * 1.5, Math.abs(row.boundary) * 0.002, 0.001);
+    const position = value => Math.max(5, Math.min(95, 50 + 50 * (value - row.boundary) / span));
+    const lanes = [500, 2000].map(rays => {
+      const value = row.values[String(rays)], inside = row.inside_band[String(rays)];
+      return `<div class="phase-b-lane">
+        <span class="phase-b-lane-label">${rays.toLocaleString()}</span>
+        <span class="phase-b-lane-value">${value.toFixed(4)}</span>
+        <span class="phase-b-track" aria-hidden="true"><i class="phase-b-boundary"></i><i class="phase-b-dot${rays === 2000 ? ' reference' : ''}" style="left:${position(value).toFixed(1)}%"></i></span>
+        <span class="phase-b-side">${inside ? 'inside' : 'outside'}</span>
+      </div>`;
+    }).join('');
+    return `<div class="phase-b-pair">
+      <div class="phase-b-pair-head"><b>${row.label}</b><span>${metricLabel[row.measurement]} edge ${row.boundary.toFixed(4)}</span></div>
+      ${lanes}
+    </div>`;
+  }).join('');
+  const runtime = study.runtime_ratio;
+  document.getElementById('phase-b-runtime').innerHTML = `<b>Observed cost:</b> 2,000 rays took ${runtime.minimum.toFixed(1)}–${runtime.maximum.toFixed(1)}× as long as 500 rays across these pairs. The median was ${runtime.median.toFixed(1)}×. Timing is descriptive because two runs shared the host.`;
+}
+
 function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorAtZero = false) {
   const svg = document.getElementById(svgId);
-  const w = 520, h = 300, left = 62, right = 18, top = 24, bottom = 62;
+  const w = 520, h = 240, left = 62, right = 18, top = 20, bottom = 56;
   const values = points.flatMap(rangeFor);
   let yMin = Math.min(...values), yMax = Math.max(...values);
   const pad = Math.max((yMax - yMin) * 0.12, Math.abs(yMax) * 0.01, 0.0001);
@@ -1498,20 +1556,11 @@ function renderNumericalEvidence() {
   const largest = changes.reduce((best, change) => change.response.mean_abs_change > best.response.mean_abs_change ? change : best);
   document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. This chart alone cannot approve a faster setting; use the paired accuracy check below.`;
   document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${numericalState.axis === 'grid' ? `${Math.round(BOSCH.targets.target_cd / point.value)} cells across opening` : `${point.value} rays`}</b><span>${numericalState.axis === 'grid' ? `Grid spacing ${point.value}. ` : ''}Inside assumed bands: depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
-  const statusText = {
-    partial_with_mismatch_observed: 'Incomplete and already disagreed with the reference',
-    partial_not_qualified: 'Incomplete; no decision',
-    complete_with_mismatch_observed: 'Rejected because a required decision changed',
-    complete_awaiting_saved_review: 'Complete; review pending',
-    commissioning_discovery_bridge: 'Provisional exploration setting; adaptive held-out confirmation pending',
-    saved_review_mismatch: 'Rejected because the saved review found a mismatch',
-    tested_reference: 'Current comparison baseline, not guaranteed truth',
-  };
-  document.getElementById('numerical-ray-status').innerHTML = NUMERICAL.v3_ray_qualification.points.map(point => `<div><b>${point.value} rays</b><span>${statusText[point.status] || point.status}. ${point.runs}${point.expected_candidate_runs ? `/${point.expected_candidate_runs}` : ''} runs${point.paired_anchor_median_speedup_vs_2000 ? `; about ${point.paired_anchor_median_speedup_vs_2000.toFixed(1)}× faster than 2,000 rays in the paired timing check` : ''}.</span></div>`).join('');
 }
 
 document.querySelectorAll('[data-numerical-axis]').forEach(button => button.addEventListener('click', () => { numericalState.axis = button.dataset.numericalAxis; renderNumericalEvidence(); }));
 document.getElementById('numerical-metric').addEventListener('change', event => { numericalState.metric = event.target.value; renderNumericalEvidence(); });
+renderPhaseBRayCheck();
 renderNumericalEvidence();
 
 // ============ Claim-limited 25-case range pilot ============
