@@ -269,7 +269,7 @@ def main() -> None:
         case["metrics"]["hard_gate_pass"] for case in interactions
     )
     document = {
-        "schema_version": 2,
+        "schema_version": 3,
         "title": "Dry-etch multi-factor study",
         "scope": (
             "Exact 500-ray discovery cases, remeasured from both saved via walls. "
