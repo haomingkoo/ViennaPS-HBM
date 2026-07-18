@@ -716,8 +716,8 @@
   </section>
 
   <section class="finding" id="numerical-tuning">
-    <h2>How much simulation is enough?</h2>
-    <p class="claim">Compare runtime with measured changes before choosing a cheaper simulation setting.</p>
+    <h2>Choosing a faster simulation setting</h2>
+    <p class="claim">A faster setting is useful only when it preserves the measurements and pass/fail decisions needed by the study.</p>
     <div class="numerical-controls" aria-label="Numerical sensitivity chart controls">
       <button type="button" data-numerical-axis="grid" aria-pressed="true">Grid spacing</button>
       <button type="button" data-numerical-axis="rays" aria-pressed="false">Rays per point</button>
@@ -740,10 +740,42 @@
         <figcaption>Median wall time for eight saved runs at each setting. Dots are medians; no runtime uncertainty interval was saved.</figcaption>
       </figure>
     </div>
-    <div class="numerical-status" id="numerical-gate-status" aria-label="Scientific gate counts at each sampled setting"></div>
-    <div class="numerical-status" id="numerical-ray-status" aria-label="Current fine-grid ray qualification"></div>
+    <div class="numerical-status" id="numerical-gate-status" aria-label="Product-check counts at each sampled setting"></div>
+    <div class="numerical-status" id="numerical-ray-status" aria-label="Current fine-grid ray-count checks"></div>
     <p class="note" id="numerical-takeaway"></p>
     <p class="note">Points are saved simulations from one research machine. Lines connect sampled settings on a log x-axis; they are not fitted response surfaces. This benchmark uses one coarse-grid Bosch recipe, so its turning points do not transfer automatically to deeper or narrower vias.</p>
+    <h3>Why 250 rays was rejected</h3>
+    <p>At the high neutral-sticking test, the two ray counts disagreed about the width requirement. The limit is a maximum width error of 0.060 model units.</p>
+    <div class="table-scroll">
+      <table class="journal-table" aria-label="The 250 and 2000 ray mismatch">
+        <thead><tr><th>Setting</th><th>Maximum width error</th><th>Width requirement</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>250 rays</td><td>0.0742</td><td>Above 0.060</td><td>Fail</td></tr>
+          <tr><td>2,000 rays</td><td>0.0564</td><td>Within 0.060</td><td>Pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Both runs reached the depth and bow requirements. Width alone changed the overall decision. That one disagreement is enough to reject 250 rays for the broad search. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/program.md#L38">width requirement</a>.</p>
+    <h3>How 500 rays will be checked</h3>
+    <div class="method-chain" aria-label="Ray-count accuracy check">
+      <div><b>1. Freeze cases</b><span>Include clear passes, clear failures, difficult shapes and cases close to each limit.</span></div>
+      <div><b>2. Change rays only</b><span>Use the same physical inputs, random streams and stopping rule at 500 and 2,000 rays.</span></div>
+      <div><b>3. Compare measurements</b><span>Check depth, top/middle/bottom width, bow and shape class.</span></div>
+      <div><b>4. Check boundaries</b><span>Confirm that pass/fail limits do not move enough to change a decision.</span></div>
+      <div><b>5. Approve a use</b><span>If every check agrees, use 500 for broad search. Confirm finalists at 2,000.</span></div>
+    </div>
+    <p class="note"><b>Current status:</b> 500 rays is promising but not approved. The earlier comparison changed more than ray count, so it cannot answer this question cleanly.</p>
+    <p class="note"><b>What matters:</b> the two settings do not need identical decimals. They need the same major shape, failure mode, pass/fail result and useful tuning direction. Small differences are acceptable when they cannot change a decision.</p>
+    <h3>How the parameter search will work</h3>
+    <div class="method-chain" aria-label="Sequential parameter search">
+      <div><b>Spread out</b><span>Try a small set across the allowed ranges.</span></div>
+      <div><b>Measure</b><span>Record the real outputs and every failed requirement.</span></div>
+      <div><b>Focus</b><span>Keep controls that move useful measurements or failure boundaries.</span></div>
+      <div><b>Learn locally</b><span>Try promising points and uncertain boundary points in small batches.</span></div>
+      <div><b>Confirm</b><span>Stop when added runs cannot change the decision. Recheck finalists with the slower setting.</span></div>
+    </div>
+    <p class="note">This is a measured search, not Adam. Adam expects reliable gradients and many cheap, smooth evaluations. This simulator has expensive runs, hard failures and shape changes.</p>
+    <p class="note"><b>Use compute where it matters:</b> screen many settings cheaply, remove clear failures, then spend more rays and repeats on survivors. Once a passing and failing setting bracket a boundary, test their midpoint. Stop when another split cannot change the engineering decision.</p>
     <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/numerical_performance_data.json">See the citable chart data and source selectors</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/manifest.json">See the committed source-evidence manifest</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/schemas/numerical-performance.schema.json">See its JSON Schema</a></p>
   </section>
 
@@ -1131,6 +1163,10 @@ python3 -m http.server 8000</code></pre>
       <dt><a href="https://viennatools.github.io/ViennaPS/domain/">ViennaPS simulation domain</a></dt><dd>Explains how material geometry and interfaces are represented.</dd>
       <dt><a href="https://www.nist.gov/publications/metrology-needs-tsv-fabrication">NIST TSV metrology</a></dt><dd>Explains why via shape, coating coverage, and copper voids must be checked.</dd>
       <dt><a href="https://www.nist.gov/publications/modeling-extreme-bottom-filling-through-silicon-vias">NIST bottom-up Cu model</a></dt><dd>Explains why copper must grow in the right order to avoid a trapped void.</dd>
+      <dt><a href="https://doi.org/10.1016/j.mee.2009.05.011">TU Wien Bosch simulation paper</a></dt><dd>Shows how Monte Carlo ray transport and level sets can evolve an etched profile.</dd>
+      <dt><a href="https://doi.org/10.1109/TCPMT.2011.2160395">IEEE TSV scallop study</a></dt><dd>Explains why etched-wall roughness can matter to later dielectric and barrier behavior.</dd>
+      <dt><a href="https://www.electrochem.org/dl/interface/wtr/wtr04/IF12-04-Pg46.pdf">ECS copper superfilling review</a></dt><dd>Explains accelerator-driven bottom-up copper growth and why simple conformal filling can pinch off.</dd>
+      <dt><a href="https://proceedings.mlr.press/v130/eriksson21a.html">Constrained search method</a></dt><dd>Motivates learning from expensive simulations while keeping pass/fail requirements separate.</dd>
     </dl>
     <p class="note">The sources guide the lesson. They do not turn this simulation into a fab recipe.</p>
   </section>
@@ -1232,14 +1268,14 @@ function renderNumericalEvidence() {
   document.getElementById('numerical-response-caption').textContent = `${numericalLabels[numericalState.metric]}: dot is the mean; whisker shows the observed p10–p90 spread across ${points[0].runs} saved runs.`;
   const changes = study.adjacent_changes.map(change => ({ ...change, response: change.responses[numericalState.metric] }));
   const largest = changes.reduce((best, change) => change.response.mean_abs_change > best.response.mean_abs_change ? change : best);
-  document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. Use the gate counts above to judge whether that change is acceptable.`;
+  document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. This chart alone cannot approve a faster setting; use the paired accuracy check below.`;
   document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${point.value} ${numericalState.axis === 'grid' ? 'grid' : 'rays'}</b><span>Depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
   const statusText = {
     partial_with_mismatch_observed: 'Partial: a required decision changed in the saved cases',
     partial_not_qualified: 'Partial: no accepted decision',
-    complete_with_mismatch_observed: 'Complete: mismatch observed; formal review required',
+    complete_with_mismatch_observed: 'Rejected: a required decision changed',
     complete_awaiting_saved_review: 'Complete: formal review pending',
-    provisional_discovery_bridge: 'Provisional discovery bridge; the test changed more than ray count',
+    provisional_discovery_bridge: 'Promising, but not approved; the test changed more than ray count',
     saved_review_mismatch: 'Saved review found a mismatch',
     tested_reference: 'Tested reference; not numerical truth',
   };

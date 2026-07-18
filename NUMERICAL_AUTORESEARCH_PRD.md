@@ -91,7 +91,7 @@ Adam is not the default. This simulator is expensive, partly discrete, stochasti
 
 - Targets, metric definitions, ranges, fidelity profiles, and model family cannot change inside a manifest version.
 - Failed, missing, or invalid rows never become zeros or penalty-only rows.
-- One range expansion, one screening augmentation, one interaction augmentation, and two local-refinement batches are the default caps.
+- Every campaign declares its own expansion, screening, refinement, and review caps before execution. Extending a cap requires a new manifest decision.
 - Stop early when the decision is stable or a model limitation is repeated.
 - Publish sampled points, raw units, provenance, uncertainty, failures, and gaps. Do not interpolate a boundary unless validation supports it.
 
@@ -107,3 +107,7 @@ The numerical program is complete only when named discovery and confirmation pro
 - [NIST guidance on choosing an experimental design](https://www.itl.nist.gov/div898/handbook/pri/section3/pri33.htm)
 - [Hyperband early-stopping method](https://www.jmlr.org/papers/v18/16-558.html)
 - [Constrained Bayesian optimization](https://proceedings.mlr.press/v130/eriksson21a.html)
+- [Local trust-region Bayesian optimization](https://proceedings.neurips.cc/paper/2019/hash/6c990b7aca7bc7058f5e98ea909e924b-Abstract.html)
+- [3D level-set Bosch simulation with Monte Carlo ray tracing](https://doi.org/10.1016/j.mee.2009.05.011)
+- [TSV Bosch roughness and electrical behavior](https://doi.org/10.1088/0960-1317/18/7/075018)
+- [ECS review of bottom-up copper superfilling](https://www.electrochem.org/dl/interface/wtr/wtr04/IF12-04-Pg46.pdf)

@@ -15,10 +15,11 @@ full-traveler result, or process window is authorized.
 | Rows | [`evidence/numerical/v3_bosch_r250_qualification_rows.jsonl`](../evidence/numerical/v3_bosch_r250_qualification_rows.jsonl) |
 | Public chart | [`numerical_performance_data.json`](../numerical_performance_data.json) |
 
-The gate mismatch occurs at the high neutral-sticking anchor. The selected-cycle
-effect of deposition thickness also changes direction. The trajectory classes
-match and the factor-ranking Spearman is 0.943, but those secondary results
-cannot cancel either required mismatch.
+The mismatch occurs at the high neutral-sticking test. At 250 rays, the maximum
+width error is 0.0742, above the 0.060 limit. At 2,000 rays, it is 0.0564 and
+passes. The selected-cycle effect of deposition thickness also changes
+direction. Matching trajectory classes and the 0.943 factor-ranking score do
+not cancel either disagreement.
 
 ## Evidence limit
 
@@ -28,11 +29,12 @@ evidence, but it does not isolate ray count or prove numerical convergence.
 
 ## Next action
 
-Freeze a new morphology-diverse qualification panel. Hold stopping rules fixed
-while changing one numerical control. Include null and near-gate sentinels.
-Also include failures, curvature, and interactions. Require absolute metric
-agreement and unchanged gates. Bound any failure-boundary movement before a
-cheap profile receives screening authority.
+Freeze a varied panel of clear passes, clear failures, difficult shapes and
+cases near each limit. Keep the inputs, random streams and stopping rule fixed.
+Change only the ray count. Compare every measurement and pass/fail result, then
+check whether a failure boundary moves. Approve 500 rays for broad screening
+only if those paired checks agree. Confirm boundaries and finalists at 2,000
+rays.
 
 Validate the committed evidence from a clean clone:
 

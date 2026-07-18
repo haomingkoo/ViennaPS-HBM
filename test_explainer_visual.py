@@ -73,8 +73,8 @@ def assert_numerical_evidence(page):
     assert response.locator("circle").count() == 4
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
     status = page.locator("#numerical-ray-status").inner_text()
-    assert "mismatch" in status.lower()
-    assert "Provisional discovery bridge" in status
+    assert "rejected" in status.lower()
+    assert "Promising, but not approved" in status
     assert "Tested reference" in status
     assert page.locator('a[href*="numerical_performance_data.json"]').count() == 1
 

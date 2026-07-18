@@ -56,6 +56,8 @@ process window remain active work.
   checkpoint, exact runner, outputs, and blocker.
 - [`docs/evidence-map.md`](docs/evidence-map.md) links each public claim to saved
   evidence and its limit.
+- [`docs/metric-study.md`](docs/metric-study.md) separates core TSV feedback
+  from uncalibrated diagnostics such as simulated wall roughness.
 - [`docs/code-review-2026-07-18.md`](docs/code-review-2026-07-18.md) records the
   correctness and simplicity audit, including unresolved items.
 - [`archive/README.md`](archive/README.md) indexes superseded campaigns and the
@@ -106,6 +108,7 @@ A useful study then follows six rules:
 | `prepare.md` | Research decisions, corrections, and open limits. |
 | `docs/evidence-map.md` | Current claims, evidence, status, and limits. |
 | `docs/current-run.md` | Current research checkpoint and reproduction command. |
+| `docs/metric-study.md` | Measurement choices, roughness status, and validation plan. |
 
 Files prefixed with `foundation_`, `review_`, `build_`, or `test_` support the
 staged research checks. Superseded campaigns live under `archive/` and should
