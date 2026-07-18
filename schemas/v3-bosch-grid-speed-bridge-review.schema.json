@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/schemas/v3-bosch-grid-speed-bridge-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign", "status", "provenance", "arms", "interpretation"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "v3-bosch-grid-speed-bridge-review"},
+    "status": {"const": "complete_observational_review"},
+    "provenance": {"type": "object", "required": ["manifest", "new_rows", "focused_rows", "source_artifacts"]},
+    "arms": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["cell_id", "case_id", "grid_delta", "rng_seed", "movement", "profile", "runtime"],
+        "properties": {
+          "cell_id": {"enum": ["e50_i0.04", "e141_i0.06324555"]},
+          "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+          "grid_delta": {"enum": [0.0025, 0.005]},
+          "rng_seed": {"enum": [950273, 950728]},
+          "movement": {"type": "object", "minProperties": 7, "maxProperties": 7},
+          "profile": {"type": "object", "required": ["current", "reference", "width_order_preserved"]},
+          "runtime": {"type": "object", "required": ["current_elapsed_s", "reference_elapsed_s", "reference_over_current_ratio", "interpretation"]}
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["accuracy_limit_used", "fine_grid_treated_as_truth", "repeat_range_treated_as_acceptance_limit", "setting_promotion_authorized", "next_step"],
+      "properties": {
+        "accuracy_limit_used": {"const": false},
+        "fine_grid_treated_as_truth": {"const": false},
+        "repeat_range_treated_as_acceptance_limit": {"const": false},
+        "setting_promotion_authorized": {"const": false},
+        "next_step": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

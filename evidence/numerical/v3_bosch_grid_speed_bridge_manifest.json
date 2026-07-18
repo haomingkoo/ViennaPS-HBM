@@ -1,0 +1,157 @@
+{
+  "authority": {
+    "builder_or_test_may_launch": false,
+    "numerical_setting_authorized": false,
+    "phase_a_execution_authorized": true,
+    "recipe_authorized": false
+  },
+  "campaign": "v3-bosch-grid-speed-bridge-phase-a",
+  "design": {
+    "analysis_plan": {
+      "accuracy_limit": null,
+      "automatic_setting_promotion": false,
+      "compare": [
+        "raw measurement movement from the selected 0.00125 row",
+        "location relative to the observed 0.00125 repeat min-max",
+        "profile availability and top-middle-bottom width order",
+        "raw wall time and observed wall-time ratio"
+      ],
+      "fine_grid_is_truth": false
+    },
+    "pairing_policy": "reuse each selected base process seed across its two numerical arms; this does not claim pointwise-identical particle paths",
+    "pairs": {
+      "e141_i0.06324555": {
+        "reference_case_id": "1cf4ff64c506b271",
+        "reference_grid_delta": 0.00125,
+        "reference_line_number": 4,
+        "reused_process_seed_interval": {
+          "first": 950273,
+          "last": 950363
+        },
+        "reused_rng_seed": 950273
+      },
+      "e50_i0.04": {
+        "reference_case_id": "5f841d553d8100f9",
+        "reference_grid_delta": 0.00125,
+        "reference_line_number": 9,
+        "reused_process_seed_interval": {
+          "first": 950728,
+          "last": 950818
+        },
+        "reused_rng_seed": 950728
+      }
+    },
+    "phase": "A",
+    "question": "How do two coarser grids move saved geometry measurements and wall time on two focused cells?",
+    "rays_per_point": 500,
+    "reference_grid_delta": 0.00125,
+    "runs": [
+      {
+        "grid_delta": 0.0025,
+        "pair_id": "e50_i0.04",
+        "reference_case_id": "5f841d553d8100f9",
+        "rng_seed": 950728,
+        "run_id": "e50_i0.04_g0.0025"
+      },
+      {
+        "grid_delta": 0.005,
+        "pair_id": "e50_i0.04",
+        "reference_case_id": "5f841d553d8100f9",
+        "rng_seed": 950728,
+        "run_id": "e50_i0.04_g0.005"
+      },
+      {
+        "grid_delta": 0.0025,
+        "pair_id": "e141_i0.06324555",
+        "reference_case_id": "1cf4ff64c506b271",
+        "rng_seed": 950273,
+        "run_id": "e141_i0.06324555_g0.0025"
+      },
+      {
+        "grid_delta": 0.005,
+        "pair_id": "e141_i0.06324555",
+        "reference_case_id": "1cf4ff64c506b271",
+        "rng_seed": 950273,
+        "run_id": "e141_i0.06324555_g0.005"
+      }
+    ],
+    "tested_grid_deltas": [
+      0.0025,
+      0.005
+    ]
+  },
+  "execution": {
+    "executor": "direct_checkpointed_batch_no_llm",
+    "maximum_workers": 2,
+    "output": "autoresearch-results/restart_audit/v3_bosch_grid_speed_bridge_rows.jsonl",
+    "threads_per_worker": 7
+  },
+  "labels": [
+    "full-traveler",
+    "critical-review"
+  ],
+  "manifest_version": 1,
+  "methodology_epoch": "full-traveler-doe-v3",
+  "provenance": {
+    "existing_artifacts_preserved": true,
+    "paired_base_seed_reuse": true,
+    "pointwise_common_random_numbers_claimed": false,
+    "reference_grid_is_numerical_truth": false
+  },
+  "runtime_fingerprint": {
+    "builder_sha256": "ccc033a4368cfaf0036d67f8ace0490a0333e6b0071a2b266168d8e04c849e07",
+    "design_spec_sha256": "c5cbe6aae3a54db6a0256f5af01ff00995cae374fc38e256208bbc84bfdfd458",
+    "freezer_sha256": "3afd6d90701f7117ecf337201d777755e00eb918a36f629032969271c9e7bb42",
+    "gate0_metric_sha256": "fc3d7c8cc7c288555946fca82735c333c03a7fdb46d5d95f2b2ef0a6a701ea38",
+    "native_checkpoint_sha256": "ae6a3856a8ae51ba7cc8eabec27c592a44647398902f32d69dec34c9fa242664",
+    "numpy_proxy_sha256": "09295a80660f17925ae23765ce8cbd7ff7ceae968d5f2f89349f1cb74c0b9e11",
+    "numpy_version": "2.5.1",
+    "program_sha256": "57e46850e8435253e826b119f5b2ea00021c9b7a643896f42698f8d990f315a4",
+    "python_executable": "/opt/homebrew/Cellar/python@3.13/3.13.14_1/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+    "python_executable_sha256": "95f75211f35794aa6726febff884339a88756fd89e423a4fbd65aac201145780",
+    "python_version": "3.13.14 (main, Jun 10 2026, 12:24:04) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "r1_execution_kernel_sha256": "6031df7885d65fafe5edc0c951a9e2383e0c466e965d9d143004c08afef5c061",
+    "research_plan_v3_sha256": "d68af2b1fe666d1fc3588fe895198a4d1c4d3f00c5b11190d1171a2ef42173db",
+    "reviewer_sha256": "e71de849f2cfdf77b898ad8cd70e4d61ae85a05d21acbfcd02b8daba009dcbd5",
+    "runner_sha256": "bc3e221da4239787e02b22673bc41bef859babed5797f0882b4ec43b138c4a50",
+    "screen_kernel_sha256": "95f9d4d4f51c05c5ed394151d833cc348610b71dbf2304e1b3a6e3c64128608a",
+    "simulation_dimension": 2,
+    "traveler_metrics_sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+    "tsv_process_sha256": "358bb45cd9e48f4e5e78f6123a763b0922fc42fe1c9c365b1981a83d3d293a80",
+    "viennals_binary_sha256": "a92d0fabb3d1cf0e58edb5eb2e55576193a53c2c189b0db5217786d3a6f7fb2a",
+    "viennals_proxy_sha256": "87e67d5c64ae0fdd1649712415402471509dfa5082a0d87c213a2e7f82e6ba03",
+    "viennaps_binary_sha256": "0fb3e28628a60ae1206fde1f584fa55d1590e380569a5d7984fc8b6a34334480",
+    "viennaps_proxy_sha256": "28520d0c0b35e2d2f2565891c051cf8dd8939ad5a6fb5ec0066bfe3e46f10226",
+    "viennaps_version": "4.6.1"
+  },
+  "source_artifacts": {
+    "builder": {
+      "path": "build_v3_bosch_grid_speed_bridge.py",
+      "sha256": "4a1935144db7c2aeb0ddf921182a758d0bf924314103a25369ae7d77bc0e788a"
+    },
+    "focused_manifest": {
+      "path": "evidence/numerical/v3_bosch_focused_ion_map_manifest.json",
+      "sha256": "e1950b610b3c444fc16cd08cc4646ef2ba801d004718b071ffe106e777827a7a"
+    },
+    "focused_review": {
+      "path": "evidence/numerical/v3_bosch_focused_ion_map_review.json",
+      "sha256": "db837e778c3c46eebc3d4e72e80e9413685b91deb19933da70365a0d383f02cd"
+    },
+    "focused_rows": {
+      "path": "autoresearch-results/restart_audit/v3_bosch_focused_ion_map_rows.jsonl",
+      "sha256": "d92174db65fcdf14b5ba102d6d2a176354f085a714bb83ebced385f530bb4d46"
+    },
+    "review_schema": {
+      "path": "schemas/v3-bosch-grid-speed-bridge-review.schema.json",
+      "sha256": "0135ea9ec52a55f889e9307a1239790983ab4f4592479bb1d329a810bf98b0bd"
+    },
+    "reviewer": {
+      "path": "build_v3_bosch_grid_speed_bridge_review.py",
+      "sha256": "d1c5a55148431e9c3ef4e3aae43a65dc9d61213770b4928916bdc7eab79d96de"
+    },
+    "runner": {
+      "path": "v3_bosch_grid_speed_bridge_runner.py",
+      "sha256": "7a4243baf4c06b47c2f865b3711a61d1d35670e8ee563fb90a6cacac328952c1"
+    }
+  }
+}
