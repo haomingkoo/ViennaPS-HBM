@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TSV step experiment evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "coordinate_system", "provenance", "studies", "failure_chain"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "coordinate_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x_units", "y_units", "y_positive", "view_box"],
+      "properties": {
+        "x_units": {"const": "model length"},
+        "y_units": {"const": "model length"},
+        "y_positive": {"const": "up"},
+        "view_box": {"$ref": "#/$defs/view_box"}
+      }
+    },
+    "provenance": {"$ref": "#/$defs/provenance"},
+    "studies": {
+      "type": "array",
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/study"}, {"properties": {"id": {"const": "mask"}}}]},
+        {"allOf": [{"$ref": "#/$defs/study"}, {"properties": {"id": {"const": "bosch"}}}]},
+        {"allOf": [{"$ref": "#/$defs/study"}, {"properties": {"id": {"const": "liner"}}}]},
+        {"allOf": [{"$ref": "#/$defs/study"}, {"properties": {"id": {"const": "barrier"}}}]},
+        {"allOf": [{"$ref": "#/$defs/study"}, {"properties": {"id": {"const": "seed"}}}]},
+        {"allOf": [{"$ref": "#/$defs/study"}, {"properties": {"id": {"const": "cmp"}}}]}
+      ],
+      "items": false
+    },
+    "failure_chain": {"$ref": "#/$defs/failure_chain"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "view_box": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"type": "number"}
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grid_spacing", "rays_per_point", "rng_seed", "stochastic_robustness", "config_sha256", "builder_sha256", "viennaps_version", "viennals_version", "sources"],
+      "properties": {
+        "grid_spacing": {"type": "number", "exclusiveMinimum": 0},
+        "rays_per_point": {"type": "integer", "minimum": 1},
+        "rng_seed": {"type": "integer", "minimum": 0},
+        "stochastic_robustness": {"type": "string", "minLength": 1},
+        "config_sha256": {"$ref": "#/$defs/hash"},
+        "builder_sha256": {"$ref": "#/$defs/hash"},
+        "viennaps_version": {"type": "string", "minLength": 1},
+        "viennals_version": {"type": "string", "minLength": 1},
+        "sources": {"type": "array", "minItems": 7, "items": {"$ref": "#/$defs/source"}}
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label", "values"],
+      "properties": {
+        "key": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "values": {"type": "array", "minItems": 3, "items": {"type": "number"}},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "surface_path"],
+      "properties": {
+        "id": {"enum": ["mask", "silicon", "liner", "barrier", "seed", "copper"]},
+        "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": ["number", "boolean", "null"]}
+    },
+    "acceptance_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "operator"],
+      "properties": {
+        "metric": {"type": "string", "minLength": 1},
+        "operator": {"enum": ["equal_within", "minimum", "maximum", "must_be_true"]},
+        "value": {"type": "number"},
+        "tolerance": {"type": "number", "minimum": 0}
+      },
+      "allOf": [
+        {"if": {"properties": {"operator": {"const": "must_be_true"}}}, "then": {"not": {"anyOf": [{"required": ["value"]}, {"required": ["tolerance"]}]}}, "else": {"required": ["value"]}},
+        {"if": {"properties": {"operator": {"const": "equal_within"}}}, "then": {"required": ["tolerance"]}}
+      ]
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "basis", "rules"],
+      "properties": {
+        "status": {"enum": ["declared", "not_declared"]},
+        "basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["classification", "physical_qualification", "source"],
+          "properties": {
+            "classification": {"enum": ["assumed_study_target", "no_limit_declared"]},
+            "physical_qualification": {"const": false},
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "section"],
+              "properties": {
+                "path": {"const": "program.md"},
+                "section": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "rules": {"type": "array", "items": {"$ref": "#/$defs/acceptance_rule"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "declared"}}}, "then": {"properties": {"basis": {"properties": {"classification": {"const": "assumed_study_target"}}}, "rules": {"minItems": 1}}}},
+        {"if": {"properties": {"status": {"const": "not_declared"}}}, "then": {"properties": {"basis": {"properties": {"classification": {"const": "no_limit_declared"}}}, "rules": {"maxItems": 0}}}}
+      ]
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["setting", "materials", "metrics"],
+      "properties": {
+        "setting": {"type": "object", "minProperties": 2, "maxProperties": 3, "additionalProperties": {"type": "number"}},
+        "materials": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/material"}},
+        "metrics": {"allOf": [{"$ref": "#/$defs/metrics"}, {"required": ["meets_screen"]}]}
+      }
+    },
+    "study": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "scope", "starts_from", "claim_level", "acceptance", "parameters", "default_frame", "view_box", "frames"],
+      "properties": {
+        "id": {"enum": ["mask", "bosch", "liner", "barrier", "seed", "cmp"]},
+        "title": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1},
+        "starts_from": {"type": "string", "minLength": 1},
+        "claim_level": {"enum": ["implementation_check", "teaching_screen", "no_gate_declared"]},
+        "acceptance": {"$ref": "#/$defs/acceptance"},
+        "parameters": {"type": "array", "minItems": 2, "maxItems": 3, "items": {"$ref": "#/$defs/parameter"}},
+        "default_frame": {"type": "integer", "minimum": 0, "maximum": 26},
+        "target_frame": {"type": "integer", "minimum": 0, "maximum": 26},
+        "view_box": {"$ref": "#/$defs/view_box"},
+        "frames": {"type": "array", "minItems": 9, "maxItems": 27, "items": {"$ref": "#/$defs/frame"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"id": {"const": "mask"}}},
+          "then": {
+            "properties": {
+              "parameters": {"minItems": 3, "maxItems": 3},
+              "frames": {
+                "minItems": 27,
+                "maxItems": 27,
+                "items": {"properties": {"setting": {"minProperties": 3, "maxProperties": 3}}}
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "parameters": {"minItems": 2, "maxItems": 2},
+              "default_frame": {"maximum": 8},
+              "target_frame": {"maximum": 8},
+              "frames": {
+                "minItems": 9,
+                "maxItems": 9,
+                "items": {"properties": {"setting": {"minProperties": 2, "maxProperties": 2}}}
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"id": {"const": "mask"}}},
+          "then": {"properties": {"frames": {"items": {"properties": {"metrics": {"required": ["opening_cd_bottom", "opening_cd_top", "mask_height", "meets_screen"]}}}}}}
+        },
+        {
+          "if": {"properties": {"id": {"const": "bosch"}}},
+          "then": {"properties": {"frames": {"items": {"properties": {"metrics": {"required": ["depth", "maximum_cd_error", "bow", "meets_screen"]}}}}}}
+        },
+        {
+          "if": {"properties": {"id": {"enum": ["liner", "barrier", "seed"]}}},
+          "then": {"properties": {"frames": {"items": {"properties": {"metrics": {"required": ["minimum_thickness", "lower_wall_coverage", "floor_coverage", "remaining_aperture", "continuous", "aperture_open", "meets_screen"]}}}}}}
+        },
+        {
+          "if": {"properties": {"id": {"enum": ["seed", "cmp"]}}},
+          "then": {"properties": {"frames": {"items": {"properties": {"metrics": {"properties": {"meets_screen": {"type": "null"}}}}}}}}
+        },
+        {
+          "if": {"properties": {"id": {"const": "cmp"}}},
+          "then": {"properties": {"frames": {"items": {"properties": {"metrics": {"required": ["field_relative_to_target", "plug_relative_to_target", "stop_retained_thickness", "meets_screen"]}}}}}}
+        }
+      ]
+    },
+    "chain_frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step", "outcome", "materials", "frame_hash", "parent_frame_hash"],
+      "properties": {
+        "step": {"enum": ["Mask", "Dry etch", "Liner", "Barrier", "Seed", "Copper fill"]},
+        "outcome": {"type": "string", "minLength": 1},
+        "materials": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/material"}},
+        "metrics": {"$ref": "#/$defs/metrics"},
+        "frame_hash": {"$ref": "#/$defs/hash"},
+        "parent_frame_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "failure_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "title", "scope", "guardrail", "view_box", "frames"],
+      "properties": {
+        "run_id": {"type": "string", "pattern": "^[0-9a-f]{12}$"},
+        "title": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1},
+        "guardrail": {"type": "string", "minLength": 1},
+        "view_box": {"$ref": "#/$defs/view_box"},
+        "frames": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/chain_frame"}}
+      }
+    }
+  }
+}

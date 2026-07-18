@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "access_date": "2026-07-18",
+  "records": [
+    {
+      "timestamp": "2026-07-18T05:54:00Z",
+      "query": "site:viennatools.github.io/ViennaPS ray tracing raysPerPoint sourcePower stickingProbability MultiParticleProcess",
+      "status": "usable_api_evidence",
+      "source": "https://viennatools.github.io/ViennaPS/models/prebuilt/multiParticle.html",
+      "location": "Neutral Particles; Ion Particles; Implementation",
+      "tool_or_chemistry": "ViennaPS MultiParticleProcess",
+      "geometry": null,
+      "applicability": "Directly defines the implemented model inputs, not equipment settings.",
+      "interpretation": "Sticking is bounded from 0 to 1. Source exponent controls a power-cosine direction distribution. Example exponents are not a recommended range.",
+      "next_action": "Use the mathematical sticking bound only. Range-find the practical interval on the target geometry."
+    },
+    {
+      "timestamp": "2026-07-18T05:54:00Z",
+      "query": "site:viennatools.github.io/ViennaPS ray tracing raysPerPoint sourcePower stickingProbability MultiParticleProcess",
+      "status": "example_not_range",
+      "source": "https://viennatools.github.io/ViennaPS/process/",
+      "location": "Example usage; Process parameters",
+      "tool_or_chemistry": "ViennaPS Process and RayTracingParameters",
+      "geometry": "Documentation example; target geometry not specified",
+      "applicability": "Shows API use only.",
+      "interpretation": "The documented 500 rays per point and 0.25 time-step ratio are example values, not accuracy recommendations.",
+      "next_action": "Use paired numerical ladders on representative TSV shapes before approving either value."
+    },
+    {
+      "timestamp": "2026-07-18T05:54:00Z",
+      "query": "Bosch deep reactive ion etching model passivation cycle time source power primary paper ViennaPS",
+      "status": "usable_mechanism_no_transferable_range",
+      "source": "https://www.iue.tuwien.ac.at/pdf/ib_2009/hashed_links/ep4PPErIJjnr4Y_us.pdf",
+      "location": "Model description and Bosch cycle formulation",
+      "tool_or_chemistry": "Bosch DRIE simulation",
+      "geometry": "Paper geometry and physical model differ from this normalized wrapper",
+      "applicability": "Supports coupled etch/passivation mechanisms only.",
+      "interpretation": "Physical fluxes, yields, and cycle times cannot be copied into the wrapper's normalized coefficients.",
+      "next_action": "Range-find implemented Bosch factors in model space and preserve equipment mapping as unknown."
+    },
+    {
+      "timestamp": "2026-07-18T05:54:00Z",
+      "query": "through silicon via conformal liner barrier seed deposition sticking transport primary paper aspect ratio",
+      "status": "usable_mechanism_no_transferable_range",
+      "source": "https://www.sciencedirect.com/science/article/pii/S016793171630034X",
+      "location": "Abstract",
+      "tool_or_chemistry": "TSV liner, barrier, and seed integration",
+      "geometry": "3 micrometer diameter; aspect ratio 17",
+      "applicability": "Supports the importance of deep conformality; chemistry and model differ.",
+      "interpretation": "The paper does not map precursor or sputter settings to ViennaPS deposition amount or sticking.",
+      "next_action": "Keep amount and sticking ranges exploratory until geometry-matched range finding and calibration exist."
+    },
+    {
+      "timestamp": "2026-07-18T05:54:00Z",
+      "query": "through silicon via conformal liner barrier seed deposition sticking transport primary paper aspect ratio",
+      "status": "usable_mechanism_no_transferable_range",
+      "source": "https://doi.org/10.1109/TST.2014.6787368",
+      "location": "Abstract",
+      "tool_or_chemistry": "Magnetron sputtered TSV barrier/seed",
+      "geometry": "Aspect ratio 5:1",
+      "applicability": "Identifies equipment influences but not the repository surrogate.",
+      "interpretation": "DC power, argon pressure, time, and temperature affect coverage. No quantitative mapping to all-angle fraction is established.",
+      "next_action": "Treat equipment influences as qualitative and calibrate an arrival distribution before conversion."
+    },
+    {
+      "timestamp": "2026-07-18T05:54:00Z",
+      "query": "through silicon via copper bottom-up fill suppressor transport primary paper NIST",
+      "status": "usable_mechanism_no_transferable_range",
+      "source": "https://www.nist.gov/publications/bottom-copper-filling-millimeter-size-through-silicon-vias",
+      "location": "Abstract",
+      "tool_or_chemistry": "Acid copper sulfate, polyoxamine suppressor, chloride",
+      "geometry": "Millimeter-scale TSV",
+      "applicability": "Supports bottom-up suppressor mechanism; geometry and chemistry differ.",
+      "interpretation": "Suppressor/chloride chemistry and waveform can enable bottom-up filling. The paper does not calibrate the seven candidate model coefficients.",
+      "next_action": "Keep access and kinetic factors separate and perform a matched 3D mechanism check before morphology tuning."
+    },
+    {
+      "timestamp": "2026-07-18T05:55:00Z",
+      "query": "site:nist.gov TSV CMP copper dishing erosion selectivity primary paper",
+      "status": "no_usable_evidence",
+      "source": null,
+      "location": null,
+      "tool_or_chemistry": "TSV copper CMP",
+      "geometry": null,
+      "applicability": "Search results discussed CMP measurements but did not establish transferable limits or model-rate ranges for this surrogate.",
+      "interpretation": "No applicable range was found for removal duration or oxide/Cu rate ratio.",
+      "next_action": "Retain unknown ranges. Search tool- and stack-specific CMP data after incoming plug geometry and loss criteria are defined."
+    },
+    {
+      "timestamp": "2026-07-18T05:55:00Z",
+      "query": "site:viennatools.github.io/ViennaPS planarization isotropic process material rates documentation",
+      "status": "usable_api_evidence",
+      "source": "https://viennatools.github.io/ViennaPS/models/prebuilt/isotropic.html",
+      "location": "Material-specific rates; constructors",
+      "tool_or_chemistry": "ViennaPS IsotropicProcess",
+      "geometry": null,
+      "applicability": "Defines the surrogate removal law only.",
+      "interpretation": "Material rates move interfaces normally and may be material-specific. Documentation examples are not CMP calibration.",
+      "next_action": "Use the API domain for implementation checks and block recipe claims until material-loss calibration exists."
+    },
+    {
+      "timestamp": "2026-07-18T05:57:00Z",
+      "query": "through silicon via copper chemical mechanical polishing dishing plug loss experimental study",
+      "status": "usable_mechanism_no_transferable_range",
+      "source": "https://www.sciencedirect.com/science/article/pii/S0167931715301064",
+      "location": "Experimental; Impact of copper polishing pressure on via dishing",
+      "tool_or_chemistry": "Rotary TSV copper CMP",
+      "geometry": "10 micrometer diameter; 100 micrometer depth; 300 millimeter wafer",
+      "applicability": "Shows equipment-level pressure/time effects for a different stack and geometry.",
+      "interpretation": "Pressure schedule changes dishing, but those seconds and pressures cannot calibrate the height-dependent ViennaPS removal surrogate.",
+      "next_action": "Use the paper to teach the physical controls only. Keep surrogate duration and rate-ratio ranges unknown until tool-specific calibration exists."
+    }
+  ]
+}

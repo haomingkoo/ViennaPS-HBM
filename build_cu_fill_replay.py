@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+from importlib.metadata import version
 import json
 from pathlib import Path
 
@@ -11,8 +13,17 @@ import viennals as ls
 import morphology_fill_control as control
 
 
-OUTPUT = Path("cu_fill_replay.json")
+ROOT = Path(__file__).resolve().parent
+OUTPUT = ROOT / "cu_fill_replay.json"
 FRAME_COUNT = 24
+
+
+def _source(path: Path) -> dict:
+    resolved = path.resolve()
+    return {
+        "path": str(resolved.relative_to(ROOT)),
+        "sha256": hashlib.sha256(resolved.read_bytes()).hexdigest(),
+    }
 
 
 def _surface_path(domain) -> str:
@@ -104,8 +115,17 @@ def main():
         raise RuntimeError("floor-dominated control did not finish void-free")
 
     data = {
+        "schema_version": 1,
         "scope": control.MORPHOLOGY_ONLY_SCOPE,
         "frame_count": FRAME_COUNT,
+        "provenance": {
+            "sources": [
+                _source(Path(__file__)),
+                _source(Path(control.__file__)),
+            ],
+            "viennals_version": version("viennals"),
+            "stochastic": False,
+        },
         "substrate_path": _surface_path(substrate),
         "runs": [
             {

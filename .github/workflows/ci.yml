@@ -47,11 +47,19 @@ jobs:
             copper_fill_transport_3d.py \
             build_screening_traveler.py \
             build_cu_fill_replay.py \
+            build_candidate_cu_replay.py \
             build_step_experiments.py \
             build_explainer.py \
             build_numerical_performance_data.py \
             build_bosch_tutorial_data.py \
             build_bosch_trajectory_replay.py \
+            build_knob_registry.py \
+            build_active_experiment_contract.py \
+            build_pattern_bosch_measurement_contract.py \
+            build_pattern_bosch_metric_controls.py \
+            build_pattern_bosch_factor_projection.py \
+            build_pattern_bosch_range_pilot.py \
+            build_pattern_bosch_range_pilot_review.py \
             v3_bosch_clean_ray_ladder.py \
             review_v3_bosch_clean_ray_ladder.py \
             scripts/autoresearch_event_log.py \
@@ -64,6 +72,18 @@ jobs:
           python build_numerical_performance_data.py
           python scripts/validate_evidence.py numerical_performance_data.json schemas/numerical-performance.schema.json
           python scripts/validate_evidence.py bosch_tutorial_data.json schemas/bosch-tutorial.schema.json
+          python scripts/validate_evidence.py step_experiments.json schemas/step-experiments.schema.json
+          python scripts/validate_evidence.py cu_fill_replay.json schemas/cu-fill-replay.schema.json
+          python scripts/validate_evidence.py candidate_cu_replay.json schemas/candidate-cu-replay.schema.json
+          python scripts/validate_evidence.py bosch_trajectory_replay.json schemas/bosch-trajectory-replay.schema.json
+          python scripts/validate_evidence.py factor_registry.json schemas/factor-registry.schema.json
+          python scripts/validate_evidence.py active_experiment_contract.json schemas/active-experiment-contract.schema.json
+          python scripts/validate_evidence.py pattern_bosch_measurement_contract.json schemas/pattern-bosch-measurement-contract.schema.json
+          python scripts/validate_evidence.py evidence/bosch/pattern_bosch_metric_controls.json schemas/pattern-bosch-metric-controls.schema.json
+          python scripts/validate_evidence.py pattern_bosch_factor_projection.json schemas/pattern-bosch-factor-projection.schema.json
+          python scripts/validate_evidence.py pattern_bosch_range_pilot_review.json schemas/pattern-bosch-range-pilot-review.schema.json
+          python scripts/validate_evidence.py evidence/bosch/range_pilot/source_bundle.json schemas/pattern-bosch-range-pilot-bundle.schema.json
+          python scripts/validate_evidence.py docs/range-research-log.json schemas/range-research-log.schema.json
           python test_evidence_schema.py
           python test_autoresearch_event_schema.py
           python test_autoresearch_event_log.py
@@ -78,6 +98,15 @@ jobs:
         run: |
           python scripts/run_capability_tests.py plan
           python test_process_config.py
+          python test_factor_registry_provenance.py
+          python test_active_experiment_contract.py
+          python test_pattern_bosch_measurement_contract.py
+          python test_pattern_bosch_metric_controls.py
+          python test_pattern_bosch_factor_projection.py
+          python test_pattern_bosch_range_pilot.py
+          python test_pattern_bosch_range_pilot_bundle.py
+          python test_pattern_bosch_range_pilot_recovery.py
+          python test_pattern_bosch_range_pilot_review.py
           python test_freeze_pattern_bosch_screen_manifest.py
           python test_publication_data.py
 

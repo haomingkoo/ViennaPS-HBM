@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/pattern-bosch-range-pilot-bundle.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "interpretation_notes", "superseded_source_versions", "raw_sources", "committed_sources", "parent_events", "recovery_events", "cases", "integrity"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "interpretation_notes": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "superseded_source_versions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["manifest_path", "manifest_sha256", "archive_path", "archive_sha256"],
+        "properties": {
+          "manifest_path": {"type": "string", "minLength": 1},
+          "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "archive_path": {"type": "string", "minLength": 1},
+          "archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "raw_sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "committed"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "committed": {"const": false}
+        }
+      }
+    },
+    "committed_sources": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "parent_events": {"type": "array", "minItems": 25, "maxItems": 25, "items": {"type": "object"}},
+    "recovery_events": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"type": "object"}},
+    "cases": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["design_row", "case_id", "selected_event", "profile"],
+        "properties": {
+          "design_row": {"type": "integer", "minimum": 0, "maximum": 24},
+          "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+          "selected_event": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["group", "index", "event_hash"],
+            "properties": {
+              "group": {"enum": ["parent_events", "recovery_events"]},
+              "index": {"type": "integer", "minimum": 0, "maximum": 24},
+              "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          },
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["native_path", "native_sha256", "embedded_metadata", "surface_path", "surface_sha256", "view_box"],
+            "properties": {
+              "native_path": {"type": "string", "minLength": 1},
+              "native_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "embedded_metadata": {"type": "object"},
+              "surface_path": {"type": "string", "minLength": 1},
+              "surface_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "view_box": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}
+            }
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parent_event_count", "recovery_event_count", "corrected_case_count", "unique_corrected_cases", "bundle_payload_sha256"],
+      "properties": {
+        "parent_event_count": {"const": 25},
+        "recovery_event_count": {"const": 7},
+        "corrected_case_count": {"const": 25},
+        "unique_corrected_cases": {"const": 25},
+        "bundle_payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

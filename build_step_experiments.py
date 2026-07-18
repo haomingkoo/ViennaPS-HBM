@@ -92,48 +92,78 @@ def _mask_study():
     frames = []
     for radius in CONFIG["mask_radii"]:
         for taper in CONFIG["mask_tapers"]:
-            geometry = tp.make_initial_geometry(
-                radius=radius,
-                taper=taper,
-                hole_shape=ps.HoleShape.FULL,
-            )
-            mask = next(
-                mesh
-                for mesh in tm.raw_level_set_meshes(geometry)
-                if mesh["material"] == ps.Material.Mask
-            )
-            metrics = tm.pattern_metrics_2d(
-                mask["nodes"],
-                mask["lines"],
-                surface_y=SURFACE_Y,
-                target_cd=TARGETS["pattern"]["width"],
-                target_mask_height=TARGETS["pattern"]["mask_height"],
-                max_radius=MAX_RADIUS,
-            )
-            frames.append(
-                {
-                    "setting": {"opening_width": 2 * radius, "mask_taper": taper},
-                    "materials": _materials(geometry),
-                    "metrics": {
-                        "opening_cd_bottom": metrics["opening_cd_bottom"],
-                        "opening_cd_top": metrics["opening_cd_top"],
-                        "mask_height": metrics["mask_height"],
-                        "meets_screen": bool(
-                            abs(metrics["cd_bias"]) < CONFIG["measurement_tolerance"]
-                            and abs(
-                                metrics["mask_height"]
-                                - TARGETS["pattern"]["mask_height"]
-                            )
-                            <= CONFIG["mask_height_tolerance"]
-                        ),
-                    },
-                }
-            )
+            for mask_height in CONFIG["mask_heights"]:
+                geometry = tp.make_initial_geometry(
+                    radius=radius,
+                    mask_height=mask_height,
+                    taper=taper,
+                    hole_shape=ps.HoleShape.FULL,
+                )
+                mask = next(
+                    mesh
+                    for mesh in tm.raw_level_set_meshes(geometry)
+                    if mesh["material"] == ps.Material.Mask
+                )
+                metrics = tm.pattern_metrics_2d(
+                    mask["nodes"],
+                    mask["lines"],
+                    surface_y=SURFACE_Y,
+                    target_cd=TARGETS["pattern"]["width"],
+                    target_mask_height=TARGETS["pattern"]["mask_height"],
+                    max_radius=MAX_RADIUS,
+                )
+                frames.append(
+                    {
+                        "setting": {
+                            "opening_width": 2 * radius,
+                            "mask_taper": taper,
+                            "mask_height": mask_height,
+                        },
+                        "materials": _materials(geometry),
+                        "metrics": {
+                            "opening_cd_bottom": metrics["opening_cd_bottom"],
+                            "opening_cd_top": metrics["opening_cd_top"],
+                            "mask_height": metrics["mask_height"],
+                            "meets_screen": bool(
+                                abs(metrics["cd_bias"])
+                                < CONFIG["measurement_tolerance"]
+                                and abs(
+                                    metrics["mask_height"]
+                                    - TARGETS["pattern"]["mask_height"]
+                                )
+                                <= CONFIG["mask_height_tolerance"]
+                            ),
+                        },
+                    }
+                )
     return {
         "id": "mask",
         "title": "Mask opening results",
         "scope": "Ideal mask-geometry sweep; no exposure or develop model.",
         "starts_from": "Ideal mask constructor.",
+        "claim_level": "implementation_check",
+        "acceptance": {
+            "status": "declared",
+            "basis": {
+                "classification": "assumed_study_target",
+                "physical_qualification": False,
+                "source": {"path": "program.md", "section": "Step target specs"},
+            },
+            "rules": [
+                {
+                    "metric": "opening_cd_bottom",
+                    "operator": "equal_within",
+                    "value": TARGETS["pattern"]["width"],
+                    "tolerance": CONFIG["measurement_tolerance"],
+                },
+                {
+                    "metric": "mask_height",
+                    "operator": "equal_within",
+                    "value": TARGETS["pattern"]["mask_height"],
+                    "tolerance": CONFIG["mask_height_tolerance"],
+                },
+            ],
+        },
         "parameters": [
             {
                 "key": "opening_width",
@@ -146,9 +176,14 @@ def _mask_study():
                 "values": CONFIG["mask_tapers"],
                 "unit": "°",
             },
+            {
+                "key": "mask_height",
+                "label": "Mask height",
+                "values": CONFIG["mask_heights"],
+            },
         ],
-        "default_frame": 3,
-        "target_frame": 3,
+        "default_frame": 10,
+        "target_frame": 10,
         "view_box": CONFIG["view_box_mask"],
         "frames": frames,
     }
@@ -217,6 +252,36 @@ def _bosch_study():
         "title": "Dry-etch cycle teaching study",
         "scope": "Failing 2D cycle study. This is not the selected traveler.",
         "starts_from": "Fresh target-width mask. Cycle 0 follows the opening etch.",
+        "claim_level": "teaching_screen",
+        "acceptance": {
+            "status": "declared",
+            "basis": {
+                "classification": "assumed_study_target",
+                "physical_qualification": False,
+                "source": {
+                    "path": "program.md",
+                    "section": "Declared study product spec",
+                },
+            },
+            "rules": [
+                {
+                    "metric": "depth",
+                    "operator": "equal_within",
+                    "value": TARGETS["etch"]["target_depth"],
+                    "tolerance": TARGETS["etch"]["depth_tolerance"],
+                },
+                {
+                    "metric": "maximum_cd_error",
+                    "operator": "maximum",
+                    "value": TARGETS["etch"]["max_width_error"],
+                },
+                {
+                    "metric": "bow",
+                    "operator": "maximum",
+                    "value": TARGETS["etch"]["max_wall_bulge"],
+                },
+            ],
+        },
         "parameters": [
             {
                 "key": "completed_cycles",
@@ -293,6 +358,29 @@ def _liner_study():
         "title": "Liner deposition results",
         "scope": "Shows how particle sticking changes wall coverage. Coefficients are uncalibrated.",
         "starts_from": "Ideal etched via.",
+        "claim_level": "teaching_screen",
+        "acceptance": {
+            "status": "declared",
+            "basis": {
+                "classification": "assumed_study_target",
+                "physical_qualification": False,
+                "source": {"path": "program.md", "section": "Step target specs"},
+            },
+            "rules": [
+                {
+                    "metric": "minimum_thickness",
+                    "operator": "minimum",
+                    "value": TARGETS["liner"]["min_thickness"],
+                },
+                {
+                    "metric": "lower_wall_coverage",
+                    "operator": "minimum",
+                    "value": TARGETS["liner"]["min_floor_coverage"],
+                },
+                {"metric": "continuous", "operator": "must_be_true"},
+                {"metric": "aperture_open", "operator": "must_be_true"},
+            ],
+        },
         "parameters": [
             {
                 "key": "sticking_probability",
@@ -352,6 +440,29 @@ def _barrier_study():
         "title": "Barrier deposition results",
         "scope": "Directional-versus-isotropic geometry control.",
         "starts_from": "Ideal via with a fixed liner.",
+        "claim_level": "teaching_screen",
+        "acceptance": {
+            "status": "declared",
+            "basis": {
+                "classification": "assumed_study_target",
+                "physical_qualification": False,
+                "source": {"path": "program.md", "section": "Step target specs"},
+            },
+            "rules": [
+                {
+                    "metric": "minimum_thickness",
+                    "operator": "minimum",
+                    "value": TARGETS["barrier"]["min_thickness"],
+                },
+                {
+                    "metric": "lower_wall_coverage",
+                    "operator": "minimum",
+                    "value": TARGETS["barrier"]["min_floor_coverage"],
+                },
+                {"metric": "continuous", "operator": "must_be_true"},
+                {"metric": "aperture_open", "operator": "must_be_true"},
+            ],
+        },
         "parameters": [
             {
                 "key": "isotropic_fraction",
@@ -411,6 +522,16 @@ def _seed_study():
         "title": "Seed deposition results",
         "scope": "Directional-versus-isotropic geometry control. No seed limit is declared.",
         "starts_from": "Ideal via with fixed liner and barrier layers.",
+        "claim_level": "no_gate_declared",
+        "acceptance": {
+            "status": "not_declared",
+            "basis": {
+                "classification": "no_limit_declared",
+                "physical_qualification": False,
+                "source": {"path": "program.md", "section": "Step target specs"},
+            },
+            "rules": [],
+        },
         "parameters": [
             {
                 "key": "isotropic_fraction",
@@ -487,6 +608,16 @@ def _cmp_study():
         "title": "CMP removal results",
         "scope": "Material-selective removal control; no pad pressure or calibrated polish time.",
         "starts_from": "Analytic stack with a raised copper plug.",
+        "claim_level": "no_gate_declared",
+        "acceptance": {
+            "status": "not_declared",
+            "basis": {
+                "classification": "no_limit_declared",
+                "physical_qualification": False,
+                "source": {"path": "program.md", "section": "Step target specs"},
+            },
+            "rules": [],
+        },
         "parameters": [
             {
                 "key": "removal_amount",
@@ -683,6 +814,19 @@ def main():
             "builder_sha256": checkpoint.file_sha256(Path(__file__)),
             "viennaps_version": version("viennaps"),
             "viennals_version": version("viennals"),
+            "sources": [
+                {"path": path, "sha256": checkpoint.file_sha256(path)}
+                for path in (
+                    "build_step_experiments.py",
+                    "config/process.toml",
+                    "tsv_process.py",
+                    "layer_process_models.py",
+                    "foundation_cmp_qualification.py",
+                    "program.md",
+                    "traveler_metrics.py",
+                    "full_2d_layer_metrics.py",
+                )
+            ],
         },
         "studies": [
             _mask_study(),

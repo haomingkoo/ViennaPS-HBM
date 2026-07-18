@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/autoresearch-event.schema.json",
+  "title": "Simulation autoresearch event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "timestamp", "manifest_id", "manifest_version", "manifest_hash", "case_key",
+    "case_payload_hash", "stage", "state", "attempt", "retry_count",
+    "inputs", "environment", "numerical_profile", "elapsed_s",
+    "measurements", "metrics_valid", "hard_gate_pass", "numerical_state",
+    "failure_scope", "unresolved_reasons", "error", "checkpoint",
+    "retryable", "decision", "next_action", "stop_reason",
+    "previous_event_hash", "event_hash"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$"
+    },
+    "manifest_id": {"type": "string", "minLength": 1},
+    "manifest_version": {"type": "integer", "minimum": 1},
+    "manifest_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "case_key": {"type": "string", "minLength": 1},
+    "case_payload_hash": {"type": "string", "minLength": 1},
+    "stage": {"type": "string", "minLength": 1},
+    "state": {
+      "enum": ["planned", "running", "complete_measured", "complete_invalid", "failed_transient", "failed_deterministic", "missing_measurement", "needs_investigation", "stale_provenance"]
+    },
+    "attempt": {"type": "integer", "minimum": 1},
+    "retry_count": {"type": "integer", "minimum": 0, "maximum": 1},
+    "retryable": {"type": "boolean"},
+    "inputs": {"type": "object"},
+    "environment": {"type": "object"},
+    "numerical_profile": {"type": "object"},
+    "elapsed_s": {"type": ["number", "null"], "minimum": 0},
+    "measurements": {"type": ["object", "null"]},
+    "metrics_valid": {"type": ["boolean", "null"]},
+    "hard_gate_pass": {"type": ["boolean", "null"]},
+    "numerical_state": {"enum": ["qualified", "screening_only", "failed", "not_checked"]},
+    "failure_scope": {"enum": [null, "infrastructure", "numerical", "metric", "geometry", "model", "product_gate"]},
+    "unresolved_reasons": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "error": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "message"],
+          "properties": {"type": {"type": "string"}, "message": {"type": "string"}}
+        }
+      ]
+    },
+    "checkpoint": {"type": ["object", "null"]},
+    "decision": {
+      "enum": [null, "retry_same_case", "reproduce_minimal", "repair_measurement", "repair_provenance", "adjust_range", "continue_search", "promote", "investigate", "stop"]
+    },
+    "next_action": {"type": ["string", "null"]},
+    "stop_reason": {"type": ["string", "null"]},
+    "previous_event_hash": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      ]
+    },
+    "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"state": {"const": "complete_measured"}}},
+      "then": {
+        "properties": {
+          "elapsed_s": {"type": "number"},
+          "measurements": {"type": "object"},
+          "metrics_valid": {"const": true},
+          "hard_gate_pass": {"type": "boolean"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"enum": ["complete_measured", "complete_invalid", "failed_transient", "failed_deterministic", "missing_measurement", "needs_investigation", "stale_provenance"]}}},
+      "then": {
+        "properties": {
+          "decision": {"not": {"type": "null"}},
+          "next_action": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"enum": ["planned", "running"]}}},
+      "then": {
+        "properties": {
+          "elapsed_s": {"type": "null"},
+          "measurements": {"type": "null"},
+          "metrics_valid": {"type": "null"},
+          "hard_gate_pass": {"type": "null"},
+          "numerical_state": {"const": "not_checked"},
+          "failure_scope": {"type": "null"},
+          "error": {"type": "null"},
+          "retryable": {"const": false},
+          "decision": {"type": "null"},
+          "stop_reason": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "complete_invalid"}}},
+      "then": {
+        "properties": {
+          "metrics_valid": {"const": false},
+          "hard_gate_pass": {"type": "null"},
+          "numerical_state": {"const": "failed"},
+          "retryable": {"const": false},
+          "decision": {"enum": ["adjust_range", "investigate", "stop"]},
+          "unresolved_reasons": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "failed_transient"}}},
+      "then": {
+        "properties": {
+          "error": {"type": "object"},
+          "metrics_valid": {"type": "null"},
+          "hard_gate_pass": {"type": "null"},
+          "numerical_state": {"const": "not_checked"},
+          "failure_scope": {"const": "infrastructure"},
+          "decision": {"enum": ["retry_same_case", "investigate", "stop"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "failed_deterministic"}}},
+      "then": {
+        "properties": {
+          "error": {"type": "object"},
+          "hard_gate_pass": {"type": "null"},
+          "numerical_state": {"const": "failed"},
+          "retryable": {"const": false},
+          "decision": {"enum": ["reproduce_minimal", "investigate", "stop"]},
+          "unresolved_reasons": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "missing_measurement"}}},
+      "then": {
+        "properties": {
+          "metrics_valid": {"const": false},
+          "hard_gate_pass": {"type": "null"},
+          "numerical_state": {"const": "not_checked"},
+          "failure_scope": {"const": "metric"},
+          "retryable": {"const": false},
+          "decision": {"enum": ["repair_measurement", "investigate", "stop"]},
+          "unresolved_reasons": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "stale_provenance"}}},
+      "then": {
+        "properties": {
+          "hard_gate_pass": {"type": "null"},
+          "numerical_state": {"const": "not_checked"},
+          "retryable": {"const": false},
+          "decision": {"enum": ["repair_provenance", "stop"]},
+          "unresolved_reasons": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "needs_investigation"}}},
+      "then": {
+        "properties": {
+          "retryable": {"const": false},
+          "decision": {"enum": ["investigate", "stop"]},
+          "unresolved_reasons": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"retryable": {"const": true}}},
+      "then": {
+        "properties": {
+          "state": {"const": "failed_transient"},
+          "retry_count": {"const": 0},
+          "decision": {"const": "retry_same_case"},
+          "next_action": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"decision": {"const": "stop"}}},
+      "then": {"properties": {"stop_reason": {"type": "string", "minLength": 1}}}
+    },
+    {
+      "if": {"properties": {"decision": {"not": {"const": "stop"}}}},
+      "then": {"properties": {"stop_reason": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"retryable": {"const": false}}},
+      "then": {"properties": {"decision": {"not": {"const": "retry_same_case"}}}}
+    },
+    {
+      "if": {"properties": {"hard_gate_pass": {"const": false}}},
+      "then": {"properties": {"decision": {"not": {"const": "promote"}}}}
+    },
+    {
+      "if": {"properties": {"decision": {"const": "promote"}}},
+      "then": {
+        "properties": {
+          "state": {"const": "complete_measured"},
+          "metrics_valid": {"const": true},
+          "hard_gate_pass": {"const": true},
+          "numerical_state": {"const": "qualified"},
+          "retryable": {"const": false}
+        }
+      }
+    }
+  ]
+}

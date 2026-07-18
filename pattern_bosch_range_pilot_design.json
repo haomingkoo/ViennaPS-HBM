@@ -1,0 +1,1371 @@
+{
+  "authority": "coarse_model_range_pilot_only",
+  "campaign": "pattern-bosch-range-pilot-v1",
+  "cases": [
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "03e4462cc40f402c",
+      "coded_levels": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 32.0,
+        "total_etch_duration_including_open": 32.5,
+        "total_polymer_deposition_amount": 0.64,
+        "total_polymer_directional_removal_amount": -0.64
+      },
+      "design_row": 0,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 16,
+        "radius": 0.15,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "1bc9ee67d8de6702",
+      "coded_levels": [
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 3.2,
+        "total_etch_duration_including_open": 3.7,
+        "total_polymer_deposition_amount": 0.048,
+        "total_polymer_directional_removal_amount": -0.048
+      },
+      "design_row": 1,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 50.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "d16d25d515597c4e",
+      "coded_levels": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 20.0,
+        "total_etch_duration_including_open": 20.1,
+        "total_polymer_deposition_amount": 0.4,
+        "total_polymer_directional_removal_amount": -0.4
+      },
+      "design_row": 2,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.04,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 10,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "5e9804389daa118a",
+      "coded_levels": [
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 2.0,
+        "total_etch_duration_including_open": 2.5,
+        "total_polymer_deposition_amount": 0.16,
+        "total_polymer_directional_removal_amount": -0.16
+      },
+      "design_row": 3,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 50.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "bd5b486f6fb67256",
+      "coded_levels": [
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 3.2,
+        "total_etch_duration_including_open": 3.5,
+        "total_polymer_deposition_amount": 0.64,
+        "total_polymer_directional_removal_amount": -0.64
+      },
+      "design_row": 4,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "7d8102bf6ea2fd39",
+      "coded_levels": [
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 8.0,
+        "total_etch_duration_including_open": 8.1,
+        "total_polymer_deposition_amount": 0.012,
+        "total_polymer_directional_removal_amount": -0.012
+      },
+      "design_row": 5,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "5d810798108e9257",
+      "coded_levels": [
+        -1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 0.8,
+        "total_etch_duration_including_open": 1.3,
+        "total_polymer_deposition_amount": 0.16,
+        "total_polymer_directional_removal_amount": -0.16
+      },
+      "design_row": 6,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "f56ee9f0c5703348",
+      "coded_levels": [
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 0.8,
+        "total_etch_duration_including_open": 0.9,
+        "total_polymer_deposition_amount": 0.02,
+        "total_polymer_directional_removal_amount": -0.02
+      },
+      "design_row": 7,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "b7dfbfd920d001d9",
+      "coded_levels": [
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 3.2,
+        "total_etch_duration_including_open": 3.3000000000000003,
+        "total_polymer_deposition_amount": 0.048,
+        "total_polymer_directional_removal_amount": -0.048
+      },
+      "design_row": 8,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "a0b1a42f034be0b4",
+      "coded_levels": [
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 32.0,
+        "total_etch_duration_including_open": 32.1,
+        "total_polymer_deposition_amount": 0.64,
+        "total_polymer_directional_removal_amount": -0.64
+      },
+      "design_row": 9,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.04,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 400.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "270ed2834457ec9c",
+      "coded_levels": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 32.0,
+        "total_etch_duration_including_open": 32.5,
+        "total_polymer_deposition_amount": 0.048,
+        "total_polymer_directional_removal_amount": -0.048
+      },
+      "design_row": 10,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 45.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "b32ac6c9b7d10b8a",
+      "coded_levels": [
+        -1,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        -1,
+        0
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 8.0,
+        "total_etch_duration_including_open": 8.5,
+        "total_polymer_deposition_amount": 0.012,
+        "total_polymer_directional_removal_amount": -0.012
+      },
+      "design_row": 11,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "fc95f81e21d636ac",
+      "coded_levels": [
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 0.8,
+        "total_etch_duration_including_open": 0.9,
+        "total_polymer_deposition_amount": 0.012,
+        "total_polymer_directional_removal_amount": -0.012
+      },
+      "design_row": 12,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 50.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.15,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "fed102f8549822b8",
+      "coded_levels": [
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 8.0,
+        "total_etch_duration_including_open": 8.1,
+        "total_polymer_deposition_amount": 0.16,
+        "total_polymer_directional_removal_amount": -0.16
+      },
+      "design_row": 13,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "1876b721a052732e",
+      "coded_levels": [
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 2.0,
+        "total_etch_duration_including_open": 2.5,
+        "total_polymer_deposition_amount": 0.03,
+        "total_polymer_directional_removal_amount": -0.03
+      },
+      "design_row": 14,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 10,
+        "radius": 0.18,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "0ac4e26b81a9742b",
+      "coded_levels": [
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 8.0,
+        "total_etch_duration_including_open": 8.1,
+        "total_polymer_deposition_amount": 0.048,
+        "total_polymer_directional_removal_amount": -0.048
+      },
+      "design_row": 15,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.18,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "b88f0c3e7a5e9bfb",
+      "coded_levels": [
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 8.0,
+        "total_etch_duration_including_open": 8.3,
+        "total_polymer_deposition_amount": 0.012,
+        "total_polymer_directional_removal_amount": -0.012
+      },
+      "design_row": 16,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "c551f9396a8787d6",
+      "coded_levels": [
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 3.2,
+        "total_etch_duration_including_open": 3.7,
+        "total_polymer_deposition_amount": 0.64,
+        "total_polymer_directional_removal_amount": -0.64
+      },
+      "design_row": 17,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.18,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "3ce6823a82555ae4",
+      "coded_levels": [
+        1,
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 32.0,
+        "total_etch_duration_including_open": 32.1,
+        "total_polymer_deposition_amount": 0.048,
+        "total_polymer_directional_removal_amount": -0.048
+      },
+      "design_row": 18,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 50.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 16,
+        "radius": 0.18,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "031eff54b2d11a1a",
+      "coded_levels": [
+        1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 32.0,
+        "total_etch_duration_including_open": 32.5,
+        "total_polymer_deposition_amount": 0.08,
+        "total_polymer_directional_removal_amount": -0.08
+      },
+      "design_row": 19,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.005,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 16,
+        "radius": 0.18,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "1cb56644ad10ff06",
+      "coded_levels": [
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 8.0,
+        "total_etch_duration_including_open": 8.5,
+        "total_polymer_deposition_amount": 0.16,
+        "total_polymer_directional_removal_amount": -0.16
+      },
+      "design_row": 20,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.04,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 50.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "4405fc56d8e10409",
+      "coded_levels": [
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 0.8,
+        "total_etch_duration_including_open": 1.3,
+        "total_polymer_deposition_amount": 0.012,
+        "total_polymer_directional_removal_amount": -0.012
+      },
+      "design_row": 21,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 400.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 25.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "c3624c457e442ee7",
+      "coded_levels": [
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        -1
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 0.8,
+        "total_etch_duration_including_open": 0.9,
+        "total_polymer_deposition_amount": 0.16,
+        "total_polymer_directional_removal_amount": -0.16
+      },
+      "design_row": 22,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.001,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 45.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "16a7f49288af48ae",
+      "coded_levels": [
+        1,
+        -1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 3.2,
+        "total_etch_duration_including_open": 3.3000000000000003,
+        "total_polymer_deposition_amount": 0.64,
+        "total_polymer_directional_removal_amount": -0.64
+      },
+      "design_row": 23,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 50.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 16,
+        "radius": 0.18,
+        "theta_r_min": 90.0
+      },
+      "rng_seed": 1420000
+    },
+    {
+      "campaign": "pattern-bosch-range-pilot-v1",
+      "case_id": "48083e578a008900",
+      "coded_levels": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "derived_exposures": {
+        "total_cycle_etch_duration": 5.0,
+        "total_etch_duration_including_open": 5.3,
+        "total_polymer_deposition_amount": 0.05,
+        "total_polymer_directional_removal_amount": -0.05
+      },
+      "design_row": 24,
+      "numerics": {
+        "grid_delta": 0.01,
+        "rays_per_point": 250
+      },
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 10,
+        "radius": 0.15,
+        "theta_r_min": 45.0
+      },
+      "rng_seed": 1420000
+    }
+  ],
+  "comparison_context": {
+    "depth_tolerance": 0.1,
+    "etch_depth": 1.25,
+    "evidence_class": "assumed_study_band",
+    "interpretation": "visible comparison only; no process acceptance decision",
+    "mask_height": 0.3,
+    "max_wall_bulge": 0.03,
+    "max_width_error": 0.06,
+    "opening_cd": 0.3
+  },
+  "diagnostics": {
+    "linear_model_rank": 13,
+    "maximum_absolute_linear_correlation": 0.0,
+    "maximum_absolute_main_to_interaction_cross_product": 0.0,
+    "maximum_absolute_main_to_quadratic_cross_product": 0.0,
+    "run_count": 25
+  },
+  "endpoint": {
+    "depth_matched_selection": false,
+    "mode": "final_completed_cycle",
+    "reason": "cycle count is an input and etch depth is a measured response"
+  },
+  "execution": {
+    "case_cap": 25,
+    "checkpoint_policy": "save final completed cycle and last valid state",
+    "early_stop_policy": "no scientific early stop; retain numerical or domain invalidity",
+    "executor": "sequential_resumable",
+    "maximum_workers": 1,
+    "retry_policy": "one identical retry for explicit transient infrastructure errors only"
+  },
+  "factors": [
+    {
+      "levels": [
+        0.12,
+        0.15,
+        0.18
+      ],
+      "name": "radius",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "pattern_radius_input"
+    },
+    {
+      "levels": [
+        -4.0,
+        2.0,
+        6.0
+      ],
+      "name": "mask_taper",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_mask_taper"
+    },
+    {
+      "levels": [
+        4,
+        10,
+        16
+      ],
+      "name": "num_cycles",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_num_cycles"
+    },
+    {
+      "levels": [
+        0.2,
+        0.5,
+        2.0
+      ],
+      "name": "etch_time",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_etch_time"
+    },
+    {
+      "levels": [
+        0.1,
+        0.3,
+        0.5
+      ],
+      "name": "initial_etch_time",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_initial_etch_time"
+    },
+    {
+      "levels": [
+        -0.2,
+        -0.08,
+        -0.03
+      ],
+      "name": "neutral_rate",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_neutral_rate"
+    },
+    {
+      "levels": [
+        0.02,
+        0.08,
+        0.3
+      ],
+      "name": "neutral_sticking_probability",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_neutral_sticking_probability"
+    },
+    {
+      "levels": [
+        0.003,
+        0.005,
+        0.04
+      ],
+      "name": "deposition_thickness",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_deposition_thickness"
+    },
+    {
+      "levels": [
+        0.001,
+        0.01,
+        0.03
+      ],
+      "name": "deposition_sticking_probability",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_deposition_sticking_probability"
+    },
+    {
+      "levels": [
+        50.0,
+        400.0,
+        1000.0
+      ],
+      "name": "ion_source_exponent",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_ion_source_exponent"
+    },
+    {
+      "levels": [
+        25.0,
+        45.0,
+        90.0
+      ],
+      "name": "theta_r_min",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "phase_factor_theta_r_min"
+    },
+    {
+      "levels": [
+        -0.22,
+        -0.1,
+        -0.04
+      ],
+      "name": "ion_rate",
+      "range_source": "docs/range-research.md#candidate-bracket-for-the-first-bosch-range-study",
+      "range_status": "candidate_model_space_bracket",
+      "registry_id": "bosch_ion_rate"
+    }
+  ],
+  "geometry": {
+    "hole_shape": "FULL",
+    "mask_height": 0.3,
+    "x_extent": 1.0,
+    "y_extent": 2.0
+  },
+  "held_controls": {
+    "mask_ion_rate": 0.0,
+    "polymer_deposition_duration": 1.0,
+    "polymer_removal_duration": 1.0,
+    "polymer_removal_rate": "negative of deposition_thickness",
+    "polymer_removal_sticking": 1.0
+  },
+  "inference_policy": {
+    "allowed": [
+      "execution and completion state",
+      "raw measured values",
+      "observed minimum, maximum, and span at the named coarse setting",
+      "runtime and invalidity classes",
+      "rows nominated for confirmation"
+    ],
+    "prohibited": [
+      "factor effect or ranking",
+      "uncertainty or curvature",
+      "interaction",
+      "failure-boundary location",
+      "process qualification, optimum, or process window"
+    ]
+  },
+  "invalidity_rule": "retain the row, error, elapsed time, and completed checkpoint status",
+  "method": {
+    "construction": "order-12 Paley conference matrix, its negative, and one center row",
+    "interpretation": "range pilot only; no interaction or process-window claim",
+    "name": "25-case three-level range pilot (DSD matrix)"
+  },
+  "numerics": {
+    "grid_delta": 0.01,
+    "rays_per_point": 250,
+    "simulation_dimension": 2,
+    "status": "coarse_pilot_not_numerically_qualified",
+    "threads_per_worker": 4
+  },
+  "output": "autoresearch-results/range_pilot/pattern_bosch_dsd25_rows.jsonl",
+  "purpose": "Record raw response spans, invalid regions, runtime, and contrasting states that may justify confirmation before a repeated screening study.",
+  "required_measurements": [
+    "mask_opening_cd_bottom",
+    "mask_opening_cd_middle",
+    "mask_opening_cd_top",
+    "mask_height",
+    "mask_sidewall_angle",
+    "etch_depth",
+    "etch_cd_top",
+    "etch_cd_middle",
+    "etch_cd_bottom",
+    "etch_minimum_cd",
+    "etch_maximum_cd_error",
+    "etch_sidewall_angle",
+    "etch_bow",
+    "etch_scallop_rms"
+  ],
+  "rng_policy": {
+    "independent_repeats_present": false,
+    "pointwise_common_random_numbers_not_claimed": true,
+    "shared_base_seed_label_across_rows": true
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "config/process.toml",
+      "sha256": "ab87b67e8a3736df2b7e7490105b73604428d7a1ce961bb1af5c84db92c71fca"
+    },
+    {
+      "path": "build_pattern_bosch_range_pilot.py",
+      "sha256": "c1e20959344e8962cdadd8b8d87d3047e7928fe990884ce95815126ff872fa00"
+    },
+    {
+      "path": "run_pattern_bosch_range_pilot.py",
+      "sha256": "e053ed6e48bb3fd4e2e43b05952c8e7a3d81493cd72ce240e56162c562ef67e1"
+    },
+    {
+      "path": "scripts/autoresearch_event_log.py",
+      "sha256": "2c91da41910531a20becc9e4dfac5c9dca24639445301e678f71d48772df512e"
+    },
+    {
+      "path": "schemas/autoresearch-event.schema.json",
+      "sha256": "5a6c6f4a63443533c2e6bc2841894fb3913fe4bf53b88ad7ee7f5ec8664736fe"
+    },
+    {
+      "path": "pattern_bosch_factor_projection.json",
+      "sha256": "841ce7cce58e1dd21033d7b732ade3bb74d306a4718434075846cf9478842217"
+    },
+    {
+      "path": "pattern_bosch_measurement_contract.json",
+      "sha256": "284e1cf68049a7ca1f5ba3a6b17d45de1b119acc10b1db2d572abd3e5371b1b0"
+    },
+    {
+      "path": "docs/range-research.md",
+      "sha256": "2b9985265a51f8802be9952947660419e37ce9054ed8e6b530165efa47144f9b"
+    }
+  ],
+  "status": "frozen_design"
+}

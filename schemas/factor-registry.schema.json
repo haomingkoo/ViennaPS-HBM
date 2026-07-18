@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TSV traveler factor registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_date",
+    "status",
+    "scope",
+    "warning",
+    "provenance",
+    "source_files",
+    "external_evidence",
+    "classification_vocabulary",
+    "evidence_status_vocabulary",
+    "counts",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "audit_date": {"type": "string", "format": "date"},
+    "status": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "warning": {"type": "string", "minLength": 1},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["builder", "code_sources"],
+      "properties": {
+        "builder": {"$ref": "#/$defs/source"},
+        "code_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/source"}
+        }
+      }
+    },
+    "source_files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "external_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "format": "uri"}
+    },
+    "classification_vocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "evidence_status_vocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "counts": {
+      "type": "object",
+      "required": ["total", "phase_one_factors", "unsupported_physical_controls", "model_limitations", "by_step", "by_classification", "by_implementation_status", "by_evidence_status", "by_doe_eligibility", "by_criterion_evidence_class"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 1},
+        "phase_one_factors": {"type": "integer", "minimum": 0},
+        "unsupported_physical_controls": {"type": "integer", "minimum": 0},
+        "model_limitations": {"type": "integer", "minimum": 0},
+        "by_step": {"$ref": "#/$defs/count_map"},
+        "by_classification": {"$ref": "#/$defs/count_map"},
+        "by_implementation_status": {"$ref": "#/$defs/count_map"},
+        "by_evidence_status": {"$ref": "#/$defs/count_map"},
+        "by_doe_eligibility": {"$ref": "#/$defs/count_map"},
+        "by_criterion_evidence_class": {"$ref": "#/$defs/count_map"}
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/record"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "count_map": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "id",
+        "step",
+        "owner_api",
+        "name",
+        "units",
+        "default",
+        "tested_range",
+        "current_best",
+        "classification",
+        "implementation_status",
+        "expected_mechanism",
+        "metrics_affected",
+        "known_interactions",
+        "upstream_consequences",
+        "downstream_consequences",
+        "evidence_status",
+        "supporting_experiment",
+        "confidence",
+        "range_provenance",
+        "doe_eligibility",
+        "criterion_evidence_class"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-zA-Z0-9_]+$"},
+        "step": {"type": "string", "minLength": 1},
+        "owner_api": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "units": {},
+        "default": {},
+        "tested_range": {},
+        "current_best": {},
+        "classification": {"type": "string", "minLength": 1},
+        "implementation_status": {"type": "string", "minLength": 1},
+        "expected_mechanism": {"type": "string", "minLength": 1},
+        "metrics_affected": {"type": "array", "items": {"type": "string"}},
+        "known_interactions": {"type": "array"},
+        "upstream_consequences": {"type": "string", "minLength": 1},
+        "downstream_consequences": {"type": "string", "minLength": 1},
+        "evidence_status": {"type": "string", "minLength": 1},
+        "supporting_experiment": {"type": "string", "minLength": 1},
+        "confidence": {"type": "string", "minLength": 1},
+        "range_provenance": {"type": "string", "minLength": 1},
+        "doe_eligibility": {"enum": ["not_a_tuning_factor", "numerical_benchmark_only", "requires_model_and_calibration", "not_wired", "legacy_suspended", "mechanism_or_measurement_gate_first", "blocked_missing_limit", "excluded_rejected", "range_requalification_required", "review_required"]},
+        "criterion_evidence_class": {"enum": ["not_applicable", "assumed_comparison_band", "unresolved", "literature_derived", "geometry_derived", "calibrated"]},
+        "candidate_model": {},
+        "declared_levels": {},
+        "identifiability_coupling": {},
+        "phase_one_factor": {"type": "boolean"},
+        "runtime_owner": {},
+        "staged_range": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

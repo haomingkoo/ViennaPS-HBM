@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "launch_status", "sources", "factor_count", "counts_by_disposition", "factors", "screening_rule"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "launch_status": {"const": "blocked_pending_ranges_measurements_and_numerics"},
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "factor_count": {"type": "integer", "minimum": 1},
+    "counts_by_disposition": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "integer", "minimum": 1}
+    },
+    "factors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["registry_id", "name", "owner_api", "classification", "implementation_status", "registry_doe_eligibility", "disposition", "tutorial_role", "reason", "implementation_locator", "coupling_note", "range_provenance", "responses_expected_to_change", "known_interactions"],
+        "properties": {
+          "registry_id": {"type": "string", "pattern": "^[A-Za-z0-9_]+$"},
+          "name": {"type": "string", "minLength": 1},
+          "owner_api": {"type": "string", "minLength": 1},
+          "classification": {"type": "string", "minLength": 1},
+          "implementation_status": {"type": "string", "minLength": 1},
+          "registry_doe_eligibility": {"type": "string", "minLength": 1},
+          "disposition": {"enum": ["include_range_finding", "separate_mask_erosion_block", "separate_accuracy_study", "observation_only", "blocked_requires_model_and_calibration", "blocked_not_wired", "response_or_derived_input", "model_limitation", "fixed_structural_choice"]},
+          "tutorial_role": {"enum": ["equipment_control_unmapped", "geometry_input", "effective_model_control", "numerical_setting", "observation_callback", "available_model_input_unwired", "assumed_study_target", "fixed_choice", "model_limitation"]},
+          "reason": {"type": "string", "minLength": 1},
+          "implementation_locator": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["config_key", "code_path", "callable", "argument"],
+                "properties": {
+                  "config_key": {"type": "string", "minLength": 1},
+                  "code_path": {"type": "string", "minLength": 1},
+                  "callable": {"type": "string", "minLength": 1},
+                  "argument": {"type": "string", "minLength": 1}
+                }
+              }
+            ]
+          },
+          "coupling_note": {"type": ["string", "null"]},
+          "range_provenance": {"type": "string", "minLength": 1},
+          "responses_expected_to_change": {"type": "array", "items": {"type": "string"}},
+          "known_interactions": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "screening_rule": {"type": "string", "minLength": 1}
+  }
+}

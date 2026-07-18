@@ -1,0 +1,1573 @@
+{
+  "counts_by_disposition": {
+    "blocked_not_wired": 11,
+    "blocked_requires_model_and_calibration": 16,
+    "fixed_structural_choice": 11,
+    "include_range_finding": 12,
+    "model_limitation": 1,
+    "observation_only": 2,
+    "response_or_derived_input": 6,
+    "separate_accuracy_study": 5,
+    "separate_mask_erosion_block": 2
+  },
+  "factor_count": 66,
+  "factors": [
+    {
+      "classification": "product_specification",
+      "coupling_note": null,
+      "disposition": "response_or_derived_input",
+      "implementation_locator": null,
+      "implementation_status": "output_target",
+      "known_interactions": [],
+      "name": "opening radius",
+      "owner_api": "program.md / tsv_process.TARGET_SPECS",
+      "range_provenance": "Declared study target retained for continuity; physical-unit and tolerance provenance remain uncalibrated.",
+      "reason": "Comparison target or value derived from another input; do not count it as an independent factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "pattern_radius_spec",
+      "responses_expected_to_change": [
+        "top_cd",
+        "bottom_cd",
+        "aspect_ratio"
+      ],
+      "tutorial_role": "assumed_study_target"
+    },
+    {
+      "classification": "product_specification",
+      "coupling_note": null,
+      "disposition": "response_or_derived_input",
+      "implementation_locator": null,
+      "implementation_status": "output_target",
+      "known_interactions": [],
+      "name": "opening width",
+      "owner_api": "program.md / tsv_process.TARGET_SPECS",
+      "range_provenance": "Declared study target retained for continuity; physical-unit and tolerance provenance remain uncalibrated.",
+      "reason": "Comparison target or value derived from another input; do not count it as an independent factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "pattern_width_spec",
+      "responses_expected_to_change": [
+        "top_cd",
+        "bottom_cd",
+        "cd_bias"
+      ],
+      "tutorial_role": "assumed_study_target"
+    },
+    {
+      "classification": "product_specification",
+      "coupling_note": null,
+      "disposition": "response_or_derived_input",
+      "implementation_locator": null,
+      "implementation_status": "output_target",
+      "known_interactions": [],
+      "name": "pattern-mask height",
+      "owner_api": "program.md / tsv_process.TARGET_SPECS",
+      "range_provenance": "Declared study target retained for continuity; physical-unit and tolerance provenance remain uncalibrated.",
+      "reason": "Comparison target or value derived from another input; do not count it as an independent factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "pattern_mask_height_spec",
+      "responses_expected_to_change": [
+        "mask_height",
+        "mask_remaining"
+      ],
+      "tutorial_role": "assumed_study_target"
+    },
+    {
+      "classification": "product_specification",
+      "coupling_note": null,
+      "disposition": "response_or_derived_input",
+      "implementation_locator": null,
+      "implementation_status": "output_target",
+      "known_interactions": [],
+      "name": "target etch depth",
+      "owner_api": "program.md / tsv_process.TARGET_SPECS",
+      "range_provenance": "Declared study target retained for continuity; physical-unit and tolerance provenance remain uncalibrated.",
+      "reason": "Comparison target or value derived from another input; do not count it as an independent factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "etch_depth_spec",
+      "responses_expected_to_change": [
+        "depth",
+        "aspect_ratio"
+      ],
+      "tutorial_role": "assumed_study_target"
+    },
+    {
+      "classification": "product_specification",
+      "coupling_note": null,
+      "disposition": "response_or_derived_input",
+      "implementation_locator": null,
+      "implementation_status": "output_target",
+      "known_interactions": [],
+      "name": "CD-profile tolerance",
+      "owner_api": "program.md / tsv_process.TARGET_SPECS",
+      "range_provenance": "Declared study target retained for continuity; physical-unit and tolerance provenance remain uncalibrated.",
+      "reason": "Comparison target or value derived from another input; do not count it as an independent factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "etch_cd_tolerance_spec",
+      "responses_expected_to_change": [
+        "entrance_cd",
+        "mid_cd",
+        "bottom_cd",
+        "cd_profile_error"
+      ],
+      "tutorial_role": "assumed_study_target"
+    },
+    {
+      "classification": "product_specification",
+      "coupling_note": null,
+      "disposition": "response_or_derived_input",
+      "implementation_locator": null,
+      "implementation_status": "output_target",
+      "known_interactions": [],
+      "name": "maximum wall bow",
+      "owner_api": "program.md / tsv_process.TARGET_SPECS",
+      "range_provenance": "Declared study target retained for continuity; physical-unit and tolerance provenance remain uncalibrated.",
+      "reason": "Comparison target or value derived from another input; do not count it as an independent factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "etch_bow_spec",
+      "responses_expected_to_change": [
+        "wall_bow",
+        "sidewall_taper"
+      ],
+      "tutorial_role": "assumed_study_target"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "taper",
+        "callable": "make_initial_geometry",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.geometry.mask_taper"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "mask_taper x stochastic ray sampling"
+      ],
+      "name": "mask_taper",
+      "owner_api": "make_initial_geometry(taper) / MakeHole.maskTaperAngle",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_mask_taper",
+      "responses_expected_to_change": [
+        "top_cd",
+        "mask_sidewall_angle",
+        "etch_variance"
+      ],
+      "tutorial_role": "geometry_input"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": "Cycle count changes cumulative etch, polymer deposition, polymer removal, and random-stream length. Use a matched-total-dose block or predeclare its cumulative-dose interactions before screening.",
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "num_cycles",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.num_cycles"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "num_cycles x etch_time",
+        "num_cycles x deposition_thickness"
+      ],
+      "name": "num_cycles",
+      "owner_api": "bosch_etch(num_cycles)",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_num_cycles",
+      "responses_expected_to_change": [
+        "depth",
+        "scallop_period",
+        "wall_bow"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "etch_time",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.etch_time"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "etch_time x deposition_thickness",
+        "etch_time x num_cycles",
+        "etch_time x neutral_rate"
+      ],
+      "name": "etch_time",
+      "owner_api": "bosch_etch(etch_time) / Process.duration",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_etch_time",
+      "responses_expected_to_change": [
+        "depth",
+        "etch_rate",
+        "wall_bow",
+        "cd_profile"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "neutral_rate",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.neutral_rate"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "neutral_rate x etch_time",
+        "neutral_rate x neutral_sticking_probability"
+      ],
+      "name": "neutral_rate",
+      "owner_api": "bosch_etch rate_fn neutral coefficient",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_neutral_rate",
+      "responses_expected_to_change": [
+        "depth",
+        "undercut",
+        "wall_bow"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "neutral_sticking_probability",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.neutral_sticking_probability"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "neutral sticking x neutral_rate",
+        "neutral sticking x aspect ratio"
+      ],
+      "name": "neutral_sticking_probability",
+      "owner_api": "MultiParticleProcess.addNeutralParticle",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_neutral_sticking_probability",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "wall_bow"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "initial_etch_time",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.initial_etch_time"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "initial etch x mask taper"
+      ],
+      "name": "initial_etch_time",
+      "owner_api": "bosch_etch(initial_etch_time)",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_initial_etch_time",
+      "responses_expected_to_change": [
+        "entrance_cd",
+        "depth",
+        "undercut"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": "The wrapper uses this value for polymer deposition and an equal-magnitude directional polymer-removal rate.",
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "deposition_thickness",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.deposition_thickness"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "deposition thickness x etch_time",
+        "deposition thickness x grid_delta"
+      ],
+      "name": "deposition_thickness",
+      "owner_api": "SingleParticleProcess.rate for passivation",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_deposition_thickness",
+      "responses_expected_to_change": [
+        "polymer_thickness",
+        "wall_bow",
+        "depth",
+        "scallop_amplitude"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "deposition_sticking_probability",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.deposition_sticking_probability"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "deposition sticking x aspect ratio"
+      ],
+      "name": "deposition_sticking_probability",
+      "owner_api": "SingleParticleProcess.stickingProbability",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_deposition_sticking_probability",
+      "responses_expected_to_change": [
+        "polymer_conformality",
+        "wall_bow",
+        "depth"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": "The wrapper uses this directionality value for silicon-ion transport and directional polymer removal.",
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "ion_source_exponent",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.ion_source_exponent"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "ion exponent x theta_r_min",
+        "ion exponent x rays_per_point"
+      ],
+      "name": "ion_source_exponent",
+      "owner_api": "MultiParticleProcess.addIonParticle(sourcePower)",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_ion_source_exponent",
+      "responses_expected_to_change": [
+        "depth",
+        "bottom_shape",
+        "wall_bow"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "theta_r_min",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.theta_r_min"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "theta_r_min x ion_source_exponent"
+      ],
+      "name": "theta_r_min",
+      "owner_api": "MultiParticleProcess.addIonParticle(thetaRMin)",
+      "range_provenance": "Model-sensitivity range assembled from wrapper defaults and earlier simulations; no fab calibration.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "phase_factor_theta_r_min",
+      "responses_expected_to_change": [
+        "depth",
+        "bottom_shape",
+        "cd_profile"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "radius",
+        "callable": "make_initial_geometry",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.geometry.radius"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "radius x mask taper",
+        "radius x directional transport"
+      ],
+      "name": "pattern radius input",
+      "owner_api": "make_initial_geometry(radius) / MakeHole.holeRadius",
+      "range_provenance": "Saved model-space sensitivity values from config/process.toml; range requalification required.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "pattern_radius_input",
+      "responses_expected_to_change": [
+        "opening_cd_profile",
+        "etch_cd_profile",
+        "aspect_ratio"
+      ],
+      "tutorial_role": "geometry_input"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": "Mask survival also depends on cumulative ion exposure. Bridge the erosion block to low and high main-screen exposure.",
+      "disposition": "separate_mask_erosion_block",
+      "implementation_locator": {
+        "argument": "mask_height",
+        "callable": "make_initial_geometry",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.geometry.mask_height"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "mask height x mask erosion",
+        "mask height x cycle count"
+      ],
+      "name": "pattern mask height input",
+      "owner_api": "make_initial_geometry(mask_height) / MakeHole.maskHeight",
+      "range_provenance": "Wrapper default only; range requalification required before a mask-erosion study.",
+      "reason": "Study mask height and erosion together before crossing them into the main etch screen.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "pattern_mask_height_input",
+      "responses_expected_to_change": [
+        "mask_remaining",
+        "opening_profile",
+        "etch_handoff"
+      ],
+      "tutorial_role": "geometry_input"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "separate_accuracy_study",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [
+        "grid_delta x every thin layer",
+        "grid_delta x passivation dose"
+      ],
+      "name": "pattern grid delta",
+      "owner_api": "make_initial_geometry(grid_delta) / Domain.gridDelta",
+      "range_provenance": "Numerical-convergence ladder; not a recipe range.",
+      "reason": "Computational setting; qualify speed and measurement agreement separately.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "pattern_grid_delta",
+      "responses_expected_to_change": [
+        "all_geometry_ctqs",
+        "topology"
+      ],
+      "tutorial_role": "numerical_setting"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "separate_accuracy_study",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [
+        "x_extent x boundary condition"
+      ],
+      "name": "pattern x extent",
+      "owner_api": "make_initial_geometry(x_extent) / Domain.xExtent",
+      "range_provenance": "Wrapper default only.",
+      "reason": "Computational setting; qualify speed and measurement agreement separately.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "pattern_x_extent",
+      "responses_expected_to_change": [
+        "boundary_clearance",
+        "flux_transport"
+      ],
+      "tutorial_role": "numerical_setting"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "separate_accuracy_study",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [
+        "y_extent x target depth"
+      ],
+      "name": "pattern y extent",
+      "owner_api": "make_initial_geometry(y_extent) / Domain.yExtent",
+      "range_provenance": "Numerical domain-convergence experiment.",
+      "reason": "Computational setting; qualify speed and measurement agreement separately.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "pattern_y_extent",
+      "responses_expected_to_change": [
+        "boundary_clearance",
+        "depth",
+        "cd_profile"
+      ],
+      "tutorial_role": "numerical_setting"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "fixed",
+      "known_interactions": [],
+      "name": "pattern hole depth",
+      "owner_api": "MakeHole.holeDepth",
+      "range_provenance": "Fixed by the intended pattern-before-etch sequence.",
+      "reason": "Keep fixed in the first block; changing it would define a different geometry or process path.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "pattern_hole_depth",
+      "responses_expected_to_change": [
+        "opening_validity"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "hole taper x hole depth"
+      ],
+      "name": "pattern hole taper",
+      "owner_api": "MakeHole.holeTaperAngle",
+      "range_provenance": "API-bounded sensitivity screen; no physical lithography mapping.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "pattern_hole_taper",
+      "responses_expected_to_change": [
+        "opening_profile"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "wired_by_stage",
+      "known_interactions": [
+        "shape x dimensionality",
+        "shape x boundary condition",
+        "shape x void classification"
+      ],
+      "name": "pattern hole shape",
+      "owner_api": "MakeHole.holeShape",
+      "range_provenance": "Structural guard exercised by test_copper_suppression_fill.py; it is not an interpolated recipe range.",
+      "reason": "Use FULL 2D geometry for this mask/Bosch block so both sidewalls and the floor remain visible. Treat dimensionality as a separate challenge.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "pattern_hole_shape",
+      "responses_expected_to_change": [
+        "void_topology",
+        "flux_transport",
+        "runtime"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "fixed",
+      "known_interactions": [],
+      "name": "pattern substrate material",
+      "owner_api": "MakeHole.material",
+      "range_provenance": "Declared TSV silicon substrate.",
+      "reason": "Keep fixed in the first block; changing it would define a different geometry or process path.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "pattern_substrate_material",
+      "responses_expected_to_change": [
+        "material_survival",
+        "etch_selectivity"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "fixed",
+      "known_interactions": [
+        "mask identity x strip sequence",
+        "mask identity x CMP stop"
+      ],
+      "name": "pattern mask material",
+      "owner_api": "MakeHole.maskMaterial",
+      "range_provenance": "Structural choice awaiting hard-mask versus stripped-resist decision.",
+      "reason": "Keep fixed in the first block; changing it would define a different geometry or process path.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "pattern_mask_material",
+      "responses_expected_to_change": [
+        "mask_remaining",
+        "stop_layer_identity"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [
+        "strip choice x CMP stop identity"
+      ],
+      "name": "pattern mask strip",
+      "owner_api": "strip_pattern_mask / Domain.removeMaterial",
+      "range_provenance": "Required by the temporary-photoresist interpretation; alternative hard-mask stack remains a controlled structural arm.",
+      "reason": "Keep fixed in the first block; changing it would define a different geometry or process path.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "pattern_mask_strip",
+      "responses_expected_to_change": [
+        "material_stack",
+        "remaining_aperture"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "hardcoded_fixed",
+      "known_interactions": [
+        "deposition duration x deposition rate",
+        "deposition duration x cycle count"
+      ],
+      "name": "bosch polymer deposition duration",
+      "owner_api": "bosch_etch / apply_process(depo_model, 1.0)",
+      "range_provenance": "Fixed implementation value, not a qualified range.",
+      "reason": "Fix duration to 1.0 as the deposition-rate scale convention. In this single phase, rate and duration enter as one commanded dose.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "bosch_polymer_deposition_duration",
+      "responses_expected_to_change": [
+        "polymer_thickness",
+        "wall_protection",
+        "runtime"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "hardcoded_fixed",
+      "known_interactions": [
+        "removal duration x removal rate",
+        "removal duration x cycle count"
+      ],
+      "name": "bosch polymer removal duration",
+      "owner_api": "bosch_etch / apply_process(depo_removal, 1.0)",
+      "range_provenance": "Fixed implementation value, not a qualified range.",
+      "reason": "Fix duration to 1.0 as the removal-rate scale convention. Varying both rate and duration would duplicate one commanded dose.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "bosch_polymer_removal_duration",
+      "responses_expected_to_change": [
+        "polymer_floor_clearance",
+        "wall_protection",
+        "runtime"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "hardcoded_coupled",
+      "known_interactions": [
+        "removal rate x deposition rate",
+        "removal rate x ion direction"
+      ],
+      "name": "bosch polymer removal rate",
+      "owner_api": "bosch_etch / SingleParticleProcess(rate=-deposition_thickness)",
+      "range_provenance": "Derived coupling, not an independent range.",
+      "reason": "The wrapper ties removal magnitude to deposition_thickness. It cannot be estimated independently until an explicit removal-to-deposition ratio is wired.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "bosch_polymer_removal_rate",
+      "responses_expected_to_change": [
+        "polymer_floor_clearance",
+        "wall_protection",
+        "depth",
+        "bow"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "hardcoded_fixed",
+      "known_interactions": [
+        "removal sticking x via geometry"
+      ],
+      "name": "bosch polymer removal sticking",
+      "owner_api": "bosch_etch / SingleParticleProcess(stickingProbability=1.0)",
+      "range_provenance": "Fixed implementation value, not a qualified range.",
+      "reason": "The wrapper fixes first-contact removal. Treat a different transport law as a separate model-family challenge.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "bosch_polymer_removal_sticking",
+      "responses_expected_to_change": [
+        "polymer_floor_clearance",
+        "wall_protection"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "deposition source exponent x sticking",
+        "deposition source exponent x aspect ratio"
+      ],
+      "name": "bosch polymer deposition source exponent",
+      "owner_api": "SingleParticleProcess.sourceExponent for depo_model",
+      "range_provenance": "API input is visible but no wrapper range is defined.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "bosch_polymer_deposition_source_exponent",
+      "responses_expected_to_change": [
+        "polymer_conformality",
+        "wall_protection",
+        "depth",
+        "bow"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "include_range_finding",
+      "implementation_locator": {
+        "argument": "ion_rate",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.ion_rate"
+      },
+      "implementation_status": "wired_model_acceptance_candidate",
+      "known_interactions": [
+        "ion_rate x source exponent",
+        "ion_rate x etch_time",
+        "ion_rate x theta_r_min"
+      ],
+      "name": "bosch ion rate",
+      "owner_api": "bosch_etch(ion_rate) / rate_fn",
+      "range_provenance": "Saved model-sensitivity endpoints only; range requalification required.",
+      "reason": "Implemented control; qualify its model-space range before screening.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "bosch_ion_rate",
+      "responses_expected_to_change": [
+        "depth",
+        "bottom_shape",
+        "cd_profile"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": "Mask survival also depends on cumulative ion exposure. Bridge the erosion block to low and high main-screen exposure.",
+      "disposition": "separate_mask_erosion_block",
+      "implementation_locator": {
+        "argument": "mask_ion_rate",
+        "callable": "bosch_etch",
+        "code_path": "tsv_process.py",
+        "config_key": "defaults.bosch.mask_ion_rate"
+      },
+      "implementation_status": "wired_model_sensitivity",
+      "known_interactions": [
+        "mask erosion x mask height",
+        "mask erosion x taper",
+        "mask erosion x cycle count",
+        "mask erosion x ion transport"
+      ],
+      "name": "bosch mask ion rate",
+      "owner_api": "bosch_etch(mask_ion_rate) / rate_fn",
+      "range_provenance": "The qualified range currently establishes survival only. Stage 2f adaptively challenges -0.05, -0.06, and -0.08, but no coefficient value is a fab selectivity range without calibration.",
+      "reason": "Study mask height and erosion together before crossing them into the main etch screen.",
+      "registry_doe_eligibility": "range_requalification_required",
+      "registry_id": "bosch_mask_ion_rate",
+      "responses_expected_to_change": [
+        "mask_remaining",
+        "opening_cd_profile",
+        "etch_depth",
+        "etch_cd_profile",
+        "wall_bow"
+      ],
+      "tutorial_role": "effective_model_control"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "separate_accuracy_study",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [
+        "rays x grid_delta",
+        "rays x source exponent"
+      ],
+      "name": "bosch rays per point",
+      "owner_api": "bosch_etch(rays_per_point) / RayTracingParameters.raysPerPoint",
+      "range_provenance": "Numerical-convergence range.",
+      "reason": "Computational setting; qualify speed and measurement agreement separately.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "bosch_rays_per_point",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "run_variance"
+      ],
+      "tutorial_role": "numerical_setting"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "separate_accuracy_study",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [
+        "seed x rays_per_point",
+        "seed x geometry"
+      ],
+      "name": "bosch rng seed",
+      "owner_api": "bosch_etch(rng_seed) / RayTracingParameters.rngSeed",
+      "range_provenance": "Reproducibility control; not a physical range.",
+      "reason": "Computational setting; qualify speed and measurement agreement separately.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "bosch_rng_seed",
+      "responses_expected_to_change": [
+        "replicate_identity",
+        "run_variance"
+      ],
+      "tutorial_role": "numerical_setting"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "observation_only",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [],
+      "name": "bosch on cycle",
+      "owner_api": "bosch_etch(on_cycle)",
+      "range_provenance": "Observation callback; excluded from DOE factors.",
+      "reason": "Checkpoint callback; records intermediate geometry but is not a process factor.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "bosch_on_cycle",
+      "responses_expected_to_change": [
+        "cycle_depth",
+        "cycle_cd",
+        "cycle_topology"
+      ],
+      "tutorial_role": "observation_callback"
+    },
+    {
+      "classification": "numerical_control",
+      "coupling_note": null,
+      "disposition": "observation_only",
+      "implementation_locator": null,
+      "implementation_status": "wired",
+      "known_interactions": [],
+      "name": "bosch on polymer",
+      "owner_api": "bosch_etch(on_polymer)",
+      "range_provenance": "Observation callback; excluded from DOE factors.",
+      "reason": "Checkpoint callback; records intermediate geometry but is not a process factor.",
+      "registry_doe_eligibility": "numerical_benchmark_only",
+      "registry_id": "bosch_on_polymer",
+      "responses_expected_to_change": [
+        "polymer_thickness",
+        "polymer_continuity"
+      ],
+      "tutorial_role": "observation_callback"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "fixed",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "single particle mask materials",
+      "owner_api": "SingleParticleProcess.maskMaterial(s)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Keep the polymer-removal mask material fixed to the declared pattern mask.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "single_particle_mask_materials",
+      "responses_expected_to_change": [
+        "mask_survival",
+        "layer_selectivity"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion theta r max",
+      "owner_api": "MultiParticleProcess.addIonParticle(thetaRMax)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_theta_r_max",
+      "responses_expected_to_change": [
+        "reflected_ion_flux",
+        "cd_profile"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion min angle",
+      "owner_api": "MultiParticleProcess.addIonParticle(minAngle)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_min_angle",
+      "responses_expected_to_change": [
+        "reflected_ion_flux",
+        "bottom_shape"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion b sp",
+      "owner_api": "MultiParticleProcess.addIonParticle(B_sp)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_b_sp",
+      "responses_expected_to_change": [
+        "ion_removal",
+        "wall_shape"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion mean energy",
+      "owner_api": "MultiParticleProcess.addIonParticle(meanEnergy)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_mean_energy",
+      "responses_expected_to_change": [
+        "ion_removal",
+        "reflection_energy"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion sigma energy",
+      "owner_api": "MultiParticleProcess.addIonParticle(sigmaEnergy)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_sigma_energy",
+      "responses_expected_to_change": [
+        "ion_removal_variance"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion threshold energy",
+      "owner_api": "MultiParticleProcess.addIonParticle(thresholdEnergy)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_threshold_energy",
+      "responses_expected_to_change": [
+        "ion_removal",
+        "selectivity"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion inflect angle",
+      "owner_api": "MultiParticleProcess.addIonParticle(inflectAngle)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_inflect_angle",
+      "responses_expected_to_change": [
+        "reflection_energy",
+        "bottom_shape"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "ion energy exponent n",
+      "owner_api": "MultiParticleProcess.addIonParticle(n)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "ion_energy_exponent_n",
+      "responses_expected_to_change": [
+        "reflection_energy",
+        "wall_shape"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "model_coefficient",
+      "coupling_note": null,
+      "disposition": "blocked_not_wired",
+      "implementation_locator": null,
+      "implementation_status": "api_available_unwired",
+      "known_interactions": [
+        "Must be checked against grid, dimensionality, and the owning process dose."
+      ],
+      "name": "neutral material sticking",
+      "owner_api": "MultiParticleProcess.addNeutralParticle(materialSticking)",
+      "range_provenance": "API default or legacy model-sensitivity screen; no fab calibration.",
+      "reason": "Available concept or API input is not implemented in the active wrapper.",
+      "registry_doe_eligibility": "not_wired",
+      "registry_id": "neutral_material_sticking",
+      "responses_expected_to_change": [
+        "etch_selectivity",
+        "polymer_transport"
+      ],
+      "tutorial_role": "available_model_input_unwired"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "exposure dose",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_exposure_dose",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "focus offset",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_focus_offset",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "reticle/mask CD bias",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_mask_bias",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "photoresist coat thickness",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_resist_thickness",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "soft/post-exposure bake",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_bake_conditions",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "developer chemistry/time",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_develop_conditions",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "TSV overlay",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "litho_overlay",
+      "responses_expected_to_change": [
+        "opening_cd",
+        "mask_profile",
+        "pattern_validity"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "SF6 flow",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_sf6_flow",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "C4F8 flow",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_c4f8_flow",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "chamber pressure",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_chamber_pressure",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "ICP/source power",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_source_power",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "platen RF bias/power",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_bias_power",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "wafer/chuck temperature",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_wafer_temperature",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "SF6 phase duration",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_physical_etch_time",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "C4F8 phase duration",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_physical_passivation_time",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "recipe_knob",
+      "coupling_note": null,
+      "disposition": "blocked_requires_model_and_calibration",
+      "implementation_locator": null,
+      "implementation_status": "unsupported_physical",
+      "known_interactions": [
+        "Other physical controls in the same module",
+        "incoming geometry"
+      ],
+      "name": "gas switching/purge time",
+      "owner_api": "physical process; unsupported by current wrapper",
+      "range_provenance": "No model range. Requires tool data, primary literature bounds, or calibration before DOE inclusion.",
+      "reason": "Real equipment control has no calibrated mapping into the current model.",
+      "registry_doe_eligibility": "requires_model_and_calibration",
+      "registry_id": "drie_switching_transient",
+      "responses_expected_to_change": [
+        "depth",
+        "cd_profile",
+        "bow",
+        "scallop",
+        "mask_remaining"
+      ],
+      "tutorial_role": "equipment_control_unmapped"
+    },
+    {
+      "classification": "structural_choice",
+      "coupling_note": null,
+      "disposition": "fixed_structural_choice",
+      "implementation_locator": null,
+      "implementation_status": "fixed_or_challenge_planned",
+      "known_interactions": [
+        "Every process coefficient in the selected model",
+        "dimensionality",
+        "grid resolution"
+      ],
+      "name": "hard mask retained versus resist stripped plus separate stop",
+      "owner_api": "material stack and strip sequence",
+      "range_provenance": "Structural challenge arms, not an interpolated numeric range.",
+      "reason": "Keep fixed in the first block; changing it would define a different geometry or process path.",
+      "registry_doe_eligibility": "review_required",
+      "registry_id": "mask_stop_identity",
+      "responses_expected_to_change": [
+        "all owning-step morphology CTQs",
+        "model validity"
+      ],
+      "tutorial_role": "fixed_choice"
+    },
+    {
+      "classification": "model_limitation",
+      "coupling_note": null,
+      "disposition": "model_limitation",
+      "implementation_locator": null,
+      "implementation_status": "not_represented",
+      "known_interactions": [
+        "Cannot be repaired by widening the existing coefficient range alone."
+      ],
+      "name": "missing lithography physics",
+      "owner_api": "current model boundary",
+      "range_provenance": "No range: this is a missing model capability or validation domain.",
+      "reason": "Missing physics is recorded as a limitation, not converted into a numeric factor.",
+      "registry_doe_eligibility": "not_a_tuning_factor",
+      "registry_id": "missing_lithography_physics",
+      "responses_expected_to_change": [
+        "printed_cd_distribution",
+        "overlay",
+        "defectivity"
+      ],
+      "tutorial_role": "model_limitation"
+    }
+  ],
+  "launch_status": "blocked_pending_ranges_measurements_and_numerics",
+  "schema_version": 1,
+  "scope": "Complete mask/Bosch registry projection before range finding; not a design matrix.",
+  "screening_rule": "The pair viewer may display two factors at once. The experiment may not drop an eligible factor because it was absent from an earlier campaign.",
+  "sources": [
+    {
+      "path": "factor_registry.json",
+      "sha256": "5972d85bb85665c3a1721e4c9f545df9b76b7f8fd7a0dc87c7e03f98574e9a4e"
+    },
+    {
+      "path": "build_pattern_bosch_factor_projection.py",
+      "sha256": "c9862a18f29cfe3e02d960220c7ef42c5b3e4f6d8226743473708b5c97558a74"
+    }
+  ]
+}

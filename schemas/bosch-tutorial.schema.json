@@ -3,7 +3,7 @@
   "title": "Bosch tutorial evidence",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_cases", "default_interaction", "default_interior_case", "review"],
+  "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
   "properties": {
     "schema_version": {"const": 1},
     "title": {"type": "string", "minLength": 1},
@@ -25,8 +25,27 @@
     "targets": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["depth", "depth_tolerance", "target_cd", "maximum_cd_error", "maximum_bow"],
+      "required": ["basis", "depth", "depth_tolerance", "target_cd", "maximum_cd_error", "maximum_bow"],
       "properties": {
+        "basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["classification", "physical_qualification", "source"],
+          "properties": {
+            "classification": {"const": "assumed_study_target"},
+            "physical_qualification": {"const": false},
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256", "section"],
+              "properties": {
+                "path": {"const": "program.md"},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "section": {"const": "Declared study product spec"}
+              }
+            }
+          }
+        },
         "depth": {"type": "number"},
         "depth_tolerance": {"type": "number", "exclusiveMinimum": 0},
         "target_cd": {"type": "number", "exclusiveMinimum": 0},
@@ -38,6 +57,7 @@
     "interior_cases": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/case"}},
     "default_interaction": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}},
     "default_interior_case": {"type": "string", "minLength": 16},
+    "measurement_example_case_id": {"type": "string", "minLength": 16},
     "review": {
       "type": "object",
       "additionalProperties": false,

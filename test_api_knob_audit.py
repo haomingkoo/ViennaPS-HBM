@@ -31,7 +31,7 @@ assert set(audit.parameter_defaults("AtomicLayerProcessParameters")) == {
 }
 
 registry = json.loads(
-    Path("autoresearch-results/restart_audit/knob_registry.json").read_text()
+    Path("factor_registry.json").read_text()
 )
 by_id = {record["id"]: record for record in registry["records"]}
 assert {

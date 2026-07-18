@@ -89,11 +89,12 @@
   @media (max-width: 700px) { .process-flow { grid-template-columns: repeat(2, 1fr); } .process-flow li:nth-child(2n) { border-right: 0; } }
   .failure-map { margin-top: 1.25rem; border-top: 1px solid var(--line); }
   .failure-row {
-    display: grid; grid-template-columns: minmax(120px, 0.62fr) 1.15fr 1.1fr 0.95fr;
-    gap: 1.1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); align-items: start;
+    display: grid; grid-template-columns: minmax(110px, 0.55fr) 1fr 1.05fr 1fr 0.9fr;
+    gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); align-items: start;
   }
   .failure-stage { min-width: 0; }
   .failure-stage h3 { margin: 0.25rem 0 0.32rem; font: 650 0.92rem/1.3 var(--sans); }
+  .failure-stage a { display: block; margin-top: 0.25rem; font: 0.68rem var(--mono); }
   .failure-state { font: 0.67rem var(--mono); color: var(--ink-dim); }
   .failure-state.pass { color: var(--confirmed); }
   .failure-state.fail { color: var(--amber); }
@@ -105,7 +106,7 @@
   .code-map .panel { border: 0; margin: 0; }
   .failure-details-title { margin: 0; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); font: 0.78rem var(--mono); color: var(--plasma); }
   .failure-details .failure-map { margin-top: 0; border-top: 0; }
-  .failure-map-head { display: grid; grid-template-columns: minmax(120px, 0.62fr) 1.15fr 1.1fr 0.95fr; gap: 1.1rem; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--line); background: var(--surface-2); font: 0.68rem var(--mono); color: var(--ink-dim); }
+  .failure-map-head { display: grid; grid-template-columns: minmax(110px, 0.55fr) 1fr 1.05fr 1fr 0.9fr; gap: 1rem; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--line); background: var(--surface-2); font: 0.68rem var(--mono); color: var(--ink-dim); }
   .failure-details .failure-row { padding-inline: 1.25rem; }
   .fill-replay { margin: 1.7rem 0; padding: 1.1rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .fill-replay-controls { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; margin: 1rem 0; align-items: end; }
@@ -125,11 +126,37 @@
   .fill-metrics dt { color: var(--ink-dim); }
   .fill-metrics dd { margin: 0; font-family: var(--mono); text-align: right; }
   .fill-replay figcaption { margin-top: 0.8rem; max-width: 78ch; color: var(--ink-dim); font-size: 0.86rem; line-height: 1.5; }
+  .trajectory-replay { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .trajectory-replay h4 { margin: 0 0 0.3rem; font-size: 1rem; }
+  .trajectory-replay .fill-replay-figure { min-height: 500px; }
+  .trajectory-replay .fill-replay-figure svg { height: 500px; }
   .output-studies { margin-top: 1.5rem; border-top: 1px solid var(--line); }
   .bosch-lab { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
+  .pilot-study { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
+  .pilot-badge { display: inline-flex; margin: 0.4rem 0 1rem; padding: 0.35rem 0.55rem; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-dim); font: 0.68rem var(--mono); }
+  .pilot-legend { display: flex; flex-wrap: wrap; gap: 0.55rem 1rem; margin: 0.8rem 0; color: var(--ink-dim); font-size: 0.76rem; }
+  .pilot-legend span::before { content: attr(data-icon); display: inline-grid; width: 1.35rem; height: 1.35rem; margin-right: 0.35rem; place-items: center; border: 1px solid var(--line); color: var(--ink); font: 0.7rem var(--mono); }
+  .pilot-grid { display: grid; grid-template-columns: repeat(5, minmax(48px, 1fr)); gap: 0.45rem; max-width: 620px; margin: 1rem 0; }
+  .pilot-grid button { position: relative; aspect-ratio: 1; min-width: 0; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; font: 0.82rem var(--mono); }
+  .pilot-grid button[data-state="complete_measurements"] { background: color-mix(in srgb, var(--teal) 10%, var(--surface)); }
+  .pilot-grid button[data-state="low_movement_measured"] { background: color-mix(in srgb, var(--plasma) 11%, var(--surface)); }
+  .pilot-grid button[data-state="measurement_unavailable"] { background: color-mix(in srgb, var(--warn) 12%, var(--surface)); }
+  .pilot-grid button[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .pilot-grid button[data-center="true"]::after { content: "center"; position: absolute; inset: auto 0.18rem 0.18rem; color: var(--ink-dim); font-size: 0.48rem; }
+  .pilot-detail { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(260px, 0.72fr); border: 1px solid var(--line); }
+  .pilot-profile { min-height: 430px; border-right: 1px solid var(--line); }
+  .pilot-profile svg { display: block; width: 100%; height: 430px; }
+  .pilot-read { padding: 1rem; background: var(--surface-2); }
+  .pilot-read h4 { margin: 0 0 0.35rem; }
+  .pilot-read > p { margin: 0 0 0.8rem; color: var(--ink-dim); font-size: 0.78rem; }
+  .pilot-read dl { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem 0.8rem; margin: 0; font-size: 0.76rem; }
+  .pilot-read dt { color: var(--ink-dim); }
+  .pilot-read dd { margin: 0; font-family: var(--mono); text-align: right; }
   .bosch-causal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 1rem 0; background: var(--line); border: 1px solid var(--line); }
   .bosch-causal span { padding: 0.7rem; background: var(--surface-2); color: var(--ink-dim); font-size: 0.75rem; text-align: center; }
-  .output-causal { grid-template-columns: repeat(4, 1fr); margin: 0.8rem 0 0; }
+  .output-causal b { display: block; margin-bottom: 0.28rem; color: var(--ink); font: 0.66rem var(--mono); }
+  .output-causal { grid-template-columns: repeat(5, 1fr); margin: 0.8rem 0 0; }
+  .boundary-result { margin: 0.75rem 0 0; padding: 0.75rem 0.9rem; border-left: 3px solid var(--teal); background: var(--surface-2); }
   .bosch-controls { display: grid; grid-template-columns: minmax(220px, 0.7fr) 1.3fr; gap: 1rem; align-items: end; margin: 1rem 0; }
   .bosch-controls > * { min-width: 0; }
   .bosch-controls label { display: grid; gap: 0.3rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
@@ -148,6 +175,8 @@
   .bosch-measure.maximum line { stroke: var(--fail); stroke-dasharray: 0.012 0.009; }
   .bosch-measure.maximum text { fill: var(--fail); }
   .bosch-measure.bow line, .bosch-measure.bow circle { stroke: var(--warn); fill: var(--warn); }
+  .cu-warning rect { fill: var(--warn); opacity: 0.2; stroke: var(--warn); stroke-width: 0.003; }
+  .cu-warning text { fill: var(--warn); font: 0.026px var(--mono); }
   .bosch-read { padding: 1rem; background: var(--surface-2); }
   .bosch-read h4 { margin: 0 0 0.4rem; }
   .bosch-read p { margin: 0 0 0.9rem; color: var(--ink-dim); font-size: 0.8rem; }
@@ -159,6 +188,7 @@
   .output-viewer-head h3 { margin: 0 0 0.25rem; }
   .output-viewer-head p { margin: 0; color: var(--ink-dim); font-size: 0.84rem; }
   .output-viewer-head p + p { margin-top: 0.25rem; }
+  .evidence-badge { display: inline-flex; width: fit-content; margin: 0.55rem 0 0; padding: 0.3rem 0.55rem; border: 1px solid var(--line); color: var(--ink-dim); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.01em; background: var(--surface); }
   .output-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem 1rem; }
   .output-control label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.1rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
   .output-control output { color: var(--ink); }
@@ -194,8 +224,9 @@
     .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
     .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
-    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout { grid-template-columns: 1fr; }
+    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .pilot-detail { grid-template-columns: 1fr; }
     .bosch-profile { border-right: 0; border-bottom: 1px solid var(--line); }
+    .pilot-profile { border-right: 0; border-bottom: 1px solid var(--line); }
   }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
   .repo-map dt, .repo-map dd { margin: 0; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
@@ -276,6 +307,18 @@
   .target-profile figcaption { color: var(--ink-dim); font-size: 0.84rem; }
   .target-profile figcaption b { color: var(--ink); }
   @media (max-width: 720px) { .target-profile { grid-template-columns: 1fr; } }
+  .measurement-atlas { margin: 2rem 0; border: 1px solid var(--line); background: var(--surface-2); }
+  .measurement-atlas-head { padding: 1.25rem 1.4rem 0; }
+  .measurement-atlas-head h3 { margin: 0 0 0.45rem; }
+  .measurement-atlas-head p { margin: 0; color: var(--ink-dim); }
+  .measurement-atlas figure { margin: 0; padding: 1rem 1.25rem 1.25rem; overflow-x: auto; }
+  .measurement-atlas svg { display: block; width: 100%; height: auto; min-height: 420px; }
+  .measurement-atlas figcaption { margin-top: 0.75rem; color: var(--ink-dim); font-size: 0.85rem; }
+  .measurement-line { stroke: var(--plasma); stroke-width: 2; }
+  .measurement-guide { stroke: var(--ink-dim); stroke-width: 1.3; stroke-dasharray: 5 4; }
+  .measurement-label { fill: var(--ink); font-size: 14px; font-weight: 700; }
+  .measurement-value { fill: var(--ink-dim); font-size: 12px; }
+  @media (max-width: 720px) { .measurement-atlas svg { width: 700px; min-height: 420px; } }
   .research-path {
     display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; padding: 0;
     margin: 1.25rem 0; list-style: none; border: 1px solid var(--line);
@@ -604,9 +647,9 @@
       set of simulations into a trustworthy study.
     </p>
     <div class="hero-summary" aria-label="What this guide covers">
-      <div><b>Model the handoffs</b><span>Carry one 2D geometry from mask opening through etch and films. Then add copper and polish.</span></div>
+      <div><b>Carry the shape forward</b><span>Start with a mask opening. Pass the resulting 2D shape through etch and films. Then add copper and polish.</span></div>
       <div><b>Recognize failures</b><span>See bowed walls and thin coatings. Find broken seed, trapped voids, and recessed plugs.</span></div>
-      <div><b>Build it correctly</b><span>Measure every handoff. Test passing and failing controls. Repeat noisy runs before tuning.</span></div>
+      <div><b>Build the study correctly</b><span>Measure after every step. Test known examples. Repeat noisy runs before tuning.</span></div>
     </div>
     <p class="scope-note">This is a teaching model. Real TSV flows include more films, cleaning steps, and process controls.</p>
     <nav class="jump-nav" aria-label="Quick links">
@@ -614,9 +657,9 @@
       <ul>
         <li><a href="#process-overview">Major TSV process</a></li>
         <li><a href="#software">How the software works</a></li>
-        <li><a href="#numerical-tuning">Numerical tuning</a></li>
         <li><a href="#knobs-guide">Knobs and failures</a></li>
         <li><a href="#boundary-atlas">Copper response map</a></li>
+        <li><a href="#numerical-tuning">Advanced numerical tuning</a></li>
         <li><a href="#raw-output">Saved output</a></li>
         <li><a href="#tutorial">Run the example</a></li>
         <li><a href="#references">Sources</a></li>
@@ -650,7 +693,7 @@
         </g>
         <g fill="var(--ink-dim)"><path d="M157 91l10 7-10 7z"/><path d="M315 91l10 7-10 7z"/><path d="M473 91l10 7-10 7z"/><path d="M631 91l10 7-10 7z"/><path d="M789 91l10 7-10 7z"/></g>
       </svg>
-      <figcaption>The cross-section changes at each handoff.</figcaption>
+      <figcaption>The cross-section changes after each step.</figcaption>
       <div class="material-legend" aria-label="Material colors">
         <span><i class="mask"></i>Mask</span>
         <span><i class="silicon"></i>Silicon</span>
@@ -667,20 +710,20 @@
       <article>
         <span class="scope-label">The model checks</span>
         <h3>Geometry and continuity</h3>
-        <ul><li>Shape and layer coverage</li><li>Void topology and connections</li></ul>
+        <ul><li>Shape and layer coverage</li><li>Voids and material connections</li></ul>
       </article>
       <article>
         <span class="scope-label">Outside this model</span>
         <h3>Fab settings and reliability</h3>
-        <ul><li>Gas flow, plating current, and polish pressure</li><li>Adhesion, stress, resistance, and wafer behavior</li></ul>
+        <ul><li>Gas flow, plating current, and polish pressure</li><li>Adhesion and stress; resistance and wafer behavior</li></ul>
       </article>
     </div>
   </section>
 
   <section class="finding primary-result" id="screening-result" aria-label="Simulation result">
-    <p class="context-line">PRESCRIBED PASSING SHAPE · MEASUREMENT CHECK</p>
-    <h2>How the software recognizes a passing shape</h2>
-    <p class="decision-line">This positive control produces continuous geometric layers. No void is detected in the 2D copper region. Planarization leaves a connected plug.</p>
+    <p class="context-line">PRESCRIBED GEOMETRY CONTROL · MEASUREMENT CHECK</p>
+    <h2>How the measurement code checks a known geometry</h2>
+    <p class="note">The scripted control produces continuous geometric layers, no resolved 2D void, and a connected plug after ideal planarization. It checks the measurements, not process physics.</p>
     <figure class="result-figure">
       <img id="screening-traveler-visual" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Five simulated TSV cross-sections from etch through polish.">
       <figcaption>The gray tails below the floor come from the simulation boundary. They are not physical tips.</figcaption>
@@ -698,7 +741,7 @@
         </tbody>
       </table>
     </div>
-    <p class="note">These passing shapes test the geometry and measurements. They do not show that a physical TSV recipe will produce the same result.</p>
+    <p class="note">These known shapes test the geometry measurements. They do not show that a physical TSV recipe will produce the same result.</p>
   </section>
 
   <section class="finding" id="software">
@@ -712,7 +755,7 @@
         <g font-family="var(--sans)" fill="var(--ink)">
           <g transform="translate(28 32)">
             <rect width="180" height="48" fill="var(--surface-2)" stroke="var(--line)"/>
-            <text x="16" y="21" font-size="12" font-weight="700">Current domain</text>
+            <text x="16" y="21" font-size="12" font-weight="700">Current geometry</text>
             <text x="16" y="37" font-size="11" fill="var(--ink-dim)">Materials and boundaries</text>
             <rect y="62" width="180" height="48" fill="var(--surface-2)" stroke="var(--line)"/>
             <text x="16" y="83" font-size="12" font-weight="700">Model + controls</text>
@@ -732,7 +775,7 @@
           <path d="M504 118H558" stroke="var(--plasma)" stroke-width="2"/><path d="M550 112l10 6-10 6" fill="var(--plasma)"/>
           <g transform="translate(562 72)">
             <rect width="142" height="92" fill="var(--surface-2)" stroke="var(--line)"/>
-            <text x="71" y="38" text-anchor="middle" font-size="12" font-weight="700">Updated domain</text>
+            <text x="71" y="38" text-anchor="middle" font-size="12" font-weight="700">Updated geometry</text>
             <text x="71" y="59" text-anchor="middle" font-size="11" fill="var(--ink-dim)">Next-step input</text>
           </g>
           <path d="M716 118H758" stroke="var(--plasma)" stroke-width="2"/><path d="M750 112l10 6-10 6" fill="var(--plasma)"/>
@@ -748,12 +791,13 @@
       </svg>
       <figcaption>Each step changes the shape. <code>build_screening_traveler.py</code> runs the steps and records the measurements. Mapping equipment settings into model controls requires separate calibration.</figcaption>
     </figure>
-    <p class="note">The software stores the outline of each material. This page shows one 2D slice through the via.</p>
+    <p class="note">The software stores the outline of each material. ViennaPS calls this stored geometry a domain. This tutorial uses a 2D trench-like surrogate. A cylindrical 3D via can change particle transport and void topology.</p>
   </section>
 
   <section class="finding" id="numerical-tuning">
-    <h2>Choosing a faster simulation setting</h2>
-    <p class="claim">A faster setting is useful only when it preserves the measurements and pass/fail decisions needed by the study.</p>
+    <h2>Advanced: choosing a faster simulation setting</h2>
+    <p class="claim">A faster setting is useful only when it preserves the measured shape and the conclusions drawn from it.</p>
+    <p class="note"><b>Important:</b> the inherited depth, width, and bow bands are assumed study targets. They are not wafer specifications and do not have enough provenance to qualify a process. This section therefore compares measurement and shape changes directly.</p>
     <div class="numerical-controls" aria-label="Numerical sensitivity chart controls">
       <button type="button" data-numerical-axis="grid" aria-pressed="true">Shape detail</button>
       <button type="button" data-numerical-axis="rays" aria-pressed="false">Ray sampling</button>
@@ -780,27 +824,27 @@
     <div class="numerical-status" id="numerical-ray-status" aria-label="Current fine-grid ray-count checks"></div>
     <p class="note" id="numerical-takeaway"></p>
     <p class="note">Points are saved simulations from one research machine. Lines connect sampled settings on a log x-axis; they are not fitted response surfaces. This benchmark uses one coarse-grid Bosch recipe, so its turning points do not transfer automatically to deeper or narrower vias.</p>
-    <h3>Why 250 rays was rejected</h3>
-    <p>At the high neutral-sticking test, the two ray counts disagreed about the width requirement. The limit is a maximum width error of 0.060 model units.</p>
+    <h3>Why 250 rays needs more checking</h3>
+    <p>In one commissioning case, changing the numerical setup changed the maximum width error from 0.0564 to 0.0742 model units. That 0.0178 difference is large enough to change how the profile is interpreted, regardless of the assumed acceptance band.</p>
     <div class="table-scroll">
       <table class="journal-table" aria-label="The 250 and 2000 ray mismatch">
-        <thead><tr><th>Setting</th><th>Maximum width error</th><th>Width requirement</th><th>Result</th></tr></thead>
+        <thead><tr><th>Setting</th><th>Maximum width error</th><th>Difference from 2,000 rays</th><th>Interpretation</th></tr></thead>
         <tbody>
-          <tr><td>250 rays</td><td>0.0742</td><td>Above 0.060</td><td>Fail</td></tr>
-          <tr><td>2,000 rays</td><td>0.0564</td><td>Within 0.060</td><td>Pass</td></tr>
+          <tr><td>250 rays</td><td>0.0742</td><td>+0.0178</td><td>Different profile measurement</td></tr>
+          <tr><td>2,000 rays</td><td>0.0564</td><td>Reference</td><td>Not numerical truth</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">The commissioning comparison disagreed on this width decision and on one strong tuning direction. It also changed random streams and the stopping interval, so it is not a clean ray-only test. It rejects 250 rays for the broad search, but it does not locate the useful threshold. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/docs/current-run.md">review</a>.</p>
+    <p class="note">This comparison also changed random streams and the stopping interval, so it cannot isolate the effect of ray count. It is a warning, not a qualification result. The clean paired ladder changes ray count only. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/docs/current-run.md">review</a>.</p>
     <h3>Why 500 rays is the current exploration setting</h3>
     <div class="method-chain" aria-label="Ray-count accuracy check">
       <div><b>1. Freeze cases</b><span>Include clear passes, clear failures, difficult shapes and cases close to each limit.</span></div>
       <div><b>2. Change rays only</b><span>Use the same physical inputs, random streams and stopping rule at 500 and 2,000 rays.</span></div>
       <div><b>3. Compare measurements</b><span>Check depth, top/middle/bottom width, bow and shape class.</span></div>
-      <div><b>4. Check boundaries</b><span>Confirm that pass/fail limits do not move enough to change a decision.</span></div>
+      <div><b>4. Check stability</b><span>Confirm that measurement error, shape class, and tuning direction remain useful.</span></div>
       <div><b>5. Approve one use</b><span>A clean paired ladder must pass before 500 rays is approved as the discovery setting. Boundaries and finalists still use 2,000.</span></div>
     </div>
-    <p class="note"><b>Current status:</b> 500 rays is used provisionally for exploration. Across 16 commissioning anchors it preserved gate decisions, trajectory classes, strong-effect directions, and the factor ranking, with a 4.47× median speedup. That comparison also changed random streams and the stopping depth, so a clean paired ladder is still required.</p>
+    <p class="note"><b>Current status:</b> 500 rays is a provisional exploration setting. An earlier 16-case check preserved the major shape classes and factor ranking. It was 4.47× faster at the median. That check also changed random streams and stopping depth, so it did not isolate ray count.</p>
     <p class="note"><b>What matters:</b> the two settings do not need identical decimals. They need the same major shape, failure mode, pass/fail result and useful tuning direction. Small differences are acceptable when they cannot change a decision.</p>
     <h3>How the parameter search will work</h3>
     <div class="method-chain" aria-label="Sequential parameter search">
@@ -820,41 +864,102 @@
     <p class="claim">Geometry inputs define the starting shape. Model inputs control simulated surface motion. Neither is a calibrated machine recipe.</p>
     <div class="table-scroll">
       <table class="journal-table" aria-label="Equipment controls, model controls, and measurement feedback">
-        <thead><tr><th>Step</th><th>Equipment examples</th><th>Controls in this model</th><th>Measurement feedback</th></tr></thead>
+        <thead><tr><th>Step</th><th>Equipment controls</th><th>Physical effect</th><th>ViennaPS representation</th><th>Measurement feedback</th></tr></thead>
         <tbody>
-          <tr><td>Mask</td><td>Focus, exposure dose, bake, develop, resist thickness</td><td>Opening width, height, and taper</td><td>Top and bottom opening width; mask height</td></tr>
-          <tr><td>Silicon etch</td><td>Gas-step timing and flow, pressure, source power, bias, temperature</td><td>Etch and passivation time; effective rates, sticking, and ion direction</td><td>Depth; top, middle, and bottom width; bow and scallop</td></tr>
-          <tr><td>Liner</td><td>Precursor exposure, pressure, temperature, plasma conditions</td><td>Deposition amount, sticking, and source distribution</td><td>Field, wall, and floor thickness; continuity and opening</td></tr>
-          <tr><td>Barrier + seed</td><td>Target power, pressure, substrate bias, collimation, deposition time</td><td>Deposition amount and arrival-direction fraction</td><td>Regional thickness, continuity, and remaining opening</td></tr>
-          <tr><td>Copper fill</td><td>Current waveform, additives, chemistry, temperature, agitation</td><td>Candidate suppressor transport and kinetic rates; separate prescribed geometry control</td><td>Open and sealed voids, seam history, overburden</td></tr>
-          <tr><td>Polish</td><td>Pressure, speed, slurry, selectivity, endpoint and overpolish</td><td>Removal amount and material-rate ratios</td><td>Field clearance, plug recess, stop loss, connectivity</td></tr>
+          <tr><td>Mask</td><td>Focus and dose; bake and develop; resist coat</td><td>Changes opening size, height, and taper</td><td>Starting opening geometry</td><td>Top and bottom opening width; mask height</td></tr>
+          <tr><td>Silicon etch</td><td>Gas timing and flow; pressure; source power; bias; temperature</td><td>Changes removal, wall protection, and ion direction</td><td>Effective rates, sticking, directionality, and duration</td><td>Depth; top, middle, and bottom width; bow and scallop</td></tr>
+          <tr><td>Liner</td><td>Precursor exposure; pressure; temperature; plasma</td><td>Changes growth rate and transport into the via</td><td>Deposition amount, sticking, and source distribution</td><td>Field, wall, and floor thickness; continuity and opening</td></tr>
+          <tr><td>Barrier + seed</td><td>Target power; pressure; substrate bias; collimation; time</td><td>Changes arrival direction and deep coverage</td><td>Deposition amount and arrival-direction fraction</td><td>Regional thickness, continuity, and remaining opening</td></tr>
+          <tr><td>Copper fill</td><td>Current waveform; additives; chemistry; temperature; agitation</td><td>Changes suppression and floor-versus-wall growth</td><td>Candidate transport and kinetic rates</td><td>Open and sealed voids; seam history; copper above the surface</td></tr>
+          <tr><td>Polish</td><td>Pressure and speed; slurry; endpoint and overpolish</td><td>Changes removal rate and material selectivity</td><td>Removal amount and relative material rates</td><td>Field clearance; plug recess; stop loss; connectivity</td></tr>
         </tbody>
       </table>
     </div>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
-    <p class="note"><b>No direct conversion:</b> equipment settings act through plasma, chemistry, transport, and surface state. Mapping them to these effective model controls requires measurements from a specific tool.</p>
+    <p class="note"><b>Qualitative influence only:</b> the two middle columns are not a conversion table. Equipment settings change the physical process. Mapping them to model inputs requires measurements from a specific tool.</p>
+    <h3>Which model inputs the saved examples vary</h3>
+    <p class="note">These values come from the checked-in configuration and select saved sensitivity examples. They still need range finding before a screening DOE.</p>
+    <div class="table-scroll">
+      <table class="journal-table" aria-label="Active teaching controls and measured responses">
+        <thead><tr><th>Step</th><th>Model control</th><th>Saved values</th><th>Measured feedback</th></tr></thead>
+        <tbody id="active-factor-rows"></tbody>
+      </table>
+    </div>
+    <p class="note"><a href="active_experiment_contract.json">Open this teaching-factor contract</a> · <a href="schemas/active-experiment-contract.schema.json">schema</a> · <a href="docs/range-research-log.json">source-search log</a>. The <a href="factor_registry.json">complete audit registry</a> remains available for advanced provenance.</p>
+    <div class="measurement-atlas" id="etch-measurement-atlas">
+      <div class="measurement-atlas-head">
+        <h3>Where the etch measurements come from</h3>
+        <p>The lines below are drawn over one saved ViennaPS profile. They show what depth and top, middle, and bottom width mean.</p>
+      </div>
+      <figure>
+        <div id="etch-measurement-figure" role="img" aria-label="Saved dry-etch profile annotated with depth and width measurement locations"></div>
+        <figcaption>Saved simulation geometry · one fixed random stream · 500-ray sensitivity case · not a designed experiment or fab qualification. Bow and scallop are calculated from 76 wall samples. <a href="pattern_bosch_measurement_contract.json">Open the measurement definitions and unresolved checks.</a></figcaption>
+      </figure>
+    </div>
+    <div class="factor-scope" id="pattern-bosch-factor-scope">
+      <h3>Why each viewer shows only a few controls</h3>
+      <p class="claim">Each viewer changes two or three controls and holds the others fixed so the shape is easy to read. It is one view of the study, not the full experiment.</p>
+      <p>The full plan assigns every current factor, setting, response, and assumption to range finding, a separate study, a fixed role, or a documented exclusion.</p>
+      <div class="method-chain" id="pattern-bosch-factor-counts" aria-label="Mask and Bosch factor dispositions"></div>
+      <p class="note">The inventory comes from the current code and API. Earlier runs provide examples, but they do not define the factor list. <a href="pattern_bosch_factor_projection.json">Open every mask and etch item and its decision.</a></p>
+    </div>
+    <div class="pilot-study" id="pattern-bosch-range-pilot">
+      <h3>What the 25 coarse cases produced</h3>
+      <p class="claim">A wide first pass found measurable profiles and cases that need better checks.</p>
+      <p class="pilot-badge">Coarse range pilot · one shared seed label · numerical settings unqualified · no factor effects</p>
+      <p>Twenty cases returned all 14 mask and etch measurements. Five final profiles were saved, but the current wall-intersection measurement could not read them.</p>
+      <div class="pilot-legend" aria-label="Range-pilot result states">
+        <span data-icon="✓">18 complete measurements</span>
+        <span data-icon="—">2 measurable low-movement profiles</span>
+        <span data-icon="!">5 measurements unavailable</span>
+      </div>
+      <div class="pilot-grid" id="pilot-case-grid" aria-label="Twenty-five range-pilot cases in design order"></div>
+      <p class="boundary-result"><b>Takeaway:</b> this pilot found cases worth checking again. It does not show which control caused an outcome, where a failure boundary lies, or which recipe is best.</p>
+      <div class="pilot-detail">
+        <div class="pilot-profile" id="pilot-profile" role="img" aria-label="Selected saved final dry-etch profile"></div>
+        <aside class="pilot-read" id="pilot-read" aria-live="polite"></aside>
+      </div>
+      <p class="note"><a href="pattern_bosch_range_pilot_review.json">Open the corrected review and case data</a> · <a href="evidence/bosch/range_pilot/source_bundle.json">committed source bundle</a> · <a href="schemas/pattern-bosch-range-pilot-review.schema.json">schema</a></p>
+    </div>
+    <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. The handoff viewer later on the page is the separate example that carries one geometry forward.</p>
     <div class="bosch-lab" id="bosch-interaction-lab">
-      <h3>Dry etch: controls work together</h3>
-      <p class="claim">Choose an interaction, then inspect the four actual simulated profiles.</p>
-      <p class="note">These 28 saved cases vary two model controls at a time around a fixed reference recipe. The shapes are loaded from native ViennaPS checkpoints. They are discovery evidence, not calibrated equipment recipes.</p>
+      <h3>Dry etch: compare saved factor-pair corners</h3>
+      <p class="evidence-badge">Saved sensitivity · one stream per case · not DOE · model units</p>
+      <p class="claim">Choose a factor pair, then inspect the four saved simulated profiles.</p>
+      <p class="note">These 28 saved cases vary two model controls at a time around one fixed model setup. Each case has one random stream. There is no interpolation or interaction estimate. The shapes show sensitivity for this model and geometry, not a calibrated equipment recipe.</p>
       <div class="bosch-causal" aria-label="Equipment to measurement relationship">
         <span>Equipment controls</span><span>Plasma and surface state</span><span>ViennaPS model controls</span><span>Simulated profile</span><span>Geometry measurements</span>
       </div>
       <div class="bosch-controls">
-        <label for="bosch-interaction-select">ViennaPS controls to compare<select id="bosch-interaction-select"></select></label>
+        <label for="bosch-interaction-select">ViennaPS factor pair<select id="bosch-interaction-select"></select></label>
         <p class="bosch-factor-note" id="bosch-factor-note"></p>
       </div>
-      <div class="bosch-corners" id="bosch-corners" aria-label="Saved interaction cases"></div>
+      <p class="boundary-result" id="bosch-pair-result"></p>
+      <div class="bosch-corners" id="bosch-corners" aria-label="Saved factor-pair cases"></div>
       <div class="bosch-lab-layout">
         <div class="bosch-profile" id="bosch-profile" role="img" aria-label="Actual saved ViennaPS dry-etch profile"></div>
         <aside class="bosch-read" id="bosch-read" aria-live="polite"></aside>
       </div>
       <p class="note"><a href="bosch_tutorial_data.json">Open the exported profiles and citations.</a> The browser does not interpolate between the four sampled combinations.</p>
+      <figure class="trajectory-replay" id="bosch-trajectory-replay">
+        <h4>Watch the via deepen over repeated etch cycles</h4>
+        <p class="note">Scrub through seven replayed checkpoints from one 500-ray run with a fixed random seed. Each frame shows the profile after a complete etch/passivation cycle.</p>
+        <p class="note" id="bosch-cycle-fixed"></p>
+        <div class="fill-replay-controls">
+          <div class="fill-progress"><label for="bosch-cycle-slider">Saved cycle <span id="bosch-cycle-value"></span></label><input id="bosch-cycle-slider" type="range" min="0" max="0" step="1" value="0"></div>
+          <button type="button" id="bosch-cycle-play">Play</button>
+        </div>
+        <div class="fill-replay-layout">
+          <div class="fill-replay-figure" id="bosch-cycle-figure" role="img" aria-label="Actual dry-etch profile at the selected saved cycle"></div>
+          <aside class="fill-replay-read" id="bosch-cycle-read" aria-live="polite"></aside>
+        </div>
+        <figcaption>The final frame matches the saved native checkpoint. There is no browser interpolation. <a href="bosch_trajectory_replay.json">Open the replay data and citations.</a></figcaption>
+      </figure>
     </div>
     <div class="output-studies" id="step-output-studies">
       <h3>Inspect the saved result from each step</h3>
-      <p class="claim">Each panel compares two controls and shows the resulting saved shape.</p>
-      <p class="note">The controls select one of nine saved combinations. They do not rerun ViennaPS or invent shapes between tested points. These small studies are independent and are not a finished process window. <a href="step_experiments.json">Open the saved step data.</a></p>
+      <p class="claim">Each panel compares a small set of controls and shows the resulting saved shape.</p>
+      <p class="note"><b>These are not results from a designed experiment (DOE).</b> Each panel is a single-seed sensitivity example. Its controls select a saved combination. They do not rerun ViennaPS or update a later panel. <a href="step_experiments.json">Open the saved step data.</a></p>
       <div id="step-output-list"></div>
       <div class="output-viewer" id="failure-chain-viewer" data-failure-chain>
         <div class="output-viewer-head"><div><h3></h3><p></p></div></div>
@@ -873,46 +978,55 @@
     <div class="code-map failure-details" role="group" aria-labelledby="failure-details-title">
       <p class="failure-details-title" id="failure-details-title">Advanced: failure modes and tuning details</p>
     <div class="failure-map" aria-label="Failure modes and tuning details by TSV process step">
-      <div class="failure-map-head" aria-hidden="true"><span>Step</span><span>Potential failure</span><span>Tuning knob</span><span>Possible downside</span></div>
+      <div class="failure-map-head" aria-hidden="true"><span>Step</span><span>Potential failure</span><span>Machine controls</span><span>ViennaPS controls</span><span>Possible downside</span></div>
       <article class="failure-row">
-        <div class="failure-stage"><h3>Mask opening</h3></div>
+        <div class="failure-stage"><h3>Mask opening</h3><a href="#study-mask">Explore saved results ↓</a></div>
         <div class="failure-cell"><b>Potential failure</b><span>An opening that is too wide, too narrow, or tapered.</span></div>
-        <div class="failure-cell"><b>Tuning knob</b><span>Opening width, mask height, and taper.</span></div>
+        <div class="failure-cell"><b>Machine controls</b><span>Focus and dose; bake and develop; resist coat.</span></div>
+        <div class="failure-cell"><b>ViennaPS controls</b><span>Opening width, mask height, and taper.</span></div>
         <div class="failure-cell"><b>Possible downside</b><span>The opening must expose enough silicon while protecting the surrounding surface.</span></div>
       </article>
       <article class="failure-row">
-        <div class="failure-stage"><h3>Silicon etch</h3></div>
+        <div class="failure-stage"><h3>Silicon etch</h3><a href="#bosch-interaction-lab">Explore saved results ↓</a></div>
         <div class="failure-cell"><b>Potential failure</b><span>Wrong depth, bowed walls, or a narrow neck.</span></div>
-        <div class="failure-cell"><b>Tuning knob</b><span>Cycle count, etch time, protective coating, and particle direction.</span></div>
+        <div class="failure-cell"><b>Machine controls</b><span>SF6/C4F8 timing and flow; pressure; source power; bias; cycles.</span></div>
+        <div class="failure-cell"><b>ViennaPS controls</b><span>Cycle count; phase times; effective rates; sticking; directionality.</span></div>
         <div class="failure-cell"><b>Possible downside</b><span>Faster removal can deepen the via but make its walls harder to control.</span></div>
       </article>
       <article class="failure-row">
-        <div class="failure-stage"><h3>Liner</h3></div>
+        <div class="failure-stage"><h3>Liner</h3><a href="#study-liner">Explore saved results ↓</a></div>
         <div class="failure-cell"><b>Potential failure</b><span>A thin floor coating or a narrowed opening.</span></div>
-        <div class="failure-cell"><b>Tuning knob</b><span>Deposition amount and particle sticking.</span></div>
+        <div class="failure-cell"><b>Machine controls</b><span>Precursor exposure; purge; pressure; temperature; plasma.</span></div>
+        <div class="failure-cell"><b>ViennaPS controls</b><span>Deposition amount and particle sticking.</span></div>
         <div class="failure-cell"><b>Possible downside</b><span>More coating improves thickness but leaves less room for copper.</span></div>
       </article>
       <article class="failure-row">
-        <div class="failure-stage"><h3>Barrier + seed</h3></div>
+        <div class="failure-stage"><h3>Barrier + seed</h3><a href="#study-barrier">Barrier results ↓</a><a href="#study-seed">Seed results ↓</a></div>
         <div class="failure-cell"><b>Potential failure</b><span>A thin or disconnected coating near the floor.</span></div>
-        <div class="failure-cell"><b>Tuning knob</b><span>Deposition amount and particle direction.</span></div>
+        <div class="failure-cell"><b>Machine controls</b><span>Target power; pressure; substrate bias; collimation; time.</span></div>
+        <div class="failure-cell"><b>ViennaPS controls</b><span>Deposition amount and arrival-direction fraction.</span></div>
         <div class="failure-cell"><b>Possible downside</b><span>Better deep coverage can also narrow the copper opening.</span></div>
       </article>
       <article class="failure-row">
-        <div class="failure-stage"><h3>Copper fill</h3></div>
+        <div class="failure-stage"><h3>Copper fill</h3><a href="#study-copper">Explore saved results ↓</a></div>
         <div class="failure-cell"><b>Potential failure</b><span>A center seam, trapped void, or early mouth closure.</span></div>
-        <div class="failure-cell"><b>Tuning knob</b><span>The balance between floor growth and wall growth.</span></div>
+        <div class="failure-cell"><b>Machine controls</b><span>Current waveform; additives; chloride; temperature; agitation.</span></div>
+        <div class="failure-cell"><b>ViennaPS controls</b><span>Candidate suppressor transport and floor-versus-wall growth.</span></div>
         <div class="failure-cell"><b>Possible downside</b><span>More wall growth closes the mouth sooner.</span></div>
       </article>
       <article class="failure-row">
-        <div class="failure-stage"><h3>Polish</h3></div>
+        <div class="failure-stage"><h3>Polish</h3><a href="#study-cmp">Explore saved results ↓</a></div>
         <div class="failure-cell"><b>Potential failure</b><span>Copper left on top or a recessed plug.</span></div>
-        <div class="failure-cell"><b>Tuning knob</b><span>The removal endpoint and material removal rate.</span></div>
+        <div class="failure-cell"><b>Machine controls</b><span>Pressure and speed; slurry; endpoint; polish time.</span></div>
+        <div class="failure-cell"><b>ViennaPS controls</b><span>Removal amount and relative material rates.</span></div>
         <div class="failure-cell"><b>Possible downside</b><span>More removal clears the surface but can cut into the plug.</span></div>
       </article>
     </div>
     </div>
-    <figure class="fill-replay" data-output-viewer="copper">
+    <h3>What the saved experiments show</h3>
+    <p class="note">These are measured boundary examples. They are not yet full process-margin maps.</p>
+    <div class="method-chain" id="saved-results-summary" aria-label="Current saved experimental results"></div>
+    <figure class="fill-replay" id="study-copper" data-output-viewer="copper">
       <h3 style="margin:0 0 0.3rem;">Copper-fill results</h3>
       <p class="claim">Prescribed geometry control. This is not an electroplating prediction.</p>
       <p class="note">Both runs start with the same via. Change the growth pattern and the amount of simulated copper added.</p>
@@ -927,14 +1041,30 @@
       </div>
       <figcaption>The lines are rendered from the simulated surface nodes and edges saved by this repository. The browser does not invent intermediate shapes. <a href="cu_fill_replay.json">Open the generated checkpoint data.</a> These prescribed geometry controls test the void measurement; they are not electroplating predictions or fab recipes.</figcaption>
     </figure>
+    <figure class="fill-replay" id="candidate-cu-replay">
+      <h3 style="margin:0 0 0.3rem;">Where the candidate copper run becomes unreliable</h3>
+      <p class="claim">The copper fronts nearly meet. At the last frame, the coarse model cannot tell whether a narrow seam remains, so the run stops.</p>
+      <p class="note">All layers and model controls stay fixed. Scrub through eleven saved checkpoints.</p>
+      <p class="note" id="candidate-cu-fixed"></p>
+      <div class="fill-replay-controls">
+        <div class="fill-progress"><label for="candidate-cu-slider">Saved checkpoint <span id="candidate-cu-value"></span></label><input id="candidate-cu-slider" type="range" min="0" max="0" step="1" value="0"></div>
+        <button type="button" id="candidate-cu-play">Play</button>
+      </div>
+      <div class="fill-replay-layout">
+        <div class="fill-replay-figure" id="candidate-cu-figure" role="img" aria-label="Actual candidate copper-fill surface at the selected saved checkpoint"></div>
+        <aside class="fill-replay-read" id="candidate-cu-read" aria-live="polite"></aside>
+      </div>
+      <figcaption>These are replayed surfaces from one reviewed coarse 2D run. <a href="candidate_cu_replay.json">Open the replay data and citations.</a></figcaption>
+    </figure>
     <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
       <h3 style="margin:0 0 0.3rem;">What the sampled copper settings show</h3>
       <p class="claim">Bottom-up fill needs less suppressor and faster copper growth at the floor.</p>
-      <p class="note">Choose a depth and measurement. Then select one of the 21 saved cells.</p>
-      <p class="decision-line"><b>Takeaway:</b> none of the 21 sampled 2D settings produces the needed bottom-up advantage.</p>
+      <p class="note">Choose a depth and measurement. Then select one of the 21 saved transport samples. This is not a fitted response surface or a fill simulation.</p>
+      <p class="decision-line"><b>Takeaway:</b> under this coupled 2D test, none of the sampled cases produces enough floor-over-wall advantage for bottom-up filling.</p>
+      <p class="note"><b>Coupled inputs:</b> adsorption strength was set to 0.25 divided by sticking in every case. The map therefore tests a held-product path, not two independent copper controls.</p>
       <div class="surface-explorer">
         <div class="surface-controls">
-          <fieldset><legend>Via geometry</legend><button type="button" data-surface-tier="continuity" aria-pressed="true">Depth 1.25 model units</button><button type="button" data-surface-tier="nominal_hbm" aria-pressed="false">Depth 3.0 model units</button></fieldset>
+          <fieldset><legend>Via geometry</legend><button type="button" data-surface-tier="continuity" aria-pressed="true">Depth 1.25 · assumed teaching case</button><button type="button" data-surface-tier="nominal_hbm" aria-pressed="false">Depth 3.0 · internal stress case</button></fieldset>
           <fieldset><legend>What to measure</legend><button type="button" data-surface-metric="flux" aria-pressed="true">Suppressor reaching floor</button><button type="button" data-surface-metric="velocity" aria-pressed="false">Cu floor growth</button></fieldset>
         </div>
         <div class="surface-sliders">
@@ -1067,12 +1197,12 @@
     <ol class="research-path" aria-label="Current research sequence">
       <li><b>Verify measurements</b><span>Width, thickness, and topology checks exist. Physical limits and downstream material-survival checks remain incomplete.</span></li>
       <li class="done"><b>Reproduce failure</b><span>Make the centerline void and destructive CMP behavior repeat on controlled geometries.</span></li>
-      <li class="done"><b>Check the passing control</b><span>Use a prescribed positive control to verify that the geometry and measurements can register the intended state.</span></li>
+      <li class="done"><b>Check a known geometry</b><span>Use a prescribed geometry example to verify that the measurements can register the intended state.</span></li>
       <li class="done"><b>Screen the mechanism</b><span>Test whether suppressor transport points in the direction required for bottom-up Cu growth.</span></li>
       <li class="done"><b>Expand one justified edge</b><span>The next halving improves the response only slightly and survives the reflection check, but still fails every stream.</span></li>
       <li class="active"><b>Check the cylindrical via</b><span>Use matched 3D transport to decide whether this law earns morphology work or must be replaced.</span></li>
     </ol>
-    <p class="note"><b>Decision rule:</b> a completed batch is not progress by itself. A block advances only after its hard gates and numerical checks pass. Repeated streams and the boundary test must also pass.</p>
+    <p class="note"><b>Decision rule:</b> a completed batch is not progress by itself. A block advances only after its required measurements and numerical checks are usable. Assumed bands are reported separately.</p>
   </section>
 
   <section class="finding" id="cu-screen">
@@ -1084,7 +1214,7 @@
 
   <section class="finding" id="tutorial">
     <div class="finding-head"><span class="finding-num">TUTORIAL</span><h2>Explore the repository</h2></div>
-    <p class="claim">The finished guide is self-contained. You can open it after cloning the public repository.</p>
+    <p class="claim">The published guide and its derived JSON can be inspected after cloning the public repository.</p>
     <pre class="command" aria-label="Commands to clone and serve the guide"><code>git clone https://github.com/haomingkoo/ViennaPS-HBM.git
 cd ViennaPS-HBM
 python3 -m http.server 8000</code></pre>
@@ -1200,13 +1330,13 @@ python3 -m http.server 8000</code></pre>
     <p class="claim">Every step needs a target and a measurement before its output moves downstream.</p>
     <div class="method-chain" aria-label="Recommended simulation workflow">
       <div><b>1. Define success</b><span>Choose the target and the measurement that can detect failure.</span></div>
-      <div><b>2. Measure each handoff</b><span>Check opening CD, etch depth, layer coverage, fill voids, and polish clearance.</span></div>
+      <div><b>2. Measure each step</b><span>Check opening width and etch depth. Then check layer coverage, fill voids, and polish clearance.</span></div>
       <div><b>3. Test both outcomes</b><span>Use one known failure and one prescribed passing control.</span></div>
       <div><b>4. Carry geometry forward</b><span>Give downstream comparisons the same upstream shape.</span></div>
       <div><b>5. Repeat and map</b><span>Control random seeds. Then map where results change from pass to fail.</span></div>
       <div><b>6. Update the model</b><span>Change the model when more tuning cannot represent the needed physics.</span></div>
     </div>
-    <p class="note"><b>CD means critical dimension.</b> For the etched via, measure it at the top, middle, and bottom.</p>
+    <p class="note"><b>CD means critical dimension.</b> Measure the etched via at three locations: top, middle, bottom.</p>
   </section>
 
   <section class="finding" id="references">
@@ -1216,13 +1346,13 @@ python3 -m http.server 8000</code></pre>
       <dt><a href="https://viennatools.github.io/ViennaPS/process/">ViennaPS process API</a></dt><dd>Explains how this simulation changes a surface over time.</dd>
       <dt><a href="https://viennatools.github.io/ViennaPS/domain/">ViennaPS simulation domain</a></dt><dd>Explains how material geometry and interfaces are represented.</dd>
       <dt><a href="https://www.nist.gov/publications/metrology-needs-tsv-fabrication">NIST TSV metrology</a></dt><dd>Explains why via shape, coating coverage, and copper voids must be checked.</dd>
-      <dt><a href="https://www.asml.com/en/en/news/stories/2021/semiconductor-manufacturing-process-steps">ASML fabrication overview</a></dt><dd>Connects resist, exposure, pattern transfer, and etching without implying that this page models lithography.</dd>
-      <dt><a href="https://plasma.oxinst.com/technologies/dsie/plasmapro-100-estrelas-dsie">Oxford Instruments DRIE</a></dt><dd>Shows the gas delivery, pumping, plasma, and thermal controls behind Bosch etching.</dd>
+      <dt><a href="https://www.asml.com/en/en/news/stories/2021/semiconductor-manufacturing-process-steps">ASML fabrication overview</a></dt><dd>Connects resist preparation to exposure and pattern transfer. This page does not model lithography.</dd>
+      <dt><a href="https://plasma.oxinst.com/technologies/dsie/plasmapro-100-estrelas-dsie">Oxford Instruments DRIE</a></dt><dd>Shows the gas delivery and plasma controls behind Bosch etching. It also covers pumping and temperature control.</dd>
       <dt><a href="https://www.appliedmaterials.com/us/en/product-library/producer-invia-cvd.html">Applied Materials TSV liner</a></dt><dd>Shows why liner conformality, electrical isolation, and the thermal budget matter in high-aspect-ratio vias.</dd>
       <dt><a href="https://www.appliedmaterials.com/us/en/product-library/endura-ventura-pvd.html">Applied Materials TSV barrier and seed</a></dt><dd>Connects ion direction and energy to continuous barrier and seed coverage in deep vias.</dd>
       <dt><a href="https://www.nist.gov/publications/modeling-extreme-bottom-filling-through-silicon-vias">NIST bottom-up Cu model</a></dt><dd>Explains why copper must grow in the right order to avoid a trapped void.</dd>
       <dt><a href="https://newsroom.lamresearch.com/Tech-Brief-Elements-of-Electroplating">Lam Research electroplating guide</a></dt><dd>Explains how current and bath additives support bottom-up copper growth.</dd>
-      <dt><a href="https://www.appliedmaterials.com/il/en/semiconductor/semiconductor-technologies/cmp.html">Applied Materials CMP guide</a></dt><dd>Connects downforce, pad motion, slurry, thickness measurement, and endpoint control.</dd>
+      <dt><a href="https://www.appliedmaterials.com/il/en/semiconductor/semiconductor-technologies/cmp.html">Applied Materials CMP guide</a></dt><dd>Connects downforce and pad motion to slurry delivery. It also covers thickness measurement and endpoint control.</dd>
       <dt><a href="https://doi.org/10.1016/j.mee.2009.05.011">TU Wien Bosch simulation paper</a></dt><dd>Shows how Monte Carlo ray transport and level sets can evolve an etched profile.</dd>
       <dt><a href="https://doi.org/10.1109/TCPMT.2011.2160395">IEEE TSV scallop study</a></dt><dd>Explains why etched-wall roughness can matter to later dielectric and barrier behavior.</dd>
       <dt><a href="https://www.electrochem.org/dl/interface/wtr/wtr04/IF12-04-Pg46.pdf">ECS copper superfilling review</a></dt><dd>Explains accelerator-driven bottom-up copper growth and why simple conformal filling can pinch off.</dd>
@@ -1245,6 +1375,40 @@ const INTERIM = DATA.interim;
 const SCREENING = INTERIM.screening_traveler;
 const GATE0 = INTERIM.pattern_bosch_gate0;
 const NUMERICAL = DATA.numerical_performance;
+const ACTIVE_CONTRACT = DATA.active_contract;
+const PATTERN_BOSCH_FACTORS = DATA.pattern_bosch_factor_projection;
+const BOSCH = DATA.bosch_tutorial;
+
+document.getElementById('knobs-guide').after(document.getElementById('numerical-tuning'));
+
+const activeFactorRows = document.getElementById('active-factor-rows');
+for (const factor of ACTIVE_CONTRACT.factors) {
+  const row = document.createElement('tr');
+  for (const value of [
+    factor.step.replaceAll('_', ' '),
+    factor.label,
+    `${factor.explored_values.join(', ')} ${factor.units}`,
+    factor.measurements.join(', ').replaceAll('_', ' '),
+  ]) {
+    const cell = document.createElement('td');
+    cell.textContent = value;
+    row.appendChild(cell);
+  }
+activeFactorRows.appendChild(row);
+}
+
+const factorCounts = PATTERN_BOSCH_FACTORS.counts_by_disposition;
+document.getElementById('pattern-bosch-factor-counts').innerHTML = [
+  [factorCounts.include_range_finding, 'Main range finding', 'Implemented geometry and etch controls'],
+  [factorCounts.separate_mask_erosion_block, 'Mask erosion block', 'Mask height and modeled mask loss'],
+  [factorCounts.separate_accuracy_study, 'Accuracy study', 'Grid, domain, rays, and random sampling'],
+  [factorCounts.blocked_requires_model_and_calibration, 'Equipment mapping open', 'Real controls without calibrated model conversion'],
+  [factorCounts.blocked_not_wired, 'API inputs not wired', 'Visible in the inventory; excluded from the current wrapper'],
+  [factorCounts.fixed_structural_choice, 'Fixed choices', 'Materials, geometry representation, and process path'],
+  [factorCounts.response_or_derived_input, 'Assumed study targets', 'Comparison values; not wafer specifications'],
+  [factorCounts.observation_only, 'Save callbacks', 'Record intermediate geometry; do not change the process'],
+  [factorCounts.model_limitation, 'Model limitation', 'Missing physics; not a tuning control'],
+].map(([count, label, note]) => `<div><b>${count} · ${label}</b><span>${note}</span></div>`).join('');
 
 document.getElementById('screening-traveler-visual').src = SCREENING.render;
 
@@ -1330,13 +1494,13 @@ function renderNumericalEvidence() {
   const changes = study.adjacent_changes.map(change => ({ ...change, response: change.responses[numericalState.metric] }));
   const largest = changes.reduce((best, change) => change.response.mean_abs_change > best.response.mean_abs_change ? change : best);
   document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. This chart alone cannot approve a faster setting; use the paired accuracy check below.`;
-  document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${numericalState.axis === 'grid' ? `${Math.round(0.30 / point.value)} cells across opening` : `${point.value} rays`}</b><span>${numericalState.axis === 'grid' ? `Grid spacing ${point.value}. ` : ''}Depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
+  document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${numericalState.axis === 'grid' ? `${Math.round(BOSCH.targets.target_cd / point.value)} cells across opening` : `${point.value} rays`}</b><span>${numericalState.axis === 'grid' ? `Grid spacing ${point.value}. ` : ''}Inside assumed bands: depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
   const statusText = {
     partial_with_mismatch_observed: 'Incomplete and already disagreed with the reference',
     partial_not_qualified: 'Incomplete; no decision',
     complete_with_mismatch_observed: 'Rejected because a required decision changed',
     complete_awaiting_saved_review: 'Complete; review pending',
-    commissioning_discovery_bridge: 'Provisional exploration setting; clean paired ladder pending',
+    commissioning_discovery_bridge: 'Provisional exploration setting; adaptive held-out confirmation pending',
     saved_review_mismatch: 'Rejected because the saved review found a mismatch',
     tested_reference: 'Current comparison baseline, not guaranteed truth',
   };
@@ -1347,8 +1511,65 @@ document.querySelectorAll('[data-numerical-axis]').forEach(button => button.addE
 document.getElementById('numerical-metric').addEventListener('change', event => { numericalState.metric = event.target.value; renderNumericalEvidence(); });
 renderNumericalEvidence();
 
+// ============ Claim-limited 25-case range pilot ============
+const PILOT = DATA.pattern_bosch_range_pilot;
+const pilotGrid = document.getElementById('pilot-case-grid');
+const pilotState = {
+  complete_measurements: { icon: '✓', label: 'All declared measurements returned' },
+  low_movement_measured: { icon: '—', label: 'Measured profile; etch movement stayed below the internal guard' },
+  measurement_unavailable: { icon: '!', label: 'Final profile saved; wall-intersection measurement unavailable' },
+};
+
+function pilotValue(value, digits = 3) {
+  return value === null || value === undefined ? 'unavailable' : Number(value).toFixed(digits);
+}
+
+function renderPilotCase(row) {
+  pilotGrid.querySelectorAll('button').forEach(button => {
+    button.setAttribute('aria-pressed', button.dataset.caseId === row.case_id);
+  });
+  const state = pilotState[row.display_state];
+  const [x, y, width, height] = row.view_box;
+  document.getElementById('pilot-profile').innerHTML = `<svg viewBox="${row.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" fill="var(--surface)"/>
+    <g transform="scale(1,-1)"><path d="${row.surface_path}" fill="none" stroke="var(--si)" stroke-width="0.007"/></g>
+  </svg>`;
+  const metrics = row.measurements;
+  const metricRows = metrics ? `
+    <dt>Etch depth</dt><dd>${pilotValue(metrics.etch_depth)}</dd>
+    <dt>Top width</dt><dd>${pilotValue(metrics.etch_cd_top)}</dd>
+    <dt>Middle width</dt><dd>${pilotValue(metrics.etch_cd_middle)}</dd>
+    <dt>Bottom width</dt><dd>${pilotValue(metrics.etch_cd_bottom)}</dd>
+    <dt>Minimum width</dt><dd>${pilotValue(metrics.etch_minimum_cd)}</dd>
+    <dt>Bow</dt><dd>${pilotValue(metrics.etch_bow)}</dd>
+    <dt>Scallop RMS</dt><dd>${pilotValue(metrics.etch_scallop_rms, 4)}</dd>` : `
+    <dt>Measurement</dt><dd>unavailable</dd>
+    <dt>Unresolved region</dt><dd>${row.measurement_region === 'measurement_unavailable_deep_region' ? 'deep wall' : 'shallow wall'}</dd>`;
+  document.getElementById('pilot-read').innerHTML = `<h4>${state.icon} ${state.label}</h4>
+    <p>Case ${row.design_row + 1} of 25. Twelve controls changed together, so this row cannot identify a cause.</p>
+    <dl>${metricRows}
+      <dt>Wall time</dt><dd>${row.elapsed_s.toFixed(1)} s</dd>
+      <dt>Design center</dt><dd>${row.is_center ? 'yes' : 'no'}</dd>
+    </dl>
+    <p style="margin-top:1rem">Case ID <code>${row.case_id}</code>. <a href="evidence/bosch/range_pilot/source_bundle.json">Open the committed source row and profile evidence.</a></p>`;
+}
+
+PILOT.cases.forEach(row => {
+  const state = pilotState[row.display_state];
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.dataset.caseId = row.case_id;
+  button.dataset.state = row.display_state;
+  button.dataset.center = row.is_center;
+  button.setAttribute('aria-pressed', 'false');
+  button.setAttribute('aria-label', `Case ${row.design_row + 1}: ${state.label}`);
+  button.innerHTML = `<span aria-hidden="true">${state.icon}</span>`;
+  button.addEventListener('click', () => renderPilotCase(row));
+  pilotGrid.appendChild(button);
+});
+renderPilotCase(PILOT.cases.find(row => row.is_center) || PILOT.cases[0]);
+
 // ============ Reviewed Bosch interaction profiles ============
-const BOSCH = DATA.bosch_tutorial;
 const boschPairs = [...new Map(BOSCH.interactions.map(row => [row.interaction.join('|'), row.interaction])).values()];
 const boschSelect = document.getElementById('bosch-interaction-select');
 const factorLabel = key => BOSCH.factors[key].label;
@@ -1390,21 +1611,21 @@ function renderBoschCase(row) {
   document.getElementById('bosch-profile').innerHTML = `<svg viewBox="-0.5 -0.4 1 1.9" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect x="-0.5" y="-0.4" width="1" height="1.9" fill="var(--surface)"/>
     <g transform="scale(1,-1)">
-      <path d="M-0.15 0L-0.15 -1.25L0.15 -1.25L0.15 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
+      <path d="M${-target.target_cd / 2} 0L${-target.target_cd / 2} ${-target.depth}L${target.target_cd / 2} ${-target.depth}L${target.target_cd / 2} 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
       <path d="${path}" fill="none" stroke="var(--si)" stroke-width="0.006"/>
     </g>
     ${boschMeasurementOverlay(metric)}
   </svg>`;
   const source = `https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${row.citation.path}#L${row.citation.line_number}`;
-  document.getElementById('bosch-read').innerHTML = `<h4 class="status-${row.metrics.hard_gate_pass ? 'pass' : 'miss'}">${row.metrics.hard_gate_pass ? 'All three geometry checks pass' : 'One or more geometry checks fail'}</h4>
-    <p>Dashed outline: target. Measurement bars show where the reported geometry is read.</p>
+  document.getElementById('bosch-read').innerHTML = `<h4>${row.metrics.hard_gate_pass ? 'Inside all three assumed study bands' : 'Outside one or more assumed study bands'}</h4>
+    <p>Dashed outline: assumed teaching target. Measurement bars show where the reported geometry is read.</p>
     <dl>
-      <dt>Depth · target 1.15–1.35</dt><dd class="status-${depthPass ? 'pass' : 'miss'}">${boschMetric(metric.depth)}</dd>
+      <dt>Depth · assumed band ${boschMetric(target.depth - target.depth_tolerance, 2)}–${boschMetric(target.depth + target.depth_tolerance, 2)}</dt><dd>${boschMetric(metric.depth)}</dd>
       <dt>Top width</dt><dd>${boschMetric(metric.cd_top)}</dd>
       <dt>Middle width</dt><dd>${boschMetric(metric.cd_middle)}</dd>
       <dt>Bottom width</dt><dd>${boschMetric(metric.cd_bottom)}</dd>
-      <dt>Maximum width error · limit 0.060</dt><dd class="status-${cdPass ? 'pass' : 'miss'}">${boschMetric(metric.maximum_cd_error)}</dd>
-      <dt>Bow · limit 0.030</dt><dd class="status-${bowPass ? 'pass' : 'miss'}">${boschMetric(metric.bow)}</dd>
+      <dt>Maximum width error · assumed band ${boschMetric(target.maximum_cd_error)}</dt><dd>${boschMetric(metric.maximum_cd_error)}</dd>
+      <dt>Bow · assumed band ${boschMetric(target.maximum_bow)}</dt><dd>${boschMetric(metric.bow)}</dd>
       <dt>Scallop RMS · diagnostic</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
       <dt>Selected cycle</dt><dd>${metric.selected_cycle}</dd>
       <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
@@ -1417,8 +1638,14 @@ function renderBoschInteraction() {
   const rows = BOSCH.interactions.filter(row => row.interaction.join('|') === boschSelect.value);
   const first = BOSCH.factors[pair[0]], second = BOSCH.factors[pair[1]];
   document.getElementById('bosch-factor-note').innerHTML = `<b>${first.label}</b> · ${first.kind}. ${first.meaning} ${first.direction}<br><b>${second.label}</b> · ${second.kind}. ${second.meaning} ${second.direction}<br>Possible equipment influences: ${first.equipment_influences.join(', ')}; ${second.equipment_influences.join(', ')}. These are not simulated equipment inputs. Tool-specific calibration is required.`;
+  const passCount = rows.filter(row => row.metrics.hard_gate_pass).length;
+  const range = key => {
+    const values = rows.map(row => row.metrics[key]);
+    return `${Math.min(...values).toFixed(3)}–${Math.max(...values).toFixed(3)}`;
+  };
+  document.getElementById('bosch-pair-result').innerHTML = `<b>Observed corners:</b> ${passCount}/${rows.length} are inside all three assumed geometry bands. Depth spans ${range('depth')}. Maximum width error spans ${range('maximum_cd_error')}. Bow spans ${range('bow')}. ${passCount > 0 && passCount < rows.length ? 'This pair brackets a comparison-band crossing.' : 'This pair does not bracket a full pass/fail crossing.'}`;
   const corners = document.getElementById('bosch-corners');
-  corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${row.levels[pair[0]]} × ${row.levels[pair[1]]}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'passes geometry checks' : 'fails geometry checks'}</span></button>`).join('');
+  corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${row.levels[pair[0]]} × ${row.levels[pair[1]]}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'inside assumed bands' : 'outside assumed bands'}</span></button>`).join('');
   corners.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
     renderBoschCase(rows.find(row => row.case_id === button.dataset.caseId));
   }));
@@ -1427,20 +1654,127 @@ function renderBoschInteraction() {
 boschSelect.addEventListener('change', renderBoschInteraction);
 renderBoschInteraction();
 
+// ============ One actual Bosch trajectory ==========
+const boschTrajectory = DATA.bosch_trajectory;
+const boschTrajectoryState = { frame: 0, timer: null };
+document.getElementById('bosch-cycle-fixed').innerHTML = `<b>Fixed coupled model inputs:</b> etch time per cycle ${boschTrajectory.recipe.etch_time}; polymer cycle amount ${boschTrajectory.recipe.deposition_thickness}; shared ion-direction exponent ${boschTrajectory.recipe.ion_source_exponent}. In this wrapper, polymer amount also sets equal-magnitude directional polymer removal. The exponent affects both etch-ion transport and polymer removal. These are not machine settings or independent physical mechanisms.`;
+
+function boschTrajectoryOverlay(metric) {
+  const bar = (label, width, fraction) => {
+    const y = fraction * metric.depth;
+    return `<g class="bosch-measure"><line x1="${-width / 2}" y1="${y}" x2="${width / 2}" y2="${y}"/><text x="0.19" y="${y + 0.009}">${label}</text></g>`;
+  };
+  return `${bar('top width', metric.cd_top, 0.10)}${bar('middle width', metric.cd_middle, 0.50)}${bar('bottom width', metric.cd_bottom, 0.85)}
+    <g class="bosch-depth"><line x1="-0.31" y1="0" x2="-0.31" y2="${metric.depth}"/><text x="-0.34" y="${metric.depth / 2}" transform="rotate(-90 -0.34 ${metric.depth / 2})">depth</text></g>`;
+}
+
+function renderBoschTrajectory() {
+  const frame = boschTrajectory.frames[boschTrajectoryState.frame];
+  const metric = frame.metrics;
+  const target = boschTrajectory.target;
+  const slider = document.getElementById('bosch-cycle-slider');
+  slider.max = boschTrajectory.frames.length - 1;
+  slider.value = boschTrajectoryState.frame;
+  document.getElementById('bosch-cycle-value').textContent = `${boschTrajectoryState.frame + 1} of ${boschTrajectory.frames.length} · after cycle ${frame.cycle}`;
+  const [x, y, width, height] = boschTrajectory.view_box;
+  document.getElementById('bosch-cycle-figure').innerHTML = `<svg viewBox="${boschTrajectory.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" fill="var(--surface)"/>
+    <g transform="scale(1,-1)">
+      <path d="M${-boschTrajectory.geometry.radius} 0L${-boschTrajectory.geometry.radius} ${-target.depth}L${boschTrajectory.geometry.radius} ${-target.depth}L${boschTrajectory.geometry.radius} 0" fill="none" stroke="var(--ink-dim)" stroke-width="0.006" stroke-dasharray="0.025 0.018"/>
+      <path d="${frame.surface_path}" fill="none" stroke="var(--si)" stroke-width="0.006"/>
+    </g>
+    ${boschTrajectoryOverlay(metric)}
+  </svg>`;
+  const isFinal = boschTrajectoryState.frame === boschTrajectory.frames.length - 1;
+  const depthPass = Math.abs(metric.depth - target.depth) <= target.depth_tolerance;
+  const widthPass = metric.maximum_cd_error <= target.maximum_cd_error;
+  const bowPass = metric.bow <= target.maximum_bow;
+  const status = isFinal
+    ? (depthPass && widthPass && bowPass ? 'Final profile is inside all three assumed study bands' : 'Final profile is outside one or more assumed study bands')
+    : 'Etch still in progress';
+  const finalMetrics = isFinal ? `
+      <dt>Maximum width error · assumed band ${target.maximum_cd_error.toFixed(3)}</dt><dd>${metric.maximum_cd_error.toFixed(3)}</dd>
+      <dt>Bow · assumed band ${target.maximum_bow.toFixed(3)}</dt><dd>${metric.bow.toFixed(3)}</dd>` : '';
+  document.getElementById('bosch-cycle-read').innerHTML = `<h4>${status}</h4>
+    <p>Saved checkpoint ${boschTrajectoryState.frame + 1} of ${boschTrajectory.frames.length}, after cycle ${frame.cycle}. The dashed outline marks the assumed teaching target. Measurements are in model units.</p>
+    <dl class="fill-metrics">
+      <dt>${isFinal ? `Depth · assumed target ${(target.depth - target.depth_tolerance).toFixed(2)}–${(target.depth + target.depth_tolerance).toFixed(2)}` : 'Depth'}</dt><dd>${metric.depth.toFixed(3)}</dd>
+      <dt>Top width</dt><dd>${metric.cd_top.toFixed(3)}</dd>
+      <dt>Middle width</dt><dd>${metric.cd_middle.toFixed(3)}</dd>
+      <dt>Bottom width</dt><dd>${metric.cd_bottom.toFixed(3)}</dd>
+      ${finalMetrics}
+    </dl>`;
+}
+
+function stopBoschTrajectory() {
+  if (boschTrajectoryState.timer !== null) window.clearInterval(boschTrajectoryState.timer);
+  boschTrajectoryState.timer = null;
+  document.getElementById('bosch-cycle-play').textContent = 'Play';
+}
+document.getElementById('bosch-cycle-slider').addEventListener('input', event => {
+  stopBoschTrajectory();
+  boschTrajectoryState.frame = Number(event.target.value);
+  renderBoschTrajectory();
+});
+document.getElementById('bosch-cycle-play').addEventListener('click', () => {
+  if (boschTrajectoryState.timer !== null) return stopBoschTrajectory();
+  document.getElementById('bosch-cycle-play').textContent = 'Pause';
+  boschTrajectoryState.timer = window.setInterval(() => {
+    if (boschTrajectoryState.frame === boschTrajectory.frames.length - 1) return stopBoschTrajectory();
+    boschTrajectoryState.frame += 1;
+    renderBoschTrajectory();
+  }, 420);
+});
+renderBoschTrajectory();
+
 // ============ Independent saved-output studies ==========
 const stepExperiments = DATA.step_experiments;
+
+function renderEtchMeasurementAtlas() {
+  const example = BOSCH.interactions.find(row => row.case_id === BOSCH.measurement_example_case_id);
+  const frame = {
+    metrics: example.metrics,
+    surface_path: example.materials.find(material => material.id === 'silicon').surface_path,
+  };
+  const metric = frame.metrics;
+  const centerX = 400;
+  const surfaceY = 74;
+  const scale = 250;
+  const depthY = fraction => surfaceY + fraction * metric.depth * scale;
+  const widthLine = (fraction, width, label, value) => {
+    const y = depthY(fraction);
+    const half = 0.5 * width * scale;
+    return `<line class="measurement-line" x1="${centerX - half}" y1="${y}" x2="${centerX + half}" y2="${y}"/>
+      <circle cx="${centerX - half}" cy="${y}" r="3" fill="var(--plasma)"/><circle cx="${centerX + half}" cy="${y}" r="3" fill="var(--plasma)"/>
+      <line class="measurement-guide" x1="${centerX + half + 8}" y1="${y}" x2="590" y2="${y}"/>
+      <text class="measurement-label" x="606" y="${y - 4}">${label}</text><text class="measurement-value" x="606" y="${y + 14}">${value.toFixed(3)} model units</text>`;
+  };
+  document.getElementById('etch-measurement-figure').innerHTML = `<svg viewBox="0 0 800 480" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect width="800" height="480" fill="var(--surface-2)"/>
+    <g transform="translate(${centerX} ${surfaceY}) scale(${scale} ${-scale})"><path d="${frame.surface_path}" fill="none" stroke="var(--ink)" stroke-width="3" vector-effect="non-scaling-stroke"/></g>
+    <line class="measurement-guide" x1="235" y1="${surfaceY}" x2="565" y2="${surfaceY}"/>
+    <text class="measurement-value" x="606" y="${surfaceY + 4}">wafer surface</text>
+    <line class="measurement-line" x1="285" y1="${surfaceY}" x2="285" y2="${depthY(1)}"/>
+    <circle cx="285" cy="${surfaceY}" r="3" fill="var(--plasma)"/><circle cx="285" cy="${depthY(1)}" r="3" fill="var(--plasma)"/>
+    <text class="measurement-label" x="54" y="${depthY(0.5) - 5}">Etch depth</text><text class="measurement-value" x="54" y="${depthY(0.5) + 14}">${metric.depth.toFixed(3)} model units</text>
+    ${widthLine(0.10, metric.cd_top, 'Top width', metric.cd_top)}
+    ${widthLine(0.50, metric.cd_middle, 'Middle width', metric.cd_middle)}
+    ${widthLine(0.85, metric.cd_bottom, 'Bottom width', metric.cd_bottom)}
+    <text class="measurement-label" x="54" y="430">Wall shape</text><text class="measurement-value" x="54" y="449">Bow ${metric.bow.toFixed(3)} · scallop RMS ${metric.scallop_rms.toFixed(4)}</text>
+  </svg>`;
+}
+renderEtchMeasurementAtlas();
+
 const stepCopy = {
   mask: {
-    check: 'Opening width 0.300 and mask height 0.300.',
-    boundary: 'Width and taper are varied together. The dotted line marks the target opening.',
+    boundary: 'Width, taper, and mask height are varied together. The dotted line marks the target opening.',
     limit: 'Ideal geometry only. Exposure and develop are not modeled.',
-    why: 'Width sets the entrance size. Taper changes how the opening widens through the mask.',
-    tradeoff: 'A wider or more tapered opening changes the etch boundary below it.',
+    why: 'Width sets the entrance size. Taper changes the wall profile. Height sets how much mask is available above the silicon.',
+    tradeoff: 'More mask may improve modeled survival, but a narrower or tapered opening restricts etch access.',
     metrics: ['opening_cd_bottom', 'opening_cd_top', 'mask_height'],
-    chain: ['Focus, dose, bake, develop', 'Resist image and profile · not modeled', 'Input width and taper', 'Opening width and height'],
+    chain: ['Focus, dose, bake, develop', 'Resist image and profile · not modeled', 'Input width, height, and taper', 'Opening width and mask height', 'Wrong aperture or tapered mask'],
   },
   bosch: {
-    check: 'Depth 1.25 ± 0.10. Width error ≤ 0.06. Bow ≤ 0.03.',
     boundary: 'Cycle count and wall protection are varied together in nine saved runs.',
     limit: 'One fixed 2D recipe family and one random stream. Cycle count is not fab time.',
     why: 'More cycles deepen the via. More passivation protects the wall during each cycle.',
@@ -1448,40 +1782,36 @@ const stepCopy = {
     metrics: ['depth', 'maximum_cd_error', 'bow'],
   },
   liner: {
-    check: 'Thickness ≥ 0.020. Deep coverage ≥ 0.995. Layer connected and opening clear.',
     boundary: 'Particle sticking and deposition amount are varied together.',
     limit: 'Particle-transport surrogate. The coefficient is not a deposition recipe.',
     why: 'Lower sticking lets more simulated particles reach the deep wall.',
     tradeoff: 'More deposited material also narrows the opening.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
-    chain: ['Precursor exposure, pressure, temperature', 'Transport and surface reaction · not modeled', 'Deposition amount and sticking', 'Thickness, coverage, opening'],
+    chain: ['Precursor exposure, pressure, temperature', 'Transport and surface reaction · not modeled', 'Deposition amount and sticking', 'Thickness, coverage, opening', 'Thin deep wall or closed opening'],
   },
   barrier: {
-    check: 'Thickness ≥ 0.012. Deep coverage ≥ 0.985. Layer connected and opening clear.',
     boundary: 'Arrival direction and deposition amount are varied together.',
     limit: 'Geometry response only. It does not predict adhesion or resistance.',
     why: 'The barrier limits copper migration. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
-    chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Thickness, coverage, opening'],
+    chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Thickness, coverage, opening', 'Barrier gap or closed opening'],
   },
   seed: {
-    check: 'No independent seed-layer limit is declared. Values are shown for teaching only.',
     boundary: 'Arrival direction and deposition amount are varied together.',
     limit: 'Continuity is geometric. Electrical continuity is not predicted.',
     why: 'The seed provides a plating surface. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
-    chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Geometric thickness and opening'],
+    chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Geometric thickness and opening', 'Seed break or closed opening'],
   },
   cmp: {
-    check: 'Track field copper, plug height, and oxide left after removal.',
     boundary: 'Removal amount and oxide-to-copper rate are varied together.',
     limit: 'No pad contact, pressure, slurry chemistry, or calibrated polish time.',
     why: 'More removal clears copper. Lower oxide removal protects the stop layer.',
     tradeoff: 'Over-removal can recess the plug. Poor selectivity can thin the oxide.',
     metrics: ['field_relative_to_target', 'plug_relative_to_target', 'stop_retained_thickness'],
-    chain: ['Downforce, speed, slurry, endpoint', 'Pad contact and material removal · not modeled', 'Removal amount and material-rate ratio', 'Field, plug, and stop height'],
+    chain: ['Downforce, speed, slurry, endpoint', 'Pad contact and material removal · not modeled', 'Removal amount and material-rate ratio', 'Field, plug, and stop height', 'Field residue, recess, or stop loss'],
   },
 };
 const stepMetricLabels = {
@@ -1491,9 +1821,11 @@ const stepMetricLabels = {
   remaining_aperture: 'Remaining opening (model units)',
   field_relative_to_target: 'Field relative to target', plug_relative_to_target: 'Plug relative to target',
   stop_retained_thickness: 'Oxide left at field',
+  continuous: 'Layer continuity', aperture_open: 'Opening remains clear',
   maximum_width_error: 'Maximum width error', deep_coverage: 'Deep coverage',
   closed_void_count: 'Closed voids', remaining_void_area: 'Unfilled area (model units²)',
 };
+const causalLabels = ['Equipment examples', 'Physical effect', 'ViennaPS controls', 'Measurement feedback', 'Failure risk'];
 const materialStyle = {
   mask: ['Mask', 'var(--plasma)', '0.007'], silicon: ['Silicon', 'var(--si)', '0.004'],
   liner: ['Liner', 'var(--oxide)', '0.007'], barrier: ['Barrier', 'var(--ink)', '0.005'],
@@ -1510,6 +1842,70 @@ function stepValue(value, metric) {
   }
   return Number(value).toFixed(3);
 }
+
+function acceptanceText(study) {
+  if (study.acceptance.status === 'not_declared') return 'No pass/fail limit is declared for this teaching study.';
+  const rules = study.acceptance.rules.map(rule => {
+    const label = stepMetricLabels[rule.metric] || rule.metric.replaceAll('_', ' ');
+    if (rule.operator === 'must_be_true') return `${label} required`;
+    const value = Number(rule.value).toFixed(3);
+    if (rule.operator === 'equal_within') {
+      const tolerance = Number(rule.tolerance);
+      const shownTolerance = tolerance < 0.001 ? tolerance.toExponential(0) : tolerance.toFixed(3);
+      return `${label} ${value} ± ${shownTolerance}`;
+    }
+    return `${label} ${rule.operator === 'minimum' ? '≥' : '≤'} ${value}`;
+  }).join('. ');
+  return `Assumed teaching target, not a fab specification: ${rules}.`;
+}
+
+function boundaryResult(study) {
+  if (study.id === 'mask') {
+    const inside = study.frames.filter(frame => frame.metrics.meets_screen).length;
+    return `${inside} of ${study.frames.length} saved shapes is inside the assumed geometry band. This is a comparison target, not a physical failure boundary.`;
+  }
+  if (study.id === 'liner') {
+    const coverage = study.frames.map(frame => frame.metrics.lower_wall_coverage);
+    const aperture = study.frames.map(frame => frame.metrics.remaining_aperture);
+    return `No continuity or closure boundary appears in these nine cases. Deep coverage spans ${Math.min(...coverage).toFixed(3)}–${Math.max(...coverage).toFixed(3)} while the remaining opening spans ${Math.min(...aperture).toFixed(3)}–${Math.max(...aperture).toFixed(3)} model units.`;
+  }
+  if (study.id === 'barrier' || study.id === 'seed') {
+    const directional = study.frames.filter(frame => frame.setting.isotropic_fraction === 0);
+    const mixed = study.frames.filter(frame => frame.setting.isotropic_fraction > 0);
+    const directionalBreaks = directional.filter(frame => !frame.metrics.continuous).length;
+    const mixedContinuous = mixed.filter(frame => frame.metrics.continuous).length;
+    return `${directionalBreaks}/${directional.length} purely directional cases are disconnected. ${mixedContinuous}/${mixed.length} cases with an all-angle component are geometrically continuous. The transition is bracketed, not precisely located.`;
+  }
+  if (study.id === 'cmp') {
+    const fieldClosest = study.frames
+      .filter(frame => stepValue(frame.metrics.field_relative_to_target, 'field_relative_to_target') === 'At target')
+      .sort((a, b) => a.setting.removal_amount - b.setting.removal_amount)[0];
+    const residue = [...study.frames].sort((a, b) => b.metrics.field_relative_to_target - a.metrics.field_relative_to_target)[0];
+    const recess = [...study.frames].sort((a, b) => a.metrics.plug_relative_to_target - b.metrics.plug_relative_to_target)[0];
+    return `Removal ${residue.setting.removal_amount} leaves field material ${stepValue(residue.metrics.field_relative_to_target, 'field_relative_to_target')}. Removal ${fieldClosest.setting.removal_amount} reaches the modeled field plane. Removal ${recess.setting.removal_amount} leaves the plug ${stepValue(recess.metrics.plug_relative_to_target, 'plug_relative_to_target')}. No acceptable loss limit is declared.`;
+  }
+  return 'A failure/recovery boundary has not been established for this saved study.';
+}
+
+function renderSavedResultsSummary() {
+  const studyById = Object.fromEntries(stepExperiments.studies.map(study => [study.id, study]));
+  const barrier = studyById.barrier;
+  const seed = studyById.seed;
+  const directionalBreaks = [...barrier.frames, ...seed.frames]
+    .filter(frame => frame.setting.isotropic_fraction === 0 && !frame.metrics.continuous).length;
+  const mixedContinuous = [...barrier.frames, ...seed.frames]
+    .filter(frame => frame.setting.isotropic_fraction > 0 && frame.metrics.continuous).length;
+  const items = [
+    ['Dry etch', `${BOSCH.review.valid_cases} valid saved pair cases; ${BOSCH.review.hard_gate_passes} are inside the assumed geometry band. No interaction uncertainty is available.`],
+    ['Barrier + seed', `${directionalBreaks}/6 purely directional layers are disconnected. ${mixedContinuous}/12 cases with an all-angle component are geometrically continuous.`],
+    ['Copper fill', 'The prescribed replay registers both a trapped void and a void-free geometry. The candidate physical law still ends at an unresolved seam transition.'],
+    ['Polish', boundaryResult(studyById.cmp)],
+  ];
+  document.getElementById('saved-results-summary').innerHTML = items
+    .map(([label, result]) => `<div><b>${label}</b><span>${result}</span></div>`)
+    .join('');
+}
+renderSavedResultsSummary();
 
 function renderStepFrame(study, root, frameIndex) {
   const copy = stepCopy[study.id];
@@ -1537,10 +1933,10 @@ function renderStepFrame(study, root, frameIndex) {
       ? 'Teaching result. No independent seed limit is declared.'
       : 'Teaching result. Acceptable material-loss limits are not yet declared.';
   } else {
-    status.className = `output-status ${frame.metrics.meets_screen ? 'pass' : 'miss'}`;
+    status.className = 'output-status';
     status.textContent = frame.metrics.meets_screen
-      ? 'Passes this geometry check'
-      : 'Misses this geometry check';
+      ? 'Inside the assumed teaching target'
+      : 'Outside the assumed teaching target';
   }
   root.querySelector('.output-metrics').innerHTML = copy.metrics.map(metric =>
     `<dt>${stepMetricLabels[metric]}</dt><dd>${stepValue(frame.metrics[metric], metric)}</dd>`
@@ -1554,23 +1950,25 @@ function buildStepViewers() {
     const decidedFrames = study.frames.filter(frame => typeof frame.metrics.meets_screen === 'boolean');
     const passingFrames = decidedFrames.filter(frame => frame.metrics.meets_screen).length;
     const studySummary = decidedFrames.length
-      ? `${passingFrames} of ${decidedFrames.length} saved combinations pass the stated geometry check.`
+      ? `${passingFrames} of ${decidedFrames.length} saved combinations are inside the assumed teaching band.`
       : 'No pass/fail limit is declared for this teaching study.';
     const root = document.createElement('article');
     root.className = 'output-viewer';
+    root.id = `study-${study.id}`;
     root.dataset.outputViewer = study.id;
     root.innerHTML = `<div class="output-viewer-head">
-      <div><h3>${study.title}</h3><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
+      <div><h3>${study.title}</h3><p class="evidence-badge">Saved sensitivity · one stream · not DOE · model units</p><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
       <div class="output-controls">${study.parameters.map(parameter => `<div class="output-control"><label>${parameter.label}<output></output></label><input data-parameter="${parameter.key}" type="range" min="0" max="${parameter.values.length - 1}" step="1" value="0" aria-label="${parameter.label}"></div>`).join('')}</div>
     </div>
     <p class="note"><b>Saved study:</b> ${studySummary}</p>
-    <div class="bosch-causal output-causal" aria-label="Equipment to measurement relationship">${copy.chain.map(item => `<span>${item}</span>`).join('')}</div>
+    <p class="boundary-result"><b>Observed boundary:</b> ${boundaryResult(study)}</p>
+    <div class="bosch-causal output-causal" aria-label="Equipment to measurement relationship">${copy.chain.map((item, index) => `<span><b>${causalLabels[index]}</b>${item}</span>`).join('')}</div>
     <div class="output-viewer-layout">
       <div class="output-figure" role="img" aria-label="Saved ${study.title.toLowerCase()} geometry"></div>
       <aside class="output-read" aria-live="polite">
         <p class="output-status"></p><dl class="output-metrics"></dl>
         <p class="output-explain"><b>Why it changes:</b> ${copy.why}<br><b>Tradeoff:</b> ${copy.tradeoff}</p>
-        <div class="guardrails"><h4>Guardrails</h4><ul><li><b>Internal geometry check:</b> ${copy.check}</li><li><b>Tested range:</b> ${copy.boundary}</li><li><b>Does not prove:</b> ${copy.limit}</li></ul></div>
+        <div class="guardrails"><h4>Guardrails</h4><ul><li><b>Internal geometry check:</b> ${acceptanceText(study)}</li><li><b>Tested range:</b> ${copy.boundary}</li><li><b>Does not prove:</b> ${copy.limit}</li></ul></div>
         <div class="material-key"></div>
       </aside>
     </div>`;
@@ -1720,6 +2118,70 @@ document.getElementById('fill-play').addEventListener('click', () => {
 });
 renderFillReplay();
 
+// ============ Reviewed candidate copper trajectory ==========
+const candidateCu = DATA.candidate_cu_replay;
+const candidateCuState = { frame: 0, timer: null };
+document.getElementById('candidate-cu-fixed').innerHTML = `<b>Fixed for this run:</b> suppressor sticking ${candidateCu.model_controls.suppressor_sticking_probability}; suppressor arrival-direction exponent ${candidateCu.model_controls.suppressor_source_power}. Higher sticking makes simulated suppressor attach more readily. A higher exponent concentrates its arrival closer to one direction. These are model controls, not bath settings.`;
+
+function renderCandidateCu() {
+  const frame = candidateCu.frames[candidateCuState.frame];
+  const metric = frame.metrics;
+  const slider = document.getElementById('candidate-cu-slider');
+  slider.max = candidateCu.frames.length - 1;
+  slider.value = candidateCuState.frame;
+  slider.setAttribute('aria-valuetext', `Checkpoint ${frame.checkpoint} of ${candidateCu.frames.length}`);
+  document.getElementById('candidate-cu-value').textContent = `${frame.checkpoint} of ${candidateCu.frames.length}`;
+  const [x, y, width, height] = candidateCu.view_box;
+  const materials = candidateCu.starting_materials.filter(material => material.id !== 'copper').map(material => {
+    const style = materialStyle[material.id] || [material.id, 'var(--ink-dim)', '0.004'];
+    return `<path d="${material.surface_path}" fill="none" stroke="${style[1]}" stroke-width="${style[2]}"/>`;
+  }).join('');
+  const mouthY = -metric.mouth_sample_y;
+  const seamBand = metric.unresolved_seam_risk ? `<g class="cu-warning"><rect x="${-metric.closure_width_bound / 2}" y="${metric.open_void_depth}" width="${metric.closure_width_bound}" height="${metric.observed_open_void_depth_drop}"/><text x="0.04" y="${metric.open_void_depth + metric.observed_open_void_depth_drop / 2}">model cannot resolve this narrow region</text></g>` : '';
+  document.getElementById('candidate-cu-figure').innerHTML = `<svg viewBox="${candidateCu.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" fill="var(--surface)"/>
+    <g transform="scale(1,-1)">${materials}<path d="${frame.surface_path}" fill="none" stroke="var(--copper)" stroke-width="0.009"/></g>
+    <g class="bosch-measure"><line x1="${-metric.mouth_aperture / 2}" y1="${mouthY}" x2="${metric.mouth_aperture / 2}" y2="${mouthY}"/><text x="0.17" y="${mouthY + 0.01}">opening</text></g>
+    ${seamBand}
+  </svg>`;
+  const surfaceStatus = metric.overburden_min < 0
+    ? `${Math.abs(metric.overburden_min).toFixed(3)} model units below the wafer surface`
+    : `${metric.overburden_min.toFixed(3)} model units above the wafer surface`;
+  const frameNote = metric.unresolved_seam_risk
+    ? 'The highlighted region is smaller than this coarse model can classify reliably.'
+    : 'The opening and unfilled area are measured after this checkpoint.';
+  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Stop: a narrow seam cannot be resolved' : 'Copper is still filling the opening'}</h4>
+    <p>Checkpoint ${frame.checkpoint}. ${frameNote}</p>
+    <dl class="fill-metrics">
+      <dt>Filled cavity</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
+      <dt>Opening width</dt><dd>${metric.mouth_aperture.toFixed(3)} model units</dd>
+      <dt>Unfilled area</dt><dd>${metric.remaining_void_area.toFixed(3)} model units²</dd>
+      <dt>Lowest copper point · assumed target ≥ ${candidateCu.target.min_overburden.toFixed(3)} above wafer surface</dt><dd>${surfaceStatus}</dd>
+    </dl>
+    <div class="material-key"><span style="--key-color:var(--si)">Silicon</span><span style="--key-color:var(--oxide)">Liner</span><span style="--key-color:var(--ink)">Barrier</span><span style="--key-color:var(--amber)">Seed</span><span style="--key-color:var(--copper)">Copper</span></div>`;
+}
+
+function stopCandidateCu() {
+  if (candidateCuState.timer !== null) window.clearInterval(candidateCuState.timer);
+  candidateCuState.timer = null;
+  document.getElementById('candidate-cu-play').textContent = 'Play';
+}
+document.getElementById('candidate-cu-slider').addEventListener('input', event => {
+  stopCandidateCu();
+  candidateCuState.frame = Number(event.target.value);
+  renderCandidateCu();
+});
+document.getElementById('candidate-cu-play').addEventListener('click', () => {
+  if (candidateCuState.timer !== null) return stopCandidateCu();
+  document.getElementById('candidate-cu-play').textContent = 'Pause';
+  candidateCuState.timer = window.setInterval(() => {
+    if (candidateCuState.frame === candidateCu.frames.length - 1) return stopCandidateCu();
+    candidateCuState.frame += 1;
+    renderCandidateCu();
+  }, 420);
+});
+renderCandidateCu();
+
 // ============ Current foundation evidence ============
 const transportRows = INTERIM.cu_transport.tier_designs;
 const transportState = { tier: 'continuity', metric: 'flux', sticking: 0.025, sourcePower: 0 };
@@ -1739,9 +2201,7 @@ function renderTransportSurface() {
   const rows = transportRows.filter(row => row.tier === transportState.tier);
   const stickings = [...new Set(rows.map(row => row.sticking))].sort((a, b) => a - b);
   const powers = [...new Set(rows.map(row => row.source_power))].sort((a, b) => a - b);
-  const threshold = transportState.metric === 'flux'
-    ? INTERIM.cu_transport.flux_pass_threshold
-    : INTERIM.cu_transport.velocity_pass_threshold;
+  const directionBoundary = 1.0;
   const higherIsBetter = transportState.metric === 'velocity';
   const best = rows.reduce((current, row) => {
     const value = transportValue(row);
@@ -1784,18 +2244,18 @@ function renderTransportSurface() {
     <text x="10" y="30" fill="var(--ink)" font-family="var(--mono)" font-size="11">Sticking</text>
     ${stickings.map((sticking, index) => `<text x="110" y="${top + index * cellHeight + 25}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="11">${sticking}</text>`).join('')}
     ${cells}
-    <text x="${left}" y="${top + stickings.length * cellHeight + 28}" fill="var(--amber)" font-family="var(--mono)" font-size="11">Target ${higherIsBetter ? '&gt;' : '&lt;'} ${threshold.toFixed(2)} · no cell passes</text>
+    <text x="${left}" y="${top + stickings.length * cellHeight + 28}" fill="var(--amber)" font-family="var(--mono)" font-size="11">Needed direction ${higherIsBetter ? '&gt;' : '&lt;'} 1.00 · no cell reaches it</text>
   </svg>`;
 
   const selectedValue = transportValue(selected);
-  const passes = higherIsBetter ? selectedValue > threshold : selectedValue < threshold;
+  const hasNeededDirection = higherIsBetter ? selectedValue > directionBoundary : selectedValue < directionBoundary;
   const selectedMeaning = transportState.metric === 'flux'
-    ? `A ratio above 1 means the floor receives more suppressor than the lower wall. The target is below ${threshold.toFixed(2)}.`
-    : `A ratio of 1 means equal floor and wall growth. The target is above ${threshold.toFixed(2)}.`;
+    ? 'A ratio above 1 means the floor receives more suppressor than the lower wall. Bottom-up growth needs the opposite direction: below 1.'
+    : 'A ratio of 1 means equal floor and wall growth. Bottom-up growth needs faster floor growth: above 1.';
   document.getElementById('transport-readout').innerHTML = `
     <h3>Selected point</h3>
     <p class="exact">Sticking ${selected.sticking} · angle exponent ${selected.source_power} · ratio ${selectedValue.toFixed(3)}</p>
-    <p>${passes ? 'This point reaches the target.' : selectedMeaning}</p>`;
+    <p>${hasNeededDirection ? 'This point has the needed direction, but that alone does not establish successful filling.' : selectedMeaning}</p>`;
   document.getElementById('transport-legend').textContent = `${rows.length} exact saved results. No interpolation. ${higherIsBetter ? 'Higher' : 'Lower'} is better.`;
   document.querySelectorAll('[data-surface-point]').forEach(point => {
     const selectPoint = () => {

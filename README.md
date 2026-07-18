@@ -1,7 +1,6 @@
 # Simplified TSV process simulation with ViennaPS
 
-This repository follows one through-silicon via (TSV) through six simulated
-handoffs:
+This repository follows one simplified TSV shape through six simulated steps:
 
 1. mask opening;
 2. silicon etch;
@@ -9,6 +8,10 @@ handoffs:
 4. barrier and copper seed;
 5. copper fill; and
 6. chemical-mechanical planarization (CMP).
+
+The modeled feature remains a blind via. Wafer thinning would expose its bottom
+later and complete the through-silicon connection. That step is outside this
+model.
 
 The project is a teaching tool and research scaffold. It shows how ViennaPS
 carries material geometry between process steps. It measures common failures
@@ -48,7 +51,8 @@ objective is not complete. Measurement qualification, controlled failure
 reproduction, matched downstream geometry, and a defensible full-traveler
 process window remain active work.
 
-- [`program.md`](program.md) defines the current objective and hard gates.
+- [`program.md`](program.md) defines the current objective, assumed study targets,
+  and research guardrails. Its numeric bands are not fab specifications.
 - [`RESEARCH_PLAN_V3.md`](RESEARCH_PLAN_V3.md) defines the next research blocks.
 - [`NUMERICAL_AUTORESEARCH_PRD.md`](NUMERICAL_AUTORESEARCH_PRD.md) defines the
   feedback loop, error states, early stopping, and numerical-cost study.
@@ -83,7 +87,7 @@ A useful study then follows six rules:
 2. Test a known failure and a passing control.
 3. Reuse the same upstream geometry in downstream comparisons.
 4. Control random seeds and repeat stochastic runs.
-5. Map the pass-to-fail boundary.
+5. Confirm contrasting states before estimating a boundary.
 6. Change the model when tuning cannot represent the required physics.
 
 ## Main files
@@ -94,23 +98,37 @@ A useful study then follows six rules:
 | `traveler_metrics.py` | Geometry, topology, and connectivity measurements. |
 | `layer_process_models.py` | Liner, barrier, and seed deposition models. |
 | `morphology_fill_control.py` | Copper morphology controls. |
-| `config/process.toml` | Runtime defaults, numerical controls, and acceptance limits. |
+| `config/process.toml` | Runtime defaults, numerical controls, and assumed comparison targets. |
 | `schemas/` | JSON contracts for published evidence and research events. |
 | `evidence/numerical/` | Committed rows, manifests, reviews, and hashes behind the numerical charts. |
 | `scripts/autoresearch_event_log.py` | Hash-chained attempt log and retry/stop hook. |
 | `numerical_performance_data.json` | Citable grid/ray cost and response evidence. |
-| `bosch_tutorial_data.json` | Reviewed dry-etch interaction profiles and measurements. |
+| `bosch_tutorial_data.json` | Reviewed dry-etch factor-pair profiles and measurements. |
+| `bosch_trajectory_replay.json` | Seven replayed checkpoints; the final frame matches a saved native checkpoint. |
 | `v3_bosch_clean_ray_ladder.py` | Runs the paired ray-count cost and accuracy study. |
 | `build_screening_traveler.py` | Builds the prescribed teaching traveler. |
 | `build_step_experiments.py` | Exports the saved mask, etch, film, and CMP studies. |
 | `build_cu_fill_replay.py` | Exports copper surfaces for the interactive replay. |
+| `build_candidate_cu_replay.py` | Replays one reviewed failing copper trajectory in the original research environment. |
 | `explainer_template.html` | Source for the interactive guide. |
 | `build_explainer.py` | Embeds the publication data into `explainer.html`. |
-| `program.md` | Current scientific targets and hard gates. |
+| `program.md` | Current objective, assumed study targets, and research guardrails. |
 | `prepare.md` | Research decisions, corrections, and open limits. |
 | `docs/evidence-map.md` | Current claims, evidence, status, and limits. |
+| `factor_registry.json` / `docs/factor-registry.md` | Schema-validated factor inventory and readable rendering, including hidden controls and range gaps. |
+| `active_experiment_contract.json` | Generated list of the controls shown in the teaching studies, their saved values, and criterion evidence class. |
+| `pattern_bosch_measurement_contract.json` | Mask and dry-etch measurement definitions plus the unresolved evidence that blocks screening. |
+| `evidence/bosch/pattern_bosch_metric_controls.json` | Synthetic straight, shallow, tapered, bowed, narrow-neck, and scalloped controls for the measurement code. |
+| `pattern_bosch_factor_projection.json` | Every mask and Bosch registry record classified for range finding, a separate block, accuracy work, or an explicit blocker. |
+| `pattern_bosch_range_pilot_design.json` | Frozen 25-case, 12-control coarse range-pilot design. |
+| `pattern_bosch_range_pilot_review.json` | Corrected claim-limited review: 20 measured profiles and 5 saved profiles with unavailable wall measurements. |
+| `evidence/bosch/range_pilot/source_bundle.json` | Committed event rows and extracted final profiles behind the range-pilot viewer. |
+| `docs/range-research.md` | Primary-source review of factor meanings, mathematical bounds, and unsupported range gaps. |
+| `docs/range-research-log.json` | Schema-validated search log, including searches that found no transferable range. |
+| `docs/screening-doe-plan.md` | Evidence requirements, staged DOE method, feedback, promotion, and stopping rules. |
 | `docs/current-run.md` | Current research checkpoint and reproduction command. |
 | `docs/metric-study.md` | Measurement choices, roughness status, and validation plan. |
+| `TUTORIAL_PRD.md` | Public teaching requirements and evidence rules. |
 
 Files prefixed with `foundation_`, `review_`, `build_`, or `test_` support the
 staged research checks. Superseded campaigns live under `archive/` and should
@@ -173,22 +191,53 @@ The same lightweight checks can be run locally:
 ruff check tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
   layer_process_models.py morphology_fill_control.py \
   copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_replay.py build_step_experiments.py build_explainer.py
+  build_cu_fill_replay.py build_candidate_cu_replay.py \
+  build_step_experiments.py build_explainer.py
 ty check --python .venv/bin/python --python-version 3.13 \
   tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
   layer_process_models.py morphology_fill_control.py \
   copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_replay.py build_step_experiments.py build_explainer.py
+  build_cu_fill_replay.py build_candidate_cu_replay.py \
+  build_step_experiments.py build_explainer.py
 .venv/bin/python test_process_config.py
 .venv/bin/python build_cu_fill_replay.py
 .venv/bin/python build_explainer.py
 .venv/bin/python test_publication_data.py
 .venv/bin/python scripts/validate_evidence.py numerical_performance_data.json \
   schemas/numerical-performance.schema.json
+.venv/bin/python scripts/validate_evidence.py step_experiments.json \
+  schemas/step-experiments.schema.json
+.venv/bin/python scripts/validate_evidence.py cu_fill_replay.json \
+  schemas/cu-fill-replay.schema.json
+.venv/bin/python scripts/validate_evidence.py candidate_cu_replay.json \
+  schemas/candidate-cu-replay.schema.json
+.venv/bin/python scripts/validate_evidence.py bosch_trajectory_replay.json \
+  schemas/bosch-trajectory-replay.schema.json
+.venv/bin/python scripts/validate_evidence.py pattern_bosch_measurement_contract.json \
+  schemas/pattern-bosch-measurement-contract.schema.json
+.venv/bin/python scripts/validate_evidence.py \
+  evidence/bosch/pattern_bosch_metric_controls.json \
+  schemas/pattern-bosch-metric-controls.schema.json
+.venv/bin/python scripts/validate_evidence.py \
+  evidence/bosch/range_pilot/source_bundle.json \
+  schemas/pattern-bosch-range-pilot-bundle.schema.json
+.venv/bin/python scripts/validate_evidence.py pattern_bosch_range_pilot_review.json \
+  schemas/pattern-bosch-range-pilot-review.schema.json
 .venv/bin/python test_autoresearch_event_schema.py
 .venv/bin/python test_autoresearch_event_log.py
 playwright install chromium
 .venv/bin/python test_explainer_visual.py
+```
+
+`candidate_cu_replay.json` and `bosch_trajectory_replay.json` are committed
+publication data. A clean clone validates and displays them. Regenerating them
+requires the ignored source rows and native checkpoints under
+`autoresearch-results/`, plus the qualified ViennaPS environment used by this
+study:
+
+```bash
+.venv/bin/python build_candidate_cu_replay.py
+.venv/bin/python build_bosch_trajectory_replay.py
 ```
 
 The wider test suite requires ViennaPS and the research artifacts used by the
@@ -210,8 +259,8 @@ then append it without hash fields:
 The inspect command returns `retryable`, `should_stop`, `run_action`, and the
 declared next action as JSON. `--exit-code` returns 10 for the single allowed
 transient retry and 20 for a stop; malformed or contradictory evidence returns
-1. Deterministic failures, missing measurements, stale provenance, and failed
-hard gates never become automatic retries.
+1. Deterministic failures, missing measurements, stale provenance, and missed
+acceptance criteria never become automatic retries.
 
 ## Reproduction boundary
 
@@ -231,6 +280,11 @@ The dry-etch interaction export contains the actual silicon contours from 28
 reviewed native checkpoints. The committed JSON and HTML are portable, but
 regenerating that export requires the local native checkpoint archive named by
 each source row and hash.
+
+The 25-case range-pilot viewer is also portable. Its committed source bundle
+contains the validated event rows and extracted final silicon profiles. Rebuilding
+the source bundle itself requires the ignored native checkpoints and raw event
+logs named in the bundle.
 
 Monte Carlo transport also introduces run-to-run variation. Reproducible
 comparisons must record random seeds, geometry inputs, numerical settings, and

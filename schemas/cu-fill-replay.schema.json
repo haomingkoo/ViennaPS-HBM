@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Copper morphology teaching replay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "frame_count", "provenance", "substrate_path", "runs"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "frame_count": {"const": 24},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources", "viennals_version", "stochastic"],
+      "properties": {
+        "sources": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/source"}},
+        "viennals_version": {"type": "string", "minLength": 1},
+        "stochastic": {"const": false}
+      }
+    },
+    "substrate_path": {"type": "string", "minLength": 1, "pattern": "^M"},
+    "runs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/run"},
+      "allOf": [
+        {"contains": {"properties": {"id": {"const": "wall_dominated"}}}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"id": {"const": "floor_dominated"}}}, "minContains": 1, "maxContains": 1}
+      ]
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mouth_open", "mouth_aperture", "mouth_pinched_off", "closed_void_count", "closed_void_area", "remaining_void_area", "open_void_depth", "void_free", "fill_fraction", "overburden_min"],
+      "properties": {
+        "mouth_open": {"type": "boolean"},
+        "mouth_aperture": {"type": "number", "minimum": 0},
+        "mouth_pinched_off": {"type": "boolean"},
+        "closed_void_count": {"type": "integer", "minimum": 0},
+        "closed_void_area": {"type": "number", "minimum": 0},
+        "remaining_void_area": {"type": "number", "minimum": 0},
+        "open_void_depth": {"type": "number", "minimum": 0},
+        "void_free": {"type": "boolean"},
+        "fill_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "overburden_min": {"type": "number"}
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["progress", "surface_path", "metrics"],
+      "properties": {
+        "progress": {"type": "number", "minimum": 0, "maximum": 1},
+        "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"},
+        "metrics": {"$ref": "#/$defs/metrics"}
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "input", "frames"],
+      "properties": {
+        "id": {"enum": ["wall_dominated", "floor_dominated"]},
+        "label": {"type": "string", "minLength": 1},
+        "input": {"type": "string", "minLength": 1},
+        "frames": {"type": "array", "minItems": 24, "maxItems": 24, "items": {"$ref": "#/$defs/frame"}}
+      }
+    }
+  }
+}

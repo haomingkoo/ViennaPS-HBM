@@ -74,7 +74,7 @@
           "elapsed_s": {"type": "number"},
           "measurements": {"type": "object"},
           "metrics_valid": {"const": true},
-          "hard_gate_pass": {"type": "boolean"}
+          "hard_gate_pass": {"type": ["boolean", "null"]}
         }
       }
     },

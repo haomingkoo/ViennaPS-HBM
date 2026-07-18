@@ -1,4 +1,4 @@
-"""Export reviewed Bosch interaction profiles for the tutorial."""
+"""Export reviewed Bosch factor-pair profiles for the tutorial."""
 
 from __future__ import annotations
 
@@ -196,10 +196,11 @@ def main() -> None:
     ]
     document = {
         "schema_version": 1,
-        "title": "Dry-etch interactions",
+        "title": "Dry-etch factor pairs",
         "scope": (
-            "Exact 500-ray discovery cases. They identify coupled failure regions; "
-            "they do not define a machine recipe or confirmed process window."
+            "Exact 500-ray discovery cases. They compare factor pairs against "
+            "assumed study bands; they do not estimate interaction uncertainty, "
+            "define a machine recipe, or confirm a process window."
         ),
         "equipment_mapping": {
             "relationship": "many-to-many and uncalibrated",
@@ -213,6 +214,15 @@ def main() -> None:
         },
         "factors": FACTOR_COPY,
         "targets": {
+            "basis": {
+                "classification": "assumed_study_target",
+                "physical_qualification": False,
+                "source": {
+                    "path": "program.md",
+                    "sha256": checkpoint.file_sha256(ROOT / "program.md"),
+                    "section": "Declared study product spec",
+                },
+            },
             "depth": ETCH_TARGETS["target_depth"],
             "depth_tolerance": ETCH_TARGETS["depth_tolerance"],
             "target_cd": ETCH_TARGETS["target_width"],
@@ -223,6 +233,7 @@ def main() -> None:
         "interior_cases": interior,
         "default_interaction": ["neutral_rate", "neutral_sticking_probability"],
         "default_interior_case": "aac0e99de49584cc",
+        "measurement_example_case_id": "7405eb159356c564",
         "review": {
             "valid_cases": review["valid_case_count"],
             "hard_gate_passes": review["hard_gate_pass_count"],

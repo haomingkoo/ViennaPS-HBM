@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/pattern-bosch-range-pilot-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign", "review_status", "highest_supported_claim", "prohibited_claims", "sources", "execution", "runtime", "response_spans", "failures", "cases", "confirmation_nominations", "next_decision"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "campaign": {"const": "pattern-bosch-range-pilot-v1"},
+    "review_status": {"const": "complete_corrected_claim_limited_review"},
+    "highest_supported_claim": {"type": "string", "minLength": 1},
+    "prohibited_claims": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "sources": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/sourceFile"}},
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["planned_cases", "corrected_case_states", "state_counts", "parent_event_log_valid", "recovery_event_log_valid", "single_shared_seed_label", "independent_repeats", "numerical_status"],
+      "properties": {
+        "planned_cases": {"const": 25},
+        "corrected_case_states": {"const": 25},
+        "state_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["complete_measured", "missing_measurement"],
+          "properties": {
+            "complete_measured": {"const": 20},
+            "missing_measurement": {"const": 5}
+          }
+        },
+        "parent_event_log_valid": {"const": true},
+        "recovery_event_log_valid": {"const": true},
+        "single_shared_seed_label": {"const": true},
+        "independent_repeats": {"const": 0},
+        "numerical_status": {"const": "coarse_pilot_not_numerically_qualified"}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["units", "original_pilot", "classification_recovery", "interpretation"],
+      "properties": {
+        "units": {"const": "seconds"},
+        "original_pilot": {"$ref": "#/$defs/runtimeSummary"},
+        "classification_recovery": {"$ref": "#/$defs/runtimeSummary"},
+        "interpretation": {"type": "string", "minLength": 1}
+      }
+    },
+    "response_spans": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["metric_id", "units", "observed_minimum", "observed_maximum", "observed_span", "usable_rows", "minimum_source", "maximum_source", "interpretation"],
+        "properties": {
+          "metric_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "units": {"type": "string", "minLength": 1},
+          "observed_minimum": {"type": "number"},
+          "observed_maximum": {"type": "number"},
+          "observed_span": {"type": "number", "minimum": 0},
+          "usable_rows": {"const": 20},
+          "minimum_source": {"$ref": "#/$defs/rowSource"},
+          "maximum_source": {"$ref": "#/$defs/rowSource"},
+          "interpretation": {"const": "raw span at the unqualified coarse setting"}
+        }
+      }
+    },
+    "failures": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["classification", "state", "elapsed_s", "error", "recipe", "checkpoint", "source", "interpretation"],
+        "properties": {
+          "classification": {"enum": ["measurement_unavailable_shallow_region", "measurement_unavailable_deep_region"]},
+          "state": {"const": "missing_measurement"},
+          "elapsed_s": {"type": "number", "minimum": 0},
+          "error": {"type": "object"},
+          "recipe": {"type": "object"},
+          "checkpoint": {"type": "object"},
+          "source": {"$ref": "#/$defs/rowSource"},
+          "interpretation": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["design_row", "case_id", "state", "display_state", "measurement_region", "is_center", "controls_changed_together", "recipe", "derived_exposures", "elapsed_s", "measurements", "error", "surface_path", "view_box", "source"],
+        "properties": {
+          "design_row": {"type": "integer", "minimum": 0, "maximum": 24},
+          "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+          "state": {"enum": ["complete_measured", "missing_measurement"]},
+          "display_state": {"enum": ["complete_measurements", "low_movement_measured", "measurement_unavailable"]},
+          "measurement_region": {"enum": [null, "measurement_unavailable_shallow_region", "measurement_unavailable_deep_region"]},
+          "is_center": {"type": "boolean"},
+          "controls_changed_together": {"const": 12},
+          "recipe": {"type": "object", "minProperties": 12},
+          "derived_exposures": {"type": "object", "minProperties": 4},
+          "elapsed_s": {"type": "number", "minimum": 0},
+          "measurements": {"type": ["object", "null"]},
+          "error": {"type": ["object", "null"]},
+          "surface_path": {"type": "string", "minLength": 1},
+          "view_box": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}},
+          "source": {"$ref": "#/$defs/rowSource"}
+        }
+      }
+    },
+    "confirmation_nominations": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["case_id", "state", "reasons", "source", "checkpoint", "next_use"],
+        "properties": {
+          "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+          "state": {"enum": ["complete_measured", "missing_measurement"]},
+          "reasons": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "source": {"$ref": "#/$defs/rowSource"},
+          "checkpoint": {"type": "object"},
+          "next_use": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_decision": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "sourceFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "rowSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "selector", "event_hash", "case_id"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "selector": {"type": "string", "pattern": "^/(parent_events|recovery_events)/[0-9]+$"},
+        "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"}
+      }
+    },
+    "runtimeSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum", "median", "maximum", "total"],
+      "properties": {
+        "minimum": {"type": "number", "minimum": 0},
+        "median": {"type": "number", "minimum": 0},
+        "maximum": {"type": "number", "minimum": 0},
+        "total": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+[lint.per-file-ignores]
+# This executed recovery source is hash-frozen by its manifest.
+"run_pattern_bosch_range_pilot_recovery.py" = ["F401"]

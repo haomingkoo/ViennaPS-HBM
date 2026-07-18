@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "sources", "factors", "acceptance_criteria", "known_gaps"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "factors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/factor"}
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/criterion"}
+    },
+    "known_gaps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "factor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "registry_id", "step", "label", "role", "config_key", "code", "model_input", "explored_values", "units", "range_evidence_class", "equipment_influences", "equipment_to_model_mapping", "measurements", "doe_status", "constraints", "runtime_cost", "restart_from"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "registry_id": {"type": "string", "pattern": "^[A-Za-z0-9_]+$"},
+        "step": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "role": {"const": "saved_sensitivity_example"},
+        "config_key": {"type": "string", "minLength": 1},
+        "code": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "symbol"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "symbol": {"type": "string", "minLength": 1}
+          }
+        },
+        "model_input": {"type": "string", "minLength": 1},
+        "explored_values": {"type": "array", "minItems": 2, "uniqueItems": true},
+        "units": {"type": "string", "minLength": 1},
+        "range_evidence_class": {"enum": ["exploratory_internal_history", "api_bounded", "geometry_scaled", "literature_derived", "calibrated"]},
+        "equipment_influences": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "equipment_to_model_mapping": {"type": ["object", "null"]},
+        "measurements": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "doe_status": {"enum": ["range_finding_required", "eligible", "blocked"]},
+        "constraints": {"type": ["array", "null"], "items": {"type": "string", "minLength": 1}},
+        "runtime_cost": {"type": ["object", "null"]},
+        "restart_from": {"type": "string", "minLength": 1}
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "metric", "operator", "value", "tolerance", "config_key", "evidence_class", "detection_limit", "calibrated_pass", "permitted_claim"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "metric": {"type": "string", "minLength": 1},
+        "operator": {"enum": ["equal_within", "minimum", "maximum", "must_equal"]},
+        "value": {},
+        "tolerance": {"type": ["number", "null"], "minimum": 0},
+        "config_key": {"type": "string", "minLength": 1},
+        "evidence_class": {"enum": ["assumed_comparison_band", "literature_derived", "geometry_derived", "calibrated", "unresolved"]},
+        "detection_limit": {"type": ["number", "null"], "minimum": 0},
+        "calibrated_pass": {"type": ["boolean", "null"]},
+        "permitted_claim": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

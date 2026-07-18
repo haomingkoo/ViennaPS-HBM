@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/pattern-bosch-range-pilot-recovery.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign", "status", "authority", "question", "sources", "numerics", "geometry", "rng_policy", "comparison_context", "inference_policy", "execution", "cases", "output"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "pattern-bosch-range-pilot-recovery-v1"},
+    "status": {"const": "frozen_recovery_design"},
+    "authority": {"const": "classification_and_checkpoint_recovery_only"},
+    "question": {"type": "string", "minLength": 1},
+    "sources": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "numerics": {"type": "object"},
+    "geometry": {"type": "object"},
+    "rng_policy": {"type": "object"},
+    "comparison_context": {"type": "object"},
+    "inference_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "prohibited"],
+      "properties": {
+        "allowed": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+        "prohibited": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_cap", "retry_policy", "checkpoint_policy"],
+      "properties": {
+        "case_cap": {"const": 7},
+        "retry_policy": {"const": "no automatic retry"},
+        "checkpoint_policy": {"const": "save final completed cycle before measurement"}
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["case_id", "campaign", "design_row", "coded_levels", "recipe", "derived_exposures", "rng_seed", "numerics", "parent_event"],
+        "properties": {
+          "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+          "parent_event": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "line", "event_hash", "reported_error"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "line": {"type": "integer", "minimum": 1, "maximum": 25},
+              "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "reported_error": {"type": "object"}
+            }
+          }
+        }
+      }
+    },
+    "output": {"const": "autoresearch-results/range_pilot/pattern_bosch_recovery_v1_rows.jsonl"}
+  }
+}

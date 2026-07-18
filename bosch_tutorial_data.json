@@ -1932,6 +1932,7 @@
       }
     }
   ],
+  "measurement_example_case_id": "7405eb159356c564",
   "review": {
     "citation": {
       "path": "evidence/numerical/v3_bosch_cheap_interactions_review.json",
@@ -1950,13 +1951,22 @@
     "valid_cases": 28
   },
   "schema_version": 1,
-  "scope": "Exact 500-ray discovery cases. They identify coupled failure regions; they do not define a machine recipe or confirmed process window.",
+  "scope": "Exact 500-ray discovery cases. They compare factor pairs against assumed study bands; they do not estimate interaction uncertainty, define a machine recipe, or confirm a process window.",
   "targets": {
+    "basis": {
+      "classification": "assumed_study_target",
+      "physical_qualification": false,
+      "source": {
+        "path": "program.md",
+        "section": "Declared study product spec",
+        "sha256": "50c2986d86acfe14d5896f6745960174091a9da578046aacd9ce8511d8f8512c"
+      }
+    },
     "depth": 1.25,
     "depth_tolerance": 0.1,
     "maximum_bow": 0.03,
     "maximum_cd_error": 0.06,
     "target_cd": 0.3
   },
-  "title": "Dry-etch interactions"
+  "title": "Dry-etch factor pairs"
 }

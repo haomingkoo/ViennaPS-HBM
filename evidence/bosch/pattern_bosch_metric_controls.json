@@ -1,0 +1,156 @@
+{
+  "cases": [
+    {
+      "id": "mask_straight",
+      "metrics": {
+        "mask_height": 0.3,
+        "mask_sidewall_angle_deg": 0.0,
+        "opening_cd_bottom": 0.3,
+        "opening_cd_middle": 0.3,
+        "opening_cd_top": 0.3
+      },
+      "step": "mask"
+    },
+    {
+      "id": "mask_short",
+      "metrics": {
+        "mask_height": 0.2,
+        "mask_sidewall_angle_deg": 0.0,
+        "opening_cd_bottom": 0.3,
+        "opening_cd_middle": 0.3,
+        "opening_cd_top": 0.3
+      },
+      "step": "mask"
+    },
+    {
+      "id": "mask_tapered",
+      "metrics": {
+        "mask_height": 0.3,
+        "mask_sidewall_angle_deg": 3.814074834290351,
+        "opening_cd_bottom": 0.302,
+        "opening_cd_middle": 0.32,
+        "opening_cd_top": 0.33399999999999996
+      },
+      "step": "mask"
+    },
+    {
+      "id": "etch_straight",
+      "metrics": {
+        "cd_bottom": 0.3,
+        "cd_max": 0.3,
+        "cd_middle": 0.3,
+        "cd_min": 0.3,
+        "cd_top": 0.3,
+        "depth": 1.0,
+        "max_bow": 0.0,
+        "max_cd_error": 0.0,
+        "scallop_rms": 1.2542649920820667e-16,
+        "sidewall_angle_deg": -0.0
+      },
+      "step": "bosch_etch"
+    },
+    {
+      "id": "etch_shallow",
+      "metrics": {
+        "cd_bottom": 0.3,
+        "cd_max": 0.3,
+        "cd_middle": 0.3,
+        "cd_min": 0.3,
+        "cd_top": 0.3,
+        "depth": 0.8,
+        "max_bow": 0.0,
+        "max_cd_error": 0.0,
+        "scallop_rms": 3.820539449315626e-17,
+        "sidewall_angle_deg": -0.0
+      },
+      "step": "bosch_etch"
+    },
+    {
+      "id": "etch_tapered",
+      "metrics": {
+        "cd_bottom": 0.252,
+        "cd_max": 0.312,
+        "cd_middle": 0.28,
+        "cd_min": 0.252,
+        "cd_top": 0.312,
+        "depth": 1.0,
+        "max_bow": 2.7755575615628914e-17,
+        "max_cd_error": 0.04799999999999999,
+        "scallop_rms": 1.1368378764880023e-16,
+        "sidewall_angle_deg": 2.2906100426385296
+      },
+      "step": "bosch_etch"
+    },
+    {
+      "id": "etch_bowed",
+      "metrics": {
+        "cd_bottom": 0.31815961998958187,
+        "cd_max": 0.33999999999999997,
+        "cd_middle": 0.33999999999999997,
+        "cd_min": 0.3123606797749979,
+        "cd_top": 0.3123606797749979,
+        "depth": 1.0,
+        "max_bow": 0.012311129826705208,
+        "max_cd_error": 0.03999999999999998,
+        "scallop_rms": 0.00012017387945520529,
+        "sidewall_angle_deg": -0.2215020964698561
+      },
+      "step": "bosch_etch"
+    },
+    {
+      "id": "etch_narrow_neck",
+      "metrics": {
+        "cd_bottom": 0.29999961719060864,
+        "cd_max": 0.299999990997186,
+        "cd_middle": 0.21999999999999997,
+        "cd_min": 0.21999999999999997,
+        "cd_top": 0.299999990997186,
+        "depth": 1.0,
+        "max_bow": 0.03999989581683905,
+        "max_cd_error": 0.08000000000000002,
+        "scallop_rms": 0.009318121160977317,
+        "sidewall_angle_deg": 1.4278359491244852e-05
+      },
+      "step": "bosch_etch"
+    },
+    {
+      "id": "etch_scalloped",
+      "metrics": {
+        "cd_bottom": 0.30587785252292465,
+        "cd_max": 0.3099802672842827,
+        "cd_middle": 0.3,
+        "cd_min": 0.2900197327157173,
+        "cd_top": 0.29412214747707527,
+        "depth": 1.0,
+        "max_bow": 0.007458831701769697,
+        "max_cd_error": 0.009980267284282696,
+        "scallop_rms": 0.003451860326908368,
+        "sidewall_angle_deg": -0.4490256632105237
+      },
+      "step": "bosch_etch"
+    }
+  ],
+  "checks": {
+    "bow_exceeds_straight_bow": true,
+    "mask_taper_changes_top_vs_bottom_width": true,
+    "neck_reduces_minimum_width": true,
+    "scallops_increase_residual": true,
+    "shallow_case_changes_depth": true,
+    "short_mask_changes_height": true,
+    "taper_changes_top_vs_bottom_width": true
+  },
+  "claim": "The extractors distinguish these controlled geometry changes.",
+  "does_not_prove": "Detection limits, numerical stability, physical calibration, or a process recipe.",
+  "schema_version": 1,
+  "scope": "Synthetic geometry controls for measurement code; not simulated process outcomes.",
+  "sources": [
+    {
+      "path": "build_pattern_bosch_metric_controls.py",
+      "sha256": "a53eda835c4c1fa01e0d10e1098bea3245edd47e2f8efdd13452642e098a5d5c"
+    },
+    {
+      "path": "traveler_metrics.py",
+      "sha256": "82f01ea76afa99cd8eae4f351238fc86239e0d7a85a3b5287b0db9e69966cc4b"
+    }
+  ]
+}

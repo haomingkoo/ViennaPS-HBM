@@ -75,7 +75,7 @@ def test_v3_requires_screen_propagate_focus_sequence():
 def test_wired_mask_erosion_is_separately_challenged_not_silently_omitted():
     plan = (ROOT / "RESEARCH_PLAN_V3.md").read_text()
     registry = (
-        ROOT / "autoresearch-results/restart_audit/knob_registry.md"
+        ROOT / "docs/factor-registry.md"
     ).read_text()
     assert "2f. Mask-erosion model challenge" in plan
     assert "intentionally not mixed into Stage 2a's nine recipe-factor" in plan

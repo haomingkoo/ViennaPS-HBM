@@ -1,0 +1,572 @@
+{
+  "acceptance_criteria": [
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.pattern.width",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "pattern_opening_width",
+      "metric": "opening_cd_bottom",
+      "operator": "equal_within",
+      "permitted_claim": "study comparison only",
+      "tolerance": 1e-06,
+      "value": 0.3
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.pattern.mask_height",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "pattern_mask_height",
+      "metric": "mask_height",
+      "operator": "equal_within",
+      "permitted_claim": "study comparison only",
+      "tolerance": 0.0002,
+      "value": 0.3
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.etch.target_depth",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "etch_depth",
+      "metric": "depth",
+      "operator": "equal_within",
+      "permitted_claim": "study comparison only",
+      "tolerance": 0.1,
+      "value": 1.25
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.etch.max_width_error",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "etch_width_error",
+      "metric": "maximum_cd_error",
+      "operator": "maximum",
+      "permitted_claim": "study comparison only",
+      "tolerance": null,
+      "value": 0.06
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.etch.max_wall_bulge",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "etch_wall_bulge",
+      "metric": "bow",
+      "operator": "maximum",
+      "permitted_claim": "study comparison only",
+      "tolerance": null,
+      "value": 0.03
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.liner.min_thickness",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "liner_thickness",
+      "metric": "minimum_thickness",
+      "operator": "minimum",
+      "permitted_claim": "study comparison only",
+      "tolerance": null,
+      "value": 0.02
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.liner.min_floor_coverage",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "liner_coverage",
+      "metric": "lower_wall_coverage",
+      "operator": "minimum",
+      "permitted_claim": "study comparison only",
+      "tolerance": null,
+      "value": 0.995
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.barrier.min_thickness",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "barrier_thickness",
+      "metric": "minimum_thickness",
+      "operator": "minimum",
+      "permitted_claim": "study comparison only",
+      "tolerance": null,
+      "value": 0.012
+    },
+    {
+      "calibrated_pass": null,
+      "config_key": "targets.barrier.min_floor_coverage",
+      "detection_limit": null,
+      "evidence_class": "assumed_comparison_band",
+      "id": "barrier_coverage",
+      "metric": "lower_wall_coverage",
+      "operator": "minimum",
+      "permitted_claim": "study comparison only",
+      "tolerance": null,
+      "value": 0.985
+    }
+  ],
+  "factors": [
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_mask_study"
+      },
+      "config_key": "teaching_experiments.mask_radii",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "focus",
+        "exposure dose",
+        "develop"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.12,
+        0.15,
+        0.18
+      ],
+      "id": "mask_radius",
+      "label": "Opening radius",
+      "measurements": [
+        "opening_cd_bottom",
+        "opening_cd_top",
+        "mask_height"
+      ],
+      "model_input": "make_initial_geometry.radius",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "pattern_radius_input",
+      "restart_from": "ideal mask constructor",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "mask",
+      "units": "model length"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_mask_study"
+      },
+      "config_key": "teaching_experiments.mask_tapers",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "focus",
+        "exposure dose",
+        "develop"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.0,
+        2.0,
+        4.0
+      ],
+      "id": "mask_taper",
+      "label": "Mask taper",
+      "measurements": [
+        "opening_cd_bottom",
+        "opening_cd_top",
+        "mask_height"
+      ],
+      "model_input": "make_initial_geometry.taper",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "phase_factor_mask_taper",
+      "restart_from": "ideal mask constructor",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "mask",
+      "units": "degrees"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_bosch_study"
+      },
+      "config_key": "teaching_experiments.bosch_cycles",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "etch/passivation step timing"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        3,
+        4,
+        5
+      ],
+      "id": "bosch_cycles",
+      "label": "Completed etch cycles",
+      "measurements": [
+        "depth",
+        "maximum_cd_error",
+        "bow"
+      ],
+      "model_input": "bosch_etch.num_cycles checkpoint",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "phase_factor_num_cycles",
+      "restart_from": "fresh configured mask",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "bosch_etch",
+      "units": "cycles"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_bosch_study"
+      },
+      "config_key": "teaching_experiments.bosch_passivation_thickness",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "passivation gas time",
+        "passivation precursor flux"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "id": "bosch_passivation",
+      "label": "Passivation per cycle",
+      "measurements": [
+        "depth",
+        "maximum_cd_error",
+        "bow"
+      ],
+      "model_input": "bosch_etch.deposition_thickness",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "phase_factor_deposition_thickness",
+      "restart_from": "fresh configured mask",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "bosch_etch",
+      "units": "model length per cycle"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_liner_study"
+      },
+      "config_key": "teaching_experiments.liner_sticking",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "precursor chemistry",
+        "temperature",
+        "surface state"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.02,
+        0.05,
+        0.2
+      ],
+      "id": "liner_sticking",
+      "label": "Liner sticking",
+      "measurements": [
+        "minimum_thickness",
+        "lower_wall_coverage",
+        "floor_coverage",
+        "remaining_aperture",
+        "continuous",
+        "aperture_open"
+      ],
+      "model_input": "deposit_conformal.sticking",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "phase_factor_liner_sticking",
+      "restart_from": "ideal etched via",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "liner",
+      "units": "probability"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_liner_study"
+      },
+      "config_key": "teaching_experiments.liner_doses",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "precursor exposure",
+        "deposition time"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.02,
+        0.04,
+        0.06
+      ],
+      "id": "liner_dose",
+      "label": "Liner deposition amount",
+      "measurements": [
+        "minimum_thickness",
+        "lower_wall_coverage",
+        "floor_coverage",
+        "remaining_aperture",
+        "continuous",
+        "aperture_open"
+      ],
+      "model_input": "deposit_conformal.thickness",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "phase_factor_liner_thick",
+      "restart_from": "ideal etched via",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "liner",
+      "units": "model length"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_barrier_study"
+      },
+      "config_key": "teaching_experiments.barrier_isotropic_fraction",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "pressure",
+        "target power",
+        "collimation",
+        "substrate bias"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.0,
+        0.3,
+        0.8
+      ],
+      "id": "barrier_direction",
+      "label": "Barrier all-angle fraction",
+      "measurements": [
+        "minimum_thickness",
+        "lower_wall_coverage",
+        "remaining_aperture",
+        "continuous",
+        "aperture_open"
+      ],
+      "model_input": "deposit_directional_fraction.isotropic_fraction",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "candidate_barrier_seed_isotropic_fraction",
+      "restart_from": "ideal via with fixed liner",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "barrier",
+      "units": "fraction"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_barrier_study"
+      },
+      "config_key": "teaching_experiments.barrier_doses",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "deposition time",
+        "target power"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "id": "barrier_dose",
+      "label": "Barrier deposition amount",
+      "measurements": [
+        "minimum_thickness",
+        "lower_wall_coverage",
+        "remaining_aperture",
+        "continuous"
+      ],
+      "model_input": "deposit_directional_fraction.field_dose",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "candidate_barrier_seed_field_dose",
+      "restart_from": "ideal via with fixed liner",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "barrier",
+      "units": "model length"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_seed_study"
+      },
+      "config_key": "teaching_experiments.seed_isotropic_fraction",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "pressure",
+        "target power",
+        "collimation",
+        "substrate bias"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.0,
+        0.3,
+        0.8
+      ],
+      "id": "seed_direction",
+      "label": "Seed all-angle fraction",
+      "measurements": [
+        "minimum_thickness",
+        "lower_wall_coverage",
+        "remaining_aperture",
+        "continuous"
+      ],
+      "model_input": "deposit_directional_fraction.isotropic_fraction",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "candidate_barrier_seed_isotropic_fraction",
+      "restart_from": "ideal via with fixed liner and barrier",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "seed",
+      "units": "fraction"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_seed_study"
+      },
+      "config_key": "teaching_experiments.seed_doses",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "deposition time",
+        "target power"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.01,
+        0.02,
+        0.03
+      ],
+      "id": "seed_dose",
+      "label": "Seed deposition amount",
+      "measurements": [
+        "minimum_thickness",
+        "lower_wall_coverage",
+        "remaining_aperture",
+        "continuous"
+      ],
+      "model_input": "deposit_directional_fraction.field_dose",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "candidate_barrier_seed_field_dose",
+      "restart_from": "ideal via with fixed liner and barrier",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "seed",
+      "units": "model length"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_cmp_study"
+      },
+      "config_key": "teaching_experiments.cmp_removal_durations",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "polish time",
+        "endpoint",
+        "overpolish"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.15,
+        0.18,
+        0.22
+      ],
+      "id": "cmp_removal",
+      "label": "Removal amount",
+      "measurements": [
+        "field_relative_to_target",
+        "plug_relative_to_target",
+        "stop_retained_thickness"
+      ],
+      "model_input": "apply_native_control.duration",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "candidate_cmp_overpolish_dose",
+      "restart_from": "analytic raised-plug stack",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "cmp",
+      "units": "model time"
+    },
+    {
+      "code": {
+        "path": "build_step_experiments.py",
+        "symbol": "_cmp_study"
+      },
+      "config_key": "teaching_experiments.cmp_oxide_rate_ratios",
+      "constraints": null,
+      "doe_status": "range_finding_required",
+      "equipment_influences": [
+        "slurry chemistry",
+        "pad",
+        "pressure",
+        "speed"
+      ],
+      "equipment_to_model_mapping": null,
+      "explored_values": [
+        0.0,
+        0.01,
+        0.1
+      ],
+      "id": "cmp_oxide_rate",
+      "label": "Oxide/Cu removal-rate ratio",
+      "measurements": [
+        "field_relative_to_target",
+        "plug_relative_to_target",
+        "stop_retained_thickness"
+      ],
+      "model_input": "HeightMaterialRemovalLaw.material_rate_ratios[SiO2]",
+      "range_evidence_class": "exploratory_internal_history",
+      "registry_id": "candidate_cmp_sio2_rate",
+      "restart_from": "analytic raised-plug stack",
+      "role": "saved_sensitivity_example",
+      "runtime_cost": null,
+      "step": "cmp",
+      "units": "ratio"
+    }
+  ],
+  "known_gaps": [
+    "The public copper transport map still reads factor levels from saved publication data rather than config/process.toml.",
+    "The active copper replay and CMP teaching panel have no declared acceptance criteria.",
+    "These explored values are saved sensitivity examples; ranges must be requalified before screening DOE.",
+    "No equipment-to-model coefficient mapping is calibrated."
+  ],
+  "schema_version": 1,
+  "scope": "Active public teaching studies; not the complete ViennaPS API inventory or a fab DOE.",
+  "sources": [
+    {
+      "path": "build_active_experiment_contract.py",
+      "sha256": "1681f4f08d44433492a31145b942715864c4971bbed2134a15685aab08246d9c"
+    },
+    {
+      "path": "config/process.toml",
+      "sha256": "ab87b67e8a3736df2b7e7490105b73604428d7a1ce961bb1af5c84db92c71fca"
+    },
+    {
+      "path": "build_step_experiments.py",
+      "sha256": "da87df0bede3aa17a3094be86cf33b533450d4c34d83d0739ab44fef86d637a4"
+    },
+    {
+      "path": "factor_registry.json",
+      "sha256": "5972d85bb85665c3a1721e4c9f545df9b76b7f8fd7a0dc87c7e03f98574e9a4e"
+    },
+    {
+      "path": "process_config.py",
+      "sha256": "dd753b900381ef4370c8b8f3f7e5999702e46bf2a1b23e62449b6375f3078145"
+    }
+  ]
+}

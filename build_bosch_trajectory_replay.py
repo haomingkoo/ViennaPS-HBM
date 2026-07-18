@@ -1,4 +1,4 @@
-"""Rerun one saved Bosch case and export seven actual profile checkpoints."""
+"""Replay one saved Bosch case and export seven profile checkpoints."""
 
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ import tsv_process as tp
 ROOT = Path(__file__).resolve().parent
 ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl"
 OUTPUT = ROOT / "bosch_trajectory_replay.json"
+PUBLIC_SOURCE = ROOT / "evidence/bosch/bosch_trajectory_replay_source.json"
 CASE_ID = "aac0e99de49584cc"
 CHECKPOINT_CYCLES = {1, 4, 7, 10, 13, 16, 18}
 
@@ -98,22 +99,75 @@ def main() -> None:
     saved = checkpoint.load_domain_checkpoint(
         Path(row["checkpoint_path"]), expected_sha256=row["checkpoint_sha256"]
     )
-    if frames[-1]["surface_path"] != silicon_path(saved):
+    native_surface = silicon_path(saved)
+    if frames[-1]["surface_path"] != native_surface:
         raise ValueError("replayed final surface differs from the saved native checkpoint")
+
+    PUBLIC_SOURCE.parent.mkdir(parents=True, exist_ok=True)
+    public_row = {
+        **row,
+        "checkpoint_path": str(Path(row["checkpoint_path"]).relative_to(ROOT)),
+    }
+    source_bundle = {
+        "schema_version": 1,
+        "case_id": CASE_ID,
+        "source_row": public_row,
+        "origin": {
+            "rows_file": str(ROWS.relative_to(ROOT)),
+            "rows_line_number": line_number,
+            "rows_sha256": hashlib.sha256(ROWS.read_bytes()).hexdigest(),
+            "native_checkpoint_file": str(Path(row["checkpoint_path"]).relative_to(ROOT)),
+            "native_checkpoint_sha256": row["checkpoint_sha256"],
+        },
+        "native_checkpoint_verification": {
+            "exact_surface_match": True,
+            "replayed_surface_sha256": hashlib.sha256(
+                frames[-1]["surface_path"].encode()
+            ).hexdigest(),
+            "native_surface_sha256": hashlib.sha256(native_surface.encode()).hexdigest(),
+        },
+    }
+    PUBLIC_SOURCE.write_text(
+        json.dumps(source_bundle, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    )
 
     document = {
         "schema_version": 1,
         "case_id": CASE_ID,
-        "scope": "Seven actual checkpoints from one reproducible 500-ray Bosch trajectory.",
+        "scope": "Seven replayed checkpoints; the final frame exactly matches the saved native checkpoint.",
+        "geometry": geometry,
         "recipe": recipe,
         "numerics": row["numerics"],
-        "frames": frames,
-        "source": {
-            "path": str(ROWS.relative_to(ROOT)),
-            "line_number": line_number,
-            "sha256": hashlib.sha256(ROWS.read_bytes()).hexdigest(),
-            "native_checkpoint_sha256": row["checkpoint_sha256"],
+        "target": {
+            "depth": row["target"]["etch_depth"],
+            "depth_tolerance": row["target"]["depth_tolerance"],
+            "maximum_cd_error": row["target"]["max_width_error"],
+            "maximum_bow": row["target"]["max_wall_bulge"],
+            "basis": {
+                "classification": "assumed_study_target",
+                "physical_qualification": False,
+                "source": {
+                    "path": "program.md",
+                    "sha256": checkpoint.file_sha256(ROOT / "program.md"),
+                    "section": "Declared study product spec",
+                },
+            },
         },
+        "view_box": [
+            -geometry["x_extent"] / 2,
+            -0.25,
+            geometry["x_extent"],
+            geometry["y_extent"] + 0.25,
+        ],
+        "frames": frames,
+        "citations": [
+            {
+                "path": str(PUBLIC_SOURCE.relative_to(ROOT)),
+                "sha256": hashlib.sha256(PUBLIC_SOURCE.read_bytes()).hexdigest(),
+                "selector": selector,
+            }
+            for selector in ("/source_row", "/native_checkpoint_verification")
+        ],
     }
     OUTPUT.write_text(json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n")
     print(OUTPUT)

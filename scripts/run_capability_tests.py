@@ -90,6 +90,7 @@ TESTS_BY_RUNTIME = {
         "test_pattern_bosch_gate0_r1.py",
         "test_pattern_bosch_screen_design.py",
         "test_pattern_bosch_screen_runner.py",
+        "test_pattern_bosch_range_pilot_runner.py",
         "test_process_config.py",
         "test_process_reproducibility.py",
         "test_publication_data.py",
@@ -127,10 +128,19 @@ TESTS_BY_RUNTIME = {
         "test_height_material_cmp.py",
     ),
     "portable": (
+        "test_active_experiment_contract.py",
         "test_autoresearch_event_log.py",
         "test_autoresearch_event_schema.py",
         "test_evidence_schema.py",
         "test_explainer_visual.py",
+        "test_factor_registry_provenance.py",
+        "test_pattern_bosch_factor_projection.py",
+        "test_pattern_bosch_measurement_contract.py",
+        "test_pattern_bosch_metric_controls.py",
+        "test_pattern_bosch_range_pilot.py",
+        "test_pattern_bosch_range_pilot_bundle.py",
+        "test_pattern_bosch_range_pilot_recovery.py",
+        "test_pattern_bosch_range_pilot_review.py",
     ),
 }
 

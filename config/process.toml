@@ -81,6 +81,7 @@ profile_max_radius = 0.5
 view_box_full = [-0.5, -0.4, 1.0, 1.8]
 view_box_mask = [-0.5, -0.4, 1.0, 0.8]
 mask_radii = [0.12, 0.15, 0.18]
+mask_heights = [0.24, 0.30, 0.36]
 mask_tapers = [0.0, 2.0, 4.0]
 bosch_cycles = [3, 4, 5]
 bosch_passivation_thickness = [0.01, 0.02, 0.03]
@@ -104,6 +105,30 @@ failure_chain_fill_thickness = 0.50
 failure_chain_fill_isotropic_ratio = 0.05
 failure_chain_via_x_bounds = [-0.25, 0.25]
 failure_chain_field_sample_xs = [-0.40, 0.40]
+
+[pattern_bosch_range_pilot]
+authority = "coarse_model_range_pilot_only"
+output = "autoresearch-results/range_pilot/pattern_bosch_dsd25_rows.jsonl"
+grid_delta = 0.01
+rays_per_point = 250
+threads_per_worker = 4
+rng_seed = 1420000
+x_extent = 1.0
+y_extent = 2.0
+
+[pattern_bosch_range_pilot.levels]
+radius = [0.12, 0.15, 0.18]
+mask_taper = [-4.0, 2.0, 6.0]
+num_cycles = [4, 10, 16]
+etch_time = [0.20, 0.50, 2.00]
+initial_etch_time = [0.10, 0.30, 0.50]
+neutral_rate = [-0.20, -0.08, -0.03]
+neutral_sticking_probability = [0.02, 0.08, 0.30]
+deposition_thickness = [0.003, 0.005, 0.040]
+deposition_sticking_probability = [0.001, 0.010, 0.030]
+ion_source_exponent = [50.0, 400.0, 1000.0]
+theta_r_min = [25.0, 45.0, 90.0]
+ion_rate = [-0.22, -0.10, -0.04]
 
 [metrics]
 center_half_width = 0.020

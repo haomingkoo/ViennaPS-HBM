@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Candidate copper-fill replay evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "case_id", "model", "model_controls", "numerics", "target", "target_basis", "view_box", "starting_materials", "frames", "decision", "citations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "model": {"type": "string", "minLength": 1},
+    "model_controls": {
+      "type": "object",
+      "required": ["suppressor_sticking_probability", "suppressor_source_power"],
+      "properties": {
+        "suppressor_sticking_probability": {"type": "number", "minimum": 0, "maximum": 1},
+        "suppressor_source_power": {"type": "number", "minimum": 0}
+      }
+    },
+    "numerics": {"type": "object", "minProperties": 1},
+    "target": {
+      "type": "object",
+      "required": ["min_overburden"],
+      "properties": {
+        "min_overburden": {"type": "number"}
+      }
+    },
+    "target_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["barrier_seed_min_conformality", "barrier_seed_min_thickness", "liner_min_conformality", "liner_min_thickness", "max_balance_error", "min_overburden"],
+      "properties": {
+        "barrier_seed_min_conformality": {"$ref": "#/$defs/assumed_target_basis"},
+        "barrier_seed_min_thickness": {"$ref": "#/$defs/assumed_target_basis"},
+        "liner_min_conformality": {"$ref": "#/$defs/assumed_target_basis"},
+        "liner_min_thickness": {"$ref": "#/$defs/assumed_target_basis"},
+        "min_overburden": {"$ref": "#/$defs/assumed_target_basis"},
+        "max_balance_error": {"$ref": "#/$defs/implementation_basis"}
+      }
+    },
+    "view_box": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number"},
+        {"type": "number"},
+        {"type": "number", "exclusiveMinimum": 0},
+        {"type": "number", "exclusiveMinimum": 0}
+      ],
+      "items": false
+    },
+    "starting_materials": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/material"},
+      "allOf": [
+        {"contains": {"properties": {"id": {"const": "silicon"}}}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"id": {"const": "liner"}}}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"id": {"const": "barrier"}}}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"id": {"const": "seed"}}}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"id": {"const": "copper"}}}, "minContains": 1, "maxContains": 1}
+      ]
+    },
+    "frames": {
+      "type": "array",
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 1}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 2}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 3}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 4}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 5}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 6}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 7}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 8}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 9}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 10}, "metrics": {"properties": {"unresolved_seam_risk": {"const": false}}}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"checkpoint": {"const": 11}, "metrics": {"properties": {"unresolved_seam_risk": {"const": true}}}}}]}
+      ],
+      "items": false
+    },
+    "decision": {"type": "string", "minLength": 1},
+    "citations": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/citation"}
+    }
+  },
+  "$defs": {
+    "basis_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "section"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "section": {"type": "string", "minLength": 1}
+      }
+    },
+    "assumed_target_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "physical_qualification", "source"],
+      "properties": {
+        "classification": {"const": "assumed_study_target"},
+        "physical_qualification": {"const": false},
+        "source": {"$ref": "#/$defs/basis_source"}
+      }
+    },
+    "implementation_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "physical_qualification", "source"],
+      "properties": {
+        "classification": {"const": "implementation_assumption"},
+        "physical_qualification": {"const": false},
+        "source": {"$ref": "#/$defs/basis_source"}
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "surface_path"],
+      "properties": {
+        "id": {"enum": ["silicon", "liner", "barrier", "seed", "copper"]},
+        "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fill_fraction", "remaining_void_area", "open_void_depth", "mouth_aperture", "mouth_sample_y", "overburden_min", "center_velocity_mean", "field_velocity_mean", "topology_transition", "unresolved_seam_risk", "transition_reason", "previous_open_void_depth", "observed_open_void_depth_drop", "disappearing_tail_max_width", "closure_width_bound"],
+      "properties": {
+        "fill_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "remaining_void_area": {"type": "number", "minimum": 0},
+        "open_void_depth": {"type": "number", "minimum": 0},
+        "mouth_aperture": {"type": "number", "minimum": 0},
+        "mouth_sample_y": {"type": "number"},
+        "overburden_min": {"type": "number"},
+        "center_velocity_mean": {"type": "number", "minimum": 0},
+        "field_velocity_mean": {"type": "number", "minimum": 0},
+        "topology_transition": {"type": "string", "minLength": 1},
+        "unresolved_seam_risk": {"type": "boolean"},
+        "transition_reason": {"type": ["string", "null"]},
+        "previous_open_void_depth": {"type": "number", "minimum": 0},
+        "observed_open_void_depth_drop": {"type": "number", "minimum": 0},
+        "disappearing_tail_max_width": {"type": ["number", "null"], "minimum": 0},
+        "closure_width_bound": {"type": "number", "minimum": 0}
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint", "elapsed", "surface_path", "metrics"],
+      "properties": {
+        "checkpoint": {"type": "integer", "minimum": 1, "maximum": 11},
+        "elapsed": {"type": "number", "minimum": 0},
+        "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"},
+        "metrics": {"$ref": "#/$defs/metrics"}
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "selector"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "selector": {"enum": ["/source_row", "/review_decision"]}
+      }
+    }
+  }
+}

@@ -15,6 +15,11 @@ INPUTS = {
     "step_experiments": "step_experiments.json",
     "numerical_performance": "numerical_performance_data.json",
     "bosch_tutorial": "bosch_tutorial_data.json",
+    "bosch_trajectory": "bosch_trajectory_replay.json",
+    "candidate_cu_replay": "candidate_cu_replay.json",
+    "active_contract": "active_experiment_contract.json",
+    "pattern_bosch_factor_projection": "pattern_bosch_factor_projection.json",
+    "pattern_bosch_range_pilot": "pattern_bosch_range_pilot_review.json",
 }
 
 

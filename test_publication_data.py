@@ -4,6 +4,7 @@ import base64
 import hashlib
 import json
 from html.parser import HTMLParser
+from itertools import product
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -141,7 +142,7 @@ for required in (
 assert "A simplified TSV traveler" in html
 assert '"total_travelers":1948' in html
 assert '"selected_foundation_cases":376' in html
-assert "How the software recognizes a passing shape" in html
+assert "How the measurement code checks a known geometry" in html
 assert "Creates the vertical electrical path." in html
 assert "What the new experiments indicate" in html
 assert "Equipment controls, model controls, and feedback" in html
@@ -172,8 +173,61 @@ assert (
 assert step_experiments["studies"][0]["frames"][
     step_experiments["studies"][0]["target_frame"]
 ]["metrics"]["meets_screen"]
-assert all(len(study["parameters"]) == 2 for study in step_experiments["studies"])
-assert all(len(study["frames"]) == 9 for study in step_experiments["studies"])
+parameter_counts = {
+    study["id"]: len(study["parameters"])
+    for study in step_experiments["studies"]
+}
+assert parameter_counts == {
+    "mask": 3,
+    "bosch": 2,
+    "liner": 2,
+    "barrier": 2,
+    "seed": 2,
+    "cmp": 2,
+}
+frame_counts = {study["id"]: len(study["frames"]) for study in step_experiments["studies"]}
+assert frame_counts == {
+    "mask": 27,
+    "bosch": 9,
+    "liner": 9,
+    "barrier": 9,
+    "seed": 9,
+    "cmp": 9,
+}
+for study in step_experiments["studies"]:
+    parameter_keys = [parameter["key"] for parameter in study["parameters"]]
+    expected_settings = set(
+        product(*(parameter["values"] for parameter in study["parameters"]))
+    )
+    actual_settings = {
+        tuple(frame["setting"][key] for key in parameter_keys)
+        for frame in study["frames"]
+    }
+    assert actual_settings == expected_settings
+    if study["acceptance"]["status"] == "not_declared":
+        assert study["claim_level"] == "no_gate_declared"
+        assert study["acceptance"]["basis"]["classification"] == "no_limit_declared"
+        assert all(frame["metrics"]["meets_screen"] is None for frame in study["frames"])
+        continue
+    assert study["acceptance"]["basis"] == {
+        "classification": "assumed_study_target",
+        "physical_qualification": False,
+        "source": study["acceptance"]["basis"]["source"],
+    }
+    assert study["acceptance"]["basis"]["source"]["path"] == "program.md"
+    for frame in study["frames"]:
+        outcomes = []
+        for rule in study["acceptance"]["rules"]:
+            measured = frame["metrics"][rule["metric"]]
+            if rule["operator"] == "must_be_true":
+                outcomes.append(measured is True)
+            elif rule["operator"] == "minimum":
+                outcomes.append(measured >= rule["value"])
+            elif rule["operator"] == "maximum":
+                outcomes.append(measured <= rule["value"])
+            else:
+                outcomes.append(abs(measured - rule["value"]) <= rule["tolerance"])
+        assert frame["metrics"]["meets_screen"] == all(outcomes)
 seed_study = next(
     study for study in step_experiments["studies"] if study["id"] == "seed"
 )
@@ -182,10 +236,24 @@ cmp_study = next(study for study in step_experiments["studies"] if study["id"] =
 assert all(frame["metrics"]["meets_screen"] is None for frame in cmp_study["frames"])
 chain_frames = step_experiments["failure_chain"]["frames"]
 assert chain_frames[0]["parent_frame_hash"] is None
+recomputed_chain_hashes = []
+for frame in chain_frames:
+    payload = {
+        key: value
+        for key, value in frame.items()
+        if key not in {"frame_hash", "parent_frame_hash"}
+    }
+    recomputed_chain_hashes.append(
+        hashlib.sha256(
+            json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+    )
+assert [frame["frame_hash"] for frame in chain_frames] == recomputed_chain_hashes
 assert all(
     chain_frames[index]["parent_frame_hash"] == chain_frames[index - 1]["frame_hash"]
     for index in range(1, len(chain_frames))
 )
+assert step_experiments["failure_chain"]["run_id"] == recomputed_chain_hashes[-1][:12]
 assert all(
     "continuous" in frame["metrics"]
     for frame in chain_frames
@@ -198,6 +266,43 @@ assert replay["frame_count"] == 24
 assert len(replay["runs"]) == 2
 assert replay["runs"][0]["frames"][-1]["metrics"]["closed_void_count"] == 1
 assert replay["runs"][1]["frames"][-1]["metrics"]["void_free"]
+
+bosch_replay = json.loads((ROOT / "bosch_trajectory_replay.json").read_text())
+assert bosch_replay["target"]["basis"]["classification"] == "assumed_study_target"
+assert bosch_replay["target"]["basis"]["physical_qualification"] is False
+assert [frame["cycle"] for frame in bosch_replay["frames"]] == [1, 4, 7, 10, 13, 16, 18]
+assert bosch_replay["frames"][-1]["progress"] == 1
+assert {item["selector"] for item in bosch_replay["citations"]} == {
+    "/source_row",
+    "/native_checkpoint_verification",
+}
+
+candidate_replay = json.loads((ROOT / "candidate_cu_replay.json").read_text())
+assert all(
+    basis["physical_qualification"] is False
+    for basis in candidate_replay["target_basis"].values()
+)
+assert candidate_replay["target_basis"]["max_balance_error"]["classification"] == (
+    "implementation_assumption"
+)
+assert [frame["checkpoint"] for frame in candidate_replay["frames"]] == list(
+    range(1, 12)
+)
+assert all(
+    not frame["metrics"]["unresolved_seam_risk"]
+    for frame in candidate_replay["frames"][:-1]
+)
+assert candidate_replay["frames"][-1]["metrics"]["unresolved_seam_risk"]
+assert "cannot be classified reliably" in candidate_replay["decision"]
+assert {item["selector"] for item in candidate_replay["citations"]} == {
+    "/source_row",
+    "/review_decision",
+}
+bosch_tutorial = json.loads((ROOT / "bosch_tutorial_data.json").read_text())
+assert bosch_tutorial["targets"]["basis"]["classification"] == (
+    "assumed_study_target"
+)
+assert bosch_tutorial["targets"]["basis"]["physical_qualification"] is False
 assert "Copper response map" in html
 assert "SELECTED HANDOFF PASSES 4/4" not in html
 assert "What to tune next" in html

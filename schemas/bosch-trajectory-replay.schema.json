@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bosch trajectory replay evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "scope", "geometry", "recipe", "numerics", "target", "view_box", "frames", "citations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "scope": {"type": "string", "minLength": 1},
+    "geometry": {
+      "type": "object",
+      "required": ["radius", "x_extent", "y_extent"],
+      "properties": {
+        "radius": {"type": "number", "exclusiveMinimum": 0},
+        "x_extent": {"type": "number", "exclusiveMinimum": 0},
+        "y_extent": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "recipe": {
+      "type": "object",
+      "required": ["etch_time", "deposition_thickness", "ion_source_exponent"],
+      "properties": {
+        "etch_time": {"type": "number", "exclusiveMinimum": 0},
+        "deposition_thickness": {"type": "number", "minimum": 0},
+        "ion_source_exponent": {"type": "number", "minimum": 0}
+      }
+    },
+    "numerics": {
+      "type": "object",
+      "required": ["rays_per_point"],
+      "properties": {"rays_per_point": {"const": 500}}
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "depth_tolerance", "maximum_cd_error", "maximum_bow", "basis"],
+      "properties": {
+        "depth": {"type": "number", "exclusiveMinimum": 0},
+        "depth_tolerance": {"type": "number", "minimum": 0},
+        "maximum_cd_error": {"type": "number", "minimum": 0},
+        "maximum_bow": {"type": "number", "minimum": 0},
+        "basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["classification", "physical_qualification", "source"],
+          "properties": {
+            "classification": {"const": "assumed_study_target"},
+            "physical_qualification": {"const": false},
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256", "section"],
+              "properties": {
+                "path": {"const": "program.md"},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "section": {"const": "Declared study product spec"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "view_box": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number"},
+        {"type": "number"},
+        {"type": "number", "exclusiveMinimum": 0},
+        {"type": "number", "exclusiveMinimum": 0}
+      ],
+      "items": false
+    },
+    "frames": {
+      "type": "array",
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 1}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 4}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 7}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 10}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 13}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 16}}}]},
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 18}}}]}
+      ],
+      "items": false
+    },
+    "citations": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/citation"}
+    }
+  },
+  "$defs": {
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms"],
+      "properties": {
+        "depth": {"type": "number", "minimum": 0},
+        "cd_top": {"type": "number", "minimum": 0},
+        "cd_middle": {"type": "number", "minimum": 0},
+        "cd_bottom": {"type": "number", "minimum": 0},
+        "maximum_cd_error": {"type": "number", "minimum": 0},
+        "bow": {"type": "number", "minimum": 0},
+        "scallop_rms": {"type": "number", "minimum": 0}
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cycle", "progress", "surface_path", "metrics"],
+      "properties": {
+        "cycle": {"enum": [1, 4, 7, 10, 13, 16, 18]},
+        "progress": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"},
+        "metrics": {"$ref": "#/$defs/metrics"}
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "selector"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "selector": {"enum": ["/source_row", "/native_checkpoint_verification"]}
+      }
+    }
+  }
+}
