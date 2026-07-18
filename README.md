@@ -217,9 +217,9 @@ The interactive HTML can be opened from a clean clone. The current repository
 does not yet contain every native checkpoint needed to rebuild the complete
 teaching traveler from scratch. Until those checkpoints are published, do not
 describe `build_screening_traveler.py` as a clean-clone reproduction command.
-`build_step_experiments.py` also needs the local positive-control fill
-checkpoint for its CMP example. A clean clone uses the committed
-`step_experiments.json` when rebuilding the HTML.
+The smaller 3 × 3 step studies are generated independently by
+`build_step_experiments.py`. A clean clone without ViennaPS can still use the
+committed `step_experiments.json` when rebuilding the HTML.
 
 The numerical charts are portable: their exact source rows, manifests, review,
 and hashes are committed under `evidence/numerical/`. CI rebuilds the chart data
@@ -233,10 +233,10 @@ Evidence schemas keep required keys explicit. Unknown values remain `null`;
 they are never guessed. Schema or state failures block publication and report
 the failing JSON pointer plus the next action.
 
-The interactive step studies are independent examples. Their checks are
-simulation screening limits in model units. They are not fabrication
-specifications. Each viewer states the measurement, the tested range, and the
-physics the model does not cover.
+The interactive step studies are independent 3 × 3 examples. Each one varies
+two model inputs and shows only the nine saved outputs. Their checks are
+simulation screening limits in model units, not fabrication specifications.
+Each viewer states the measurement and what the model does not cover.
 
 ## Repository shape
 

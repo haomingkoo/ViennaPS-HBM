@@ -11,6 +11,7 @@ import numpy as np
 import viennaps as ps
 
 import full_2d_layer_metrics as layer_metrics
+import foundation_cmp_qualification as cmp_controls
 import layer_process_models as layer_models
 import native_domain_checkpoint as checkpoint
 from process_config import PROCESS_CONFIG
@@ -27,9 +28,7 @@ MAX_RADIUS = CONFIG["profile_max_radius"]
 
 
 def _surface_path(mesh):
-    segments = np.asarray(mesh["nodes"])[np.asarray(mesh["lines"], dtype=int)][
-        :, :, :2
-    ]
+    segments = np.asarray(mesh["nodes"])[np.asarray(mesh["lines"], dtype=int)][:, :, :2]
     return "".join(
         f"M{start[0]:.5f} {start[1]:.5f}L{end[0]:.5f} {end[1]:.5f}"
         for start, end in segments
@@ -92,59 +91,76 @@ def _base_via():
 def _mask_study():
     frames = []
     for radius in CONFIG["mask_radii"]:
-        geometry = tp.make_initial_geometry(
-            radius=radius,
-            hole_shape=ps.HoleShape.FULL,
-        )
-        mask = next(
-            mesh
-            for mesh in tm.raw_level_set_meshes(geometry)
-            if mesh["material"] == ps.Material.Mask
-        )
-        metrics = tm.pattern_metrics_2d(
-            mask["nodes"],
-            mask["lines"],
-            surface_y=SURFACE_Y,
-            target_cd=TARGETS["pattern"]["width"],
-            target_mask_height=TARGETS["pattern"]["mask_height"],
-            max_radius=MAX_RADIUS,
-        )
-        frames.append(
-            {
-                "setting": {"opening_width": 2 * radius},
-                "materials": _materials(geometry),
-                "metrics": {
-                    "opening_cd_bottom": metrics["opening_cd_bottom"],
-                    "opening_cd_top": metrics["opening_cd_top"],
-                    "mask_height": metrics["mask_height"],
-                    "meets_screen": bool(
-                        abs(metrics["cd_bias"]) < CONFIG["measurement_tolerance"]
-                        and abs(
-                            metrics["mask_height"]
-                            - TARGETS["pattern"]["mask_height"]
-                        )
-                        <= CONFIG["mask_height_tolerance"]
-                    ),
-                },
-            }
-        )
+        for taper in CONFIG["mask_tapers"]:
+            geometry = tp.make_initial_geometry(
+                radius=radius,
+                taper=taper,
+                hole_shape=ps.HoleShape.FULL,
+            )
+            mask = next(
+                mesh
+                for mesh in tm.raw_level_set_meshes(geometry)
+                if mesh["material"] == ps.Material.Mask
+            )
+            metrics = tm.pattern_metrics_2d(
+                mask["nodes"],
+                mask["lines"],
+                surface_y=SURFACE_Y,
+                target_cd=TARGETS["pattern"]["width"],
+                target_mask_height=TARGETS["pattern"]["mask_height"],
+                max_radius=MAX_RADIUS,
+            )
+            frames.append(
+                {
+                    "setting": {"opening_width": 2 * radius, "mask_taper": taper},
+                    "materials": _materials(geometry),
+                    "metrics": {
+                        "opening_cd_bottom": metrics["opening_cd_bottom"],
+                        "opening_cd_top": metrics["opening_cd_top"],
+                        "mask_height": metrics["mask_height"],
+                        "meets_screen": bool(
+                            abs(metrics["cd_bias"]) < CONFIG["measurement_tolerance"]
+                            and abs(
+                                metrics["mask_height"]
+                                - TARGETS["pattern"]["mask_height"]
+                            )
+                            <= CONFIG["mask_height_tolerance"]
+                        ),
+                    },
+                }
+            )
     return {
         "id": "mask",
         "title": "Mask opening results",
         "scope": "Ideal mask-geometry sweep; no exposure or develop model.",
         "starts_from": "Ideal mask constructor.",
-        "input_label": "Opening width",
-        "default_frame": 1,
+        "parameters": [
+            {
+                "key": "opening_width",
+                "label": "Opening width",
+                "values": [2 * value for value in CONFIG["mask_radii"]],
+            },
+            {
+                "key": "mask_taper",
+                "label": "Wall taper",
+                "values": CONFIG["mask_tapers"],
+                "unit": "°",
+            },
+        ],
+        "default_frame": 3,
+        "target_frame": 3,
         "view_box": CONFIG["view_box_mask"],
         "frames": frames,
     }
 
 
 def _bosch_study():
-    geometry = tp.make_initial_geometry(hole_shape=ps.HoleShape.FULL)
     frames = []
+    selected_cycles = set(CONFIG["bosch_cycles"])
 
-    def save_frame(domain, cycle):
+    def save_frame(domain, cycle, passivation):
+        if cycle not in selected_cycles:
+            return
         silicon = next(
             mesh
             for mesh in tm.raw_level_set_meshes(domain)
@@ -159,12 +175,16 @@ def _bosch_study():
             target_cd=TARGETS["etch"]["target_width"],
             max_radius=MAX_RADIUS,
         )
-        depth_ok = abs(measured["depth"] - TARGETS["etch"]["target_depth"]) <= TARGETS[
-            "etch"
-        ]["depth_tolerance"]
+        depth_ok = (
+            abs(measured["depth"] - TARGETS["etch"]["target_depth"])
+            <= TARGETS["etch"]["depth_tolerance"]
+        )
         frames.append(
             {
-                "setting": {"completed_cycles": cycle},
+                "setting": {
+                    "completed_cycles": cycle,
+                    "passivation_thickness": passivation,
+                },
                 "materials": _materials(domain),
                 "metrics": {
                     "depth": measured["depth"],
@@ -174,25 +194,41 @@ def _bosch_study():
                         depth_ok
                         and measured["max_cd_error"]
                         <= TARGETS["etch"]["max_width_error"]
-                        and measured["max_bow"]
-                        <= TARGETS["etch"]["max_wall_bulge"]
+                        and measured["max_bow"] <= TARGETS["etch"]["max_wall_bulge"]
                     ),
                 },
             }
         )
 
-    tp.bosch_etch(
-        geometry,
-        on_cycle=save_frame,
-        rays_per_point=CONFIG["rays_per_point"],
-        rng_seed=CONFIG["rng_seed"],
-    )
+    for passivation in CONFIG["bosch_passivation_thickness"]:
+        geometry = tp.make_initial_geometry(hole_shape=ps.HoleShape.FULL)
+        tp.bosch_etch(
+            geometry,
+            num_cycles=max(selected_cycles),
+            deposition_thickness=passivation,
+            on_cycle=lambda domain, cycle, value=passivation: save_frame(
+                domain, cycle, value
+            ),
+            rays_per_point=CONFIG["rays_per_point"],
+            rng_seed=CONFIG["rng_seed"],
+        )
     return {
         "id": "bosch",
         "title": "Dry-etch cycle teaching study",
         "scope": "Failing 2D cycle study. This is not the selected traveler.",
         "starts_from": "Fresh target-width mask. Cycle 0 follows the opening etch.",
-        "input_label": "Completed cycles",
+        "parameters": [
+            {
+                "key": "completed_cycles",
+                "label": "Etch cycles",
+                "values": CONFIG["bosch_cycles"],
+            },
+            {
+                "key": "passivation_thickness",
+                "label": "Wall protection per cycle",
+                "values": CONFIG["bosch_passivation_thickness"],
+            },
+        ],
         "default_frame": 4,
         "view_box": CONFIG["view_box_full"],
         "frames": frames,
@@ -222,39 +258,54 @@ def _layer_measure(inner, outer):
 def _liner_study():
     frames = []
     for sticking in CONFIG["liner_sticking"]:
-        geometry = _base_via()
-        substrate = tm.raw_level_set_meshes(geometry)[-1]
-        tp.deposit_conformal(
-            geometry,
-            ps.Material.SiO2,
-            CONFIG["liner_dose"],
-            sticking=sticking,
-            rays_per_point=CONFIG["rays_per_point"],
-            rng_seed=CONFIG["rng_seed"],
-        )
-        outer = tm.raw_level_set_meshes(geometry)[-1]
-        metrics = _layer_measure(substrate, outer)
-        metrics["meets_screen"] = bool(
-            metrics["minimum_thickness"] >= TARGETS["liner"]["min_thickness"]
-            and metrics["lower_wall_coverage"]
-            >= TARGETS["liner"]["min_floor_coverage"]
-            and metrics["continuous"]
-            and metrics["aperture_open"]
-        )
-        frames.append(
-            {
-                "setting": {"sticking_probability": sticking},
-                "materials": _materials(geometry),
-                "metrics": metrics,
-            }
-        )
+        for dose in CONFIG["liner_doses"]:
+            geometry = _base_via()
+            substrate = tm.raw_level_set_meshes(geometry)[-1]
+            tp.deposit_conformal(
+                geometry,
+                ps.Material.SiO2,
+                dose,
+                sticking=sticking,
+                rays_per_point=CONFIG["rays_per_point"],
+                rng_seed=CONFIG["rng_seed"],
+            )
+            outer = tm.raw_level_set_meshes(geometry)[-1]
+            metrics = _layer_measure(substrate, outer)
+            metrics["meets_screen"] = bool(
+                metrics["minimum_thickness"] >= TARGETS["liner"]["min_thickness"]
+                and metrics["lower_wall_coverage"]
+                >= TARGETS["liner"]["min_floor_coverage"]
+                and metrics["continuous"]
+                and metrics["aperture_open"]
+            )
+            frames.append(
+                {
+                    "setting": {
+                        "sticking_probability": sticking,
+                        "deposition_amount": dose,
+                    },
+                    "materials": _materials(geometry),
+                    "metrics": metrics,
+                }
+            )
     return {
         "id": "liner",
         "title": "Liner deposition results",
         "scope": "Shows how particle sticking changes wall coverage. Coefficients are uncalibrated.",
         "starts_from": "Ideal etched via.",
-        "input_label": "Sticking probability",
-        "default_frame": 0,
+        "parameters": [
+            {
+                "key": "sticking_probability",
+                "label": "Particle sticking",
+                "values": CONFIG["liner_sticking"],
+            },
+            {
+                "key": "deposition_amount",
+                "label": "Deposition amount",
+                "values": CONFIG["liner_doses"],
+            },
+        ],
+        "default_frame": 4,
         "view_box": CONFIG["view_box_full"],
         "frames": frames,
     }
@@ -271,37 +322,49 @@ def _fixed_liner():
 def _barrier_study():
     frames = []
     for fraction in CONFIG["barrier_isotropic_fraction"]:
-        geometry = _fixed_liner()
-        inner = tm.raw_level_set_meshes(geometry)[-1]
-        layer_models.deposit_directional_fraction(
-            geometry,
-            ps.Material.TaN,
-            field_dose=CONFIG["barrier_dose"],
-            isotropic_fraction=fraction,
-        )
-        outer = tm.raw_level_set_meshes(geometry)[-1]
-        metrics = _layer_measure(inner, outer)
-        metrics["meets_screen"] = bool(
-            metrics["minimum_thickness"] >= TARGETS["barrier"]["min_thickness"]
-            and metrics["lower_wall_coverage"]
-            >= TARGETS["barrier"]["min_floor_coverage"]
-            and metrics["continuous"]
-            and metrics["aperture_open"]
-        )
-        frames.append(
-            {
-                "setting": {"isotropic_fraction": fraction},
-                "materials": _materials(geometry),
-                "metrics": metrics,
-            }
-        )
+        for dose in CONFIG["barrier_doses"]:
+            geometry = _fixed_liner()
+            inner = tm.raw_level_set_meshes(geometry)[-1]
+            layer_models.deposit_directional_fraction(
+                geometry, ps.Material.TaN, field_dose=dose, isotropic_fraction=fraction
+            )
+            outer = tm.raw_level_set_meshes(geometry)[-1]
+            metrics = _layer_measure(inner, outer)
+            metrics["meets_screen"] = bool(
+                metrics["minimum_thickness"] >= TARGETS["barrier"]["min_thickness"]
+                and metrics["lower_wall_coverage"]
+                >= TARGETS["barrier"]["min_floor_coverage"]
+                and metrics["continuous"]
+                and metrics["aperture_open"]
+            )
+            frames.append(
+                {
+                    "setting": {
+                        "isotropic_fraction": fraction,
+                        "deposition_amount": dose,
+                    },
+                    "materials": _materials(geometry),
+                    "metrics": metrics,
+                }
+            )
     return {
         "id": "barrier",
         "title": "Barrier deposition results",
         "scope": "Directional-versus-isotropic geometry control.",
         "starts_from": "Ideal via with a fixed liner.",
-        "input_label": "All-angle fraction",
-        "default_frame": 2,
+        "parameters": [
+            {
+                "key": "isotropic_fraction",
+                "label": "All-angle fraction",
+                "values": CONFIG["barrier_isotropic_fraction"],
+            },
+            {
+                "key": "deposition_amount",
+                "label": "Deposition amount",
+                "values": CONFIG["barrier_doses"],
+            },
+        ],
+        "default_frame": 4,
         "view_box": CONFIG["view_box_full"],
         "frames": frames,
     }
@@ -321,88 +384,122 @@ def _fixed_barrier():
 def _seed_study():
     frames = []
     for fraction in CONFIG["seed_isotropic_fraction"]:
-        geometry = _fixed_barrier()
-        inner = tm.raw_level_set_meshes(geometry)[-1]
-        layer_models.deposit_directional_fraction(
-            geometry,
-            tp.CU_SEED_MATERIAL,
-            field_dose=CONFIG["seed_dose"],
-            isotropic_fraction=fraction,
-        )
-        outer = tm.raw_level_set_meshes(geometry)[-1]
-        metrics = _layer_measure(inner, outer)
-        metrics["meets_screen"] = None
-        frames.append(
-            {
-                "setting": {"isotropic_fraction": fraction},
-                "materials": _materials(geometry),
-                "metrics": metrics,
-            }
-        )
+        for dose in CONFIG["seed_doses"]:
+            geometry = _fixed_barrier()
+            inner = tm.raw_level_set_meshes(geometry)[-1]
+            layer_models.deposit_directional_fraction(
+                geometry,
+                tp.CU_SEED_MATERIAL,
+                field_dose=dose,
+                isotropic_fraction=fraction,
+            )
+            outer = tm.raw_level_set_meshes(geometry)[-1]
+            metrics = _layer_measure(inner, outer)
+            metrics["meets_screen"] = None
+            frames.append(
+                {
+                    "setting": {
+                        "isotropic_fraction": fraction,
+                        "deposition_amount": dose,
+                    },
+                    "materials": _materials(geometry),
+                    "metrics": metrics,
+                }
+            )
     return {
         "id": "seed",
         "title": "Seed deposition results",
         "scope": "Directional-versus-isotropic geometry control. No seed limit is declared.",
         "starts_from": "Ideal via with fixed liner and barrier layers.",
-        "input_label": "All-angle fraction",
-        "default_frame": 2,
+        "parameters": [
+            {
+                "key": "isotropic_fraction",
+                "label": "All-angle fraction",
+                "values": CONFIG["seed_isotropic_fraction"],
+            },
+            {
+                "key": "deposition_amount",
+                "label": "Deposition amount",
+                "values": CONFIG["seed_doses"],
+            },
+        ],
+        "default_frame": 4,
         "view_box": CONFIG["view_box_full"],
         "frames": frames,
     }
 
 
 def _cmp_study():
-    summary = json.loads(Path("publication_interim_data.json").read_text())
-    traveler = summary["screening_traveler"]
-    fill_artifact = traveler["artifacts"]["fill"]
-    source = Path(fill_artifact["path"])
-    endpoint = traveler["cmp"]["endpoint_y"]
     frames = []
-    for offset in CONFIG["cmp_endpoint_offsets"]:
-        geometry = checkpoint.load_domain_checkpoint(
-            source, expected_sha256=fill_artifact["sha256"]
-        )
-        chosen_endpoint = endpoint + offset
-        ps.Planarize(geometry, chosen_endpoint).apply()
-        copper = next(
-            mesh
-            for mesh in tm.raw_level_set_meshes(geometry)
-            if mesh["material"] == ps.Material.Cu
-        )
-        field_height = tm.surface_height_at_x(
-            copper["nodes"], copper["lines"], CONFIG["cmp_field_x"]
-        )
-        plug_height = tm.surface_height_at_x(
-            copper["nodes"], copper["lines"], CONFIG["cmp_plug_x"]
-        )
-        if field_height is None or plug_height is None:
-            raise RuntimeError("CMP teaching heights could not be measured")
-        frames.append(
-            {
-                "setting": {"endpoint_offset": offset},
-                "materials": _materials(geometry),
-                "metrics": {
-                    "field_copper_height": field_height,
-                    "plug_height": plug_height,
-                    "target_surface": endpoint,
-                    "field_relative_to_target": field_height - endpoint,
-                    "plug_relative_to_target": plug_height - endpoint,
-                    "meets_screen": bool(
-                        field_height is not None
-                        and field_height <= endpoint + CONFIG["measurement_tolerance"]
-                        and plug_height is not None
-                        and plug_height >= endpoint - CONFIG["measurement_tolerance"]
-                    ),
-                },
-            }
-        )
+    for duration in CONFIG["cmp_removal_durations"]:
+        for oxide_rate in CONFIG["cmp_oxide_rate_ratios"]:
+            stack = cmp_controls.build_analytic_stack(
+                "raised_plug", grid_delta=GEOMETRY["grid_delta"]
+            )
+            law = cmp_controls.default_candidate_law(stack.stop_y)
+            rates = dict(law.material_rate_ratios)
+            rates[ps.Material.SiO2] = oxide_rate
+            law = cmp_controls.HeightMaterialRemovalLaw(
+                stack.stop_y, law.compliance_length, law.residual_contact, rates
+            )
+            cmp_controls.apply_native_control(
+                stack, "uniform_material_selective", duration=duration, law=law
+            )
+            meshes = tm.raw_level_set_meshes(stack.geometry)
+            copper = next(mesh for mesh in meshes if mesh["material"] == ps.Material.Cu)
+            oxide = next(
+                mesh for mesh in meshes if mesh["material"] == ps.Material.SiO2
+            )
+            silicon = next(
+                mesh for mesh in meshes if mesh["material"] == ps.Material.Si
+            )
+            field_height = tm.surface_height_at_x(
+                copper["nodes"], copper["lines"], CONFIG["cmp_field_x"]
+            )
+            plug_height = tm.surface_height_at_x(
+                copper["nodes"], copper["lines"], CONFIG["cmp_plug_x"]
+            )
+            oxide_height = tm.surface_height_at_x(
+                oxide["nodes"], oxide["lines"], CONFIG["cmp_field_x"]
+            )
+            silicon_height = tm.surface_height_at_x(
+                silicon["nodes"], silicon["lines"], CONFIG["cmp_field_x"]
+            )
+            if None in (field_height, plug_height, oxide_height, silicon_height):
+                raise RuntimeError("CMP teaching heights could not be measured")
+            frames.append(
+                {
+                    "setting": {
+                        "removal_amount": duration,
+                        "oxide_rate_ratio": oxide_rate,
+                    },
+                    "materials": _materials(stack.geometry),
+                    "metrics": {
+                        "field_relative_to_target": field_height - stack.stop_y,
+                        "plug_relative_to_target": plug_height - stack.stop_y,
+                        "stop_retained_thickness": oxide_height - silicon_height,
+                        "meets_screen": None,
+                    },
+                }
+            )
     return {
         "id": "cmp",
-        "title": "CMP endpoint results",
-        "scope": "Moves an ideal removal plane. It does not model polish pressure or time.",
-        "starts_from": "Prescribed void-free copper control.",
-        "input_label": "Endpoint offset",
-        "default_frame": 1,
+        "title": "CMP removal results",
+        "scope": "Material-selective removal control; no pad pressure or calibrated polish time.",
+        "starts_from": "Analytic stack with a raised copper plug.",
+        "parameters": [
+            {
+                "key": "removal_amount",
+                "label": "Removal amount",
+                "values": CONFIG["cmp_removal_durations"],
+            },
+            {
+                "key": "oxide_rate_ratio",
+                "label": "Oxide rate relative to copper",
+                "values": CONFIG["cmp_oxide_rate_ratios"],
+            },
+        ],
+        "default_frame": 4,
         "view_box": CONFIG["view_box_full"],
         "frames": frames,
     }
@@ -570,7 +667,7 @@ def main():
     ps.setDimension(2)
     ps.setNumThreads(4)
     data = {
-        "schema_version": 1,
+        "schema_version": 2,
         "coordinate_system": {
             "x_units": "model length",
             "y_units": "model length",

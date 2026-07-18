@@ -38,7 +38,10 @@ def assert_step_viewers(page):
     for viewer_id in viewer_ids:
         viewer = page.locator(f'[data-output-viewer="{viewer_id}"]')
         assert viewer.count() == 1
-        geometry = viewer.locator("path[data-material]").first.evaluate(
+        controls = viewer.locator("[data-parameter]")
+        assert controls.count() == 2
+        geometry_path = viewer.locator("path[data-material]").last
+        geometry = geometry_path.evaluate(
             """element => {
                 const box = element.getBBox();
                 return {length: element.getTotalLength(), width: box.width, height: box.height};
@@ -47,13 +50,15 @@ def assert_step_viewers(page):
         assert geometry["length"] > 0
         assert geometry["width"] > 0
         assert geometry["height"] > 0
+        original_path = geometry_path.get_attribute("d")
+        controls.nth(0).fill(controls.nth(0).get_attribute("max"))
+        controls.nth(1).fill(controls.nth(1).get_attribute("max"))
+        assert geometry_path.get_attribute("d") != original_path
 
     mask = page.locator('[data-output-viewer="mask"]')
     etch = page.locator('[data-output-viewer="bosch"]')
-    original_mask_path = mask.locator('path[data-material="mask"]').get_attribute("d")
     original_etch_path = etch.locator('path[data-material="silicon"]').get_attribute("d")
-    mask.locator("input").fill("2")
-    assert mask.locator('path[data-material="mask"]').get_attribute("d") != original_mask_path
+    mask.locator('[data-parameter="opening_width"]').fill("0")
     assert etch.locator('path[data-material="silicon"]').get_attribute("d") == original_etch_path
 
     chain = page.locator("#failure-chain-viewer")
@@ -67,15 +72,15 @@ def assert_step_viewers(page):
 def assert_numerical_evidence(page):
     response = page.locator("#numerical-response-chart")
     assert response.locator("circle").count() == 4
-    assert "p10–p90" in page.locator("#numerical-response-caption").inner_text()
-    page.get_by_role("button", name="Rays per point").click()
+    assert "observed spread" in page.locator("#numerical-response-caption").inner_text()
+    page.get_by_role("button", name="Ray sampling").click()
     page.select_option("#numerical-metric", "cd_bottom")
     assert response.locator("circle").count() == 4
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
     status = page.locator("#numerical-ray-status").inner_text()
     assert "rejected" in status.lower()
     assert "Promising, but not approved" in status
-    assert "Tested reference" in status
+    assert "Current comparison baseline" in status
     assert page.locator('a[href*="numerical_performance_data.json"]').count() == 1
 
 

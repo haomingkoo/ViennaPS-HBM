@@ -127,13 +127,15 @@
   .fill-replay figcaption { margin-top: 0.8rem; max-width: 78ch; color: var(--ink-dim); font-size: 0.86rem; line-height: 1.5; }
   .output-studies { margin-top: 1.5rem; border-top: 1px solid var(--line); }
   .output-viewer { padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
-  .output-viewer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 0.55fr); gap: 1.5rem; align-items: end; margin-bottom: 0.9rem; }
+  .output-viewer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 0.55fr); gap: 1.5rem; align-items: end; margin-bottom: 0.9rem; padding-inline: 0.75rem; }
   .output-viewer-head h3 { margin: 0 0 0.25rem; }
   .output-viewer-head p { margin: 0; color: var(--ink-dim); font-size: 0.84rem; }
   .output-viewer-head p + p { margin-top: 0.25rem; }
-  .output-control label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.25rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .output-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem 1rem; }
+  .output-control label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.1rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
   .output-control output { color: var(--ink); }
   .output-control input { width: 100%; accent-color: var(--plasma); }
+  .target-outline { opacity: 0.7; stroke-dasharray: 0.02 0.012; }
   .output-viewer-layout { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(250px, 0.58fr); border: 1px solid var(--line); background: var(--surface); }
   .output-figure { min-height: 460px; border-right: 1px solid var(--line); }
   .output-figure svg { display: block; width: 100%; height: 460px; }
@@ -162,6 +164,7 @@
     .fill-replay-layout { grid-template-columns: 1fr; }
     .fill-replay-figure { border-right: 0; border-bottom: 1px solid var(--line); }
     .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
+    .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
   }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
@@ -710,18 +713,18 @@
           </g>
         </g>
       </svg>
-      <figcaption>The process modules define the models and measurements. <code>build_screening_traveler.py</code> runs the sequence.</figcaption>
+      <figcaption>Each step changes the shape. <code>build_screening_traveler.py</code> runs the steps and records the measurements.</figcaption>
     </figure>
-    <p class="note">The domain stores material boundaries as level sets. This example uses a 2D cross-section.</p>
+    <p class="note">The software stores the outline of each material. This page shows one 2D slice through the via.</p>
   </section>
 
   <section class="finding" id="numerical-tuning">
     <h2>Choosing a faster simulation setting</h2>
     <p class="claim">A faster setting is useful only when it preserves the measurements and pass/fail decisions needed by the study.</p>
     <div class="numerical-controls" aria-label="Numerical sensitivity chart controls">
-      <button type="button" data-numerical-axis="grid" aria-pressed="true">Grid spacing</button>
-      <button type="button" data-numerical-axis="rays" aria-pressed="false">Rays per point</button>
-      <label for="numerical-metric">Response
+      <button type="button" data-numerical-axis="grid" aria-pressed="true">Shape detail</button>
+      <button type="button" data-numerical-axis="rays" aria-pressed="false">Ray sampling</button>
+      <label for="numerical-metric">Measurement
         <select id="numerical-metric">
           <option value="depth">Etch depth</option>
           <option value="cd_bottom">Bottom width</option>
@@ -737,7 +740,7 @@
       </figure>
       <figure class="numerical-plot">
         <svg id="numerical-runtime-chart" viewBox="0 0 520 300" role="img" aria-label="Median runtime across numerical settings"></svg>
-        <figcaption>Median wall time for eight saved runs at each setting. Dots are medians; no runtime uncertainty interval was saved.</figcaption>
+        <figcaption>Typical wall time across eight runs. Lower is faster.</figcaption>
       </figure>
     </div>
     <div class="numerical-status" id="numerical-gate-status" aria-label="Product-check counts at each sampled setting"></div>
@@ -755,7 +758,7 @@
         </tbody>
       </table>
     </div>
-    <p class="note">Both runs reached the depth and bow requirements. Width alone changed the overall decision. That one disagreement is enough to reject 250 rays for the broad search. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/program.md#L38">width requirement</a>.</p>
+    <p class="note">Both runs reached the depth and bow requirements. Width alone changed the overall decision. This rejects 250 rays for the broad search, but it does not tell us whether the useful threshold is 500, 1,000, or somewhere else. Evidence: <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_r250_qualification_rows.jsonl#L7">250-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl#L9">2,000-ray row</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/program.md#L38">width requirement</a>.</p>
     <h3>How 500 rays will be checked</h3>
     <div class="method-chain" aria-label="Ray-count accuracy check">
       <div><b>1. Freeze cases</b><span>Include clear passes, clear failures, difficult shapes and cases close to each limit.</span></div>
@@ -791,7 +794,7 @@
           <tr><td>Liner</td><td>Deposition amount and particle sticking. Lower sticking can carry particles deeper.</td><td>The floor is too thin or the opening narrows.</td><td>Thickness, continuity, and remaining opening</td></tr>
           <tr><td>Barrier + seed</td><td>Deposition amount and directional fraction. More directional arrival can weaken deep coverage.</td><td>The layer becomes thin or disconnected.</td><td>Thickness, connection, and remaining opening</td></tr>
           <tr><td>Copper fill</td><td>Floor-to-wall growth balance. More wall growth closes the mouth sooner.</td><td>The mouth closes first and traps a void.</td><td>Void shape and copper above the surface</td></tr>
-          <tr><td>Polish</td><td>A chosen removal plane. More removal clears the top but can recess the plug.</td><td>Copper remains on top or the plug is recessed.</td><td>Surface clearance and plug connection</td></tr>
+          <tr><td>Polish</td><td>Removal amount and oxide-to-copper rate. More removal clears the top but can recess the plug.</td><td>Copper remains on top, the plug recesses, or the oxide thins.</td><td>Surface clearance, plug height, and oxide left</td></tr>
         </tbody>
       </table>
     </div>
@@ -799,8 +802,8 @@
     <p class="note"><b>Physical recipe knobs:</b> gas flow and pressure; power and temperature; current and chemistry. These are not calibrated in this project.</p>
     <div class="output-studies" id="step-output-studies">
       <h3>Inspect the saved result from each step</h3>
-      <p class="claim">Move one control at a time. Each view shows saved simulated geometry or a geometry control.</p>
-      <p class="note">Changing a control selects a saved output. It does not rerun ViennaPS. These independent studies do not feed into one another. Deep/field coverage is deep-wall thickness divided by field thickness; 1 means equal coverage. <a href="step_experiments.json">Open the saved step data.</a></p>
+      <p class="claim">Each panel compares two controls and shows the resulting saved shape.</p>
+      <p class="note">The controls select one of nine saved combinations. They do not rerun ViennaPS or invent shapes between tested points. These small studies are independent and are not a finished process window. <a href="step_experiments.json">Open the saved step data.</a></p>
       <div id="step-output-list"></div>
       <div class="output-viewer" id="failure-chain-viewer" data-failure-chain>
         <div class="output-viewer-head"><div><h3></h3><p></p></div></div>
@@ -861,10 +864,10 @@
     <figure class="fill-replay" data-output-viewer="copper">
       <h3 style="margin:0 0 0.3rem;">Copper-fill results</h3>
       <p class="claim">Prescribed geometry control. This is not an electroplating prediction.</p>
-      <p class="note">Both runs start with the same via. Choose a case, then inspect the saved checkpoints.</p>
+      <p class="note">Both runs start with the same via. Change the growth pattern and the amount of simulated copper added.</p>
       <div class="fill-replay-controls">
         <fieldset><legend>Prescribed geometry case</legend><button type="button" data-fill-run="wall_dominated" aria-pressed="true">Wall growth faster</button><button type="button" data-fill-run="floor_dominated" aria-pressed="false">Floor growth faster</button></fieldset>
-        <div class="fill-progress"><label for="fill-progress-slider">Checkpoint <span id="fill-progress-value">1 of 24</span></label><input id="fill-progress-slider" type="range" min="0" max="23" step="1" value="0"></div>
+        <div class="fill-progress"><label for="fill-progress-slider">Copper added <span id="fill-progress-value">0%</span></label><input id="fill-progress-slider" type="range" min="0" max="23" step="1" value="0"></div>
         <button type="button" id="fill-play">Play</button>
       </div>
       <div class="fill-replay-layout">
@@ -1241,7 +1244,7 @@ function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorA
   const px = index => points.length === 1 ? w / 2 : left + (xValues[index] - xMin) * (w - left - right) / (xMax - xMin);
   const py = value => top + (yMax - value) * (h - top - bottom) / (yMax - yMin);
   const path = points.map((point, index) => `${index ? 'L' : 'M'}${px(index)} ${py(valueFor(point))}`).join(' ');
-  const xLabel = numericalState.axis === 'grid' ? 'grid spacing · log scale' : 'rays per point · log scale';
+  const xLabel = numericalState.axis === 'grid' ? 'Cells across the 0.30 opening · more cells = finer' : 'Rays per point · log scale';
   svg.innerHTML = `<line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" stroke="var(--line)"/>
     <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" stroke="var(--line)"/>
     ${[yMin, (yMin + yMax) / 2, yMax].map(value => `<g><line x1="${left-4}" y1="${py(value)}" x2="${w-right}" y2="${py(value)}" stroke="var(--line)" stroke-opacity="0.45"/><text x="${left-8}" y="${py(value)+3}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="9">${format(value)}</text></g>`).join('')}
@@ -1249,7 +1252,8 @@ function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorA
     ${points.map((point, index) => {
       const [low, high] = rangeFor(point), x = px(index), y = py(valueFor(point));
       const whisker = low === high ? '' : `<line x1="${x}" y1="${py(low)}" x2="${x}" y2="${py(high)}" stroke="var(--plasma)" stroke-width="2"/><line x1="${x-5}" y1="${py(low)}" x2="${x+5}" y2="${py(low)}" stroke="var(--plasma)"/><line x1="${x-5}" y1="${py(high)}" x2="${x+5}" y2="${py(high)}" stroke="var(--plasma)"/>`;
-      return `<g>${whisker}<circle cx="${x}" cy="${y}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"><title>${point.value}: ${format(valueFor(point))}</title></circle><text x="${x}" y="${h-bottom+22}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${point.value}</text></g>`;
+      const tick = numericalState.axis === 'grid' ? Math.round(0.30 / point.value) : point.value;
+      return `<g>${whisker}<circle cx="${x}" cy="${y}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"><title>${point.value}: ${format(valueFor(point))}</title></circle><text x="${x}" y="${h-bottom+22}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${tick}</text></g>`;
     }).join('')}
     <text x="${w/2}" y="${h-12}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${xLabel}</text>
     <text x="16" y="${h/2}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10" transform="rotate(-90 16 ${h/2})">${yLabel}</text>`;
@@ -1265,21 +1269,21 @@ function renderNumericalEvidence() {
   numericalPlot('numerical-runtime-chart', points, point => point.median_runtime_s,
     point => [point.median_runtime_s, point.median_runtime_s],
     'Median wall time · seconds', value => `${value.toFixed(1)} s`, true);
-  document.getElementById('numerical-response-caption').textContent = `${numericalLabels[numericalState.metric]}: dot is the mean; whisker shows the observed p10–p90 spread across ${points[0].runs} saved runs.`;
+  document.getElementById('numerical-response-caption').textContent = `${numericalLabels[numericalState.metric]}: dot is the average of ${points[0].runs} runs; the vertical bar shows their observed spread.`;
   const changes = study.adjacent_changes.map(change => ({ ...change, response: change.responses[numericalState.metric] }));
   const largest = changes.reduce((best, change) => change.response.mean_abs_change > best.response.mean_abs_change ? change : best);
   document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. This chart alone cannot approve a faster setting; use the paired accuracy check below.`;
-  document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${point.value} ${numericalState.axis === 'grid' ? 'grid' : 'rays'}</b><span>Depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
+  document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${numericalState.axis === 'grid' ? `${Math.round(0.30 / point.value)} cells across opening` : `${point.value} rays`}</b><span>${numericalState.axis === 'grid' ? `Grid spacing ${point.value}. ` : ''}Depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
   const statusText = {
-    partial_with_mismatch_observed: 'Partial: a required decision changed in the saved cases',
-    partial_not_qualified: 'Partial: no accepted decision',
-    complete_with_mismatch_observed: 'Rejected: a required decision changed',
-    complete_awaiting_saved_review: 'Complete: formal review pending',
-    provisional_discovery_bridge: 'Promising, but not approved; the test changed more than ray count',
-    saved_review_mismatch: 'Saved review found a mismatch',
-    tested_reference: 'Tested reference; not numerical truth',
+    partial_with_mismatch_observed: 'Incomplete and already disagreed with the reference',
+    partial_not_qualified: 'Incomplete; no decision',
+    complete_with_mismatch_observed: 'Rejected because a required decision changed',
+    complete_awaiting_saved_review: 'Complete; review pending',
+    provisional_discovery_bridge: 'Promising, but not approved because the test changed more than ray count',
+    saved_review_mismatch: 'Rejected because the saved review found a mismatch',
+    tested_reference: 'Current comparison baseline, not guaranteed truth',
   };
-  document.getElementById('numerical-ray-status').innerHTML = NUMERICAL.v3_ray_qualification.points.map(point => `<div><b>${point.value} rays</b><span>${statusText[point.status] || point.status}. ${point.runs}${point.expected_candidate_runs ? `/${point.expected_candidate_runs}` : ''} saved cases${point.paired_anchor_median_speedup_vs_2000 ? `; ${point.paired_anchor_median_speedup_vs_2000.toFixed(1)}× paired median speedup` : ''}.</span></div>`).join('');
+  document.getElementById('numerical-ray-status').innerHTML = NUMERICAL.v3_ray_qualification.points.map(point => `<div><b>${point.value} rays</b><span>${statusText[point.status] || point.status}. ${point.runs}${point.expected_candidate_runs ? `/${point.expected_candidate_runs}` : ''} runs${point.paired_anchor_median_speedup_vs_2000 ? `; about ${point.paired_anchor_median_speedup_vs_2000.toFixed(1)}× faster than 2,000 rays in the paired timing check` : ''}.</span></div>`).join('');
 }
 
 document.querySelectorAll('[data-numerical-axis]').forEach(button => button.addEventListener('click', () => { numericalState.axis = button.dataset.numericalAxis; renderNumericalEvidence(); }));
@@ -1291,23 +1295,23 @@ const stepExperiments = DATA.step_experiments;
 const stepCopy = {
   mask: {
     check: 'Opening width 0.300 and mask height 0.300.',
-    boundary: 'The 0.300 opening passes. The 0.240 and 0.360 openings miss.',
+    boundary: 'Width and taper are varied together. The dotted line marks the target opening.',
     limit: 'Ideal geometry only. Exposure and develop are not modeled.',
-    why: 'The opening sets the starting width.',
-    tradeoff: 'A larger opening gives less surrounding mask protection.',
-    metrics: ['opening_cd_bottom', 'mask_height'],
+    why: 'Width sets the entrance size. Taper changes how the opening widens through the mask.',
+    tradeoff: 'A wider or more tapered opening changes the etch boundary below it.',
+    metrics: ['opening_cd_bottom', 'opening_cd_top', 'mask_height'],
   },
   bosch: {
     check: 'Depth 1.25 ± 0.10. Width error ≤ 0.06. Bow ≤ 0.03.',
-    boundary: 'No cycle passes all three checks. Cycle 4 reaches the depth range but misses width and bow.',
-    limit: 'Fixed 2D settings. Cycle count is not fab time.',
-    why: 'More cycles deepen this saved trajectory. They do not repair its wall shape.',
-    tradeoff: 'More removal can increase depth and wall error together.',
+    boundary: 'Cycle count and wall protection are varied together in nine saved runs.',
+    limit: 'One fixed 2D recipe family and one random stream. Cycle count is not fab time.',
+    why: 'More cycles deepen the via. More passivation protects the wall during each cycle.',
+    tradeoff: 'Extra protection can reduce lateral attack, but it can also slow the etch.',
     metrics: ['depth', 'maximum_cd_error', 'bow'],
   },
   liner: {
     check: 'Thickness ≥ 0.020. Deep coverage ≥ 0.995. Layer connected and opening clear.',
-    boundary: 'Lower sticking improves deep coverage. The passing boundary is not bracketed.',
+    boundary: 'Particle sticking and deposition amount are varied together.',
     limit: 'Particle-transport surrogate. The coefficient is not a deposition recipe.',
     why: 'Lower sticking lets more simulated particles reach the deep wall.',
     tradeoff: 'More deposited material also narrows the opening.',
@@ -1315,7 +1319,7 @@ const stepCopy = {
   },
   barrier: {
     check: 'Thickness ≥ 0.012. Deep coverage ≥ 0.985. Layer connected and opening clear.',
-    boundary: 'Arrival from more directions improves coverage. No sampled point passes every check.',
+    boundary: 'Arrival direction and deposition amount are varied together.',
     limit: 'Geometry response only. It does not predict adhesion or resistance.',
     why: 'The barrier limits copper migration. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
@@ -1323,27 +1327,28 @@ const stepCopy = {
   },
   seed: {
     check: 'No independent seed-layer limit is declared. Values are shown for teaching only.',
-    boundary: 'More all-angle growth raises deep coverage in the sampled controls.',
+    boundary: 'Arrival direction and deposition amount are varied together.',
     limit: 'Continuity is geometric. Electrical continuity is not predicted.',
     why: 'The seed provides a plating surface. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
   },
   cmp: {
-    check: 'Compare copper height with the target at one field point and the via center.',
-    boundary: 'The chosen plane matches both sampled heights by construction. ±0.050 shows the direction of residue and recess.',
-    limit: 'This does not prove field clearance, plug connection, stop survival, or a physical endpoint.',
-    why: 'Moving the ideal plane changes the remaining copper height.',
-    tradeoff: 'A lower plane removes more copper and recesses the plug.',
-    metrics: ['field_relative_to_target', 'plug_relative_to_target'],
+    check: 'Track field copper, plug height, and oxide left after removal.',
+    boundary: 'Removal amount and oxide-to-copper rate are varied together.',
+    limit: 'No pad contact, pressure, slurry chemistry, or calibrated polish time.',
+    why: 'More removal clears copper. Lower oxide removal protects the stop layer.',
+    tradeoff: 'Over-removal can recess the plug. Poor selectivity can thin the oxide.',
+    metrics: ['field_relative_to_target', 'plug_relative_to_target', 'stop_retained_thickness'],
   },
 };
 const stepMetricLabels = {
-  opening_cd_bottom: 'Opening width (model units)', mask_height: 'Mask height (model units)', depth: 'Depth (model units)',
+  opening_cd_bottom: 'Bottom opening', opening_cd_top: 'Top opening', mask_height: 'Mask height', depth: 'Depth',
   maximum_cd_error: 'Maximum width error (model units)', bow: 'Bow (model units)',
   minimum_thickness: 'Minimum thickness (model units)', lower_wall_coverage: 'Deep/field coverage',
   remaining_aperture: 'Remaining opening (model units)',
   field_relative_to_target: 'Field relative to target', plug_relative_to_target: 'Plug relative to target',
+  stop_retained_thickness: 'Oxide left at field',
   maximum_width_error: 'Maximum width error', deep_coverage: 'Deep coverage',
   closed_void_count: 'Closed voids', remaining_void_area: 'Unfilled area (model units²)',
 };
@@ -1367,26 +1372,28 @@ function stepValue(value, metric) {
 function renderStepFrame(study, root, frameIndex) {
   const copy = stepCopy[study.id];
   const frame = study.frames[frameIndex];
-  const setting = Object.values(frame.setting)[0];
-  root.querySelector('input').value = frameIndex;
-  root.querySelector('output').textContent = setting;
+  study.parameters.forEach(parameter => {
+    const control = root.querySelector(`[data-parameter="${parameter.key}"]`);
+    const valueIndex = parameter.values.findIndex(value => value === frame.setting[parameter.key]);
+    control.value = valueIndex;
+    control.parentElement.querySelector('output').textContent = `${parameter.values[valueIndex]}${parameter.unit || ''}`;
+  });
   const viewBox = study.view_box || stepExperiments.coordinate_system.view_box;
+  const target = Number.isInteger(study.target_frame) ? study.frames[study.target_frame] : null;
   root.querySelector('.output-figure').innerHTML = `<svg viewBox="${viewBox.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect x="${viewBox[0]}" y="${viewBox[1]}" width="${viewBox[2]}" height="${viewBox[3]}" fill="var(--surface)"/>
+    ${target ? `<g transform="scale(1,-1)">${target.materials.map(material => `<path class="target-outline" d="${material.surface_path}" fill="none" stroke="var(--ink-dim)" stroke-width="0.004"/>`).join('')}</g>` : ''}
     <g transform="scale(1,-1)">${frame.materials.map(material => {
       const style = materialStyle[material.id] || [material.id, 'var(--ink-dim)', '0.004'];
       return `<path data-material="${material.id}" d="${material.surface_path}" fill="none" stroke="${style[1]}" stroke-width="${style[2]}"/>`;
     }).join('')}</g>
   </svg>`;
   const status = root.querySelector('.output-status');
-  if (study.id === 'seed') {
+  if (study.id === 'seed' || study.id === 'cmp') {
     status.className = 'output-status';
-    status.textContent = 'Teaching result. No independent seed limit is declared.';
-  } else if (study.id === 'cmp') {
-    status.className = `output-status ${frame.metrics.meets_screen ? 'pass' : 'miss'}`;
-    status.textContent = frame.metrics.meets_screen
-      ? 'Matches the target at two sampled positions'
-      : 'Does not match the target plane';
+    status.textContent = study.id === 'seed'
+      ? 'Teaching result. No independent seed limit is declared.'
+      : 'Teaching result. Acceptable material-loss limits are not yet declared.';
   } else {
     status.className = `output-status ${frame.metrics.meets_screen ? 'pass' : 'miss'}`;
     status.textContent = frame.metrics.meets_screen
@@ -1407,7 +1414,7 @@ function buildStepViewers() {
     root.dataset.outputViewer = study.id;
     root.innerHTML = `<div class="output-viewer-head">
       <div><h3>${study.title}</h3><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
-      <div class="output-control"><label>Saved output · ${study.input_label}<output></output></label><input type="range" min="0" max="${study.frames.length - 1}" step="1" value="0" aria-label="${study.input_label}"></div>
+      <div class="output-controls">${study.parameters.map(parameter => `<div class="output-control"><label>${parameter.label}<output></output></label><input data-parameter="${parameter.key}" type="range" min="0" max="${parameter.values.length - 1}" step="1" value="0" aria-label="${parameter.label}"></div>`).join('')}</div>
     </div>
     <div class="output-viewer-layout">
       <div class="output-figure" role="img" aria-label="Saved ${study.title.toLowerCase()} geometry"></div>
@@ -1423,7 +1430,13 @@ function buildStepViewers() {
       const style = materialStyle[id] || [id, 'var(--ink-dim)'];
       return `<span style="--key-color:${style[1]}">${style[0]}</span>`;
     }).join('');
-    root.querySelector('input').addEventListener('input', event => renderStepFrame(study, root, Number(event.target.value)));
+    root.querySelectorAll('[data-parameter]').forEach(control => control.addEventListener('input', () => {
+      const frameIndex = study.frames.findIndex(frame => study.parameters.every(parameter => {
+        const input = root.querySelector(`[data-parameter="${parameter.key}"]`);
+        return frame.setting[parameter.key] === parameter.values[Number(input.value)];
+      }));
+      if (frameIndex >= 0) renderStepFrame(study, root, frameIndex);
+    }));
     if (study.id === 'cmp') list.appendChild(document.querySelector('[data-output-viewer="copper"]'));
     list.appendChild(root);
     renderStepFrame(study, root, study.default_frame || 0);
@@ -1496,7 +1509,7 @@ function renderFillReplay() {
   const slider = document.getElementById('fill-progress-slider');
   slider.value = fillReplayState.frame;
   slider.setAttribute('aria-valuetext', `Checkpoint ${fillReplayState.frame + 1} of ${run.frames.length}. ${fillReplayStatus(metrics)}`);
-  document.getElementById('fill-progress-value').textContent = `${fillReplayState.frame + 1} of ${run.frames.length}`;
+  document.getElementById('fill-progress-value').textContent = `${Math.round(100 * frame.progress)}%`;
   document.getElementById('fill-replay-figure').innerHTML = `<svg viewBox="-0.24 -0.16 0.48 1.24" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect x="-0.24" y="-0.16" width="0.48" height="1.24" fill="var(--surface)"/>
     <g transform="scale(1,-1)">
@@ -1506,7 +1519,7 @@ function renderFillReplay() {
     </g>
   </svg>`;
   document.getElementById('fill-replay-read').innerHTML = `<h4>${fillReplayStatus(metrics)}</h4>
-    <p><b>Input:</b> ${run.input}. This is checkpoint ${fillReplayState.frame + 1} of ${run.frames.length}.</p>
+    <p><b>Input:</b> ${run.input}. Copper added: ${Math.round(100 * frame.progress)}% of this saved control run.</p>
     <dl class="fill-metrics">
       <dt>Filled cavity</dt><dd>${(100 * metrics.fill_fraction).toFixed(1)}%</dd>
       <dt>Mouth aperture</dt><dd>${metrics.mouth_aperture.toFixed(3)}</dd>

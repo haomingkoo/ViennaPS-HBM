@@ -166,14 +166,20 @@ assert [frame["step"] for frame in step_experiments["failure_chain"]["frames"]] 
     "Seed",
     "Copper fill",
 ]
-assert step_experiments["failure_chain"]["frames"][-1]["metrics"][
-    "closed_void_count"
-] == 1
-assert step_experiments["studies"][0]["frames"][1]["metrics"]["meets_screen"]
+assert (
+    step_experiments["failure_chain"]["frames"][-1]["metrics"]["closed_void_count"] == 1
+)
+assert step_experiments["studies"][0]["frames"][
+    step_experiments["studies"][0]["target_frame"]
+]["metrics"]["meets_screen"]
+assert all(len(study["parameters"]) == 2 for study in step_experiments["studies"])
+assert all(len(study["frames"]) == 9 for study in step_experiments["studies"])
 seed_study = next(
     study for study in step_experiments["studies"] if study["id"] == "seed"
 )
 assert all(frame["metrics"]["meets_screen"] is None for frame in seed_study["frames"])
+cmp_study = next(study for study in step_experiments["studies"] if study["id"] == "cmp")
+assert all(frame["metrics"]["meets_screen"] is None for frame in cmp_study["frames"])
 chain_frames = step_experiments["failure_chain"]["frames"]
 assert chain_frames[0]["parent_frame_hash"] is None
 assert all(
@@ -181,7 +187,9 @@ assert all(
     for index in range(1, len(chain_frames))
 )
 assert all(
-    "continuous" in frame["metrics"] for frame in chain_frames if frame["step"] in {"Liner", "Barrier", "Seed"}
+    "continuous" in frame["metrics"]
+    for frame in chain_frames
+    if frame["step"] in {"Liner", "Barrier", "Seed"}
 )
 assert step_experiments["provenance"]["rng_seed"] == 42000
 assert "Clear field copper without" not in html
