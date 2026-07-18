@@ -22,8 +22,12 @@ assert len({case["case_id"] for case in document["cases"]}) == 7
 assert all(case["parent_event"]["reported_error"] for case in document["cases"])
 
 raw_hashes = {source["path"]: source["sha256"] for source in bundle["raw_sources"]}
+archives = {
+    source["manifest_path"]: source["archive_path"]
+    for source in bundle["superseded_source_versions"]
+}
 for source in document["sources"]:
-    path = ROOT / source["path"]
+    path = ROOT / archives.get(source["path"], source["path"])
     if path.is_file():
         assert hashlib.sha256(path.read_bytes()).hexdigest() == source["sha256"]
     else:

@@ -30,11 +30,21 @@ archived_projection = (
     ROOT / "evidence/bosch/range_pilot/executed_sources/pattern_bosch_factor_projection.json"
 )
 archived_projection_hash = hashlib.sha256(archived_projection.read_bytes()).hexdigest()
+archived_measurement_contract = (
+    ROOT
+    / "evidence/bosch/range_pilot/executed_sources/"
+    "pattern_bosch_measurement_contract.json"
+)
+archived_measurement_contract_hash = hashlib.sha256(
+    archived_measurement_contract.read_bytes()
+).hexdigest()
 for source in rebuilt["sources"]:
     if source["path"] == "schemas/autoresearch-event.schema.json":
         source["sha256"] = archived_schema_hash
     if source["path"] == "pattern_bosch_factor_projection.json":
         source["sha256"] = archived_projection_hash
+    if source["path"] == "pattern_bosch_measurement_contract.json":
+        source["sha256"] = archived_measurement_contract_hash
 assert document == rebuilt
 assert not list(Draft202012Validator(schema).iter_errors(document))
 assert document["authority"] == "coarse_model_range_pilot_only"
