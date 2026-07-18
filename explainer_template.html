@@ -129,6 +129,7 @@
   .bosch-lab { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
   .bosch-causal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 1rem 0; background: var(--line); border: 1px solid var(--line); }
   .bosch-causal span { padding: 0.7rem; background: var(--surface-2); color: var(--ink-dim); font-size: 0.75rem; text-align: center; }
+  .output-causal { grid-template-columns: repeat(4, 1fr); margin: 0.8rem 0 0; }
   .bosch-controls { display: grid; grid-template-columns: minmax(220px, 0.7fr) 1.3fr; gap: 1rem; align-items: end; margin: 1rem 0; }
   .bosch-controls > * { min-width: 0; }
   .bosch-controls label { display: grid; gap: 0.3rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
@@ -1436,6 +1437,7 @@ const stepCopy = {
     why: 'Width sets the entrance size. Taper changes how the opening widens through the mask.',
     tradeoff: 'A wider or more tapered opening changes the etch boundary below it.',
     metrics: ['opening_cd_bottom', 'opening_cd_top', 'mask_height'],
+    chain: ['Focus, dose, bake, develop', 'Resist image and profile · not modeled', 'Input width and taper', 'Opening width and height'],
   },
   bosch: {
     check: 'Depth 1.25 ± 0.10. Width error ≤ 0.06. Bow ≤ 0.03.',
@@ -1452,6 +1454,7 @@ const stepCopy = {
     why: 'Lower sticking lets more simulated particles reach the deep wall.',
     tradeoff: 'More deposited material also narrows the opening.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
+    chain: ['Precursor exposure, pressure, temperature', 'Transport and surface reaction · not modeled', 'Deposition amount and sticking', 'Thickness, coverage, opening'],
   },
   barrier: {
     check: 'Thickness ≥ 0.012. Deep coverage ≥ 0.985. Layer connected and opening clear.',
@@ -1460,6 +1463,7 @@ const stepCopy = {
     why: 'The barrier limits copper migration. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
+    chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Thickness, coverage, opening'],
   },
   seed: {
     check: 'No independent seed-layer limit is declared. Values are shown for teaching only.',
@@ -1468,6 +1472,7 @@ const stepCopy = {
     why: 'The seed provides a plating surface. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
+    chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Geometric thickness and opening'],
   },
   cmp: {
     check: 'Track field copper, plug height, and oxide left after removal.',
@@ -1476,6 +1481,7 @@ const stepCopy = {
     why: 'More removal clears copper. Lower oxide removal protects the stop layer.',
     tradeoff: 'Over-removal can recess the plug. Poor selectivity can thin the oxide.',
     metrics: ['field_relative_to_target', 'plug_relative_to_target', 'stop_retained_thickness'],
+    chain: ['Downforce, speed, slurry, endpoint', 'Pad contact and material removal · not modeled', 'Removal amount and material-rate ratio', 'Field, plug, and stop height'],
   },
 };
 const stepMetricLabels = {
@@ -1545,6 +1551,11 @@ function buildStepViewers() {
   const list = document.getElementById('step-output-list');
   stepExperiments.studies.filter(study => study.id !== 'bosch').forEach(study => {
     const copy = stepCopy[study.id];
+    const decidedFrames = study.frames.filter(frame => typeof frame.metrics.meets_screen === 'boolean');
+    const passingFrames = decidedFrames.filter(frame => frame.metrics.meets_screen).length;
+    const studySummary = decidedFrames.length
+      ? `${passingFrames} of ${decidedFrames.length} saved combinations pass the stated geometry check.`
+      : 'No pass/fail limit is declared for this teaching study.';
     const root = document.createElement('article');
     root.className = 'output-viewer';
     root.dataset.outputViewer = study.id;
@@ -1552,6 +1563,8 @@ function buildStepViewers() {
       <div><h3>${study.title}</h3><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
       <div class="output-controls">${study.parameters.map(parameter => `<div class="output-control"><label>${parameter.label}<output></output></label><input data-parameter="${parameter.key}" type="range" min="0" max="${parameter.values.length - 1}" step="1" value="0" aria-label="${parameter.label}"></div>`).join('')}</div>
     </div>
+    <p class="note"><b>Saved study:</b> ${studySummary}</p>
+    <div class="bosch-causal output-causal" aria-label="Equipment to measurement relationship">${copy.chain.map(item => `<span>${item}</span>`).join('')}</div>
     <div class="output-viewer-layout">
       <div class="output-figure" role="img" aria-label="Saved ${study.title.toLowerCase()} geometry"></div>
       <aside class="output-read" aria-live="polite">
