@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
+
+from scripts.validate_evidence import reference_errors
 
 
 ROOT = Path(__file__).resolve().parent
@@ -71,6 +74,26 @@ def main():
         invalid = run(path)
     assert invalid.returncode == 1
     assert json.loads(invalid.stdout)["status"] == "schema_failed"
+
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory).resolve()
+        data = b"published evidence\n"
+        digest = hashlib.sha256(data).hexdigest()
+        published = root / "evidence/numerical/source.jsonl"
+        published.parent.mkdir(parents=True)
+        published.write_bytes(data)
+        (published.parent / "manifest.json").write_text(json.dumps({"files": [{
+            "original_workspace_source": {
+                "path": "autoresearch-results/source.jsonl", "sha256": digest
+            },
+            "published": {
+                "path": "evidence/numerical/source.jsonl", "sha256": digest
+            },
+        }]}))
+        cited = {"source": {
+            "path": "autoresearch-results/source.jsonl", "sha256": digest
+        }}
+        assert not reference_errors(cited, root)
 
 
 if __name__ == "__main__":

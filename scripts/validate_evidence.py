@@ -39,15 +39,35 @@ def resolve_json_pointer(document, value: str):
     return current
 
 
+def published_aliases(root: Path):
+    manifest_path = root / "evidence/numerical/manifest.json"
+    if not manifest_path.is_file():
+        return {}
+    try:
+        manifest = json.loads(manifest_path.read_text(), parse_constant=reject_constant)
+    except (json.JSONDecodeError, ValueError):
+        return {}
+    aliases = {}
+    for item in manifest.get("files", []):
+        original = item.get("original_workspace_source", {})
+        published = item.get("published", {})
+        if original.get("sha256") == published.get("sha256"):
+            aliases[original.get("path")] = published.get("path")
+    return aliases
+
+
 def reference_errors(document: object, root: Path):
     errors = []
+    aliases = published_aliases(root)
     for trail, reference in evidence_references(document):
         path = (root / reference["path"]).resolve()
         location = pointer(trail)
         if not path.is_relative_to(root):
             errors.append({"pointer": location, "message": "path leaves the evidence root"})
             continue
-        if not path.is_file():
+        if not path.is_file() and reference["path"] in aliases:
+            path = (root / aliases[reference["path"]]).resolve()
+        if not path.is_relative_to(root) or not path.is_file():
             errors.append({"pointer": location, "message": f"missing cited file {reference['path']}"})
             continue
         data = path.read_bytes()
