@@ -84,7 +84,11 @@ Current evidence:
   Phase A does not qualify 500 rays.
 
 - The saved 500-ray bridge preserved the reviewed Bosch classifications and factor ranking while reducing paired runtime by about 4.5 times. It is provisional because the campaign also changed random streams and early-stop intervals. It does not isolate ray count.
-- 1,000 rays failed the strict paired measurement bridge to 2,000 rays, despite no product-gate flips.
+- An earlier fine-grid study rejected 1,000 rays against 2,000 because the
+  largest paired shifts exceeded its frozen continuous limits for depth, bottom
+  CD, and bow. No product-gate decision changed. This remains valid for that
+  grid, panel, extractor, and decision rule; it does not answer the newer
+  grid-0.005 categorical question.
 - The five saved 125-ray cases include a required-anchor mismatch. The run ended without a frozen stop event, so this is a partial mismatch observation rather than a formal rejection.
 - All 16 saved 250-ray cases completed. The review found one hard-gate mismatch and one strong-effect direction mismatch, despite a 0.943 factor-ranking Spearman and a 10.83x paired median speedup. It receives no discovery authority.
 - Older grid results were non-monotonic. No universal grid optimum has been established.
@@ -97,31 +101,27 @@ guarantees for this TSV geometry. The project therefore selects rays from
 paired measurement and decision stability, not by copying the largest or most
 common published value.
 
-The clean ray ladder holds geometry, recipe, cycle horizon, stopping depth,
-measurement code, and base random-stream labels fixed. It compares 250, 375,
-500, 750, 1,000, and 2,000 rays on passing, near-limit, shallow, over-etched,
-and interaction-sensitive profiles. A discovery setting must preserve every
-trajectory class and hard-gate decision. Its depth, top/middle/bottom CD,
-maximum CD error, bow, scallop, sidewall angle, selected cycle, and remaining
-mask must also stay within the predeclared paired allowances. Grid spacing is
-tested only after the ray ladder; the two controls are not changed together.
+The exhaustive ray ladder is retired. Phase A and Phase B used frozen panels to
+remove weak candidates without changing grid spacing at the same time. The
+active next study is a six-case bridge at 1,000 rays. It contains the four Phase
+B disagreement pairs, `width_boundary_candidate:stream_3` as the closest-band
+agreement, and `current_grid_reference:stream_1` as the current-grid agreement
+anchor. The exact completed 2,000-ray arms may be reused only after their
+manifest, expanded case payload, measurements, and archived checkpoint all
+match.
 
-The 2,000-ray profile is an accepted tested reference for these comparisons, not numerical truth. A clean qualification must hold the morphology panel and stopping rules fixed while varying the numerical control. It must include null, near-gate, failure, curvature, and interaction sentinels, and it must gate absolute metric drift and boundary movement as well as rankings.
+This bridge has a narrow decision rule. Every pair must preserve complete
+measurement availability, reason codes, selected cycle, adequate resolution,
+finite required metrics, and each depth, width, and bow band result. If all six
+pairs match, 1,000 rays advances only to continuous-response and trajectory
+checks. Any mismatch stops it for this Phase B scope. Runtime is descriptive
+and cannot override a mismatch. The bridge neither treats 2,000 rays as truth
+nor supersedes the older fine-grid rejection of 1,000 rays.
 
-The exhaustive ladder is no longer the active strategy. The 250-, 375-, and
-500-ray arms completed for seven older anchor recipes, while only two 750-ray
-cases completed before a planned cost stop. The active confirmation uses a
-small panel informed by the corrected 25-case range pilot. All ray arms must be
-newly generated from one frozen manifest; historical 250-ray rows are not
-paired evidence. Phase A compares 250 and 500 rays with identical physical
-inputs and stream labels, plus independent repeats for representative center,
-narrow, and low-movement states. The panel must also include a clear modeled
-pass and adverse points near the assumed comparison-band limits.
-Only cases with changed measurement availability, morphology, decisions, or
-large normalized response shifts advance to a same-grid 500-versus-2,000-ray
-Phase B. The existing fine-grid 2,000-ray rows do not transfer to this scope.
-This is successive halving for evidence collection, not an optimizer of the
-process recipe.
+After the ray bridge, test grid spacing, advection, domain clearance, numerical
+caps, execution layout, and save cadence one at a time on bounded representative
+panels. A faster exploration profile is approved only after it preserves the
+measurements and decisions required by the planned screen.
 
 ## Search sequence
 

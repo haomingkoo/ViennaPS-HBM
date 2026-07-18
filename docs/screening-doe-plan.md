@@ -10,7 +10,13 @@ repeat, numerical, and useful-change checks remain incomplete.
 
 Tracker: [fast-setting confirmation #12](https://github.com/haomingkoo/ViennaPS-HBM/issues/12)
 must finish before [the repeated screen #13](https://github.com/haomingkoo/ViennaPS-HBM/issues/13)
-can run.
+can run. Phase A did not advance 250 rays and Phase B did not advance 500 rays
+for their tested categorical scopes. The next unit is a six-case 1,000-ray
+bridge with four disagreement cases, `width_boundary_candidate:stream_3`, and
+`current_grid_reference:stream_1`. Each pair must preserve measurement
+availability, reason codes, selected cycle, resolution, finite required metrics,
+and its depth, width, and bow band results. The bridge does not qualify a
+screening profile by itself.
 
 ## Next freezeable screening unit
 

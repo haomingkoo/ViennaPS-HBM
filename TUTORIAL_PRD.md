@@ -105,7 +105,13 @@ completed screening DOE, an interaction estimate, or a process window.
    decision mismatches stop 250 rays from advancing. The fresh 500-versus-2,000
    panel is also complete: depth classifications changed in all three
    depth-boundary pairs, and one narrow-profile bow classification changed.
-   Therefore 500 rays also does not advance for this categorical scope.
+   Therefore 500 rays also does not advance for this categorical scope. The
+   next bounded check is a six-case 1,000-versus-2,000 bridge: four disagreement
+   cases plus `width_boundary_candidate:stream_3` and
+   `current_grid_reference:stream_1` as agreement anchors. Every required
+   availability, reason, cycle, resolution, finite-metric, depth, width, and bow
+   result must match. A clean match advances 1,000 rays only to stricter response
+   and trajectory checks; it is not approval.
 3. **Range pilot complete:** the first mask-plus-Bosch pilot used 25
    three-level cases across 12 implemented controls. The legacy extractor
    returned values for 20 rows, but its etch-shape values are suspended because
