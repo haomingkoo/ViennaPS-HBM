@@ -18,6 +18,15 @@ This document governs the public tutorial. `program.md` records the campaign's
 assumed comparison targets and research rules; it is not a source of calibrated
 fab limits.
 
+The tutorial is the current public deliverable. A numerically qualified,
+matched-3D, physically calibrated full traveler is the longer research goal.
+Completing a useful lesson does not imply completion of that research goal.
+
+A useful tutorial lets a learner follow one geometry through six steps,
+distinguish equipment controls from model and numerical inputs, locate each
+measurement, recognize a saved failure and recovery, explain the downstream
+tradeoff, and state what remains uncalibrated.
+
 ## Required learning flow
 
 1. Show the six major process steps and the purpose of each layer.
@@ -74,11 +83,12 @@ start by declaring a recipe winner.
 1. Vary several factors together with a named design matrix.
 2. Include repeated reference or center cases to estimate simulation noise.
 3. Measure both the current step and relevant downstream handoffs.
-4. Report effect sizes, interactions, uncertainty, invalid runs, and runtime.
+4. Report estimable terms, aliases, uncertainty, invalid runs, and runtime.
 5. Retain identical upstream geometries for fair downstream comparisons.
 6. Promote a factor only when its observed effect is larger than numerical and
    repeat-to-repeat variation.
-7. Refine the range only after screening identifies useful factors and cliffs.
+7. Test interactions only in held-out bridge panels.
+8. Refine the range only after screening identifies useful factors and cliffs.
 
 The nine-cell step viewers are saved sensitivity examples. They are not a
 completed screening DOE, an interaction estimate, or a process window.
@@ -87,8 +97,9 @@ completed screening DOE, an interaction estimate, or a process window.
 
 1. **Inventory complete:** keep one generated contract for active controls and
    comparison criteria.
-2. **Measurements and speed settings not ready:** finish detection limits,
-   numerical drift, repeat variation, and useful-change thresholds. The current
+2. **Qualify measurements and the exploration numerical profile:** finish
+   detection limits, numerical drift, repeat variation, useful-change
+   thresholds, and the ray/grid/advection/domain/execution checks. The current
    numeric bands remain assumed comparisons rather than fabrication limits.
 3. **Range pilot complete:** the first mask-plus-Bosch pilot used 25
    three-level cases across 12 implemented controls. Twenty cases returned all
@@ -102,24 +113,46 @@ completed screening DOE, an interaction estimate, or a process window.
    25-row matrix with two declared random-stream blocks and four independent
    reference repeats. It remains blocked until the measurements and exploration
    profile are qualified for screening.
-5. **Experiments pending:** run bounded per-step screens before focused tuning.
+5. **Confirmation pending:** confirm promoted effects and mechanism-supported
+   interactions on held-out cases before using them downstream.
+6. **Experiments pending:** run bounded per-step screens before focused tuning.
    Preserve invalid, missing, stopped, and retried cases as separate outcomes.
-6. **Tutorial in progress:** replace teaching sketches with saved simulation
+7. **Tutorial in progress:** replace teaching sketches with saved simulation
    frames, measurement overlays, and evidence-linked conclusions.
-7. **Release pending:** regenerate stale data, pass CI and browser checks, then
-   publish the same committed HTML that was reviewed.
+8. **Current release published:** the committed explainer passes CI and browser
+   checks and is deployed. Later releases must continue to publish the same
+   reviewed artifact rather than an untracked local build.
 
-Delivery is tracked in six outcome-based issues:
+Delivery is tracked in these outcome-based issues:
 
 - [#11: corrected pilot evidence](https://github.com/haomingkoo/ViennaPS-HBM/issues/11)
 - [#12: fast exploration setting](https://github.com/haomingkoo/ViennaPS-HBM/issues/12)
+- [#20: mask/Bosch measurement qualification](https://github.com/haomingkoo/ViennaPS-HBM/issues/20)
 - [#13: repeated mask/Bosch screen](https://github.com/haomingkoo/ViennaPS-HBM/issues/13)
 - [#14: downstream multi-factor studies](https://github.com/haomingkoo/ViennaPS-HBM/issues/14)
+- [#16: liner study](https://github.com/haomingkoo/ViennaPS-HBM/issues/16)
+- [#17: barrier and seed study](https://github.com/haomingkoo/ViennaPS-HBM/issues/17)
+- [#18: copper mechanism and morphology](https://github.com/haomingkoo/ViennaPS-HBM/issues/18)
+- [#19: CMP endpoint and material survival](https://github.com/haomingkoo/ViennaPS-HBM/issues/19)
 - [#15: concise teaching guide](https://github.com/haomingkoo/ViennaPS-HBM/issues/15)
 - [#5: CI and evidence-gated deployment](https://github.com/haomingkoo/ViennaPS-HBM/issues/5)
 
 No current stage authorizes a fab recipe, calibrated process limit, or robust
 full-traveler process window.
+
+## Failure and recovery evidence status
+
+| Step | Current saved evidence | Boundary status |
+|---|---|---|
+| Mask | 27 ideal-geometry combinations of opening, height, and taper | Contrasting inputs only; exposure and develop are not modeled |
+| Bosch etch | 25 multi-factor pilot profiles, including low-movement and unreadable states | Numerical setting and measurement recovery remain open |
+| Liner | Saved two-factor sensitivity examples | No confirmed failure/recovery bracket |
+| Barrier and seed | Saved sensitivity examples with separate layer measurements | No confirmed electrical-seed or physical boundary |
+| Copper fill | Candidate-model failures and a prescribed passing geometry control | The prescribed control validates measurements, not the fill law |
+| CMP | Controlled connected and over-removal examples | Endpoint and material-loss boundary remain open |
+
+Until a step has a repeated failure/recovery pair and a supported boundary,
+the tutorial calls its examples contrasts or controls, not process margin.
 
 Before designing the matrix, maintain one factor registry covering every active
 traveler step. Each entry must include:

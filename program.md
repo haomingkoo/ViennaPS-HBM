@@ -9,13 +9,18 @@ The bounded feedback, logging, and numerical-speed protocol is defined in
 
 ## Goal
 
-Demonstrate real engineering capability with ViennaPS on a current,
-concrete industry problem: forming and filling the TSVs that HBM4/HBM4E
-memory stacks depend on. Not "run a simulation tool" -- "use data to find
-out what actually controls the outcome, catch mistakes along the way, and
-report an honest, defensible result."
+Demonstrate real engineering capability with ViennaPS on a problem motivated
+by TSV integration in HBM memory stacks. Not "run a simulation tool" -- "use
+data to find out what actually controls the outcome, catch mistakes along the
+way, and report an honest, defensible result."
 
-## The three things that have to be right
+The public teaching product must show that work with actual saved simulation
+profiles. For each TSV step, it should connect equipment controls to the model
+inputs that approximate them, the measurements used as feedback, recognizable
+failure modes, and downstream consequences. Where the mapping to equipment is
+not calibrated, say so instead of presenting a model coefficient as a recipe.
+
+## Three headline measurements
 
 1. **Straight etch** -- the TSV sidewall must not bow or scallop.
 2. **Target depth** -- deep enough to connect through the die after
@@ -23,23 +28,26 @@ report an honest, defensible result."
    pre-thinning; see `MAX_REALISTIC_ASPECT_RATIO` in `tsv_process.py`).
 3. **Void-free fill** -- the copper fill must not trap an air pocket.
 
-## Declared study product spec (the numeric target every comparison is graded against)
+These are headline critical measurements, not the whole traveler. Mask
+transfer, liner coverage, barrier and seed continuity, remaining aperture,
+copper overburden, CMP clearance, plug survival, and layer connectivity are
+required handoffs in the six-step teaching flow.
 
-Stated once, here, so no comparison anywhere in this project (notebook,
-README, explainer) compares two things at different depths and calls it
-fair -- that mistake has already happened twice (prepare.md items 3 and
-7) and once more in the explainer (uncaught until directly pointed out).
-Every before/after, failure/fix, or DOE-winner claim must be evaluated
-against these numbers, at matched depth:
+## Assumed study comparison bands
 
-| Metric | Spec | Rationale |
+These fixed model-space bands keep internal comparisons consistent. They are
+not calibrated product specifications or fabrication limits. Every comparison
+must name them as assumed bands and use matched depth where depth affects the
+shape measurement.
+
+| Metric | Assumed band or condition | Rationale |
 |---|---|---|
 | **Depth** | 1.25 +/- 0.1 (sim units) | fixed study target retained for comparison continuity; its mapping to a physical HBM depth is not yet calibrated and must not be called a production recipe |
 | **CD profile** | 0.30 +/- 0.06 at every scored depth | raw-boundary top/middle/bottom and sampled CD must stay inside the intended width band; this is independent of straightness |
 | **Wall bow (straightness)** | <= 0.03 maximum radius deviation from a fitted straight wall | fixed study threshold; legacy outer-envelope estimates and the prior duplicated width/bulge metric are suspended |
 | **Fill void/seam** | none (ideal) | no open cavity, sealed void, or seam under the raw-topology metric; the phase-one floor-relative quantity was not a residual gap measurement |
 
-These are the fixed targets for the current study. Their physical-unit mapping
+These are the fixed comparison bands for the current study. Their physical-unit mapping
 and tolerance provenance remain an explicit calibration gap; that gap does not
 authorize silently moving the targets during optimization.
 
@@ -66,7 +74,7 @@ CMP pressure.
 
 The continuity tier remains the numeric scoring case until its metrics and
 models are qualified. It cannot by itself support an HBM success claim. An
-accepted full traveler must also preserve the required morphology on the
+future full-traveler study must also preserve the required morphology on the
 nominal tier in matched 2D/3D checks and must report the high-AR stress result,
 including failures. Sources: [NIST TSV metrology](https://www.nist.gov/publications/metrology-needs-tsv-fabrication)
 and [3 um via-middle liner reliability](https://www.sciencedirect.com/science/article/pii/S016793171630034X).
@@ -75,14 +83,14 @@ If a future finding changes what "good" means, update this table
 explicitly and say why -- don't let notebook/explainer prose drift to a
 different implicit target than what's written here.
 
-## Step target specs
+## Step comparison and handoff rules
 
-Every DOE row must say which step target it is trying to satisfy and rank
-by distance to that target, not by a raw proxy that happens to move. If no
-tested row meets a target, report the best miss and run a wider DOE before
+Every DOE row must say which comparison or handoff it addresses and rank
+by distance to that condition, not by a raw proxy that happens to move. If no
+tested row meets a condition, report the best miss and run a wider DOE before
 calling the space understood.
 
-| Step | Target spec | DOE ranking rule |
+| Step | Assumed comparison or handoff condition | DOE ranking rule |
 |---|---|---|
 | Pattern | measured bottom opening CD=0.30; mask height=0.30; connected opening | pass measured geometry first; taper is a structural input and may vary only if the complete traveler benefits |
 | Etch | depth=1.25 +/- 0.1; every scored CD within 0.30 +/- 0.06; bow<=0.03; pattern mask remains resolved with an open aperture through the selected cycle | rank valid depth-matched profiles; complete or numerically unresolved mask loss is a hard failure; CD, taper, bow, and scallop remain separate outputs |
@@ -124,7 +132,7 @@ separately represented durable field stop/hard-mask layer. The non-negotiable
 "mask consumption" rule is preserved as stop-layer consumption: any complete
 loss of that protected layer, or any liner/substrate damage, is a hard failure.
 
-The table states target intent. Production scoring is currently suspended
+The table states internal comparison and handoff intent. Production scoring is suspended
 until pattern, CD-depth, local film thickness, fill topology, CMP endpoint, and
 material-survival metrics pass the qualification protocol in
 `archive/historical-plans/RESEARCH_PLAN_V2.md`.
@@ -135,11 +143,11 @@ Models Phase 2 of the real via-middle process only (pattern -> Bosch etch ->
 liner -> barrier+seed -> Cu fill -> CMP), one via at a time, at single-feature
 topography scale. Broad screening may use a qualified 2D trench surrogate, but
 critical model checks, interactions, finalists, process-window evidence, and
-the accepted traveler require matched 3D cylindrical-via confirmation on the
+any future full-traveler claim require matched 3D cylindrical-via confirmation on the
 nominal geometry tier.
 
 The active scope includes the scientifically defensible model improvements
-needed to meet the fixed targets: coverage/transport-dependent Cu fill and
+needed to study the declared comparisons and handoffs: coverage/transport-dependent Cu fill and
 endpoint/selectivity/topography-aware CMP. The legacy constant-direction fill
 and one-rate isotropic removal remain negative controls.
 
@@ -163,8 +171,10 @@ and one-rate isotropic removal remain negative controls.
   superseded for DOE scale and sequencing
 - `FOUNDATION_REAUDIT.md` -- retractions, confirmed failures, and evidence gaps
 - `docs/evidence-map.md` -- claim-to-artifact status and reproduction limits
+- `docs/screening-doe-plan.md` -- active range-finding, speed-check,
+  repeated-screen, and promotion rules
 - `autoresearch-results/restart_audit/` -- checkpointed foundation and campaign
   state
 - `archive/` -- superseded campaigns and the original proof of concept
-- A rebuilt notebook/explainer only after accepted metrics and a validated
-  traveler replace the legacy phase-one claims
+- `explainer.html` -- published teaching view of current evidence, including
+  failures and open gaps; it is not a validated full-traveler result

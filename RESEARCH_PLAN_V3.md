@@ -221,8 +221,10 @@ silently called insensitive.
 ## Experiment program
 
 Each stage is frozen and reviewed separately. Conditional stages do not launch
-when their model or metric gate fails. The 147-case first checkpoint generates
-screening hypotheses; it cannot by itself confirm a factor or interaction.
+when their model or metric gate fails. The table below is the long-range
+traveler roadmap. It is not one authorized batch. The current executable
+mask/Bosch sequence is the smaller pilot, speed confirmation, and repeated
+54-case screen defined in `docs/screening-doe-plan.md`.
 
 The first broad decision checkpoint is 147 cases: the simulation fidelity
 check, pattern matrix, broad Bosch screen, and targeted repeatability check.
@@ -330,24 +332,33 @@ shapes, distinct failure morphologies, and tested extremes.
 
 ## Immediate execution order
 
-1. Finish the current 250-ray commissioning run and retain its rows. Because
-   the campaign changes more than ray count and has no frozen online stop
-   event, report mismatches without granting or withdrawing authority.
-2. Freeze a clean ray-count qualification on one morphology-diverse panel.
-   Hold stopping rules fixed and include null, near-gate, failure, curvature,
-   and interaction sentinels. Treat 500 rays as provisional until it passes.
-3. Qualify grid, advection, domain, cap, and execution settings on the same
-   panel. Treat 2,000 rays as a tested reference, not numerical truth.
-4. Run a four-shape downstream data-transfer and metric check after layer
-   metrics/model acceptance; label it diagnostic.
-5. Freeze Stage 1 and Stage 2a/2b with broad skews, independent RNG intervals,
-   native checkpoints, and effect/correlation output. These stages cannot
-   recommend process settings.
-6. Select the 24-shape propagation set from observed broad-screen results.
-7. Run the Pattern x Bosch foldover and four-seed confirmation for every
-   promoted factor/interaction.
-8. Run the focused DOE only after the effect and propagation reviews produce a
-   hashed active-factor list and documented held constants.
+1. Qualify the mask/Bosch measurement rules and classify the five pilot
+   measurement-unavailable states. Freeze response-specific representation,
+   numerical, repeat, and useful-change rules before screening authority.
+2. Run fresh adaptive 250-versus-500-ray pairs from one frozen manifest with
+   identical physical inputs and stream labels. Include a clear modeled pass,
+   adverse near-limit cases, extractor challenges, and independent repeats for
+   selected center, narrow, and low-movement states.
+3. Promote only disagreement, missing-measurement, morphology, near-boundary,
+   and center-reference cases to a capped higher-ray panel that includes a
+   same-grid 2,000-ray comparator. Treat 2,000 rays as a tested reference, not
+   numerical truth.
+4. After the ray study, check grid, advection, domain, cap, execution layout,
+   and save cadence separately on a bounded representative panel. Derive
+   response-specific numerical and repeat envelopes. Do not invent a universal
+   tolerance or approve a setting from runtime alone.
+5. Freeze and run the repeated 54-case mask/Bosch screen only after its metric,
+   factor-range, and numerical-profile blockers are resolved. It may estimate
+   broad main effects and curvature flags, but not interactions or an optimum.
+6. Confirm promoted effects and interactions in separate held-out bridge
+   panels. Select saved profiles by both factor-space and morphology diversity.
+7. Use those exact saved geometries for liner, barrier, seed, copper, and CMP
+   studies. Each study must show multiple controls, immediate measurements,
+   at least one reproduced failure, a passing geometric control when the model
+   can express one, and downstream tradeoffs.
+8. Publish only sampled profiles and measurements in the tutorial. Label model
+   controls, equipment controls, numerical settings, assumed study bands, and
+   calibrated limits separately.
 
 No old scalar-loss loop, 640-case repeat-heavy Bosch screen, phase-one fill
 ranking, or phase-one CMP ranking may resume this plan.

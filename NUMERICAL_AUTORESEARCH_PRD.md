@@ -93,6 +93,21 @@ tested only after the ray ladder; the two controls are not changed together.
 
 The 2,000-ray profile is an accepted tested reference for these comparisons, not numerical truth. A clean qualification must hold the morphology panel and stopping rules fixed while varying the numerical control. It must include null, near-gate, failure, curvature, and interaction sentinels, and it must gate absolute metric drift and boundary movement as well as rankings.
 
+The exhaustive ladder is no longer the active strategy. The 250-, 375-, and
+500-ray arms completed for seven older anchor recipes, while only two 750-ray
+cases completed before a planned cost stop. The active confirmation uses a
+small panel informed by the corrected 25-case range pilot. All ray arms must be
+newly generated from one frozen manifest; historical 250-ray rows are not
+paired evidence. Phase A compares 250 and 500 rays with identical physical
+inputs and stream labels, plus independent repeats for representative center,
+narrow, and low-movement states. The panel must also include a clear modeled
+pass and adverse points near the assumed comparison-band limits.
+Only cases with changed measurement availability, morphology, decisions, or
+large normalized response shifts advance to a same-grid 500-versus-2,000-ray
+Phase B. The existing fine-grid 2,000-ray rows do not transfer to this scope.
+This is successive halving for evidence collection, not an optimizer of the
+process recipe.
+
 ## Search sequence
 
 1. Research ranges from official documentation and primary sources. Label missing calibration.

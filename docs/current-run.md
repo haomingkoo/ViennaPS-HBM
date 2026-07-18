@@ -3,6 +3,11 @@
 The active method is [`RESEARCH_PLAN_V3.md`](../RESEARCH_PLAN_V3.md). No recipe,
 full-traveler result, or process window is authorized.
 
+This numerical work is the current tutorial blocker because the repeated
+mask/Bosch study cannot teach which controls move a measurement until a faster
+setting is shown to preserve those measurements. Ray count is a simulation-cost
+control, not a TSV process knob or the learner-facing result.
+
 ## Latest completed simulation block
 
 | Item | Value |
@@ -55,12 +60,20 @@ evidence, but it does not isolate ray count or prove numerical convergence.
 
 ## Next action
 
-Freeze a varied panel of clear passes, clear failures, difficult shapes and
-cases near each limit. Keep the inputs, random streams and stopping rule fixed.
-Change only the ray count. Compare every measurement and pass/fail result, then
-check whether a failure boundary moves. Approve 500 rays for broad screening
-only if those paired checks agree. Confirm boundaries and finalists at 2,000
-rays.
+Do not launch the first proposed adaptive panel. The audit found that old
+250-ray pilot rows cannot be paired fairly with new 500-ray rows, the nominated
+panel has no clear assumed-band pass, and response-specific numerical and
+repeat allowances are still null.
+
+First qualify the measurement rules and add a clear pass plus adverse
+near-limit cases. Then freeze one new manifest that holds physical inputs,
+stream labels, grid, stopping, measurement code, and runtime settings fixed.
+Generate fresh 250/500 pairs and independent repeats. Promote only informative
+disagreements, extractor challenges, near-limit states, and a center reference
+to a same-grid 500/2,000 panel. Approve an exploration setting only for the
+measurements and geometries it preserves. Follow ray selection with separate
+bounded checks of grid, advection, domain, caps, execution layout, and save
+cadence.
 
 ## Clean ray ladder checkpoint
 
@@ -81,11 +94,11 @@ collected on an otherwise idle machine. Use the timings for broad cost
 comparison. Recheck close finalists on an isolated host before claiming a
 precise speed ratio.
 
-Replace the exhaustive ladder with an adaptive confirmation panel. Use the
-completed low-ray rows to find cases with the largest measurement disagreement,
-different morphology, and proximity to a modeled boundary. Run only that panel
-at 1,000 and 2,000 rays. A lower-ray setting is promoted only if it preserves
-the required measurements and boundary decisions on the held-out panel.
+The completed low-ray rows are historical cost and disagreement evidence. They
+may inform case selection but cannot be paired with new rows. The replacement
+adaptive panel uses a new frozen manifest and fresh ray arms. A lower-ray
+setting is promoted only if it preserves the required measurements and
+boundary decisions on the held-out panel.
 
 Validate the committed evidence from a clean clone:
 
