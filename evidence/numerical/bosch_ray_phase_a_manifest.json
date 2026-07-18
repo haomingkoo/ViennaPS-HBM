@@ -1,0 +1,371 @@
+{
+  "assumed_comparison_bands": {
+    "depth_tolerance": 0.1,
+    "etch_depth": 1.25,
+    "evidence_class": "assumed_model_study",
+    "mask_height": 0.3,
+    "max_wall_bulge": 0.03,
+    "max_width_error": 0.06,
+    "opening_cd": 0.3
+  },
+  "authority": "Triage 250 rays and select Phase B cases only. Phase A cannot qualify 500 rays or establish engineering equivalence.",
+  "campaign": "bosch-ray-phase-a-v1",
+  "comparison_rules": {
+    "250_rays_may_be_rejected_but_not_approved": true,
+    "500_rays_requires_fresh_2000_ray_phase_b": true,
+    "availability_and_assumed_band_checks_must_match": true,
+    "continuous_differences_are_reported_not_qualified": true
+  },
+  "execution": {
+    "case_cap": 32,
+    "checkpoint_policy": "save one selected-cycle checkpoint per run",
+    "retry_policy": "one identical retry for a first transient infrastructure error only"
+  },
+  "numerics": {
+    "grid_delta": 0.005,
+    "maximum_workers": 2,
+    "ray_arms": [
+      250,
+      500
+    ],
+    "simulation_dimension": 2,
+    "threads_per_worker": 4
+  },
+  "panel": [
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": 2.0,
+        "radius": 0.15,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "current_grid_reference",
+      "maximum_cycles": 30,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "theta_r_min": 45.0
+      },
+      "repeat_count": 1,
+      "roles": [
+        "clear_assumed_band_reference",
+        "interaction_sensitive"
+      ],
+      "source": {
+        "case_id": "7405eb159356c564",
+        "line_number": 21,
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
+        "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": 2.0,
+        "radius": 0.15,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "design_center",
+      "maximum_cycles": 10,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "num_cycles": 10,
+        "radius": 0.15,
+        "theta_r_min": 45.0
+      },
+      "repeat_count": 3,
+      "roles": [
+        "design_center"
+      ],
+      "source": {
+        "case_id": "48083e578a008900",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/24",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "narrow_profile",
+      "maximum_cycles": 16,
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.04,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 25.0
+      },
+      "repeat_count": 3,
+      "roles": [
+        "narrow_valid_profile"
+      ],
+      "source": {
+        "case_id": "bd5b486f6fb67256",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/4",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.18,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "low_movement_wide",
+      "maximum_cycles": 4,
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 400.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 25.0
+      },
+      "repeat_count": 3,
+      "roles": [
+        "low_movement"
+      ],
+      "source": {
+        "case_id": "4405fc56d8e10409",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/21",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": 6.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "low_movement_narrow",
+      "maximum_cycles": 4,
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 6.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "repeat_count": 3,
+      "roles": [
+        "low_movement"
+      ],
+      "source": {
+        "case_id": "f56ee9f0c5703348",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/7",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.18,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "near_depth_adverse",
+      "maximum_cycles": 4,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.04,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 50.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 4,
+        "radius": 0.18,
+        "theta_r_min": 90.0
+      },
+      "repeat_count": 1,
+      "roles": [
+        "near_depth_adverse"
+      ],
+      "source": {
+        "case_id": "1cb56644ad10ff06",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/20",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "near_bow_adverse",
+      "maximum_cycles": 4,
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.1,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 1000.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.3,
+        "num_cycles": 4,
+        "radius": 0.12,
+        "theta_r_min": 90.0
+      },
+      "repeat_count": 1,
+      "roles": [
+        "near_bow_adverse"
+      ],
+      "source": {
+        "case_id": "7d8102bf6ea2fd39",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/5",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    },
+    {
+      "geometry": {
+        "hole_shape": "FULL",
+        "mask_height": 0.3,
+        "mask_taper": -4.0,
+        "radius": 0.12,
+        "x_extent": 1.0,
+        "y_extent": 2.0
+      },
+      "id": "availability_challenge",
+      "maximum_cycles": 16,
+      "recipe": {
+        "deposition_sticking_probability": 0.03,
+        "deposition_thickness": 0.003,
+        "etch_time": 2.0,
+        "initial_etch_time": 0.5,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50.0,
+        "mask_ion_rate": 0.0,
+        "mask_taper": -4.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.02,
+        "num_cycles": 16,
+        "radius": 0.12,
+        "theta_r_min": 45.0
+      },
+      "repeat_count": 1,
+      "roles": [
+        "one_sided_availability_challenge"
+      ],
+      "source": {
+        "case_id": "270ed2834457ec9c",
+        "path": "pattern_bosch_range_pilot_design.json",
+        "selector": "/cases/10",
+        "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+      }
+    }
+  ],
+  "question": "Where do fresh 250- and 500-ray runs disagree when every paired run uses the same physical inputs, grid, endpoint rule, and seed label?",
+  "rng_policy": {
+    "independent_pair_count": 16,
+    "paired_by_seed_label": true,
+    "pointwise_common_random_numbers_claimed": false,
+    "seed_start": 1610000,
+    "seed_stride": 91
+  },
+  "schema_version": 1,
+  "selection_rule": "Complete full-width profiles inside all assumed bands rank first; then minimize absolute depth error; then choose the earlier cycle.",
+  "sources": [
+    {
+      "path": "bosch_ray_phase_a.py",
+      "sha256": "12bfd029fe69138f9d3d062d83aca17709905b8090299f751d051eda841dca57"
+    },
+    {
+      "path": "pattern_bosch_range_pilot_design.json",
+      "sha256": "f4c6fd29bf6de22ce4c706ca19bd6c8274e03b254c8bcedb60ba86e6c3e15b52"
+    },
+    {
+      "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
+      "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
+    },
+    {
+      "path": "pattern_bosch_measurement_contract.json",
+      "sha256": "d9fe319f51371a2fa890b6961640d5e7a492a87d7b9516a91dc600d562f6ff27"
+    },
+    {
+      "path": "evidence/numerical/bosch_grid_preflight.json",
+      "sha256": "f9b98472413034a6d5cce49ba9da8e2df19dbcd328dd1b0ea20d9e3efec3845a"
+    },
+    {
+      "path": "traveler_metrics.py",
+      "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290"
+    },
+    {
+      "path": "tsv_process.py",
+      "sha256": "358bb45cd9e48f4e5e78f6123a763b0922fc42fe1c9c365b1981a83d3d293a80"
+    }
+  ]
+}

@@ -71,6 +71,7 @@ TESTS_BY_RUNTIME = {
     "stock": (
         "test_api_knob_audit.py",
         "test_bosch_rng_schedule.py",
+        "test_bosch_grid_preflight.py",
         "test_capability_test_runner.py",
         "test_cmp_controlled_stack.py",
         "test_cycle_history.py",
@@ -142,6 +143,7 @@ TESTS_BY_RUNTIME = {
         "test_pattern_bosch_range_pilot_bundle.py",
         "test_pattern_bosch_range_pilot_recovery.py",
         "test_pattern_bosch_range_pilot_review.py",
+        "test_bosch_ray_phase_a_review.py",
     ),
 }
 

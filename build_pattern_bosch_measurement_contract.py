@@ -216,6 +216,16 @@ def build() -> dict:
                 "sha256": digest(missingness_path),
                 "selector": "/cases",
             }
+            item["resolution_bracket"] = {
+                "resolved_at_or_above": 3.0,
+                "unresolved_at_or_below": 2.0,
+                "units": "grid cells across the minimum via width",
+                "scope": (
+                    "Full-width measurement availability only; continuous-metric "
+                    "precision remains unresolved."
+                ),
+                "source": {"path": evidence_path, "sha256": evidence_sha},
+            }
         roundtrip_path = "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl"
         item["save_reload_parity"] = {
             "maximum_absolute_difference": 0.0,

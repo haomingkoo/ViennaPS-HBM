@@ -101,6 +101,9 @@ completed screening DOE, an interaction estimate, or a process window.
    detection limits, numerical drift, repeat variation, useful-change
    thresholds, and the ray/grid/advection/domain/execution checks. The current
    numeric bands remain assumed comparisons rather than fabrication limits.
+   Fresh 250-versus-500-ray pairs are complete at grid 0.005. The observed
+   decision mismatches stop 250 rays from advancing; 500 rays still requires a
+   fresh 2,000-ray comparison.
 3. **Range pilot complete:** the first mask-plus-Bosch pilot used 25
    three-level cases across 12 implemented controls. The legacy extractor
    returned values for 20 rows, but its etch-shape values are suspended because

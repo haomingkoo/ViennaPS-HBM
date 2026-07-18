@@ -12,6 +12,34 @@ control, not a TSV process knob or the learner-facing result.
 
 | Item | Value |
 |---|---|
+| Stage | Fresh 250-versus-500-ray Bosch triage |
+| Status | Complete review: 250 rays does not advance |
+| Scope | Eight profile categories at grid 0.005; 32 runs |
+| Result | 20 measured runs; 12 symmetric minimum-depth guard stops |
+| Runtime | On completed pairs, 500 rays took 1.87 times the 250-ray wall time at the median |
+| Review | [`evidence/numerical/bosch_ray_phase_a_review.json`](../evidence/numerical/bosch_ray_phase_a_review.json) |
+| Manifest | [`evidence/numerical/bosch_ray_phase_a_manifest.json`](../evidence/numerical/bosch_ray_phase_a_manifest.json) |
+
+The reference and center pairs kept the same measurement availability and
+assumed-band decisions. The narrow profile changed the assumed bow-band
+decision in all three paired streams. The availability-challenge pair changed
+the assumed depth-band decision. Those are study comparisons, not fabrication
+pass/fail changes, but they are enough to stop 250 rays from advancing.
+
+Both low-movement recipes triggered the configured minimum-etch-depth guard at
+250 and 500 rays in all three streams. They provide repeatable guard evidence,
+not profile measurements. The review keeps these states separate from the 20
+measured runs.
+
+Phase A cannot qualify 500 rays. The next comparison is a fresh same-grid
+500-versus-2,000-ray panel containing the current-grid reference, center,
+narrow profile, availability challenge, and at least one agreement case. The
+2,000-ray arm is a tested comparator, not numerical truth.
+
+## Earlier completed range pilot
+
+| Item | Value |
+|---|---|
 | Stage | 25-case mask-plus-Bosch range pilot |
 | Status | Corrected review complete: legacy etch values suspended; five incomplete profiles classified |
 | Numerical setting | Grid 0.01 and 250 rays per point; not qualified |
@@ -67,20 +95,12 @@ evidence, but it does not isolate ray count or prove numerical convergence.
 
 ## Next action
 
-Do not launch the first proposed adaptive panel. The audit found that old
-250-ray pilot rows cannot be paired fairly with new 500-ray rows, the nominated
-panel has no clear assumed-band pass, and response-specific numerical and
-repeat allowances are still null.
-
-First qualify the measurement rules and add a clear pass plus adverse
-near-limit cases. Then freeze one new manifest that holds physical inputs,
-stream labels, grid, stopping, measurement code, and runtime settings fixed.
-Generate fresh 250/500 pairs and independent repeats. Promote only informative
-disagreements, extractor challenges, near-limit states, and a center reference
-to a same-grid 500/2,000 panel. Approve an exploration setting only for the
-measurements and geometries it preserves. Follow ray selection with separate
-bounded checks of grid, advection, domain, caps, execution layout, and save
-cadence.
+Freeze and run the fresh same-grid 500-versus-2,000-ray Phase B panel. Include
+mandatory reference cases even when 250 and 500 agreed, so shared low-ray bias
+cannot escape review. Use unseen seed labels and retain exact availability,
+assumed-band, morphology, and measurement comparisons. After ray selection,
+check grid, advection, domain, caps, execution layout, and save cadence
+separately.
 
 ## Clean ray ladder checkpoint
 

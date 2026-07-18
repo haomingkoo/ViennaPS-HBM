@@ -60,6 +60,7 @@ assert {control["id"]: control["result"]["state"] for control in evidence["full_
     "full_one_wall": "valid_categorical_modeled_state",
     "declared_surface_absent": "out_of_scope_region",
     "two_cell_neck": "insufficient_grid_representation",
+    "three_cell_neck": "complete",
 }
 
 for source in evidence["sources"]:

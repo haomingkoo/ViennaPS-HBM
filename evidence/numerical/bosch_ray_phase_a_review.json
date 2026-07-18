@@ -1,0 +1,1101 @@
+{
+  "archived_mismatch_checkpoints": [
+    {
+      "case_id": "ac01659b881b0aba",
+      "panel_id": "narrow_profile",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/ac01659b881b0aba_cycle016.npz",
+      "rays_per_point": 250,
+      "sha256": "bfa903b24a15164cf4a07ce510ab83ebb95e76935bcf5d0239340e1e3590daa5"
+    },
+    {
+      "case_id": "4dec8ca8d6c2425a",
+      "panel_id": "narrow_profile",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/4dec8ca8d6c2425a_cycle016.npz",
+      "rays_per_point": 500,
+      "sha256": "869e53f20914c5af1fdfec8cf202d3865f37d700c39b50c69cfdf4aa0cc0ba83"
+    },
+    {
+      "case_id": "6de51ac37c4bb2c9",
+      "panel_id": "narrow_profile",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/6de51ac37c4bb2c9_cycle016.npz",
+      "rays_per_point": 500,
+      "sha256": "806e108f126f66d9c2a0fc01354909e0e4f5cd3df78b0a1c987dee3c02ab434f"
+    },
+    {
+      "case_id": "653dc541ad425d86",
+      "panel_id": "narrow_profile",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/653dc541ad425d86_cycle016.npz",
+      "rays_per_point": 250,
+      "sha256": "140e1f9624e019d264be144cd044fce5b01c7d6a7eb31c2b9dd33a62fbf9f23c"
+    },
+    {
+      "case_id": "ea7984ad7fe397d8",
+      "panel_id": "narrow_profile",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/ea7984ad7fe397d8_cycle016.npz",
+      "rays_per_point": 250,
+      "sha256": "77ad742b040c9ddcf9390b0ba0b9fd443aaf3a1aec5e1c125f81b24a292513af"
+    },
+    {
+      "case_id": "0d0e89639259f97f",
+      "panel_id": "narrow_profile",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/0d0e89639259f97f_cycle016.npz",
+      "rays_per_point": 500,
+      "sha256": "334d3c1a63f4fec07f0ccac2c66d2948a950f419a86f2bb870189a611f1f90df"
+    },
+    {
+      "case_id": "b63d4698758439b7",
+      "panel_id": "availability_challenge",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/b63d4698758439b7_cycle004.npz",
+      "rays_per_point": 250,
+      "sha256": "3911d47e99cfb4a4dc85f8115f8d0654e5612919ff666ae746d51f2a6c121373"
+    },
+    {
+      "case_id": "4f82fa179d9a531e",
+      "panel_id": "availability_challenge",
+      "path": "evidence/numerical/bosch_ray_phase_a_checkpoints/4f82fa179d9a531e_cycle004.npz",
+      "rays_per_point": 500,
+      "sha256": "250fa383f0266fb457fefbbbdbb42cb1aa6a0fe80a1f99b4436bd6e532f8d9b1"
+    }
+  ],
+  "campaign": "bosch-ray-phase-a-v1",
+  "categorical_mismatches": [
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": false,
+        "width": true
+      },
+      "availability_match": true,
+      "pair_id": "availability_challenge:stream_1",
+      "panel_id": "availability_challenge",
+      "selected_cycle_match": true
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": false,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "pair_id": "narrow_profile:stream_1",
+      "panel_id": "narrow_profile",
+      "selected_cycle_match": true
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": false,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "pair_id": "narrow_profile:stream_2",
+      "panel_id": "narrow_profile",
+      "selected_cycle_match": true
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": false,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "pair_id": "narrow_profile:stream_3",
+      "panel_id": "narrow_profile",
+      "selected_cycle_match": true
+    }
+  ],
+  "comparisons": [
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": false,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.004731627372539071,
+        "cd_max": 0.0007843348486904489,
+        "cd_middle": 0.005797209303970208,
+        "cd_min": 0.005581650763565538,
+        "cd_top": 0.001188315318609079,
+        "depth": 0.0076580501376855015,
+        "max_bow": 0.00161122816755499,
+        "max_cd_error": 0.0007843348486904489,
+        "maximum_center_shift": 0.00027341992163365525,
+        "scallop_rms": 0.00039113292495667265,
+        "sidewall_angle_deg": 0.14080303730007238
+      },
+      "pair_id": "availability_challenge:stream_1",
+      "panel_id": "availability_challenge",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 76.08399670801009,
+        "500": 142.70701612500125
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "d65228a1990263e12b58ff4990c0b4b6fa6dbe62ae84f75573de470ba9b66702",
+          "line_number": 31
+        },
+        "500": {
+          "event_hash": "035e07ad94b4e918b1506408af6704b5d180343f11db2bf8826b4fad19516803",
+          "line_number": 32
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0032986698154912064,
+        "cd_max": 0.004099954930754324,
+        "cd_middle": 0.0006780767143260702,
+        "cd_min": 0.001180974836501314,
+        "cd_top": 0.0008800675875145769,
+        "depth": 0.0001349106771453279,
+        "max_bow": 0.0002560359740898521,
+        "max_cd_error": 0.004099954930754324,
+        "maximum_center_shift": 0.000616098943241522,
+        "scallop_rms": 2.2104919704432624e-05,
+        "sidewall_angle_deg": 0.1268907623654808
+      },
+      "pair_id": "current_grid_reference:stream_1",
+      "panel_id": "current_grid_reference",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 31.749875584006077,
+        "500": 58.09411083301529
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "741cb58803f383e99ac7442a355914555b7051c18dd95084354b0a341bdf1d59",
+          "line_number": 1
+        },
+        "500": {
+          "event_hash": "637c15f353ff65f65319a3161df2c3b2c56e926f906382e3b74802d73e51063a",
+          "line_number": 2
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0007701403813377139,
+        "cd_max": 5.721002129754904e-05,
+        "cd_middle": 0.0010317842915920084,
+        "cd_min": 0.0007802663025794354,
+        "cd_top": 0.00045738198700723265,
+        "depth": 0.0032393310537151,
+        "max_bow": 0.00015518698989946955,
+        "max_cd_error": 5.721002129754904e-05,
+        "maximum_center_shift": 0.0006228724546432224,
+        "scallop_rms": 5.1777473646865465e-05,
+        "sidewall_angle_deg": 0.013310723341039984
+      },
+      "pair_id": "design_center:stream_1",
+      "panel_id": "design_center",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 16.457620708999457,
+        "500": 30.42578141699778
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "756b57c936ed49bcbac0b93a26eb93272c291a44faf0ceff2b0d52f1d06553a6",
+          "line_number": 4
+        },
+        "500": {
+          "event_hash": "6f362ab029068be632236ded6964849861cb764b1b371576c248d09ec48a1b0f",
+          "line_number": 3
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0010444030717862707,
+        "cd_max": 0.0003054480468538956,
+        "cd_middle": 0.0004830613299540154,
+        "cd_min": 0.000868390594766677,
+        "cd_top": 0.00035151131401067737,
+        "depth": 0.003588921614561813,
+        "max_bow": 0.0002863579280939499,
+        "max_cd_error": 0.0003054480468538956,
+        "maximum_center_shift": 0.0006087604279961245,
+        "scallop_rms": 4.233143307413867e-07,
+        "sidewall_angle_deg": 0.06119933683374968
+      },
+      "pair_id": "design_center:stream_2",
+      "panel_id": "design_center",
+      "repeat_index": 1,
+      "runtime_s": {
+        "250": 16.559097207995364,
+        "500": 30.676552457996877
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "6fe37bfb1118881de05629b2716bae1ff3a9f7bcc654e439d7b0486a7cf5f6ab",
+          "line_number": 5
+        },
+        "500": {
+          "event_hash": "602cf95bc5802b944c170102709cb87196bce09a9cfc26a363d2d10903c54f29",
+          "line_number": 6
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.00023915196385970727,
+        "cd_max": 0.001159610083789786,
+        "cd_middle": 0.0008890107027785255,
+        "cd_min": 0.0003688981636944533,
+        "cd_top": 9.49929396001914e-05,
+        "depth": 0.0007240844800803226,
+        "max_bow": 0.00022526265357811215,
+        "max_cd_error": 0.001159610083789786,
+        "maximum_center_shift": 0.0005651190830215785,
+        "scallop_rms": 8.516532979285438e-05,
+        "sidewall_angle_deg": 0.014671970952664884
+      },
+      "pair_id": "design_center:stream_3",
+      "panel_id": "design_center",
+      "repeat_index": 2,
+      "runtime_s": {
+        "250": 16.44970366699272,
+        "500": 30.83162333400105
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "5bacac5dbc74325d01f8ad97b923cd0b1a09aaf9db326388d33a220aed43f53b",
+          "line_number": 8
+        },
+        "500": {
+          "event_hash": "e528616d0fae32f5666b4a07bb463e93da3b33cfd853b596e3443df1a0bd8fd6",
+          "line_number": 7
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": null,
+      "availability_match": null,
+      "failure": {
+        "classification": "wrapper_minimum_etch_depth_guard",
+        "guard_triggered_at_both_ray_counts": true,
+        "interpretation": "The wrapper stopped both ray arms because the modeled etch stayed below its configured minimum resolved depth. No profile comparison is available for this pair.",
+        "reported_depths": {
+          "250": -0.0635151335017704,
+          "500": -0.06349456803572225
+        }
+      },
+      "metric_deltas": null,
+      "pair_id": "low_movement_narrow:stream_1",
+      "panel_id": "low_movement_narrow",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 0.9402025000017602,
+        "500": 1.5245014580141287
+      },
+      "selected_cycle_match": null,
+      "sources": {
+        "250": {
+          "event_hash": "f94184524a77c5651342bd2a1fa0b1ddc562f0c5d76074734b4585e478bcd132",
+          "line_number": 20
+        },
+        "500": {
+          "event_hash": "108dc43e43ebc5c896d83127a121ff8e5f2e43ee45248fac323de895ba8059b8",
+          "line_number": 21
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "failed_deterministic",
+        "500": "failed_deterministic"
+      }
+    },
+    {
+      "assumed_band_check_matches": null,
+      "availability_match": null,
+      "failure": {
+        "classification": "wrapper_minimum_etch_depth_guard",
+        "guard_triggered_at_both_ray_counts": true,
+        "interpretation": "The wrapper stopped both ray arms because the modeled etch stayed below its configured minimum resolved depth. No profile comparison is available for this pair.",
+        "reported_depths": {
+          "250": -0.06340419901924617,
+          "500": -0.06338199025809448
+        }
+      },
+      "metric_deltas": null,
+      "pair_id": "low_movement_narrow:stream_2",
+      "panel_id": "low_movement_narrow",
+      "repeat_index": 1,
+      "runtime_s": {
+        "250": 0.9906225840095431,
+        "500": 1.5659507910022512
+      },
+      "selected_cycle_match": null,
+      "sources": {
+        "250": {
+          "event_hash": "173a3394719cbdccc5ded184866380275d0af0fdfb1601abdcc31cf2eb2f4a6d",
+          "line_number": 23
+        },
+        "500": {
+          "event_hash": "1d81f1c43e17682aec85b0bb90722534f119a082b6f025988ccf1fa1dea8dd0f",
+          "line_number": 22
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "failed_deterministic",
+        "500": "failed_deterministic"
+      }
+    },
+    {
+      "assumed_band_check_matches": null,
+      "availability_match": null,
+      "failure": {
+        "classification": "wrapper_minimum_etch_depth_guard",
+        "guard_triggered_at_both_ray_counts": true,
+        "interpretation": "The wrapper stopped both ray arms because the modeled etch stayed below its configured minimum resolved depth. No profile comparison is available for this pair.",
+        "reported_depths": {
+          "250": -0.06356235547548839,
+          "500": -0.06340034902073041
+        }
+      },
+      "metric_deltas": null,
+      "pair_id": "low_movement_narrow:stream_3",
+      "panel_id": "low_movement_narrow",
+      "repeat_index": 2,
+      "runtime_s": {
+        "250": 0.9718235830077901,
+        "500": 1.5638479170156643
+      },
+      "selected_cycle_match": null,
+      "sources": {
+        "250": {
+          "event_hash": "0fa5f208bae4c8e0c6a5bbc7568ce6d61476733744ea761742ed1b8c78e92bdc",
+          "line_number": 24
+        },
+        "500": {
+          "event_hash": "e0181e266b4bdc75ca726e2a85c60a5bfca9636d3ddaa143182d58995d2c249a",
+          "line_number": 25
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "failed_deterministic",
+        "500": "failed_deterministic"
+      }
+    },
+    {
+      "assumed_band_check_matches": null,
+      "availability_match": null,
+      "failure": {
+        "classification": "wrapper_minimum_etch_depth_guard",
+        "guard_triggered_at_both_ray_counts": true,
+        "interpretation": "The wrapper stopped both ray arms because the modeled etch stayed below its configured minimum resolved depth. No profile comparison is available for this pair.",
+        "reported_depths": {
+          "250": -0.08017824330613722,
+          "500": -0.08011191325907532
+        }
+      },
+      "metric_deltas": null,
+      "pair_id": "low_movement_wide:stream_1",
+      "panel_id": "low_movement_wide",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 1.141908208024688,
+        "500": 1.890341125021223
+      },
+      "selected_cycle_match": null,
+      "sources": {
+        "250": {
+          "event_hash": "2beef5cf0af176fbf4b04505bd9f30a491ebc02c9ad3ffb1825a9a5c7af4c346",
+          "line_number": 15
+        },
+        "500": {
+          "event_hash": "96d841d891a9aebe772bb01f8e6b95a6ad6d9d5f9d3858ba0ba364debe60a4d7",
+          "line_number": 14
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "failed_deterministic",
+        "500": "failed_deterministic"
+      }
+    },
+    {
+      "assumed_band_check_matches": null,
+      "availability_match": null,
+      "failure": {
+        "classification": "wrapper_minimum_etch_depth_guard",
+        "guard_triggered_at_both_ray_counts": true,
+        "interpretation": "The wrapper stopped both ray arms because the modeled etch stayed below its configured minimum resolved depth. No profile comparison is available for this pair.",
+        "reported_depths": {
+          "250": -0.07991667390402733,
+          "500": -0.07996315886622417
+        }
+      },
+      "metric_deltas": null,
+      "pair_id": "low_movement_wide:stream_2",
+      "panel_id": "low_movement_wide",
+      "repeat_index": 1,
+      "runtime_s": {
+        "250": 1.107223166996846,
+        "500": 1.8382387919991743
+      },
+      "selected_cycle_match": null,
+      "sources": {
+        "250": {
+          "event_hash": "8b56ddd0491c62bbf0ef2fc75541113edf268cd9d45d8cb82f82d1ed98ca3bbe",
+          "line_number": 16
+        },
+        "500": {
+          "event_hash": "af1a8c05072299f9182b0c050011b3fa988ff174125123824cdbd30dc21922ff",
+          "line_number": 17
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "failed_deterministic",
+        "500": "failed_deterministic"
+      }
+    },
+    {
+      "assumed_band_check_matches": null,
+      "availability_match": null,
+      "failure": {
+        "classification": "wrapper_minimum_etch_depth_guard",
+        "guard_triggered_at_both_ray_counts": true,
+        "interpretation": "The wrapper stopped both ray arms because the modeled etch stayed below its configured minimum resolved depth. No profile comparison is available for this pair.",
+        "reported_depths": {
+          "250": -0.08000000509637589,
+          "500": -0.0799116778551087
+        }
+      },
+      "metric_deltas": null,
+      "pair_id": "low_movement_wide:stream_3",
+      "panel_id": "low_movement_wide",
+      "repeat_index": 2,
+      "runtime_s": {
+        "250": 1.1504656249890104,
+        "500": 1.8412473329808563
+      },
+      "selected_cycle_match": null,
+      "sources": {
+        "250": {
+          "event_hash": "6193ebd042fcae2eace9c3f919c569839f61b7af6706231c4f8f9164b18ebc24",
+          "line_number": 19
+        },
+        "500": {
+          "event_hash": "519945e31209d59fe829fb3774ceb5d6970cd345d417cc9ec09da48eb429cd3a",
+          "line_number": 18
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "failed_deterministic",
+        "500": "failed_deterministic"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": false,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0038753499867225927,
+        "cd_max": 0.025876424752255378,
+        "cd_middle": 0.006711052145523075,
+        "cd_min": 0.0015347785536626562,
+        "cd_top": 0.025876424752255378,
+        "depth": 0.0924155425472506,
+        "max_bow": 0.00179521887060018,
+        "max_cd_error": 0.0015347785536626302,
+        "maximum_center_shift": 0.0008773354514438648,
+        "scallop_rms": 8.631905992948657e-05,
+        "sidewall_angle_deg": 2.4564571522706267
+      },
+      "pair_id": "narrow_profile:stream_1",
+      "panel_id": "narrow_profile",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 24.68731541701709,
+        "500": 47.426130625011865
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "c2f1d9d6f2ab2fdc49127a4f6332b94229e66bb3fcf478a8857c60318aa7d68e",
+          "line_number": 9
+        },
+        "500": {
+          "event_hash": "287592e9f287ca7b5ac527deaa054e5e5a92d0dc776ad06e9facc784bca95e19",
+          "line_number": 10
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": false,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0025330030622901303,
+        "cd_max": 0.01888626957781625,
+        "cd_middle": 0.0006554701831017855,
+        "cd_min": 0.0014987353267473108,
+        "cd_top": 0.01888626957781625,
+        "depth": 0.07646491937890543,
+        "max_bow": 0.0016780422143791197,
+        "max_cd_error": 0.0014987353267473247,
+        "maximum_center_shift": 0.00021420524015393176,
+        "scallop_rms": 6.535641650290088e-05,
+        "sidewall_angle_deg": 1.755403897270134
+      },
+      "pair_id": "narrow_profile:stream_2",
+      "panel_id": "narrow_profile",
+      "repeat_index": 1,
+      "runtime_s": {
+        "250": 26.43132025000523,
+        "500": 46.250454124994576
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "4d81a24fa8429973d6f3e74d184a3d43b18f43d0de8df0cc700259c3377b4731",
+          "line_number": 12
+        },
+        "500": {
+          "event_hash": "cd964efb3568cb999c5a0084bc946c388c10be11033e2af95a12cc4c59a92657",
+          "line_number": 11
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": false,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.00029648534703157967,
+        "cd_max": 0.002054489829762446,
+        "cd_middle": 0.001383231813456759,
+        "cd_min": 0.00044511696383772205,
+        "cd_top": 0.002054489829762446,
+        "depth": 0.006142502859724619,
+        "max_bow": 0.00047765554889129397,
+        "max_cd_error": 0.0004451169638376995,
+        "maximum_center_shift": 1.2573629391825214e-05,
+        "scallop_rms": 8.250868786586845e-05,
+        "sidewall_angle_deg": 0.1468613081230954
+      },
+      "pair_id": "narrow_profile:stream_3",
+      "panel_id": "narrow_profile",
+      "repeat_index": 2,
+      "runtime_s": {
+        "250": 25.365598292002687,
+        "500": 48.17087345800246
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "a4ae4235c0faf8e494696568fa200a2d8c95c3e347301e9429de6f3fb665f778",
+          "line_number": 13
+        },
+        "500": {
+          "event_hash": "793eff17877cad052484d5e8d3cb7b33d9f5db3b4883729924dd1091f2ff9c70",
+          "line_number": 26
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0002051316653549906,
+        "cd_max": 0.0004587948802916575,
+        "cd_middle": 0.00023894128903512168,
+        "cd_min": 0.0002051316653549906,
+        "cd_top": 0.0003055066859439237,
+        "depth": 0.0003561550411044223,
+        "max_bow": 0.00012031570420997784,
+        "max_cd_error": 0.0002051316653549906,
+        "maximum_center_shift": 0.0014772611784780038,
+        "scallop_rms": 9.119254060122929e-05,
+        "sidewall_angle_deg": 0.0020949001689971603
+      },
+      "pair_id": "near_bow_adverse:stream_1",
+      "panel_id": "near_bow_adverse",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 34.75451108298148,
+        "500": 68.82441745800315
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "2123223b65c2e71be018d6ccca58f0659d527c7100ff3e76b54d324b1bf9df18",
+          "line_number": 29
+        },
+        "500": {
+          "event_hash": "75f0667c1435eaa6f8e56c8ae4aa69b193199ae5386eec4798a2254647152743",
+          "line_number": 30
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    },
+    {
+      "assumed_band_check_matches": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "availability_match": true,
+      "failure": null,
+      "metric_deltas": {
+        "cd_bottom": 0.0011566704962825414,
+        "cd_max": 0.0009700896012757587,
+        "cd_middle": 0.00029798094718724855,
+        "cd_min": 0.0011566704962825414,
+        "cd_top": 2.5184080839180112e-05,
+        "depth": 0.00019071864068176403,
+        "max_bow": 0.0007208675567092482,
+        "max_cd_error": 0.0009700896012757587,
+        "maximum_center_shift": 0.00012484516698892112,
+        "scallop_rms": 5.137272142553655e-05,
+        "sidewall_angle_deg": 0.03692881284213567
+      },
+      "pair_id": "near_depth_adverse:stream_1",
+      "panel_id": "near_depth_adverse",
+      "repeat_index": 0,
+      "runtime_s": {
+        "250": 40.049957332987105,
+        "500": 77.12316570899566
+      },
+      "selected_cycle_match": true,
+      "sources": {
+        "250": {
+          "event_hash": "5f1728886682943341027a2c786444322a4bb5d0ee44e2fd366baacfd149ccbc",
+          "line_number": 27
+        },
+        "500": {
+          "event_hash": "42d252bc1c7f8a4669cdbffa1e6fe23ca2783eff3ccc148675aceea4176c8f6c",
+          "line_number": 28
+        }
+      },
+      "state_match": true,
+      "states": {
+        "250": "complete_measured",
+        "500": "complete_measured"
+      }
+    }
+  ],
+  "decision": {
+    "candidate_250_rays": "rejected_for_phase_b",
+    "candidate_500_rays": "requires_fresh_2000_ray_phase_b",
+    "reason": "250 rays did not preserve all assumed-band decisions across the paired panel. Phase A cannot qualify 500 rays."
+  },
+  "execution": {
+    "complete_pairs": 10,
+    "median_500_to_250_runtime_ratio_on_complete_pairs": 1.8749737351723708,
+    "planned_runs": 32,
+    "runtime_interpretation": "same host during this campaign; broad cost comparison only",
+    "state_counts": {
+      "complete_measured": 20,
+      "failed_deterministic": 12
+    },
+    "symmetric_minimum_depth_guard_pairs": 6
+  },
+  "highest_supported_claim": "Fresh 250- and 500-ray pairs agree on the current-grid reference and center cases, but the narrow profile changes the assumed bow-band decision in all three streams and the availability challenge changes the assumed depth-band decision. 250 rays does not advance.",
+  "limits": [
+    "Assumed-band changes are study comparisons, not fabrication pass/fail changes.",
+    "Continuous metric differences are reported without an engineering-equivalence claim.",
+    "The two low-movement recipes triggered the same wrapper guard at both ray counts and provide no profile comparison.",
+    "The result applies only to this 0.005-grid 2D panel.",
+    "2,000 rays remains a tested comparator, not numerical truth."
+  ],
+  "maximum_absolute_deltas": {
+    "cd_bottom": {
+      "pair_id": "availability_challenge:stream_1",
+      "value": 0.004731627372539071
+    },
+    "cd_max": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.025876424752255378
+    },
+    "cd_middle": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.006711052145523075
+    },
+    "cd_min": {
+      "pair_id": "availability_challenge:stream_1",
+      "value": 0.005581650763565538
+    },
+    "cd_top": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.025876424752255378
+    },
+    "depth": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.0924155425472506
+    },
+    "max_bow": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 0.00179521887060018
+    },
+    "max_cd_error": {
+      "pair_id": "current_grid_reference:stream_1",
+      "value": 0.004099954930754324
+    },
+    "maximum_center_shift": {
+      "pair_id": "near_bow_adverse:stream_1",
+      "value": 0.0014772611784780038
+    },
+    "scallop_rms": {
+      "pair_id": "availability_challenge:stream_1",
+      "value": 0.00039113292495667265
+    },
+    "sidewall_angle_deg": {
+      "pair_id": "narrow_profile:stream_1",
+      "value": 2.4564571522706267
+    }
+  },
+  "repeat_ranges": {
+    "design_center": {
+      "250": {
+        "cd_bottom": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00140086877307527
+        },
+        "cd_max": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0010229510621349025
+        },
+        "cd_middle": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0007330240761167506
+        },
+        "cd_min": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00035424730355682055
+        },
+        "cd_top": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00020718665155267102
+        },
+        "depth": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.002630202014344718
+        },
+        "max_bow": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00014975471230152526
+        },
+        "max_cd_error": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0010229510621349025
+        },
+        "maximum_center_shift": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0012365848010165298
+        },
+        "scallop_rms": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 8.947790388248548e-05
+        },
+        "sidewall_angle_deg": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.06826248829108034
+        }
+      },
+      "500": {
+        "cd_bottom": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00048302188838922344
+        },
+        "cd_max": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.000782717448518877
+        },
+        "cd_middle": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0024664796614908835
+        },
+        "cd_min": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0003026511802742271
+        },
+        "cd_top": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0003473295992902359
+        },
+        "depth": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0016943951841221772
+        },
+        "max_bow": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 4.3636829397036836e-05
+        },
+        "max_cd_error": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.000782717448518877
+        },
+        "maximum_center_shift": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00024267007911954463
+        },
+        "scallop_rms": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00012952165556893947
+        },
+        "sidewall_angle_deg": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.013365713208105437
+        }
+      }
+    },
+    "narrow_profile": {
+      "250": {
+        "cd_bottom": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0033591781494676683
+        },
+        "cd_max": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.027405397901954898
+        },
+        "cd_middle": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.007748869003808081
+        },
+        "cd_min": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0020304239516454933
+        },
+        "cd_top": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.027405397901954898
+        },
+        "depth": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.10926836887627145
+        },
+        "max_bow": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0017703886102001416
+        },
+        "max_cd_error": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.002030423951645488
+        },
+        "maximum_center_shift": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0005889711821746718
+        },
+        "scallop_rms": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0001115421960477122
+        },
+        "sidewall_angle_deg": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 2.6330590448132787
+        }
+      },
+      "500": {
+        "cd_bottom": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0030491748995450547
+        },
+        "cd_max": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.01735729642811673
+        },
+        "cd_middle": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.002203176051630555
+        },
+        "cd_min": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0011093295959393613
+        },
+        "cd_top": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.01735729642811673
+        },
+        "depth": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.059612093049884574
+        },
+        "max_bow": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.001871840150023344
+        },
+        "max_cd_error": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.0011093295959393457
+        },
+        "maximum_center_shift": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 0.00092357582541365
+        },
+        "scallop_rms": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 6.393138950009595e-05
+        },
+        "sidewall_angle_deg": {
+          "count": 3,
+          "interpretation": "observed three-stream range; not a population uncertainty bound",
+          "observed_range": 1.578802004727482
+        }
+      }
+    }
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "evidence/numerical/bosch_ray_phase_a_manifest.json",
+      "sha256": "3b55a03b977746c84fd21124561d8417f7a885ea2a4660541163bee0d7aca20c"
+    },
+    {
+      "path": "evidence/numerical/bosch_ray_phase_a_events.jsonl",
+      "sha256": "2e4c1dca65f49b38920a4c6f73bbcaad3c08aee97a0bcefd862386eb83855713"
+    },
+    {
+      "path": "build_bosch_ray_phase_a_review.py",
+      "sha256": "313ab63f44e9bc9aad3c113ee60a47ad328d19738015398d7483f3698b3d2076"
+    }
+  ],
+  "status": "complete_reviewed"
+}

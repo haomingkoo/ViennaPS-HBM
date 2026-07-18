@@ -336,14 +336,15 @@ shapes, distinct failure morphologies, and tested extremes.
    now classified, and the active etch extractor requires both walls in the
    declared full geometry. Freeze response-specific resolution, numerical,
    repeat, and useful-change rules before screening authority.
-2. Run fresh adaptive 250-versus-500-ray pairs from one frozen manifest with
-   identical physical inputs and stream labels. Include a clear modeled pass,
-   adverse near-limit cases, extractor challenges, and independent repeats for
-   selected center, narrow, and low-movement states.
-3. Promote only disagreement, missing-measurement, morphology, near-boundary,
-   and center-reference cases to a capped higher-ray panel that includes a
-   same-grid 2,000-ray comparator. Treat 2,000 rays as a tested reference, not
-   numerical truth.
+2. The fresh 250-versus-500-ray panel is complete at grid 0.005. The narrow
+   profile changed the assumed bow-band decision in all three streams, and the
+   availability challenge changed the assumed depth-band decision. Do not
+   advance 250 rays. The low-movement recipes triggered the same configured
+   minimum-depth guard in both arms and remain guard evidence, not measurements.
+3. Run a capped fresh 500-versus-2,000-ray panel on unseen seed labels. Include
+   the current-grid reference, center, narrow profile, availability challenge,
+   nearest assumed-band cases, and at least one Phase A agreement. Treat 2,000
+   rays as a tested reference, not numerical truth.
 4. After the ray study, check grid, advection, domain, cap, execution layout,
    and save cadence separately on a bounded representative panel. Derive
    response-specific numerical and repeat envelopes. Do not invent a universal

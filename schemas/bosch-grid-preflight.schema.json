@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/bosch-grid-preflight.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "campaign", "status", "highest_supported_claim",
+    "manifest", "environment", "elapsed_s", "initial_pattern", "cycles",
+    "selected", "checkpoint", "decision", "limits"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "bosch-grid-preflight-v1"},
+    "status": {"const": "complete"},
+    "highest_supported_claim": {"type": "string", "minLength": 1},
+    "manifest": {"$ref": "#/$defs/fileSource"},
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python", "platform", "viennaps_binary_sha256", "viennals_binary_sha256"],
+      "properties": {
+        "python": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "viennaps_binary_sha256": {"$ref": "#/$defs/sha256"},
+        "viennals_binary_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "elapsed_s": {"type": "number", "exclusiveMinimum": 0},
+    "initial_pattern": {"type": "object"},
+    "cycles": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"$ref": "#/$defs/cycle"}
+    },
+    "selected": {"$ref": "#/$defs/cycle"},
+    "checkpoint": {"$ref": "#/$defs/fileSource"},
+    "decision": {"type": "string", "minLength": 1},
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["one_process_run", "does_not_compare_ray_counts", "does_not_establish_grid_convergence"],
+      "properties": {
+        "one_process_run": {"const": true},
+        "does_not_compare_ray_counts": {"const": true},
+        "does_not_establish_grid_convergence": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "cycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cycle", "availability", "reason_codes", "metrics",
+        "minimum_width_cells", "mask_remaining_height", "assumed_band_result"
+      ],
+      "properties": {
+        "cycle": {"type": "integer", "minimum": 0},
+        "availability": {
+          "enum": [
+            "complete", "valid_categorical_modeled_state",
+            "extractor_domain_failure", "out_of_scope_region",
+            "insufficient_grid_representation"
+          ]
+        },
+        "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "metrics": {"type": ["object", "null"]},
+        "minimum_width_cells": {"type": ["number", "null"], "minimum": 0},
+        "mask_remaining_height": {"type": "number", "minimum": 0},
+        "assumed_band_result": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["checks", "inside_all"],
+              "properties": {
+                "checks": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["depth", "width", "bow"],
+                  "properties": {
+                    "depth": {"type": "boolean"},
+                    "width": {"type": "boolean"},
+                    "bow": {"type": "boolean"}
+                  }
+                },
+                "inside_all": {"type": "boolean"}
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

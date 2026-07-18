@@ -68,6 +68,13 @@ Choose the cheapest discovery profile with margin before the observed cliff. It 
 
 Current evidence:
 
+- A fresh 32-run Phase A panel compared 250 and 500 rays at grid 0.005. Twenty
+  runs returned measurements. Twelve low-movement runs triggered the configured
+  minimum-depth guard symmetrically. The narrow profile changed the assumed
+  bow-band decision in all three paired streams, and the availability challenge
+  changed the assumed depth-band decision. Therefore 250 rays does not advance.
+  Phase A does not qualify 500 rays.
+
 - The saved 500-ray bridge preserved the reviewed Bosch classifications and factor ranking while reducing paired runtime by about 4.5 times. It is provisional because the campaign also changed random streams and early-stop intervals. It does not isolate ray count.
 - 1,000 rays failed the strict paired measurement bridge to 2,000 rays, despite no product-gate flips.
 - The five saved 125-ray cases include a required-anchor mismatch. The run ended without a frozen stop event, so this is a partial mismatch observation rather than a formal rejection.

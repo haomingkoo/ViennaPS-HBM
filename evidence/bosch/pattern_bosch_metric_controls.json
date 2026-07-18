@@ -139,8 +139,8 @@
     "short_mask_changes_height": true,
     "taper_changes_top_vs_bottom_width": true
   },
-  "claim": "The legacy extractors respond to the large controlled contrasts, and the full-via wrapper distinguishes complete, out-of-domain, one-wall, absent-surface, and under-resolved states.",
-  "does_not_prove": "Detection limits, numerical stability, physical calibration, or a process recipe.",
+  "claim": "The legacy extractors respond to the large controlled contrasts. The full-via wrapper distinguishes complete, out-of-domain, one-wall, absent-surface, and under-resolved states, with availability bracketed between two and three grid cells.",
+  "does_not_prove": "Continuous-metric precision, numerical stability, physical calibration, or a process recipe.",
   "full_profile_controls": [
     {
       "id": "full_straight",
@@ -362,6 +362,51 @@
         ],
         "state": "insufficient_grid_representation"
       }
+    },
+    {
+      "id": "three_cell_neck",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [
+            -1.0
+          ],
+          "mesh_bounds": {
+            "x_max": 0.015,
+            "x_min": -0.015,
+            "y_max": -0.0,
+            "y_min": -1.0
+          },
+          "minimum_width_cells": 3.0,
+          "requested_y_range": [
+            -0.85,
+            -0.1
+          ],
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 76,
+          "samples_with_both_walls_in_search": 76,
+          "samples_with_left_wall": 76,
+          "samples_with_right_wall": 76,
+          "surface_intersections": [
+            -0.015,
+            0.015
+          ]
+        },
+        "metrics": {
+          "cd_bottom": 0.03,
+          "cd_max": 0.03,
+          "cd_middle": 0.03,
+          "cd_min": 0.03,
+          "cd_top": 0.03,
+          "depth": 1.0,
+          "max_bow": 0.0,
+          "max_cd_error": 0.27,
+          "maximum_center_shift": 0.0,
+          "scallop_rms": 8.421147079905253e-18,
+          "sidewall_angle_deg": -0.0
+        },
+        "reason_codes": [],
+        "state": "complete"
+      }
     }
   ],
   "schema_version": 2,
@@ -369,7 +414,7 @@
   "sources": [
     {
       "path": "build_pattern_bosch_metric_controls.py",
-      "sha256": "71a7055be92ed13dc1afcf3236a326a9a4ca6a89925ec8ebea736c709a0612cb"
+      "sha256": "173fbffe856bfbfb088a158bc52ac8be3c39d5bc6c3961f6971496c5154c67c8"
     },
     {
       "path": "traveler_metrics.py",

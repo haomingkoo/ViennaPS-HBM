@@ -61,6 +61,7 @@ jobs:
             build_pattern_bosch_factor_projection.py \
             build_pattern_bosch_range_pilot.py \
             build_pattern_bosch_range_pilot_review.py \
+            build_bosch_ray_phase_a_review.py \
             v3_bosch_clean_ray_ladder.py \
             review_v3_bosch_clean_ray_ladder.py \
             scripts/autoresearch_event_log.py \
@@ -84,6 +85,8 @@ jobs:
           python scripts/validate_evidence.py evidence/bosch/pattern_bosch_unavailable_profile_review.json schemas/pattern-bosch-unavailable-profile-review.schema.json
           python scripts/validate_evidence.py pattern_bosch_factor_projection.json schemas/pattern-bosch-factor-projection.schema.json
           python scripts/validate_evidence.py pattern_bosch_range_pilot_review.json schemas/pattern-bosch-range-pilot-review.schema.json
+          python scripts/validate_evidence.py evidence/numerical/bosch_grid_preflight.json schemas/bosch-grid-preflight.schema.json
+          python scripts/validate_evidence.py evidence/numerical/bosch_ray_phase_a_review.json schemas/bosch-ray-phase-a-review.schema.json
           python scripts/validate_evidence.py docs/range-research-log.json schemas/range-research-log.schema.json
           python test_evidence_schema.py
           python test_autoresearch_event_schema.py
@@ -108,6 +111,7 @@ jobs:
           python test_pattern_bosch_range_pilot_bundle.py
           python test_pattern_bosch_range_pilot_recovery.py
           python test_pattern_bosch_range_pilot_review.py
+          python test_bosch_ray_phase_a_review.py
           python test_freeze_pattern_bosch_screen_manifest.py
           python test_publication_data.py
 

@@ -1,0 +1,943 @@
+{
+  "campaign": "bosch-grid-preflight-v1",
+  "checkpoint": {
+    "path": "evidence/numerical/bosch_grid_preflight_checkpoint.npz",
+    "sha256": "798e68dfdeab61e556864950e36f2a1ebeecfcbc90175ed58c73eb01cd11cbd1"
+  },
+  "cycles": [
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 0,
+      "mask_remaining_height": 0.2999,
+      "metrics": {
+        "cd_bottom": 0.29454400143881243,
+        "cd_max": 0.32158803195628827,
+        "cd_middle": 0.31368256208018086,
+        "cd_min": 0.29454400143881243,
+        "cd_top": 0.31787680043416816,
+        "depth": 0.03330021908693842,
+        "max_bow": 0.004271831352294864,
+        "max_cd_error": 0.02158803195628828,
+        "maximum_center_shift": 5.208185496174966e-05,
+        "scallop_rms": 0.00022205014296273974,
+        "sidewall_angle_deg": 25.038220256979812
+      },
+      "minimum_width_cells": 58.90880028776248,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 1,
+      "mask_remaining_height": 0.2999,
+      "metrics": {
+        "cd_bottom": 0.28803868104924013,
+        "cd_max": 0.32979916015092026,
+        "cd_middle": 0.3277001430966413,
+        "cd_min": 0.28803868104924013,
+        "cd_top": 0.32007567708082674,
+        "depth": 0.08833318824069335,
+        "max_bow": 0.012411248292475946,
+        "max_cd_error": 0.029799160150920267,
+        "maximum_center_shift": 0.0011710566095739366,
+        "scallop_rms": 0.001667795635364993,
+        "sidewall_angle_deg": 13.592615953337377
+      },
+      "minimum_width_cells": 57.60773620984803,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 2,
+      "mask_remaining_height": 0.2998821447170935,
+      "metrics": {
+        "cd_bottom": 0.2856981075807259,
+        "cd_max": 0.3297632103774584,
+        "cd_middle": 0.32098265209475907,
+        "cd_min": 0.2856981075807259,
+        "cd_top": 0.3161463567967705,
+        "depth": 0.14234338123443485,
+        "max_bow": 0.016163276712891556,
+        "max_cd_error": 0.029763210377458438,
+        "maximum_center_shift": 0.001170933888923656,
+        "scallop_rms": 0.003095132276750829,
+        "sidewall_angle_deg": 8.115926287530744
+      },
+      "minimum_width_cells": 57.139621516145176,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 3,
+      "mask_remaining_height": 0.29974849691107286,
+      "metrics": {
+        "cd_bottom": 0.28575907915332655,
+        "cd_max": 0.3298210371538417,
+        "cd_middle": 0.32099571426022566,
+        "cd_min": 0.28575907915332655,
+        "cd_top": 0.3104819544078177,
+        "depth": 0.1954420857958039,
+        "max_bow": 0.017652743468130783,
+        "max_cd_error": 0.029821037153841712,
+        "maximum_center_shift": 0.0011760078605981272,
+        "scallop_rms": 0.003417209727757091,
+        "sidewall_angle_deg": 4.820431138663692
+      },
+      "minimum_width_cells": 57.151815830665306,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 4,
+      "mask_remaining_height": 0.29969258809349114,
+      "metrics": {
+        "cd_bottom": 0.28657830694286895,
+        "cd_max": 0.32953446140319376,
+        "cd_middle": 0.3281560680500516,
+        "cd_min": 0.28657830694286895,
+        "cd_top": 0.3138099853832222,
+        "depth": 0.24795301514442863,
+        "max_bow": 0.018190540884508305,
+        "max_cd_error": 0.029534461403193768,
+        "maximum_center_shift": 0.0011371336281277011,
+        "scallop_rms": 0.0031400262115767476,
+        "sidewall_angle_deg": 4.187570532768308
+      },
+      "minimum_width_cells": 57.31566138857379,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 5,
+      "mask_remaining_height": 0.2995497580738867,
+      "metrics": {
+        "cd_bottom": 0.2883475286011046,
+        "cd_max": 0.3297208853035674,
+        "cd_middle": 0.3131186754524841,
+        "cd_min": 0.2883475286011046,
+        "cd_top": 0.32407425013199476,
+        "depth": 0.2990267154943372,
+        "max_bow": 0.017077794385270323,
+        "max_cd_error": 0.029720885303567424,
+        "maximum_center_shift": 0.0010718471083545206,
+        "scallop_rms": 0.003024525839208328,
+        "sidewall_angle_deg": 4.554058772628965
+      },
+      "minimum_width_cells": 57.66950572022091,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 6,
+      "mask_remaining_height": 0.2994783932354786,
+      "metrics": {
+        "cd_bottom": 0.29009201542103735,
+        "cd_max": 0.329842333887554,
+        "cd_middle": 0.3264488302411363,
+        "cd_min": 0.29009201542103735,
+        "cd_top": 0.329842333887554,
+        "depth": 0.35029952350291665,
+        "max_bow": 0.01588742653444683,
+        "max_cd_error": 0.02984233388755403,
+        "maximum_center_shift": 0.0007065985294721494,
+        "scallop_rms": 0.0029453598257889913,
+        "sidewall_angle_deg": 4.326194146905425
+      },
+      "minimum_width_cells": 58.01840308420747,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 7,
+      "mask_remaining_height": 0.2994361665607957,
+      "metrics": {
+        "cd_bottom": 0.2923689099345883,
+        "cd_max": 0.3304789292759879,
+        "cd_middle": 0.3252541332895672,
+        "cd_min": 0.2923689099345883,
+        "cd_top": 0.32912230026552575,
+        "depth": 0.4003664142636448,
+        "max_bow": 0.016359761046431026,
+        "max_cd_error": 0.030478929275987887,
+        "maximum_center_shift": 0.0008248289031387718,
+        "scallop_rms": 0.002950901678881249,
+        "sidewall_angle_deg": 3.502110291199827
+      },
+      "minimum_width_cells": 58.47378198691766,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 8,
+      "mask_remaining_height": 0.29926126080198756,
+      "metrics": {
+        "cd_bottom": 0.2985648815065925,
+        "cd_max": 0.33219624341710213,
+        "cd_middle": 0.32471790651336985,
+        "cd_min": 0.2985648815065925,
+        "cd_top": 0.32749852956156905,
+        "depth": 0.4475208099938704,
+        "max_bow": 0.014886771084923062,
+        "max_cd_error": 0.032196243417102144,
+        "maximum_center_shift": 0.0006247951343780617,
+        "scallop_rms": 0.0028277234871411736,
+        "sidewall_angle_deg": 2.4680423399254385
+      },
+      "minimum_width_cells": 59.7129763013185,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 9,
+      "mask_remaining_height": 0.2991476221220509,
+      "metrics": {
+        "cd_bottom": 0.3024800403410508,
+        "cd_max": 0.3320876841572715,
+        "cd_middle": 0.3294805368644097,
+        "cd_min": 0.3024800403410508,
+        "cd_top": 0.3248882001820551,
+        "depth": 0.49416633546653776,
+        "max_bow": 0.012608276629605952,
+        "max_cd_error": 0.032087684157271534,
+        "maximum_center_shift": 0.0006942746960600932,
+        "scallop_rms": 0.002672706960800982,
+        "sidewall_angle_deg": 1.7315385593254211
+      },
+      "minimum_width_cells": 60.49600806821016,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 10,
+      "mask_remaining_height": 0.29904539662945484,
+      "metrics": {
+        "cd_bottom": 0.3058637172642721,
+        "cd_max": 0.3322710714106574,
+        "cd_middle": 0.3226162880066573,
+        "cd_min": 0.3058637172642721,
+        "cd_top": 0.3210841912157448,
+        "depth": 0.5395512585125212,
+        "max_bow": 0.010869871067300196,
+        "max_cd_error": 0.03227107141065744,
+        "maximum_center_shift": 0.0007697873162277602,
+        "scallop_rms": 0.0025624690508214303,
+        "sidewall_angle_deg": 1.0773967156905482
+      },
+      "minimum_width_cells": 61.17274345285441,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 11,
+      "mask_remaining_height": 0.298593637669757,
+      "metrics": {
+        "cd_bottom": 0.31079274640099647,
+        "cd_max": 0.33193157460140676,
+        "cd_middle": 0.3304078475963844,
+        "cd_min": 0.30857699869035815,
+        "cd_top": 0.31635725892291994,
+        "depth": 0.5840974950267667,
+        "max_bow": 0.009530705096112757,
+        "max_cd_error": 0.031931574601406776,
+        "maximum_center_shift": 0.0008052537807569926,
+        "scallop_rms": 0.002399532261911856,
+        "sidewall_angle_deg": 0.3638876484473996
+      },
+      "minimum_width_cells": 61.71539973807163,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 12,
+      "mask_remaining_height": 0.2981777793604663,
+      "metrics": {
+        "cd_bottom": 0.31358936047379393,
+        "cd_max": 0.33186440900475195,
+        "cd_middle": 0.32289203377275616,
+        "cd_min": 0.31068401220774844,
+        "cd_top": 0.31068401220774844,
+        "depth": 0.6275882242727099,
+        "max_bow": 0.00975733189556871,
+        "max_cd_error": 0.03186440900475196,
+        "maximum_center_shift": 0.0007857956146255646,
+        "scallop_rms": 0.002341833004519142,
+        "sidewall_angle_deg": -0.17682896598110082
+      },
+      "minimum_width_cells": 62.13680244154968,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 13,
+      "mask_remaining_height": 0.29777768508197233,
+      "metrics": {
+        "cd_bottom": 0.31828083818863084,
+        "cd_max": 0.332337443310036,
+        "cd_middle": 0.332337443310036,
+        "cd_min": 0.3105678156608497,
+        "cd_top": 0.3118639083777978,
+        "depth": 0.6696637704801447,
+        "max_bow": 0.00854203568205597,
+        "max_cd_error": 0.03233744331003602,
+        "maximum_center_shift": 0.0007744686789421806,
+        "scallop_rms": 0.0022514180328492466,
+        "sidewall_angle_deg": -0.3660125280509552
+      },
+      "minimum_width_cells": 62.113563132169936,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 14,
+      "mask_remaining_height": 0.29736450215831006,
+      "metrics": {
+        "cd_bottom": 0.3216074663282623,
+        "cd_max": 0.332173120638862,
+        "cd_middle": 0.3239812340947299,
+        "cd_min": 0.31123517896122077,
+        "cd_top": 0.32085325218707084,
+        "depth": 0.7107747478156855,
+        "max_bow": 0.005473894737735019,
+        "max_cd_error": 0.03217312063886202,
+        "maximum_center_shift": 0.0026115733239279737,
+        "scallop_rms": 0.002151437341816711,
+        "sidewall_angle_deg": -0.04053162183355399
+      },
+      "minimum_width_cells": 62.247035792244155,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 15,
+      "mask_remaining_height": 0.296995269073962,
+      "metrics": {
+        "cd_bottom": 0.3250009554997123,
+        "cd_max": 0.331569115969517,
+        "cd_middle": 0.3298352338048794,
+        "cd_min": 0.31285490941506117,
+        "cd_top": 0.3261973866789428,
+        "depth": 0.7509066965757242,
+        "max_bow": 0.006572758868862688,
+        "max_cd_error": 0.031569115969517,
+        "maximum_center_shift": 0.002075607168094948,
+        "scallop_rms": 0.0021256720133073412,
+        "sidewall_angle_deg": 0.0608601411056588
+      },
+      "minimum_width_cells": 62.57098188301223,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 16,
+      "mask_remaining_height": 0.29663652653390815,
+      "metrics": {
+        "cd_bottom": 0.32736495320269954,
+        "cd_max": 0.3316832522800075,
+        "cd_middle": 0.32496200557963917,
+        "cd_min": 0.3081578912161026,
+        "cd_top": 0.3285695014671822,
+        "depth": 0.7899413154317608,
+        "max_bow": 0.010173683838486935,
+        "max_cd_error": 0.03168325228000751,
+        "maximum_center_shift": 0.002340694227695811,
+        "scallop_rms": 0.002168525898091874,
+        "sidewall_angle_deg": 0.058245261728066974
+      },
+      "minimum_width_cells": 61.63157824322052,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 17,
+      "mask_remaining_height": 0.2962494760794274,
+      "metrics": {
+        "cd_bottom": 0.33099277146572414,
+        "cd_max": 0.3325156820873616,
+        "cd_middle": 0.32790358695957,
+        "cd_min": 0.30994111654624623,
+        "cd_top": 0.3287001685366061,
+        "depth": 0.8280300049351046,
+        "max_bow": 0.009425378053762312,
+        "max_cd_error": 0.03251568208736161,
+        "maximum_center_shift": 0.0025734703331165565,
+        "scallop_rms": 0.002072245259460611,
+        "sidewall_angle_deg": -0.10575810214146995
+      },
+      "minimum_width_cells": 61.98822330924924,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 18,
+      "mask_remaining_height": 0.2959394493818487,
+      "metrics": {
+        "cd_bottom": 0.3346880338251177,
+        "cd_max": 0.3346880338251177,
+        "cd_middle": 0.32546558235771084,
+        "cd_min": 0.3146187688059808,
+        "cd_top": 0.3277656097893894,
+        "depth": 0.8651613317940737,
+        "max_bow": 0.0071131414301014995,
+        "max_cd_error": 0.0346880338251177,
+        "maximum_center_shift": 0.0026217133138994597,
+        "scallop_rms": 0.0020039557726568807,
+        "sidewall_angle_deg": -0.3056246312335227
+      },
+      "minimum_width_cells": 62.92375376119615,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 19,
+      "mask_remaining_height": 0.2955510508924914,
+      "metrics": {
+        "cd_bottom": 0.3362289309647244,
+        "cd_max": 0.3362289309647244,
+        "cd_middle": 0.32476782896171313,
+        "cd_min": 0.309222877159647,
+        "cd_top": 0.3263736127335083,
+        "depth": 0.9017857944664733,
+        "max_bow": 0.008706772030013521,
+        "max_cd_error": 0.036228930964724404,
+        "maximum_center_shift": 0.002800373292583022,
+        "scallop_rms": 0.001956774746000552,
+        "sidewall_angle_deg": -0.4174370106095357
+      },
+      "minimum_width_cells": 61.84457543192941,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 20,
+      "mask_remaining_height": 0.2952007127461571,
+      "metrics": {
+        "cd_bottom": 0.3364381419644289,
+        "cd_max": 0.3364381419644289,
+        "cd_middle": 0.3270333394615589,
+        "cd_min": 0.31260343335792573,
+        "cd_top": 0.32416683616005726,
+        "depth": 0.9375812630359321,
+        "max_bow": 0.006496010943100455,
+        "max_cd_error": 0.036438141964428905,
+        "maximum_center_shift": 0.002464422928346366,
+        "scallop_rms": 0.001948503559205734,
+        "sidewall_angle_deg": -0.49992195664414124
+      },
+      "minimum_width_cells": 62.520686671585146,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 21,
+      "mask_remaining_height": 0.29486253505533017,
+      "metrics": {
+        "cd_bottom": 0.3364584625488558,
+        "cd_max": 0.3364584625488558,
+        "cd_middle": 0.3189240343289097,
+        "cd_min": 0.3107744065879008,
+        "cd_top": 0.3214063988099748,
+        "depth": 0.9725648880622787,
+        "max_bow": 0.005682845519546648,
+        "max_cd_error": 0.03645846254885582,
+        "maximum_center_shift": 0.002576119889033099,
+        "scallop_rms": 0.0019281834783294476,
+        "sidewall_angle_deg": -0.5911441895061302
+      },
+      "minimum_width_cells": 62.154881317580156,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 22,
+      "mask_remaining_height": 0.2944632578857273,
+      "metrics": {
+        "cd_bottom": 0.3325009932082604,
+        "cd_max": 0.33826331803322596,
+        "cd_middle": 0.3278671864594904,
+        "cd_min": 0.308428099213369,
+        "cd_top": 0.3182262876495948,
+        "depth": 1.0066080741734524,
+        "max_bow": 0.005011379252833903,
+        "max_cd_error": 0.03826331803322597,
+        "maximum_center_shift": 0.0024632564555938236,
+        "scallop_rms": 0.0019765930722564318,
+        "sidewall_angle_deg": -0.5416580280758079
+      },
+      "minimum_width_cells": 61.6856198426738,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 23,
+      "mask_remaining_height": 0.29400056429822413,
+      "metrics": {
+        "cd_bottom": 0.3341706888182163,
+        "cd_max": 0.34044880159340746,
+        "cd_middle": 0.3236309369660537,
+        "cd_min": 0.3144122535421072,
+        "cd_top": 0.3144122535421072,
+        "depth": 1.040001736405789,
+        "max_bow": 0.0067068083166968995,
+        "max_cd_error": 0.04044880159340747,
+        "maximum_center_shift": 0.0024870291056219157,
+        "scallop_rms": 0.0018544037918400318,
+        "sidewall_angle_deg": -0.7256490587451628
+      },
+      "minimum_width_cells": 62.882450708421445,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 24,
+      "mask_remaining_height": 0.29364193337106037,
+      "metrics": {
+        "cd_bottom": 0.33831321475916765,
+        "cd_max": 0.3420020508401887,
+        "cd_middle": 0.3276935694185735,
+        "cd_min": 0.3103717547691265,
+        "cd_top": 0.3103717547691265,
+        "depth": 1.073019063676134,
+        "max_bow": 0.008061842826105975,
+        "max_cd_error": 0.04200205084018871,
+        "maximum_center_shift": 0.0026863341278007408,
+        "scallop_rms": 0.001977133882521055,
+        "sidewall_angle_deg": -0.9945563814443498
+      },
+      "minimum_width_cells": 62.074350953825295,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 25,
+      "mask_remaining_height": 0.2933244691724452,
+      "metrics": {
+        "cd_bottom": 0.3409099954112905,
+        "cd_max": 0.34369123527229095,
+        "cd_middle": 0.3277113135975996,
+        "cd_min": 0.3079652696751055,
+        "cd_top": 0.3079652696751055,
+        "depth": 1.1049547338994803,
+        "max_bow": 0.010056642183961684,
+        "max_cd_error": 0.04369123527229096,
+        "maximum_center_shift": 0.0026905697129731704,
+        "scallop_rms": 0.002014182166553207,
+        "sidewall_angle_deg": -1.1387164563796686
+      },
+      "minimum_width_cells": 61.5930539350211,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": false,
+          "width": true
+        },
+        "inside_all": false
+      },
+      "availability": "complete",
+      "cycle": 26,
+      "mask_remaining_height": 0.29302291957127596,
+      "metrics": {
+        "cd_bottom": 0.3442917620678497,
+        "cd_max": 0.3442917620678497,
+        "cd_middle": 0.32095414413849543,
+        "cd_min": 0.3138178655704139,
+        "cd_top": 0.32038075332992066,
+        "depth": 1.1363296406647068,
+        "max_bow": 0.0068032846023065585,
+        "max_cd_error": 0.04429176206784974,
+        "maximum_center_shift": 0.0024853199016901667,
+        "scallop_rms": 0.0018315880173289053,
+        "sidewall_angle_deg": -0.8037045932310529
+      },
+      "minimum_width_cells": 62.76357311408278,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": true,
+          "width": true
+        },
+        "inside_all": true
+      },
+      "availability": "complete",
+      "cycle": 27,
+      "mask_remaining_height": 0.2925939457438524,
+      "metrics": {
+        "cd_bottom": 0.3459610226594406,
+        "cd_max": 0.3459610226594406,
+        "cd_middle": 0.3298394646499706,
+        "cd_min": 0.3155176416078299,
+        "cd_top": 0.325030858791685,
+        "depth": 1.1670076588616214,
+        "max_bow": 0.008694593240745535,
+        "max_cd_error": 0.04596102265944063,
+        "maximum_center_shift": 0.0021994398876778176,
+        "scallop_rms": 0.0017481618756926215,
+        "sidewall_angle_deg": -0.6850300158559052
+      },
+      "minimum_width_cells": 63.10352832156598,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": true,
+          "width": true
+        },
+        "inside_all": true
+      },
+      "availability": "complete",
+      "cycle": 28,
+      "mask_remaining_height": 0.2921491882773372,
+      "metrics": {
+        "cd_bottom": 0.3462989097384563,
+        "cd_max": 0.3462989097384563,
+        "cd_middle": 0.32522431716614786,
+        "cd_min": 0.31538545407088603,
+        "cd_top": 0.3284126796890408,
+        "depth": 1.1970263685086018,
+        "max_bow": 0.009090189903077917,
+        "max_cd_error": 0.046298909738456295,
+        "maximum_center_shift": 0.002800816492139424,
+        "scallop_rms": 0.001760341623791385,
+        "sidewall_angle_deg": -0.5707318427810479
+      },
+      "minimum_width_cells": 63.077090814177204,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": true,
+          "width": true
+        },
+        "inside_all": true
+      },
+      "availability": "complete",
+      "cycle": 29,
+      "mask_remaining_height": 0.29167016444120114,
+      "metrics": {
+        "cd_bottom": 0.3459532220429782,
+        "cd_max": 0.34728667488491194,
+        "cd_middle": 0.326172584680995,
+        "cd_min": 0.3156987177100473,
+        "cd_top": 0.3283537087196017,
+        "depth": 1.2264807077212383,
+        "max_bow": 0.009039857493196274,
+        "max_cd_error": 0.04728667488491195,
+        "maximum_center_shift": 0.00309110869970855,
+        "scallop_rms": 0.001788079155389971,
+        "sidewall_angle_deg": -0.5480978050066769
+      },
+      "minimum_width_cells": 63.13974354200946,
+      "reason_codes": []
+    },
+    {
+      "assumed_band_result": {
+        "checks": {
+          "bow": true,
+          "depth": true,
+          "width": true
+        },
+        "inside_all": true
+      },
+      "availability": "complete",
+      "cycle": 30,
+      "mask_remaining_height": 0.2911387722463442,
+      "metrics": {
+        "cd_bottom": 0.3468898682801394,
+        "cd_max": 0.3498583528432997,
+        "cd_middle": 0.3285301587149013,
+        "cd_min": 0.3137255584651638,
+        "cd_top": 0.32789106536976564,
+        "depth": 1.255556832341028,
+        "max_bow": 0.00933511695097533,
+        "max_cd_error": 0.0498583528432997,
+        "maximum_center_shift": 0.002789060316697803,
+        "scallop_rms": 0.0017907208931865644,
+        "sidewall_angle_deg": -0.5779716066552694
+      },
+      "minimum_width_cells": 62.74511169303276,
+      "reason_codes": []
+    }
+  ],
+  "decision": "eligible_as_clear_assumed-band case for the paired ray panel",
+  "elapsed_s": 53.99900445897947,
+  "environment": {
+    "platform": "Darwin-25.1.0-arm64-arm-64bit-Mach-O",
+    "python": "3.13.14",
+    "viennals_binary_sha256": "a92d0fabb3d1cf0e58edb5eb2e55576193a53c2c189b0db5217786d3a6f7fb2a",
+    "viennaps_binary_sha256": "0fb3e28628a60ae1206fde1f584fa55d1590e380569a5d7984fc8b6a34334480"
+  },
+  "highest_supported_claim": "The selected 0.005-grid, 500-ray run contains a complete profile inside the assumed bands.",
+  "initial_pattern": {
+    "cd_bias": 0.0010612421848542053,
+    "geometry_kind": "full",
+    "mask_height": 0.2999,
+    "mask_height_error": -9.999999999998899e-05,
+    "mask_left_sidewall_angle_deg": 2.000000000000001,
+    "mask_mesh_bottom_y": -0.00010000000000000007,
+    "mask_right_sidewall_angle_deg": 2.000000000000001,
+    "mask_sidewall_angle_deg": 2.000000000000001,
+    "opening_cd_bottom": 0.3010612421848542,
+    "opening_cd_middle": 0.31048670707837184,
+    "opening_cd_top": 0.31781762421777443,
+    "opening_center_bottom": 0.0,
+    "opening_center_middle": 0.0,
+    "opening_center_shift": 0.0,
+    "opening_center_top": 0.0,
+    "opening_valid": true
+  },
+  "limits": {
+    "does_not_compare_ray_counts": true,
+    "does_not_establish_grid_convergence": true,
+    "one_process_run": true
+  },
+  "manifest": {
+    "path": "evidence/numerical/bosch_grid_preflight_manifest.json",
+    "sha256": "a7b51af51ff3bdb1dc9945edf5f873cabbeb7f550fe365f37ae6af462c50e16e"
+  },
+  "schema_version": 1,
+  "selected": {
+    "assumed_band_result": {
+      "checks": {
+        "bow": true,
+        "depth": true,
+        "width": true
+      },
+      "inside_all": true
+    },
+    "availability": "complete",
+    "cycle": 30,
+    "mask_remaining_height": 0.2911387722463442,
+    "metrics": {
+      "cd_bottom": 0.3468898682801394,
+      "cd_max": 0.3498583528432997,
+      "cd_middle": 0.3285301587149013,
+      "cd_min": 0.3137255584651638,
+      "cd_top": 0.32789106536976564,
+      "depth": 1.255556832341028,
+      "max_bow": 0.00933511695097533,
+      "max_cd_error": 0.0498583528432997,
+      "maximum_center_shift": 0.002789060316697803,
+      "scallop_rms": 0.0017907208931865644,
+      "sidewall_angle_deg": -0.5779716066552694
+    },
+    "minimum_width_cells": 62.74511169303276,
+    "reason_codes": []
+  },
+  "status": "complete"
+}

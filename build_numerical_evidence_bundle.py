@@ -30,6 +30,7 @@ FILES = (
 SOURCES = {name: SOURCE / name for name in FILES}
 SOURCES.update(
     {
+        "bosch_ray_phase_a_events.jsonl": SOURCE / "bosch_ray_phase_a_events.jsonl",
         "v3_bosch_r125_qualification_manifest.json": ROOT
         / ".scratch/full-traveler-autoresearch/v3_bosch_r125_qualification_manifest.json",
         "v3_bosch_r250_qualification_manifest.json": ROOT

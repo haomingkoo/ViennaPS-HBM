@@ -37,7 +37,10 @@ for metric in contract["metrics"]:
     assert metric["feature_present_evidence"] is not None
     if metric["step"] == "bosch_etch":
         assert metric["missingness_evidence"] is not None
-    assert metric["resolution_bracket"] is None
+        assert metric["resolution_bracket"]["resolved_at_or_above"] == 3.0
+        assert metric["resolution_bracket"]["unresolved_at_or_below"] == 2.0
+    else:
+        assert metric["resolution_bracket"] is None
     assert metric["save_reload_parity"]["maximum_absolute_difference"] == 0.0
     assert metric["numerical_envelope"] is None
     assert metric["repeat_envelope"] is None

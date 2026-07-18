@@ -1,0 +1,82 @@
+{
+  "assumed_comparison_bands": {
+    "depth_tolerance": 0.1,
+    "etch_depth": 1.25,
+    "mask_height": 0.3,
+    "max_wall_bulge": 0.03,
+    "max_width_error": 0.06,
+    "opening_cd": 0.3,
+    "resolved_mask_cells_strict": 2.0
+  },
+  "authority": "grid viability check only; no numerical or recipe qualification",
+  "campaign": "bosch-grid-preflight-v1",
+  "geometry": {
+    "hole_shape": "FULL",
+    "mask_height": 0.3,
+    "mask_taper": 2.0,
+    "radius": 0.15,
+    "x_extent": 1.0,
+    "y_extent": 2.0
+  },
+  "limits": {
+    "does_not_compare_ray_counts": true,
+    "does_not_establish_grid_convergence": true,
+    "one_process_run": true
+  },
+  "maximum_cycles": 30,
+  "numerics": {
+    "grid_delta": 0.005,
+    "rays_per_point": 500,
+    "representation_context": {
+      "source": "pattern_bosch_measurement_contract.json",
+      "three_cell_width": 0.015,
+      "two_cell_width": 0.01
+    },
+    "rng_seed": 1600000,
+    "simulation_dimension": 2,
+    "threads_per_worker": 4
+  },
+  "question": "Does grid spacing 0.005 at 500 rays reproduce at least one complete profile inside the assumed Bosch comparison bands?",
+  "recipe": {
+    "deposition_sticking_probability": 0.01,
+    "deposition_thickness": 0.005,
+    "etch_time": 0.5,
+    "initial_etch_time": 0.3,
+    "ion_rate": -0.04,
+    "ion_source_exponent": 50,
+    "mask_ion_rate": 0.0,
+    "mask_taper": 2.0,
+    "neutral_rate": -0.08,
+    "neutral_sticking_probability": 0.08,
+    "theta_r_min": 45.0
+  },
+  "schema_version": 1,
+  "selection_rule": "Complete full-width profiles inside all assumed bands rank first; then minimize absolute depth error; then choose the earlier cycle.",
+  "source_case": {
+    "case_id": "7405eb159356c564",
+    "historical_assumed_band_result": true,
+    "historical_grid_delta": 0.00125,
+    "historical_rays_per_point": 500,
+    "line_number": 21,
+    "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
+    "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
+  },
+  "sources": [
+    {
+      "path": "bosch_grid_preflight.py",
+      "sha256": "4093d1bdc7da6b1684413883eacd514f679b37c650727138e7341c2fd76f433b"
+    },
+    {
+      "path": "traveler_metrics.py",
+      "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290"
+    },
+    {
+      "path": "tsv_process.py",
+      "sha256": "358bb45cd9e48f4e5e78f6123a763b0922fc42fe1c9c365b1981a83d3d293a80"
+    },
+    {
+      "path": "pattern_bosch_measurement_contract.json",
+      "sha256": "d9fe319f51371a2fa890b6961640d5e7a492a87d7b9516a91dc600d562f6ff27"
+    }
+  ]
+}

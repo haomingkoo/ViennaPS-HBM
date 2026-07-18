@@ -5,7 +5,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/0",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Opening width near the wafer surface.",
       "definition_sha256": "a74d1768a01d61cb1c4bf23de4f0fdaff2bf5113accd2e12b2a7454644a0b564",
@@ -18,7 +18,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "mask_opening_cd_bottom",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -50,7 +50,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/0",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Opening width at the middle of the mask.",
       "definition_sha256": "e86a05646bf6ae5386ccf710561a3ca6b21145ff0adf7c6e141cdb0d9361ba91",
@@ -63,7 +63,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "mask_opening_cd_middle",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -95,7 +95,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/0",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Opening width near the top of the mask.",
       "definition_sha256": "9676bb9419c4cea160d933e57a1bcc4598d04b977389f1e1d175d66a3183cdae",
@@ -108,7 +108,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "mask_opening_cd_top",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -140,7 +140,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/0",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Distance from the wafer surface to the highest mask point.",
       "definition_sha256": "3ca44f5ab921d6201d4cd288e39c6571c77491332e470e8a30a2d9303ba8fbcf",
@@ -153,7 +153,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/1",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "mask_height",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -185,7 +185,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/0",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Mask taper angle; zero means vertical walls and positive means a wider opening near the top.",
       "definition_sha256": "a4f8cacb8f6cdb837245fa08c18c87fbece328d6298900a2bbcf8f5586adeff0",
@@ -198,7 +198,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "mask_sidewall_angle",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -230,7 +230,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Vertical distance from the wafer surface to the via floor.",
       "definition_sha256": "0a429d1f2ab96e0064b55b0bc232dffb5dbdaa2d32471f62f5408b9a8772a1b5",
@@ -243,7 +243,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/4",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_depth",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -261,7 +261,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -279,7 +288,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Via width near the top of the etched depth.",
       "definition_sha256": "db773025259c5f61153349a4f748a25a92328a20339f81c8c30e8fc059cff5b9",
@@ -292,7 +301,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/5",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_cd_top",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -310,7 +319,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -328,7 +346,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Via width at the middle of the etched depth.",
       "definition_sha256": "b86ac169cb03ea9af8c6697d593a50abbe480268fd716758724fd14b6f15ecd2",
@@ -341,7 +359,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/7",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_cd_middle",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -359,7 +377,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -377,7 +404,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Via width near the bottom of the etched depth.",
       "definition_sha256": "a4c74702adf72b0cffcd169c6152fa3bdc9a7be5f65608382c92c408fbd300a2",
@@ -390,7 +417,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/5",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_cd_bottom",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -408,7 +435,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -426,7 +462,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Smallest sampled via width; used to detect a narrow neck.",
       "definition_sha256": "d3eb2ad5fe587fe0a7cbb6be8678795b3e0e9c2a8743d29be914d7872844e5bf",
@@ -439,7 +475,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/7",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_minimum_cd",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -457,7 +493,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -475,7 +520,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Largest absolute sampled difference from the declared comparison width.",
       "definition_sha256": "4ccd593ab93608e1a09be68078ca39e7daea2ec013eb16ad616a3ecd1016627a",
@@ -488,7 +533,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/7",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_maximum_cd_error",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -506,7 +551,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -524,7 +578,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Overall via taper angle; zero means the average wall is vertical.",
       "definition_sha256": "e44021de6df80f19ebc46403a6460d8c19858b92f432f5a067fb5a6a432866dd",
@@ -537,7 +591,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/5",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_sidewall_angle",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -555,7 +609,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -573,7 +636,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Largest horizontal gap between the average wall and its straight taper reference.",
       "definition_sha256": "216be55bf8280323c807fdfe8134b6333642fbc5a6e0f44aa6961be591cefcf1",
@@ -586,7 +649,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/6",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_bow",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -604,7 +667,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -622,7 +694,7 @@
       "analytic_reference_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/3",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "definition": "Typical small wall ripple after the smooth overall profile is removed.",
       "definition_sha256": "a11e1ec7633dae415760167f9e3c40ee84f240e9d5c48c7a4c2219e5bf7c22b6",
@@ -635,7 +707,7 @@
       "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/8",
-        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+        "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
       },
       "id": "etch_scallop_rms",
       "missing_value_rule": "block the affected decision; never replace with zero",
@@ -653,7 +725,16 @@
         "range_finding",
         "screening"
       ],
-      "resolution_bracket": null,
+      "resolution_bracket": {
+        "resolved_at_or_above": 3.0,
+        "scope": "Full-width measurement availability only; continuous-metric precision remains unresolved.",
+        "source": {
+          "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+          "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
+        },
+        "units": "grid cells across the minimum via width",
+        "unresolved_at_or_below": 2.0
+      },
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -674,7 +755,7 @@
   "sources": [
     {
       "path": "build_pattern_bosch_measurement_contract.py",
-      "sha256": "7291533a46563978bc140bc7a6b5eee808dbe39903d9a3f7eb8f86995fa74e44"
+      "sha256": "83b14dd4f85023faa04f0111f25eefddc12e6384967a6ba6674c8a5988542d0c"
     },
     {
       "path": "traveler_metrics.py",
@@ -686,7 +767,7 @@
     },
     {
       "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-      "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      "sha256": "81b475b33e5590334f05037e57047cd40e2aa53c5da2c51a02e2975547272c48"
     },
     {
       "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",

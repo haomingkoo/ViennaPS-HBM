@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/bosch-ray-phase-a-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "campaign", "status", "highest_supported_claim",
+    "sources", "execution", "comparisons", "maximum_absolute_deltas",
+    "repeat_ranges", "categorical_mismatches", "archived_mismatch_checkpoints",
+    "decision", "limits"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "bosch-ray-phase-a-v1"},
+    "status": {"const": "complete_reviewed"},
+    "highest_supported_claim": {"type": "string", "minLength": 1},
+    "sources": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {"$ref": "#/$defs/fileSource"}
+    },
+    "execution": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "planned_runs", "state_counts", "complete_pairs",
+        "symmetric_minimum_depth_guard_pairs",
+        "median_500_to_250_runtime_ratio_on_complete_pairs", "runtime_interpretation"
+      ],
+      "properties": {
+        "planned_runs": {"const": 32},
+        "state_counts": {
+          "type": "object", "additionalProperties": false,
+          "required": ["complete_measured", "failed_deterministic"],
+          "properties": {
+            "complete_measured": {"type": "integer", "minimum": 0},
+            "failed_deterministic": {"type": "integer", "minimum": 0}
+          }
+        },
+        "complete_pairs": {"type": "integer", "minimum": 0},
+        "symmetric_minimum_depth_guard_pairs": {"type": "integer", "minimum": 0},
+        "median_500_to_250_runtime_ratio_on_complete_pairs": {"type": "number", "exclusiveMinimum": 0},
+        "runtime_interpretation": {"type": "string", "minLength": 1}
+      }
+    },
+    "comparisons": {
+      "type": "array", "minItems": 16, "maxItems": 16,
+      "items": {"$ref": "#/$defs/comparison"}
+    },
+    "maximum_absolute_deltas": {
+      "type": "object", "minProperties": 11,
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["value", "pair_id"],
+        "properties": {
+          "value": {"type": "number", "minimum": 0},
+          "pair_id": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "repeat_ranges": {"type": "object", "minProperties": 2},
+    "categorical_mismatches": {
+      "type": "array", "minItems": 1,
+      "items": {"type": "object"}
+    },
+    "archived_mismatch_checkpoints": {
+      "type": "array", "minItems": 8, "maxItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["case_id", "panel_id", "rays_per_point", "path", "sha256"],
+        "properties": {
+          "case_id": {"type": "string", "minLength": 1},
+          "panel_id": {"enum": ["narrow_profile", "availability_challenge"]},
+          "rays_per_point": {"enum": [250, 500]},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["candidate_250_rays", "candidate_500_rays", "reason"],
+      "properties": {
+        "candidate_250_rays": {"const": "rejected_for_phase_b"},
+        "candidate_500_rays": {"const": "requires_fresh_2000_ray_phase_b"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "limits": {
+      "type": "array", "minItems": 5,
+      "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileSource": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "comparison": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "pair_id", "panel_id", "repeat_index", "sources", "states", "runtime_s",
+        "state_match", "availability_match", "selected_cycle_match",
+        "assumed_band_check_matches", "metric_deltas", "failure"
+      ],
+      "properties": {
+        "pair_id": {"type": "string", "minLength": 1},
+        "panel_id": {"type": "string", "minLength": 1},
+        "repeat_index": {"type": "integer", "minimum": 0},
+        "sources": {"type": "object"},
+        "states": {"type": "object"},
+        "runtime_s": {"type": "object"},
+        "state_match": {"type": "boolean"},
+        "availability_match": {"type": ["boolean", "null"]},
+        "selected_cycle_match": {"type": ["boolean", "null"]},
+        "assumed_band_check_matches": {"type": ["object", "null"]},
+        "metric_deltas": {"type": ["object", "null"]},
+        "failure": {"type": ["object", "null"]}
+      }
+    }
+  }
+}

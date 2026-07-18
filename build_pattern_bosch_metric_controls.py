@@ -164,6 +164,9 @@ def build() -> dict:
     narrow_nodes, narrow_lines = full_via_surface(
         lambda _: -0.009, lambda _: 0.009
     )
+    resolved_neck_nodes, resolved_neck_lines = full_via_surface(
+        lambda _: -0.015, lambda _: 0.015
+    )
     full_profile_controls = [
         full_profile_control("full_straight", full_nodes, full_lines),
         full_profile_control("full_wide", wide_nodes, wide_lines),
@@ -176,6 +179,9 @@ def build() -> dict:
         full_profile_control("full_one_wall", one_wall_nodes, one_wall_lines),
         full_profile_control("declared_surface_absent", absent_nodes, full_lines),
         full_profile_control("two_cell_neck", narrow_nodes, narrow_lines),
+        full_profile_control(
+            "three_cell_neck", resolved_neck_nodes, resolved_neck_lines
+        ),
     ]
     expected_states = {
         "full_straight": "complete",
@@ -184,6 +190,7 @@ def build() -> dict:
         "full_one_wall": "valid_categorical_modeled_state",
         "declared_surface_absent": "out_of_scope_region",
         "two_cell_neck": "insufficient_grid_representation",
+        "three_cell_neck": "complete",
     }
     for control in full_profile_controls:
         assert control["result"]["state"] == expected_states[control["id"]]
@@ -201,9 +208,9 @@ def build() -> dict:
         "full_profile_controls": full_profile_controls,
         "checks": checks,
         "claim": (
-            "The legacy extractors respond to the large controlled contrasts, and the full-via wrapper distinguishes complete, out-of-domain, one-wall, absent-surface, and under-resolved states."
+            "The legacy extractors respond to the large controlled contrasts. The full-via wrapper distinguishes complete, out-of-domain, one-wall, absent-surface, and under-resolved states, with availability bracketed between two and three grid cells."
         ),
-        "does_not_prove": "Detection limits, numerical stability, physical calibration, or a process recipe.",
+        "does_not_prove": "Continuous-metric precision, numerical stability, physical calibration, or a process recipe.",
     }
 
 
