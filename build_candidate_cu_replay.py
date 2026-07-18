@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -21,6 +22,7 @@ REVIEW = ROOT / "autoresearch-results/restart_audit/copper_fill_trajectory_summa
 OUTPUT = ROOT / "candidate_cu_replay.json"
 PUBLIC_SOURCE = ROOT / "evidence/copper/candidate_cu_replay_source.json"
 CASE_ID = "baa7937cf12fbec9"
+PROGRAM_SECTION = "Step comparison and handoff rules"
 
 
 def _sha256(path: Path) -> str:
@@ -158,7 +160,27 @@ def _verify(replayed: dict, reviewed: dict) -> None:
             raise ValueError("candidate replay differs from a saved source surface")
 
 
+def _refresh_provenance() -> None:
+    document = json.loads(OUTPUT.read_text())
+    program_hash = _sha256(ROOT / "program.md")
+    for basis in document["target_basis"].values():
+        source = basis["source"]
+        if source["path"] == "program.md":
+            source.update(sha256=program_hash, section=PROGRAM_SECTION)
+    OUTPUT.write_text(
+        json.dumps(document, separators=(",", ":"), allow_nan=False) + "\n"
+    )
+    print(OUTPUT)
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--provenance-only", action="store_true")
+    args = parser.parse_args()
+    if args.provenance_only:
+        _refresh_provenance()
+        return
+
     reviewed, line_number = _source_row()
     case = _replay_case(reviewed)
     with tempfile.TemporaryDirectory(prefix="candidate-cu-replay-") as directory:
@@ -229,7 +251,7 @@ def main() -> None:
                     "section": (
                         "candidate_case"
                         if key == "max_balance_error"
-                        else "Step target specs"
+                        else PROGRAM_SECTION
                     ),
                 },
             }

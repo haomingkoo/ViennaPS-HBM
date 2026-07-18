@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -20,6 +21,7 @@ OUTPUT = ROOT / "bosch_trajectory_replay.json"
 PUBLIC_SOURCE = ROOT / "evidence/bosch/bosch_trajectory_replay_source.json"
 CASE_ID = "aac0e99de49584cc"
 CHECKPOINT_CYCLES = {1, 4, 7, 10, 13, 16, 18}
+PROGRAM_SECTION = "Assumed study comparison bands"
 
 
 def source_row() -> tuple[dict, int]:
@@ -39,7 +41,26 @@ def silicon_path(domain) -> str:
     return tutorial.surface_path(mesh)
 
 
+def _refresh_provenance() -> None:
+    document = json.loads(OUTPUT.read_text())
+    document["target"]["basis"]["source"].update(
+        sha256=checkpoint.file_sha256(ROOT / "program.md"),
+        section=PROGRAM_SECTION,
+    )
+    OUTPUT.write_text(
+        json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    )
+    print(OUTPUT)
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--provenance-only", action="store_true")
+    args = parser.parse_args()
+    if args.provenance_only:
+        _refresh_provenance()
+        return
+
     row, line_number = source_row()
     recipe = row["recipe"]
     geometry = row["geometry"]
@@ -149,7 +170,7 @@ def main() -> None:
                 "source": {
                     "path": "program.md",
                     "sha256": checkpoint.file_sha256(ROOT / "program.md"),
-                    "section": "Declared study product spec",
+                    "section": PROGRAM_SECTION,
                 },
             },
         },

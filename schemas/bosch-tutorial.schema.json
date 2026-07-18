@@ -41,7 +41,7 @@
               "properties": {
                 "path": {"const": "program.md"},
                 "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-                "section": {"const": "Declared study product spec"}
+                "section": {"const": "Assumed study comparison bands"}
               }
             }
           }

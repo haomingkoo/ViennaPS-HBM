@@ -558,11 +558,11 @@
     },
     {
       "path": "build_step_experiments.py",
-      "sha256": "da87df0bede3aa17a3094be86cf33b533450d4c34d83d0739ab44fef86d637a4"
+      "sha256": "576acb05a617a852561b6c704fdc557d2c6a4ef118872eef4851581fe0a43ce3"
     },
     {
       "path": "factor_registry.json",
-      "sha256": "5972d85bb85665c3a1721e4c9f545df9b76b7f8fd7a0dc87c7e03f98574e9a4e"
+      "sha256": "cf1857abc6c271e723f9443cfcf58458fb47c7e9873648d883f34d907af27eda"
     },
     {
       "path": "process_config.py",

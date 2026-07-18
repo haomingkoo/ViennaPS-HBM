@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 from importlib.metadata import version
 import json
@@ -25,6 +26,37 @@ GEOMETRY = PROCESS_CONFIG["defaults"]["geometry"]
 TARGETS = PROCESS_CONFIG["targets"]
 SURFACE_Y = CONFIG["surface_y"]
 MAX_RADIUS = CONFIG["profile_max_radius"]
+
+
+def _refresh_provenance():
+    data = json.loads(OUTPUT.read_text())
+    hashes = {
+        "program.md": checkpoint.file_sha256("program.md"),
+        "build_step_experiments.py": checkpoint.file_sha256(Path(__file__)),
+    }
+    section_names = {
+        "Declared study product spec": "Assumed study comparison bands",
+        "Step target specs": "Step comparison and handoff rules",
+    }
+
+    def visit(value):
+        if isinstance(value, dict):
+            path = value.get("path")
+            if path in hashes and "sha256" in value:
+                value["sha256"] = hashes[path]
+            section = value.get("section")
+            if section in section_names:
+                value["section"] = section_names[section]
+            for child in value.values():
+                visit(child)
+        elif isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    visit(data)
+    data["provenance"]["builder_sha256"] = hashes["build_step_experiments.py"]
+    OUTPUT.write_text(json.dumps(data, separators=(",", ":")) + "\n")
+    print(OUTPUT)
 
 
 def _surface_path(mesh):
@@ -147,7 +179,10 @@ def _mask_study():
             "basis": {
                 "classification": "assumed_study_target",
                 "physical_qualification": False,
-                "source": {"path": "program.md", "section": "Step target specs"},
+                "source": {
+                    "path": "program.md",
+                    "section": "Step comparison and handoff rules",
+                },
             },
             "rules": [
                 {
@@ -260,7 +295,7 @@ def _bosch_study():
                 "physical_qualification": False,
                 "source": {
                     "path": "program.md",
-                    "section": "Declared study product spec",
+                    "section": "Assumed study comparison bands",
                 },
             },
             "rules": [
@@ -364,7 +399,10 @@ def _liner_study():
             "basis": {
                 "classification": "assumed_study_target",
                 "physical_qualification": False,
-                "source": {"path": "program.md", "section": "Step target specs"},
+                "source": {
+                    "path": "program.md",
+                    "section": "Step comparison and handoff rules",
+                },
             },
             "rules": [
                 {
@@ -446,7 +484,10 @@ def _barrier_study():
             "basis": {
                 "classification": "assumed_study_target",
                 "physical_qualification": False,
-                "source": {"path": "program.md", "section": "Step target specs"},
+                "source": {
+                    "path": "program.md",
+                    "section": "Step comparison and handoff rules",
+                },
             },
             "rules": [
                 {
@@ -528,7 +569,10 @@ def _seed_study():
             "basis": {
                 "classification": "no_limit_declared",
                 "physical_qualification": False,
-                "source": {"path": "program.md", "section": "Step target specs"},
+                "source": {
+                    "path": "program.md",
+                    "section": "Step comparison and handoff rules",
+                },
             },
             "rules": [],
         },
@@ -614,7 +658,10 @@ def _cmp_study():
             "basis": {
                 "classification": "no_limit_declared",
                 "physical_qualification": False,
-                "source": {"path": "program.md", "section": "Step target specs"},
+                "source": {
+                    "path": "program.md",
+                    "section": "Step comparison and handoff rules",
+                },
             },
             "rules": [],
         },
@@ -795,6 +842,13 @@ def _failure_chain():
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--provenance-only", action="store_true")
+    args = parser.parse_args()
+    if args.provenance_only:
+        _refresh_provenance()
+        return
+
     ps.setDimension(2)
     ps.setNumThreads(4)
     data = {

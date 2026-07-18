@@ -220,7 +220,7 @@ def main() -> None:
                 "source": {
                     "path": "program.md",
                     "sha256": checkpoint.file_sha256(ROOT / "program.md"),
-                    "section": "Declared study product spec",
+                    "section": "Assumed study comparison bands",
                 },
             },
             "depth": ETCH_TARGETS["target_depth"],
