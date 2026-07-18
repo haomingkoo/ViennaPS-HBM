@@ -14,7 +14,11 @@
     "previous_event_hash", "event_hash"
   ],
   "properties": {
-    "timestamp": {"type": "string", "format": "date-time"},
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$"
+    },
     "manifest_id": {"type": "string", "minLength": 1},
     "manifest_version": {"type": "integer", "minimum": 1},
     "manifest_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
