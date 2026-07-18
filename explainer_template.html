@@ -706,7 +706,7 @@
     <figure class="software-diagram">
       <svg viewBox="0 0 900 235" role="img" aria-labelledby="software-title software-desc">
         <title id="software-title">The ViennaPS process loop</title>
-        <desc id="software-desc">The current material geometry, process model, and duration enter a process call. The call updates the geometry. Measurements are saved before the next TSV step begins.</desc>
+        <desc id="software-desc">The current material geometry, model controls, and duration enter a process call. The call updates the geometry. Measurements guide the next tested model settings. Equipment calibration remains outside this loop.</desc>
         <rect width="900" height="235" fill="var(--surface)"/>
         <g font-family="var(--sans)" fill="var(--ink)">
           <g transform="translate(28 32)">
@@ -714,8 +714,8 @@
             <text x="16" y="21" font-size="12" font-weight="700">Current domain</text>
             <text x="16" y="37" font-size="11" fill="var(--ink-dim)">Materials and boundaries</text>
             <rect y="62" width="180" height="48" fill="var(--surface-2)" stroke="var(--line)"/>
-            <text x="16" y="83" font-size="12" font-weight="700">Process model</text>
-            <text x="16" y="99" font-size="11" fill="var(--ink-dim)">Deposition or removal</text>
+            <text x="16" y="83" font-size="12" font-weight="700">Model + controls</text>
+            <text x="16" y="99" font-size="11" fill="var(--ink-dim)">Rates, sticking, direction</text>
             <rect y="124" width="180" height="48" fill="var(--surface-2)" stroke="var(--line)"/>
             <text x="16" y="145" font-size="12" font-weight="700">Duration</text>
             <text x="16" y="161" font-size="11" fill="var(--ink-dim)">How long the model runs</text>
@@ -740,9 +740,12 @@
             <text x="56" y="38" text-anchor="middle" font-size="12" font-weight="700">Measure</text>
             <text x="56" y="58" text-anchor="middle" font-size="11" fill="var(--ink-dim)">Check and save</text>
           </g>
+          <path d="M818 170V214H118V158" fill="none" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <path d="M112 166l6-10 6 10" fill="var(--warn)"/>
+          <text x="468" y="208" text-anchor="middle" font-size="11" fill="var(--ink-dim)">Measurements guide the next tested model settings</text>
         </g>
       </svg>
-      <figcaption>Each step changes the shape. <code>build_screening_traveler.py</code> runs the steps and records the measurements.</figcaption>
+      <figcaption>Each step changes the shape. <code>build_screening_traveler.py</code> runs the steps and records the measurements. Mapping equipment settings into model controls requires separate calibration.</figcaption>
     </figure>
     <p class="note">The software stores the outline of each material. This page shows one 2D slice through the via.</p>
   </section>
@@ -1590,7 +1593,9 @@ function buildFailureChain() {
     tabs.querySelectorAll('button').forEach((button, buttonIndex) => {
       button.setAttribute('aria-pressed', buttonIndex === index);
     });
-    root.querySelector('.output-status').textContent = frame.outcome;
+    root.querySelector('.output-status').textContent = index > 1
+      ? `Diagnostic continuation — the dry-etch handoff already failed. ${frame.outcome}`
+      : frame.outcome;
     root.querySelector('.output-status').className = `output-status ${index === 0 ? 'pass' : 'miss'}`;
     const viewBox = chain.view_box;
     root.querySelector('.output-figure').innerHTML = `<svg viewBox="${viewBox.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">

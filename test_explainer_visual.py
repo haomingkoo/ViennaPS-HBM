@@ -59,6 +59,7 @@ def assert_step_viewers(page):
     chain = page.locator("#failure-chain-viewer")
     start_path = chain.locator('path[data-chain-material="silicon"]').get_attribute("d")
     chain.get_by_role("button", name="Copper fill", exact=True).click()
+    assert "Diagnostic continuation" in chain.locator(".output-status").inner_text()
     assert "traps a void" in chain.locator(".output-status").inner_text().lower()
     assert chain.locator('path[data-chain-material="copper"]').count() == 1
     assert chain.locator('path[data-chain-material="silicon"]').get_attribute("d") != start_path
