@@ -1650,19 +1650,18 @@ function boschMetric(value, digits = 3) {
 }
 
 function profileScorecard(metric) {
-  const relative = value => value == null ? 'not measurable' : `${(100 * value / BOSCH.targets.target_cd).toFixed(1)}%`;
   return `<div class="profile-scorecard" aria-label="Compact profile scorecard">
-    <div><span>Overall shape error</span><b>${relative(metric.profile_shape_rmse)}</b><small>of target width</small></div>
-    <div><span>Symmetry error</span><b>${relative(metric.profile_symmetry_rms)}</b><small>of target width</small></div>
     <div><span>Depth</span><b>${boschMetric(metric.depth)}</b><small>target ${BOSCH.targets.depth.toFixed(2)}</small></div>
-    <div><span>Worst mismatch</span><b>${relative(metric.profile_max_deviation)}</b><small>of target width</small></div>
+    <div><span>Top / middle / bottom CD</span><b>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</b><small>model units</small></div>
+    <div><span>Wall bow</span><b>${boschMetric(metric.bow)}</b><small>model units</small></div>
+    <div><span>Sidewall angle</span><b>${boschMetric(metric.sidewall_angle_deg, 2)}°</b><small>0° is vertical</small></div>
   </div>`;
 }
 
 function profileShapeDiagnosis(metric) {
   if (metric.profile_shape_rmse == null) return 'Wall shape measured; the floor could not be measured reliably';
   const largestRegion = metric.profile_floor_rmse > metric.profile_wall_rmse ? 'floor' : 'walls';
-  return `Closest mismatch is concentrated at the ${largestRegion}`;
+  return `Additional outline check: most difference is in the ${largestRegion}`;
 }
 
 function boschMeasurementOverlay(metric) {
@@ -1762,8 +1761,9 @@ function renderMultiFactor() {
     <p>Dashed outline: target depth ${BOSCH.targets.depth.toFixed(2)} and width ${BOSCH.targets.target_cd.toFixed(2)}. The selected depth is ${Math.abs(depthDifference).toFixed(3)} ${depthDifference < 0 ? 'shorter' : 'deeper'}. ${profileShapeDiagnosis(metric)}.</p>
     ${profileScorecard(metric)}
     <dl>${controls}
-      <dt>Top / middle / bottom width</dt><dd>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</dd>
-      <dt>Floor peak-to-valley</dt><dd>${boschMetric(metric.floor_flatness_pv)}</dd>
+      <dt>Overall outline difference</dt><dd>${metric.profile_shape_rmse == null ? 'not measurable' : `${(100 * metric.profile_shape_rmse / BOSCH.targets.target_cd).toFixed(1)}% of target CD`}</dd>
+      <dt>Left–right symmetry diagnostic</dt><dd>${metric.profile_symmetry_rms == null ? 'not measurable' : `${(100 * metric.profile_symmetry_rms / BOSCH.targets.target_cd).toFixed(1)}% of target CD`}</dd>
+      <dt>Bottom-shape diagnostic</dt><dd>${boschMetric(metric.floor_flatness_pv)} model units</dd>
       <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
       <dt>Saved cycle</dt><dd>${metric.selected_cycle}</dd>
       <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
@@ -1800,8 +1800,9 @@ function renderBoschCase(row) {
     <p>Dashed outline: assumed teaching target. Measurement bars show where the reported geometry is read.</p>
     ${profileScorecard(metric)}
     <dl>
-      <dt>Top / middle / bottom width</dt><dd>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</dd>
-      <dt>Floor peak-to-valley</dt><dd>${boschMetric(metric.floor_flatness_pv)}</dd>
+      <dt>Overall outline difference</dt><dd>${metric.profile_shape_rmse == null ? 'not measurable' : `${(100 * metric.profile_shape_rmse / BOSCH.targets.target_cd).toFixed(1)}% of target CD`}</dd>
+      <dt>Left–right symmetry diagnostic</dt><dd>${metric.profile_symmetry_rms == null ? 'not measurable' : `${(100 * metric.profile_symmetry_rms / BOSCH.targets.target_cd).toFixed(1)}% of target CD`}</dd>
+      <dt>Bottom-shape diagnostic</dt><dd>${boschMetric(metric.floor_flatness_pv)} model units</dd>
       <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
       <dt>Selected cycle</dt><dd>${metric.selected_cycle}</dd>
       <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>

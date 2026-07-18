@@ -28,6 +28,8 @@ with its dotted teaching target:
 - `profile_max_deviation` reports the largest sampled miss;
 - `profile_symmetry_rms` combines wall-center shift and paired floor-height
   differences;
+- `floor_flatness_pv` reports the vertical distance between the highest and
+  lowest sampled points on the floor. The page calls this floor unevenness;
 - depth remains separate and visible.
 
 The page displays the three distance values as a percentage of target width.

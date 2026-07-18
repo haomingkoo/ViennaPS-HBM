@@ -129,8 +129,8 @@ def assert_bosch_interactions(page):
     lab.locator("#bosch-pair-picker button[data-pair='ion_source_exponent|ion_rate']").click()
     assert lab.locator("#bosch-corners button").count() == 4
     assert "2/4 are inside" in lab.locator("#bosch-pair-result").inner_text()
-    assert "Overall shape error" in lab.locator("#bosch-read").inner_text()
-    assert "Symmetry error" in lab.locator("#bosch-read").inner_text()
+    assert "Top / middle / bottom CD" in lab.locator("#bosch-read").inner_text()
+    assert "Sidewall angle" in lab.locator("#bosch-read").inner_text()
     assert lab.locator('a[href*="v3_bosch_cheap_interactions_rows.jsonl"]').count() == 1
 
 
@@ -148,9 +148,8 @@ def assert_bosch_multifactor(page):
     readout = lab.locator("#bosch-multifactor-read").inner_text()
     assert "Etch phase time per cycle" in readout
     assert "Neutral surface-reaction probability" in readout
-    assert "Top / middle / bottom width" in readout
-    assert "Overall shape error" in readout
-    assert "Floor peak-to-valley" in readout
+    assert "Top / middle / bottom CD" in readout
+    assert "Bottom-shape diagnostic" in readout
     assert lab.locator('a[href="bosch_tutorial_data.json"]').count() == 1
 
 

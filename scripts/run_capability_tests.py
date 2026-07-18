@@ -95,6 +95,7 @@ TESTS_BY_RUNTIME = {
         "test_pattern_bosch_range_pilot_runner.py",
         "test_process_config.py",
         "test_process_reproducibility.py",
+        "test_profile_shape_metrics.py",
         "test_publication_data.py",
         "test_review_bosch_cycle_history.py",
         "test_review_foundation_layer_audit.py",
