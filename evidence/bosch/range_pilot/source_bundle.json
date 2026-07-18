@@ -736,7 +736,7 @@
       "sha256": "48c30de3ff2b37f803747df9aff2ff40ed0f898ff01c3013a9ebcb4c966fc85e"
     },
     {
-      "path": "pattern_bosch_measurement_contract.json",
+      "path": "evidence/bosch/range_pilot/executed_sources/pattern_bosch_measurement_contract.json",
       "sha256": "284e1cf68049a7ca1f5ba3a6b17d45de1b119acc10b1db2d572abd3e5371b1b0"
     },
     {
@@ -6328,6 +6328,12 @@
       "archive_sha256": "48a789d0e1a8cf4a56fce78c293a8369a9a5a1580c1d736fe68a5c515aa43324",
       "manifest_path": "build_knob_registry.py",
       "manifest_sha256": "48a789d0e1a8cf4a56fce78c293a8369a9a5a1580c1d736fe68a5c515aa43324"
+    },
+    {
+      "archive_path": "evidence/bosch/range_pilot/executed_sources/pattern_bosch_measurement_contract.json",
+      "archive_sha256": "284e1cf68049a7ca1f5ba3a6b17d45de1b119acc10b1db2d572abd3e5371b1b0",
+      "manifest_path": "pattern_bosch_measurement_contract.json",
+      "manifest_sha256": "284e1cf68049a7ca1f5ba3a6b17d45de1b119acc10b1db2d572abd3e5371b1b0"
     }
   ]
 }

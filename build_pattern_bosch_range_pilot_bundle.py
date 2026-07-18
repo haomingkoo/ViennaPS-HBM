@@ -21,6 +21,7 @@ EXECUTED_EVENT_SCHEMA = ROOT / "evidence/bosch/range_pilot/executed_sources/auto
 EXECUTED_REGISTRY_BUILDER = ROOT / "evidence/bosch/range_pilot/executed_sources/build_knob_registry.py"
 EXECUTED_FACTOR_REGISTRY = ROOT / "evidence/bosch/range_pilot/executed_sources/factor_registry.json"
 EXECUTED_FACTOR_PROJECTION = ROOT / "evidence/bosch/range_pilot/executed_sources/pattern_bosch_factor_projection.json"
+EXECUTED_MEASUREMENT_CONTRACT = ROOT / "evidence/bosch/range_pilot/executed_sources/pattern_bosch_measurement_contract.json"
 
 
 def _sha256(path: Path) -> str:
@@ -107,6 +108,13 @@ def build() -> dict:
     executed_registry_builder_hash = executed_registry["provenance"]["builder"]["sha256"]
     if _sha256(EXECUTED_REGISTRY_BUILDER) != executed_registry_builder_hash:
         raise ValueError("archived registry builder differs from the executed registry")
+    executed_measurement_hash = next(
+        source["sha256"]
+        for source in parent_manifest["sources"]
+        if source["path"] == "pattern_bosch_measurement_contract.json"
+    )
+    if _sha256(EXECUTED_MEASUREMENT_CONTRACT) != executed_measurement_hash:
+        raise ValueError("archived measurement contract differs from the executed manifest")
     parent_events = _events(PARENT_EVENTS, 25)
     recovery_events = _events(RECOVERY_EVENTS, 7)
     recovery_by_case = {row["case_key"]: row for row in recovery_events}
@@ -167,6 +175,12 @@ def build() -> dict:
                 "archive_path": str(EXECUTED_REGISTRY_BUILDER.relative_to(ROOT)),
                 "archive_sha256": _sha256(EXECUTED_REGISTRY_BUILDER),
             },
+            {
+                "manifest_path": "pattern_bosch_measurement_contract.json",
+                "manifest_sha256": executed_measurement_hash,
+                "archive_path": str(EXECUTED_MEASUREMENT_CONTRACT.relative_to(ROOT)),
+                "archive_sha256": _sha256(EXECUTED_MEASUREMENT_CONTRACT),
+            },
         ],
         "raw_sources": [
             {"path": str(PARENT_EVENTS.relative_to(ROOT)), "sha256": _sha256(PARENT_EVENTS), "committed": False},
@@ -175,7 +189,7 @@ def build() -> dict:
         "committed_sources": [
             {"path": str(PARENT_MANIFEST.relative_to(ROOT)), "sha256": _sha256(PARENT_MANIFEST)},
             {"path": str(RECOVERY_MANIFEST.relative_to(ROOT)), "sha256": _sha256(RECOVERY_MANIFEST)},
-            {"path": "pattern_bosch_measurement_contract.json", "sha256": _sha256(ROOT / "pattern_bosch_measurement_contract.json")},
+            {"path": str(EXECUTED_MEASUREMENT_CONTRACT.relative_to(ROOT)), "sha256": _sha256(EXECUTED_MEASUREMENT_CONTRACT)},
             {"path": str(EXECUTED_EVENT_SCHEMA.relative_to(ROOT)), "sha256": _sha256(EXECUTED_EVENT_SCHEMA)},
             {"path": str(EXECUTED_FACTOR_PROJECTION.relative_to(ROOT)), "sha256": _sha256(EXECUTED_FACTOR_PROJECTION)},
             {"path": str(EXECUTED_FACTOR_REGISTRY.relative_to(ROOT)), "sha256": _sha256(EXECUTED_FACTOR_REGISTRY)},

@@ -2099,7 +2099,7 @@
   "sources": [
     {
       "path": "evidence/bosch/range_pilot/source_bundle.json",
-      "sha256": "4b8d92a2d9133b37d6ee4a6f202f62ca38dbcb1efd251dee7749812ece3e6454"
+      "sha256": "ba93d810a3acfb01c0f20c31836c06fdd4e34eff697dabf60f0043673fc1c1d3"
     },
     {
       "path": "pattern_bosch_range_pilot_design.json",
@@ -2111,7 +2111,7 @@
     },
     {
       "path": "pattern_bosch_measurement_contract.json",
-      "sha256": "284e1cf68049a7ca1f5ba3a6b17d45de1b119acc10b1db2d572abd3e5371b1b0"
+      "sha256": "17405b291dd7b0bbcae7bb631e553717c3d4a1ee36ac8b9736d1b8ca6bb15905"
     }
   ]
 }
