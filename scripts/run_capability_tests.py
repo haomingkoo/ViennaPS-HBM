@@ -137,6 +137,7 @@ TESTS_BY_RUNTIME = {
         "test_pattern_bosch_factor_projection.py",
         "test_pattern_bosch_measurement_contract.py",
         "test_pattern_bosch_metric_controls.py",
+        "test_pattern_bosch_unavailable_profile_review.py",
         "test_pattern_bosch_range_pilot.py",
         "test_pattern_bosch_range_pilot_bundle.py",
         "test_pattern_bosch_range_pilot_recovery.py",

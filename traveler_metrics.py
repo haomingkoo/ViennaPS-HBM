@@ -447,6 +447,230 @@ def etch_profile_metrics_2d(
     }
 
 
+def measure_full_via_profile_2d(
+    nodes,
+    lines,
+    *,
+    surface_y,
+    target_cd,
+    domain_x_bounds,
+    grid_delta,
+    search_x_bounds=None,
+    center_x=0.0,
+    top_fraction=0.10,
+    middle_fraction=0.50,
+    bottom_fraction=0.85,
+    sample_count=76,
+    minimum_feature_cells=2.0,
+):
+    """Measure a full 2D via or return why its profile is unavailable."""
+    points = np.asarray(nodes, dtype=float)
+    segments = np.asarray(lines, dtype=int)
+    if points.ndim != 2 or points.shape[1] < 2 or not len(points):
+        raise ValueError("silicon nodes must be a non-empty Nx2-or-greater array")
+    if not len(segments):
+        raise ValueError("silicon lines must be non-empty")
+    if not grid_delta > 0:
+        raise ValueError("grid_delta must be positive")
+    if not domain_x_bounds[0] < center_x < domain_x_bounds[1]:
+        raise ValueError("center_x must lie inside domain_x_bounds")
+    if search_x_bounds is None:
+        search_x_bounds = domain_x_bounds
+    if not (
+        domain_x_bounds[0] <= search_x_bounds[0] < center_x
+        and center_x < search_x_bounds[1] <= domain_x_bounds[1]
+    ):
+        raise ValueError("search_x_bounds must straddle center_x inside the domain")
+    if not 0 < top_fraction < middle_fraction < bottom_fraction < 1:
+        raise ValueError("CD fractions must satisfy 0 < top < middle < bottom < 1")
+    if sample_count < 8:
+        raise ValueError("sample_count must be at least 8")
+
+    mesh_bounds = {
+        "x_min": float(points[:, 0].min()),
+        "x_max": float(points[:, 0].max()),
+        "y_min": float(points[:, 1].min()),
+        "y_max": float(points[:, 1].max()),
+    }
+    surface_xs = line_intersections_at_y(
+        points, segments, surface_y, x_bounds=domain_x_bounds
+    )
+    diagnostics = {
+        "mesh_bounds": mesh_bounds,
+        "surface_intersections": surface_xs.tolist(),
+        "floor_candidates": [],
+        "requested_y_range": None,
+        "sample_count": sample_count,
+        "samples_with_left_wall": 0,
+        "samples_with_right_wall": 0,
+        "samples_with_both_walls_in_domain": 0,
+        "samples_with_both_walls_in_search": 0,
+        "minimum_width_cells": None,
+        "sample_records": [],
+    }
+
+    if not len(surface_xs):
+        return {
+            "state": "out_of_scope_region",
+            "reason_codes": ["declared_wafer_surface_absent"],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+
+    floor_candidates = line_intersections_at_x(
+        points,
+        segments,
+        center_x,
+        y_bounds=(mesh_bounds["y_min"], surface_y),
+    )
+    floor_candidates = floor_candidates[floor_candidates < surface_y]
+    diagnostics["floor_candidates"] = floor_candidates.tolist()
+    if not len(floor_candidates):
+        return {
+            "state": "valid_categorical_modeled_state",
+            "reason_codes": ["via_floor_absent_at_declared_center"],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+
+    floor_y = float(floor_candidates.min())
+    depth = float(surface_y - floor_y)
+    fractions = np.linspace(top_fraction, bottom_fraction, sample_count)
+    sample_ys = surface_y - fractions * depth
+    diagnostics["requested_y_range"] = [
+        float(sample_ys.min()),
+        float(sample_ys.max()),
+    ]
+
+    widths = []
+    centers = []
+    search_missing = False
+    domain_missing = False
+    for y in sample_ys:
+        domain_xs = line_intersections_at_y(
+            points, segments, y, x_bounds=domain_x_bounds
+        )
+        left = domain_xs[domain_xs < center_x]
+        right = domain_xs[domain_xs > center_x]
+        diagnostics["samples_with_left_wall"] += int(bool(len(left)))
+        diagnostics["samples_with_right_wall"] += int(bool(len(right)))
+        if not len(left) or not len(right):
+            domain_missing = True
+            diagnostics["sample_records"].append({
+                "y": float(y),
+                "domain_intersections_x": domain_xs.tolist(),
+                "accepted_intersections_x": [],
+                "rejected_intersections_x": domain_xs.tolist(),
+                "left_wall_x": float(left.max()) if len(left) else None,
+                "right_wall_x": float(right.min()) if len(right) else None,
+                "wall_pair_status": "missing_in_domain",
+            })
+            continue
+        diagnostics["samples_with_both_walls_in_domain"] += 1
+        left_x = float(left.max())
+        right_x = float(right.min())
+        widths.append(right_x - left_x)
+        centers.append(0.5 * (left_x + right_x))
+
+        search_xs = line_intersections_at_y(
+            points, segments, y, x_bounds=search_x_bounds
+        )
+        search_left = search_xs[search_xs < center_x]
+        search_right = search_xs[search_xs > center_x]
+        if len(search_left) and len(search_right):
+            diagnostics["samples_with_both_walls_in_search"] += 1
+            accepted = [float(search_left.max()), float(search_right.min())]
+            status = "complete"
+        else:
+            search_missing = True
+            accepted = []
+            status = "outside_search_bounds"
+        diagnostics["sample_records"].append({
+            "y": float(y),
+            "domain_intersections_x": domain_xs.tolist(),
+            "accepted_intersections_x": accepted,
+            "rejected_intersections_x": [
+                float(value)
+                for value in domain_xs
+                if value < search_x_bounds[0] or value > search_x_bounds[1]
+            ],
+            "left_wall_x": left_x,
+            "right_wall_x": right_x,
+            "wall_pair_status": status,
+        })
+
+    if domain_missing:
+        reason = (
+            "one_full_via_wall_absent"
+            if not diagnostics["samples_with_left_wall"]
+            or not diagnostics["samples_with_right_wall"]
+            else "sampling_path_interrupted"
+        )
+        return {
+            "state": "valid_categorical_modeled_state",
+            "reason_codes": [reason],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+    if search_missing:
+        return {
+            "state": "extractor_domain_failure",
+            "reason_codes": ["walls_outside_declared_search_bounds"],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+
+    widths = np.asarray(widths, dtype=float)
+    half_widths = 0.5 * widths
+    centers = np.asarray(centers, dtype=float)
+    minimum_width_cells = float(widths.min() / grid_delta)
+    diagnostics["minimum_width_cells"] = minimum_width_cells
+    if minimum_width_cells <= minimum_feature_cells:
+        return {
+            "state": "insufficient_grid_representation",
+            "reason_codes": ["minimum_width_at_or_below_cell_threshold"],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+
+    depth_positions = fractions * depth
+    top_index = 0
+    middle_index = int(np.argmin(np.abs(fractions - middle_fraction)))
+    bottom_index = len(fractions) - 1
+    chord_slope = (
+        (half_widths[bottom_index] - half_widths[top_index])
+        / ((bottom_fraction - top_fraction) * depth)
+    )
+    straight_wall = half_widths[top_index] + chord_slope * (
+        depth_positions - top_fraction * depth
+    )
+    smooth_profile = np.polyval(
+        np.polyfit(depth_positions, half_widths, min(3, sample_count - 1)),
+        depth_positions,
+    )
+    metrics = {
+        "depth": depth,
+        "cd_top": float(widths[top_index]),
+        "cd_middle": float(widths[middle_index]),
+        "cd_bottom": float(widths[bottom_index]),
+        "cd_min": float(widths.min()),
+        "cd_max": float(widths.max()),
+        "max_cd_error": float(np.max(np.abs(widths - target_cd))),
+        "sidewall_angle_deg": float(math.degrees(math.atan(-chord_slope))),
+        "max_bow": float(np.max(np.abs(half_widths - straight_wall))),
+        "scallop_rms": float(
+            np.sqrt(np.mean((half_widths - smooth_profile) ** 2))
+        ),
+        "maximum_center_shift": float(np.max(np.abs(centers - center_x))),
+    }
+    return {
+        "state": "complete",
+        "reason_codes": [],
+        "metrics": metrics,
+        "diagnostics": diagnostics,
+    }
+
+
 def point_to_polyline_distances(points, boundary_nodes, boundary_lines):
     """Minimum Euclidean distance from each point to a 2D polyline."""
     query = np.asarray(points, dtype=float)[:, :2]

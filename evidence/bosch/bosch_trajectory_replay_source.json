@@ -6,13 +6,13 @@
     "replayed_surface_sha256": "51a3188dd37256f9500cd7f2a9c3c1025d07dd7e7426981c7a985f91d510e67e"
   },
   "origin": {
-    "native_checkpoint_file": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows_checkpoints/aac0e99de49584cc_cycle018.vpsd",
+    "native_checkpoint_file": "evidence/bosch/tutorial_checkpoints/aac0e99de49584cc_cycle018.vpsd",
     "native_checkpoint_sha256": "d93e8318fffbcca5c38eb1e3e0ed9393ccdf6db729018bc37a966fe14915b92f",
     "rows_file": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl",
     "rows_line_number": 6,
     "rows_sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "source_row": {
     "anchor_reasons": [
       "interior_response_surface"
@@ -27,7 +27,7 @@
     "case_id": "aac0e99de49584cc",
     "case_payload_sha256": "aac0e99de49584cc70eafca87aaeff75255d0b52aa29848c6dc5bbdd028ec69d",
     "checkpoint_format": "ViennaPS .vpsd",
-    "checkpoint_path": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows_checkpoints/aac0e99de49584cc_cycle018.vpsd",
+    "checkpoint_path": "evidence/bosch/tutorial_checkpoints/aac0e99de49584cc_cycle018.vpsd",
     "checkpoint_sha256": "d93e8318fffbcca5c38eb1e3e0ed9393ccdf6db729018bc37a966fe14915b92f",
     "cycle_history": [
       {

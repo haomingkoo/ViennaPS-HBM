@@ -139,18 +139,241 @@
     "short_mask_changes_height": true,
     "taper_changes_top_vs_bottom_width": true
   },
-  "claim": "The extractors distinguish these controlled geometry changes.",
+  "claim": "The legacy extractors respond to the large controlled contrasts, and the full-via wrapper distinguishes complete, out-of-domain, one-wall, absent-surface, and under-resolved states.",
   "does_not_prove": "Detection limits, numerical stability, physical calibration, or a process recipe.",
-  "schema_version": 1,
+  "full_profile_controls": [
+    {
+      "id": "full_straight",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [
+            -1.0
+          ],
+          "mesh_bounds": {
+            "x_max": 0.15,
+            "x_min": -0.15,
+            "y_max": -0.0,
+            "y_min": -1.0
+          },
+          "minimum_width_cells": 30.0,
+          "requested_y_range": [
+            -0.85,
+            -0.1
+          ],
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 76,
+          "samples_with_both_walls_in_search": 76,
+          "samples_with_left_wall": 76,
+          "samples_with_right_wall": 76,
+          "surface_intersections": [
+            -0.15,
+            0.15
+          ]
+        },
+        "metrics": {
+          "cd_bottom": 0.3,
+          "cd_max": 0.3,
+          "cd_middle": 0.3,
+          "cd_min": 0.3,
+          "cd_top": 0.3,
+          "depth": 1.0,
+          "max_bow": 0.0,
+          "max_cd_error": 0.0,
+          "maximum_center_shift": 0.0,
+          "scallop_rms": 1.2542649920820667e-16,
+          "sidewall_angle_deg": -0.0
+        },
+        "reason_codes": [],
+        "state": "complete"
+      }
+    },
+    {
+      "id": "full_wide",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [
+            -1.0
+          ],
+          "mesh_bounds": {
+            "x_max": 0.4,
+            "x_min": -0.4,
+            "y_max": -0.0,
+            "y_min": -1.0
+          },
+          "minimum_width_cells": 80.0,
+          "requested_y_range": [
+            -0.85,
+            -0.1
+          ],
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 76,
+          "samples_with_both_walls_in_search": 76,
+          "samples_with_left_wall": 76,
+          "samples_with_right_wall": 76,
+          "surface_intersections": [
+            -0.4,
+            0.4
+          ]
+        },
+        "metrics": {
+          "cd_bottom": 0.8,
+          "cd_max": 0.8,
+          "cd_middle": 0.8,
+          "cd_min": 0.8,
+          "cd_top": 0.8,
+          "depth": 1.0,
+          "max_bow": 0.0,
+          "max_cd_error": 0.5,
+          "maximum_center_shift": 0.0,
+          "scallop_rms": 2.682703134521849e-16,
+          "sidewall_angle_deg": -0.0
+        },
+        "reason_codes": [],
+        "state": "complete"
+      }
+    },
+    {
+      "id": "full_wide_legacy_window",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [
+            -1.0
+          ],
+          "mesh_bounds": {
+            "x_max": 0.4,
+            "x_min": -0.4,
+            "y_max": -0.0,
+            "y_min": -1.0
+          },
+          "minimum_width_cells": null,
+          "requested_y_range": [
+            -0.85,
+            -0.1
+          ],
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 76,
+          "samples_with_both_walls_in_search": 0,
+          "samples_with_left_wall": 76,
+          "samples_with_right_wall": 76,
+          "surface_intersections": [
+            -0.4,
+            0.4
+          ]
+        },
+        "metrics": null,
+        "reason_codes": [
+          "walls_outside_declared_search_bounds"
+        ],
+        "state": "extractor_domain_failure"
+      }
+    },
+    {
+      "id": "full_one_wall",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [
+            -1.0
+          ],
+          "mesh_bounds": {
+            "x_max": 0.0,
+            "x_min": -0.15,
+            "y_max": -0.0,
+            "y_min": -1.0
+          },
+          "minimum_width_cells": null,
+          "requested_y_range": [
+            -0.85,
+            -0.1
+          ],
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 0,
+          "samples_with_both_walls_in_search": 0,
+          "samples_with_left_wall": 76,
+          "samples_with_right_wall": 0,
+          "surface_intersections": [
+            -0.15
+          ]
+        },
+        "metrics": null,
+        "reason_codes": [
+          "one_full_via_wall_absent"
+        ],
+        "state": "valid_categorical_modeled_state"
+      }
+    },
+    {
+      "id": "declared_surface_absent",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [],
+          "mesh_bounds": {
+            "x_max": 0.15,
+            "x_min": -0.15,
+            "y_max": -2.0,
+            "y_min": -3.0
+          },
+          "minimum_width_cells": null,
+          "requested_y_range": null,
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 0,
+          "samples_with_both_walls_in_search": 0,
+          "samples_with_left_wall": 0,
+          "samples_with_right_wall": 0,
+          "surface_intersections": []
+        },
+        "metrics": null,
+        "reason_codes": [
+          "declared_wafer_surface_absent"
+        ],
+        "state": "out_of_scope_region"
+      }
+    },
+    {
+      "id": "two_cell_neck",
+      "result": {
+        "diagnostics": {
+          "floor_candidates": [
+            -1.0
+          ],
+          "mesh_bounds": {
+            "x_max": 0.009,
+            "x_min": -0.009,
+            "y_max": -0.0,
+            "y_min": -1.0
+          },
+          "minimum_width_cells": 1.7999999999999998,
+          "requested_y_range": [
+            -0.85,
+            -0.1
+          ],
+          "sample_count": 76,
+          "samples_with_both_walls_in_domain": 76,
+          "samples_with_both_walls_in_search": 76,
+          "samples_with_left_wall": 76,
+          "samples_with_right_wall": 76,
+          "surface_intersections": [
+            -0.009,
+            0.009
+          ]
+        },
+        "metrics": null,
+        "reason_codes": [
+          "minimum_width_at_or_below_cell_threshold"
+        ],
+        "state": "insufficient_grid_representation"
+      }
+    }
+  ],
+  "schema_version": 2,
   "scope": "Synthetic geometry controls for measurement code; not simulated process outcomes.",
   "sources": [
     {
       "path": "build_pattern_bosch_metric_controls.py",
-      "sha256": "a53eda835c4c1fa01e0d10e1098bea3245edd47e2f8efdd13452642e098a5d5c"
+      "sha256": "71a7055be92ed13dc1afcf3236a326a9a4ca6a89925ec8ebea736c709a0612cb"
     },
     {
       "path": "traveler_metrics.py",
-      "sha256": "82f01ea76afa99cd8eae4f351238fc86239e0d7a85a3b5287b0db9e69966cc4b"
+      "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290"
     }
   ]
 }

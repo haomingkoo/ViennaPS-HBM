@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "title": {"type": "string", "minLength": 1},
     "scope": {"type": "string", "minLength": 1},
     "equipment_mapping": {
@@ -61,12 +61,12 @@
     "review": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["valid_cases", "hard_gate_passes", "decision", "citation"],
+      "required": ["valid_cases", "hard_gate_passes", "decision", "derivation"],
       "properties": {
         "valid_cases": {"const": 28},
         "hard_gate_passes": {"type": "integer", "minimum": 0, "maximum": 28},
-        "decision": {"type": "object"},
-        "citation": {"$ref": "#/$defs/citation"}
+        "decision": {"type": "string", "minLength": 1},
+        "derivation": {"type": "string", "minLength": 1}
       }
     }
   },
@@ -86,7 +86,7 @@
     "metrics": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms", "sidewall_angle_deg", "selected_cycle", "hard_gate_pass", "trajectory_class", "maximum_cd_error_fraction", "maximum_cd_error_cd", "maximum_bow_fraction", "maximum_bow_actual_radius", "maximum_bow_reference_radius"],
+      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms", "sidewall_angle_deg", "selected_cycle", "hard_gate_pass", "trajectory_class", "measurement_method", "numerically_qualified", "maximum_cd_error_fraction", "maximum_cd_error_cd", "maximum_bow_fraction", "maximum_bow_actual_radius", "maximum_bow_reference_radius"],
       "properties": {
         "depth": {"type": "number"},
         "cd_top": {"type": "number"},
@@ -99,6 +99,8 @@
         "selected_cycle": {"type": "integer", "minimum": 0},
         "hard_gate_pass": {"type": "boolean"},
         "trajectory_class": {"type": "string", "minLength": 1},
+        "measurement_method": {"const": "full_width_two_wall_remeasurement"},
+        "numerically_qualified": {"const": false},
         "maximum_cd_error_fraction": {"type": "number", "minimum": 0, "maximum": 1},
         "maximum_cd_error_cd": {"type": "number", "minimum": 0},
         "maximum_bow_fraction": {"type": "number", "minimum": 0, "maximum": 1},

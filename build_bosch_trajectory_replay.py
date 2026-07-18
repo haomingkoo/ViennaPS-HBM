@@ -16,7 +16,7 @@ import tsv_process as tp
 
 
 ROOT = Path(__file__).resolve().parent
-ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl"
+ROWS = ROOT / "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl"
 OUTPUT = ROOT / "bosch_trajectory_replay.json"
 PUBLIC_SOURCE = ROOT / "evidence/bosch/bosch_trajectory_replay_source.json"
 CASE_ID = "aac0e99de49584cc"
@@ -32,12 +32,16 @@ def source_row() -> tuple[dict, int]:
     raise ValueError(f"missing source case {CASE_ID}")
 
 
-def silicon_path(domain) -> str:
-    mesh = next(
+def silicon_mesh(domain) -> dict:
+    return next(
         mesh
         for mesh in tm.raw_level_set_meshes(domain)
         if mesh["material"] == ps.Material.Si
     )
+
+
+def silicon_path(domain) -> str:
+    mesh = silicon_mesh(domain)
     return tutorial.surface_path(mesh)
 
 
@@ -47,6 +51,9 @@ def _refresh_provenance() -> None:
         sha256=checkpoint.file_sha256(ROOT / "program.md"),
         section=PROGRAM_SECTION,
     )
+    for citation in document["citations"]:
+        if citation["path"] == str(PUBLIC_SOURCE.relative_to(ROOT)):
+            citation["sha256"] = hashlib.sha256(PUBLIC_SOURCE.read_bytes()).hexdigest()
     OUTPUT.write_text(
         json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n"
     )
@@ -73,26 +80,38 @@ def main() -> None:
         taper=recipe["mask_taper"],
         hole_shape=ps.HoleShape.FULL,
     )
-    history = {record["cycle"]: record for record in row["cycle_history"]}
     frames = []
 
     def capture(current, cycle):
         if cycle not in CHECKPOINT_CYCLES:
             return
-        record = history[cycle]
+        mesh = silicon_mesh(current)
+        review = tm.measure_full_via_profile_2d(
+            mesh["nodes"],
+            mesh["lines"],
+            surface_y=0.0,
+            target_cd=row["target"]["opening_cd"],
+            domain_x_bounds=(-geometry["x_extent"] / 2, geometry["x_extent"] / 2),
+            grid_delta=row["numerics"]["grid_delta"],
+        )
+        if review["state"] != "complete":
+            raise ValueError(f"trajectory measurement unavailable at cycle {cycle}")
+        measured = review["metrics"]
         frames.append(
             {
                 "cycle": cycle,
                 "progress": cycle / max(CHECKPOINT_CYCLES),
-                "surface_path": silicon_path(current),
+                "surface_path": tutorial.surface_path(mesh),
                 "metrics": {
-                    "depth": record["depth"],
-                    "cd_top": record["cd_top"],
-                    "cd_middle": record["cd_middle"],
-                    "cd_bottom": record["cd_bottom"],
-                    "maximum_cd_error": record["max_cd_error"],
-                    "bow": record["max_bow"],
-                    "scallop_rms": record["scallop_rms"],
+                    "depth": measured["depth"],
+                    "cd_top": measured["cd_top"],
+                    "cd_middle": measured["cd_middle"],
+                    "cd_bottom": measured["cd_bottom"],
+                    "maximum_cd_error": measured["max_cd_error"],
+                    "bow": measured["max_bow"],
+                    "scallop_rms": measured["scallop_rms"],
+                    "measurement_method": "full_width_two_wall_remeasurement",
+                    "numerically_qualified": False,
                 },
             }
         )
@@ -117,8 +136,11 @@ def main() -> None:
     )
     if [frame["cycle"] for frame in frames] != sorted(CHECKPOINT_CYCLES):
         raise ValueError("trajectory replay is incomplete")
+    saved_checkpoint = tutorial.TUTORIAL_CHECKPOINTS / Path(
+        row["checkpoint_path"]
+    ).name
     saved = checkpoint.load_domain_checkpoint(
-        Path(row["checkpoint_path"]), expected_sha256=row["checkpoint_sha256"]
+        saved_checkpoint, expected_sha256=row["checkpoint_sha256"]
     )
     native_surface = silicon_path(saved)
     if frames[-1]["surface_path"] != native_surface:
@@ -127,17 +149,17 @@ def main() -> None:
     PUBLIC_SOURCE.parent.mkdir(parents=True, exist_ok=True)
     public_row = {
         **row,
-        "checkpoint_path": str(Path(row["checkpoint_path"]).relative_to(ROOT)),
+        "checkpoint_path": str(saved_checkpoint.relative_to(ROOT)),
     }
     source_bundle = {
-        "schema_version": 1,
+        "schema_version": 2,
         "case_id": CASE_ID,
         "source_row": public_row,
         "origin": {
             "rows_file": str(ROWS.relative_to(ROOT)),
             "rows_line_number": line_number,
             "rows_sha256": hashlib.sha256(ROWS.read_bytes()).hexdigest(),
-            "native_checkpoint_file": str(Path(row["checkpoint_path"]).relative_to(ROOT)),
+            "native_checkpoint_file": str(saved_checkpoint.relative_to(ROOT)),
             "native_checkpoint_sha256": row["checkpoint_sha256"],
         },
         "native_checkpoint_verification": {
@@ -153,9 +175,9 @@ def main() -> None:
     )
 
     document = {
-        "schema_version": 1,
+        "schema_version": 2,
         "case_id": CASE_ID,
-        "scope": "Seven replayed checkpoints; the final frame exactly matches the saved native checkpoint.",
+        "scope": "Seven replayed checkpoints remeasured from both via walls; the final frame exactly matches the saved native checkpoint.",
         "geometry": geometry,
         "recipe": recipe,
         "numerics": row["numerics"],

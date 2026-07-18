@@ -303,6 +303,20 @@ assert bosch_tutorial["targets"]["basis"]["classification"] == (
     "assumed_study_target"
 )
 assert bosch_tutorial["targets"]["basis"]["physical_qualification"] is False
+assert all(
+    case["metrics"]["measurement_method"] == "full_width_two_wall_remeasurement"
+    for case in bosch_tutorial["interactions"] + bosch_tutorial["interior_cases"]
+)
+for case in bosch_tutorial["interactions"] + bosch_tutorial["interior_cases"]:
+    checkpoints = list(
+        (ROOT / "evidence/bosch/tutorial_checkpoints").glob(
+            f"{case['case_id']}_*.vpsd"
+        )
+    )
+    assert len(checkpoints) == 1
+    assert hashlib.sha256(checkpoints[0].read_bytes()).hexdigest() == case[
+        "checkpoint_sha256"
+    ]
 assert "Copper response map" in html
 assert "SELECTED HANDOFF PASSES 4/4" not in html
 assert "What to tune next" in html

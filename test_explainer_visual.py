@@ -128,17 +128,17 @@ def assert_range_pilot(page):
     study = page.locator("#pattern-bosch-range-pilot")
     buttons = study.locator("#pilot-case-grid button")
     assert buttons.count() == 25
-    assert study.locator('#pilot-case-grid button[data-state="complete_measurements"]').count() == 18
-    assert study.locator('#pilot-case-grid button[data-state="low_movement_measured"]').count() == 2
-    assert study.locator('#pilot-case-grid button[data-state="measurement_unavailable"]').count() == 5
+    assert study.locator('#pilot-case-grid button[data-state="legacy_row_complete"]').count() == 18
+    assert study.locator('#pilot-case-grid button[data-state="legacy_low_movement_row"]').count() == 2
+    assert study.locator('#pilot-case-grid button[data-state="legacy_row_incomplete"]').count() == 5
     assert "no factor effects" in study.inner_text().lower()
-    assert "does not show which control caused" in study.inner_text().lower()
+    assert "does not locate a failure boundary" in study.inner_text().lower()
     profile = study.locator("#pilot-profile path")
     first_path = profile.get_attribute("d")
-    unavailable = study.locator('#pilot-case-grid button[data-state="measurement_unavailable"]').first
+    unavailable = study.locator('#pilot-case-grid button[data-state="legacy_row_incomplete"]').first
     unavailable.click()
     assert profile.get_attribute("d") != first_path
-    assert "measurement unavailable" in study.locator("#pilot-read").inner_text().lower()
+    assert "etch measurement" in study.locator("#pilot-read").inner_text().lower()
     assert "Twelve controls changed together" in study.locator("#pilot-read").inner_text()
     assert study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count() == 2
 

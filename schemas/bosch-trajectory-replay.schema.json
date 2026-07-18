@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "case_id", "scope", "geometry", "recipe", "numerics", "target", "view_box", "frames", "citations"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
     "scope": {"type": "string", "minLength": 1},
     "geometry": {
@@ -96,7 +96,7 @@
     "metrics": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms"],
+      "required": ["depth", "cd_top", "cd_middle", "cd_bottom", "maximum_cd_error", "bow", "scallop_rms", "measurement_method", "numerically_qualified"],
       "properties": {
         "depth": {"type": "number", "minimum": 0},
         "cd_top": {"type": "number", "minimum": 0},
@@ -104,7 +104,9 @@
         "cd_bottom": {"type": "number", "minimum": 0},
         "maximum_cd_error": {"type": "number", "minimum": 0},
         "bow": {"type": "number", "minimum": 0},
-        "scallop_rms": {"type": "number", "minimum": 0}
+        "scallop_rms": {"type": "number", "minimum": 0},
+        "measurement_method": {"const": "full_width_two_wall_remeasurement"},
+        "numerically_qualified": {"const": false}
       }
     },
     "frame": {

@@ -6,7 +6,6 @@ from collections import Counter, defaultdict
 import hashlib
 import json
 from pathlib import Path
-import re
 import statistics
 
 from scripts.autoresearch_event_log import event_hash, schema_errors
@@ -17,6 +16,7 @@ MANIFEST = ROOT / "pattern_bosch_range_pilot_design.json"
 RECOVERY_MANIFEST = ROOT / "pattern_bosch_range_pilot_recovery_design.json"
 BUNDLE = ROOT / "evidence/bosch/range_pilot/source_bundle.json"
 OUTPUT = ROOT / "pattern_bosch_range_pilot_review.json"
+UNAVAILABLE_REVIEW = ROOT / "evidence/bosch/pattern_bosch_unavailable_profile_review.json"
 
 
 def _sha256(path: Path) -> str:
@@ -41,14 +41,6 @@ def _citation(group: str, index: int, row: dict) -> dict:
     }
 
 
-def _intersection_class(row: dict) -> str:
-    message = (row.get("error") or {}).get("message", "")
-    match = re.search(r"y=(-?[0-9.]+)", message)
-    if match and abs(float(match.group(1))) >= 0.5:
-        return "measurement_unavailable_deep_region"
-    return "measurement_unavailable_shallow_region"
-
-
 def _validated_group(bundle: dict, group: str, expected_manifest_hash: str) -> list[tuple[int, dict, str]]:
     rows = bundle[group]
     previous_hash = None
@@ -67,6 +59,10 @@ def _validated_group(bundle: dict, group: str, expected_manifest_hash: str) -> l
 def build() -> dict:
     manifest = _load(MANIFEST)
     bundle = _load(BUNDLE)
+    unavailable_review = _load(UNAVAILABLE_REVIEW)
+    unavailable_by_case = {
+        case["case_id"]: case for case in unavailable_review["cases"]
+    }
     committed = {item["path"]: item["sha256"] for item in bundle["committed_sources"]}
     for path, digest in committed.items():
         if _sha256(ROOT / path) != digest:
@@ -117,7 +113,16 @@ def build() -> dict:
             "usable_rows": 20,
             "minimum_source": _citation(low[3], low[1], low[2]),
             "maximum_source": _citation(high[3], high[1], high[2]),
-            "interpretation": "raw span at the unqualified coarse setting",
+            "status": (
+                "available_unqualified"
+                if metric_id.startswith("mask_")
+                else "suspended_legacy_positive_wall_mirroring"
+            ),
+            "interpretation": (
+                "raw span at the unqualified coarse setting"
+                if metric_id.startswith("mask_")
+                else "legacy diagnostic span; not a full-width etch measurement"
+            ),
         })
 
     center = next(
@@ -130,15 +135,10 @@ def build() -> dict:
         observation = (row.get("measurements") or {}).get("pilot_observation", {}).get("value")
         if observation == "low_movement_guard":
             nominations[row["case_key"]].add("measurable low-movement state")
-    shallow = next(item for item in unavailable if _intersection_class(item[1]).endswith("shallow_region"))
-    deep = next(item for item in unavailable if _intersection_class(item[1]).endswith("deep_region"))
-    nominations[shallow[1]["case_key"]].add("unresolved shallow-region measurement")
-    nominations[deep[1]["case_key"]].add("unresolved deep-region measurement")
-    narrowest = min(measured, key=lambda item: item[1]["measurements"]["etch_minimum_cd"]["value"])
-    deepest = max(measured, key=lambda item: item[1]["measurements"]["etch_depth"]["value"])
+    for _, row, _ in unavailable:
+        availability = unavailable_by_case[row["case_key"]]["availability_class"]
+        nominations[row["case_key"]].add(availability.replace("_", " "))
     widest = max(measured, key=lambda item: item[1]["measurements"]["mask_opening_cd_top"]["value"])
-    nominations[narrowest[1]["case_key"]].add("narrowest measured via")
-    nominations[deepest[1]["case_key"]].add("deepest measured via and slow measured case")
     nominations[widest[1]["case_key"]].add("widest measured mask opening")
 
     nominated_rows = []
@@ -161,54 +161,63 @@ def build() -> dict:
     for index, row, group in combined:
         observation = (row.get("measurements") or {}).get("pilot_observation", {}).get("value")
         display_state = (
-            "measurement_unavailable"
+            "legacy_row_incomplete"
             if row["state"] == "missing_measurement"
-            else "low_movement_measured"
+            else "legacy_low_movement_row"
             if observation == "low_movement_guard"
-            else "complete_measurements"
+            else "legacy_row_complete"
         )
         profile = profiles[row["case_key"]]
+        unavailable_case = unavailable_by_case.get(row["case_key"])
         public_cases.append({
             "design_row": manifest_cases[row["case_key"]]["design_row"],
             "case_id": row["case_key"],
             "state": row["state"],
             "display_state": display_state,
-            "measurement_region": _intersection_class(row) if row["state"] == "missing_measurement" else None,
+            "measurement_availability": (
+                unavailable_case["availability_class"] if unavailable_case else None
+            ),
             "is_center": row["case_key"] == center["case_id"],
             "controls_changed_together": 12,
             "recipe": row["inputs"]["recipe"],
             "derived_exposures": row["inputs"]["derived_exposures"],
             "elapsed_s": row["elapsed_s"],
-            "measurements": ({metric_id: row["measurements"][metric_id]["value"] for metric_id in manifest["required_measurements"]} if row["state"] == "complete_measured" else None),
+            "legacy_measurements": ({metric_id: row["measurements"][metric_id]["value"] for metric_id in manifest["required_measurements"]} if row["state"] == "complete_measured" else None),
+            "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
             "error": row["error"],
             "surface_path": profile["surface_path"],
             "view_box": profile["view_box"],
             "source": _citation(group, index, row),
         })
     failures = [{
-        "classification": _intersection_class(row),
+        "classification": unavailable_by_case[row["case_key"]]["availability_class"],
         "state": row["state"],
         "elapsed_s": row["elapsed_s"],
         "error": row["error"],
         "recipe": row["inputs"]["recipe"],
         "checkpoint": {"native_sha256": profiles[row["case_key"]]["native_sha256"], "surface_sha256": profiles[row["case_key"]]["surface_sha256"]},
         "source": _citation(group, index, row),
-        "interpretation": "final geometry saved; the declared measurement is unavailable",
+        "interpretation": unavailable_by_case[row["case_key"]]["permitted_claim"],
+        "review_source": {
+            "path": str(UNAVAILABLE_REVIEW.relative_to(ROOT)),
+            "selector": f"/cases/{list(unavailable_by_case).index(row['case_key'])}",
+            "sha256": _sha256(UNAVAILABLE_REVIEW),
+        },
     } for index, row, group in unavailable]
 
     parent_elapsed = [row["elapsed_s"] for _, row, _ in parent_rows]
     recovery_elapsed = [row["elapsed_s"] for _, row, _ in recovery_rows]
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "campaign": manifest["campaign"],
         "review_status": "complete_corrected_claim_limited_review",
         "highest_supported_claim": (
-            "Using one unqualified coarse numerical profile, 20 of 25 model-input "
-            "combinations returned non-null values for all 14 declared measurements. "
-            "Two of those reached the measurable low-movement guard. Five final "
-            "geometries were saved but could not be evaluated by the declared "
-            "wall-intersection measurement. The observations select confirmation "
-            "cases; they do not identify factor effects or a process boundary."
+            "All 25 coarse pilot states are retained. The legacy extractor returned "
+            "values in 20 rows, but its etch-shape values are suspended because it "
+            "mirrored one wall in a full-width geometry. Review of the five incomplete "
+            "rows found two search-window misses, two one-sided saved surfaces, and one "
+            "case without the declared reference surface. No factor effects or process "
+            "boundary are supported."
         ),
         "prohibited_claims": manifest["inference_policy"]["prohibited"],
         "sources": [
@@ -216,6 +225,7 @@ def build() -> dict:
             {"path": str(MANIFEST.relative_to(ROOT)), "sha256": _sha256(MANIFEST)},
             {"path": str(RECOVERY_MANIFEST.relative_to(ROOT)), "sha256": _sha256(RECOVERY_MANIFEST)},
             {"path": "pattern_bosch_measurement_contract.json", "sha256": _sha256(ROOT / "pattern_bosch_measurement_contract.json")},
+            {"path": str(UNAVAILABLE_REVIEW.relative_to(ROOT)), "sha256": _sha256(UNAVAILABLE_REVIEW)},
         ],
         "execution": {
             "planned_cases": 25,
@@ -237,7 +247,7 @@ def build() -> dict:
         "failures": failures,
         "cases": public_cases,
         "confirmation_nominations": nominated_rows,
-        "next_decision": "Run the eight nominated rows with paired numerical settings. Add independent center and narrow-case streams before the 54-case screen.",
+        "next_decision": "Qualify the full-width extractor and its resolution, numerical, and repeat envelopes before the 54-case screen.",
     }
 
 

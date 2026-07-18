@@ -5,12 +5,12 @@
   "additionalProperties": false,
   "required": ["schema_version", "campaign", "review_status", "highest_supported_claim", "prohibited_claims", "sources", "execution", "runtime", "response_spans", "failures", "cases", "confirmation_nominations", "next_decision"],
   "properties": {
-    "schema_version": {"const": 2},
+    "schema_version": {"const": 3},
     "campaign": {"const": "pattern-bosch-range-pilot-v1"},
     "review_status": {"const": "complete_corrected_claim_limited_review"},
     "highest_supported_claim": {"type": "string", "minLength": 1},
     "prohibited_claims": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
-    "sources": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/sourceFile"}},
+    "sources": {"type": "array", "minItems": 5, "items": {"$ref": "#/$defs/sourceFile"}},
     "execution": {
       "type": "object",
       "additionalProperties": false,
@@ -52,7 +52,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["metric_id", "units", "observed_minimum", "observed_maximum", "observed_span", "usable_rows", "minimum_source", "maximum_source", "interpretation"],
+        "required": ["metric_id", "units", "observed_minimum", "observed_maximum", "observed_span", "usable_rows", "minimum_source", "maximum_source", "status", "interpretation"],
         "properties": {
           "metric_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
           "units": {"type": "string", "minLength": 1},
@@ -62,7 +62,8 @@
           "usable_rows": {"const": 20},
           "minimum_source": {"$ref": "#/$defs/rowSource"},
           "maximum_source": {"$ref": "#/$defs/rowSource"},
-          "interpretation": {"const": "raw span at the unqualified coarse setting"}
+          "status": {"enum": ["available_unqualified", "suspended_legacy_positive_wall_mirroring"]},
+          "interpretation": {"enum": ["raw span at the unqualified coarse setting", "legacy diagnostic span; not a full-width etch measurement"]}
         }
       }
     },
@@ -73,16 +74,17 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["classification", "state", "elapsed_s", "error", "recipe", "checkpoint", "source", "interpretation"],
+        "required": ["classification", "state", "elapsed_s", "error", "recipe", "checkpoint", "source", "interpretation", "review_source"],
         "properties": {
-          "classification": {"enum": ["measurement_unavailable_shallow_region", "measurement_unavailable_deep_region"]},
+          "classification": {"enum": ["extractor_out_of_domain", "full_width_measurement_unavailable_one_sided", "via_reference_surface_absent"]},
           "state": {"const": "missing_measurement"},
           "elapsed_s": {"type": "number", "minimum": 0},
           "error": {"type": "object"},
           "recipe": {"type": "object"},
           "checkpoint": {"type": "object"},
           "source": {"$ref": "#/$defs/rowSource"},
-          "interpretation": {"type": "string", "minLength": 1}
+          "interpretation": {"type": "string", "minLength": 1},
+          "review_source": {"$ref": "#/$defs/derivedSource"}
         }
       }
     },
@@ -93,19 +95,20 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["design_row", "case_id", "state", "display_state", "measurement_region", "is_center", "controls_changed_together", "recipe", "derived_exposures", "elapsed_s", "measurements", "error", "surface_path", "view_box", "source"],
+        "required": ["design_row", "case_id", "state", "display_state", "measurement_availability", "is_center", "controls_changed_together", "recipe", "derived_exposures", "elapsed_s", "legacy_measurements", "etch_measurement_status", "error", "surface_path", "view_box", "source"],
         "properties": {
           "design_row": {"type": "integer", "minimum": 0, "maximum": 24},
           "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
           "state": {"enum": ["complete_measured", "missing_measurement"]},
-          "display_state": {"enum": ["complete_measurements", "low_movement_measured", "measurement_unavailable"]},
-          "measurement_region": {"enum": [null, "measurement_unavailable_shallow_region", "measurement_unavailable_deep_region"]},
+          "display_state": {"enum": ["legacy_row_complete", "legacy_low_movement_row", "legacy_row_incomplete"]},
+          "measurement_availability": {"enum": [null, "extractor_out_of_domain", "full_width_measurement_unavailable_one_sided", "via_reference_surface_absent"]},
           "is_center": {"type": "boolean"},
           "controls_changed_together": {"const": 12},
           "recipe": {"type": "object", "minProperties": 12},
           "derived_exposures": {"type": "object", "minProperties": 4},
           "elapsed_s": {"type": "number", "minimum": 0},
-          "measurements": {"type": ["object", "null"]},
+          "legacy_measurements": {"type": ["object", "null"]},
+          "etch_measurement_status": {"const": "suspended_legacy_positive_wall_mirroring"},
           "error": {"type": ["object", "null"]},
           "surface_path": {"type": "string", "minLength": 1},
           "view_box": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}},
@@ -115,8 +118,8 @@
     },
     "confirmation_nominations": {
       "type": "array",
-      "minItems": 8,
-      "maxItems": 8,
+      "minItems": 9,
+      "maxItems": 9,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -152,6 +155,16 @@
         "selector": {"type": "string", "pattern": "^/(parent_events|recovery_events)/[0-9]+$"},
         "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
         "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"}
+      }
+    },
+    "derivedSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "selector", "sha256"],
+      "properties": {
+        "path": {"const": "evidence/bosch/pattern_bosch_unavailable_profile_review.json"},
+        "selector": {"type": "string", "pattern": "^/cases/[0-4]$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     },
     "runtimeSummary": {

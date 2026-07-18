@@ -24,28 +24,50 @@ def metric(
     *,
     units: str = "model length",
 ) -> dict:
+    extractor = {
+        "path": "traveler_metrics.py",
+        "symbol": (
+            "pattern_metrics_2d"
+            if step == "mask"
+            else "measure_full_via_profile_2d"
+        ),
+        "output_key": output_key,
+        "sha256": digest("traveler_metrics.py"),
+    }
+    definition_payload = json.dumps(
+        {
+            "definition": definition,
+            "region": region,
+            "units": units,
+            "extractor": extractor,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    )
     return {
         "id": metric_id,
         "step": step,
-        "extractor": {
-            "path": "traveler_metrics.py",
-            "symbol": (
-                "pattern_metrics_2d" if step == "mask" else "etch_profile_metrics_2d"
-            ),
-            "output_key": output_key,
-        },
+        "extractor": extractor,
         "definition": definition,
+        "definition_sha256": hashlib.sha256(definition_payload.encode()).hexdigest(),
         "region": region,
         "units": units,
         "required_for": ["range_finding", "screening"],
         "missing_value_rule": "block the affected decision; never replace with zero",
-        "detection_limit": None,
-        "known_failure_evidence": None,
-        "prescribed_control_evidence": None,
+        "representation_domain": (
+            "full or explicitly symmetry-clipped 2D mask opening"
+            if step == "mask"
+            else "full 2D via with two walls and a centerline floor below the declared wafer surface"
+        ),
+        "analytic_reference_evidence": None,
+        "feature_present_evidence": None,
+        "missingness_evidence": None,
+        "resolution_bracket": None,
         "save_reload_parity": None,
-        "numerical_allowance": None,
-        "repeat_allowance": None,
+        "numerical_envelope": None,
+        "repeat_envelope": None,
         "useful_change_threshold": None,
+        "useful_change_evidence_class": None,
         "qualification_status": "pending",
     }
 
@@ -84,7 +106,7 @@ def build() -> dict:
             "mask_sidewall_angle",
             "mask",
             "mask_sidewall_angle_deg",
-            "Angle implied by the change in opening width through the mask.",
+            "Mask taper angle; zero means vertical walls and positive means a wider opening near the top.",
             "Opening widths at 5% and 85% of the measured mask height.",
             units="degrees",
         ),
@@ -134,23 +156,23 @@ def build() -> dict:
             "etch_sidewall_angle",
             "bosch_etch",
             "sidewall_angle_deg",
-            "Angle of the straight chord between the top and bottom sample widths.",
-            "Widths at 10% and 85% of the extracted depth.",
+            "Overall via taper angle; zero means the average wall is vertical.",
+            "Straight reference between widths at 10% and 85% of the extracted depth.",
             units="degrees",
         ),
         metric(
             "etch_bow",
             "bosch_etch",
             "max_bow",
-            "Largest radial departure from the top-to-bottom straight chord.",
-            "76 wall-radius samples from 10% to 85% of the extracted depth.",
+            "Largest horizontal gap between the average wall and its straight taper reference.",
+            "76 half-width samples from 10% to 85% of the extracted depth.",
         ),
         metric(
             "etch_scallop_rms",
             "bosch_etch",
             "scallop_rms",
-            "Root-mean-square wall residual after a cubic smooth profile is removed.",
-            "76 wall-radius samples from 10% to 85% of the extracted depth.",
+            "Typical small wall ripple after the smooth overall profile is removed.",
+            "RMS residual from 76 half-width samples after a cubic fit.",
         ),
     ]
     contrast_cases = {
@@ -177,16 +199,23 @@ def build() -> dict:
     }
     for item in metrics:
         control_case = "mask_straight" if item["step"] == "mask" else "etch_straight"
-        item["prescribed_control_evidence"] = {
+        item["analytic_reference_evidence"] = {
             "path": evidence_path,
             "sha256": evidence_sha,
             "selector": f"/cases/{case_index[control_case]}",
         }
-        item["known_failure_evidence"] = {
+        item["feature_present_evidence"] = {
             "path": evidence_path,
             "sha256": evidence_sha,
             "selector": f"/cases/{case_index[contrast_cases[item['id']]]}",
         }
+        if item["step"] == "bosch_etch":
+            missingness_path = "evidence/bosch/pattern_bosch_unavailable_profile_review.json"
+            item["missingness_evidence"] = {
+                "path": missingness_path,
+                "sha256": digest(missingness_path),
+                "selector": "/cases",
+            }
         roundtrip_path = "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl"
         item["save_reload_parity"] = {
             "maximum_absolute_difference": 0.0,
@@ -196,7 +225,7 @@ def build() -> dict:
         }
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "scope": "Mask-plus-Bosch measurement qualification; not process acceptance.",
         "launch_status": "blocked_pending_measurement_qualification",
         "sources": [
@@ -206,14 +235,16 @@ def build() -> dict:
                 "traveler_metrics.py",
                 "build_step_experiments.py",
                 evidence_path,
+                "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
                 "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
             )
         ],
         "metrics": metrics,
         "qualification_rule": (
-            "Every required metric needs a detection limit, known-failure evidence, "
-            "prescribed-control evidence, save/reload parity, numerical allowance, "
-            "repeat allowance, and useful-change threshold before screening."
+            "Every response retained for screening needs an independently checked control, "
+            "a declared representation domain, a resolution bracket, classified missingness, "
+            "observed numerical and repeat envelopes, and a sourced or explicitly assumed "
+            "useful-change threshold."
         ),
     }
 

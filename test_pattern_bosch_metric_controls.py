@@ -13,7 +13,15 @@ evidence = json.loads(
     (ROOT / "evidence/bosch/pattern_bosch_metric_controls.json").read_text()
 )
 generated = build()
-for key in ("schema_version", "scope", "sources", "checks", "claim", "does_not_prove"):
+for key in (
+    "schema_version",
+    "scope",
+    "sources",
+    "full_profile_controls",
+    "checks",
+    "claim",
+    "does_not_prove",
+):
     assert evidence[key] == generated[key]
 assert len(evidence["cases"]) == len(generated["cases"])
 for saved_case, generated_case in zip(evidence["cases"], generated["cases"], strict=True):
@@ -28,6 +36,14 @@ for saved_case, generated_case in zip(evidence["cases"], generated["cases"], str
             abs_tol=1e-12,
         )
 assert all(evidence["checks"].values())
+assert {control["id"]: control["result"]["state"] for control in evidence["full_profile_controls"]} == {
+    "full_straight": "complete",
+    "full_wide": "complete",
+    "full_wide_legacy_window": "extractor_domain_failure",
+    "full_one_wall": "valid_categorical_modeled_state",
+    "declared_surface_absent": "out_of_scope_region",
+    "two_cell_neck": "insufficient_grid_representation",
+}
 
 for source in evidence["sources"]:
     path = ROOT / source["path"]

@@ -2,33 +2,37 @@
   "launch_status": "blocked_pending_measurement_qualification",
   "metrics": [
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/0",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Opening width near the wafer surface.",
-      "detection_limit": null,
+      "definition_sha256": "a74d1768a01d61cb1c4bf23de4f0fdaff2bf5113accd2e12b2a7454644a0b564",
       "extractor": {
         "output_key": "opening_cd_bottom",
         "path": "traveler_metrics.py",
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
         "symbol": "pattern_metrics_2d"
       },
-      "id": "mask_opening_cd_bottom",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "mask_opening_cd_bottom",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/0",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
-      },
+      "missingness_evidence": null,
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Horizontal intersection at 5% of the measured mask height.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full or explicitly symmetry-clipped 2D mask opening",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -39,36 +43,41 @@
       },
       "step": "mask",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/0",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Opening width at the middle of the mask.",
-      "detection_limit": null,
+      "definition_sha256": "e86a05646bf6ae5386ccf710561a3ca6b21145ff0adf7c6e141cdb0d9361ba91",
       "extractor": {
         "output_key": "opening_cd_middle",
         "path": "traveler_metrics.py",
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
         "symbol": "pattern_metrics_2d"
       },
-      "id": "mask_opening_cd_middle",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "mask_opening_cd_middle",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/0",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
-      },
+      "missingness_evidence": null,
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Horizontal intersection at 50% of the measured mask height.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full or explicitly symmetry-clipped 2D mask opening",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -79,36 +88,41 @@
       },
       "step": "mask",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/0",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Opening width near the top of the mask.",
-      "detection_limit": null,
+      "definition_sha256": "9676bb9419c4cea160d933e57a1bcc4598d04b977389f1e1d175d66a3183cdae",
       "extractor": {
         "output_key": "opening_cd_top",
         "path": "traveler_metrics.py",
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
         "symbol": "pattern_metrics_2d"
       },
-      "id": "mask_opening_cd_top",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "mask_opening_cd_top",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/0",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
-      },
+      "missingness_evidence": null,
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Horizontal intersection at 85% of the measured mask height.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full or explicitly symmetry-clipped 2D mask opening",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -119,36 +133,41 @@
       },
       "step": "mask",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/0",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Distance from the wafer surface to the highest mask point.",
-      "detection_limit": null,
+      "definition_sha256": "3ca44f5ab921d6201d4cd288e39c6571c77491332e470e8a30a2d9303ba8fbcf",
       "extractor": {
         "output_key": "mask_height",
         "path": "traveler_metrics.py",
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
         "symbol": "pattern_metrics_2d"
       },
-      "id": "mask_height",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/1",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "mask_height",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/0",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
-      },
+      "missingness_evidence": null,
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Complete extracted mask boundary.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full or explicitly symmetry-clipped 2D mask opening",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -159,36 +178,41 @@
       },
       "step": "mask",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
-      "definition": "Angle implied by the change in opening width through the mask.",
-      "detection_limit": null,
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/0",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
+      "definition": "Mask taper angle; zero means vertical walls and positive means a wider opening near the top.",
+      "definition_sha256": "a4f8cacb8f6cdb837245fa08c18c87fbece328d6298900a2bbcf8f5586adeff0",
       "extractor": {
         "output_key": "mask_sidewall_angle_deg",
         "path": "traveler_metrics.py",
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
         "symbol": "pattern_metrics_2d"
       },
-      "id": "mask_sidewall_angle",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/2",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "mask_sidewall_angle",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/0",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
-      },
+      "missingness_evidence": null,
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Opening widths at 5% and 85% of the measured mask height.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full or explicitly symmetry-clipped 2D mask opening",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -199,36 +223,45 @@
       },
       "step": "mask",
       "units": "degrees",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Vertical distance from the wafer surface to the via floor.",
-      "detection_limit": null,
+      "definition_sha256": "0a429d1f2ab96e0064b55b0bc232dffb5dbdaa2d32471f62f5408b9a8772a1b5",
       "extractor": {
         "output_key": "depth",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_depth",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/4",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_depth",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Silicon boundary from the declared surface to extracted floor.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -239,36 +272,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Via width near the top of the etched depth.",
-      "detection_limit": null,
+      "definition_sha256": "db773025259c5f61153349a4f748a25a92328a20339f81c8c30e8fc059cff5b9",
       "extractor": {
         "output_key": "cd_top",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_cd_top",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/5",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_cd_top",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Horizontal intersection at 10% of the extracted depth.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -279,36 +321,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Via width at the middle of the etched depth.",
-      "detection_limit": null,
+      "definition_sha256": "b86ac169cb03ea9af8c6697d593a50abbe480268fd716758724fd14b6f15ecd2",
       "extractor": {
         "output_key": "cd_middle",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_cd_middle",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/7",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_cd_middle",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Horizontal intersection at 50% of the extracted depth.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -319,36 +370,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Via width near the bottom of the etched depth.",
-      "detection_limit": null,
+      "definition_sha256": "a4c74702adf72b0cffcd169c6152fa3bdc9a7be5f65608382c92c408fbd300a2",
       "extractor": {
         "output_key": "cd_bottom",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_cd_bottom",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/5",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_cd_bottom",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "Horizontal intersection at 85% of the extracted depth.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -359,36 +419,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Smallest sampled via width; used to detect a narrow neck.",
-      "detection_limit": null,
+      "definition_sha256": "d3eb2ad5fe587fe0a7cbb6be8678795b3e0e9c2a8743d29be914d7872844e5bf",
       "extractor": {
         "output_key": "cd_min",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_minimum_cd",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/7",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_minimum_cd",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "76 horizontal samples from 10% to 85% of the extracted depth.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -399,36 +468,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
       "definition": "Largest absolute sampled difference from the declared comparison width.",
-      "detection_limit": null,
+      "definition_sha256": "4ccd593ab93608e1a09be68078ca39e7daea2ec013eb16ad616a3ecd1016627a",
       "extractor": {
         "output_key": "max_cd_error",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_maximum_cd_error",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/7",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_maximum_cd_error",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
       "region": "76 horizontal samples from 10% to 85% of the extracted depth.",
-      "repeat_allowance": null,
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -439,36 +517,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
-      "definition": "Angle of the straight chord between the top and bottom sample widths.",
-      "detection_limit": null,
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
+      "definition": "Overall via taper angle; zero means the average wall is vertical.",
+      "definition_sha256": "e44021de6df80f19ebc46403a6460d8c19858b92f432f5a067fb5a6a432866dd",
       "extractor": {
         "output_key": "sidewall_angle_deg",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_sidewall_angle",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/5",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_sidewall_angle",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
-      "region": "Widths at 10% and 85% of the extracted depth.",
-      "repeat_allowance": null,
+      "region": "Straight reference between widths at 10% and 85% of the extracted depth.",
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -479,36 +566,45 @@
       },
       "step": "bosch_etch",
       "units": "degrees",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
-      "definition": "Largest radial departure from the top-to-bottom straight chord.",
-      "detection_limit": null,
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
+      "definition": "Largest horizontal gap between the average wall and its straight taper reference.",
+      "definition_sha256": "216be55bf8280323c807fdfe8134b6333642fbc5a6e0f44aa6961be591cefcf1",
       "extractor": {
         "output_key": "max_bow",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_bow",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/6",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_bow",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
-      "region": "76 wall-radius samples from 10% to 85% of the extracted depth.",
-      "repeat_allowance": null,
+      "region": "76 half-width samples from 10% to 85% of the extracted depth.",
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -519,36 +615,45 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     },
     {
-      "definition": "Root-mean-square wall residual after a cubic smooth profile is removed.",
-      "detection_limit": null,
+      "analytic_reference_evidence": {
+        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
+        "selector": "/cases/3",
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+      },
+      "definition": "Typical small wall ripple after the smooth overall profile is removed.",
+      "definition_sha256": "a11e1ec7633dae415760167f9e3c40ee84f240e9d5c48c7a4c2219e5bf7c22b6",
       "extractor": {
         "output_key": "scallop_rms",
         "path": "traveler_metrics.py",
-        "symbol": "etch_profile_metrics_2d"
+        "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290",
+        "symbol": "measure_full_via_profile_2d"
       },
-      "id": "etch_scallop_rms",
-      "known_failure_evidence": {
+      "feature_present_evidence": {
         "path": "evidence/bosch/pattern_bosch_metric_controls.json",
         "selector": "/cases/8",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+        "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
       },
+      "id": "etch_scallop_rms",
       "missing_value_rule": "block the affected decision; never replace with zero",
-      "numerical_allowance": null,
-      "prescribed_control_evidence": {
-        "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-        "selector": "/cases/3",
-        "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "missingness_evidence": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
       },
+      "numerical_envelope": null,
       "qualification_status": "pending",
-      "region": "76 wall-radius samples from 10% to 85% of the extracted depth.",
-      "repeat_allowance": null,
+      "region": "RMS residual from 76 half-width samples after a cubic fit.",
+      "repeat_envelope": null,
+      "representation_domain": "full 2D via with two walls and a centerline floor below the declared wafer surface",
       "required_for": [
         "range_finding",
         "screening"
       ],
+      "resolution_bracket": null,
       "save_reload_parity": {
         "line_numbers": [
           1
@@ -559,20 +664,21 @@
       },
       "step": "bosch_etch",
       "units": "model length",
+      "useful_change_evidence_class": null,
       "useful_change_threshold": null
     }
   ],
-  "qualification_rule": "Every required metric needs a detection limit, known-failure evidence, prescribed-control evidence, save/reload parity, numerical allowance, repeat allowance, and useful-change threshold before screening.",
-  "schema_version": 1,
+  "qualification_rule": "Every response retained for screening needs an independently checked control, a declared representation domain, a resolution bracket, classified missingness, observed numerical and repeat envelopes, and a sourced or explicitly assumed useful-change threshold.",
+  "schema_version": 2,
   "scope": "Mask-plus-Bosch measurement qualification; not process acceptance.",
   "sources": [
     {
       "path": "build_pattern_bosch_measurement_contract.py",
-      "sha256": "9e3cf5db7fd6fd9b5edd3531c59a43a6199ef5d5b30803184e1e1129bb6246e5"
+      "sha256": "7291533a46563978bc140bc7a6b5eee808dbe39903d9a3f7eb8f86995fa74e44"
     },
     {
       "path": "traveler_metrics.py",
-      "sha256": "82f01ea76afa99cd8eae4f351238fc86239e0d7a85a3b5287b0db9e69966cc4b"
+      "sha256": "3ee22d08201e35e7207e59d19b35e17554cf00b4635c9b693c0bd07307712290"
     },
     {
       "path": "build_step_experiments.py",
@@ -580,7 +686,11 @@
     },
     {
       "path": "evidence/bosch/pattern_bosch_metric_controls.json",
-      "sha256": "961ac2f9bd18167bbce62c06a010fe7acb7103a66a432c797586f6bcec8c8f45"
+      "sha256": "241453f7ce5d0510761062a2c6858101e071b87214e158212c3ec9315ea6b363"
+    },
+    {
+      "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+      "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
     },
     {
       "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",

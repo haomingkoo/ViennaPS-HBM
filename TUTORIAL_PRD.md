@@ -102,9 +102,11 @@ completed screening DOE, an interaction estimate, or a process window.
    thresholds, and the ray/grid/advection/domain/execution checks. The current
    numeric bands remain assumed comparisons rather than fabrication limits.
 3. **Range pilot complete:** the first mask-plus-Bosch pilot used 25
-   three-level cases across 12 implemented controls. Twenty cases returned all
-   14 declared measurements. Five final geometries were saved but the declared
-   wall-intersection measurement could not read them. Its
+   three-level cases across 12 implemented controls. The legacy extractor
+   returned values for 20 rows, but its etch-shape values are suspended because
+   it mirrored one wall in a full-width geometry. Review of the five incomplete
+   rows found two search-window misses, two one-sided saved surfaces, and one
+   saved surface without the declared wafer reference. Its
    0.01-grid, 250-ray profile is intentionally unqualified and supports only
    validity, runtime, raw response spans, contrasting observed states, and
    selection of cases for confirmation. It cannot attribute an effect or locate
@@ -117,8 +119,10 @@ completed screening DOE, an interaction estimate, or a process window.
    interactions on held-out cases before using them downstream.
 6. **Experiments pending:** run bounded per-step screens before focused tuning.
    Preserve invalid, missing, stopped, and retried cases as separate outcomes.
-7. **Tutorial in progress:** replace teaching sketches with saved simulation
-   frames, measurement overlays, and evidence-linked conclusions.
+7. **Tutorial in progress:** the 28 saved 500-ray factor-pair profiles and the
+   seven-frame etch replay are now remeasured from both walls. Continue replacing
+   remaining teaching sketches with saved simulation frames, measurement
+   overlays, and evidence-linked conclusions.
 8. **Current release published:** the committed explainer passes CI and browser
    checks and is deployed. Later releases must continue to publish the same
    reviewed artifact rather than an untracked local build.
@@ -145,7 +149,7 @@ full-traveler process window.
 | Step | Current saved evidence | Boundary status |
 |---|---|---|
 | Mask | 27 ideal-geometry combinations of opening, height, and taper | Contrasting inputs only; exposure and develop are not modeled |
-| Bosch etch | 25 multi-factor pilot profiles, including low-movement and unreadable states | Numerical setting and measurement recovery remain open |
+| Bosch etch | 25 multi-factor pilot profiles; five incomplete rows now have explicit availability classes | Full-width extractor resolution and numerical qualification remain open |
 | Liner | Saved two-factor sensitivity examples | No confirmed failure/recovery bracket |
 | Barrier and seed | Saved sensitivity examples with separate layer measurements | No confirmed electrical-seed or physical boundary |
 | Copper fill | Candidate-model failures and a prescribed passing geometry control | The prescribed control validates measurements, not the fill law |

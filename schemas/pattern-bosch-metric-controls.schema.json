@@ -2,9 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "scope", "sources", "cases", "checks", "claim", "does_not_prove"],
+  "required": ["schema_version", "scope", "sources", "cases", "full_profile_controls", "checks", "claim", "does_not_prove"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "scope": {"type": "string", "minLength": 1},
     "sources": {
       "type": "array",
@@ -33,6 +33,30 @@
             "type": "object",
             "minProperties": 5,
             "additionalProperties": {"type": "number"}
+          }
+        }
+      }
+    },
+    "full_profile_controls": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "result"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "reason_codes", "metrics", "diagnostics"],
+            "properties": {
+              "state": {"enum": ["complete", "extractor_domain_failure", "valid_categorical_modeled_state", "out_of_scope_region", "insufficient_grid_representation"]},
+              "reason_codes": {"type": "array", "items": {"type": "string"}},
+              "metrics": {"type": ["object", "null"]},
+              "diagnostics": {"type": "object", "minProperties": 10}
+            }
           }
         }
       }

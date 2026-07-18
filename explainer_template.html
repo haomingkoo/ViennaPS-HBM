@@ -137,10 +137,13 @@
   .pilot-legend { display: flex; flex-wrap: wrap; gap: 0.55rem 1rem; margin: 0.8rem 0; color: var(--ink-dim); font-size: 0.76rem; }
   .pilot-legend span::before { content: attr(data-icon); display: inline-grid; width: 1.35rem; height: 1.35rem; margin-right: 0.35rem; place-items: center; border: 1px solid var(--line); color: var(--ink); font: 0.7rem var(--mono); }
   .pilot-grid { display: grid; grid-template-columns: repeat(5, minmax(48px, 1fr)); gap: 0.45rem; max-width: 620px; margin: 1rem 0; }
-  .pilot-grid button { position: relative; aspect-ratio: 1; min-width: 0; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; font: 0.82rem var(--mono); }
-  .pilot-grid button[data-state="complete_measurements"] { background: color-mix(in srgb, var(--teal) 10%, var(--surface)); }
-  .pilot-grid button[data-state="low_movement_measured"] { background: color-mix(in srgb, var(--plasma) 11%, var(--surface)); }
-  .pilot-grid button[data-state="measurement_unavailable"] { background: color-mix(in srgb, var(--warn) 12%, var(--surface)); }
+  .pilot-grid button { position: relative; aspect-ratio: 1; min-width: 0; padding: 0.3rem; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; font: 0.82rem var(--mono); }
+  .pilot-grid button[data-state="legacy_row_complete"] { background: color-mix(in srgb, var(--teal) 8%, var(--surface)); }
+  .pilot-grid button[data-state="legacy_low_movement_row"] { background: color-mix(in srgb, var(--plasma) 9%, var(--surface)); }
+  .pilot-grid button[data-state="legacy_row_incomplete"] { background: color-mix(in srgb, var(--warn) 10%, var(--surface)); }
+  .pilot-grid button svg { display: block; width: 100%; height: 100%; }
+  .pilot-grid button path { fill: none; stroke: var(--si); stroke-width: 1.15; vector-effect: non-scaling-stroke; }
+  .pilot-grid .pilot-state-icon { position: absolute; top: 0.25rem; left: 0.25rem; display: grid; width: 1.2rem; height: 1.2rem; place-items: center; border: 1px solid var(--line); background: var(--surface); font-size: 0.62rem; }
   .pilot-grid button[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
   .pilot-grid button[data-center="true"]::after { content: "center"; position: absolute; inset: auto 0.18rem 0.18rem; color: var(--ink-dim); font-size: 0.48rem; }
   .pilot-detail { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(260px, 0.72fr); border: 1px solid var(--line); }
@@ -904,22 +907,22 @@
       <p class="note">The inventory comes from the current code and API. Earlier runs provide examples, but they do not define the factor list. <a href="pattern_bosch_factor_projection.json">Open every mask and etch item and its decision.</a></p>
     </div>
     <div class="pilot-study" id="pattern-bosch-range-pilot">
-      <h3>What the 25 coarse cases produced</h3>
-      <p class="claim">A wide first pass found measurable profiles and cases that need better checks.</p>
+      <h3>What the 25 coarse cases taught us</h3>
+      <p class="claim">The pilot exposed a measurement mistake before the larger experiment.</p>
       <p class="pilot-badge">Coarse range pilot · one shared seed label · numerical settings unqualified · no factor effects</p>
-      <p>Twenty cases returned all 14 mask and etch measurements. Five final profiles were saved, but the current wall-intersection measurement could not read them.</p>
+      <p>The old etch code measured the right wall and mirrored it, even though these simulations used a full-width via. Its etch values are now suspended. All saved profiles remain available for remeasurement.</p>
       <div class="pilot-legend" aria-label="Range-pilot result states">
-        <span data-icon="✓">18 complete measurements</span>
-        <span data-icon="—">2 measurable low-movement profiles</span>
-        <span data-icon="!">5 measurements unavailable</span>
+        <span data-icon="○">18 legacy rows retained</span>
+        <span data-icon="—">2 legacy low-movement flags retained</span>
+        <span data-icon="!">5 incomplete rows classified</span>
       </div>
       <div class="pilot-grid" id="pilot-case-grid" aria-label="Twenty-five range-pilot cases in design order"></div>
-      <p class="boundary-result"><b>Takeaway:</b> this pilot found cases worth checking again. It does not show which control caused an outcome, where a failure boundary lies, or which recipe is best.</p>
+      <p class="boundary-result"><b>Takeaway:</b> measure both walls before estimating factor effects. This pilot does not locate a failure boundary or identify a best recipe.</p>
       <div class="pilot-detail">
         <div class="pilot-profile" id="pilot-profile" role="img" aria-label="Selected saved final dry-etch profile"></div>
         <aside class="pilot-read" id="pilot-read" aria-live="polite"></aside>
       </div>
-      <p class="note"><a href="pattern_bosch_range_pilot_review.json">Open the corrected review and case data</a> · <a href="evidence/bosch/range_pilot/source_bundle.json">committed source bundle</a> · <a href="schemas/pattern-bosch-range-pilot-review.schema.json">schema</a></p>
+      <p class="note"><a href="pattern_bosch_range_pilot_review.json">Open the corrected review</a> · <a href="evidence/bosch/pattern_bosch_unavailable_profile_review.json">five-profile diagnosis</a> · <a href="evidence/bosch/range_pilot/source_bundle.json">source bundle</a> · <a href="schemas/pattern-bosch-range-pilot-review.schema.json">schema</a></p>
     </div>
     <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. The handoff viewer later on the page is the separate example that carries one geometry forward.</p>
     <div class="bosch-lab" id="bosch-interaction-lab">
@@ -1515,9 +1518,9 @@ renderNumericalEvidence();
 const PILOT = DATA.pattern_bosch_range_pilot;
 const pilotGrid = document.getElementById('pilot-case-grid');
 const pilotState = {
-  complete_measurements: { icon: '✓', label: 'All declared measurements returned' },
-  low_movement_measured: { icon: '—', label: 'Measured profile; etch movement stayed below the internal guard' },
-  measurement_unavailable: { icon: '!', label: 'Final profile saved; wall-intersection measurement unavailable' },
+  legacy_row_complete: { icon: '○', label: 'Legacy row retained; etch values suspended' },
+  legacy_low_movement_row: { icon: '—', label: 'Legacy low-movement flag retained; etch values suspended' },
+  legacy_row_incomplete: { icon: '!', label: 'Saved profile classified; etch values unavailable' },
 };
 
 function pilotValue(value, digits = 3) {
@@ -1534,24 +1537,27 @@ function renderPilotCase(row) {
     <rect x="${x}" y="${y}" width="${width}" height="${height}" fill="var(--surface)"/>
     <g transform="scale(1,-1)"><path d="${row.surface_path}" fill="none" stroke="var(--si)" stroke-width="0.007"/></g>
   </svg>`;
-  const metrics = row.measurements;
+  const metrics = row.legacy_measurements;
+  const availabilityLabels = {
+    extractor_out_of_domain: 'Both walls lie outside the old search window.',
+    full_width_measurement_unavailable_one_sided: 'Only one wall is present at the requested sample heights.',
+    via_reference_surface_absent: 'The saved silicon surface does not cross the declared wafer surface.',
+  };
   const metricRows = metrics ? `
-    <dt>Etch depth</dt><dd>${pilotValue(metrics.etch_depth)}</dd>
-    <dt>Top width</dt><dd>${pilotValue(metrics.etch_cd_top)}</dd>
-    <dt>Middle width</dt><dd>${pilotValue(metrics.etch_cd_middle)}</dd>
-    <dt>Bottom width</dt><dd>${pilotValue(metrics.etch_cd_bottom)}</dd>
-    <dt>Minimum width</dt><dd>${pilotValue(metrics.etch_minimum_cd)}</dd>
-    <dt>Bow</dt><dd>${pilotValue(metrics.etch_bow)}</dd>
-    <dt>Scallop RMS</dt><dd>${pilotValue(metrics.etch_scallop_rms, 4)}</dd>` : `
-    <dt>Measurement</dt><dd>unavailable</dd>
-    <dt>Unresolved region</dt><dd>${row.measurement_region === 'measurement_unavailable_deep_region' ? 'deep wall' : 'shallow wall'}</dd>`;
+    <dt>Mask opening at wafer</dt><dd>${pilotValue(metrics.mask_opening_cd_bottom)}</dd>
+    <dt>Mask opening halfway up</dt><dd>${pilotValue(metrics.mask_opening_cd_middle)}</dd>
+    <dt>Mask opening near top</dt><dd>${pilotValue(metrics.mask_opening_cd_top)}</dd>
+    <dt>Mask height</dt><dd>${pilotValue(metrics.mask_height)}</dd>
+    <dt>Etch values</dt><dd>suspended; the old code mirrored one wall</dd>` : `
+    <dt>Etch measurement</dt><dd>unavailable</dd>
+    <dt>Saved-profile finding</dt><dd>${availabilityLabels[row.measurement_availability] || 'Cause unresolved.'}</dd>`;
   document.getElementById('pilot-read').innerHTML = `<h4>${state.icon} ${state.label}</h4>
     <p>Case ${row.design_row + 1} of 25. Twelve controls changed together, so this row cannot identify a cause.</p>
     <dl>${metricRows}
       <dt>Wall time</dt><dd>${row.elapsed_s.toFixed(1)} s</dd>
       <dt>Design center</dt><dd>${row.is_center ? 'yes' : 'no'}</dd>
     </dl>
-    <p style="margin-top:1rem">Case ID <code>${row.case_id}</code>. <a href="evidence/bosch/range_pilot/source_bundle.json">Open the committed source row and profile evidence.</a></p>`;
+    <p style="margin-top:1rem">Case ID <code>${row.case_id}</code>. <a href="evidence/bosch/range_pilot/source_bundle.json">Open the saved source row and profile.</a></p>`;
 }
 
 PILOT.cases.forEach(row => {
@@ -1563,7 +1569,7 @@ PILOT.cases.forEach(row => {
   button.dataset.center = row.is_center;
   button.setAttribute('aria-pressed', 'false');
   button.setAttribute('aria-label', `Case ${row.design_row + 1}: ${state.label}`);
-  button.innerHTML = `<span aria-hidden="true">${state.icon}</span>`;
+  button.innerHTML = `<svg viewBox="${row.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g transform="scale(1,-1)"><path d="${row.surface_path}"/></g></svg><span class="pilot-state-icon" aria-hidden="true">${state.icon}</span>`;
   button.addEventListener('click', () => renderPilotCase(row));
   pilotGrid.appendChild(button);
 });

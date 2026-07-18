@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/pattern-bosch-unavailable-profile-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "highest_supported_claim", "sources", "cases"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "highest_supported_claim": {"type": "string", "minLength": 1},
+    "sources": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"$ref": "#/$defs/fileSource"}
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/case"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "eventSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "selector", "event_hash"],
+      "properties": {
+        "path": {"const": "evidence/bosch/range_pilot/source_bundle.json"},
+        "selector": {"type": "string", "pattern": "^/(parent_events|recovery_events)/[0-9]+$"},
+        "event_hash": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "measurementReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "reason_codes", "metrics", "diagnostics"],
+      "properties": {
+        "state": {
+          "enum": [
+            "complete",
+            "valid_categorical_modeled_state",
+            "insufficient_grid_representation",
+            "extractor_domain_failure",
+            "out_of_scope_region"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "metrics": {"type": ["object", "null"]},
+        "diagnostics": {"type": "object", "minProperties": 10}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "event_source",
+        "checkpoint",
+        "numerical_profile",
+        "measurement_context",
+        "topology_diagnostics",
+        "legacy_search_review",
+        "full_geometry_review",
+        "availability_class",
+        "cause_class",
+        "cause_status",
+        "affected_metric_ids",
+        "unaffected_metric_ids",
+        "physical_interpretation",
+        "permitted_claim",
+        "prohibited_claims"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+        "event_source": {"$ref": "#/$defs/eventSource"},
+        "checkpoint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "surface_sha256"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^evidence/bosch/unavailable_profile_checkpoints/.+\\.npz$"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "surface_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "numerical_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["grid_delta", "rays_per_point", "completed_cycle", "qualified"],
+          "properties": {
+            "grid_delta": {"type": "number", "exclusiveMinimum": 0},
+            "rays_per_point": {"type": "integer", "minimum": 1},
+            "completed_cycle": {"type": "integer", "minimum": 1},
+            "qualified": {"const": false}
+          }
+        },
+        "measurement_context": {"type": "object", "minProperties": 7},
+        "topology_diagnostics": {"type": "object", "minProperties": 2},
+        "legacy_search_review": {"$ref": "#/$defs/measurementReview"},
+        "full_geometry_review": {"$ref": "#/$defs/measurementReview"},
+        "availability_class": {
+          "enum": [
+            "extractor_out_of_domain",
+            "full_width_measurement_unavailable_one_sided",
+            "via_reference_surface_absent"
+          ]
+        },
+        "cause_class": {
+          "enum": ["configured_search_window_exceeded", "modeled_surface_cause_unresolved"]
+        },
+        "cause_status": {"enum": ["confirmed", "unresolved"]},
+        "affected_metric_ids": {
+          "type": "array",
+          "minItems": 9,
+          "maxItems": 9,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^etch_[a-z0-9_]+$"}
+        },
+        "unaffected_metric_ids": {"type": "array", "maxItems": 0},
+        "physical_interpretation": {"const": "unresolved"},
+        "permitted_claim": {"type": "string", "minLength": 1},
+        "prohibited_claims": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

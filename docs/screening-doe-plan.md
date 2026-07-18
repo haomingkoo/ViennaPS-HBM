@@ -1,11 +1,12 @@
 # Screening DOE plan
 
 Status: the 25-case range pilot and its classification recovery are complete.
-Twenty cases returned all 14 declared measurements. Five final geometries were
-saved but the declared wall-intersection measurement could not read them. Its
-factor levels and speed settings remain exploratory. The repeated 54-case
-screening study is a draft and cannot run because measurement and numerical
-checks remain incomplete.
+The legacy extractor returned values for 20 rows, but its etch values are
+suspended because it mirrored one wall in a full-width geometry. The five
+incomplete rows now have explicit availability classes. The active extractor
+requires both walls. Factor levels and speed settings remain exploratory. The
+repeated 54-case screening study is a draft and cannot run because resolution,
+repeat, numerical, and useful-change checks remain incomplete.
 
 Tracker: [fast-setting confirmation #12](https://github.com/haomingkoo/ViennaPS-HBM/issues/12)
 must finish before [the repeated screen #13](https://github.com/haomingkoo/ViennaPS-HBM/issues/13)

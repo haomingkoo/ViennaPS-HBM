@@ -23,16 +23,20 @@ assert document["execution"]["state_counts"] == {
 assert len(document["response_spans"]) == 14
 assert len(document["failures"]) == 5
 assert len(document["cases"]) == 25
-assert sum(case["display_state"] == "complete_measurements" for case in document["cases"]) == 18
-assert sum(case["display_state"] == "low_movement_measured" for case in document["cases"]) == 2
-assert sum(case["display_state"] == "measurement_unavailable" for case in document["cases"]) == 5
+assert sum(case["display_state"] == "legacy_row_complete" for case in document["cases"]) == 18
+assert sum(case["display_state"] == "legacy_low_movement_row" for case in document["cases"]) == 2
+assert sum(case["display_state"] == "legacy_row_incomplete" for case in document["cases"]) == 5
 assert "factor effect or ranking" in document["prohibited_claims"]
 assert "failure-boundary location" in document["prohibited_claims"]
 assert all(
     item["next_use"].startswith("confirmation candidate only")
     for item in document["confirmation_nominations"]
 )
-assert len(document["confirmation_nominations"]) == 8
+assert len(document["confirmation_nominations"]) == 9
+assert sum(
+    span["status"] == "suspended_legacy_positive_wall_mirroring"
+    for span in document["response_spans"]
+) == 9
 assert not any(
     "mask_height" in reason
     for item in document["confirmation_nominations"]

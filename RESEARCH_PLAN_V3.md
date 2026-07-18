@@ -332,9 +332,10 @@ shapes, distinct failure morphologies, and tested extremes.
 
 ## Immediate execution order
 
-1. Qualify the mask/Bosch measurement rules and classify the five pilot
-   measurement-unavailable states. Freeze response-specific representation,
-   numerical, repeat, and useful-change rules before screening authority.
+1. Qualify the mask/Bosch measurement rules. The five incomplete pilot rows are
+   now classified, and the active etch extractor requires both walls in the
+   declared full geometry. Freeze response-specific resolution, numerical,
+   repeat, and useful-change rules before screening authority.
 2. Run fresh adaptive 250-versus-500-ray pairs from one frozen manifest with
    identical physical inputs and stream labels. Include a clear modeled pass,
    adverse near-limit cases, extractor challenges, and independent repeats for

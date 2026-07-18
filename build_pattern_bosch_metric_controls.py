@@ -29,6 +29,33 @@ def wall(radius_fn, *, depth: float = 1.0, count: int = 401):
     return nodes, lines
 
 
+def full_via_surface(left_fn, right_fn, *, depth: float = 1.0, count: int = 401):
+    fractions = np.linspace(0.0, 1.0, count)
+    left = np.column_stack(
+        ([left_fn(fraction) for fraction in fractions], -depth * fractions)
+    )
+    right = np.column_stack(
+        ([right_fn(fraction) for fraction in fractions], -depth * fractions)
+    )[::-1]
+    nodes = np.vstack((left, right))
+    lines = np.column_stack((np.arange(len(nodes) - 1), np.arange(1, len(nodes))))
+    return nodes, lines
+
+
+def full_profile_control(case_id: str, nodes, lines, *, search_bounds=None) -> dict:
+    result = tm.measure_full_via_profile_2d(
+        nodes,
+        lines,
+        surface_y=0.0,
+        target_cd=0.30,
+        domain_x_bounds=(-0.5, 0.5),
+        search_x_bounds=search_bounds,
+        grid_delta=0.01,
+    )
+    result["diagnostics"].pop("sample_records")
+    return {"id": case_id, "result": result}
+
+
 def etch_case(case_id: str, radius_fn, *, depth: float = 1.0) -> dict:
     nodes, lines = wall(radius_fn, depth=depth)
     raw = tm.etch_profile_metrics_2d(
@@ -124,8 +151,44 @@ def build() -> dict:
         ),
     }
     assert all(checks.values())
+    full_nodes, full_lines = full_via_surface(lambda _: -0.15, lambda _: 0.15)
+    wide_nodes, wide_lines = full_via_surface(lambda _: -0.40, lambda _: 0.40)
+    one_wall_nodes, one_wall_lines = wall(lambda _: -0.15)
+    one_wall_nodes = np.vstack((one_wall_nodes, [0.0, -1.0]))
+    one_wall_lines = np.vstack((
+        one_wall_lines,
+        [len(one_wall_nodes) - 2, len(one_wall_nodes) - 1],
+    ))
+    absent_nodes = full_nodes.copy()
+    absent_nodes[:, 1] -= 2.0
+    narrow_nodes, narrow_lines = full_via_surface(
+        lambda _: -0.009, lambda _: 0.009
+    )
+    full_profile_controls = [
+        full_profile_control("full_straight", full_nodes, full_lines),
+        full_profile_control("full_wide", wide_nodes, wide_lines),
+        full_profile_control(
+            "full_wide_legacy_window",
+            wide_nodes,
+            wide_lines,
+            search_bounds=(-0.30, 0.30),
+        ),
+        full_profile_control("full_one_wall", one_wall_nodes, one_wall_lines),
+        full_profile_control("declared_surface_absent", absent_nodes, full_lines),
+        full_profile_control("two_cell_neck", narrow_nodes, narrow_lines),
+    ]
+    expected_states = {
+        "full_straight": "complete",
+        "full_wide": "complete",
+        "full_wide_legacy_window": "extractor_domain_failure",
+        "full_one_wall": "valid_categorical_modeled_state",
+        "declared_surface_absent": "out_of_scope_region",
+        "two_cell_neck": "insufficient_grid_representation",
+    }
+    for control in full_profile_controls:
+        assert control["result"]["state"] == expected_states[control["id"]]
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "scope": "Synthetic geometry controls for measurement code; not simulated process outcomes.",
         "sources": [
             {"path": path, "sha256": digest(path)}
@@ -135,8 +198,11 @@ def build() -> dict:
             )
         ],
         "cases": cases,
+        "full_profile_controls": full_profile_controls,
         "checks": checks,
-        "claim": "The extractors distinguish these controlled geometry changes.",
+        "claim": (
+            "The legacy extractors respond to the large controlled contrasts, and the full-via wrapper distinguishes complete, out-of-domain, one-wall, absent-surface, and under-resolved states."
+        ),
         "does_not_prove": "Detection limits, numerical stability, physical calibration, or a process recipe.",
     }
 

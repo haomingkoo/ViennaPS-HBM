@@ -15,11 +15,12 @@ import traveler_metrics as tm
 
 
 ROOT = Path(__file__).resolve().parent
-INTERACTION_ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl"
-INTERACTION_REVIEW = ROOT / "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_review.json"
-INTERIOR_ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl"
+INTERACTION_ROWS = ROOT / "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl"
+INTERACTION_REVIEW = ROOT / "evidence/numerical/v3_bosch_cheap_interactions_review.json"
+INTERIOR_ROWS = ROOT / "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl"
 OUTPUT = ROOT / "bosch_tutorial_data.json"
 PUBLIC_EVIDENCE = Path("evidence/numerical")
+TUTORIAL_CHECKPOINTS = ROOT / "evidence/bosch/tutorial_checkpoints"
 ETCH_TARGETS = PROCESS_CONFIG["targets"]["etch"]
 INTERIOR_PUBLIC_CASES = {
     "aac0e99de49584cc",
@@ -97,25 +98,51 @@ def material_id(material) -> str:
     return str(material)
 
 
-def materials(row: dict) -> list[dict]:
+def silicon_mesh(row: dict) -> dict:
+    checkpoint_path = TUTORIAL_CHECKPOINTS / Path(row["checkpoint_path"]).name
     domain = checkpoint.load_domain_checkpoint(
-        Path(row["checkpoint_path"]), expected_sha256=row["checkpoint_sha256"]
+        checkpoint_path, expected_sha256=row["checkpoint_sha256"]
     )
-    return [
-        {"id": material_id(mesh["material"]), "surface_path": surface_path(mesh)}
+    return next(
+        mesh
         for mesh in tm.raw_level_set_meshes(domain)
         if mesh["material"] == ps.Material.Si
+    )
+
+
+def materials(mesh: dict) -> list[dict]:
+    return [
+        {"id": material_id(mesh["material"]), "surface_path": surface_path(mesh)}
     ]
 
 
-def public_metrics(row: dict) -> dict:
-    etch = row["selected_cycle_metrics"]["etch"]
-    fractions = np.asarray(etch["sample_fractions"], dtype=float)
-    cds = np.asarray(etch["sample_cds"], dtype=float)
-    radii = cds / 2.0
+def public_metrics(row: dict, mesh: dict) -> dict:
+    review = tm.measure_full_via_profile_2d(
+        mesh["nodes"],
+        mesh["lines"],
+        surface_y=0.0,
+        target_cd=ETCH_TARGETS["target_width"],
+        domain_x_bounds=(-0.5, 0.5),
+        grid_delta=row["numerics"]["grid_delta"],
+    )
+    if review["state"] != "complete":
+        raise ValueError(f"full-width measurement unavailable for {row['case_id']}")
+    etch = review["metrics"]
+    records = review["diagnostics"]["sample_records"]
+    fractions = np.asarray([-record["y"] / etch["depth"] for record in records])
+    cds = np.asarray(
+        [record["right_wall_x"] - record["left_wall_x"] for record in records]
+    )
+    radii = 0.5 * cds
     straight = np.linspace(radii[0], radii[-1], len(radii))
     cd_index = int(np.argmax(np.abs(cds - ETCH_TARGETS["target_width"])))
     bow_index = int(np.argmax(np.abs(radii - straight)))
+    hard_gate_pass = (
+        abs(etch["depth"] - ETCH_TARGETS["target_depth"])
+        <= ETCH_TARGETS["depth_tolerance"]
+        and etch["max_cd_error"] <= ETCH_TARGETS["max_width_error"]
+        and etch["max_bow"] <= ETCH_TARGETS["max_wall_bulge"]
+    )
     return {
         "depth": etch["depth"],
         "cd_top": etch["cd_top"],
@@ -126,8 +153,10 @@ def public_metrics(row: dict) -> dict:
         "scallop_rms": etch["scallop_rms"],
         "sidewall_angle_deg": etch["sidewall_angle_deg"],
         "selected_cycle": row["selected_cycle"],
-        "hard_gate_pass": row["hard_gate_pass"],
+        "hard_gate_pass": bool(hard_gate_pass),
         "trajectory_class": row["trajectory_classification"],
+        "measurement_method": "full_width_two_wall_remeasurement",
+        "numerically_qualified": False,
         "maximum_cd_error_fraction": float(fractions[cd_index]),
         "maximum_cd_error_cd": float(cds[cd_index]),
         "maximum_bow_fraction": float(fractions[bow_index]),
@@ -139,14 +168,15 @@ def public_metrics(row: dict) -> dict:
 def interaction_case(row: dict, line_number: int) -> dict:
     anchor = row["anchor_reasons"][0]
     _, first, second, first_level, second_level = anchor.split(":")
+    mesh = silicon_mesh(row)
     return {
         "case_id": row["case_id"],
         "interaction": [first, second],
         "levels": {first: first_level, second: second_level},
         "values": {first: row["recipe"][first], second: row["recipe"][second]},
         "recipe": row["recipe"],
-        "metrics": public_metrics(row),
-        "materials": materials(row),
+        "metrics": public_metrics(row, mesh),
+        "materials": materials(mesh),
         "elapsed_s": row["elapsed_s"],
         "rays_per_point": row["numerics"]["rays_per_point"],
         "checkpoint_sha256": row["checkpoint_sha256"],
@@ -159,12 +189,13 @@ def interaction_case(row: dict, line_number: int) -> dict:
 
 
 def interior_case(row: dict, line_number: int) -> dict:
+    mesh = silicon_mesh(row)
     return {
         "case_id": row["case_id"],
         "normalized_coordinates": row["normalized_coordinates"],
         "recipe": row["recipe"],
-        "metrics": public_metrics(row),
-        "materials": materials(row),
+        "metrics": public_metrics(row, mesh),
+        "materials": materials(mesh),
         "elapsed_s": row["elapsed_s"],
         "rays_per_point": row["numerics"]["rays_per_point"],
         "checkpoint_sha256": row["checkpoint_sha256"],
@@ -194,11 +225,15 @@ def main() -> None:
         for index, row in enumerate(interior_rows, 1)
         if row["case_id"] in INTERIOR_PUBLIC_CASES
     ]
+    remeasured_passes = sum(
+        case["metrics"]["hard_gate_pass"] for case in interactions
+    )
     document = {
-        "schema_version": 1,
+        "schema_version": 2,
         "title": "Dry-etch factor pairs",
         "scope": (
-            "Exact 500-ray discovery cases. They compare factor pairs against "
+            "Exact 500-ray discovery cases, remeasured from both saved via walls. "
+            "They compare factor pairs against "
             "assumed study bands; they do not estimate interaction uncertainty, "
             "define a machine recipe, or confirm a process window."
         ),
@@ -236,13 +271,11 @@ def main() -> None:
         "measurement_example_case_id": "7405eb159356c564",
         "review": {
             "valid_cases": review["valid_case_count"],
-            "hard_gate_passes": review["hard_gate_pass_count"],
-            "decision": review["decision"],
-            "citation": {
-                "path": str(PUBLIC_EVIDENCE / INTERACTION_REVIEW.name),
-                "sha256": sha256(INTERACTION_REVIEW),
-                "selector": "/decision",
-            },
+            "hard_gate_passes": remeasured_passes,
+            "decision": (
+                "All 28 saved profiles were remeasured from both walls. Counts use assumed study bands; no factor effect or interaction is qualified."
+            ),
+            "derivation": "Count /interactions/*/metrics/hard_gate_pass; each interaction carries its source-row citation.",
         },
     }
     OUTPUT.write_text(json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n")

@@ -11,12 +11,12 @@
         "total_polymer_directional_removal_amount": -0.64
       },
       "design_row": 0,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 5.943822708009975,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.00967310384930356,
         "etch_cd_bottom": 0.03113145254903053,
         "etch_cd_middle": 0.1228867033937116,
@@ -32,6 +32,7 @@
         "mask_opening_cd_top": 0.35362733395960605,
         "mask_sidewall_angle": 5.999999999999998
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.04,
@@ -71,12 +72,12 @@
         "total_polymer_directional_removal_amount": -0.048
       },
       "design_row": 1,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 2.2494356670067646,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.02040159685595705,
         "etch_cd_bottom": 0.19529820095766318,
         "etch_cd_middle": 0.2492066173163535,
@@ -92,6 +93,7 @@
         "mask_opening_cd_top": 0.25781762421777443,
         "mask_sidewall_angle": 2.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.003,
@@ -131,12 +133,12 @@
         "total_polymer_directional_removal_amount": -0.4
       },
       "design_row": 2,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 3.7089463750016876,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.008049874203048195,
         "etch_cd_bottom": 0.059913719204606135,
         "etch_cd_middle": 0.10293868393374171,
@@ -152,6 +154,7 @@
         "mask_opening_cd_top": 0.20432124274206268,
         "mask_sidewall_angle": -4.000000000000002
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.04,
@@ -191,12 +194,12 @@
         "total_polymer_directional_removal_amount": -0.16
       },
       "design_row": 3,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 3.919542374991579,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.025542447060420012,
         "etch_cd_bottom": 0.08936239706426502,
         "etch_cd_middle": 0.20136283216591852,
@@ -212,6 +215,7 @@
         "mask_opening_cd_top": 0.2936273339596061,
         "mask_sidewall_angle": 6.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.04,
@@ -251,12 +255,12 @@
         "total_polymer_directional_removal_amount": -0.64
       },
       "design_row": 4,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 5.156564292003168,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.02117181282039827,
         "etch_cd_bottom": 0.024342702750718623,
         "etch_cd_middle": 0.04314975993107313,
@@ -272,6 +276,7 @@
         "mask_opening_cd_top": 0.20432124274206268,
         "mask_sidewall_angle": -4.000000000000002
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.04,
@@ -311,12 +316,12 @@
         "total_polymer_directional_removal_amount": -0.012
       },
       "design_row": 5,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 6.72773887499352,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.03167186610112642,
         "etch_cd_bottom": 0.19402244776373226,
         "etch_cd_middle": 0.28432935613400384,
@@ -332,6 +337,7 @@
         "mask_opening_cd_top": 0.20432124274206268,
         "mask_sidewall_angle": -4.000000000000002
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -371,12 +377,12 @@
         "total_polymer_directional_removal_amount": -0.16
       },
       "design_row": 6,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 0.7919099999999162,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.02171494002107799,
         "etch_cd_bottom": 0.06302301668035135,
         "etch_cd_middle": 0.20511297779186244,
@@ -392,6 +398,7 @@
         "mask_opening_cd_top": 0.20432124274206268,
         "mask_sidewall_angle": -4.000000000000002
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.04,
@@ -431,12 +438,12 @@
         "total_polymer_directional_removal_amount": -0.02
       },
       "design_row": 7,
-      "display_state": "low_movement_measured",
+      "display_state": "legacy_low_movement_row",
       "elapsed_s": 0.21188829198945314,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.0072761322316402255,
         "etch_cd_bottom": 0.16293734878332544,
         "etch_cd_middle": 0.20931927991705165,
@@ -452,6 +459,7 @@
         "mask_opening_cd_top": 0.2936273339596061,
         "mask_sidewall_angle": 6.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.005,
@@ -491,12 +499,12 @@
         "total_polymer_directional_removal_amount": -0.048
       },
       "design_row": 8,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 1.4991773329966236,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.006256536315004627,
         "etch_cd_bottom": 0.2254256193737631,
         "etch_cd_middle": 0.23804213015966796,
@@ -512,6 +520,7 @@
         "mask_opening_cd_top": 0.2936273339596061,
         "mask_sidewall_angle": 6.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.01,
         "deposition_thickness": 0.003,
@@ -551,12 +560,12 @@
         "total_polymer_directional_removal_amount": -0.64
       },
       "design_row": 9,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 154.15753929197672,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.08583914385490549,
         "etch_cd_bottom": 0.505038373271409,
         "etch_cd_middle": 0.4934506466294136,
@@ -572,6 +581,7 @@
         "mask_opening_cd_top": 0.2936273339596061,
         "mask_sidewall_angle": 6.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.04,
@@ -611,15 +621,16 @@
         "total_polymer_directional_removal_amount": -0.048
       },
       "design_row": 10,
-      "display_state": "measurement_unavailable",
+      "display_state": "legacy_row_incomplete",
       "elapsed_s": 12.163806333992397,
       "error": {
         "message": "no via-wall intersection at y=-0.11443352906498219",
         "type": "ValueError"
       },
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": "measurement_unavailable_shallow_region",
-      "measurements": null,
+      "legacy_measurements": null,
+      "measurement_availability": "full_width_measurement_unavailable_one_sided",
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -659,12 +670,12 @@
         "total_polymer_directional_removal_amount": -0.012
       },
       "design_row": 11,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 9.55298062498332,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.09193150039898157,
         "etch_cd_bottom": 0.11416712830456693,
         "etch_cd_middle": 0.39580932273127484,
@@ -680,6 +691,7 @@
         "mask_opening_cd_top": 0.2936273339596061,
         "mask_sidewall_angle": 6.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.003,
@@ -719,12 +731,12 @@
         "total_polymer_directional_removal_amount": -0.012
       },
       "design_row": 12,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 0.9138629999943078,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.051911027545162,
         "etch_cd_bottom": 0.24986779709092213,
         "etch_cd_middle": 0.39173223027390647,
@@ -740,6 +752,7 @@
         "mask_opening_cd_top": 0.2643212427420627,
         "mask_sidewall_angle": -3.9999999999999947
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.003,
@@ -779,15 +792,16 @@
         "total_polymer_directional_removal_amount": -0.16
       },
       "design_row": 13,
-      "display_state": "measurement_unavailable",
+      "display_state": "legacy_row_incomplete",
       "elapsed_s": 11.930337208003039,
       "error": {
         "message": "no via-wall intersection at y=-0.16042639619718446",
         "type": "ValueError"
       },
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": "measurement_unavailable_shallow_region",
-      "measurements": null,
+      "legacy_measurements": null,
+      "measurement_availability": "extractor_out_of_domain",
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.04,
@@ -827,12 +841,12 @@
         "total_polymer_directional_removal_amount": -0.03
       },
       "design_row": 14,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 3.84390987502411,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.03607474965348792,
         "etch_cd_bottom": 0.42735827470524534,
         "etch_cd_middle": 0.41817117246637686,
@@ -848,6 +862,7 @@
         "mask_opening_cd_top": 0.41362733395960605,
         "mask_sidewall_angle": 5.999999999999998
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -887,12 +902,12 @@
         "total_polymer_directional_removal_amount": -0.048
       },
       "design_row": 15,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 1.7940977080143057,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.006020179395847369,
         "etch_cd_bottom": 0.31221417457399553,
         "etch_cd_middle": 0.3239959465039023,
@@ -908,6 +923,7 @@
         "mask_opening_cd_top": 0.3243212427420627,
         "mask_sidewall_angle": -3.9999999999999947
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.003,
@@ -947,15 +963,16 @@
         "total_polymer_directional_removal_amount": -0.012
       },
       "design_row": 16,
-      "display_state": "measurement_unavailable",
+      "display_state": "legacy_row_incomplete",
       "elapsed_s": 3.414144499984104,
       "error": {
         "message": "no via-wall intersection at y=-0.10072060174737606",
         "type": "ValueError"
       },
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": "measurement_unavailable_shallow_region",
-      "measurements": null,
+      "legacy_measurements": null,
+      "measurement_availability": "extractor_out_of_domain",
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.003,
@@ -995,12 +1012,12 @@
         "total_polymer_directional_removal_amount": -0.64
       },
       "design_row": 17,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 2.4311457500152756,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.018942748202136955,
         "etch_cd_bottom": 0.07090717112543901,
         "etch_cd_middle": 0.20824433115234034,
@@ -1016,6 +1033,7 @@
         "mask_opening_cd_top": 0.41362733395960605,
         "mask_sidewall_angle": 5.999999999999998
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.04,
@@ -1055,15 +1073,16 @@
         "total_polymer_directional_removal_amount": -0.048
       },
       "design_row": 18,
-      "display_state": "measurement_unavailable",
+      "display_state": "legacy_row_incomplete",
       "elapsed_s": 149.32248624999193,
       "error": {
         "message": "no via-wall intersection at y=-1.0358039321167636",
         "type": "ValueError"
       },
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": "measurement_unavailable_deep_region",
-      "measurements": null,
+      "legacy_measurements": null,
+      "measurement_availability": "via_reference_surface_absent",
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -1103,15 +1122,16 @@
         "total_polymer_directional_removal_amount": -0.08
       },
       "design_row": 19,
-      "display_state": "measurement_unavailable",
+      "display_state": "legacy_row_incomplete",
       "elapsed_s": 178.13246383302612,
       "error": {
         "message": "no via-wall intersection at y=-0.9969752870852923",
         "type": "ValueError"
       },
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": "measurement_unavailable_deep_region",
-      "measurements": null,
+      "legacy_measurements": null,
+      "measurement_availability": "full_width_measurement_unavailable_one_sided",
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.005,
@@ -1151,12 +1171,12 @@
         "total_polymer_directional_removal_amount": -0.16
       },
       "design_row": 20,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 7.437461166991852,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.014694658673019306,
         "etch_cd_bottom": 0.3621494239938735,
         "etch_cd_middle": 0.3889297961089276,
@@ -1172,6 +1192,7 @@
         "mask_opening_cd_top": 0.3243212427420627,
         "mask_sidewall_angle": -3.9999999999999947
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.01,
         "deposition_thickness": 0.04,
@@ -1211,12 +1232,12 @@
         "total_polymer_directional_removal_amount": -0.012
       },
       "design_row": 21,
-      "display_state": "low_movement_measured",
+      "display_state": "legacy_low_movement_row",
       "elapsed_s": 0.24747916602063924,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.006752071440444318,
         "etch_cd_bottom": 0.2573630323077366,
         "etch_cd_middle": 0.3055008266803439,
@@ -1232,6 +1253,7 @@
         "mask_opening_cd_top": 0.3243212427420627,
         "mask_sidewall_angle": -3.9999999999999947
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -1271,12 +1293,12 @@
         "total_polymer_directional_removal_amount": -0.16
       },
       "design_row": 22,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 1.0114309999917168,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.01702273890566633,
         "etch_cd_bottom": 0.17977934316576355,
         "etch_cd_middle": 0.24864336901453915,
@@ -1292,6 +1314,7 @@
         "mask_opening_cd_top": 0.41362733395960605,
         "mask_sidewall_angle": 5.999999999999998
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.04,
@@ -1331,12 +1354,12 @@
         "total_polymer_directional_removal_amount": -0.64
       },
       "design_row": 23,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 2.440755874995375,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": false,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.020270002136014723,
         "etch_cd_bottom": 0.060651811548704034,
         "etch_cd_middle": 0.13470555282350388,
@@ -1352,6 +1375,7 @@
         "mask_opening_cd_top": 0.3243212427420627,
         "mask_sidewall_angle": -3.9999999999999947
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.04,
@@ -1391,12 +1415,12 @@
         "total_polymer_directional_removal_amount": -0.05
       },
       "design_row": 24,
-      "display_state": "complete_measurements",
+      "display_state": "legacy_row_complete",
       "elapsed_s": 3.278551208000863,
       "error": null,
+      "etch_measurement_status": "suspended_legacy_positive_wall_mirroring",
       "is_center": true,
-      "measurement_region": null,
-      "measurements": {
+      "legacy_measurements": {
         "etch_bow": 0.009263606975517452,
         "etch_cd_bottom": 0.31711907686996,
         "etch_cd_middle": 0.33155236489635037,
@@ -1412,6 +1436,7 @@
         "mask_opening_cd_top": 0.31781762421777443,
         "mask_sidewall_angle": 2.000000000000001
       },
+      "measurement_availability": null,
       "recipe": {
         "deposition_sticking_probability": 0.01,
         "deposition_thickness": 0.005,
@@ -1444,6 +1469,24 @@
   ],
   "confirmation_nominations": [
     {
+      "case_id": "031eff54b2d11a1a",
+      "checkpoint": {
+        "native_sha256": "6d43dc98f7e9e8b100edba49a8261c784881c334e19d245353d31e28af488d9a",
+        "surface_sha256": "a92a8e92ba3d3827010d5f31c8e3e2d1bb078aa4bcde53ac2b39b066c5ce3127"
+      },
+      "next_use": "confirmation candidate only; selection does not imply factor attribution",
+      "reasons": [
+        "full width measurement unavailable one sided"
+      ],
+      "source": {
+        "case_id": "031eff54b2d11a1a",
+        "event_hash": "283ce891dac3dbe2028306464321895a8e8b3059e405e7d6aaa3eeb327e2c915",
+        "path": "evidence/bosch/range_pilot/source_bundle.json",
+        "selector": "/recovery_events/5"
+      },
+      "state": "missing_measurement"
+    },
+    {
       "case_id": "1876b721a052732e",
       "checkpoint": {
         "native_sha256": "eca1701c55241e0fba713bb996450af12feb97c55f847a51efa292f89414c383",
@@ -1469,7 +1512,7 @@
       },
       "next_use": "confirmation candidate only; selection does not imply factor attribution",
       "reasons": [
-        "unresolved shallow-region measurement"
+        "full width measurement unavailable one sided"
       ],
       "source": {
         "case_id": "270ed2834457ec9c",
@@ -1487,7 +1530,7 @@
       },
       "next_use": "confirmation candidate only; selection does not imply factor attribution",
       "reasons": [
-        "unresolved deep-region measurement"
+        "via reference surface absent"
       ],
       "source": {
         "case_id": "3ce6823a82555ae4",
@@ -1534,40 +1577,22 @@
       "state": "complete_measured"
     },
     {
-      "case_id": "a0b1a42f034be0b4",
+      "case_id": "b88f0c3e7a5e9bfb",
       "checkpoint": {
-        "native_sha256": "528e3f6ecc30d249db767f58181e42bddc9af955b5a5db571dab4fd124285d51",
-        "surface_sha256": "5195c8178af428a54dec1a76fe0b4f156f3093f5ab9303cf43d18f7f106bd340"
+        "native_sha256": "d9ed0889dce65e1e6801a9ddebb8d69454243506b7d98fb044f44425ca270aec",
+        "surface_sha256": "d66cb9595e0dbea7ae62c6eb1e210f03a4a94bc0508fc6b9041928f3dd733e77"
       },
       "next_use": "confirmation candidate only; selection does not imply factor attribution",
       "reasons": [
-        "deepest measured via and slow measured case"
+        "extractor out of domain"
       ],
       "source": {
-        "case_id": "a0b1a42f034be0b4",
-        "event_hash": "c21904ae5c75384caa14e0e8d7d245469b0d3cc39a8ac405becb6e6929fbb381",
+        "case_id": "b88f0c3e7a5e9bfb",
+        "event_hash": "e4ce031ae8623d82db5483e96cf6b96e3a53236d8e866db26ce3bf3de6baf58d",
         "path": "evidence/bosch/range_pilot/source_bundle.json",
-        "selector": "/parent_events/9"
+        "selector": "/recovery_events/3"
       },
-      "state": "complete_measured"
-    },
-    {
-      "case_id": "bd5b486f6fb67256",
-      "checkpoint": {
-        "native_sha256": "db0c90ae2387b24e3ecc857236977f59f3410673a6901db1e37f221300d93b59",
-        "surface_sha256": "71a7db0c69230e9f76bf013ef822a13d2108a588c1b69c1081ec1709d8f90255"
-      },
-      "next_use": "confirmation candidate only; selection does not imply factor attribution",
-      "reasons": [
-        "narrowest measured via"
-      ],
-      "source": {
-        "case_id": "bd5b486f6fb67256",
-        "event_hash": "e2b926513b446371adb847b28ea85c5c8d98aee58ed85ac3cc956e6609670456",
-        "path": "evidence/bosch/range_pilot/source_bundle.json",
-        "selector": "/parent_events/4"
-      },
-      "state": "complete_measured"
+      "state": "missing_measurement"
     },
     {
       "case_id": "f56ee9f0c5703348",
@@ -1586,6 +1611,24 @@
         "selector": "/recovery_events/0"
       },
       "state": "complete_measured"
+    },
+    {
+      "case_id": "fed102f8549822b8",
+      "checkpoint": {
+        "native_sha256": "9f7ed4ef593e8261bdfbd92cf1235e79a6c2f91dc35e63844b021ff00dd3479c",
+        "surface_sha256": "a980ffff0472ae3dc103e7d6ec57142bd0459c21fcffdd0364ff6ea63dd917c2"
+      },
+      "next_use": "confirmation candidate only; selection does not imply factor attribution",
+      "reasons": [
+        "extractor out of domain"
+      ],
+      "source": {
+        "case_id": "fed102f8549822b8",
+        "event_hash": "98fbd88857ecda8d0838f23c0f39a0a1ffb5fa6fc92546e044eb65e3d1e45fdd",
+        "path": "evidence/bosch/range_pilot/source_bundle.json",
+        "selector": "/recovery_events/2"
+      },
+      "state": "missing_measurement"
     }
   ],
   "execution": {
@@ -1607,13 +1650,13 @@
         "native_sha256": "2a98ad4b5a4735dbde1f84e0c0bdf753954b2e032752bc3fb50d15607544c341",
         "surface_sha256": "4dd57a4ecd15040e110dbe216eafed4be51d2350fffd27e40168ae3eb474ded5"
       },
-      "classification": "measurement_unavailable_shallow_region",
+      "classification": "full_width_measurement_unavailable_one_sided",
       "elapsed_s": 12.163806333992397,
       "error": {
         "message": "no via-wall intersection at y=-0.11443352906498219",
         "type": "ValueError"
       },
-      "interpretation": "final geometry saved; the declared measurement is unavailable",
+      "interpretation": "The saved full-domain surface provides only one wall at the declared sample heights, so full-width metrics are unavailable.",
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -1628,6 +1671,11 @@
         "radius": 0.12,
         "theta_r_min": 45.0
       },
+      "review_source": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases/0",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
+      },
       "source": {
         "case_id": "270ed2834457ec9c",
         "event_hash": "371609ecbb6050cc19959bc466bbb5c384a2cf14c37ae134278c0568da4dbfe7",
@@ -1641,13 +1689,13 @@
         "native_sha256": "9f7ed4ef593e8261bdfbd92cf1235e79a6c2f91dc35e63844b021ff00dd3479c",
         "surface_sha256": "a980ffff0472ae3dc103e7d6ec57142bd0459c21fcffdd0364ff6ea63dd917c2"
       },
-      "classification": "measurement_unavailable_shallow_region",
+      "classification": "extractor_out_of_domain",
       "elapsed_s": 11.930337208003039,
       "error": {
         "message": "no via-wall intersection at y=-0.16042639619718446",
         "type": "ValueError"
       },
-      "interpretation": "final geometry saved; the declared measurement is unavailable",
+      "interpretation": "Both signed wall intersections exist outside the old configured search window.",
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.04,
@@ -1662,6 +1710,11 @@
         "radius": 0.18,
         "theta_r_min": 25.0
       },
+      "review_source": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases/1",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
+      },
       "source": {
         "case_id": "fed102f8549822b8",
         "event_hash": "98fbd88857ecda8d0838f23c0f39a0a1ffb5fa6fc92546e044eb65e3d1e45fdd",
@@ -1675,13 +1728,13 @@
         "native_sha256": "d9ed0889dce65e1e6801a9ddebb8d69454243506b7d98fb044f44425ca270aec",
         "surface_sha256": "d66cb9595e0dbea7ae62c6eb1e210f03a4a94bc0508fc6b9041928f3dd733e77"
       },
-      "classification": "measurement_unavailable_shallow_region",
+      "classification": "extractor_out_of_domain",
       "elapsed_s": 3.414144499984104,
       "error": {
         "message": "no via-wall intersection at y=-0.10072060174737606",
         "type": "ValueError"
       },
-      "interpretation": "final geometry saved; the declared measurement is unavailable",
+      "interpretation": "Both signed wall intersections exist outside the old configured search window.",
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.003,
@@ -1696,6 +1749,11 @@
         "radius": 0.18,
         "theta_r_min": 90.0
       },
+      "review_source": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases/2",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
+      },
       "source": {
         "case_id": "b88f0c3e7a5e9bfb",
         "event_hash": "e4ce031ae8623d82db5483e96cf6b96e3a53236d8e866db26ce3bf3de6baf58d",
@@ -1709,13 +1767,13 @@
         "native_sha256": "20b65e4e94bfc78f02ab7b9b49957297c51d13b638f5036f37d28a219ff12b01",
         "surface_sha256": "11c56329734d8a98f73e44528f9a110fe52e634ba8833e9ac3bc83affd7fd462"
       },
-      "classification": "measurement_unavailable_deep_region",
+      "classification": "via_reference_surface_absent",
       "elapsed_s": 149.32248624999193,
       "error": {
         "message": "no via-wall intersection at y=-1.0358039321167636",
         "type": "ValueError"
       },
-      "interpretation": "final geometry saved; the declared measurement is unavailable",
+      "interpretation": "The saved silicon surface does not intersect the declared wafer surface, so via measurements referenced to that surface are unavailable.",
       "recipe": {
         "deposition_sticking_probability": 0.03,
         "deposition_thickness": 0.003,
@@ -1730,6 +1788,11 @@
         "radius": 0.18,
         "theta_r_min": 25.0
       },
+      "review_source": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases/3",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
+      },
       "source": {
         "case_id": "3ce6823a82555ae4",
         "event_hash": "8f20f2332dade89d9b8fb7b9d36150bb42a3c9b71d77d3973fd652b3abf1aaa0",
@@ -1743,13 +1806,13 @@
         "native_sha256": "6d43dc98f7e9e8b100edba49a8261c784881c334e19d245353d31e28af488d9a",
         "surface_sha256": "a92a8e92ba3d3827010d5f31c8e3e2d1bb078aa4bcde53ac2b39b066c5ce3127"
       },
-      "classification": "measurement_unavailable_deep_region",
+      "classification": "full_width_measurement_unavailable_one_sided",
       "elapsed_s": 178.13246383302612,
       "error": {
         "message": "no via-wall intersection at y=-0.9969752870852923",
         "type": "ValueError"
       },
-      "interpretation": "final geometry saved; the declared measurement is unavailable",
+      "interpretation": "The saved full-domain surface provides only one wall at the declared sample heights, so full-width metrics are unavailable.",
       "recipe": {
         "deposition_sticking_probability": 0.001,
         "deposition_thickness": 0.005,
@@ -1764,6 +1827,11 @@
         "radius": 0.18,
         "theta_r_min": 25.0
       },
+      "review_source": {
+        "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+        "selector": "/cases/4",
+        "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
+      },
       "source": {
         "case_id": "031eff54b2d11a1a",
         "event_hash": "283ce891dac3dbe2028306464321895a8e8b3059e405e7d6aaa3eeb327e2c915",
@@ -1773,8 +1841,8 @@
       "state": "missing_measurement"
     }
   ],
-  "highest_supported_claim": "Using one unqualified coarse numerical profile, 20 of 25 model-input combinations returned non-null values for all 14 declared measurements. Two of those reached the measurable low-movement guard. Five final geometries were saved but could not be evaluated by the declared wall-intersection measurement. The observations select confirmation cases; they do not identify factor effects or a process boundary.",
-  "next_decision": "Run the eight nominated rows with paired numerical settings. Add independent center and narrow-case streams before the 54-case screen.",
+  "highest_supported_claim": "All 25 coarse pilot states are retained. The legacy extractor returned values in 20 rows, but its etch-shape values are suspended because it mirrored one wall in a full-width geometry. Review of the five incomplete rows found two search-window misses, two one-sided saved surfaces, and one case without the declared reference surface. No factor effects or process boundary are supported.",
+  "next_decision": "Qualify the full-width extractor and its resolution, numerical, and repeat envelopes before the 54-case screen.",
   "prohibited_claims": [
     "factor effect or ranking",
     "uncertainty or curvature",
@@ -1801,6 +1869,7 @@
       "observed_maximum": 0.3631941177097239,
       "observed_minimum": 0.23787492418503672,
       "observed_span": 0.12531919352468715,
+      "status": "available_unqualified",
       "units": "model length",
       "usable_rows": 20
     },
@@ -1822,6 +1891,7 @@
       "observed_maximum": 0.39156280185028264,
       "observed_minimum": 0.21900097837336382,
       "observed_span": 0.1725618234769188,
+      "status": "available_unqualified",
       "units": "model length",
       "usable_rows": 20
     },
@@ -1843,6 +1913,7 @@
       "observed_maximum": 0.41362733395960605,
       "observed_minimum": 0.20432124274206268,
       "observed_span": 0.20930609121754337,
+      "status": "available_unqualified",
       "units": "model length",
       "usable_rows": 20
     },
@@ -1864,6 +1935,7 @@
       "observed_maximum": 0.2999,
       "observed_minimum": 0.2999,
       "observed_span": 0.0,
+      "status": "available_unqualified",
       "units": "model length",
       "usable_rows": 20
     },
@@ -1885,11 +1957,12 @@
       "observed_maximum": 6.000000000000001,
       "observed_minimum": -4.000000000000002,
       "observed_span": 10.000000000000004,
+      "status": "available_unqualified",
       "units": "degrees",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "a0b1a42f034be0b4",
         "event_hash": "c21904ae5c75384caa14e0e8d7d245469b0d3cc39a8ac405becb6e6929fbb381",
@@ -1906,11 +1979,12 @@
       "observed_maximum": 5.844981533839614,
       "observed_minimum": 0.06317689032816792,
       "observed_span": 5.781804643511446,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "1876b721a052732e",
         "event_hash": "ed44e380159b279cbfca3426a0adb2fcda5edf98ef7c91770e799d8740b16a44",
@@ -1927,11 +2001,12 @@
       "observed_maximum": 0.45507386267905253,
       "observed_minimum": 0.15387362546042635,
       "observed_span": 0.3012002372186262,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "a0b1a42f034be0b4",
         "event_hash": "c21904ae5c75384caa14e0e8d7d245469b0d3cc39a8ac405becb6e6929fbb381",
@@ -1948,11 +2023,12 @@
       "observed_maximum": 0.4934506466294136,
       "observed_minimum": 0.04314975993107313,
       "observed_span": 0.4503008866983405,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "a0b1a42f034be0b4",
         "event_hash": "c21904ae5c75384caa14e0e8d7d245469b0d3cc39a8ac405becb6e6929fbb381",
@@ -1969,11 +2045,12 @@
       "observed_maximum": 0.505038373271409,
       "observed_minimum": 0.024342702750718623,
       "observed_span": 0.48069567052069034,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "1876b721a052732e",
         "event_hash": "ed44e380159b279cbfca3426a0adb2fcda5edf98ef7c91770e799d8740b16a44",
@@ -1990,11 +2067,12 @@
       "observed_maximum": 0.38026509009419507,
       "observed_minimum": 0.024110042632962226,
       "observed_span": 0.35615504746123283,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "a0b1a42f034be0b4",
         "event_hash": "c21904ae5c75384caa14e0e8d7d245469b0d3cc39a8ac405becb6e6929fbb381",
@@ -2011,11 +2089,12 @@
       "observed_maximum": 0.2825008744021697,
       "observed_minimum": 0.032675795400184116,
       "observed_span": 0.24982507900198558,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "c551f9396a8787d6",
         "event_hash": "542e3cd3d1bd615bb7cbb68b861c1a5b540920ff5fd33bdf124bcfc1dbe7b747",
@@ -2032,11 +2111,12 @@
       "observed_maximum": 50.01908780206386,
       "observed_minimum": -0.6503635157390584,
       "observed_span": 50.66945131780292,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "degrees",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "b32ac6c9b7d10b8a",
         "event_hash": "ddd040b7fa26ad9b5e5fdc13a794cf0b4eef301e35200bc5c26c23442c441be8",
@@ -2053,11 +2133,12 @@
       "observed_maximum": 0.09193150039898157,
       "observed_minimum": 0.006020179395847369,
       "observed_span": 0.0859113210031342,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     },
     {
-      "interpretation": "raw span at the unqualified coarse setting",
+      "interpretation": "legacy diagnostic span; not a full-width etch measurement",
       "maximum_source": {
         "case_id": "a0b1a42f034be0b4",
         "event_hash": "c21904ae5c75384caa14e0e8d7d245469b0d3cc39a8ac405becb6e6929fbb381",
@@ -2074,6 +2155,7 @@
       "observed_maximum": 0.019774980477546188,
       "observed_minimum": 0.00024917388777222086,
       "observed_span": 0.019525806589773965,
+      "status": "suspended_legacy_positive_wall_mirroring",
       "units": "model length",
       "usable_rows": 20
     }
@@ -2095,7 +2177,7 @@
     },
     "units": "seconds"
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "sources": [
     {
       "path": "evidence/bosch/range_pilot/source_bundle.json",
@@ -2111,7 +2193,11 @@
     },
     {
       "path": "pattern_bosch_measurement_contract.json",
-      "sha256": "17405b291dd7b0bbcae7bb631e553717c3d4a1ee36ac8b9736d1b8ca6bb15905"
+      "sha256": "e601f12d9bc821f89a40ad27d938c18a7a6709268cc496e8c49caf3b26616518"
+    },
+    {
+      "path": "evidence/bosch/pattern_bosch_unavailable_profile_review.json",
+      "sha256": "dc107c94cd146eba2a7d19cf721cfe40bc4aa3201affc1dcc6ee0739cec83cbe"
     }
   ]
 }

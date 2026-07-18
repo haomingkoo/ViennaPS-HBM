@@ -57,6 +57,7 @@ jobs:
             build_active_experiment_contract.py \
             build_pattern_bosch_measurement_contract.py \
             build_pattern_bosch_metric_controls.py \
+            build_pattern_bosch_unavailable_profile_review.py \
             build_pattern_bosch_factor_projection.py \
             build_pattern_bosch_range_pilot.py \
             build_pattern_bosch_range_pilot_review.py \
@@ -80,6 +81,7 @@ jobs:
           python scripts/validate_evidence.py active_experiment_contract.json schemas/active-experiment-contract.schema.json
           python scripts/validate_evidence.py pattern_bosch_measurement_contract.json schemas/pattern-bosch-measurement-contract.schema.json
           python scripts/validate_evidence.py evidence/bosch/pattern_bosch_metric_controls.json schemas/pattern-bosch-metric-controls.schema.json
+          python scripts/validate_evidence.py evidence/bosch/pattern_bosch_unavailable_profile_review.json schemas/pattern-bosch-unavailable-profile-review.schema.json
           python scripts/validate_evidence.py pattern_bosch_factor_projection.json schemas/pattern-bosch-factor-projection.schema.json
           python scripts/validate_evidence.py pattern_bosch_range_pilot_review.json schemas/pattern-bosch-range-pilot-review.schema.json
           python scripts/validate_evidence.py docs/range-research-log.json schemas/range-research-log.schema.json

@@ -64,6 +64,19 @@ def wall(radius_fn, depth=1.0, count=401):
     return nodes, lines
 
 
+def full_via_surface(left_fn, right_fn, depth=1.0, count=401):
+    fractions = np.linspace(0.0, 1.0, count)
+    left = np.column_stack(
+        ([left_fn(f) for f in fractions], -depth * fractions)
+    )
+    right = np.column_stack(
+        ([right_fn(f) for f in fractions], -depth * fractions)
+    )[::-1]
+    nodes = np.vstack((left, right))
+    lines = np.column_stack((np.arange(len(nodes) - 1), np.arange(1, len(nodes))))
+    return nodes, lines
+
+
 def closed_square(x0, y0, x1, y1, offset=0):
     nodes = np.asarray([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], dtype=float)
     lines = np.asarray([[0, 1], [1, 2], [2, 3], [3, 0]], dtype=int) + offset
@@ -169,6 +182,84 @@ def test_taper_and_bow_are_distinct():
     )
     assert bowed["max_bow"] > 0.01
     assert abs(bowed["sidewall_angle_deg"]) < 0.5
+
+
+def test_full_via_profile_requires_and_measures_both_walls():
+    nodes, lines = full_via_surface(lambda _: -0.14, lambda _: 0.16)
+    result = tm.measure_full_via_profile_2d(
+        nodes,
+        lines,
+        surface_y=0.0,
+        target_cd=0.30,
+        domain_x_bounds=(-0.5, 0.5),
+        grid_delta=0.01,
+    )
+    assert result["state"] == "complete"
+    assert math.isclose(result["metrics"]["cd_middle"], 0.30, abs_tol=1e-12)
+    assert math.isclose(
+        result["metrics"]["maximum_center_shift"], 0.01, abs_tol=1e-12
+    )
+
+    one_wall_nodes, one_wall_lines = wall(lambda _: -0.15)
+    one_wall_nodes = np.vstack((one_wall_nodes, [0.0, -1.0]))
+    one_wall_lines = np.vstack((
+        one_wall_lines,
+        [len(one_wall_nodes) - 2, len(one_wall_nodes) - 1],
+    ))
+    missing = tm.measure_full_via_profile_2d(
+        one_wall_nodes,
+        one_wall_lines,
+        surface_y=0.0,
+        target_cd=0.30,
+        domain_x_bounds=(-0.5, 0.5),
+        grid_delta=0.01,
+    )
+    assert missing["state"] == "valid_categorical_modeled_state"
+    assert missing["reason_codes"] == ["one_full_via_wall_absent"]
+    assert missing["metrics"] is None
+
+
+def test_full_via_profile_reports_search_and_resolution_limits():
+    wide_nodes, wide_lines = full_via_surface(lambda _: -0.40, lambda _: 0.40)
+    wide = tm.measure_full_via_profile_2d(
+        wide_nodes,
+        wide_lines,
+        surface_y=0.0,
+        target_cd=0.30,
+        domain_x_bounds=(-0.5, 0.5),
+        search_x_bounds=(-0.30, 0.30),
+        grid_delta=0.01,
+    )
+    assert wide["state"] == "extractor_domain_failure"
+    assert wide["diagnostics"]["samples_with_both_walls_in_domain"] == 76
+    assert wide["diagnostics"]["samples_with_both_walls_in_search"] == 0
+
+    narrow_nodes, narrow_lines = full_via_surface(lambda _: -0.009, lambda _: 0.009)
+    narrow = tm.measure_full_via_profile_2d(
+        narrow_nodes,
+        narrow_lines,
+        surface_y=0.0,
+        target_cd=0.30,
+        domain_x_bounds=(-0.5, 0.5),
+        grid_delta=0.01,
+    )
+    assert narrow["state"] == "insufficient_grid_representation"
+    assert narrow["metrics"] is None
+
+    shifted_nodes, shifted_lines = full_via_surface(
+        lambda _: -0.15, lambda _: 0.15
+    )
+    shifted_nodes[:, 1] -= 2.0
+    absent = tm.measure_full_via_profile_2d(
+        shifted_nodes,
+        shifted_lines,
+        surface_y=0.0,
+        target_cd=0.30,
+        domain_x_bounds=(-0.5, 0.5),
+        grid_delta=0.01,
+    )
+    assert absent["state"] == "out_of_scope_region"
+    assert absent["reason_codes"] == ["declared_wafer_surface_absent"]
 
 
 def test_parallel_layer_distance():

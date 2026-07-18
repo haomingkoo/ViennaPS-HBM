@@ -13,7 +13,7 @@ control, not a TSV process knob or the learner-facing result.
 | Item | Value |
 |---|---|
 | Stage | 25-case mask-plus-Bosch range pilot |
-| Status | Corrected review complete: 20 measured cases and 5 saved geometries with unavailable wall-intersection measurements |
+| Status | Corrected review complete: legacy etch values suspended; five incomplete profiles classified |
 | Numerical setting | Grid 0.01 and 250 rays per point; not qualified |
 | Runtime | 573.7 seconds total; 3.7 seconds median; 177.7 seconds maximum |
 | Authority | Raw observations and confirmation selection only |
@@ -24,10 +24,17 @@ control, not a TSV process knob or the learner-facing result.
 The pilot cannot rank factors, locate a boundary, estimate uncertainty or
 interactions, or qualify a process window. The first review mislabeled seven
 rows as geometry failures. A seven-case recovery saved the final geometry before
-measurement. Two low-movement rows contain valid measurements. The remaining
-five geometries are saved, but the declared wall-intersection measurement is
-unavailable. Those cases remain unresolved until geometry, sampling region,
-grid resolution, and extractor assumptions are checked.
+measurement. The follow-up audit found that the legacy etch extractor mirrored
+the positive wall even though the pilot used a full-width via. Its etch values
+are therefore suspended. Of the five incomplete rows, two contain both walls
+outside the old search window, two provide one wall at the requested heights,
+and one does not intersect the declared wafer surface. Physical causes and
+numerical convergence remain unresolved.
+
+The active full-width extractor now measures left-to-right width, records center
+shift, refuses to mirror a missing wall, and returns explicit availability
+states. The five-profile review and archived native checkpoints are in
+[`evidence/bosch/pattern_bosch_unavailable_profile_review.json`](../evidence/bosch/pattern_bosch_unavailable_profile_review.json).
 
 The source bundle preserves the original append-only event rows. Historical
 `hard_gate_pass` and `numerical_state` fields in those parent rows are
