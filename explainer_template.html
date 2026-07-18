@@ -133,18 +133,21 @@
   .output-studies { margin-top: 1.5rem; border-top: 1px solid var(--line); }
   .bosch-lab { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
   .bosch-multifactor { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
-  .bosch-multifactor-controls { display: grid; grid-template-columns: minmax(220px, 1fr) auto; gap: 0.8rem; align-items: end; margin: 1rem 0; }
+  .bosch-multifactor-workspace { display: grid; grid-template-columns: minmax(360px, 0.75fr) minmax(0, 1.25fr); align-items: start; border: 1px solid var(--line); }
+  .bosch-multifactor-explorer { min-width: 0; padding: 1rem; border-right: 1px solid var(--line); background: var(--surface-2); }
+  .bosch-multifactor-controls { display: grid; grid-template-columns: minmax(220px, 1fr); gap: 0.8rem; align-items: end; margin: 0 0 1rem; }
   .bosch-multifactor-controls label { display: grid; gap: 0.25rem; color: var(--ink-dim); font: 0.72rem var(--mono); }
   .bosch-multifactor-controls button { min-height: 44px; padding: 0.45rem 0.8rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
-  .bosch-multifactor-map { margin: 0; border: 1px solid var(--line); background: var(--surface-2); overflow-x: auto; }
-  .bosch-multifactor-map svg { display: block; width: 100%; min-width: 760px; height: 330px; }
+  .bosch-multifactor-actions { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .bosch-multifactor-map { margin: 0; overflow-x: auto; }
+  .bosch-multifactor-map svg { display: block; width: 100%; min-width: 0; height: auto; aspect-ratio: 600 / 280; }
   .bosch-multifactor-map .factor-axis { stroke: var(--line); stroke-width: 1; }
   .bosch-multifactor-map .factor-run { fill: none; stroke: var(--ink-dim); stroke-width: 1.2; opacity: 0.24; cursor: pointer; }
   .bosch-multifactor-map .factor-run.pass { stroke: var(--confirmed); opacity: 0.38; }
   .bosch-multifactor-map .factor-run.selected { stroke: var(--plasma); stroke-width: 4; opacity: 1; }
   .bosch-multifactor-map text { fill: var(--ink-dim); font: 11px var(--mono); }
   .bosch-multifactor-map .axis-label { fill: var(--ink); font-weight: 650; }
-  .bosch-multifactor-layout { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(280px, 0.75fr); border: 1px solid var(--line); border-top: 0; }
+  .bosch-multifactor-layout { display: grid; grid-template-columns: minmax(280px, 1.1fr) minmax(220px, 0.75fr); }
   .bosch-multifactor-profile { min-height: 560px; border-right: 1px solid var(--line); }
   .bosch-multifactor-profile svg { display: block; width: 100%; height: 560px; }
   .bosch-multifactor-read { padding: 1rem; background: var(--surface-2); }
@@ -153,29 +156,19 @@
   .bosch-multifactor-read dl { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 0.8rem; margin: 0; font-size: 0.74rem; }
   .bosch-multifactor-read dt { color: var(--ink-dim); }
   .bosch-multifactor-read dd { margin: 0; font-family: var(--mono); text-align: right; }
-  .pilot-study { margin: 1.5rem 0; padding: 1.2rem; border: 1px solid var(--line); background: var(--surface); }
-  .pilot-badge { display: inline-flex; margin: 0.4rem 0 1rem; padding: 0.35rem 0.55rem; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-dim); font: 0.68rem var(--mono); }
-  .pilot-legend { display: flex; flex-wrap: wrap; gap: 0.55rem 1rem; margin: 0.8rem 0; color: var(--ink-dim); font-size: 0.76rem; }
-  .pilot-legend span::before { content: attr(data-icon); display: inline-grid; width: 1.35rem; height: 1.35rem; margin-right: 0.35rem; place-items: center; border: 1px solid var(--line); color: var(--ink); font: 0.7rem var(--mono); }
-  .pilot-grid { display: grid; grid-template-columns: repeat(5, minmax(48px, 1fr)); gap: 0.45rem; max-width: 620px; margin: 1rem 0; }
-  .pilot-grid button { position: relative; aspect-ratio: 1; min-width: 0; padding: 0.3rem; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; font: 0.82rem var(--mono); }
-  .pilot-grid button[data-state="legacy_row_complete"] { background: color-mix(in srgb, var(--teal) 8%, var(--surface)); }
-  .pilot-grid button[data-state="legacy_low_movement_row"] { background: color-mix(in srgb, var(--plasma) 9%, var(--surface)); }
-  .pilot-grid button[data-state="legacy_row_incomplete"] { background: color-mix(in srgb, var(--warn) 10%, var(--surface)); }
-  .pilot-grid button svg { display: block; width: 100%; height: 100%; }
-  .pilot-grid button path { fill: none; stroke: var(--si); stroke-width: 1.15; vector-effect: non-scaling-stroke; }
-  .pilot-grid .pilot-state-icon { position: absolute; top: 0.25rem; left: 0.25rem; display: grid; width: 1.2rem; height: 1.2rem; place-items: center; border: 1px solid var(--line); background: var(--surface); font-size: 0.62rem; }
-  .pilot-grid button[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .pilot-grid button[data-center="true"]::after { content: "center"; position: absolute; inset: auto 0.18rem 0.18rem; color: var(--ink-dim); font-size: 0.48rem; }
-  .pilot-detail { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(260px, 0.72fr); border: 1px solid var(--line); }
-  .pilot-profile { min-height: 430px; border-right: 1px solid var(--line); }
-  .pilot-profile svg { display: block; width: 100%; height: 430px; }
-  .pilot-read { padding: 1rem; background: var(--surface-2); }
-  .pilot-read h4 { margin: 0 0 0.35rem; }
-  .pilot-read > p { margin: 0 0 0.8rem; color: var(--ink-dim); font-size: 0.78rem; }
-  .pilot-read dl { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem 0.8rem; margin: 0; font-size: 0.76rem; }
-  .pilot-read dt { color: var(--ink-dim); }
-  .pilot-read dd { margin: 0; font-family: var(--mono); text-align: right; }
+  .archive-method { margin: 1.8rem 0; padding: 1.25rem 1.35rem; border: 1px solid var(--line); background: var(--surface); }
+  .archive-method h3 { margin: 0 0 0.4rem; }
+  .archive-method > p { max-width: 70ch; margin: 0; color: var(--ink-dim); }
+  .archive-method-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 1.1rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .archive-method-grid div { min-width: 0; padding: 1rem 1.1rem 1rem 0; }
+  .archive-method-grid div + div { padding-left: 1.1rem; border-left: 1px solid var(--line); }
+  .archive-method-grid b { display: block; margin-bottom: 0.35rem; font-size: 0.82rem; }
+  .archive-method-grid span { display: block; color: var(--ink-dim); font-size: 0.78rem; line-height: 1.5; }
+  .archive-method-links { display: flex; flex-wrap: wrap; gap: 0.45rem 1rem; margin-top: 0.9rem; font-size: 0.78rem; }
+  .archive-profile-grid { display: grid; grid-template-columns: repeat(9, minmax(60px, 1fr)); gap: 0.45rem; margin-top: 1rem; }
+  .archive-profile-grid figure { min-width: 0; margin: 0; border: 1px solid var(--line); background: var(--surface-2); }
+  .archive-profile-grid svg { display: block; width: 100%; height: 92px; }
+  .archive-profile-grid figcaption { padding: 0.25rem; color: var(--ink-dim); font: 0.58rem var(--mono); text-align: center; }
   .bosch-causal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 1rem 0; background: var(--line); border: 1px solid var(--line); }
   .bosch-causal span { padding: 0.7rem; background: var(--surface-2); color: var(--ink-dim); font-size: 0.75rem; text-align: center; }
   .output-causal b { display: block; margin-bottom: 0.28rem; color: var(--ink); font: 0.66rem var(--mono); }
@@ -221,6 +214,8 @@
   .output-viewer-layout { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(250px, 0.58fr); border: 1px solid var(--line); background: var(--surface); }
   .output-figure { min-height: 460px; border-right: 1px solid var(--line); }
   .output-figure svg { display: block; width: 100%; height: 460px; }
+  #study-mask .output-figure { min-height: 340px; }
+  #study-mask .output-figure svg { height: 340px; }
   .output-read { padding: 1rem 1.1rem; background: var(--surface-2); }
   .output-status { margin: 0 0 0.65rem; font-weight: 650; }
   .output-status.pass { color: var(--confirmed); }
@@ -248,10 +243,12 @@
     .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
     .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
-    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .pilot-detail, .bosch-multifactor-layout, .bosch-multifactor-controls { grid-template-columns: 1fr; }
+    .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .bosch-multifactor-workspace, .bosch-multifactor-layout, .bosch-multifactor-controls, .archive-method-grid { grid-template-columns: 1fr; }
+    .bosch-multifactor-explorer { border-right: 0; border-bottom: 1px solid var(--line); }
     .bosch-profile { border-right: 0; border-bottom: 1px solid var(--line); }
     .bosch-multifactor-profile { border-right: 0; border-bottom: 1px solid var(--line); }
-    .pilot-profile { border-right: 0; border-bottom: 1px solid var(--line); }
+    .archive-method-grid div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+    .archive-profile-grid { grid-template-columns: repeat(5, minmax(48px, 1fr)); }
   }
   .repo-map { display: grid; grid-template-columns: minmax(180px, 0.7fr) 1.3fr; gap: 0; border-top: 1px solid var(--line); }
   .repo-map dt, .repo-map dd { margin: 0; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
@@ -947,34 +944,37 @@
         <figcaption>Saved ViennaPS profile. Lines show where each measurement is taken. <a href="pattern_bosch_measurement_contract.json">Measurement definitions and evidence details.</a></figcaption>
       </figure>
     </div>
-    <div class="pilot-study" id="pattern-bosch-range-pilot">
-      <h3>Explore 25 saved etch profiles</h3>
-      <p class="claim">These profiles show how widely the simulated shape can change when several inputs move together.</p>
-      <p>Select a profile to enlarge it. The first measurement code assumed both walls were mirror images. These full-width profiles are being remeasured from both walls, so this gallery teaches shape variation rather than factor effects.</p>
-      <div class="pilot-grid" id="pilot-case-grid" aria-label="Twenty-five range-pilot cases in design order"></div>
-      <p class="boundary-result"><b>Takeaway:</b> a profile can look plausible while its measurement method is wrong. Check the geometry and the measurements before ranking settings.</p>
-      <div class="pilot-detail">
-        <div class="pilot-profile" id="pilot-profile" role="img" aria-label="Selected saved final dry-etch profile"></div>
-        <aside class="pilot-read" id="pilot-read" aria-live="polite"></aside>
+    <aside class="archive-method" id="pattern-bosch-range-pilot" aria-labelledby="archive-method-title">
+      <h3 id="archive-method-title">Why the first etch measurements were archived</h3>
+      <p>The 25 saved profiles exposed a measurement bug. The geometry remains available, but the old etch values are not used.</p>
+      <div class="archive-method-grid">
+        <div><b>Still usable</b><span>Saved geometry, mask-opening measurements, runtime, and provenance.</span></div>
+        <div><b>Withdrawn</b><span>Etch depth, width, bow, and any ranking based on the old measurements.</span></div>
+        <div><b>Correction</b><span>The current method measures both walls. If either wall is missing, it reports the measurement as unavailable.</span></div>
       </div>
-      <p class="note"><a href="pattern_bosch_range_pilot_review.json">Corrected review</a> · <a href="evidence/bosch/range_pilot/source_bundle.json">saved source profiles</a></p>
-    </div>
+      <div class="archive-profile-grid" id="archive-profile-grid" aria-label="Twenty-five archived etch profiles"></div>
+      <div class="archive-method-links"><a href="pattern_bosch_range_pilot_review.json">Read the corrected review</a><a href="evidence/bosch/range_pilot/source_bundle.json">Inspect the 25 archived profiles</a></div>
+    </aside>
     <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. The handoff viewer later on the page is the separate example that carries one geometry forward.</p>
     <div class="bosch-multifactor" id="bosch-multifactor-lab">
       <h3>Explore a six-control dry-etch study</h3>
       <p class="claim">Each line is one saved run in which six model controls changed together.</p>
       <p class="note">This 18-run design samples combinations efficiently instead of testing every possible combination. Select a line or scrub through the runs. The browser shows the exact saved profile; it does not interpolate or rerun ViennaPS.</p>
       <p class="note">Earlier comparisons nominated these six controls for closer study. Initial etch time, passivation sticking, and ion reflection angle were held fixed here. Cycle count, mask geometry, and mask erosion need separate studies because they change cumulative exposure or the incoming shape.</p>
-      <div class="bosch-multifactor-controls">
-        <label for="bosch-multifactor-index">Saved DOE run <span id="bosch-multifactor-value"></span><input id="bosch-multifactor-index" type="range" min="0" max="17" step="1" value="0"></label>
-        <button type="button" id="bosch-multifactor-next">Next saved run</button>
-      </div>
-      <figure class="bosch-multifactor-map">
-        <svg id="bosch-multifactor-map" viewBox="0 0 900 330" role="img" aria-label="Eighteen saved dry-etch runs across six model controls"></svg>
-      </figure>
-      <div class="bosch-multifactor-layout">
-        <div class="bosch-multifactor-profile" id="bosch-multifactor-profile" role="img" aria-label="Selected saved multi-factor dry-etch profile"></div>
-        <aside class="bosch-multifactor-read" id="bosch-multifactor-read" aria-live="polite"></aside>
+      <div class="bosch-multifactor-workspace">
+        <div class="bosch-multifactor-explorer">
+          <div class="bosch-multifactor-controls">
+            <label for="bosch-multifactor-index">Saved DOE run <span id="bosch-multifactor-value"></span><input id="bosch-multifactor-index" type="range" min="0" max="17" step="1" value="0"></label>
+            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show straightest saved walls</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
+          </div>
+          <figure class="bosch-multifactor-map">
+            <svg id="bosch-multifactor-map" viewBox="0 0 600 280" role="img" aria-label="Eighteen saved dry-etch runs across six model controls"></svg>
+          </figure>
+        </div>
+        <div class="bosch-multifactor-layout">
+          <div class="bosch-multifactor-profile" id="bosch-multifactor-profile" role="img" aria-label="Selected saved multi-factor dry-etch profile"></div>
+          <aside class="bosch-multifactor-read" id="bosch-multifactor-read" aria-live="polite"></aside>
+        </div>
       </div>
       <p class="note"><a href="bosch_tutorial_data.json">Open all 18 profiles, measurements, model settings, and source-row citations.</a></p>
     </div>
@@ -1594,66 +1594,13 @@ document.getElementById('numerical-metric').addEventListener('change', event => 
 renderRayBenefit();
 renderNumericalEvidence();
 
-// ============ Claim-limited 25-case range pilot ============
-const PILOT = DATA.pattern_bosch_range_pilot;
-const pilotGrid = document.getElementById('pilot-case-grid');
-const pilotState = {
-  legacy_row_complete: { icon: '○', label: 'Legacy row retained; etch values suspended' },
-  legacy_low_movement_row: { icon: '—', label: 'Legacy low-movement flag retained; etch values suspended' },
-  legacy_row_incomplete: { icon: '!', label: 'Saved profile classified; etch values unavailable' },
-};
-
-function pilotValue(value, digits = 3) {
-  return value === null || value === undefined ? 'unavailable' : Number(value).toFixed(digits);
-}
-
-function renderPilotCase(row) {
-  pilotGrid.querySelectorAll('button').forEach(button => {
-    button.setAttribute('aria-pressed', button.dataset.caseId === row.case_id);
-  });
-  const state = pilotState[row.display_state];
-  const [x, y, width, height] = row.view_box;
-  document.getElementById('pilot-profile').innerHTML = `<svg viewBox="${row.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-    <rect x="${x}" y="${y}" width="${width}" height="${height}" fill="var(--surface)"/>
-    <g transform="scale(1,-1)"><path d="${row.surface_path}" fill="none" stroke="var(--si)" stroke-width="0.007"/></g>
-  </svg>`;
-  const metrics = row.legacy_measurements;
-  const availabilityLabels = {
-    extractor_out_of_domain: 'Both walls lie outside the old search window.',
-    full_width_measurement_unavailable_one_sided: 'Only one wall is present at the requested sample heights.',
-    via_reference_surface_absent: 'The saved silicon surface does not cross the declared wafer surface.',
-  };
-  const metricRows = metrics ? `
-    <dt>Mask opening at wafer</dt><dd>${pilotValue(metrics.mask_opening_cd_bottom)}</dd>
-    <dt>Mask opening halfway up</dt><dd>${pilotValue(metrics.mask_opening_cd_middle)}</dd>
-    <dt>Mask opening near top</dt><dd>${pilotValue(metrics.mask_opening_cd_top)}</dd>
-    <dt>Mask height</dt><dd>${pilotValue(metrics.mask_height)}</dd>
-    <dt>Etch values</dt><dd>suspended; the old code mirrored one wall</dd>` : `
-    <dt>Etch measurement</dt><dd>unavailable</dd>
-    <dt>Saved-profile finding</dt><dd>${availabilityLabels[row.measurement_availability] || 'Cause unresolved.'}</dd>`;
-  document.getElementById('pilot-read').innerHTML = `<h4>${state.icon} ${state.label}</h4>
-    <p>Case ${row.design_row + 1} of 25. Twelve controls changed together, so this row cannot identify a cause.</p>
-    <dl>${metricRows}
-      <dt>Wall time</dt><dd>${row.elapsed_s.toFixed(1)} s</dd>
-      <dt>Design center</dt><dd>${row.is_center ? 'yes' : 'no'}</dd>
-    </dl>
-    <p style="margin-top:1rem">Case ID <code>${row.case_id}</code>. <a href="evidence/bosch/range_pilot/source_bundle.json">Open the saved source row and profile.</a></p>`;
-}
-
-PILOT.cases.forEach(row => {
-  const state = pilotState[row.display_state];
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.dataset.caseId = row.case_id;
-  button.dataset.state = row.display_state;
-  button.dataset.center = row.is_center;
-  button.setAttribute('aria-pressed', 'false');
-  button.setAttribute('aria-label', `Case ${row.design_row + 1}: ${state.label}`);
-  button.innerHTML = `<svg viewBox="${row.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g transform="scale(1,-1)"><path d="${row.surface_path}"/></g></svg><span class="pilot-state-icon" aria-hidden="true">${state.icon}</span>`;
-  button.addEventListener('click', () => renderPilotCase(row));
-  pilotGrid.appendChild(button);
+// ============ Archived range-pilot geometry ============
+const archiveProfileGrid = document.getElementById('archive-profile-grid');
+DATA.pattern_bosch_range_pilot.cases.forEach(row => {
+  const figure = document.createElement('figure');
+  figure.innerHTML = `<svg viewBox="${row.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g transform="scale(1,-1)"><path d="${row.surface_path}" fill="none" stroke="var(--si)" stroke-width="0.009"/></g></svg><figcaption>${row.design_row + 1} / 25</figcaption>`;
+  archiveProfileGrid.appendChild(figure);
 });
-renderPilotCase(PILOT.cases.find(row => row.is_center) || PILOT.cases[0]);
 
 // ============ Reviewed Bosch interaction profiles ============
 const boschPairs = [...new Map(BOSCH.interactions.map(row => [row.interaction.join('|'), row.interaction])).values()];
@@ -1700,25 +1647,51 @@ function boschProfileMarkup(row) {
 const multiFactorCases = BOSCH.interior_cases;
 const multiFactorOrder = BOSCH.interior_study.factor_order;
 const multiFactorShortLabels = {
-  etch_time: 'Etch time',
-  deposition_thickness: 'Passivation',
-  ion_source_exponent: 'Ion direction',
-  ion_rate: 'Directional removal',
-  neutral_rate: 'Neutral removal',
-  neutral_sticking_probability: 'Neutral reaction',
+  etch_time: 'Time',
+  deposition_thickness: 'Protection',
+  ion_source_exponent: 'Ion focus',
+  ion_rate: 'Ion etch',
+  neutral_rate: 'Neutral etch',
+  neutral_sticking_probability: 'Reaction',
 };
-let multiFactorIndex = Math.max(0, multiFactorCases.findIndex(row => row.case_id === BOSCH.default_interior_case));
+const multiFactorCandidateScore = row => {
+  const metric = row.metrics;
+  return Math.abs(metric.depth - BOSCH.targets.depth) / BOSCH.targets.depth_tolerance
+    + metric.maximum_cd_error / BOSCH.targets.maximum_cd_error
+    + metric.bow / BOSCH.targets.maximum_bow;
+};
+const bestMultiFactorIndex = multiFactorCases.reduce((best, row, index) => {
+  if (!row.metrics.hard_gate_pass) return best;
+  return best < 0 || multiFactorCandidateScore(row) < multiFactorCandidateScore(multiFactorCases[best]) ? index : best;
+}, -1);
+let multiFactorIndex = bestMultiFactorIndex >= 0 ? bestMultiFactorIndex : 0;
+
+function multiFactorDiagnosis(metric) {
+  const depthLow = BOSCH.targets.depth - BOSCH.targets.depth_tolerance;
+  const depthHigh = BOSCH.targets.depth + BOSCH.targets.depth_tolerance;
+  const depthPass = metric.depth >= depthLow && metric.depth <= depthHigh;
+  const widthPass = metric.maximum_cd_error <= BOSCH.targets.maximum_cd_error;
+  const bowPass = metric.bow <= BOSCH.targets.maximum_bow;
+  if (depthPass && widthPass && bowPass) return 'Straight sidewalls and depth within the teaching range';
+  if (!depthPass && widthPass && bowPass) {
+    return metric.depth < depthLow
+      ? 'Wall width is close to target, but the etch is too shallow'
+      : 'Wall width is close to target, but the etch is too deep';
+  }
+  const misses = [!depthPass && 'depth', !widthPass && 'width', !bowPass && 'wall bow'].filter(Boolean);
+  return `This run misses the ${misses.join(', ')} ${misses.length === 1 ? 'check' : 'checks'}`;
+}
 
 function renderMultiFactorMap() {
   const svg = document.getElementById('bosch-multifactor-map');
-  const left = 74, right = 826, top = 72, bottom = 272;
+  const left = 48, right = 552, top = 60, bottom = 225;
   const xFor = index => left + index * (right - left) / (multiFactorOrder.length - 1);
   const yFor = value => top + (0.5 - value) * (bottom - top);
   const axes = multiFactorOrder.map((name, index) => {
     const x = xFor(index);
     return `<line class="factor-axis" x1="${x}" y1="${top}" x2="${x}" y2="${bottom}"/>
-      <text class="axis-label" x="${x}" y="28" text-anchor="middle">${multiFactorShortLabels[name]}</text>
-      <text x="${x}" y="55" text-anchor="middle">high</text><text x="${x}" y="${top + (bottom - top) / 2 + 4}" text-anchor="middle">center</text><text x="${x}" y="300" text-anchor="middle">low</text>`;
+      <text class="axis-label" x="${x}" y="22" text-anchor="middle">${multiFactorShortLabels[name]}</text>
+      <text x="${x}" y="45" text-anchor="middle">high</text><text x="${x}" y="${top + (bottom - top) / 2 + 4}" text-anchor="middle">center</text><text x="${x}" y="250" text-anchor="middle">low</text>`;
   }).join('');
   const runs = multiFactorCases.map((row, index) => {
     const points = multiFactorOrder.map((name, axis) => `${xFor(axis)},${yFor(row.normalized_coordinates[name])}`).join(' ');
@@ -1737,11 +1710,12 @@ function renderMultiFactor() {
   const row = multiFactorCases[multiFactorIndex];
   const metric = row.metrics;
   document.getElementById('bosch-multifactor-index').value = multiFactorIndex;
-  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}`;
+  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === bestMultiFactorIndex ? ' · straightest saved walls' : ''}`;
   document.getElementById('bosch-multifactor-profile').innerHTML = boschProfileMarkup(row);
   const controls = multiFactorOrder.map(name => `<dt>${BOSCH.factors[name].label}</dt><dd>${row.recipe[name]}</dd>`).join('');
-  document.getElementById('bosch-multifactor-read').innerHTML = `<h4>${metric.hard_gate_pass ? 'Inside the assumed teaching bands' : 'Outside one or more assumed teaching bands'}</h4>
-    <p>Dashed outline: the teaching target. These are model inputs, not equipment settings.</p>
+  const depthDifference = metric.depth - BOSCH.targets.depth;
+  document.getElementById('bosch-multifactor-read').innerHTML = `<h4>${multiFactorDiagnosis(metric)}</h4>
+    <p>Dashed outline: target depth ${BOSCH.targets.depth.toFixed(2)} and width ${BOSCH.targets.target_cd.toFixed(2)}. The selected depth is ${Math.abs(depthDifference).toFixed(3)} ${depthDifference < 0 ? 'shorter' : 'deeper'}. Floor flatness is not scored here. These are model inputs, not equipment settings.</p>
     <dl>${controls}
       <dt>Depth</dt><dd>${boschMetric(metric.depth)}</dd>
       <dt>Top / middle / bottom width</dt><dd>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</dd>
@@ -1755,6 +1729,10 @@ function renderMultiFactor() {
 
 document.getElementById('bosch-multifactor-index').addEventListener('input', event => {
   multiFactorIndex = Number(event.target.value);
+  renderMultiFactor();
+});
+document.getElementById('bosch-multifactor-best').addEventListener('click', () => {
+  multiFactorIndex = bestMultiFactorIndex;
   renderMultiFactor();
 });
 document.getElementById('bosch-multifactor-next').addEventListener('click', () => {
@@ -2001,6 +1979,9 @@ function stepValue(value, metric) {
 }
 
 function acceptanceText(study) {
+  if (study.id === 'mask') {
+    return 'Nominal comparison geometry: opening 0.300, height 0.300, and zero taper. Exact-match tolerances in the data are software checks, not manufacturing limits.';
+  }
   if (study.acceptance.status === 'not_declared') return 'No pass/fail limit is declared for this teaching study.';
   const rules = study.acceptance.rules.map(rule => {
     const label = stepMetricLabels[rule.metric] || rule.metric.replaceAll('_', ' ');
@@ -2018,8 +1999,7 @@ function acceptanceText(study) {
 
 function boundaryResult(study) {
   if (study.id === 'mask') {
-    const inside = study.frames.filter(frame => frame.metrics.meets_screen).length;
-    return `${inside} of ${study.frames.length} saved shapes is inside the assumed geometry band. This is a comparison target, not a physical failure boundary.`;
+    return `The ${study.frames.length} saved shapes vary opening width, height, and taper. They show how the starting geometry moves; they do not establish a process boundary.`;
   }
   if (study.id === 'liner') {
     const coverage = study.frames.map(frame => frame.metrics.lower_wall_coverage);
@@ -2084,7 +2064,19 @@ function renderStepFrame(study, root, frameIndex) {
     }).join('')}</g>
   </svg>`;
   const status = root.querySelector('.output-status');
-  if (study.id === 'seed' || study.id === 'cmp') {
+  if (study.id === 'mask') {
+    const targetOpening = target.metrics.opening_cd_bottom;
+    const openingDelta = frame.metrics.opening_cd_bottom - targetOpening;
+    const topDelta = frame.metrics.opening_cd_top - frame.metrics.opening_cd_bottom;
+    const openingText = Math.abs(openingDelta) < 0.0005
+      ? 'Opening width matches the nominal geometry'
+      : `Opening is ${Math.abs(openingDelta).toFixed(3)} ${openingDelta < 0 ? 'narrower' : 'wider'} than nominal`;
+    const taperText = Math.abs(topDelta) < 0.0005
+      ? 'straight mask walls'
+      : `${Math.abs(topDelta).toFixed(3)} top-to-bottom taper`;
+    status.className = 'output-status';
+    status.textContent = `${openingText}; ${taperText}.`;
+  } else if (study.id === 'seed' || study.id === 'cmp') {
     status.className = 'output-status';
     status.textContent = study.id === 'seed'
       ? 'Teaching result. No independent seed limit is declared.'
@@ -2106,7 +2098,9 @@ function buildStepViewers() {
     const copy = stepCopy[study.id];
     const decidedFrames = study.frames.filter(frame => typeof frame.metrics.meets_screen === 'boolean');
     const passingFrames = decidedFrames.filter(frame => frame.metrics.meets_screen).length;
-    const studySummary = decidedFrames.length
+    const studySummary = study.id === 'mask'
+      ? `${study.frames.length} saved geometry combinations. One is the nominal width, height, and taper used for comparison.`
+      : decidedFrames.length
       ? `${passingFrames} of ${decidedFrames.length} saved combinations are inside the assumed teaching band.`
       : 'No pass/fail limit is declared for this teaching study.';
     const root = document.createElement('article');
@@ -2133,7 +2127,7 @@ function buildStepViewers() {
     root.querySelector('.material-key').innerHTML = materialIds.map(id => {
       const style = materialStyle[id] || [id, 'var(--ink-dim)'];
       return `<span style="--key-color:${style[1]}">${style[0]}</span>`;
-    }).join('');
+    }).join('') + (study.id === 'mask' ? '<span style="--key-color:var(--ink-dim)">Dashed: nominal geometry</span>' : '');
     root.querySelectorAll('[data-parameter]').forEach(control => control.addEventListener('input', () => {
       const frameIndex = study.frames.findIndex(frame => study.parameters.every(parameter => {
         const input = root.querySelector(`[data-parameter="${parameter.key}"]`);

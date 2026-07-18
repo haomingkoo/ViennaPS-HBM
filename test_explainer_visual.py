@@ -151,21 +151,17 @@ def assert_bosch_multifactor(page):
 
 def assert_range_pilot(page):
     study = page.locator("#pattern-bosch-range-pilot")
-    buttons = study.locator("#pilot-case-grid button")
-    assert buttons.count() == 25
-    assert study.locator('#pilot-case-grid button[data-state="legacy_row_complete"]').count() == 18
-    assert study.locator('#pilot-case-grid button[data-state="legacy_low_movement_row"]').count() == 2
-    assert study.locator('#pilot-case-grid button[data-state="legacy_row_incomplete"]').count() == 5
-    assert "shape variation rather than factor effects" in study.inner_text().lower()
-    assert "measurement method is wrong" in study.inner_text().lower()
-    profile = study.locator("#pilot-profile path")
-    first_path = profile.get_attribute("d")
-    unavailable = study.locator('#pilot-case-grid button[data-state="legacy_row_incomplete"]').first
-    unavailable.click()
-    assert profile.get_attribute("d") != first_path
-    assert "etch measurement" in study.locator("#pilot-read").inner_text().lower()
-    assert "Twelve controls changed together" in study.locator("#pilot-read").inner_text()
-    assert study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count() >= 1
+    text = study.inner_text()
+    assert "Why the first etch measurements were archived" in text
+    assert "Still usable" in text
+    assert "Withdrawn" in text
+    assert "Correction" in text
+    assert "old etch values are not used" in text
+    assert study.locator("#pilot-case-grid").count() == 0
+    assert study.locator("#pilot-profile").count() == 0
+    assert study.locator("#archive-profile-grid figure").count() == 25
+    assert study.locator('a[href="pattern_bosch_range_pilot_review.json"]').count() == 1
+    assert study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count() == 1
     assert (
         page.locator("#active-factor-rows").count()
         == 0
