@@ -31,8 +31,8 @@ MAX_RADIUS = CONFIG["profile_max_radius"]
 def _refresh_provenance():
     data = json.loads(OUTPUT.read_text())
     hashes = {
-        "program.md": checkpoint.file_sha256("program.md"),
-        "build_step_experiments.py": checkpoint.file_sha256(Path(__file__)),
+        source["path"]: checkpoint.file_sha256(source["path"])
+        for source in data["provenance"]["sources"]
     }
     section_names = {
         "Declared study product spec": "Assumed study comparison bands",
