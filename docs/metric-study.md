@@ -36,6 +36,10 @@ pass limit and are not wafer specifications. If the floor has missing or
 multiple intersections, the floor-dependent values are `null` and the reason
 is retained instead of choosing an intersection.
 
+The tutorial-only calculation is implemented in `profile_shape_metrics.py`.
+The established traveler measurements remain unchanged so earlier evidence
+keeps its original code provenance.
+
 ## Roughness status
 
 The repository already reports `scallop_rms` from

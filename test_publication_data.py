@@ -299,6 +299,11 @@ assert {item["selector"] for item in candidate_replay["citations"]} == {
     "/review_decision",
 }
 bosch_tutorial = json.loads((ROOT / "bosch_tutorial_data.json").read_text())
+shape_source = bosch_tutorial["measurement_implementation"]
+assert shape_source["path"] == "profile_shape_metrics.py"
+assert hashlib.sha256((ROOT / shape_source["path"]).read_bytes()).hexdigest() == (
+    shape_source["sha256"]
+)
 assert bosch_tutorial["targets"]["basis"]["classification"] == (
     "assumed_study_target"
 )

@@ -96,12 +96,14 @@ A useful study then follows six rules:
 |---|---|
 | `tsv_process.py` | Core geometry and process-step helpers. |
 | `traveler_metrics.py` | Geometry, topology, and connectivity measurements. |
+| `profile_shape_metrics.py` | Tutorial-only wall and floor comparison with a target outline. |
 | `layer_process_models.py` | Liner, barrier, and seed deposition models. |
 | `morphology_fill_control.py` | Copper morphology controls. |
 | `config/process.toml` | Runtime defaults, numerical controls, and assumed comparison targets. |
 | `schemas/` | JSON contracts for published evidence and research events. |
 | `evidence/numerical/` | Committed rows, manifests, reviews, and hashes behind the numerical charts. |
 | `scripts/autoresearch_event_log.py` | Hash-chained attempt log and retry/stop hook. |
+| `scripts/check_published_evidence.sh` | Fast schema, provenance, and generated-evidence check used locally and in CI. |
 | `numerical_performance_data.json` | Citable grid/ray cost and response evidence. |
 | `evidence/numerical/ray_benefit_review.json` | Citable ray-count runtime, repeat-spread, and response-movement review. |
 | `bosch_tutorial_data.json` | Eighteen six-control dry-etch profiles, 28 factor-pair profiles, measurements, and citations. |
@@ -234,6 +236,16 @@ ty check --python .venv/bin/python --python-version 3.13 \
 playwright install chromium
 .venv/bin/python test_explainer_visual.py
 ```
+
+Enable the fast local pre-push check once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hook checks the tutorial evidence schemas, provenance, publication data,
+and generated HTML before a push. CI still runs the broader lint, type, and
+browser suite.
 
 `candidate_cu_replay.json` and `bosch_trajectory_replay.json` are committed
 publication data. A clean clone validates and displays them. Regenerating them

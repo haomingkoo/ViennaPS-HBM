@@ -3,7 +3,7 @@
   "title": "Bosch tutorial evidence",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "title", "scope", "equipment_mapping", "factors", "targets", "interactions", "interior_study", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
+  "required": ["schema_version", "title", "scope", "equipment_mapping", "measurement_implementation", "factors", "targets", "interactions", "interior_study", "interior_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
   "properties": {
     "schema_version": {"const": 3},
     "title": {"type": "string", "minLength": 1},
@@ -15,6 +15,16 @@
       "properties": {
         "relationship": {"const": "many-to-many and uncalibrated"},
         "chain": {"type": "array", "minItems": 5, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "measurement_implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "symbol"],
+      "properties": {
+        "path": {"const": "profile_shape_metrics.py"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "symbol": {"const": "measure_target_via_profile_2d"}
       }
     },
     "factors": {

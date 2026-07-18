@@ -16,6 +16,7 @@ import viennaps as ps
 
 import native_domain_checkpoint as checkpoint
 from process_config import PROCESS_CONFIG
+import profile_shape_metrics as psm
 import traveler_metrics as tm
 
 
@@ -132,7 +133,7 @@ def materials(mesh: dict) -> list[dict]:
 
 
 def public_metrics(row: dict, mesh: dict) -> dict:
-    review = tm.measure_full_via_profile_2d(
+    review = psm.measure_target_via_profile_2d(
         mesh["nodes"],
         mesh["lines"],
         surface_y=0.0,
@@ -286,6 +287,11 @@ def main() -> None:
                 "simulated profile",
                 "geometry measurements",
             ],
+        },
+        "measurement_implementation": {
+            "path": "profile_shape_metrics.py",
+            "sha256": checkpoint.file_sha256(ROOT / "profile_shape_metrics.py"),
+            "symbol": "measure_target_via_profile_2d",
         },
         "factors": FACTOR_COPY,
         "targets": {

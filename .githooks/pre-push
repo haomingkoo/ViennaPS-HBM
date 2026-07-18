@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+python=.venv/bin/python
+if [ ! -x "$python" ]; then
+  echo "pre-push: run the repository setup first; .venv/bin/python is missing" >&2
+  exit 1
+fi
+
+PYTHON="$python" scripts/check_published_evidence.sh
+"$python" test_profile_shape_metrics.py
+"$python" test_publication_data.py
+"$python" build_explainer.py
+if ! git diff --quiet -- explainer.html; then
+  echo "pre-push: explainer.html is stale; commit the rebuilt page" >&2
+  exit 1
+fi
