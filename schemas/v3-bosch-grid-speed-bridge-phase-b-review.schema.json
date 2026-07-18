@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/schemas/v3-bosch-grid-speed-bridge-phase-b-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign", "status", "provenance", "comparison_a_two_stream_grid_movement", "comparison_b_same_stream_ray_movement", "stopped_grid_0.005", "interpretation"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "campaign": {"const": "v3-bosch-grid-speed-bridge-phase-b-review"},
+    "status": {"const": "complete_observational_review"},
+    "provenance": {"type": "object", "required": ["manifest", "new_rows", "phase_a_rows", "focused_rows", "source_artifacts"]},
+    "comparison_a_two_stream_grid_movement": {"type": "array", "minItems": 2, "maxItems": 2},
+    "comparison_b_same_stream_ray_movement": {"type": "array", "minItems": 2, "maxItems": 2},
+    "stopped_grid_0.005": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason", "source_case_ids", "scope"],
+      "properties": {
+        "status": {"const": "stopped_after_phase_a"},
+        "reason": {"const": "it altered the selected top-middle-bottom profile measurements in both cells"},
+        "source_case_ids": {"type": "array", "minItems": 2, "maxItems": 2},
+        "scope": {"type": "string", "minLength": 1}
+      }
+    },
+    "interpretation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["accuracy_limit_used", "weighted_score_used", "reference_treated_as_truth", "repeat_range_treated_as_limit", "setting_promotion_authorized", "runtime_statement"],
+      "properties": {
+        "accuracy_limit_used": {"const": false},
+        "weighted_score_used": {"const": false},
+        "reference_treated_as_truth": {"const": false},
+        "repeat_range_treated_as_limit": {"const": false},
+        "setting_promotion_authorized": {"const": false},
+        "runtime_statement": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
