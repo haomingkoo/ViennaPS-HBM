@@ -64,8 +64,8 @@ def deposit_single_particle(
     dose,
     sticking_probability,
     source_exponent=1.0,
-    rays_per_point=2000,
-    rng_seed=0,
+    rays_per_point,
+    rng_seed,
     max_reflections=None,
     max_boundary_hits=1000,
 ):
@@ -98,8 +98,8 @@ def deposit_teos(
     dose,
     sticking_probability,
     reaction_order,
-    rays_per_point=2000,
-    rng_seed=0,
+    rays_per_point,
+    rng_seed,
     max_reflections=None,
     max_boundary_hits=1000,
 ):

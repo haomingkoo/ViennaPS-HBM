@@ -1,7 +1,11 @@
 # Full TSV traveler DOE plan v3
 
 Status: active methodology. This plan supersedes the DOE scale and sequencing
-in `RESEARCH_PLAN_V2.md`. Product targets in `program.md` are unchanged.
+in `archive/historical-plans/RESEARCH_PLAN_V2.md`. Product targets in
+`program.md` are unchanged.
+
+Numerical profiles, failure logging, and the staged optimization loop follow
+`NUMERICAL_AUTORESEARCH_PRD.md`.
 
 ## Research question
 
@@ -15,8 +19,9 @@ run the saved profiles through liner, seed, fill, and CMP to learn which changes
 matter downstream. Use those sensitive inputs in the focused DOE and hold the
 rest constant at documented nominal values.
 
-Noise and numerical checks support that question. They are not the research
-objective and do not receive a large campaign of their own.
+Numerical checks support that question. They receive a bounded qualification
+campaign before broad physical DOE because an unqualified cheap profile can
+move the measured answer or waste most of the compute budget.
 
 ## Required sequence
 
@@ -127,6 +132,36 @@ paired blocks, or a material change in distance to a failure boundary.
 - After screening, choose local input resolution from
   `delta_x = T_y / abs(local response gradient)`.
 
+## Range evidence and calibration boundary
+
+The current width 0.30 may be illustrated as 5 µm, giving aspect ratios 4.17
+and 10 for depths 1.25 and 3.00. This aligns the deeper teaching tier with
+NIST's approximate 5 µm by 50 µm TSV scale. It is a geometry anchor, not a
+calibration of model time or velocity. [NIST TSV
+metrology](https://www.nist.gov/publications/metrology-needs-tsv-fabrication)
+
+Published Bosch examples span different masks, tools, and chambers. They
+commonly use about 100–300 cycles, while individual passivation and etch steps
+span roughly 1.5–10 seconds in the reviewed experiments. These values guide
+physical context only. The repo's normalized rates, durations, sticking
+probabilities, ion-source exponent, and reflection angle do not map to sccm,
+watts, pressure, seconds, etch rate, or selectivity without measured
+calibration. [Representative DRIE study](https://pmc.ncbi.nlm.nih.gov/articles/PMC8150727/)
+and [ViennaPS particle-model API](https://viennatools.github.io/ViennaPS/models/prebuilt/multiParticle.html)
+
+Published conformal TSV stacks can use films near 100 nm liner, 32 nm barrier,
+and 33 nm seed. The much thicker normalized teaching layers in this repo are
+geometry and measurement controls. Barrier and seed must be measured
+separately; geometric continuity does not establish dielectric reliability,
+diffusion blocking, adhesion, or electrical plating continuity. [Conformal
+TSV stack study](https://www.sciencedirect.com/science/article/abs/pii/S0167931713000592)
+
+Physical bottom-up copper filling depends on bath composition, additive
+concentration, potential or current, transport, wetting, and seed state. The
+current sticking-by-source-exponent map is therefore a transport-model
+sensitivity map, not a plating process window. [NIST suppressor-breakdown TSV
+study](https://pmc.ncbi.nlm.nih.gov/articles/PMC7543049/)
+
 Product specifications, manufacturing noise factors, model coefficients,
 numerical controls, and recipe controls remain separate. A model coefficient
 does not become a fab setting merely because it is sensitive.
@@ -197,7 +232,7 @@ as one blind batch; every stage stops for review and model-gate decisions.
 
 | Stage | Design | Simulation cases | Decision |
 |---|---|---:|---|
-| 0. Simulation fidelity check | Four reference shapes at 1,000 internal rays paired with the same four at 2,000 | 8 | Select the economical ray setting; no process conclusion |
+| 0. Numerical profile qualification | Coarse-to-fine ladders for rays, grid, advection, domain, caps, and execution layout on a morphology-diverse panel | adaptive, capped per manifest | Select geometry-scoped discovery and confirmation profiles; no process conclusion |
 | 1. Pattern skew | `3 x 3 x 3` low/nominal/high geometry matrix for measured opening CD, mask height, and taper, each etched with a fixed reference recipe | 27 | Pattern-to-etch propagation; no dose/focus claim |
 | 2a. Broad Bosch screen | 96 unique recipes: center, every one-factor low/high skew, prior good/failure anchors, foldover/interaction anchors, and optimized space-filling points | 96 | Direct effect, curvature, correlation, and failure-boundary screen |
 | 2b. Repeatability check | One disjoint repeat for 16 morphology- and factor-diverse recipes | 16 | Check model adequacy and choose contrasts for formal confirmation |
@@ -295,20 +330,23 @@ shapes, distinct failure morphologies, and tested extremes.
 
 ## Immediate execution order
 
-1. Finish only the four active 2,000-ray anchors. The automatic watcher stops
-   the unrelated mask ladder immediately after all four fidelity checks pass
-   validation.
-2. Independently review the numerical bridge; use 1,000 rays only if the
-   predeclared fidelity gate passes. Never loosen the gate to accelerate work.
-3. Run a four-shape downstream data-transfer and metric check after layer
+1. Finish the current 250-ray commissioning run and retain its rows. Because
+   the campaign changes more than ray count and has no frozen online stop
+   event, report mismatches without granting or withdrawing authority.
+2. Freeze a clean ray-count qualification on one morphology-diverse panel.
+   Hold stopping rules fixed and include null, near-gate, failure, curvature,
+   and interaction sentinels. Treat 500 rays as provisional until it passes.
+3. Qualify grid, advection, domain, cap, and execution settings on the same
+   panel. Treat 2,000 rays as a tested reference, not numerical truth.
+4. Run a four-shape downstream data-transfer and metric check after layer
    metrics/model acceptance; label it diagnostic.
-4. Freeze Stage 1 and Stage 2a/2b with broad skews, independent RNG intervals,
+5. Freeze Stage 1 and Stage 2a/2b with broad skews, independent RNG intervals,
    native checkpoints, and effect/correlation output. These stages cannot
    recommend process settings.
-5. Select the 24-shape propagation set from observed broad-screen results.
-6. Run the Pattern x Bosch foldover and four-seed confirmation for every
+6. Select the 24-shape propagation set from observed broad-screen results.
+7. Run the Pattern x Bosch foldover and four-seed confirmation for every
    promoted factor/interaction.
-7. Run the focused DOE only after the effect and propagation reviews produce a
+8. Run the focused DOE only after the effect and propagation reviews produce a
    hashed active-factor list and documented held constants.
 
 No old scalar-loss loop, 640-case repeat-heavy Bosch screen, phase-one fill

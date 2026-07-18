@@ -1,0 +1,936 @@
+{
+  "campaign": "v3-bosch-low-ray-qualification",
+  "candidates": {
+    "125": {
+      "candidate_rays_per_point": 125,
+      "cheap_case_count": 5,
+      "decision": {
+        "authority": "none",
+        "classification": "partial_not_formally_reviewable",
+        "pass": false
+      },
+      "expected_case_count": 16,
+      "study_limit": "No frozen stop event authorizes a formal decision from a partial matrix."
+    },
+    "250": {
+      "campaign": "v3-bosch-r250-qualification",
+      "candidate_rays_per_point": 250,
+      "cheap_case_count": 16,
+      "cheap_center_repeats": {
+        "cd_bottom": {
+          "count": 4,
+          "maximum": 0.2845606348046072,
+          "mean": 0.27114126457141774,
+          "minimum": 0.25929631984083235,
+          "range": 0.025264314963774848,
+          "reference_effective_threshold": 0.03624901507016212,
+          "sample_sd": 0.012366243469301033
+        },
+        "cd_middle": {
+          "count": 4,
+          "maximum": 0.3244875431197459,
+          "mean": 0.3177100829520264,
+          "minimum": 0.31417247751763955,
+          "range": 0.010315065602106377,
+          "reference_effective_threshold": 0.012,
+          "sample_sd": 0.004609326640462783
+        },
+        "cd_top": {
+          "count": 4,
+          "maximum": 0.32482073152253277,
+          "mean": 0.3203800107897261,
+          "minimum": 0.30900109246796387,
+          "range": 0.0158196390545689,
+          "reference_effective_threshold": 0.01326948583404345,
+          "sample_sd": 0.0076145498082411354
+        },
+        "depth": {
+          "count": 4,
+          "maximum": 1.281121384793976,
+          "mean": 1.257702013156213,
+          "minimum": 1.2067171219579806,
+          "range": 0.07440426283599533,
+          "reference_effective_threshold": 0.1285326689594815,
+          "sample_sd": 0.03462081668793795
+        },
+        "max_bow": {
+          "count": 4,
+          "maximum": 0.025412189190571477,
+          "mean": 0.0219704398403492,
+          "minimum": 0.018562113992817514,
+          "range": 0.006850075197753963,
+          "reference_effective_threshold": 0.013919582759196367,
+          "sample_sd": 0.0031691061069651595
+        },
+        "max_cd_error": {
+          "count": 4,
+          "maximum": 0.04070368015916764,
+          "mean": 0.037591449911073174,
+          "minimum": 0.035744691055979105,
+          "range": 0.004958989103188538,
+          "reference_effective_threshold": 0.012,
+          "sample_sd": 0.0022929023742578065
+        },
+        "scallop_rms": {
+          "count": 4,
+          "maximum": 0.0035783943777516025,
+          "mean": 0.0034306413764565256,
+          "minimum": 0.0033788088543344583,
+          "range": 0.00019958552341714422,
+          "reference_effective_threshold": 0.0025,
+          "sample_sd": 9.851993721343824e-05
+        },
+        "selected_cycle": {
+          "count": 4,
+          "maximum": 13.0,
+          "mean": 12.5,
+          "minimum": 12.0,
+          "range": 1.0,
+          "reference_effective_threshold": 2.121320343559643,
+          "sample_sd": 0.5773502691896257
+        },
+        "sidewall_angle_deg": {
+          "count": 4,
+          "maximum": 1.9299237385438233,
+          "mean": 1.4857257073931345,
+          "minimum": 0.7735864277618645,
+          "range": 1.1563373107819588,
+          "reference_effective_threshold": 1.2099818900762154,
+          "sample_sd": 0.5372273420786063
+        }
+      },
+      "decision": {
+        "all_anchor_gate_decisions_match": false,
+        "all_anchor_trajectory_classes_match": true,
+        "all_cheap_centers_pass": true,
+        "all_promoted_factors_retained": true,
+        "all_reference_strong_effect_directions_match": false,
+        "authority": "broad interaction hypothesis discovery only",
+        "classification": "rejected_for_broad_interaction_discovery",
+        "confirmation_rays_per_point": 2000,
+        "factor_ranking_spearman_at_least_0_8": true,
+        "pass": false
+      },
+      "effect_comparison": {
+        "deposition_thickness": {
+          "cd_bottom": {
+            "status": "excluded_not_depth_matched"
+          },
+          "cd_middle": {
+            "status": "excluded_not_depth_matched"
+          },
+          "cd_top": {
+            "status": "excluded_not_depth_matched"
+          },
+          "depth": {
+            "cheap_effect_over_threshold": 4.317446646935673,
+            "cheap_high_minus_low": -0.5549329406208063,
+            "direction_match": true,
+            "reference_effect_over_threshold": 4.477600708856575,
+            "reference_high_minus_low": -0.5755179696442019
+          },
+          "max_bow": {
+            "status": "excluded_not_depth_matched"
+          },
+          "max_cd_error": {
+            "status": "excluded_not_depth_matched"
+          },
+          "scallop_rms": {
+            "status": "excluded_not_depth_matched"
+          },
+          "selected_cycle": {
+            "cheap_effect_over_threshold": 7.071067811865475,
+            "cheap_high_minus_low": 15.0,
+            "direction_match": false,
+            "reference_effect_over_threshold": 2.357022603955158,
+            "reference_high_minus_low": -5.0
+          },
+          "sidewall_angle_deg": {
+            "status": "excluded_not_depth_matched"
+          }
+        },
+        "etch_time": {
+          "cd_bottom": {
+            "status": "excluded_not_depth_matched"
+          },
+          "cd_middle": {
+            "status": "excluded_not_depth_matched"
+          },
+          "cd_top": {
+            "status": "excluded_not_depth_matched"
+          },
+          "depth": {
+            "cheap_effect_over_threshold": 2.705525850624493,
+            "cheap_high_minus_low": 0.34774845851963754,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.73757535961543,
+            "reference_high_minus_low": 0.3518678674490836
+          },
+          "max_bow": {
+            "status": "excluded_not_depth_matched"
+          },
+          "max_cd_error": {
+            "status": "excluded_not_depth_matched"
+          },
+          "scallop_rms": {
+            "status": "excluded_not_depth_matched"
+          },
+          "selected_cycle": {
+            "cheap_effect_over_threshold": 12.256517540566822,
+            "cheap_high_minus_low": -26.0,
+            "direction_match": true,
+            "reference_effect_over_threshold": 12.256517540566822,
+            "reference_high_minus_low": -26.0
+          },
+          "sidewall_angle_deg": {
+            "status": "excluded_not_depth_matched"
+          }
+        },
+        "ion_rate": {
+          "cd_bottom": {
+            "cheap_effect_over_threshold": 1.159623138672275,
+            "cheap_high_minus_low": 0.04203519662944,
+            "direction_match": true,
+            "reference_effect_over_threshold": 1.7183638971443331,
+            "reference_high_minus_low": 0.06228899880360744
+          },
+          "cd_middle": {
+            "cheap_effect_over_threshold": 3.5915717726505565,
+            "cheap_high_minus_low": -0.04309886127180668,
+            "direction_match": true,
+            "reference_effect_over_threshold": 3.726188752712157,
+            "reference_high_minus_low": -0.044714265032545886
+          },
+          "cd_top": {
+            "cheap_effect_over_threshold": 2.5059217821110082,
+            "cheap_high_minus_low": -0.03325229358894294,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.381025922428747,
+            "reference_high_minus_low": -0.0315949897481585
+          },
+          "depth": {
+            "cheap_effect_over_threshold": 0.16013186449087616,
+            "cheap_high_minus_low": 0.020582175928470337,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.016198784281161484,
+            "reference_high_minus_low": 0.0020820729775565816
+          },
+          "max_bow": {
+            "cheap_effect_over_threshold": 1.7223920349550683,
+            "cheap_high_minus_low": -0.023974978474337716,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.272596906892573,
+            "reference_high_minus_low": -0.03163360072378485
+          },
+          "max_cd_error": {
+            "cheap_effect_over_threshold": 2.771194906216671,
+            "cheap_high_minus_low": -0.03325433887460005,
+            "direction_match": true,
+            "reference_effect_over_threshold": 4.163048442049358,
+            "reference_high_minus_low": -0.049956581304592296
+          },
+          "scallop_rms": {
+            "cheap_effect_over_threshold": 0.03436891535025053,
+            "cheap_high_minus_low": -8.592228837562632e-05,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.13365549870796178,
+            "reference_high_minus_low": -0.0003341387467699045
+          },
+          "selected_cycle": {
+            "cheap_effect_over_threshold": 9.428090415820632,
+            "cheap_high_minus_low": 20.0,
+            "direction_match": true,
+            "reference_effect_over_threshold": 9.428090415820632,
+            "reference_high_minus_low": 20.0
+          },
+          "sidewall_angle_deg": {
+            "cheap_effect_over_threshold": 1.9246669543257093,
+            "cheap_high_minus_low": -2.3288121591622546,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.3610461866782164,
+            "reference_high_minus_low": -2.8568231275141494
+          }
+        },
+        "ion_source_exponent": {
+          "cd_bottom": {
+            "cheap_effect_over_threshold": 1.8960466080566254,
+            "cheap_high_minus_low": -0.06872982206917438,
+            "direction_match": true,
+            "reference_effect_over_threshold": 1.958945392020859,
+            "reference_high_minus_low": -0.07100984103698876
+          },
+          "cd_middle": {
+            "cheap_effect_over_threshold": 9.819950181310766,
+            "cheap_high_minus_low": -0.11783940217572919,
+            "direction_match": true,
+            "reference_effect_over_threshold": 8.373995664428072,
+            "reference_high_minus_low": -0.10048794797313687
+          },
+          "cd_top": {
+            "cheap_effect_over_threshold": 2.9291645244981974,
+            "cheap_high_minus_low": -0.03886850716341145,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.868040438212849,
+            "reference_high_minus_low": -0.038057421966329164
+          },
+          "depth": {
+            "cheap_effect_over_threshold": 0.4227965115033821,
+            "cheap_high_minus_low": -0.05434316405028783,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.3979092733779679,
+            "reference_high_minus_low": -0.051144340910998176
+          },
+          "max_bow": {
+            "cheap_effect_over_threshold": 1.7817785646784263,
+            "cheap_high_minus_low": -0.02480161418960347,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.1842452826172223,
+            "reference_high_minus_low": -0.030403782977774685
+          },
+          "max_cd_error": {
+            "cheap_effect_over_threshold": 9.418832504000592,
+            "cheap_high_minus_low": -0.11302599004800712,
+            "direction_match": true,
+            "reference_effect_over_threshold": 10.49491125094429,
+            "reference_high_minus_low": -0.12593893501133147
+          },
+          "scallop_rms": {
+            "cheap_effect_over_threshold": 0.07864260373869336,
+            "cheap_high_minus_low": -0.0001966065093467334,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.14828667267652323,
+            "reference_high_minus_low": -0.0003707166816913081
+          },
+          "selected_cycle": {
+            "cheap_effect_over_threshold": 1.8856180831641265,
+            "cheap_high_minus_low": -4.0,
+            "direction_match": true,
+            "reference_effect_over_threshold": 1.8856180831641265,
+            "reference_high_minus_low": -4.0
+          },
+          "sidewall_angle_deg": {
+            "cheap_effect_over_threshold": 0.7365845873632245,
+            "cheap_high_minus_low": 0.8912540112187636,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.8157252064456618,
+            "reference_high_minus_low": 0.9870127270779329
+          }
+        },
+        "neutral_rate": {
+          "cd_bottom": {
+            "cheap_effect_over_threshold": 3.687754850228304,
+            "cheap_high_minus_low": -0.13367748114098926,
+            "direction_match": true,
+            "reference_effect_over_threshold": 3.384436545868231,
+            "reference_high_minus_low": -0.12268249135518494
+          },
+          "cd_middle": {
+            "cheap_effect_over_threshold": 7.545781299920206,
+            "cheap_high_minus_low": -0.09054937559904247,
+            "direction_match": true,
+            "reference_effect_over_threshold": 7.709075130220631,
+            "reference_high_minus_low": -0.09250890156264757
+          },
+          "cd_top": {
+            "cheap_effect_over_threshold": 6.950469867237585,
+            "cheap_high_minus_low": -0.09222916144325499,
+            "direction_match": true,
+            "reference_effect_over_threshold": 7.059317175205745,
+            "reference_high_minus_low": -0.09367350925441226
+          },
+          "depth": {
+            "cheap_effect_over_threshold": 0.028169568841767995,
+            "cheap_high_minus_low": -0.003620709866670291,
+            "direction_match": false,
+            "reference_effect_over_threshold": 0.14060490316028829,
+            "reference_high_minus_low": 0.01807232347198129
+          },
+          "max_bow": {
+            "cheap_effect_over_threshold": 1.311034408676284,
+            "cheap_high_minus_low": -0.018249051951723605,
+            "direction_match": true,
+            "reference_effect_over_threshold": 1.1450815028789292,
+            "reference_high_minus_low": -0.015939056745348207
+          },
+          "max_cd_error": {
+            "cheap_effect_over_threshold": 4.333100895273644,
+            "cheap_high_minus_low": -0.05199721074328373,
+            "direction_match": true,
+            "reference_effect_over_threshold": 5.000038111877514,
+            "reference_high_minus_low": -0.06000045734253018
+          },
+          "scallop_rms": {
+            "cheap_effect_over_threshold": 1.6656432353870116,
+            "cheap_high_minus_low": -0.004164108088467529,
+            "direction_match": true,
+            "reference_effect_over_threshold": 1.6825768105861372,
+            "reference_high_minus_low": -0.004206442026465343
+          },
+          "selected_cycle": {
+            "cheap_effect_over_threshold": 2.357022603955158,
+            "cheap_high_minus_low": 5.0,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.82842712474619,
+            "reference_high_minus_low": 6.0
+          },
+          "sidewall_angle_deg": {
+            "cheap_effect_over_threshold": 1.0673667276948635,
+            "cheap_high_minus_low": 1.291494410580696,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.7314023000883764,
+            "reference_high_minus_low": 0.884983537467025
+          }
+        },
+        "neutral_sticking_probability": {
+          "cd_bottom": {
+            "cheap_effect_over_threshold": 3.563484108721753,
+            "cheap_high_minus_low": -0.12917278915933805,
+            "direction_match": true,
+            "reference_effect_over_threshold": 3.0746286173853496,
+            "reference_high_minus_low": -0.11145225908675327
+          },
+          "cd_middle": {
+            "cheap_effect_over_threshold": 5.690825648159416,
+            "cheap_high_minus_low": -0.068289907777913,
+            "direction_match": true,
+            "reference_effect_over_threshold": 5.14864268159972,
+            "reference_high_minus_low": -0.06178371217919665
+          },
+          "cd_top": {
+            "cheap_effect_over_threshold": 0.5091400595572725,
+            "cheap_high_minus_low": -0.006756026807839266,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.277202447993707,
+            "reference_high_minus_low": -0.003678333956814661
+          },
+          "depth": {
+            "cheap_effect_over_threshold": 0.06417510550563099,
+            "cheap_high_minus_low": -0.008248597591395068,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.2585520144601072,
+            "reference_high_minus_low": -0.03323238048340804
+          },
+          "max_bow": {
+            "cheap_effect_over_threshold": 0.06322768020736236,
+            "cheap_high_minus_low": 0.0008801029273183825,
+            "direction_match": false,
+            "reference_effect_over_threshold": 0.4866291558573129,
+            "reference_high_minus_low": -0.006773674807993735
+          },
+          "max_cd_error": {
+            "cheap_effect_over_threshold": 0.48803765460162424,
+            "cheap_high_minus_low": 0.005856451855219491,
+            "direction_match": false,
+            "reference_effect_over_threshold": 0.5769294588940608,
+            "reference_high_minus_low": -0.00692315350672873
+          },
+          "scallop_rms": {
+            "cheap_effect_over_threshold": 0.5319174013111275,
+            "cheap_high_minus_low": -0.0013297935032778188,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.7856492009802256,
+            "reference_high_minus_low": -0.001964123002450564
+          },
+          "selected_cycle": {
+            "cheap_effect_over_threshold": 0.9428090415820632,
+            "cheap_high_minus_low": 2.0,
+            "direction_match": true,
+            "reference_effect_over_threshold": 0.9428090415820632,
+            "reference_high_minus_low": 2.0
+          },
+          "sidewall_angle_deg": {
+            "cheap_effect_over_threshold": 3.057401398064507,
+            "cheap_high_minus_low": 3.6994003223517558,
+            "direction_match": true,
+            "reference_effect_over_threshold": 2.7166115534357176,
+            "reference_high_minus_low": 3.2870507820290333
+          }
+        }
+      },
+      "factor_score_ranking_spearman": 0.942857142857143,
+      "factor_scores": {
+        "cheap": {
+          "deposition_thickness": 7.071067811865475,
+          "etch_time": 12.256517540566822,
+          "ion_rate": 9.428090415820632,
+          "ion_source_exponent": 9.819950181310766,
+          "neutral_rate": 7.545781299920206,
+          "neutral_sticking_probability": 5.690825648159416
+        },
+        "reference": {
+          "deposition_thickness": 4.477600708856575,
+          "etch_time": 12.256517540566822,
+          "ion_rate": 9.428090415820632,
+          "ion_source_exponent": 10.49491125094429,
+          "neutral_rate": 7.709075130220631,
+          "neutral_sticking_probability": 5.14864268159972
+        }
+      },
+      "gate_comparison": [
+        {
+          "anchor": "nominal",
+          "cheap_pass": true,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": true,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:deposition_thickness:high",
+          "cheap_pass": false,
+          "cheap_trajectory": "shallow_at_cycle_horizon_boundary_limited",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "shallow_at_cycle_horizon_boundary_limited",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:deposition_thickness:low",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:etch_time:high",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:etch_time:low",
+          "cheap_pass": false,
+          "cheap_trajectory": "shallow_at_cycle_horizon_boundary_limited",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "shallow_at_cycle_horizon_boundary_limited",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:ion_rate:high",
+          "cheap_pass": true,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": true,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:ion_rate:low",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:ion_source_exponent:high",
+          "cheap_pass": true,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": true,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:ion_source_exponent:low",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:neutral_rate:high",
+          "cheap_pass": true,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": true,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:neutral_rate:low",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:neutral_sticking_probability:high",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": false,
+          "reference_pass": true,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        },
+        {
+          "anchor": "ofat:neutral_sticking_probability:low",
+          "cheap_pass": false,
+          "cheap_trajectory": "depth_selected",
+          "match": true,
+          "reference_pass": false,
+          "reference_trajectory": "depth_selected",
+          "trajectory_match": true
+        }
+      ],
+      "labels": [
+        "full-traveler",
+        "critical-review"
+      ],
+      "reference_anchor_count": 13,
+      "reference_rays_per_point": 2000,
+      "retained_promoted_factors": {
+        "deposition_thickness": true,
+        "etch_time": true,
+        "ion_rate": true,
+        "ion_source_exponent": true,
+        "neutral_rate": true,
+        "neutral_sticking_probability": true
+      },
+      "runtime": {
+        "campaign_wall_hours": 1.160842394663228,
+        "median_speedup": 10.82537252500881,
+        "paired_anchors": [
+          {
+            "anchor": "nominal",
+            "cheap_seconds": 595.6732738018036,
+            "reference_seconds": 8343.162016153336,
+            "speedup": 14.006272201712592
+          },
+          {
+            "anchor": "ofat:deposition_thickness:high",
+            "cheap_seconds": 964.7875430583954,
+            "reference_seconds": 7485.855932235718,
+            "speedup": 7.759071918057118
+          },
+          {
+            "anchor": "ofat:deposition_thickness:low",
+            "cheap_seconds": 505.64395022392273,
+            "reference_seconds": 4101.5184099674225,
+            "speedup": 8.11147529432732
+          },
+          {
+            "anchor": "ofat:etch_time:high",
+            "cheap_seconds": 496.2167420387268,
+            "reference_seconds": 6116.026277065277,
+            "speedup": 12.3253122253339
+          },
+          {
+            "anchor": "ofat:etch_time:low",
+            "cheap_seconds": 357.8457009792328,
+            "reference_seconds": 5901.182992219925,
+            "speedup": 16.49085898215777
+          },
+          {
+            "anchor": "ofat:ion_rate:high",
+            "cheap_seconds": 463.9518709182739,
+            "reference_seconds": 16147.938961029053,
+            "speedup": 34.80520280922317
+          },
+          {
+            "anchor": "ofat:ion_rate:low",
+            "cheap_seconds": 581.0733439922333,
+            "reference_seconds": 6975.836849927902,
+            "speedup": 12.005088380067116
+          },
+          {
+            "anchor": "ofat:ion_source_exponent:high",
+            "cheap_seconds": 505.82543110847473,
+            "reference_seconds": 17696.472047805786,
+            "speedup": 34.98533478047046
+          },
+          {
+            "anchor": "ofat:ion_source_exponent:low",
+            "cheap_seconds": 433.30845308303833,
+            "reference_seconds": 4690.725422859192,
+            "speedup": 10.82537252500881
+          },
+          {
+            "anchor": "ofat:neutral_rate:high",
+            "cheap_seconds": 468.777174949646,
+            "reference_seconds": 4640.804787397385,
+            "speedup": 9.899809622548025
+          },
+          {
+            "anchor": "ofat:neutral_rate:low",
+            "cheap_seconds": 533.1871778964996,
+            "reference_seconds": 3972.4875857830048,
+            "speedup": 7.450455957052534
+          },
+          {
+            "anchor": "ofat:neutral_sticking_probability:high",
+            "cheap_seconds": 492.65757489204407,
+            "reference_seconds": 3568.2275161743164,
+            "speedup": 7.242814681081929
+          },
+          {
+            "anchor": "ofat:neutral_sticking_probability:low",
+            "cheap_seconds": 523.2269570827484,
+            "reference_seconds": 4039.8151750564575,
+            "speedup": 7.7209614687676735
+          }
+        ]
+      },
+      "strong_effect_checks": [
+        {
+          "cheap_effect_over_threshold": 2.705525850624493,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "etch_time",
+          "metric": "depth",
+          "reference_effect_over_threshold": 2.73757535961543
+        },
+        {
+          "cheap_effect_over_threshold": 12.256517540566822,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "etch_time",
+          "metric": "selected_cycle",
+          "reference_effect_over_threshold": 12.256517540566822
+        },
+        {
+          "cheap_effect_over_threshold": 4.317446646935673,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "deposition_thickness",
+          "metric": "depth",
+          "reference_effect_over_threshold": 4.477600708856575
+        },
+        {
+          "cheap_effect_over_threshold": 7.071067811865475,
+          "cheap_remains_screen_positive": true,
+          "direction_match": false,
+          "factor": "deposition_thickness",
+          "metric": "selected_cycle",
+          "reference_effect_over_threshold": 2.357022603955158
+        },
+        {
+          "cheap_effect_over_threshold": 1.8856180831641265,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_source_exponent",
+          "metric": "selected_cycle",
+          "reference_effect_over_threshold": 1.8856180831641265
+        },
+        {
+          "cheap_effect_over_threshold": 2.9291645244981974,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_source_exponent",
+          "metric": "cd_top",
+          "reference_effect_over_threshold": 2.868040438212849
+        },
+        {
+          "cheap_effect_over_threshold": 9.819950181310766,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_source_exponent",
+          "metric": "cd_middle",
+          "reference_effect_over_threshold": 8.373995664428072
+        },
+        {
+          "cheap_effect_over_threshold": 1.8960466080566254,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_source_exponent",
+          "metric": "cd_bottom",
+          "reference_effect_over_threshold": 1.958945392020859
+        },
+        {
+          "cheap_effect_over_threshold": 9.418832504000592,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_source_exponent",
+          "metric": "max_cd_error",
+          "reference_effect_over_threshold": 10.49491125094429
+        },
+        {
+          "cheap_effect_over_threshold": 1.7817785646784263,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_source_exponent",
+          "metric": "max_bow",
+          "reference_effect_over_threshold": 2.1842452826172223
+        },
+        {
+          "cheap_effect_over_threshold": 9.428090415820632,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "selected_cycle",
+          "reference_effect_over_threshold": 9.428090415820632
+        },
+        {
+          "cheap_effect_over_threshold": 2.5059217821110082,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "cd_top",
+          "reference_effect_over_threshold": 2.381025922428747
+        },
+        {
+          "cheap_effect_over_threshold": 3.5915717726505565,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "cd_middle",
+          "reference_effect_over_threshold": 3.726188752712157
+        },
+        {
+          "cheap_effect_over_threshold": 1.159623138672275,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "cd_bottom",
+          "reference_effect_over_threshold": 1.7183638971443331
+        },
+        {
+          "cheap_effect_over_threshold": 2.771194906216671,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "max_cd_error",
+          "reference_effect_over_threshold": 4.163048442049358
+        },
+        {
+          "cheap_effect_over_threshold": 1.7223920349550683,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "max_bow",
+          "reference_effect_over_threshold": 2.272596906892573
+        },
+        {
+          "cheap_effect_over_threshold": 1.9246669543257093,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "ion_rate",
+          "metric": "sidewall_angle_deg",
+          "reference_effect_over_threshold": 2.3610461866782164
+        },
+        {
+          "cheap_effect_over_threshold": 2.357022603955158,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "selected_cycle",
+          "reference_effect_over_threshold": 2.82842712474619
+        },
+        {
+          "cheap_effect_over_threshold": 6.950469867237585,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "cd_top",
+          "reference_effect_over_threshold": 7.059317175205745
+        },
+        {
+          "cheap_effect_over_threshold": 7.545781299920206,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "cd_middle",
+          "reference_effect_over_threshold": 7.709075130220631
+        },
+        {
+          "cheap_effect_over_threshold": 3.687754850228304,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "cd_bottom",
+          "reference_effect_over_threshold": 3.384436545868231
+        },
+        {
+          "cheap_effect_over_threshold": 4.333100895273644,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "max_cd_error",
+          "reference_effect_over_threshold": 5.000038111877514
+        },
+        {
+          "cheap_effect_over_threshold": 1.311034408676284,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "max_bow",
+          "reference_effect_over_threshold": 1.1450815028789292
+        },
+        {
+          "cheap_effect_over_threshold": 1.6656432353870116,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_rate",
+          "metric": "scallop_rms",
+          "reference_effect_over_threshold": 1.6825768105861372
+        },
+        {
+          "cheap_effect_over_threshold": 5.690825648159416,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_sticking_probability",
+          "metric": "cd_middle",
+          "reference_effect_over_threshold": 5.14864268159972
+        },
+        {
+          "cheap_effect_over_threshold": 3.563484108721753,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_sticking_probability",
+          "metric": "cd_bottom",
+          "reference_effect_over_threshold": 3.0746286173853496
+        },
+        {
+          "cheap_effect_over_threshold": 3.057401398064507,
+          "cheap_remains_screen_positive": true,
+          "direction_match": true,
+          "factor": "neutral_sticking_probability",
+          "metric": "sidewall_angle_deg",
+          "reference_effect_over_threshold": 2.7166115534357176
+        }
+      ],
+      "study_limit": "Commissioning evidence only: ray count, random streams, and early-stop intervals were not isolated. A passing saved review does not qualify the mode."
+    }
+  },
+  "confirmation_rays_per_point": 2000,
+  "formally_qualified_discovery_rays": null,
+  "labels": [
+    "full-traveler",
+    "critical-review"
+  ],
+  "process_window_authorized": false,
+  "provenance": {
+    "candidate_manifests": {
+      "125": {
+        "path": ".scratch/full-traveler-autoresearch/v3_bosch_r125_qualification_manifest.json",
+        "sha256": "cd83b46a79c4cba85e498a3459230a33eb75ddef1f747a5dd6fafb2829439da0"
+      },
+      "250": {
+        "path": ".scratch/full-traveler-autoresearch/v3_bosch_r250_qualification_manifest.json",
+        "sha256": "9c775a04888ab89647694a068d289b42e4323a603316d9b38b72fb8ba0e37233"
+      }
+    },
+    "commissioning_runner": {
+      "path": "v3_bosch_low_ray_qualification.py",
+      "sha256": "7c733cebc3beb59053c6502bb7bab01df26e6799db1437d1e2a8b5ff898da80d"
+    },
+    "reviewer": {
+      "path": "review_v3_bosch_low_ray_qualification.py",
+      "sha256": "3d9abd8da07ef792c8c9ee7cc85e0fdded4b70d2b8dc02602339a50921905d00"
+    }
+  },
+  "provisional_discovery_rays": 500,
+  "recipe_authorized": false
+}

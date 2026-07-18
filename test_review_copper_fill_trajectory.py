@@ -283,6 +283,34 @@ def test_self_consistent_old_fingerprint_is_preserved_as_superseded():
     assert summary["invalid_attempts"] == []
 
 
+def test_rejects_contradictory_void_free_target():
+    data = manifest()
+    case = review.expand_expected_cases(data, FINGERPRINT)[0]
+    contradictory = topology(0.0, 0.0, overburden=0.16)
+    contradictory.update({
+        "void_free": True,
+        "open_void": False,
+        "open_void_depth": 0.99,
+        "remaining_void_area": 0.18,
+    })
+    row = result_row(case, [checkpoint(1, contradictory, target=True)])
+    errors = review._trajectory_validation_errors(row)
+    assert any("open_void disagrees" in error for error in errors)
+    assert any("void_free disagrees" in error for error in errors)
+
+
+def test_rejects_missing_checkpoint_gate_records():
+    data = manifest()
+    case = review.expand_expected_cases(data, FINGERPRINT)[0]
+    item = checkpoint(1, topology(0.0, 0.0, overburden=0.16), target=True)
+    del item["protected_stack"]
+    del item["model_diagnostics"]
+    del item["topology_transition"]
+    row = result_row(case, [item])
+    errors = review._trajectory_validation_errors(row)
+    assert any("target_pass does not satisfy" in error for error in errors)
+
+
 if __name__ == "__main__":
     test_rejects_reported_pass_after_unresolved_seam_transition()
     test_preserves_error_attempt_before_recovered_result()
@@ -292,4 +320,6 @@ if __name__ == "__main__":
         )
     test_runtime_fingerprint_and_duplicate_successes_are_hard_audit_failures()
     test_self_consistent_old_fingerprint_is_preserved_as_superseded()
+    test_rejects_contradictory_void_free_target()
+    test_rejects_missing_checkpoint_gate_records()
     print("Cu-fill trajectory reviewer checks: PASS")

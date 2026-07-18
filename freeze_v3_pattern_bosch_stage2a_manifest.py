@@ -103,8 +103,13 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     manifest = build_manifest(args.numerical_release)
-    if not args.check:
-        freeze(runner.project_path(args.output), manifest)
+    output_path = runner.project_path(args.output)
+    if args.check:
+        expected = json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
+        if not output_path.is_file() or output_path.read_text() != expected:
+            raise ValueError(f"stale or missing manifest: {output_path}")
+    else:
+        freeze(output_path, manifest)
     preflight = manifest["design"]["design"]["input_independence_preflight"]
     print(json.dumps({
         "manifest_sha256": runner.canonical_sha256(manifest),

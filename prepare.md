@@ -1,5 +1,10 @@
 # prepare.md -- evaluation methodology + running log
 
+This log preserves historical filenames so earlier decisions remain traceable.
+Retired phase-one scripts now live under `archive/phase-one-campaign/` and
+`archive/phase-one-sweeps/`. They are not current run instructions; use
+`docs/current-run.md` for the active checkpoint.
+
 ## The metric (don't change this without a documented reason)
 
 **Wall bulge** = `max(|x - radius|)` over sidewall points where

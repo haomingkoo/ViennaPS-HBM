@@ -6,8 +6,9 @@ import json
 from html.parser import HTMLParser
 from pathlib import Path
 
-data = json.loads(Path("publication_campaign_data.json").read_text())
-interim = json.loads(Path("publication_interim_data.json").read_text())
+ROOT = Path(__file__).resolve().parent
+data = json.loads((ROOT / "publication_campaign_data.json").read_text())
+interim = json.loads((ROOT / "publication_interim_data.json").read_text())
 assert data["total_travelers"] == 1948
 assert data["wired_factor_count"] == 17
 assert "score_history" not in data
@@ -102,13 +103,22 @@ assert not interim["cu_boundary"]["decision"]["morphology_authorized"]
 assert not interim["cmp"]["recipe_doe_authorized"]
 assert len(interim["source_artifacts"]) == 13
 assert all(len(source["sha256"]) == 64 for source in interim["source_artifacts"])
+assert interim["source_artifact_distribution"] == (
+    "hashes_only; raw research artifacts are not committed"
+)
+missing_sources = []
 for source in interim["source_artifacts"]:
-    path = Path(source["path"])
+    path = ROOT / source["path"]
     if path.is_file():
         assert hashlib.sha256(path.read_bytes()).hexdigest() == source["sha256"]
+    else:
+        missing_sources.append(source["path"])
+assert not missing_sources or interim["source_artifact_distribution"].startswith(
+    "hashes_only"
+)
 
-template = Path("explainer_template.html").read_text()
-html = Path("explainer.html").read_text()
+template = (ROOT / "explainer_template.html").read_text()
+html = (ROOT / "explainer.html").read_text()
 for required in (
     'id="screening-result"',
     'id="screening-traveler-visual"',
@@ -139,7 +149,7 @@ assert "Copper-fill results" in html
 assert "The browser does not invent intermediate shapes." in html
 assert 'href="cu_fill_replay.json"' in html
 assert 'id="step-output-list"' in html
-step_experiments = json.loads(Path("step_experiments.json").read_text())
+step_experiments = json.loads((ROOT / "step_experiments.json").read_text())
 assert [study["id"] for study in step_experiments["studies"]] == [
     "mask",
     "bosch",
@@ -175,7 +185,7 @@ assert all(
 )
 assert step_experiments["provenance"]["rng_seed"] == 42000
 assert "Clear field copper without" not in html
-replay = json.loads(Path("cu_fill_replay.json").read_text())
+replay = json.loads((ROOT / "cu_fill_replay.json").read_text())
 assert replay["frame_count"] == 24
 assert len(replay["runs"]) == 2
 assert replay["runs"][0]["frames"][-1]["metrics"]["closed_void_count"] == 1

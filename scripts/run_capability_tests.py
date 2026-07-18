@@ -3,8 +3,8 @@
 
 The repository currently has three intentionally separate ViennaPS binaries.
 Planning is the default so an audit does not accidentally launch expensive
-simulation-bearing tests.  Pass ``stock``, ``cu``, ``cmp``, or ``all`` to run
-the corresponding group after every runtime hash and capability is verified.
+simulation-bearing tests. Pass ``portable``, ``stock``, ``cu``, ``cmp``, or
+``all`` to run a group after each required runtime is verified.
 """
 
 from __future__ import annotations
@@ -78,7 +78,6 @@ TESTS_BY_RUNTIME = {
         "test_freeze_pattern_bosch_screen_manifest.py",
         "test_frozen_campaign_supervisor.py",
         "test_gate0_publication_checkpoint.py",
-        "test_full_process_review.py",
         "test_full_2d_layer_metrics.py",
         "test_layer_model_acceptance_design.py",
         "test_layer_process_models.py",
@@ -99,7 +98,6 @@ TESTS_BY_RUNTIME = {
         "test_review_foundation_metric_audit.py",
         "test_review_pattern_bosch_checkpoint_handoffs.py",
         "test_review_pattern_bosch_screen.py",
-        "test_shared_upstream.py",
         "test_target_specs.py",
         "test_traveler_metrics.py",
         "test_v3_methodology_guards.py",
@@ -127,6 +125,12 @@ TESTS_BY_RUNTIME = {
     "cmp": (
         "test_foundation_cmp_qualification.py",
         "test_height_material_cmp.py",
+    ),
+    "portable": (
+        "test_autoresearch_event_log.py",
+        "test_autoresearch_event_schema.py",
+        "test_evidence_schema.py",
+        "test_explainer_visual.py",
     ),
 }
 
@@ -235,14 +239,15 @@ def runtime_for_test(filename: str) -> str | None:
 
 
 def run_group(name: str) -> list[str]:
-    spec = RUNTIMES[name]
+    spec = RUNTIMES.get(name)
+    environment = runtime_environment(spec) if spec else dict(os.environ)
     failures = []
     for filename in TESTS_BY_RUNTIME[name]:
         print(f"[{name}] {filename}", flush=True)
         result = subprocess.run(
             [str(PYTHON), str(ROOT / filename)],
             cwd=ROOT,
-            env=runtime_environment(spec),
+            env=environment,
             check=False,
         )
         if result.returncode != 0:
@@ -256,8 +261,8 @@ def main(argv: list[str] | None = None) -> int:
         "mode",
         nargs="?",
         default="plan",
-        choices=("plan", "stock", "cu", "cmp", "all"),
-        help="plan verifies and lists routes; other modes also execute tests",
+        choices=("plan", "portable", "stock", "cu", "cmp", "all"),
+        help="plan inventories routes; other modes verify runtimes and execute tests",
     )
     args = parser.parse_args(argv)
 
@@ -267,18 +272,19 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ERROR: {error}", file=sys.stderr)
         return 2
 
-    for name in ("stock", "cu", "cmp"):
+    for name in ("portable", "stock", "cu", "cmp"):
         print(f"{name}: {len(TESTS_BY_RUNTIME[name])} tests")
         for filename in TESTS_BY_RUNTIME[name]:
             print(f"  {filename}")
 
     if args.mode == "plan":
-        print("plan only: no tests executed")
+        print("plan only: inventory checked; runtimes not verified; no tests executed")
         return 0
 
-    names = ("stock", "cu", "cmp") if args.mode == "all" else (args.mode,)
+    names = ("portable", "stock", "cu", "cmp") if args.mode == "all" else (args.mode,)
+    runtime_names = tuple(name for name in names if name in RUNTIMES)
     try:
-        runtime_rows = verify_runtimes(names)
+        runtime_rows = verify_runtimes(runtime_names)
     except (RuntimeError, json.JSONDecodeError, OSError) as error:
         print(f"ERROR: {error}", file=sys.stderr)
         return 2

@@ -67,7 +67,7 @@ kept outside current scientific authority.
 | `test_foundation_layer_audit.py` | stock | Active step/method guard, partial | Fingerprint and current liner gate logic; does not establish full-2D material connectivity |
 | `test_freeze_pattern_bosch_screen_manifest.py` | stock | Active supersession guard | Proves the obsolete repeat-heavy 640-case screen cannot freeze under the V3 methodology |
 | `test_frozen_campaign_supervisor.py` | stock | Active runtime guard | Lock, retry, heartbeat, status, and detached execution behavior |
-| `test_full_process_review.py` | stock | Historical-only regression | Phase-one scalar reviewer and synthetic `target_score`; no V2 traveler authority |
+| `archive/phase-one-campaign/test_full_process_review.py` | archived | Historical-only regression | Phase-one scalar reviewer and synthetic `target_score`; no current traveler authority and not routed by the active capability runner |
 | `test_layer_model_acceptance_design.py` | stock | Historical design guard | Preserves the unlaunched 640-case layer design for audit; V3 requires screen-then-focus redesign before launch |
 | `test_layer_process_models.py` | stock | Active layer-model guard | Constant-field-dose directional/isotropic split, full-width morphology response, TEOS-versus-simple model distinction, isotropic representation control, and parameter bounds |
 | `test_legacy_metric_guard.py` | stock | Active containment guard | Blocks the three retired phase-one joint scripts without an explicit override |
@@ -78,12 +78,13 @@ kept outside current scientific authority.
 | `test_pattern_bosch_screen_runner.py` | stock | Historical executor regression | Preserves fail-closed resume and metric behavior for old artifacts; no V3 launch authority |
 | `test_process_reproducibility.py` | stock | Active method guard, partial | Same-seed mesh reproducibility and different-seed sensitivity; not stream-independence proof |
 | `test_publication_data.py` | stock | Publication-only regression | Frozen counts, copy, HTML structure, and accessibility; never a simulation gate |
+| `test_explainer_visual.py` | stock | Publication-only browser regression | Checks the committed guide at desktop and mobile widths; never a simulation gate |
 | `test_review_bosch_cycle_history.py` | stock | Active reviewer guard, partial | Failed-attempt recovery selection; current fingerprint validation remains open |
 | `test_review_foundation_layer_audit.py` | stock | Active reviewer/method guard | Grid/ray pairing, drift, nonfinite data, fingerprints, and bounded exploratory authority |
 | `test_review_foundation_metric_audit.py` | stock | Current pattern/etch gate guard | Initial opening validity, measured mask height, and resolved surviving post-etch mask |
 | `test_review_pattern_bosch_checkpoint_handoffs.py` | stock | Active handoff-review guard | All four reviewed full-width shapes required, exact seed accounting, strict JSON, upstream-review binding, and reuse-only authority |
 | `test_review_pattern_bosch_screen.py` | stock | Active broad-screen reviewer guard | Independent checkpoint/selection/gate recomputation, dominant invalid and hard-gate penalties, four-seed robust ranking, direction-aware adverse p90/worst summaries, boundary warnings, and refinement-only authority |
-| `test_shared_upstream.py` | stock | Historical-only regression | Phase-one joint-runner grouping and source-literal check |
+| `archive/phase-one-campaign/test_shared_upstream.py` | archived | Historical-only regression | Phase-one joint-runner grouping and source-literal check; not routed by the active capability runner |
 | `test_target_specs.py` | stock | Stale proxy regression | Retired `tip_gap`, `floor_reach`, and scalar target-score behavior; not an active target test |
 | `test_full_2d_layer_metrics.py` | stock | Current product/metric guard | Both fields, both walls, floor, aperture, conservative asymmetry handling, rejection of symmetry-clipped input, and solid-region field-to-floor connectivity including cuts and sub-resolution films |
 | `test_traveler_metrics.py` | stock | Current product/metric guard | Pattern, CD, taper, bow, quarter-layer thickness, solid connectivity, fill topology, overburden, CMP endpoint, dish, and stop-loss fixtures |

@@ -325,7 +325,6 @@ def aggregate_recipes(reviewed, manifest):
         groups[row["recipe_id"]].append(row)
     method = manifest["design"]["review"]["p90_quantile_method"]
     boundary_fraction = manifest["design"]["review"]["boundary_warning_fraction"]
-    factors = {factor["name"]: factor for factor in manifest["design"]["factors"]}
     aggregates = []
     for recipe_id, rows in groups.items():
         rows = sorted(rows, key=lambda row: row["rng_seed"])
@@ -338,7 +337,6 @@ def aggregate_recipes(reviewed, manifest):
         boundary = []
         coordinates = rows[0]["normalized_coordinates"]
         for name, coordinate in coordinates.items():
-            factor = factors[name]
             if coordinate <= boundary_fraction:
                 boundary.append({"factor": name, "edge": "low", "value": rows[0]["recipe"][name]})
             if coordinate >= 1.0 - boundary_fraction:

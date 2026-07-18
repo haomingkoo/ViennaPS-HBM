@@ -61,11 +61,14 @@ def encode(factor, value):
     if math.isclose(value, nominal, rel_tol=0.0, abs_tol=1e-12):
         return 0.0
     if factor["transform"] == "log":
-        transform = math.log
+        def transform(current):
+            return math.log(current)
     elif factor["transform"] == "signed_log_magnitude":
-        transform = lambda current: math.log(abs(current))
+        def transform(current):
+            return math.log(abs(current))
     else:
-        transform = lambda current: current
+        def transform(current):
+            return current
     if value < nominal:
         return -(transform(nominal) - transform(value)) / (transform(nominal) - transform(low))
     return (transform(value) - transform(nominal)) / (transform(high) - transform(nominal))
@@ -239,7 +242,11 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     manifest = build_manifest()
-    if not args.check:
+    if args.check:
+        expected = json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
+        if not args.output.is_file() or args.output.read_text() != expected:
+            raise ValueError(f"stale or missing manifest: {args.output}")
+    else:
         freeze(args.output.resolve(), manifest)
     print(json.dumps({
         "campaign": manifest["campaign"],

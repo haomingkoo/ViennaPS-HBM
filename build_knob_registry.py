@@ -13,7 +13,6 @@ import json
 from collections import Counter
 from pathlib import Path
 
-import joint_process_doe as joint
 import layer_process_models as layer_models
 import tsv_process as tp
 
@@ -222,7 +221,7 @@ def build_records():
         "fill_iso": ("cu_fill", "DirectionalProcess.isotropicVelocity / directionalVelocity", "ratio", 0.2, "Mixes isotropic and vertical growth in the legacy fill negative control.", ["void_topology", "pinch_off", "fill_height"], ["fill_iso x fill dose", "fill_iso x via CD"], "Requires the seeded geometry.", "Changes the void/pinch-off morphology presented to CMP."),
         "cmp_mult": ("cmp", "joint_process_doe.apply_cmp(mult)", "overburden multiple", None, "Multiplies a recipe-dependent overburden before one-rate isotropic removal.", ["field_clear", "dish", "material_loss"], ["cmp_mult x fill overburden", "cmp_mult x material selectivity"], "Requires a filled geometry and derived target plane.", "Can erase mask, Cu, liner, or substrate; legacy winner is suspended."),
     }
-    for name in joint.SPACE:
+    for name in PHASE_ONE_RANGES:
         step, owner, units, default, mechanism, metrics, interactions, upstream, downstream = factor_meta[name]
         add(record(
             f"phase_factor_{name}", step, owner, name,
@@ -1342,10 +1341,10 @@ def validate(records):
 
     phase = [item for item in records if item.get("phase_one_factor")]
     assert len(phase) == 17, len(phase)
-    assert {item["name"] for item in phase} == set(joint.SPACE)
+    assert {item["name"] for item in phase} == set(PHASE_ONE_RANGES)
     for item in phase:
         assert item["current_best"]["status"] == "legacy_suspended"
-        assert set(joint.SPACE[item["name"]]) <= set(item["tested_range"])
+        assert set(PHASE_ONE_RANGES[item["name"]]) <= set(item["tested_range"])
 
     assert sum(item["implementation_status"] == "unsupported_physical" for item in records) >= 40
     assert sum(item["classification"] == "model_limitation" for item in records) >= 8
@@ -1497,12 +1496,12 @@ def build_document(records):
             "program.md",
             "train.md",
             "prepare.md",
-            "RESEARCH_PLAN_V2.md",
+            "archive/historical-plans/RESEARCH_PLAN_V2.md",
             "tsv_process.py",
             "layer_process_models.py",
             "full_2d_layer_metrics.py",
             "test_layer_process_models.py",
-            "joint_process_doe.py",
+            "archive/phase-one-campaign/joint_process_doe.py",
             "foundation_copper_fill_trajectory.py",
             ".scratch/full-traveler-autoresearch/foundation_copper_fill_manifest.json",
             "test_copper_suppression_fill.py",
@@ -1599,6 +1598,8 @@ def render_markdown(document):
 
 
 def main():
+    if not __debug__:
+        raise RuntimeError("registry validation cannot run with Python assertions disabled")
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="Validate registry and require generated files to be current.")
     args = parser.parse_args()

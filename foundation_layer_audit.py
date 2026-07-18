@@ -7,7 +7,6 @@ import concurrent.futures as futures
 import hashlib
 import json
 import time
-import zipfile  # Preload before long simulations that save compressed meshes.
 from pathlib import Path
 
 import numpy as np

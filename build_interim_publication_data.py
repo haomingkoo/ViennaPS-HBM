@@ -12,6 +12,10 @@ import json
 from pathlib import Path
 
 
+if not __debug__:
+    raise RuntimeError("publication validation cannot run with Python assertions disabled")
+
+
 ROOT = Path(__file__).parent
 AUDIT = ROOT / "autoresearch-results" / "restart_audit"
 OUTPUT = ROOT / "publication_interim_data.json"
@@ -284,6 +288,7 @@ data = {
         "path": str(path.relative_to(ROOT)),
         "sha256": sha256(path),
     } for name, path in SOURCES.items()],
+    "source_artifact_distribution": "hashes_only; raw research artifacts are not committed",
     "screening_traveler": {
         "status": traveler["status"],
         "scope": traveler["qualification_scope"],

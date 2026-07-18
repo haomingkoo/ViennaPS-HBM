@@ -1,8 +1,11 @@
 # program.md -- objective
 
-(Supersedes PRD.md, which is left in place as the original design doc.
+(Supersedes `archive/historical-plans/PRD.md`, the original design doc.
 This is the current, standing objective -- update it when the goal changes,
 rather than letting the notebook/README drift from what this says.)
+
+The bounded feedback, logging, and numerical-speed protocol is defined in
+`NUMERICAL_AUTORESEARCH_PRD.md`.
 
 ## Goal
 
@@ -124,7 +127,7 @@ loss of that protected layer, or any liner/substrate damage, is a hard failure.
 The table states target intent. Production scoring is currently suspended
 until pattern, CD-depth, local film thickness, fill topology, CMP endpoint, and
 material-survival metrics pass the qualification protocol in
-`RESEARCH_PLAN_V2.md`.
+`archive/historical-plans/RESEARCH_PLAN_V2.md`.
 
 ## Scope
 
@@ -156,10 +159,12 @@ and one-rate isotropic removal remain negative controls.
 
 - `RESEARCH_PLAN_V3.md` -- active broad-skew, effect/correlation,
   downstream-propagation, focused-DOE, confirmation, and completion sequence
-- `RESEARCH_PLAN_V2.md` -- retained metric/model qualification history;
+- `archive/historical-plans/RESEARCH_PLAN_V2.md` -- retained metric/model qualification history;
   superseded for DOE scale and sequencing
 - `FOUNDATION_REAUDIT.md` -- retractions, confirmed failures, and evidence gaps
+- `docs/evidence-map.md` -- claim-to-artifact status and reproduction limits
 - `autoresearch-results/restart_audit/` -- checkpointed foundation and campaign
   state
+- `archive/` -- superseded campaigns and the original proof of concept
 - A rebuilt notebook/explainer only after accepted metrics and a validated
   traveler replace the legacy phase-one claims

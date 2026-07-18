@@ -95,9 +95,14 @@ def spearman(first, second):
     return float(np.corrcoef(first, second)[0, 1])
 
 
-def build_review():
+def build_review(
+    candidate_path=CHEAP,
+    candidate_rays=500,
+    campaign="v3-bosch-cheap-qualification",
+    campaign_wall_hours=(3 * 3600 + 20 * 60 + 21) / 3600,
+):
     reference_rows = load_rows(REFERENCE)
-    cheap_rows = load_rows(CHEAP)
+    cheap_rows = load_rows(candidate_path)
     if len(cheap_rows) != 16 or any(row.get("ok") is not True for row in cheap_rows):
         raise ValueError("cheap qualification is incomplete or contains a failed execution")
     reference = reason_map(reference_rows)
@@ -244,10 +249,10 @@ def build_review():
         and center_gate_pass
     )
     return {
-        "campaign": "v3-bosch-cheap-qualification",
+        "campaign": campaign,
         "labels": ["full-traveler", "critical-review"],
         "reference_rays_per_point": 2000,
-        "candidate_rays_per_point": 500,
+        "candidate_rays_per_point": candidate_rays,
         "reference_anchor_count": len(required),
         "cheap_case_count": len(cheap_rows),
         "gate_comparison": gate_rows,
@@ -260,7 +265,7 @@ def build_review():
         "runtime": {
             "paired_anchors": paired_elapsed,
             "median_speedup": median_speedup,
-            "campaign_wall_hours": (3 * 3600 + 20 * 60 + 21) / 3600,
+            "campaign_wall_hours": campaign_wall_hours,
         },
         "decision": {
             "classification": (
@@ -282,12 +287,13 @@ def build_review():
 
 def markdown(review):
     decision = review["decision"]
+    candidate_rays = review["candidate_rays_per_point"]
     lines = [
         "# V3 Bosch cheap-screen qualification review",
         "",
         f"Decision: **{decision['classification']}**.",
         "",
-        "The 500-ray mode is evaluated only as a broad interaction-discovery tool. "
+        f"The {candidate_rays}-ray mode is evaluated only as a broad interaction-discovery tool. "
         "It does not inherit product-gate, recipe, process-window, or confirmation authority.",
         "",
         "## Acceptance checks",
@@ -302,7 +308,7 @@ def markdown(review):
         "",
         "## Factor ranking",
         "",
-        "| Factor | 2,000-ray score | 500-ray score | Retained |",
+        f"| Factor | 2,000-ray score | {candidate_rays}-ray score | Retained |",
         "|---|---:|---:|---|",
     ]
     for factor in build.PROMOTED:

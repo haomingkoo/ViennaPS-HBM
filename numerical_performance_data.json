@@ -1,0 +1,1260 @@
+{
+  "claim_level": "numerically_characterized",
+  "foundation": {
+    "grid": {
+      "adjacent_changes": [
+        {
+          "citations": [
+            {
+              "line_numbers": [
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "paired rng_seed; design starts with grid; grid_delta in [0.0025,0.005]",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            },
+            {
+              "line_numbers": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "path": "evidence/numerical/grid_extension_rows.jsonl",
+              "selector": "paired rng_seed; design starts with grid; grid_delta in [0.0025,0.005]",
+              "sha256": "2bffbc80e3107bfac2f39c86de7cae735bb449ff100b9ff7dd25d81f8bc104a9"
+            }
+          ],
+          "from": 0.0025,
+          "paired_runs": 8,
+          "responses": {
+            "cd_bottom": {
+              "max_abs_change": 0.07903059117884204,
+              "mean_abs_change": 0.06237083129755108,
+              "mean_abs_change_in_baseline_sd_units": 51.9679950592449
+            },
+            "depth": {
+              "max_abs_change": 0.2086693557864845,
+              "mean_abs_change": 0.15512822474573348,
+              "mean_abs_change_in_baseline_sd_units": 37.726648723554504
+            },
+            "max_bow": {
+              "max_abs_change": 0.023732100109626536,
+              "mean_abs_change": 0.019929911984165456,
+              "mean_abs_change_in_baseline_sd_units": 25.07672046427722
+            },
+            "scallop_rms": {
+              "max_abs_change": 0.0011652830195361102,
+              "mean_abs_change": 0.0008656657424886242,
+              "mean_abs_change_in_baseline_sd_units": 9.60880971606899
+            }
+          },
+          "to": 0.005
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": [
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "paired rng_seed; design starts with grid; grid_delta in [0.005,0.01]",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "from": 0.005,
+          "paired_runs": 8,
+          "responses": {
+            "cd_bottom": {
+              "max_abs_change": 0.011541641140452308,
+              "mean_abs_change": 0.009639705270462387,
+              "mean_abs_change_in_baseline_sd_units": 8.031898011396809
+            },
+            "depth": {
+              "max_abs_change": 0.04048674724869983,
+              "mean_abs_change": 0.03371108486030758,
+              "mean_abs_change_in_baseline_sd_units": 8.198419460413113
+            },
+            "max_bow": {
+              "max_abs_change": 0.0009456806233245629,
+              "mean_abs_change": 0.0005736359641275064,
+              "mean_abs_change_in_baseline_sd_units": 0.7217748242998067
+            },
+            "scallop_rms": {
+              "max_abs_change": 0.0004533260735671307,
+              "mean_abs_change": 0.00031650048610262673,
+              "mean_abs_change_in_baseline_sd_units": 3.5131261371861933
+            }
+          },
+          "to": 0.01
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "paired rng_seed; design starts with grid; grid_delta in [0.01,0.02]",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "from": 0.01,
+          "paired_runs": 8,
+          "responses": {
+            "cd_bottom": {
+              "max_abs_change": 0.0310317995937201,
+              "mean_abs_change": 0.028302884161121394,
+              "mean_abs_change_in_baseline_sd_units": 23.582243713100684
+            },
+            "depth": {
+              "max_abs_change": 0.023544266189940988,
+              "mean_abs_change": 0.01785393295992277,
+              "mean_abs_change_in_baseline_sd_units": 4.3420148603964694
+            },
+            "max_bow": {
+              "max_abs_change": 0.01471040419571043,
+              "mean_abs_change": 0.012691301290097528,
+              "mean_abs_change_in_baseline_sd_units": 15.96877171522658
+            },
+            "scallop_rms": {
+              "max_abs_change": 0.0007579014353100424,
+              "mean_abs_change": 0.0004009537510418432,
+              "mean_abs_change_in_baseline_sd_units": 4.4505495708186675
+            }
+          },
+          "to": 0.02
+        }
+      ],
+      "points": [
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/grid_groups/0.0025",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "path": "evidence/numerical/grid_extension_rows.jsonl",
+              "selector": "design starts with grid; grid_delta=0.0025",
+              "sha256": "2bffbc80e3107bfac2f39c86de7cae735bb449ff100b9ff7dd25d81f8bc104a9"
+            }
+          ],
+          "median_runtime_s": 521.3989930152893,
+          "passes": {
+            "etch_bow": {
+              "pass": 3,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 5,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 0,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.2536202356048643,
+              "mean": 0.2394643147769811,
+              "min": 0.22255247297929037,
+              "n": 8,
+              "p10": 0.22371204234749562,
+              "p90": 0.25347032023719424,
+              "sd": 0.013335286459769767
+            },
+            "depth": {
+              "max": 1.4827843452887617,
+              "mean": 1.4309108745959334,
+              "min": 1.390828564677113,
+              "n": 8,
+              "p10": 1.3964435848564087,
+              "p90": 1.4720853035866286,
+              "sd": 0.03600538541552273
+            },
+            "max_bow": {
+              "max": 0.03428176785452308,
+              "mean": 0.030422009484483974,
+              "min": 0.023826759131231806,
+              "n": 8,
+              "p10": 0.0261830060086004,
+              "p90": 0.033988140408070924,
+              "sd": 0.003625089899134921
+            },
+            "scallop_rms": {
+              "max": 0.0036426852002375758,
+              "mean": 0.003327095049827121,
+              "min": 0.002848121794779058,
+              "n": 8,
+              "p10": 0.00302465505885911,
+              "p90": 0.0035540021579090236,
+              "sd": 0.0002532989343767589
+            }
+          },
+          "runs": 8,
+          "value": 0.0025
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/grid_groups/0.005",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with grid; grid_delta=0.005",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 196.91441643238068,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.3042789222882233,
+              "mean": 0.3018351460745322,
+              "min": 0.3002055316585354,
+              "n": 8,
+              "p10": 0.3005786922975687,
+              "p90": 0.3038183669841811,
+              "sd": 0.001496687434936996
+            },
+            "depth": {
+              "max": 1.2800003645523415,
+              "mean": 1.2757826498501998,
+              "min": 1.2739080576047876,
+              "n": 8,
+              "p10": 1.2740232939334224,
+              "p90": 1.2779264407137936,
+              "sd": 0.002048082533630779
+            },
+            "max_bow": {
+              "max": 0.010936429927754399,
+              "mean": 0.010492097500318518,
+              "min": 0.00970925666698172,
+              "n": 8,
+              "p10": 0.0100670255269544,
+              "p90": 0.010904455135000879,
+              "sd": 0.00040538009566629736
+            },
+            "scallop_rms": {
+              "max": 0.0025073272657918874,
+              "mean": 0.002461429307338497,
+              "min": 0.0024097957326596727,
+              "n": 8,
+              "p10": 0.0024229523358522903,
+              "p90": 0.0024941511898212113,
+              "sd": 3.40193941817812e-05
+            }
+          },
+          "runs": 8,
+          "value": 0.005
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/grid_groups/0.01",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with grid; grid_delta=0.01",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 50.99112904071808,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.312997538504368,
+              "mean": 0.3114748513449946,
+              "min": 0.309826451340317,
+              "n": 8,
+              "p10": 0.3103267333503282,
+              "p90": 0.31253261315041286,
+              "sd": 0.0010288077254816989
+            },
+            "depth": {
+              "max": 1.2479254798377137,
+              "mean": 1.2420715649898924,
+              "min": 1.2356428991744612,
+              "n": 8,
+              "p10": 1.2383670153525375,
+              "p90": 1.2462480060691576,
+              "sd": 0.0038233894800646416
+            },
+            "max_bow": {
+              "max": 0.01130580150536517,
+              "mean": 0.010345311851828798,
+              "min": 0.009804698089531688,
+              "n": 8,
+              "p10": 0.009891805834507172,
+              "p90": 0.011145067234142223,
+              "sd": 0.0005670012864404569
+            },
+            "scallop_rms": {
+              "max": 0.0028631218062268034,
+              "mean": 0.0027779297934411237,
+              "min": 0.002607894051328205,
+              "n": 8,
+              "p10": 0.0026826692931103467,
+              "p90": 0.002836054502743512,
+              "sd": 8.186263248214635e-05
+            }
+          },
+          "runs": 8,
+          "value": 0.01
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/grid_groups/0.02",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with grid; grid_delta=0.02",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 13.496466994285583,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.28563341252827207,
+              "mean": 0.28317196718387316,
+              "min": 0.2798399766030496,
+              "n": 8,
+              "p10": 0.2812752411235147,
+              "p90": 0.2851183323796874,
+              "sd": 0.0018752805427711152
+            },
+            "depth": {
+              "max": 1.2635434599242796,
+              "mean": 1.2599254979498151,
+              "min": 1.2556767398441027,
+              "n": 8,
+              "p10": 1.257909531325076,
+              "p90": 1.2627641771879643,
+              "sd": 0.002364735446449142
+            },
+            "max_bow": {
+              "max": 0.02463954192092138,
+              "mean": 0.023036613141926326,
+              "min": 0.02122716669670463,
+              "n": 8,
+              "p10": 0.02159035882990217,
+              "p90": 0.02447436529363642,
+              "sd": 0.0012810756605468657
+            },
+            "scallop_rms": {
+              "max": 0.0034051586269170527,
+              "mean": 0.003178883544482967,
+              "min": 0.0029578077648695876,
+              "n": 8,
+              "p10": 0.0030105830621662616,
+              "p90": 0.003377604428721889,
+              "sd": 0.00016069719620172596
+            }
+          },
+          "runs": 8,
+          "value": 0.02
+        }
+      ]
+    },
+    "rays": {
+      "adjacent_changes": [
+        {
+          "citations": [
+            {
+              "line_numbers": [
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "paired rng_seed; design starts with ray_convergence; rays_per_point in [250,1000]",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "from": 250,
+          "paired_runs": 8,
+          "responses": {
+            "cd_bottom": {
+              "max_abs_change": 0.003659762544876377,
+              "mean_abs_change": 0.0013674550222860932,
+              "mean_abs_change_in_baseline_sd_units": 1.1393770832214891
+            },
+            "depth": {
+              "max_abs_change": 0.011811319297154066,
+              "mean_abs_change": 0.004061896162706136,
+              "mean_abs_change_in_baseline_sd_units": 0.9878391242673136
+            },
+            "max_bow": {
+              "max_abs_change": 0.002027394843776731,
+              "mean_abs_change": 0.0008480855590882776,
+              "mean_abs_change_in_baseline_sd_units": 1.0670997700312996
+            },
+            "scallop_rms": {
+              "max_abs_change": 0.0003099610136454954,
+              "mean_abs_change": 0.00016663579028042372,
+              "mean_abs_change_in_baseline_sd_units": 1.8496418676431696
+            }
+          },
+          "to": 1000
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": [
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "paired rng_seed; design starts with ray_convergence; rays_per_point in [1000,2000]",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "from": 1000,
+          "paired_runs": 8,
+          "responses": {
+            "cd_bottom": {
+              "max_abs_change": 0.0029992937223705662,
+              "mean_abs_change": 0.0012427403576671658,
+              "mean_abs_change_in_baseline_sd_units": 1.0354635880844398
+            },
+            "depth": {
+              "max_abs_change": 0.01033408740599251,
+              "mean_abs_change": 0.004126022990470879,
+              "mean_abs_change_in_baseline_sd_units": 1.0034345474006716
+            },
+            "max_bow": {
+              "max_abs_change": 0.0018426551558958226,
+              "mean_abs_change": 0.0009970209923865561,
+              "mean_abs_change_in_baseline_sd_units": 1.2544970967738505
+            },
+            "scallop_rms": {
+              "max_abs_change": 0.00017795677308187494,
+              "mean_abs_change": 8.876672639192615e-05,
+              "mean_abs_change_in_baseline_sd_units": 0.9853024570041666
+            }
+          },
+          "to": 2000
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": [
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "paired rng_seed; design starts with ray_convergence; rays_per_point in [2000,4000]",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "from": 2000,
+          "paired_runs": 8,
+          "responses": {
+            "cd_bottom": {
+              "max_abs_change": 0.002304571279030665,
+              "mean_abs_change": 0.0012945049719219753,
+              "mean_abs_change_in_baseline_sd_units": 1.078594377940423
+            },
+            "depth": {
+              "max_abs_change": 0.007704726686082575,
+              "mean_abs_change": 0.0029939739091096873,
+              "mean_abs_change_in_baseline_sd_units": 0.728124118880404
+            },
+            "max_bow": {
+              "max_abs_change": 0.002484622616403226,
+              "mean_abs_change": 0.0010366669486646003,
+              "mean_abs_change_in_baseline_sd_units": 1.3043814396607316
+            },
+            "scallop_rms": {
+              "max_abs_change": 0.00012916875088695616,
+              "mean_abs_change": 7.696778744925332e-05,
+              "mean_abs_change_in_baseline_sd_units": 0.8543353254809397
+            }
+          },
+          "to": 4000
+        }
+      ],
+      "points": [
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/ray_groups/250",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with ray_convergence; rays_per_point=250",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 12.269564628601074,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.3124555398137319,
+              "mean": 0.31084102031909344,
+              "min": 0.30998419904448715,
+              "n": 8,
+              "p10": 0.31012123877663794,
+              "p90": 0.31181649113817295,
+              "sd": 0.0008313377460940297
+            },
+            "depth": {
+              "max": 1.2438121197364282,
+              "mean": 1.2360194006917153,
+              "min": 1.23,
+              "n": 8,
+              "p10": 1.2306455221534294,
+              "p90": 1.2421381438870438,
+              "sd": 0.004740301407182188
+            },
+            "max_bow": {
+              "max": 0.0117108280497831,
+              "mean": 0.010795275289785945,
+              "min": 0.009418299138167024,
+              "n": 8,
+              "p10": 0.010037049545453508,
+              "p90": 0.011676232670976658,
+              "sd": 0.0007795061825820442
+            },
+            "scallop_rms": {
+              "max": 0.0029314330239855785,
+              "mean": 0.0028030967033552904,
+              "min": 0.002586374327233047,
+              "n": 8,
+              "p10": 0.002624812454660889,
+              "p90": 0.002917812471647055,
+              "sd": 0.00012406006516955243
+            }
+          },
+          "runs": 8,
+          "value": 250
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/ray_groups/1000",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with ray_convergence; rays_per_point=1000",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 27.11331295967102,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.3138397326352932,
+              "mean": 0.3116213517598666,
+              "min": 0.31015046839678817,
+              "n": 8,
+              "p10": 0.31038265326181763,
+              "p90": 0.3128095896427086,
+              "sd": 0.0012105183657732117
+            },
+            "depth": {
+              "max": 1.2460543618680526,
+              "mean": 1.2388979811412997,
+              "min": 1.233907806723497,
+              "n": 8,
+              "p10": 1.234496560280436,
+              "p90": 1.2434993211535024,
+              "sd": 0.004188900422564467
+            },
+            "max_bow": {
+              "max": 0.011723552006512733,
+              "mean": 0.01071319526579292,
+              "min": 0.00968343320600637,
+              "n": 8,
+              "p10": 0.009889822201847004,
+              "p90": 0.01158628497927123,
+              "sd": 0.000751826807294853
+            },
+            "scallop_rms": {
+              "max": 0.0029042561714302706,
+              "mean": 0.0027796937248827456,
+              "min": 0.0025899625312892248,
+              "n": 8,
+              "p10": 0.0026385231666418768,
+              "p90": 0.002898711590044061,
+              "sd": 0.00011297313254305917
+            }
+          },
+          "runs": 8,
+          "value": 1000
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/ray_groups/2000",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with ray_convergence; rays_per_point=2000",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 49.45621848106384,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.3137380944421133,
+              "mean": 0.31272265447265907,
+              "min": 0.3113967686093781,
+              "n": 8,
+              "p10": 0.3118108935677116,
+              "p90": 0.3137083543354286,
+              "sd": 0.0008911756536017039
+            },
+            "depth": {
+              "max": 1.2449970251969145,
+              "mean": 1.2426335424945358,
+              "min": 1.239946776818592,
+              "n": 8,
+              "p10": 1.2399840330455776,
+              "p90": 1.244468433449717,
+              "sd": 0.001876208309921162
+            },
+            "max_bow": {
+              "max": 0.011526088361902193,
+              "mean": 0.01017683806238032,
+              "min": 0.00945816944239089,
+              "n": 8,
+              "p10": 0.00950447359589134,
+              "p90": 0.0109298250495217,
+              "sd": 0.000679229629565793
+            },
+            "scallop_rms": {
+              "max": 0.002882260317001008,
+              "mean": 0.0027733091930639032,
+              "min": 0.002670502312359987,
+              "n": 8,
+              "p10": 0.0027100776578741037,
+              "p90": 0.002850782243512724,
+              "sd": 6.658102874998592e-05
+            }
+          },
+          "runs": 8,
+          "value": 2000
+        },
+        {
+          "citations": [
+            {
+              "line_numbers": null,
+              "path": "evidence/numerical/metric_convergence_summary.json",
+              "selector": "/ray_groups/4000",
+              "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+            },
+            {
+              "line_numbers": [
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88
+              ],
+              "path": "evidence/numerical/metric_convergence_rows.jsonl",
+              "selector": "design starts with ray_convergence; rays_per_point=4000",
+              "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+            }
+          ],
+          "median_runtime_s": 89.1071150302887,
+          "passes": {
+            "etch_bow": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_cd_profile": {
+              "pass": 8,
+              "total": 8
+            },
+            "etch_depth": {
+              "pass": 8,
+              "total": 8
+            },
+            "pattern_width": {
+              "pass": 8,
+              "total": 8
+            }
+          },
+          "responses": {
+            "cd_bottom": {
+              "max": 0.312902244152555,
+              "mean": 0.3116108335549067,
+              "min": 0.31067865949136203,
+              "n": 8,
+              "p10": 0.31090745994789964,
+              "p90": 0.3124268191141963,
+              "sd": 0.0007161165703880582
+            },
+            "depth": {
+              "max": 1.2461309632777957,
+              "mean": 1.2406132093351,
+              "min": 1.2322420501325093,
+              "n": 8,
+              "p10": 1.2331770335659908,
+              "p90": 1.245216793121399,
+              "sd": 0.005019393485233034
+            },
+            "max_bow": {
+              "max": 0.012206264201477968,
+              "mean": 0.010875244878272815,
+              "min": 0.010018014712327716,
+              "n": 8,
+              "p10": 0.010046907257319581,
+              "p90": 0.01186390568758432,
+              "sd": 0.0008062282858184792
+            },
+            "scallop_rms": {
+              "max": 0.002933794995677963,
+              "mean": 0.0027870154624768757,
+              "min": 0.0026717879219756856,
+              "n": 8,
+              "p10": 0.002713881476079096,
+              "p90": 0.002889170690796071,
+              "sd": 8.28323268692364e-05
+            }
+          },
+          "runs": 8,
+          "value": 4000
+        }
+      ]
+    },
+    "scope": "one coarse-grid Pattern/Bosch recipe; not the active V3 qualification"
+  },
+  "interpretation": {
+    "baseline_sd_units": "descriptive mean absolute paired change divided by baseline sample standard deviation; it is not a pass threshold",
+    "no_interpolation": true,
+    "runtime_boundary": "fine-grid speedups use paired anchors on one research machine; raw medians from different cases are not compared"
+  },
+  "provenance": {
+    "builder": {
+      "path": "build_numerical_performance_data.py",
+      "sha256": "d5aa9e073f452d3eda2985811b28618ec908001c47e0967c2abcaf576af76fc4"
+    },
+    "inputs": [
+      {
+        "path": "evidence/numerical/metric_convergence_rows.jsonl",
+        "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+      },
+      {
+        "path": "evidence/numerical/grid_extension_rows.jsonl",
+        "sha256": "2bffbc80e3107bfac2f39c86de7cae735bb449ff100b9ff7dd25d81f8bc104a9"
+      },
+      {
+        "path": "evidence/numerical/metric_convergence_summary.json",
+        "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+      },
+      {
+        "path": "evidence/numerical/v3_bosch_r125_qualification_rows.jsonl",
+        "sha256": "7d187c48acba89df4fae9f5325d7afcecea57e0f75cb647381a4b77790799e67"
+      },
+      {
+        "path": "evidence/numerical/v3_bosch_r250_qualification_rows.jsonl",
+        "sha256": "6b98a2474fd00ee05fe38c0812637d763fb54e3f490051240d70c7ad00e8c56d"
+      },
+      {
+        "path": "evidence/numerical/v3_bosch_cheap_qualification_rows.jsonl",
+        "sha256": "2c05b2e1e93a03a95deb60c1ea9655dc7b5cb6e9d11cd08a2f636086bec5f284"
+      },
+      {
+        "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
+        "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+      },
+      {
+        "path": "evidence/numerical/v3_pattern_bosch_stage2a_summary.json",
+        "sha256": "a22f9c234c410c4763a4d2206118a4c54f0446ade934d34b4f67123fe2736916"
+      },
+      {
+        "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+        "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+      }
+    ],
+    "raw_inputs_committed": true,
+    "units": {
+      "geometry": "model length",
+      "runtime": "seconds"
+    }
+  },
+  "purpose": "show cost, noise, and response cliffs for numerical settings",
+  "schema_version": 2,
+  "v3_ray_qualification": {
+    "points": [
+      {
+        "citations": [
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "path": "evidence/numerical/v3_bosch_r125_qualification_rows.jsonl",
+            "selector": "all saved rows; rays_per_point=125",
+            "sha256": "7d187c48acba89df4fae9f5325d7afcecea57e0f75cb647381a4b77790799e67"
+          },
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              6,
+              8
+            ],
+            "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
+            "selector": "matching nominal/ofat anchor_reasons; rays_per_point=2000",
+            "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+          }
+        ],
+        "expected_candidate_runs": 16,
+        "gate_mismatches": 1,
+        "maximum_change_over_screen_threshold": 0.7153375418349571,
+        "paired_anchor_median_speedup_vs_2000": 19.63978635240665,
+        "runs": 5,
+        "status": "partial_with_mismatch_observed",
+        "trajectory_mismatches": 0,
+        "value": 125
+      },
+      {
+        "citations": [
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16
+            ],
+            "path": "evidence/numerical/v3_bosch_r250_qualification_rows.jsonl",
+            "selector": "all saved rows; rays_per_point=250",
+            "sha256": "6b98a2474fd00ee05fe38c0812637d763fb54e3f490051240d70c7ad00e8c56d"
+          },
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              6,
+              7,
+              8,
+              9,
+              10,
+              12,
+              14,
+              15,
+              18,
+              19
+            ],
+            "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
+            "selector": "matching nominal/ofat anchor_reasons; rays_per_point=2000",
+            "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+          }
+        ],
+        "expected_candidate_runs": 16,
+        "gate_mismatches": 1,
+        "maximum_change_over_screen_threshold": 0.7129736231525233,
+        "paired_anchor_median_speedup_vs_2000": 10.82537252500881,
+        "runs": 16,
+        "status": "complete_with_mismatch_observed",
+        "trajectory_mismatches": 0,
+        "value": 250
+      },
+      {
+        "citations": [
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16
+            ],
+            "path": "evidence/numerical/v3_bosch_cheap_qualification_rows.jsonl",
+            "selector": "all saved rows; rays_per_point=500",
+            "sha256": "2c05b2e1e93a03a95deb60c1ea9655dc7b5cb6e9d11cd08a2f636086bec5f284"
+          },
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              6,
+              7,
+              8,
+              9,
+              10,
+              12,
+              14,
+              15,
+              18,
+              19
+            ],
+            "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
+            "selector": "matching nominal/ofat anchor_reasons; rays_per_point=2000",
+            "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+          },
+          {
+            "line_numbers": null,
+            "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+            "selector": "/decision",
+            "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+          }
+        ],
+        "expected_candidate_runs": 16,
+        "gate_mismatches": 0,
+        "maximum_change_over_screen_threshold": 0.6792065809522526,
+        "paired_anchor_median_speedup_vs_2000": 4.4701011734508915,
+        "runs": 16,
+        "status": "provisional_discovery_bridge",
+        "trajectory_mismatches": 0,
+        "value": 500
+      },
+      {
+        "citations": [
+          {
+            "line_numbers": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19
+            ],
+            "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
+            "selector": "all saved rows; rays_per_point=2000",
+            "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+          }
+        ],
+        "expected_candidate_runs": null,
+        "gate_mismatches": 0,
+        "maximum_change_over_screen_threshold": null,
+        "paired_anchor_median_speedup_vs_2000": null,
+        "runs": 19,
+        "status": "tested_reference",
+        "trajectory_mismatches": 0,
+        "value": 2000
+      }
+    ],
+    "scope": "active fine-grid 2D Pattern/Bosch discovery qualification"
+  }
+}

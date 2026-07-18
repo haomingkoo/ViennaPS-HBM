@@ -1,0 +1,937 @@
+{
+  "authority": {
+    "cheap_screen_qualification_only": true,
+    "confirmed_factor_authorized": false,
+    "full_traveler_authorized": false,
+    "process_window_authorized": false,
+    "recipe_authorized": false
+  },
+  "campaign": "v3-bosch-r125-qualification",
+  "design": {
+    "authority": {
+      "cheap_screen_qualification_only": true,
+      "confirmed_factor_authorized": false,
+      "full_traveler_authorized": false,
+      "process_window_authorized": false,
+      "recipe_authorized": false
+    },
+    "campaign": "v3-bosch-r125-qualification",
+    "decision_rules": [
+      "Execute all 96 unique recipes and preserve every invalid row, target miss, and native checkpoint.",
+      "Depth-match every trajectory before comparing CD, sidewall angle, bow, or scallop.",
+      "Low, nominal, and high factor anchors and every predeclared 2x2 interaction corner must remain exact sampled recipes.",
+      "A modeled or observed effect above its V3 screen threshold creates a confirmation hypothesis only; one stream per recipe cannot confirm sensitivity.",
+      "Use design-input correlation and VIF only to audit the DOE; do not call input correlation a physical interaction.",
+      "Report reachability failures and depth-horizon censoring instead of dropping them from the surface.",
+      "Do not recommend a recipe, process window, physical gas flow, pressure, power, dose, or focus from this screen.",
+      "Do not imply all wired Bosch controls were screened: mask_ion_rate is deferred to a bounded hard-gate challenge and cycle count is delegated to Stage 2c.",
+      "Stage 1 pattern skew may execute in parallel and is not a Stage 2a prerequisite; cross-stage interaction work waits for both reviews."
+    ],
+    "design": {
+      "center_repeat_count": 4,
+      "logical_simulation_count": 16,
+      "method": "nominal plus low/high anchors for six promoted controls and three additional center repeats",
+      "promoted_factor_count": 6,
+      "recipe_count": 13
+    },
+    "evidence_class": "cheap-mode qualification; not gate or recipe authority",
+    "excluded_wired_controls": [
+      {
+        "classification": "model_coefficient_and_hard_gate_control",
+        "evidence_status": "boundary-limited: 0 through -0.04 tested and survived; the frozen -0.05/-0.06/-0.08 failure bracket did not run",
+        "exclusion_rationale": "mask erosion/selectivity is a distinct hard-gate challenge and must not be mixed into the nominal-morphology response surface",
+        "held_value": 0.0,
+        "name": "mask_ion_rate",
+        "owning_api": "tsv_process.bosch_etch(mask_ion_rate)",
+        "required_followup": "run a separately frozen bounded mask-erosion/selectivity challenge before any mask-process-margin claim"
+      },
+      {
+        "classification": "recipe_control_and_trajectory_index",
+        "evidence_status": "known non-monotonic historical hypothesis",
+        "exclusion_rationale": "varying cycle count independently here would break the required depth-matched morphology comparison",
+        "held_value": "selected by per-recipe depth matching up to 30 cycles",
+        "name": "num_cycles",
+        "owning_api": "tsv_process.bosch_etch(num_cycles)",
+        "required_followup": "V3 Stage 2c matched-total-dose 6/12/24-cycle effect test"
+      }
+    ],
+    "factors": [
+      {
+        "classification": "recipe_surrogate",
+        "digits": 8,
+        "direct_outputs": [
+          "depth_per_cycle",
+          "CD profile",
+          "bow",
+          "scallop"
+        ],
+        "downstream_consequences": [
+          "liner and seed access",
+          "fill aspect ratio and aperture"
+        ],
+        "expected_mechanism": "changes the ion and neutral etch dose delivered in every Bosch etch phase",
+        "high": 2.0,
+        "low": 0.2,
+        "name": "etch_time",
+        "nominal": 0.5,
+        "owning_api": "tsv_process.bosch_etch(etch_time)",
+        "range_basis": "active V3 broad range; covers the depth-matched 0.2 lower challenge, accepted 0.5 reference, and historical 2.0 failure",
+        "transform": "log",
+        "type": "float",
+        "units": "model time per cycle"
+      },
+      {
+        "classification": "recipe_surrogate",
+        "digits": 8,
+        "direct_outputs": [
+          "entrance CD",
+          "initial undercut",
+          "depth"
+        ],
+        "downstream_consequences": [
+          "upper-wall coverage",
+          "remaining aperture"
+        ],
+        "expected_mechanism": "sets the initial opening etch before cyclic passivation begins",
+        "high": 0.5,
+        "low": 0.1,
+        "name": "initial_etch_time",
+        "nominal": 0.3,
+        "owning_api": "tsv_process.bosch_etch(initial_etch_time)",
+        "range_basis": "active V3 broad range around the 0.3 wrapper/reference value",
+        "transform": "linear",
+        "type": "float",
+        "units": "model time"
+      },
+      {
+        "classification": "model_coefficient",
+        "digits": 8,
+        "direct_outputs": [
+          "depth",
+          "CD",
+          "undercut",
+          "bow"
+        ],
+        "downstream_consequences": [
+          "wall angle",
+          "remaining aperture",
+          "layer access"
+        ],
+        "expected_mechanism": "scales isotropic neutral-driven silicon removal",
+        "high": -0.03,
+        "low": -0.2,
+        "name": "neutral_rate",
+        "nominal": -0.08,
+        "owning_api": "tsv_process.bosch_etch(neutral_rate)",
+        "range_basis": "active V3 broad model-sensitivity range; not calibrated gas flow",
+        "transform": "signed_log_magnitude",
+        "type": "float",
+        "units": "interface velocity per neutral flux"
+      },
+      {
+        "classification": "model_coefficient",
+        "digits": 8,
+        "direct_outputs": [
+          "depth",
+          "CD",
+          "undercut",
+          "bow"
+        ],
+        "downstream_consequences": [
+          "wall and floor accessibility"
+        ],
+        "expected_mechanism": "changes where neutral particles react rather than reflect",
+        "high": 0.3,
+        "low": 0.02,
+        "name": "neutral_sticking_probability",
+        "nominal": 0.08,
+        "owning_api": "tsv_process.bosch_etch(neutral_sticking_probability)",
+        "range_basis": "complete active V3 probability range and prior screen bounds",
+        "transform": "log",
+        "type": "float",
+        "units": "probability"
+      },
+      {
+        "classification": "model_coefficient",
+        "digits": 8,
+        "direct_outputs": [
+          "scallop",
+          "CD",
+          "bow",
+          "etch reachability"
+        ],
+        "downstream_consequences": [
+          "sidewall access",
+          "seed continuity margin"
+        ],
+        "expected_mechanism": "sets the passivation dose deposited before each etch phase",
+        "high": 0.04,
+        "low": 0.003,
+        "name": "deposition_thickness",
+        "nominal": 0.005,
+        "owning_api": "tsv_process.bosch_etch(deposition_thickness)",
+        "range_basis": "active V3 range including thin reference and historical thick-passivation arm",
+        "transform": "log",
+        "type": "float",
+        "units": "interface displacement per cycle"
+      },
+      {
+        "classification": "model_coefficient",
+        "digits": 10,
+        "direct_outputs": [
+          "scallop",
+          "CD",
+          "bow"
+        ],
+        "downstream_consequences": [
+          "wall and floor accessibility"
+        ],
+        "expected_mechanism": "changes the spatial distribution of passivation deposition",
+        "high": 0.03,
+        "low": 0.001,
+        "name": "deposition_sticking_probability",
+        "nominal": 0.01,
+        "owning_api": "tsv_process.bosch_etch(deposition_sticking_probability)",
+        "range_basis": "active V3 transport range inside probability bounds",
+        "transform": "log",
+        "type": "float",
+        "units": "probability"
+      },
+      {
+        "classification": "model_coefficient",
+        "direct_outputs": [
+          "directionality",
+          "bottom shape",
+          "CD"
+        ],
+        "downstream_consequences": [
+          "floor access",
+          "bottom corner coverage"
+        ],
+        "expected_mechanism": "controls the angular concentration of incident ions",
+        "high": 1000,
+        "low": 50,
+        "name": "ion_source_exponent",
+        "nominal": 400,
+        "owning_api": "tsv_process.bosch_etch(ion_source_exponent)",
+        "range_basis": "active V3 angular-source range and exact prior endpoints",
+        "transform": "log",
+        "type": "int",
+        "units": "dimensionless"
+      },
+      {
+        "classification": "model_coefficient",
+        "digits": 6,
+        "direct_outputs": [
+          "reflected-ion transport",
+          "bottom CD",
+          "bow"
+        ],
+        "downstream_consequences": [
+          "bottom and sidewall profile access"
+        ],
+        "expected_mechanism": "controls the minimum ion reflection angle at surfaces",
+        "high": 90.0,
+        "low": 25.0,
+        "name": "theta_r_min",
+        "nominal": 45.0,
+        "owning_api": "tsv_process.bosch_etch(theta_r_min)",
+        "range_basis": "active V3 reflection-angle range; not calibrated platen power",
+        "transform": "linear",
+        "type": "float",
+        "units": "degrees"
+      },
+      {
+        "classification": "model_coefficient",
+        "digits": 8,
+        "direct_outputs": [
+          "depth",
+          "anisotropy",
+          "bottom shape"
+        ],
+        "downstream_consequences": [
+          "aspect ratio",
+          "floor access"
+        ],
+        "expected_mechanism": "scales anisotropic ion-driven silicon removal",
+        "high": -0.04,
+        "low": -0.22,
+        "name": "ion_rate",
+        "nominal": -0.1,
+        "owning_api": "tsv_process.bosch_etch(ion_rate)",
+        "range_basis": "active V3 model-sensitivity range expanded beyond legacy endpoints",
+        "transform": "signed_log_magnitude",
+        "type": "float",
+        "units": "interface velocity per ion flux"
+      }
+    ],
+    "fixed_recipe": {
+      "mask_ion_rate": 0.0
+    },
+    "geometry": {
+      "hole_shape": "FULL",
+      "mask_height": 0.3,
+      "mask_taper": 2.0,
+      "radius": 0.15,
+      "x_extent": 1.0,
+      "y_extent": 2.0
+    },
+    "labels": [
+      "full-traveler",
+      "critical-review"
+    ],
+    "methodology_epoch": "full-traveler-doe-v3",
+    "numerics": {
+      "dimension": 2,
+      "grid_delta": 0.00125,
+      "maximum_workers": 2,
+      "rays_per_point": 125,
+      "threads_per_worker": 7
+    },
+    "practical_screen_thresholds": {
+      "etch_cd_bottom": 0.012,
+      "etch_cd_middle": 0.012,
+      "etch_cd_span": 0.012,
+      "etch_cd_taper_top_minus_bottom": 0.012,
+      "etch_cd_top": 0.012,
+      "etch_depth": 0.02,
+      "etch_max_bow": 0.006,
+      "etch_max_cd_error": 0.012,
+      "etch_scallop_rms": 0.0025,
+      "etch_sidewall_angle_deg": 0.5,
+      "mask_remaining_height": 0.0025,
+      "selected_cycle": 1.0
+    },
+    "predeclared_interactions": [
+      {
+        "basis": "both jointly set ion-driven displacement per cycle; exact 2x2 anchors prevent a product alias from being mistaken for separate main effects",
+        "factors": [
+          "etch_time",
+          "ion_rate"
+        ]
+      },
+      {
+        "basis": "etch duration and neutral coefficient jointly set neutral-driven displacement per cycle",
+        "factors": [
+          "etch_time",
+          "neutral_rate"
+        ]
+      },
+      {
+        "basis": "etch duration can change the effect of neutral reaction-versus-reflection probability",
+        "factors": [
+          "etch_time",
+          "neutral_sticking_probability"
+        ]
+      },
+      {
+        "basis": "neutral reaction strength and spatial reaction probability are physically coupled model controls",
+        "factors": [
+          "neutral_rate",
+          "neutral_sticking_probability"
+        ]
+      },
+      {
+        "basis": "historical depth-matched evidence reported a passivation-dose effect that changed with etch duration",
+        "factors": [
+          "etch_time",
+          "deposition_thickness"
+        ]
+      },
+      {
+        "basis": "passivation amount and spatial distribution jointly control protected wall area",
+        "factors": [
+          "deposition_thickness",
+          "deposition_sticking_probability"
+        ]
+      },
+      {
+        "basis": "incident angular distribution and surface reflection rule jointly determine transported ion angles",
+        "factors": [
+          "ion_source_exponent",
+          "theta_r_min"
+        ]
+      }
+    ],
+    "question": "Does a 125-ray discovery mode preserve the decisions and factor ranking observed at 2,000 rays?",
+    "recipes": [
+      {
+        "anchor_reasons": [
+          "nominal"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_3028a587d51b"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:etch_time:low"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.0,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.2,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_023b9ce26e86"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:etch_time:high"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 1.0,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 2.0,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_0b507969aae0"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:neutral_rate:low"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": -0.0,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.2,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_3f9301673601"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:neutral_rate:high"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 1.0,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.03,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_55d9ea3c2bff"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:neutral_sticking_probability:low"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.0,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.02,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_d5610cc86932"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:neutral_sticking_probability:high"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 1.0,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.3,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_a4a63aa81b34"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:deposition_thickness:low"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.0,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.003,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_08f30e6d0662"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:deposition_thickness:high"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 1.0,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.04,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_3ff5dc536670"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:ion_source_exponent:low"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.0,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 50,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_5e3350286ef6"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:ion_source_exponent:high"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 1.0,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 1000,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_7b4300749750"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:ion_rate:low"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": -0.0,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.22,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_0086fcfc0625"
+      },
+      {
+        "anchor_reasons": [
+          "ofat:ion_rate:high"
+        ],
+        "design_class": "exact_anchor",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 1.0,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.04,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_519bf0785062"
+      },
+      {
+        "anchor_reasons": [
+          "cheap_center_repeat:1"
+        ],
+        "design_class": "cheap_center_repeat",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_3028a587d51b_cheap_repeat_1"
+      },
+      {
+        "anchor_reasons": [
+          "cheap_center_repeat:2"
+        ],
+        "design_class": "cheap_center_repeat",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_3028a587d51b_cheap_repeat_2"
+      },
+      {
+        "anchor_reasons": [
+          "cheap_center_repeat:3"
+        ],
+        "design_class": "cheap_center_repeat",
+        "normalized_coordinates": {
+          "deposition_sticking_probability": 0.6769924925288456,
+          "deposition_thickness": 0.19720962786403154,
+          "etch_time": 0.3979400086720376,
+          "initial_etch_time": 0.49999999999999994,
+          "ion_rate": 0.46250666826028436,
+          "ion_source_exponent": 0.6941346394792774,
+          "neutral_rate": 0.48299039553329753,
+          "neutral_sticking_probability": 0.511916049619631,
+          "theta_r_min": 0.3076923076923077
+        },
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "recipe_id": "v3pb2a_3028a587d51b_cheap_repeat_3"
+      }
+    ],
+    "rng_policy": {
+      "assignment": "one disjoint low-ray interval per logical simulation",
+      "interpretation": "discovery-only; compare with preserved 500- and 2,000-ray evidence",
+      "interval_count": 16,
+      "interval_stride": 91,
+      "process_seed_horizon": 91,
+      "reserved_prior_v3_intervals": [
+        {
+          "campaign": "pattern_bosch_gate0_r1",
+          "first": 61000,
+          "last": 61090
+        },
+        {
+          "campaign": "pattern_bosch_gate0_r1",
+          "first": 62000,
+          "last": 62090
+        },
+        {
+          "campaign": "pattern_bosch_gate0_r1",
+          "first": 63000,
+          "last": 63090
+        },
+        {
+          "campaign": "pattern_bosch_gate0_r1",
+          "first": 64000,
+          "last": 64090
+        },
+        {
+          "campaign": "v3_pattern_skew_stage1",
+          "first": 81000,
+          "last": 81042
+        }
+      ],
+      "seed_start": 1120000
+    },
+    "schema_version": 1,
+    "screen_threshold_policy": "effective threshold = max(practical engineering change, released R1 numerical shift, two grid cells for geometry outputs, 3*sqrt(2)*sample SD from the four disjoint released nominal 2000-ray baselines); the independent-stream screen remains hypothesis-only and finalists require recipe-specific replication",
+    "spec_sha256": "2b595bebfa3303e5946249a6cc7558d6a58daf2b504a4fc3574b760dbfa7cd55",
+    "target": {
+      "depth_tolerance": 0.1,
+      "etch_depth": 1.25,
+      "mask_height": 0.3,
+      "max_wall_bulge": 0.03,
+      "max_width_error": 0.06,
+      "opening_cd": 0.3,
+      "resolved_mask_cells_strict": 2.0
+    },
+    "trajectory": {
+      "early_stop_depth": 1.36,
+      "first_scored_cycle": 1,
+      "maximum_cycles": 30,
+      "record_all_scored_cycles": true,
+      "selection": "minimum absolute depth error among valid checkpoints; an in-window checkpoint outranks every miss"
+    }
+  },
+  "execution": {
+    "executor": "direct_checkpointed_batch_no_llm",
+    "maximum_workers": 2,
+    "output": "autoresearch-results/restart_audit/v3_bosch_r125_qualification_rows.jsonl",
+    "threads_per_worker": 7
+  },
+  "labels": [
+    "full-traveler",
+    "critical-review"
+  ],
+  "manifest_version": 1,
+  "methodology_epoch": "full-traveler-doe-v3",
+  "provenance": {
+    "candidate_rays_per_point": 125,
+    "existing_high_ray_artifacts_preserved": true,
+    "purpose": "find the cheapest broad-discovery ray count",
+    "qualified_discovery_rays_per_point": 500,
+    "reference_rays_per_point": 2000
+  },
+  "runtime_fingerprint": {
+    "builder_sha256": "ccc033a4368cfaf0036d67f8ace0490a0333e6b0071a2b266168d8e04c849e07",
+    "design_spec_sha256": "c5cbe6aae3a54db6a0256f5af01ff00995cae374fc38e256208bbc84bfdfd458",
+    "freezer_sha256": "c3ea7eb57ddb6eb841f98cbd72f59ef8679d9335a0a61e2a66a5061204be6173",
+    "gate0_metric_sha256": "fc3d7c8cc7c288555946fca82735c333c03a7fdb46d5d95f2b2ef0a6a701ea38",
+    "native_checkpoint_sha256": "ae6a3856a8ae51ba7cc8eabec27c592a44647398902f32d69dec34c9fa242664",
+    "numpy_proxy_sha256": "09295a80660f17925ae23765ce8cbd7ff7ceae968d5f2f89349f1cb74c0b9e11",
+    "numpy_version": "2.5.1",
+    "program_sha256": "b2910f6897b90d515c3ea5cbb16f7fe1104e8f881ce56f2419b31ff85094dea3",
+    "python_executable": "/opt/homebrew/Cellar/python@3.13/3.13.14_1/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+    "python_executable_sha256": "95f75211f35794aa6726febff884339a88756fd89e423a4fbd65aac201145780",
+    "python_version": "3.13.14 (main, Jun 10 2026, 12:24:04) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "r1_execution_kernel_sha256": "6031df7885d65fafe5edc0c951a9e2383e0c466e965d9d143004c08afef5c061",
+    "research_plan_v3_sha256": "f9fec0b861da0bf7f2bebc3aae27a1727a382b5f797fc073fdd0082efa558201",
+    "reviewer_sha256": "e71de849f2cfdf77b898ad8cd70e4d61ae85a05d21acbfcd02b8daba009dcbd5",
+    "runner_sha256": "bc3e221da4239787e02b22673bc41bef859babed5797f0882b4ec43b138c4a50",
+    "screen_kernel_sha256": "95f9d4d4f51c05c5ed394151d833cc348610b71dbf2304e1b3a6e3c64128608a",
+    "simulation_dimension": 2,
+    "traveler_metrics_sha256": "7e9c31a5993dd4d34a5b9b973f41cf0f477858f72ad8accaa854124a5523e1b3",
+    "tsv_process_sha256": "aa63a14f1288b38e55847e33aae29d0f8b00fc582d6a2c13fe85e4e91f59f7ec",
+    "viennals_binary_sha256": "a92d0fabb3d1cf0e58edb5eb2e55576193a53c2c189b0db5217786d3a6f7fb2a",
+    "viennals_proxy_sha256": "87e67d5c64ae0fdd1649712415402471509dfa5082a0d87c213a2e7f82e6ba03",
+    "viennaps_binary_sha256": "0fb3e28628a60ae1206fde1f584fa55d1590e380569a5d7984fc8b6a34334480",
+    "viennaps_proxy_sha256": "28520d0c0b35e2d2f2565891c051cf8dd8939ad5a6fb5ec0066bfe3e46f10226",
+    "viennaps_version": "4.6.1"
+  },
+  "source_artifacts": {
+    "r500_manifest": {
+      "path": ".scratch/full-traveler-autoresearch/v3_bosch_cheap_qualification_manifest.json",
+      "sha256": "974318a7f1049fb2b0ed15cb118098c60a10a670cca98b68472580a1176e5f40"
+    },
+    "stage2a_manifest": {
+      "path": ".scratch/full-traveler-autoresearch/v3_pattern_bosch_stage2a_manifest.json",
+      "sha256": "b8828cda21193e2f047bf29d206ab9b3657715a56a4851c7491c5caede14f6e1"
+    },
+    "stage2a_rows": {
+      "path": "autoresearch-results/restart_audit/v3_pattern_bosch_stage2a_rows.jsonl",
+      "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+    }
+  }
+}

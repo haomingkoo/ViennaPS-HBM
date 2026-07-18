@@ -8,7 +8,6 @@ import hashlib
 import json
 import os
 import time
-import zipfile  # np.savez imports this lazily; preload before long simulations.
 from pathlib import Path
 
 import numpy as np

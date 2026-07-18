@@ -1,0 +1,109 @@
+# Numerical autoresearch PRD
+
+Status: active. This document defines how the project learns quickly without confusing cheap simulation with trustworthy evidence.
+
+## Outcome
+
+Find the cheapest geometry-scoped simulation profile that preserves the decisions made by a declared reference profile. Use it for exploration, then confirm boundaries and finalists at higher fidelity.
+
+This work does not calibrate a wafer recipe. Physical controls, model coefficients, numerical controls, and execution settings remain separate.
+
+## Feedback loop
+
+Every case follows the same loop:
+
+1. Freeze the question, upstream geometry, inputs, random stream, numerical profile, measurements, hard gates, budget, and stop rule.
+2. Run the case and retain its last usable checkpoint.
+3. Measure the raw outputs.
+4. Evaluate execution validity and every hard gate.
+5. Only for feasible cases, compare quality margin, robustness, and cost.
+6. Log the evidence and choose one next action.
+
+Before the loop, qualify each hard metric. Freeze its code hash, definition, sampling region, units, detection limit, missingness rule, and expected response. Test a known-negative and prescribed positive geometry plus save/reload parity. If the metric cannot recognize both states, the related DOE is ineligible.
+
+| Step | Required feedback |
+|---|---|
+| Pattern | opening CD, mask height, taper, connected opening |
+| Etch | depth; top, middle, and bottom CD; taper, bow, neck, scallop; mask survival |
+| Liner | field, upper-wall, lower-wall, and floor thickness; conformality, continuity, remaining aperture |
+| Barrier and seed | each film's regional thickness and continuity; remaining aperture; seed electrical evidence when available |
+| Copper fill | open and sealed void topology, seam or pinch-off history, regional growth, overburden |
+| CMP | field clearance, dish, erosion, stop loss, plug loss, and material connectivity |
+
+A straight etch at the wrong depth is infeasible. Attractive secondary metrics may explain a failure, but cannot cancel it.
+
+## Three separate ledgers
+
+- **Scientific feasibility:** product measurements and hard gates.
+- **Numerical reliability:** paired response shifts, stochastic spread, mesh allowance, topology and class changes.
+- **Cost and tool feasibility:** wall time, queue time, memory, threads, backend, cycle count, estimated process time, checkpoint cost, timeout, and tool limits.
+
+Do not blend these ledgers into one loss. First find feasible cases. Then maximize margin. Then minimize cost and complexity.
+
+## Event log
+
+Each attempt appends one hash-chained JSONL event with timestamp, case key, manifest hash, stage, state, inputs, environment, elapsed time, measurements, error, checkpoint, retry count, an explicit `retryable` boolean, decision, next action, and stop reason. Null remains null.
+
+Simulation states are `planned`, `running`, `complete_measured`, `complete_invalid`, `failed_transient`, `failed_deterministic`, `missing_measurement`, `needs_investigation`, and `stale_provenance`. `complete_measured` does not mean the gates pass. Store metric validity, scientific-gate result, and numerical status separately. Literature searches use separate `search_failed` and `no_usable_evidence` states.
+
+| Outcome | Required action |
+|---|---|
+| Transient tool or infrastructure failure | retry once with the same case key |
+| Repeated or deterministic exception | reproduce once, save the smallest failing case, investigate |
+| Invalid geometry | keep the row; shrink or reparameterize the range |
+| Missing measurement | fail evidence review; repair the metric before scoring |
+| Search returned no usable source | broaden once, then record the evidence gap |
+| Stale provenance | do not reuse until exact compatibility is established |
+| Model cannot express the required state | stop the DOE and open a model-change decision |
+
+Only a first transient infrastructure failure is retryable. It records `retryable: true`, `decision: retry_same_case`, and the exact recovery action. Every other outcome records `retryable: false`. A stop decision requires a non-empty reason. Automation may act on these fields; it must not infer a retry from an exception string.
+
+## Numerical study
+
+Map cost and response for rays, grid spacing, advection step, domain clearance, reflection and boundary-hit caps, process horizon, workers and threads, and checkpoint frequency. Use paired physical inputs and random streams.
+
+The representative panel spans aspect ratio, opening, depth, bow, necking, and near-gate cases. Numerical profiles are geometry-scoped until the panel shows otherwise.
+
+Choose the cheapest discovery profile with margin before the observed cliff. It may screen ranges. It may not confirm a boundary or finalist. Promotion requires unseen streams and the reference profile.
+
+Current evidence:
+
+- The saved 500-ray bridge preserved the reviewed Bosch classifications and factor ranking while reducing paired runtime by about 4.5 times. It is provisional because the campaign also changed random streams and early-stop intervals. It does not isolate ray count.
+- 1,000 rays failed the strict paired measurement bridge to 2,000 rays, despite no product-gate flips.
+- The five saved 125-ray cases include a required-anchor mismatch. The run ended without a frozen stop event, so this is a partial mismatch observation rather than a formal rejection.
+- All 16 saved 250-ray cases completed. The review found one hard-gate mismatch and one strong-effect direction mismatch, despite a 0.943 factor-ranking Spearman and a 10.83x paired median speedup. It receives no discovery authority.
+- Older grid results were non-monotonic. No universal grid optimum has been established.
+
+The 2,000-ray profile is an accepted tested reference for these comparisons, not numerical truth. A clean qualification must hold the morphology panel and stopping rules fixed while varying the numerical control. It must include null, near-gate, failure, curvature, and interaction sentinels, and it must gate absolute metric drift and boundary movement as well as rankings.
+
+## Search sequence
+
+1. Research ranges from official documentation and primary sources. Label missing calibration.
+2. Run repeated nominal cases and low/high range finding.
+3. Screen factors with a bounded design and exact shared upstream geometries.
+4. Confirm only mechanism-supported interactions.
+5. Refine at most five active factors with a response surface. Use constrained Bayesian optimization only when held-out checks reject the simpler surface.
+6. Confirm up to three finalists with unseen streams, adverse boundary points, higher fidelity, and required 3D checks.
+
+Adam is not the default. This simulator is expensive, partly discrete, stochastic, and discontinuous at topology and validity boundaries. Designed experiments and constrained black-box optimization are more suitable.
+
+## Guardrails and completion
+
+- Targets, metric definitions, ranges, fidelity profiles, and model family cannot change inside a manifest version.
+- Failed, missing, or invalid rows never become zeros or penalty-only rows.
+- One range expansion, one screening augmentation, one interaction augmentation, and two local-refinement batches are the default caps.
+- Stop early when the decision is stable or a model limitation is repeated.
+- Publish sampled points, raw units, provenance, uncertainty, failures, and gaps. Do not interpolate a boundary unless validation supports it.
+
+Every result states its highest claim level: implementation verified, measurement verified, numerically qualified, mechanism supported, 2D/3D transfer supported, physically calibrated, or experimentally validated. Evidence at one level does not imply the next.
+
+The numerical program is complete only when named discovery and confirmation profiles have a stated scope, cost, measurement deltas, failure cases, fallback, and promotion rule.
+
+## Sources
+
+- [ViennaPS process controls](https://viennatools.github.io/ViennaPS/process/)
+- [ViennaPS ray-tracing controls](https://viennatools.github.io/ViennaPS/process/rayTracingParams.html)
+- [ViennaPS advection controls](https://viennatools.github.io/ViennaPS/process/advectionParams.html)
+- [NIST guidance on choosing an experimental design](https://www.itl.nist.gov/div898/handbook/pri/section3/pri33.htm)
+- [Hyperband early-stopping method](https://www.jmlr.org/papers/v18/16-558.html)
+- [Constrained Bayesian optimization](https://proceedings.mlr.press/v130/eriksson21a.html)

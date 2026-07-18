@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kooexperience.com/ViennaPS-HBM/schemas/numerical-performance.schema.json",
+  "title": "Published numerical-performance evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "claim_level", "purpose", "foundation", "v3_ray_qualification", "interpretation", "provenance"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "claim_level": {"const": "numerically_characterized"},
+    "purpose": {"type": "string"},
+    "foundation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "grid", "rays"],
+      "properties": {
+        "scope": {"type": "string"},
+        "grid": {"$ref": "#/$defs/foundationStudy"},
+        "rays": {"$ref": "#/$defs/foundationStudy"}
+      }
+    },
+    "v3_ray_qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "points"],
+      "properties": {"scope": {"type": "string"}, "points": {"type": "array", "items": {"$ref": "#/$defs/rayPoint"}}}
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_sd_units", "no_interpolation", "runtime_boundary"],
+      "properties": {
+        "baseline_sd_units": {"type": "string"},
+        "no_interpolation": {"const": true},
+        "runtime_boundary": {"type": "string"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_inputs_committed", "builder", "inputs", "units"],
+      "properties": {
+        "raw_inputs_committed": {"type": "boolean"},
+        "builder": {"$ref": "#/$defs/source"},
+        "inputs": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+        "units": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["geometry", "runtime"],
+          "properties": {"geometry": {"const": "model length"}, "runtime": {"const": "seconds"}}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "selector", "line_numbers"],
+      "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "selector": {"type": "string", "minLength": 1}, "line_numbers": {"type": ["array", "null"], "minItems": 1, "uniqueItems": true, "items": {"type": "integer", "minimum": 1}}}
+    },
+    "foundationStudy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["points", "adjacent_changes"],
+      "properties": {
+        "points": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/foundationPoint"}},
+        "adjacent_changes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/adjacentChange"}}
+      }
+    },
+    "metricNames": {"enum": ["depth", "cd_bottom", "max_bow", "scallop_rms"]},
+    "responseSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "p10", "mean", "p90", "max", "sd", "n"],
+      "properties": {
+        "min": {"type": "number"}, "p10": {"type": "number"}, "mean": {"type": "number"},
+        "p90": {"type": "number"}, "max": {"type": "number"}, "sd": {"type": "number", "minimum": 0},
+        "n": {"type": "integer", "minimum": 1}
+      }
+    },
+    "responseSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "cd_bottom", "max_bow", "scallop_rms"],
+      "properties": {
+        "depth": {"$ref": "#/$defs/responseSummary"}, "cd_bottom": {"$ref": "#/$defs/responseSummary"},
+        "max_bow": {"$ref": "#/$defs/responseSummary"}, "scallop_rms": {"$ref": "#/$defs/responseSummary"}
+      }
+    },
+    "passCount": {
+      "type": "object", "additionalProperties": false, "required": ["pass", "total"],
+      "properties": {"pass": {"type": "integer", "minimum": 0}, "total": {"type": "integer", "minimum": 1}}
+    },
+    "foundationPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "runs", "median_runtime_s", "responses", "passes", "citations"],
+      "properties": {
+        "value": {"type": "number", "exclusiveMinimum": 0}, "runs": {"type": "integer", "minimum": 1},
+        "median_runtime_s": {"type": "number", "minimum": 0}, "responses": {"$ref": "#/$defs/responseSet"},
+        "passes": {
+          "type": "object", "additionalProperties": false,
+          "required": ["etch_bow", "etch_cd_profile", "etch_depth", "pattern_width"],
+          "properties": {"etch_bow": {"$ref": "#/$defs/passCount"}, "etch_cd_profile": {"$ref": "#/$defs/passCount"}, "etch_depth": {"$ref": "#/$defs/passCount"}, "pattern_width": {"$ref": "#/$defs/passCount"}}
+        },
+        "citations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/citation"}}
+      }
+    },
+    "changeSummary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mean_abs_change", "max_abs_change", "mean_abs_change_in_baseline_sd_units"],
+      "properties": {"mean_abs_change": {"type": "number", "minimum": 0}, "max_abs_change": {"type": "number", "minimum": 0}, "mean_abs_change_in_baseline_sd_units": {"type": "number", "minimum": 0}}
+    },
+    "changeSet": {
+      "type": "object", "additionalProperties": false,
+      "required": ["depth", "cd_bottom", "max_bow", "scallop_rms"],
+      "properties": {"depth": {"$ref": "#/$defs/changeSummary"}, "cd_bottom": {"$ref": "#/$defs/changeSummary"}, "max_bow": {"$ref": "#/$defs/changeSummary"}, "scallop_rms": {"$ref": "#/$defs/changeSummary"}}
+    },
+    "adjacentChange": {
+      "type": "object", "additionalProperties": false,
+      "required": ["from", "to", "paired_runs", "responses", "citations"],
+      "properties": {"from": {"type": "number", "exclusiveMinimum": 0}, "to": {"type": "number", "exclusiveMinimum": 0}, "paired_runs": {"type": "integer", "minimum": 1}, "responses": {"$ref": "#/$defs/changeSet"}, "citations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/citation"}}}
+    },
+    "rayPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "runs", "expected_candidate_runs", "paired_anchor_median_speedup_vs_2000", "gate_mismatches", "trajectory_mismatches", "maximum_change_over_screen_threshold", "status", "citations"],
+      "properties": {
+        "value": {"type": "integer", "minimum": 1},
+        "runs": {"type": "integer", "minimum": 0},
+        "expected_candidate_runs": {"type": ["integer", "null"], "minimum": 1},
+        "paired_anchor_median_speedup_vs_2000": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "gate_mismatches": {"type": "integer", "minimum": 0},
+        "trajectory_mismatches": {"type": "integer", "minimum": 0},
+        "maximum_change_over_screen_threshold": {"type": ["number", "null"], "minimum": 0},
+        "status": {"enum": ["partial_with_mismatch_observed", "partial_not_qualified", "complete_with_mismatch_observed", "complete_awaiting_saved_review", "provisional_discovery_bridge", "saved_review_mismatch", "tested_reference"]},
+        "citations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/citation"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "provisional_discovery_bridge"}}},
+          "then": {"properties": {"value": {"const": 500}, "runs": {"minimum": 16}, "gate_mismatches": {"const": 0}, "trajectory_mismatches": {"const": 0}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "tested_reference"}}},
+          "then": {"properties": {"value": {"const": 2000}, "expected_candidate_runs": {"type": "null"}}}
+        }
+      ]
+    }
+  }
+}

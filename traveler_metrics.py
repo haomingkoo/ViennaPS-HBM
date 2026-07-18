@@ -3,8 +3,24 @@
 from __future__ import annotations
 
 import math
+from typing import TypedDict
 
 import numpy as np
+
+
+class AnchorHits(TypedDict):
+    floor: bool
+    left_mouth: bool
+    right_mouth: bool
+
+
+class ComponentSummary(TypedDict):
+    component_id: int
+    grid_point_count: int
+    bounds_min: tuple[float, float]
+    bounds_max: tuple[float, float]
+    anchor_hits: AnchorHits
+    anchor_hit_count: int
 
 
 def raw_level_set_meshes(geometry) -> list[dict]:
@@ -117,7 +133,7 @@ def material_region_connectivity_2d(
     anchor_tolerance = resolution_limit
     floor_x_limit = 0.5 * via_radius
 
-    def anchor_hits(component_points):
+    def anchor_hits(component_points) -> AnchorHits:
         x = component_points[:, 0]
         y = component_points[:, 1]
         near_floor = (
@@ -144,22 +160,20 @@ def material_region_connectivity_2d(
             )),
         }
 
-    components = []
+    components: list[ComponentSummary] = []
     integer_component_ids = component_ids.astype(int)
     for component_id in negative_ids:
         component_points = points[
             negative & (integer_component_ids == component_id)
         ]
         hits = anchor_hits(component_points)
+        bounds_min = component_points.min(axis=0)
+        bounds_max = component_points.max(axis=0)
         components.append({
             "component_id": int(component_id),
             "grid_point_count": int(len(component_points)),
-            "bounds_min": tuple(
-                float(value) for value in component_points.min(axis=0)[:2]
-            ),
-            "bounds_max": tuple(
-                float(value) for value in component_points.max(axis=0)[:2]
-            ),
+            "bounds_min": (float(bounds_min[0]), float(bounds_min[1])),
+            "bounds_max": (float(bounds_max[0]), float(bounds_max[1])),
             "anchor_hits": hits,
             "anchor_hit_count": int(sum(hits.values())),
         })

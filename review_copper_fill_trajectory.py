@@ -160,6 +160,7 @@ def _checkpoint_failure(checkpoint):
     topology = checkpoint.get("topology", {})
     protected = checkpoint.get("protected_stack", {})
     diagnostics = checkpoint.get("model_diagnostics", {})
+    transition = checkpoint.get("topology_transition", {})
     return {
         "pinch_off": bool(
             checkpoint.get("pinch_off_seen")
@@ -167,21 +168,60 @@ def _checkpoint_failure(checkpoint):
         ),
         "invalid_topology": bool(
             checkpoint.get("invalid_topology_seen")
-            or topology.get("topology_valid") is False
+            or topology.get("topology_valid") is not True
         ),
         "topology_transition": bool(
             checkpoint.get("topology_transition_failure_seen")
-            or checkpoint.get("topology_transition", {}).get("valid") is False
+            or transition.get("valid") is not True
         ),
         "protected_stack": bool(
             checkpoint.get("protected_failure_seen")
-            or protected.get("survives") is False
+            or protected.get("survives") is not True
         ),
         "model_diagnostic": bool(
             checkpoint.get("model_failure_seen")
-            or diagnostics.get("valid") is False
+            or diagnostics.get("valid") is not True
         ),
     }
+
+
+def _topology_validation_errors(topology):
+    required = {
+        "topology_valid": bool,
+        "open_void": bool,
+        "open_void_depth": (int, float),
+        "closed_void_count": int,
+        "void_free": bool,
+        "remaining_void_area": (int, float),
+        "void_area_detection_limit": (int, float),
+    }
+    errors = [
+        f"missing or invalid topology field: {name}"
+        for name, kind in required.items()
+        if isinstance(topology.get(name), bool) != (kind is bool)
+        or not isinstance(topology.get(name), kind)
+    ]
+    if errors:
+        return errors
+    depth = float(topology["open_void_depth"])
+    area = float(topology["remaining_void_area"])
+    detection = float(topology["void_area_detection_limit"])
+    closed = topology["closed_void_count"]
+    if not all(math.isfinite(value) and value >= 0 for value in (depth, area, detection)):
+        errors.append("void depth, area, and detection limit must be finite and nonnegative")
+    if closed < 0:
+        errors.append("closed_void_count must be nonnegative")
+    if topology["open_void"] != (depth > 0):
+        errors.append("open_void disagrees with open_void_depth")
+    expected_void_free = bool(
+        topology["topology_valid"]
+        and not topology["open_void"]
+        and closed == 0
+        and area <= detection
+    )
+    if topology["void_free"] != expected_void_free:
+        errors.append("void_free disagrees with topology fields and detection limit")
+    return errors
 
 
 def _persistent_failures(row):
@@ -390,20 +430,32 @@ def _trajectory_validation_errors(row):
         "model_diagnostic": "model_failure_seen",
     }
     for name, row_key in row_keys.items():
-        if bool(row.get(row_key)) != persistent[name]["seen"]:
+        if not isinstance(row.get(row_key), bool):
+            errors.append(f"top-level {row_key} is missing or not boolean")
+        elif row[row_key] != persistent[name]["seen"]:
             errors.append(f"top-level {row_key} disagrees with trajectory")
 
     any_target = False
     threshold = float(row.get("target", {}).get("min_overburden", math.inf))
     for checkpoint in trajectory:
         topology = checkpoint.get("topology", {})
+        topology_errors = _topology_validation_errors(topology)
+        errors.extend(
+            f"checkpoint {checkpoint.get('checkpoint')} {error}"
+            for error in topology_errors
+        )
         if checkpoint.get("target_pass"):
             any_target = True
             failures = _checkpoint_failure(checkpoint)
             if not (
                 topology.get("topology_valid")
                 and topology.get("void_free")
+                and topology.get("open_void") is False
+                and topology.get("closed_void_count") == 0
+                and topology.get("remaining_void_area", math.inf)
+                <= topology.get("void_area_detection_limit", -math.inf)
                 and topology.get("overburden_min", -math.inf) >= threshold
+                and not topology_errors
                 and not any(failures.values())
             ):
                 errors.append(

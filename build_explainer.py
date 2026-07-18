@@ -1,24 +1,35 @@
-"""Assemble the public explainer from the audited campaign dataset."""
+"""Assemble the public explainer from committed publication data."""
+
+from __future__ import annotations
+
 import json
+from pathlib import Path
 
-with open("publication_campaign_data.json") as f:
-    data = {"campaign": json.load(f)}
 
-with open("publication_interim_data.json") as f:
-    data["interim"] = json.load(f)
+ROOT = Path(__file__).resolve().parent
+MARKER = "/*__DATA__*/"
+INPUTS = {
+    "campaign": "publication_campaign_data.json",
+    "interim": "publication_interim_data.json",
+    "cu_replay": "cu_fill_replay.json",
+    "step_experiments": "step_experiments.json",
+    "numerical_performance": "numerical_performance_data.json",
+}
 
-with open("cu_fill_replay.json") as f:
-    data["cu_replay"] = json.load(f)
 
-with open("step_experiments.json") as f:
-    data["step_experiments"] = json.load(f)
+def main():
+    data = {
+        name: json.loads((ROOT / path).read_text())
+        for name, path in INPUTS.items()
+    }
+    template = (ROOT / "explainer_template.html").read_text()
+    if template.count(MARKER) != 1:
+        raise ValueError("explainer template must contain exactly one data marker")
+    html = template.replace(MARKER, json.dumps(data, separators=(",", ":")))
+    output = ROOT / "explainer.html"
+    output.write_text(html)
+    print(f"wrote {output.relative_to(ROOT)}")
 
-with open("explainer_template.html") as f:
-    template = f.read()
 
-html = template.replace("/*__DATA__*/", json.dumps(data, separators=(",", ":")))
-
-with open("explainer.html", "w") as f:
-    f.write(html)
-
-print("wrote explainer.html")
+if __name__ == "__main__":
+    main()

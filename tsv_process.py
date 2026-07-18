@@ -274,7 +274,8 @@ def make_initial_geometry(
         maskTaperAngle=taper,
         holeShape=hole_shape,
     ).apply()
-    assert geometry.getNumberOfLevelSets() >= 2, "expected mask + substrate level sets"
+    if geometry.getNumberOfLevelSets() < 2:
+        raise RuntimeError("expected mask and substrate level sets")
     return geometry
 
 
@@ -282,10 +283,11 @@ def strip_pattern_mask(geometry):
     """Remove the temporary pattern mask before dielectric deposition."""
     geometry.removeMaterial(ps.Material.Mask)
     materials = geometry.getMaterialMap()
-    assert all(
+    if not all(
         materials.getMaterialAtIdx(index) != ps.Material.Mask
         for index in range(geometry.getNumberOfLevelSets())
-    ), "pattern mask removal failed"
+    ):
+        raise RuntimeError("pattern mask removal failed")
     return geometry
 
 
@@ -368,7 +370,8 @@ def bosch_etch(
             on_cycle(geometry, i + 1)
 
     depth = float(profile_points(geometry)[:, 1].min())
-    assert depth < -MIN_RESOLVED_ETCH_DEPTH, f"etch barely moved: depth={depth}"
+    if depth >= -MIN_RESOLVED_ETCH_DEPTH:
+        raise RuntimeError(f"etch barely moved: depth={depth}")
     return geometry, depth
 
 
@@ -403,9 +406,8 @@ def deposit_conformal(
     process.setParameters(parameters)
     process.apply()
     y_after = profile_points(geometry)[:, 1].min()
-    assert y_after > y_before - DEPOSITION_REGRESSION_TOLERANCE, (
-        "conformal deposition should shrink the cavity, not grow it"
-    )
+    if y_after <= y_before - DEPOSITION_REGRESSION_TOLERANCE:
+        raise RuntimeError("conformal deposition should shrink the cavity, not grow it")
     return geometry
 
 
@@ -433,11 +435,11 @@ def cu_fill(
 def cmp_planarize(geometry, target_y):
     """Apply the legacy isotropic-removal control."""
     overburden = float(profile_points(geometry)[:, 1].max()) - target_y
-    assert overburden >= 0, "nothing to planarize -- surface already below target"
+    if overburden < 0:
+        raise ValueError("nothing to planarize: surface is already below target")
     if overburden > NUMERIC_EPSILON:
         ps.Process(geometry, ps.IsotropicProcess(rate=-1.0), overburden).apply()
     y_max = float(profile_points(geometry)[:, 1].max())
-    assert y_max <= target_y + CMP_ENDPOINT_TOLERANCE, (
-        f"CMP did not planarize to target: {y_max} vs {target_y}"
-    )
+    if y_max > target_y + CMP_ENDPOINT_TOLERANCE:
+        raise RuntimeError(f"CMP did not planarize to target: {y_max} vs {target_y}")
     return geometry

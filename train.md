@@ -1,5 +1,10 @@
 # train.md -- what's fixed, what's varied
 
+Historical campaign names and commands below describe the retired phase-one
+work. Those scripts now live under `archive/phase-one-campaign/` and
+`archive/phase-one-sweeps/`; they are not the current execution path. See
+`docs/current-run.md` for the active checkpoint.
+
 > **Legacy protocol under re-audit.** Its phase-one recipe spaces and execution
 > history remain reproducible, but its pattern, film-coverage, fill, CMP, 2D,
 > resolution, and RNG assumptions are not accepted for a new DOE. Follow
@@ -109,14 +114,14 @@ plus focused coverage around plausible target-depth recipes. The current
 serious run is:
 
 ```sh
-.venv/bin/python -u dry_etch_doe.py --recipes 96 --replicates 3 --workers 10 --design mixed --seed 11
+.venv/bin/python -u archive/phase-one-campaign/dry_etch_doe.py --recipes 96 --replicates 3 --workers 10 --design mixed --seed 11
 ```
 
 After that summary exists, use the autoresearch controller for the next
 generation instead of hand-picking the next grid:
 
 ```sh
-.venv/bin/python -u autoresearch_dry_etch.py --bootstrap-summary dry_etch_doe_summary.json --generations 1 --recipes 96 --replicates 4 --workers 10 --top-n 8
+PYTHONPATH=. .venv/bin/python -u archive/phase-one-campaign/autoresearch_dry_etch.py --bootstrap-summary archive/phase-one-campaign/dry_etch_doe_summary.json --generations 1 --recipes 96 --replicates 4 --workers 10 --top-n 8
 ```
 
 Historical autoresearch status: generation 2 completed (`64 recipes x 4

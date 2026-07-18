@@ -530,6 +530,29 @@
     .process-code-table td:last-child { color: var(--ink-dim); }
   }
 
+  .numerical-controls { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1rem 0; }
+  .numerical-controls button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0.55rem 0.75rem; font: 0.74rem var(--mono); cursor: pointer; }
+  .numerical-controls button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .numerical-controls label { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; font: 0.74rem var(--mono); color: var(--ink-dim); }
+  .numerical-controls select { border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0.5rem; font: inherit; }
+  .numerical-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .numerical-plot { margin: 0; }
+  .numerical-plot svg { display: block; width: 100%; height: auto; background: var(--surface); border-block: 1px solid var(--line); }
+  .numerical-plot figcaption { margin-top: 0.45rem; }
+  .numerical-status { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 1rem; border: 1px solid var(--line); }
+  .numerical-status div { padding: 0.75rem; border-right: 1px solid var(--line); }
+  .numerical-status div:last-child { border-right: 0; }
+  .numerical-status b, .numerical-status span { display: block; }
+  .numerical-status b { font-family: var(--mono); font-size: 0.8rem; }
+  .numerical-status span { margin-top: 0.25rem; color: var(--ink-dim); font-size: 0.75rem; }
+  @media (max-width: 700px) {
+    .numerical-controls label { width: 100%; margin-left: 0; }
+    .numerical-plots { grid-template-columns: 1fr; }
+    .numerical-status { grid-template-columns: 1fr 1fr; }
+    .numerical-status div:nth-child(2) { border-right: 0; }
+    .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  }
+
   footer {
     margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
     font-size: 0.76rem; color: var(--ink-dim); font-family: var(--mono);
@@ -558,6 +581,7 @@
       <ul>
         <li><a href="#process-overview">Major TSV process</a></li>
         <li><a href="#software">How the software works</a></li>
+        <li><a href="#numerical-tuning">Numerical tuning</a></li>
         <li><a href="#knobs-guide">Knobs and failures</a></li>
         <li><a href="#boundary-atlas">Copper response map</a></li>
         <li><a href="#raw-output">Saved output</a></li>
@@ -689,6 +713,38 @@
       <figcaption>The process modules define the models and measurements. <code>build_screening_traveler.py</code> runs the sequence.</figcaption>
     </figure>
     <p class="note">The domain stores material boundaries as level sets. This example uses a 2D cross-section.</p>
+  </section>
+
+  <section class="finding" id="numerical-tuning">
+    <h2>How much simulation is enough?</h2>
+    <p class="claim">Compare runtime with measured changes before choosing a cheaper simulation setting.</p>
+    <div class="numerical-controls" aria-label="Numerical sensitivity chart controls">
+      <button type="button" data-numerical-axis="grid" aria-pressed="true">Grid spacing</button>
+      <button type="button" data-numerical-axis="rays" aria-pressed="false">Rays per point</button>
+      <label for="numerical-metric">Response
+        <select id="numerical-metric">
+          <option value="depth">Etch depth</option>
+          <option value="cd_bottom">Bottom width</option>
+          <option value="max_bow">Wall bow</option>
+          <option value="scallop_rms">Scallop RMS</option>
+        </select>
+      </label>
+    </div>
+    <div class="numerical-plots">
+      <figure class="numerical-plot">
+        <svg id="numerical-response-chart" viewBox="0 0 520 300" role="img" aria-label="Observed response spread across saved numerical settings"></svg>
+        <figcaption id="numerical-response-caption"></figcaption>
+      </figure>
+      <figure class="numerical-plot">
+        <svg id="numerical-runtime-chart" viewBox="0 0 520 300" role="img" aria-label="Median runtime across numerical settings"></svg>
+        <figcaption>Median wall time for eight saved runs at each setting. Dots are medians; no runtime uncertainty interval was saved.</figcaption>
+      </figure>
+    </div>
+    <div class="numerical-status" id="numerical-gate-status" aria-label="Scientific gate counts at each sampled setting"></div>
+    <div class="numerical-status" id="numerical-ray-status" aria-label="Current fine-grid ray qualification"></div>
+    <p class="note" id="numerical-takeaway"></p>
+    <p class="note">Points are saved simulations from one research machine. Lines connect sampled settings on a log x-axis; they are not fitted response surfaces. This benchmark uses one coarse-grid Bosch recipe, so its turning points do not transfer automatically to deeper or narrower vias.</p>
+    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/numerical_performance_data.json">See the citable chart data and source selectors</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/manifest.json">See the committed source-evidence manifest</a> · <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/schemas/numerical-performance.schema.json">See its JSON Schema</a></p>
   </section>
 
   <section class="finding" id="knobs-guide">
@@ -956,10 +1012,10 @@ python3 -m http.server 8000</code></pre>
     <p class="claim">The guide is built from checked-in JSON. Use it to inspect the values behind the plots and claims.</p>
     <div class="button-row">
       <a class="button-link" href="publication_interim_data.json">Current study data</a>
-      <a class="button-link" href="publication_campaign_data.json">Archived campaign data</a>
+      <a class="button-link" href="publication_campaign_data.json">Withdrawn phase-one data — history only</a>
       <a class="button-link" href="config/process.toml">Process settings</a>
     </div>
-    <p class="note">The large native checkpoints are not in the public repository. Their recorded hashes identify the files used to build this page but cannot replace the files themselves.</p>
+    <p class="note">The phase-one download is retained only to audit withdrawn measurements and conclusions. The large native checkpoints are not in the public repository. Their recorded hashes identify the files used to build this page but cannot replace the files themselves.</p>
   </section>
 
   <details class="code-map legacy-archive" id="legacy-archive" hidden>
@@ -1092,6 +1148,7 @@ const CAMPAIGN = DATA.campaign;
 const INTERIM = DATA.interim;
 const SCREENING = INTERIM.screening_traveler;
 const GATE0 = INTERIM.pattern_bosch_gate0;
+const NUMERICAL = DATA.numerical_performance;
 
 document.getElementById('screening-traveler-visual').src = SCREENING.render;
 
@@ -1130,6 +1187,68 @@ function renderGate0Checkpoint() {
   document.getElementById('gate0-next-action').textContent = GATE0.next_action;
 }
 if (document.getElementById('gate0-headline')) renderGate0Checkpoint();
+
+// ============ Numerical cost and response evidence ============
+const numericalState = { axis: 'grid', metric: 'depth' };
+const numericalLabels = { depth: 'Etch depth', cd_bottom: 'Bottom width', max_bow: 'Wall bow', scallop_rms: 'Scallop RMS' };
+
+function numericalPlot(svgId, points, valueFor, rangeFor, yLabel, format, floorAtZero = false) {
+  const svg = document.getElementById(svgId);
+  const w = 520, h = 300, left = 62, right = 18, top = 24, bottom = 62;
+  const values = points.flatMap(rangeFor);
+  let yMin = Math.min(...values), yMax = Math.max(...values);
+  const pad = Math.max((yMax - yMin) * 0.12, Math.abs(yMax) * 0.01, 0.0001);
+  yMin = floorAtZero ? Math.max(0, yMin - pad) : yMin - pad;
+  yMax += pad;
+  const xValues = points.map(point => Math.log(Number(point.value)));
+  const xMin = Math.min(...xValues), xMax = Math.max(...xValues);
+  const px = index => points.length === 1 ? w / 2 : left + (xValues[index] - xMin) * (w - left - right) / (xMax - xMin);
+  const py = value => top + (yMax - value) * (h - top - bottom) / (yMax - yMin);
+  const path = points.map((point, index) => `${index ? 'L' : 'M'}${px(index)} ${py(valueFor(point))}`).join(' ');
+  const xLabel = numericalState.axis === 'grid' ? 'grid spacing · log scale' : 'rays per point · log scale';
+  svg.innerHTML = `<line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" stroke="var(--line)"/>
+    <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" stroke="var(--line)"/>
+    ${[yMin, (yMin + yMax) / 2, yMax].map(value => `<g><line x1="${left-4}" y1="${py(value)}" x2="${w-right}" y2="${py(value)}" stroke="var(--line)" stroke-opacity="0.45"/><text x="${left-8}" y="${py(value)+3}" text-anchor="end" fill="var(--ink-dim)" font-family="var(--mono)" font-size="9">${format(value)}</text></g>`).join('')}
+    <path d="${path}" fill="none" stroke="var(--ink-dim)" stroke-width="1.5"/>
+    ${points.map((point, index) => {
+      const [low, high] = rangeFor(point), x = px(index), y = py(valueFor(point));
+      const whisker = low === high ? '' : `<line x1="${x}" y1="${py(low)}" x2="${x}" y2="${py(high)}" stroke="var(--plasma)" stroke-width="2"/><line x1="${x-5}" y1="${py(low)}" x2="${x+5}" y2="${py(low)}" stroke="var(--plasma)"/><line x1="${x-5}" y1="${py(high)}" x2="${x+5}" y2="${py(high)}" stroke="var(--plasma)"/>`;
+      return `<g>${whisker}<circle cx="${x}" cy="${y}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"><title>${point.value}: ${format(valueFor(point))}</title></circle><text x="${x}" y="${h-bottom+22}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${point.value}</text></g>`;
+    }).join('')}
+    <text x="${w/2}" y="${h-12}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10">${xLabel}</text>
+    <text x="16" y="${h/2}" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="10" transform="rotate(-90 16 ${h/2})">${yLabel}</text>`;
+}
+
+function renderNumericalEvidence() {
+  document.querySelectorAll('[data-numerical-axis]').forEach(button => button.setAttribute('aria-pressed', button.dataset.numericalAxis === numericalState.axis));
+  const study = NUMERICAL.foundation[numericalState.axis], points = study.points;
+  numericalPlot('numerical-response-chart', points,
+    point => point.responses[numericalState.metric].mean,
+    point => [point.responses[numericalState.metric].p10, point.responses[numericalState.metric].p90],
+    `${numericalLabels[numericalState.metric]} · model units`, value => value.toFixed(4));
+  numericalPlot('numerical-runtime-chart', points, point => point.median_runtime_s,
+    point => [point.median_runtime_s, point.median_runtime_s],
+    'Median wall time · seconds', value => `${value.toFixed(1)} s`, true);
+  document.getElementById('numerical-response-caption').textContent = `${numericalLabels[numericalState.metric]}: dot is the mean; whisker shows the observed p10–p90 spread across ${points[0].runs} saved runs.`;
+  const changes = study.adjacent_changes.map(change => ({ ...change, response: change.responses[numericalState.metric] }));
+  const largest = changes.reduce((best, change) => change.response.mean_abs_change > best.response.mean_abs_change ? change : best);
+  document.getElementById('numerical-takeaway').innerHTML = `<b>Largest observed change:</b> ${largest.from} → ${largest.to} moves ${numericalLabels[numericalState.metric].toLowerCase()} by ${largest.response.mean_abs_change.toFixed(4)} on average. Use the gate counts above to judge whether that change is acceptable.`;
+  document.getElementById('numerical-gate-status').innerHTML = points.map(point => `<div><b>${point.value} ${numericalState.axis === 'grid' ? 'grid' : 'rays'}</b><span>Depth ${point.passes.etch_depth.pass}/${point.passes.etch_depth.total} · width ${point.passes.etch_cd_profile.pass}/${point.passes.etch_cd_profile.total} · bow ${point.passes.etch_bow.pass}/${point.passes.etch_bow.total}.</span></div>`).join('');
+  const statusText = {
+    partial_with_mismatch_observed: 'Partial: a required decision changed in the saved cases',
+    partial_not_qualified: 'Partial: no accepted decision',
+    complete_with_mismatch_observed: 'Complete: mismatch observed; formal review required',
+    complete_awaiting_saved_review: 'Complete: formal review pending',
+    provisional_discovery_bridge: 'Provisional discovery bridge; the test changed more than ray count',
+    saved_review_mismatch: 'Saved review found a mismatch',
+    tested_reference: 'Tested reference; not numerical truth',
+  };
+  document.getElementById('numerical-ray-status').innerHTML = NUMERICAL.v3_ray_qualification.points.map(point => `<div><b>${point.value} rays</b><span>${statusText[point.status] || point.status}. ${point.runs}${point.expected_candidate_runs ? `/${point.expected_candidate_runs}` : ''} saved cases${point.paired_anchor_median_speedup_vs_2000 ? `; ${point.paired_anchor_median_speedup_vs_2000.toFixed(1)}× paired median speedup` : ''}.</span></div>`).join('');
+}
+
+document.querySelectorAll('[data-numerical-axis]').forEach(button => button.addEventListener('click', () => { numericalState.axis = button.dataset.numericalAxis; renderNumericalEvidence(); }));
+document.getElementById('numerical-metric').addEventListener('change', event => { numericalState.metric = event.target.value; renderNumericalEvidence(); });
+renderNumericalEvidence();
 
 // ============ Independent saved-output studies ==========
 const stepExperiments = DATA.step_experiments;

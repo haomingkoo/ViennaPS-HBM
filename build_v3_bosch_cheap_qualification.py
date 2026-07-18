@@ -142,7 +142,11 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     manifest = build_manifest()
-    if not args.check:
+    if args.check:
+        expected = json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
+        if not args.output.is_file() or args.output.read_text() != expected:
+            raise ValueError(f"stale or missing manifest: {args.output}")
+    else:
         _freeze(args.output.resolve(), manifest)
     print(json.dumps({
         "campaign": manifest["campaign"],

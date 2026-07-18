@@ -1,0 +1,208 @@
+{
+  "files": [
+    {
+      "original_workspace_source": {
+        "bytes": 353768,
+        "lines": 88,
+        "path": "autoresearch-results/restart_audit/metric_convergence_rows.jsonl",
+        "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+      },
+      "published": {
+        "bytes": 353768,
+        "lines": 88,
+        "path": "evidence/numerical/metric_convergence_rows.jsonl",
+        "sha256": "2bd28daaf30be854678445567260c91e7891106a44ce233a1d96971eb0d81863"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 32383,
+        "lines": 8,
+        "path": "autoresearch-results/restart_audit/grid_extension_rows.jsonl",
+        "sha256": "2bffbc80e3107bfac2f39c86de7cae735bb449ff100b9ff7dd25d81f8bc104a9"
+      },
+      "published": {
+        "bytes": 32383,
+        "lines": 8,
+        "path": "evidence/numerical/grid_extension_rows.jsonl",
+        "sha256": "2bffbc80e3107bfac2f39c86de7cae735bb449ff100b9ff7dd25d81f8bc104a9"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 57894,
+        "lines": 2006,
+        "path": "autoresearch-results/restart_audit/metric_convergence_summary.json",
+        "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+      },
+      "published": {
+        "bytes": 57894,
+        "lines": 2006,
+        "path": "evidence/numerical/metric_convergence_summary.json",
+        "sha256": "ac6457c573d146b007184b982efb11ae55c46b252cdf624d783419ccddb32471"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 382096,
+        "lines": 19,
+        "path": "autoresearch-results/restart_audit/v3_pattern_bosch_stage2a_rows.jsonl",
+        "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+      },
+      "published": {
+        "bytes": 382096,
+        "lines": 19,
+        "path": "evidence/numerical/v3_pattern_bosch_stage2a_rows.jsonl",
+        "sha256": "36b06665c696b4aa5e23f7f066fb7a78ddb0a9e0eb2f4e4592a26a853681c653"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 277197,
+        "lines": 7011,
+        "path": "autoresearch-results/restart_audit/v3_pattern_bosch_stage2a_summary.json",
+        "sha256": "a22f9c234c410c4763a4d2206118a4c54f0446ade934d34b4f67123fe2736916"
+      },
+      "published": {
+        "bytes": 277197,
+        "lines": 7011,
+        "path": "evidence/numerical/v3_pattern_bosch_stage2a_summary.json",
+        "sha256": "a22f9c234c410c4763a4d2206118a4c54f0446ade934d34b4f67123fe2736916"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 310624,
+        "lines": 16,
+        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_qualification_rows.jsonl",
+        "sha256": "2c05b2e1e93a03a95deb60c1ea9655dc7b5cb6e9d11cd08a2f636086bec5f284"
+      },
+      "published": {
+        "bytes": 310624,
+        "lines": 16,
+        "path": "evidence/numerical/v3_bosch_cheap_qualification_rows.jsonl",
+        "sha256": "2c05b2e1e93a03a95deb60c1ea9655dc7b5cb6e9d11cd08a2f636086bec5f284"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 30551,
+        "lines": 890,
+        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_qualification_review.json",
+        "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+      },
+      "published": {
+        "bytes": 30551,
+        "lines": 890,
+        "path": "evidence/numerical/v3_bosch_cheap_qualification_review.json",
+        "sha256": "165b63651c802ea6ec3df644e6c0067b1488ca9594010a2fcaeba4561be6a1ba"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 95534,
+        "lines": 5,
+        "path": "autoresearch-results/restart_audit/v3_bosch_r125_qualification_rows.jsonl",
+        "sha256": "7d187c48acba89df4fae9f5325d7afcecea57e0f75cb647381a4b77790799e67"
+      },
+      "published": {
+        "bytes": 95534,
+        "lines": 5,
+        "path": "evidence/numerical/v3_bosch_r125_qualification_rows.jsonl",
+        "sha256": "7d187c48acba89df4fae9f5325d7afcecea57e0f75cb647381a4b77790799e67"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 314100,
+        "lines": 16,
+        "path": "autoresearch-results/restart_audit/v3_bosch_r250_qualification_rows.jsonl",
+        "sha256": "6b98a2474fd00ee05fe38c0812637d763fb54e3f490051240d70c7ad00e8c56d"
+      },
+      "published": {
+        "bytes": 314100,
+        "lines": 16,
+        "path": "evidence/numerical/v3_bosch_r250_qualification_rows.jsonl",
+        "sha256": "6b98a2474fd00ee05fe38c0812637d763fb54e3f490051240d70c7ad00e8c56d"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 35828,
+        "lines": 936,
+        "path": "autoresearch-results/restart_audit/v3_bosch_low_ray_qualification_review.json",
+        "sha256": "d5bf8b11bd8d5f33728315ceda3d38edb259f150b0656c18f67990d9016c80b4"
+      },
+      "published": {
+        "bytes": 35828,
+        "lines": 936,
+        "path": "evidence/numerical/v3_bosch_low_ray_qualification_review.json",
+        "sha256": "d5bf8b11bd8d5f33728315ceda3d38edb259f150b0656c18f67990d9016c80b4"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 34850,
+        "lines": 937,
+        "path": ".scratch/full-traveler-autoresearch/v3_bosch_r125_qualification_manifest.json",
+        "sha256": "cd83b46a79c4cba85e498a3459230a33eb75ddef1f747a5dd6fafb2829439da0"
+      },
+      "published": {
+        "bytes": 34850,
+        "lines": 937,
+        "path": "evidence/numerical/v3_bosch_r125_qualification_manifest.json",
+        "sha256": "cd83b46a79c4cba85e498a3459230a33eb75ddef1f747a5dd6fafb2829439da0"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 34850,
+        "lines": 937,
+        "path": ".scratch/full-traveler-autoresearch/v3_bosch_r250_qualification_manifest.json",
+        "sha256": "9c775a04888ab89647694a068d289b42e4323a603316d9b38b72fb8ba0e37233"
+      },
+      "published": {
+        "bytes": 34850,
+        "lines": 937,
+        "path": "evidence/numerical/v3_bosch_r250_qualification_manifest.json",
+        "sha256": "9c775a04888ab89647694a068d289b42e4323a603316d9b38b72fb8ba0e37233"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 34739,
+        "lines": 933,
+        "path": ".scratch/full-traveler-autoresearch/v3_bosch_cheap_qualification_manifest.json",
+        "sha256": "974318a7f1049fb2b0ed15cb118098c60a10a670cca98b68472580a1176e5f40"
+      },
+      "published": {
+        "bytes": 34739,
+        "lines": 933,
+        "path": "evidence/numerical/v3_bosch_cheap_qualification_manifest.json",
+        "sha256": "974318a7f1049fb2b0ed15cb118098c60a10a670cca98b68472580a1176e5f40"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 138669,
+        "lines": 3651,
+        "path": ".scratch/full-traveler-autoresearch/v3_pattern_bosch_stage2a_manifest.json",
+        "sha256": "b8828cda21193e2f047bf29d206ab9b3657715a56a4851c7491c5caede14f6e1"
+      },
+      "published": {
+        "bytes": 138669,
+        "lines": 3651,
+        "path": "evidence/numerical/v3_pattern_bosch_stage2a_manifest.json",
+        "sha256": "b8828cda21193e2f047bf29d206ab9b3657715a56a4851c7491c5caede14f6e1"
+      }
+    }
+  ],
+  "generator": {
+    "bytes": 4184,
+    "lines": 130,
+    "path": "build_numerical_evidence_bundle.py",
+    "sha256": "4ef196ae09f780649bcdadace3bcf75366dbabf470f1c3521a3f1a25b45e64b8"
+  },
+  "purpose": "exact source rows for the published numerical cost and response charts",
+  "schema_version": 1
+}

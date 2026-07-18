@@ -64,6 +64,21 @@ def assert_step_viewers(page):
     assert chain.locator('path[data-chain-material="silicon"]').get_attribute("d") != start_path
 
 
+def assert_numerical_evidence(page):
+    response = page.locator("#numerical-response-chart")
+    assert response.locator("circle").count() == 4
+    assert "p10–p90" in page.locator("#numerical-response-caption").inner_text()
+    page.get_by_role("button", name="Rays per point").click()
+    page.select_option("#numerical-metric", "cd_bottom")
+    assert response.locator("circle").count() == 4
+    assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
+    status = page.locator("#numerical-ray-status").inner_text()
+    assert "mismatch" in status.lower()
+    assert "Provisional discovery bridge" in status
+    assert "Tested reference" in status
+    assert page.locator('a[href*="numerical_performance_data.json"]').count() == 1
+
+
 def main():
     url = Path("explainer.html").resolve().as_uri()
     with sync_playwright() as playwright:
@@ -75,6 +90,7 @@ def main():
         page.wait_for_selector("#fill-replay-figure svg")
         page.wait_for_selector('[data-output-viewer="cmp"] svg')
         assert_step_viewers(page)
+        assert_numerical_evidence(page)
 
         page.get_by_role("button", name="Wall growth faster").click()
         page.locator("#fill-progress-slider").fill("23")

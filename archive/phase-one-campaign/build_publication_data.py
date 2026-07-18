@@ -9,13 +9,14 @@ import statistics
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).resolve().parents[2]
 CAMPAIGN = ROOT / "autoresearch-results" / "full_campaign"
 OUTPUT = ROOT / "publication_campaign_data.json"
 
 
 def wired_factor_count() -> int:
-    tree = ast.parse((ROOT / "joint_process_doe.py").read_text())
+    source = Path(__file__).with_name("joint_process_doe.py")
+    tree = ast.parse(source.read_text())
     for node in tree.body:
         if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == "SPACE" for target in node.targets):
             return len(ast.literal_eval(node.value))
