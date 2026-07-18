@@ -378,7 +378,7 @@ def main() -> None:
             ),
         },
         "default_interaction": ["ion_source_exponent", "ion_rate"],
-        "default_interior_case": "aac0e99de49584cc",
+        "default_interior_case": "142a8a6288351f36",
         "measurement_example_case_id": "7405eb159356c564",
         "review": {
             "valid_cases": review["valid_case_count"],

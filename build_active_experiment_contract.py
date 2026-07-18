@@ -52,9 +52,9 @@ def teaching_factor(
         "restart_from": {
             "mask": "ideal mask constructor",
             "bosch_etch": "fresh configured mask",
-            "liner": "ideal etched via",
-            "barrier": "ideal via with fixed liner",
-            "seed": "ideal via with fixed liner and barrier",
+            "liner": "focused saved etch profile resampled on the teaching grid",
+            "barrier": "resampled focused etch profile with fixed liner",
+            "seed": "resampled focused etch profile with fixed liner and barrier",
             "cmp": "analytic raised-plug stack",
         }[step],
     }

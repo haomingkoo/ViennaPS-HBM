@@ -1,4 +1,4 @@
-"""Replay one saved Bosch case and export seven profile checkpoints."""
+"""Replay the focused Bosch center case and export seven checkpoints."""
 
 from __future__ import annotations
 
@@ -16,11 +16,11 @@ import tsv_process as tp
 
 
 ROOT = Path(__file__).resolve().parent
-ROWS = ROOT / "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl"
+ROWS = ROOT / "evidence/numerical/v3_bosch_focused_ion_map_rows.jsonl"
 OUTPUT = ROOT / "bosch_trajectory_replay.json"
 PUBLIC_SOURCE = ROOT / "evidence/bosch/bosch_trajectory_replay_source.json"
-CASE_ID = "aac0e99de49584cc"
-CHECKPOINT_CYCLES = {1, 4, 7, 10, 13, 16, 18}
+CASE_ID = "1cf4ff64c506b271"
+CHECKPOINT_CYCLES = {1, 4, 7, 10, 13, 16, 20}
 PROGRAM_SECTION = "Assumed study comparison bands"
 
 
@@ -69,6 +69,8 @@ def main() -> None:
         return
 
     row, line_number = source_row()
+    ps.setDimension(2)
+    ps.setNumThreads(int(row["numerics"]["threads_per_worker"]))
     recipe = row["recipe"]
     geometry = row["geometry"]
     domain = tp.make_initial_geometry(
@@ -136,15 +138,19 @@ def main() -> None:
     )
     if [frame["cycle"] for frame in frames] != sorted(CHECKPOINT_CYCLES):
         raise ValueError("trajectory replay is incomplete")
-    saved_checkpoint = tutorial.TUTORIAL_CHECKPOINTS / Path(
-        row["checkpoint_path"]
-    ).name
+    saved_checkpoint = (
+        ROWS.parent
+        / "v3_bosch_focused_ion_map_rows_checkpoints"
+        / Path(row["checkpoint_path"]).name
+    )
     saved = checkpoint.load_domain_checkpoint(
         saved_checkpoint, expected_sha256=row["checkpoint_sha256"]
     )
     native_surface = silicon_path(saved)
     if frames[-1]["surface_path"] != native_surface:
-        raise ValueError("replayed final surface differs from the saved native checkpoint")
+        raise ValueError(
+            "replayed final surface differs from the saved native checkpoint"
+        )
 
     PUBLIC_SOURCE.parent.mkdir(parents=True, exist_ok=True)
     public_row = {
@@ -167,7 +173,9 @@ def main() -> None:
             "replayed_surface_sha256": hashlib.sha256(
                 frames[-1]["surface_path"].encode()
             ).hexdigest(),
-            "native_surface_sha256": hashlib.sha256(native_surface.encode()).hexdigest(),
+            "native_surface_sha256": hashlib.sha256(
+                native_surface.encode()
+            ).hexdigest(),
         },
     }
     PUBLIC_SOURCE.write_text(
@@ -212,7 +220,9 @@ def main() -> None:
             for selector in ("/source_row", "/native_checkpoint_verification")
         ],
     }
-    OUTPUT.write_text(json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n")
+    OUTPUT.write_text(
+        json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    )
     print(OUTPUT)
 
 

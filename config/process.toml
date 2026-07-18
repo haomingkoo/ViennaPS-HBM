@@ -158,15 +158,15 @@ overburden_duration = 0.08
 failed_fill_duration = 0.20
 
 [traveler]
-source = "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows_checkpoints/aac0e99de49584cc_cycle018.vpsd"
-source_sha256 = "d93e8318fffbcca5c38eb1e3e0ed9393ccdf6db729018bc37a966fe14915b92f"
-source_case_id = "aac0e99de49584cc"
-output = "autoresearch-results/screening_traveler_aac0e99de49584cc"
+source = "evidence/numerical/v3_bosch_focused_ion_map_rows_checkpoints/1cf4ff64c506b271_cycle020.vpsd"
+source_sha256 = "3ad28816f106a129c4a571d8ef57340edf8879216e0165c9e8addd2d86ca3d9a"
+source_case_id = "1cf4ff64c506b271"
+output = "autoresearch-results/screening_traveler_1cf4ff64c506b271"
 grid_delta = 0.00125
 control_grid_delta = 0.005
 field_xs = [-0.40, -0.35, 0.35, 0.40]
 via_radius = 0.15
-etch_depth = 1.2766818786842522
+etch_depth = 1.2489277093454347
 mouth_offset = 0.02
 checkpoint_interval = 0.05
 time_step_ratio = 0.4999

@@ -34,11 +34,11 @@ def assert_copper_geometry(page):
 
 def assert_step_viewers(page):
     viewer_ids = ["mask", "liner", "barrier", "seed", "cmp"]
-    assert page.locator("[data-output-viewer]").count() == len(viewer_ids) + 1
-    assert page.locator('[data-output-viewer="copper"]').count() == 1
+    assert page.locator("[data-output-viewer]").count() == len(viewer_ids)
+    assert page.locator('[data-output-viewer="copper"]').count() == 0
     assert page.locator("#step-output-list [data-output-viewer]").evaluate_all(
         "elements => elements.map(element => element.dataset.outputViewer)"
-    ) == ["mask", "liner", "barrier", "seed", "copper", "cmp"]
+    ) == ["mask", "liner", "barrier", "seed", "cmp"]
     assert page.locator('[data-output-viewer="bosch"]').count() == 0
     assert page.locator("#step-output-list .evidence-badge").count() == 5
     assert page.locator("#step-output-list .boundary-result").count() == 5
@@ -67,12 +67,14 @@ def assert_step_viewers(page):
         controls.nth(1).fill(controls.nth(1).get_attribute("max"))
         assert geometry_path.get_attribute("d") != original_path
 
-    assert "3/3 purely directional cases are disconnected" in page.locator(
-        '[data-output-viewer="barrier"] .boundary-result'
-    ).inner_text()
-    assert "Removal 0.18 reaches the modeled field plane" in page.locator(
-        '[data-output-viewer="cmp"] .boundary-result'
-    ).inner_text()
+    assert (
+        "3/3 purely directional cases are disconnected"
+        in page.locator('[data-output-viewer="barrier"] .boundary-result').inner_text()
+    )
+    assert (
+        "Removal 0.18 reaches the modeled field plane"
+        in page.locator('[data-output-viewer="cmp"] .boundary-result').inner_text()
+    )
     summary = page.locator("#saved-results-summary")
     assert summary.locator(":scope > div").count() == 4
     assert "28 valid saved pair cases" in summary.inner_text()
@@ -100,7 +102,10 @@ def assert_numerical_evidence(page):
     assert movement.locator("rect").count() == 4
     assert "3.8× as long" in page.locator("#ray-ladder-takeaway").inner_text()
     page.select_option("#ray-benefit-metric", "cd_bottom")
-    assert "bottom width movement" in page.locator("#ray-ladder-takeaway").inner_text().lower()
+    assert (
+        "bottom width movement"
+        in page.locator("#ray-ladder-takeaway").inner_text().lower()
+    )
     page.select_option("#ray-panel", "narrow_profile")
     assert page.locator("#ray-profile-overlay path").count() == 6
 
@@ -110,7 +115,10 @@ def assert_numerical_evidence(page):
     page.select_option("#numerical-metric", "cd_bottom")
     assert response.locator("circle").count() == 4
     assert "Bottom width" in page.locator("#numerical-response-caption").inner_text()
-    assert page.locator('a[href*="bosch_ray_current_grid_ladder_review.json"]').count() == 1
+    assert (
+        page.locator('a[href*="bosch_ray_current_grid_ladder_review.json"]').count()
+        == 1
+    )
 
 
 def assert_bosch_interactions(page):
@@ -126,7 +134,9 @@ def assert_bosch_interactions(page):
     first_path = lab.locator("#bosch-profile path").nth(1).get_attribute("d")
     lab.locator("#bosch-corners button").nth(2).click()
     assert lab.locator("#bosch-profile path").nth(1).get_attribute("d") != first_path
-    lab.locator("#bosch-pair-picker button[data-pair='ion_source_exponent|ion_rate']").click()
+    lab.locator(
+        "#bosch-pair-picker button[data-pair='ion_source_exponent|ion_rate']"
+    ).click()
     assert lab.locator("#bosch-corners button").count() == 4
     assert "2/4 are inside" in lab.locator("#bosch-pair-result").inner_text()
     assert "Top / middle / bottom CD" in lab.locator("#bosch-read").inner_text()
@@ -179,11 +189,11 @@ def assert_range_pilot(page):
     assert study.locator("#pilot-profile").count() == 0
     assert study.locator("#archive-profile-grid figure").count() == 25
     assert study.locator('a[href="pattern_bosch_range_pilot_review.json"]').count() == 1
-    assert study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count() == 1
     assert (
-        page.locator("#active-factor-rows").count()
-        == 0
+        study.locator('a[href="evidence/bosch/range_pilot/source_bundle.json"]').count()
+        == 1
     )
+    assert page.locator("#active-factor-rows").count() == 0
     assert page.locator("#pattern-bosch-factor-scope").count() == 0
     assert (
         page.evaluate("document.getElementById('knobs-guide').nextElementSibling.id")
@@ -214,7 +224,7 @@ def assert_saved_trajectories(page):
     page.locator("#bosch-cycle-slider").fill("6")
     assert bosch_path.get_attribute("d") != first_bosch_path
     assert "Final profile" in page.locator("#bosch-cycle-read h4").inner_text()
-    assert "after cycle 18" in page.locator("#bosch-cycle-read").inner_text()
+    assert "after cycle 20" in page.locator("#bosch-cycle-read").inner_text()
 
     candidate_path = page.locator("#candidate-cu-figure path").last
     first_candidate_path = candidate_path.get_attribute("d")
@@ -225,11 +235,11 @@ def assert_saved_trajectories(page):
     page.locator("#candidate-cu-slider").fill("10")
     assert candidate_path.get_attribute("d") != first_candidate_path
     assert (
-        "Almost full, but completion is unresolved"
+        "Outcome unknown at this grid"
         in page.locator("#candidate-cu-read h4").inner_text()
     )
     assert page.locator("#candidate-cu-figure .cu-warning").count() == 1
-    assert "Highest copper point" in page.locator("#candidate-cu-read").inner_text()
+    assert "Mouth opening" in page.locator("#candidate-cu-read").inner_text()
 
 
 def main():
@@ -251,13 +261,13 @@ def main():
         assert_bosch_interactions(page)
         assert_saved_trajectories(page)
 
-        page.get_by_role("button", name="Wall growth faster").click()
+        page.get_by_role("button", name="Trap a void").click()
         page.locator("#fill-progress-slider").fill("23")
         assert_copper_geometry(page)
         assert page.locator("#fill-replay-read h4").first.inner_text() == "Void trapped"
         wall_path = page.locator("#fill-replay-figure path").nth(1).get_attribute("d")
 
-        page.get_by_role("button", name="Floor growth faster").click()
+        page.get_by_role("button", name="Join the copper region").click()
         page.locator("#fill-progress-slider").fill("23")
         assert_copper_geometry(page)
         assert (

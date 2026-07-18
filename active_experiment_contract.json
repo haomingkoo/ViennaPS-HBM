@@ -279,7 +279,7 @@
       "model_input": "deposit_conformal.sticking",
       "range_evidence_class": "exploratory_internal_history",
       "registry_id": "phase_factor_liner_sticking",
-      "restart_from": "ideal etched via",
+      "restart_from": "focused saved etch profile resampled on the teaching grid",
       "role": "saved_sensitivity_example",
       "runtime_cost": null,
       "step": "liner",
@@ -316,7 +316,7 @@
       "model_input": "deposit_conformal.thickness",
       "range_evidence_class": "exploratory_internal_history",
       "registry_id": "phase_factor_liner_thick",
-      "restart_from": "ideal etched via",
+      "restart_from": "focused saved etch profile resampled on the teaching grid",
       "role": "saved_sensitivity_example",
       "runtime_cost": null,
       "step": "liner",
@@ -354,7 +354,7 @@
       "model_input": "deposit_directional_fraction.isotropic_fraction",
       "range_evidence_class": "exploratory_internal_history",
       "registry_id": "candidate_barrier_seed_isotropic_fraction",
-      "restart_from": "ideal via with fixed liner",
+      "restart_from": "resampled focused etch profile with fixed liner",
       "role": "saved_sensitivity_example",
       "runtime_cost": null,
       "step": "barrier",
@@ -389,7 +389,7 @@
       "model_input": "deposit_directional_fraction.field_dose",
       "range_evidence_class": "exploratory_internal_history",
       "registry_id": "candidate_barrier_seed_field_dose",
-      "restart_from": "ideal via with fixed liner",
+      "restart_from": "resampled focused etch profile with fixed liner",
       "role": "saved_sensitivity_example",
       "runtime_cost": null,
       "step": "barrier",
@@ -426,7 +426,7 @@
       "model_input": "deposit_directional_fraction.isotropic_fraction",
       "range_evidence_class": "exploratory_internal_history",
       "registry_id": "candidate_barrier_seed_isotropic_fraction",
-      "restart_from": "ideal via with fixed liner and barrier",
+      "restart_from": "resampled focused etch profile with fixed liner and barrier",
       "role": "saved_sensitivity_example",
       "runtime_cost": null,
       "step": "seed",
@@ -461,7 +461,7 @@
       "model_input": "deposit_directional_fraction.field_dose",
       "range_evidence_class": "exploratory_internal_history",
       "registry_id": "candidate_barrier_seed_field_dose",
-      "restart_from": "ideal via with fixed liner and barrier",
+      "restart_from": "resampled focused etch profile with fixed liner and barrier",
       "role": "saved_sensitivity_example",
       "runtime_cost": null,
       "step": "seed",
@@ -550,19 +550,19 @@
   "sources": [
     {
       "path": "build_active_experiment_contract.py",
-      "sha256": "1681f4f08d44433492a31145b942715864c4971bbed2134a15685aab08246d9c"
+      "sha256": "7f8cc80e092c283a64693b3c54b84fd54005aead6bd6546d8ebe21f9291967dd"
     },
     {
       "path": "config/process.toml",
-      "sha256": "ab87b67e8a3736df2b7e7490105b73604428d7a1ce961bb1af5c84db92c71fca"
+      "sha256": "0cff70e1b3ddd55c15ce77eaca4ac7c960241117bb83629143f1284c1047a0d4"
     },
     {
       "path": "build_step_experiments.py",
-      "sha256": "efeebeb7d40cac347bfb91a21aa5a47f2dcedb0c69f038610dc6bf9fdcead6f0"
+      "sha256": "fe5bc747a070647c3087aa012565fc01e1710db8ce1c76c0104ff882cacda231"
     },
     {
       "path": "factor_registry.json",
-      "sha256": "e3bed364e36f4195807d791af533d14e482ba7fe3da561198889acbbebe65cf4"
+      "sha256": "5aad0463791c8bce169996adc44dac2f588e5e26a6cec00178e3740e74665420"
     },
     {
       "path": "process_config.py",

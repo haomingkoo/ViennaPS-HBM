@@ -80,7 +80,7 @@
         {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 10}}}]},
         {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 13}}}]},
         {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 16}}}]},
-        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 18}}}]}
+        {"allOf": [{"$ref": "#/$defs/frame"}, {"properties": {"cycle": {"const": 20}}}]}
       ],
       "items": false
     },
@@ -114,7 +114,7 @@
       "additionalProperties": false,
       "required": ["cycle", "progress", "surface_path", "metrics"],
       "properties": {
-        "cycle": {"enum": [1, 4, 7, 10, 13, 16, 18]},
+        "cycle": {"enum": [1, 4, 7, 10, 13, 16, 20]},
         "progress": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
         "surface_path": {"type": "string", "minLength": 1, "pattern": "^M"},
         "metrics": {"$ref": "#/$defs/metrics"}

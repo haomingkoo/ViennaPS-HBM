@@ -165,6 +165,11 @@ and one-rate isotropic removal remain negative controls.
 
 ## Current deliverables
 
+Public teaching panels must connect each result to a process decision. State the
+equipment lever or calibration gap, the modeled mechanism, the measured response,
+the next process improvement to test, and its downside. Label geometry controls
+and measurement checks separately; neither is a process recipe.
+
 - `RESEARCH_PLAN_V3.md` -- active broad-skew, effect/correlation,
   downstream-propagation, focused-DOE, confirmation, and completion sequence
 - `archive/historical-plans/RESEARCH_PLAN_V2.md` -- retained metric/model qualification history;

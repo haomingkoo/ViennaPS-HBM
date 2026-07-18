@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import viennals as ls
 import viennaps as ps
 
 import full_2d_layer_metrics as layer_metrics
@@ -104,20 +105,33 @@ def _annotate_lineage(frames):
 
 
 def _base_via():
+    traveler = PROCESS_CONFIG["traveler"]
+    saved = checkpoint.load_domain_checkpoint(
+        traveler["source"], expected_sha256=traveler["source_sha256"]
+    )
+    source = checkpoint.extract_raw_silicon_domain(saved)
+    silicon = next(
+        mesh
+        for mesh in tm.raw_level_set_meshes(source)
+        if mesh["material"] == ps.Material.Si
+    )
+    surface = ls.Mesh()
+    for node in silicon["nodes"]:
+        surface.insertNextNode([float(node[0]), float(node[1]), 0.0])
+    for line in silicon["lines"]:
+        surface.insertNextLine([int(line[0]), int(line[1])])
+
     geometry = ps.Domain(
         gridDelta=GEOMETRY["grid_delta"],
         xExtent=GEOMETRY["x_extent"],
         yExtent=GEOMETRY["y_extent"],
     )
-    ps.MakeHole(
-        domain=geometry,
-        holeRadius=GEOMETRY["radius"],
-        holeDepth=TARGETS["etch"]["target_depth"],
-        maskHeight=GEOMETRY["mask_height"],
-        maskTaperAngle=0.0,
-        holeShape=ps.HoleShape.FULL,
-    ).apply()
-    return tp.strip_pattern_mask(geometry)
+    ps.MakePlane(geometry, height=0.0, material=ps.Material.Si).apply()
+    level_set = geometry.getLevelSets()[0]
+    ls.FromSurfaceMesh(level_set, surface).apply()
+    resampled = ps.Domain()
+    resampled.insertNextLevelSetAsMaterial(level_set, ps.Material.Si, False)
+    return resampled
 
 
 def _mask_study():
@@ -392,7 +406,7 @@ def _liner_study():
         "id": "liner",
         "title": "Liner deposition results",
         "scope": "Shows how particle sticking changes wall coverage. Coefficients are uncalibrated.",
-        "starts_from": "Ideal etched via.",
+        "starts_from": "Focused saved etch profile, resampled on the teaching grid.",
         "claim_level": "teaching_screen",
         "acceptance": {
             "status": "declared",
@@ -477,7 +491,7 @@ def _barrier_study():
         "id": "barrier",
         "title": "Barrier deposition results",
         "scope": "Directional-versus-isotropic geometry control.",
-        "starts_from": "Ideal via with a fixed liner.",
+        "starts_from": "Resampled focused etch profile with a fixed liner.",
         "claim_level": "teaching_screen",
         "acceptance": {
             "status": "declared",
@@ -562,7 +576,7 @@ def _seed_study():
         "id": "seed",
         "title": "Seed deposition results",
         "scope": "Directional-versus-isotropic geometry control. No seed limit is declared.",
-        "starts_from": "Ideal via with fixed liner and barrier layers.",
+        "starts_from": "Resampled focused etch profile with fixed liner and barrier layers.",
         "claim_level": "no_gate_declared",
         "acceptance": {
             "status": "not_declared",
@@ -780,7 +794,9 @@ def _failure_chain():
     seed = _layer_measure(inner, tm.raw_level_set_meshes(geometry)[-1])
     seed_mesh = tm.raw_level_set_meshes(geometry)[-1]
     field_y = tm.surface_height_at_x(
-        seed_mesh["nodes"], seed_mesh["lines"], CONFIG["failure_chain_field_sample_xs"][1]
+        seed_mesh["nodes"],
+        seed_mesh["lines"],
+        CONFIG["failure_chain_field_sample_xs"][1],
     )
     if field_y is None:
         raise RuntimeError("failure-chain seed field could not be measured")
@@ -861,6 +877,14 @@ def main():
         },
         "provenance": {
             "grid_spacing": GEOMETRY["grid_delta"],
+            "upstream_etch_case_id": PROCESS_CONFIG["traveler"]["source_case_id"],
+            "upstream_etch_checkpoint": PROCESS_CONFIG["traveler"]["source"],
+            "upstream_etch_checkpoint_sha256": PROCESS_CONFIG["traveler"][
+                "source_sha256"
+            ],
+            "upstream_resampling": (
+                "Saved surface mesh converted to a level set at the teaching grid spacing"
+            ),
             "rays_per_point": CONFIG["rays_per_point"],
             "rng_seed": CONFIG["rng_seed"],
             "stochastic_robustness": "single saved seed; repeatability not established",
@@ -879,6 +903,7 @@ def main():
                     "program.md",
                     "traveler_metrics.py",
                     "full_2d_layer_metrics.py",
+                    PROCESS_CONFIG["traveler"]["source"],
                 )
             ],
         },

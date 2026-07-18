@@ -146,8 +146,8 @@ assert "How the measurement code checks a known geometry" in html
 assert "Creates the vertical electrical path." in html
 assert "What the new experiments indicate" in html
 assert "Equipment controls, model controls, and feedback" in html
-assert "Copper-fill results" in html
-assert "The browser does not invent intermediate shapes." in html
+assert "Stress-test the void measurement" in html
+assert "It does not invent intermediate shapes." in html
 assert 'href="cu_fill_replay.json"' in html
 assert 'id="step-output-list"' in html
 step_experiments = json.loads((ROOT / "step_experiments.json").read_text())
@@ -174,8 +174,7 @@ assert step_experiments["studies"][0]["frames"][
     step_experiments["studies"][0]["target_frame"]
 ]["metrics"]["meets_screen"]
 parameter_counts = {
-    study["id"]: len(study["parameters"])
-    for study in step_experiments["studies"]
+    study["id"]: len(study["parameters"]) for study in step_experiments["studies"]
 }
 assert parameter_counts == {
     "mask": 3,
@@ -185,7 +184,9 @@ assert parameter_counts == {
     "seed": 2,
     "cmp": 2,
 }
-frame_counts = {study["id"]: len(study["frames"]) for study in step_experiments["studies"]}
+frame_counts = {
+    study["id"]: len(study["frames"]) for study in step_experiments["studies"]
+}
 assert frame_counts == {
     "mask": 27,
     "bosch": 9,
@@ -207,7 +208,9 @@ for study in step_experiments["studies"]:
     if study["acceptance"]["status"] == "not_declared":
         assert study["claim_level"] == "no_gate_declared"
         assert study["acceptance"]["basis"]["classification"] == "no_limit_declared"
-        assert all(frame["metrics"]["meets_screen"] is None for frame in study["frames"])
+        assert all(
+            frame["metrics"]["meets_screen"] is None for frame in study["frames"]
+        )
         continue
     assert study["acceptance"]["basis"] == {
         "classification": "assumed_study_target",
@@ -260,6 +263,8 @@ assert all(
     if frame["step"] in {"Liner", "Barrier", "Seed"}
 )
 assert step_experiments["provenance"]["rng_seed"] == 42000
+assert step_experiments["provenance"]["upstream_etch_case_id"] == "1cf4ff64c506b271"
+assert "resampled" in step_experiments["studies"][2]["starts_from"].lower()
 assert "Clear field copper without" not in html
 replay = json.loads((ROOT / "cu_fill_replay.json").read_text())
 assert replay["frame_count"] == 24
@@ -270,7 +275,7 @@ assert replay["runs"][1]["frames"][-1]["metrics"]["void_free"]
 bosch_replay = json.loads((ROOT / "bosch_trajectory_replay.json").read_text())
 assert bosch_replay["target"]["basis"]["classification"] == "assumed_study_target"
 assert bosch_replay["target"]["basis"]["physical_qualification"] is False
-assert [frame["cycle"] for frame in bosch_replay["frames"]] == [1, 4, 7, 10, 13, 16, 18]
+assert [frame["cycle"] for frame in bosch_replay["frames"]] == [1, 4, 7, 10, 13, 16, 20]
 assert bosch_replay["frames"][-1]["progress"] == 1
 assert {item["selector"] for item in bosch_replay["citations"]} == {
     "/source_row",
@@ -299,14 +304,14 @@ assert {item["selector"] for item in candidate_replay["citations"]} == {
     "/review_decision",
 }
 bosch_tutorial = json.loads((ROOT / "bosch_tutorial_data.json").read_text())
+assert bosch_tutorial["default_interior_case"] == "142a8a6288351f36"
 shape_source = bosch_tutorial["measurement_implementation"]
 assert shape_source["path"] == "profile_shape_metrics.py"
-assert hashlib.sha256((ROOT / shape_source["path"]).read_bytes()).hexdigest() == (
-    shape_source["sha256"]
+assert (
+    hashlib.sha256((ROOT / shape_source["path"]).read_bytes()).hexdigest()
+    == (shape_source["sha256"])
 )
-assert bosch_tutorial["targets"]["basis"]["classification"] == (
-    "assumed_study_target"
-)
+assert bosch_tutorial["targets"]["basis"]["classification"] == ("assumed_study_target")
 assert bosch_tutorial["targets"]["basis"]["physical_qualification"] is False
 assert bosch_tutorial["factors"]["etch_time"]["calibration_status"] == "Recipe-linked"
 assert all(
@@ -323,14 +328,13 @@ for case in bosch_tutorial["interactions"] + bosch_tutorial["interior_cases"]:
     assert "profile_symmetry_rms" in case["metrics"]
     assert "profile_max_deviation" in case["metrics"]
     checkpoints = list(
-        (ROOT / "evidence/bosch/tutorial_checkpoints").glob(
-            f"{case['case_id']}_*.vpsd"
-        )
+        (ROOT / "evidence/bosch/tutorial_checkpoints").glob(f"{case['case_id']}_*.vpsd")
     )
     assert len(checkpoints) == 1
-    assert hashlib.sha256(checkpoints[0].read_bytes()).hexdigest() == case[
-        "checkpoint_sha256"
-    ]
+    assert (
+        hashlib.sha256(checkpoints[0].read_bytes()).hexdigest()
+        == case["checkpoint_sha256"]
+    )
 assert "Copper response map" in html
 assert "SELECTED HANDOFF PASSES 4/4" not in html
 assert "What to tune next" in html

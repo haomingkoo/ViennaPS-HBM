@@ -52,9 +52,13 @@
     "provenance": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["grid_spacing", "rays_per_point", "rng_seed", "stochastic_robustness", "config_sha256", "builder_sha256", "viennaps_version", "viennals_version", "sources"],
+      "required": ["grid_spacing", "upstream_etch_case_id", "upstream_etch_checkpoint", "upstream_etch_checkpoint_sha256", "upstream_resampling", "rays_per_point", "rng_seed", "stochastic_robustness", "config_sha256", "builder_sha256", "viennaps_version", "viennals_version", "sources"],
       "properties": {
         "grid_spacing": {"type": "number", "exclusiveMinimum": 0},
+        "upstream_etch_case_id": {"type": "string", "minLength": 1},
+        "upstream_etch_checkpoint": {"type": "string", "minLength": 1},
+        "upstream_etch_checkpoint_sha256": {"$ref": "#/$defs/hash"},
+        "upstream_resampling": {"type": "string", "minLength": 1},
         "rays_per_point": {"type": "integer", "minimum": 1},
         "rng_seed": {"type": "integer", "minimum": 0},
         "stochastic_robustness": {"type": "string", "minLength": 1},

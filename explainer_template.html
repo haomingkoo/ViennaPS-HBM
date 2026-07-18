@@ -216,12 +216,12 @@
   .bosch-read dt { color: var(--ink-dim); }
   .bosch-read dd { margin: 0; font-family: var(--mono); text-align: right; }
   .output-viewer { padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
-  .output-viewer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 0.55fr); gap: 1.5rem; align-items: end; margin-bottom: 0.9rem; padding-inline: 0.75rem; }
+  .output-viewer-head { margin-bottom: 0.9rem; padding-inline: 0.75rem; }
   .output-viewer-head h3 { margin: 0 0 0.25rem; }
   .output-viewer-head p { margin: 0; color: var(--ink-dim); font-size: 0.84rem; }
   .output-viewer-head p + p { margin-top: 0.25rem; }
   .evidence-badge { display: inline-flex; width: fit-content; margin: 0.55rem 0 0; padding: 0.3rem 0.55rem; border: 1px solid var(--line); color: var(--ink-dim); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.01em; background: var(--surface); }
-  .output-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem 1rem; }
+  .output-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.7rem 1.2rem; padding: 0.75rem 1rem 0.45rem; border: 1px solid var(--line); border-bottom: 0; background: var(--surface-2); }
   .output-control { display: grid; grid-template-rows: minmax(2.4em, auto) auto; align-content: end; }
   .output-control label { display: flex; justify-content: space-between; align-items: start; gap: 1rem; margin-bottom: 0.1rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
   .output-control output { color: var(--ink); }
@@ -256,7 +256,7 @@
     .failure-details .failure-row { padding-inline: 1rem; }
     .fill-replay-layout { grid-template-columns: 1fr; }
     .fill-replay-figure { border-right: 0; border-bottom: 1px solid var(--line); }
-    .output-viewer-head, .output-viewer-layout { grid-template-columns: 1fr; }
+    .output-viewer-layout { grid-template-columns: 1fr; }
     .output-controls { grid-template-columns: 1fr; }
     .output-figure { border-right: 0; border-bottom: 1px solid var(--line); }
     .bosch-causal, .bosch-corners, .bosch-controls, .bosch-lab-layout, .bosch-multifactor-workspace, .bosch-multifactor-layout, .bosch-multifactor-controls, .archive-method-grid { grid-template-columns: 1fr; }
@@ -674,7 +674,7 @@
   .ray-chart svg { display: block; width: 100%; height: auto; border-block: 1px solid var(--line); background: var(--surface); }
   .ray-chart figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
   .ray-profile-overlay { margin: 1.25rem 0 0; max-width: 760px; }
-  .ray-profile-overlay svg { display: block; width: 100%; height: min(52rem, 72vh); min-height: 32rem; border-block: 1px solid var(--line); background: var(--surface); }
+  .ray-profile-overlay svg { display: block; width: 100%; height: clamp(24rem, 50vh, 34rem); border: 1px solid var(--line); background: var(--surface); }
   .ray-profile-overlay figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
   .ray-pair-panel { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
   .ray-pair-panel h3 { margin-top: 0; }
@@ -695,7 +695,7 @@
     .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .ray-chart-grid { grid-template-columns: 1fr; }
     .ray-controls { align-items: stretch; flex-direction: column; }
-    .ray-profile-overlay svg { min-height: 26rem; }
+    .ray-profile-overlay svg { height: 26rem; }
     .ray-movement-table thead { display: none; }
     .ray-movement-table, .ray-movement-table tbody, .ray-movement-table tr, .ray-movement-table td { display: block; width: 100%; }
     .ray-movement-table tr { display: grid; grid-template-columns: repeat(3, 1fr); padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
@@ -803,6 +803,21 @@
       <img id="screening-traveler-visual" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Five simulated TSV cross-sections from etch through polish.">
       <figcaption>The gray tails below the floor come from the simulation boundary. They are not physical tips.</figcaption>
     </figure>
+    <figure class="fill-replay" id="copper-measurement-control">
+      <h3 style="margin:0 0 0.3rem;">Stress-test the void measurement</h3>
+      <p class="claim">These prescribed shapes test whether the code distinguishes an open cavity, a trapped void, and a joined copper region.</p>
+      <p class="note">This is not process tuning. The surface speed is deliberately prescribed to create two different geometric outcomes.</p>
+      <div class="fill-replay-controls">
+        <fieldset><legend>Prescribed test shape</legend><button type="button" data-fill-run="wall_dominated" aria-pressed="true">Trap a void</button><button type="button" data-fill-run="floor_dominated" aria-pressed="false">Join the copper region</button></fieldset>
+        <div class="fill-progress"><label for="fill-progress-slider">Saved checkpoint <span id="fill-progress-value">1 of 24</span></label><input id="fill-progress-slider" type="range" min="0" max="23" step="1" value="0"></div>
+        <button type="button" id="fill-play">Play</button>
+      </div>
+      <div class="fill-replay-layout">
+        <div class="fill-replay-figure" id="fill-replay-figure" role="img" aria-label="Simulated copper surface reconstructed from the selected saved checkpoint"></div>
+        <aside class="fill-replay-read" id="fill-replay-read" aria-live="polite"></aside>
+      </div>
+      <figcaption>The browser renders saved surface nodes and edges. It does not invent intermediate shapes. <a href="cu_fill_replay.json">Open the checkpoint data.</a></figcaption>
+    </figure>
     <div class="table-scroll">
       <table class="journal-table" aria-label="Major TSV steps and their purpose">
         <thead><tr><th>Step</th><th>What happens</th><th>Purpose in fabrication</th></tr></thead>
@@ -876,8 +891,9 @@
   </section>
 
   <section class="finding" id="numerical-tuning">
-    <h2>How ray count changes cost and results</h2>
+    <h2>Choosing a ray count for faster experiments</h2>
     <p class="claim">More rays mean more sampled particle paths and more computation. They do not automatically make every measured result more stable.</p>
+    <p>This is a numerical-setting search, not etch-process tuning. It compares five ray counts while holding the grid and process inputs fixed.</p>
     <p class="boundary-result"><b>Takeaway:</b> increasing rays mainly increased runtime in these saved cases. It did not steadily reduce run-to-run variation. Grid spacing changed the etched geometry enough that it must be checked separately.</p>
     <p class="note">The plots report runtime, repeat-to-repeat spread, and movement between ray levels. No ray count is treated as the correct answer.</p>
     <div class="ray-result">
@@ -910,8 +926,8 @@
       </figure>
       <p class="note" id="ray-ladder-takeaway"></p>
     </div>
-    <h3>Grid spacing is a separate choice</h3>
-    <p class="note">This older single-recipe study varies the grid while leaving ray count fixed. It is shown separately because changing grid and rays answers different questions.</p>
+    <h3>Choosing a grid spacing</h3>
+    <p class="note">Grid spacing controls how finely the profile is represented. Across a 0.30-wide opening, the four saved settings provide about 120, 60, 30, or 15 cells. More cells can resolve smaller shape changes, but they cost more time. This older study changes only the grid for one recipe; it does not identify a universally correct grid.</p>
     <div class="numerical-controls" aria-label="Grid sensitivity chart controls">
       <label for="numerical-metric">Measurement
         <select id="numerical-metric">
@@ -933,7 +949,7 @@
       </figure>
     </div>
     <p class="note" id="numerical-takeaway"></p>
-    <p class="note">Points are saved simulations from one research machine. Lines connect sampled grid settings. They are not a fitted response surface.</p>
+    <p class="note">Read the two plots together: the left shows how the selected measurement moves; the right shows the runtime cost. Points are saved simulations from one research machine. Lines only connect tested settings.</p>
     <h3>How the study will run</h3>
     <p>Use grid spacing 0.0025 and 500 rays for broad 2D exploration in the focused etch region. Recheck promoted cases at 1,000 rays. This is a compute-budget choice, not a physical accuracy claim.</p>
     <div class="table-scroll">
@@ -1071,7 +1087,7 @@
     </div>
     <div class="output-studies" id="step-output-studies">
       <h3>Inspect the saved result from each step</h3>
-      <p class="claim">Each panel compares a small set of controls and shows the resulting saved shape.</p>
+      <p class="claim">Each panel connects controls to a saved shape, measured feedback, and the next process improvement to test.</p>
       <p class="note"><b>These are not results from a designed experiment (DOE).</b> Each panel is a single-seed sensitivity example. Its controls select a saved combination. They do not rerun ViennaPS or update a later panel. <a href="step_experiments.json">Open the saved step data.</a></p>
       <div id="step-output-list"></div>
       <div class="output-viewer" id="failure-chain-viewer" data-failure-chain>
@@ -1139,26 +1155,12 @@
     <h3>What the saved experiments show</h3>
     <p class="note">These are measured boundary examples. They are not yet full process-margin maps.</p>
     <div class="method-chain" id="saved-results-summary" aria-label="Current saved experimental results"></div>
-    <figure class="fill-replay" id="study-copper" data-output-viewer="copper">
-      <h3 style="margin:0 0 0.3rem;">Copper-fill results</h3>
-      <p class="claim">Prescribed geometry control. This is not an electroplating prediction.</p>
-      <p class="note">Both runs start with the same via. Change the growth pattern and the amount of simulated copper added.</p>
-      <div class="fill-replay-controls">
-        <fieldset><legend>Prescribed geometry case</legend><button type="button" data-fill-run="wall_dominated" aria-pressed="true">Wall growth faster</button><button type="button" data-fill-run="floor_dominated" aria-pressed="false">Floor growth faster</button></fieldset>
-        <div class="fill-progress"><label for="fill-progress-slider">Copper added <span id="fill-progress-value">0%</span></label><input id="fill-progress-slider" type="range" min="0" max="23" step="1" value="0"></div>
-        <button type="button" id="fill-play">Play</button>
-      </div>
-      <div class="fill-replay-layout">
-        <div class="fill-replay-figure" id="fill-replay-figure" role="img" aria-label="Simulated copper surface reconstructed from the selected saved checkpoint"></div>
-        <aside class="fill-replay-read" id="fill-replay-read" aria-live="polite"></aside>
-      </div>
-      <figcaption>The lines are rendered from the simulated surface nodes and edges saved by this repository. The browser does not invent intermediate shapes. <a href="cu_fill_replay.json">Open the generated checkpoint data.</a> These prescribed geometry controls test the void measurement; they are not electroplating predictions or fab recipes.</figcaption>
-    </figure>
-    <figure class="fill-replay" id="candidate-cu-replay">
-      <h3 style="margin:0 0 0.3rem;">Why this copper run cannot be called complete</h3>
-      <p class="claim">The cavity looks almost full. At the last frame, the remaining center gap is smaller than the simulation grid, so the model cannot determine whether copper has fully joined.</p>
+    <figure class="fill-replay" id="study-copper">
+      <h3 style="margin:0 0 0.3rem;">What the transport-based copper run shows</h3>
+      <p class="claim">The final outcome is unknown at this grid. A center gap remains, but it becomes too narrow to classify.</p>
       <p class="note">All layers and model controls stay fixed. Scrub through eleven saved checkpoints.</p>
       <p class="note" id="candidate-cu-fixed"></p>
+      <p class="note"><b>Process improvement:</b> do not increase total copper time yet. First use wafer tests of additive chemistry, current waveform, and seed continuity to calibrate a model that can create a measurable floor-over-wall growth advantage.</p>
       <div class="fill-replay-controls">
         <div class="fill-progress"><label for="candidate-cu-slider">Saved checkpoint <span id="candidate-cu-value"></span></label><input id="candidate-cu-slider" type="range" min="0" max="0" step="1" value="0"></div>
         <button type="button" id="candidate-cu-play">Play</button>
@@ -1174,6 +1176,7 @@
       <p class="claim">Bottom-up fill needs less suppressor and faster copper growth at the floor.</p>
       <p class="note">Choose a depth and measurement. Then select one of the 21 saved transport samples. This is not a fitted response surface or a fill simulation.</p>
       <p class="decision-line"><b>Takeaway:</b> under this coupled 2D test, none of the sampled cases produces enough floor-over-wall advantage for bottom-up filling.</p>
+      <p class="note"><b>Process improvement:</b> changing only suppressor sticking and arrival direction is not enough in this model. The next useful work is a calibrated additive/current/seed study, not a larger sweep of the same two coefficients.</p>
       <p class="note"><b>Coupled inputs:</b> adsorption strength was set to 0.25 divided by sticking in every case. The map therefore tests a held-product path, not two independent copper controls.</p>
       <div class="surface-explorer">
         <div class="surface-controls">
@@ -1576,7 +1579,7 @@ function renderRayBenefit() {
 
   const representative = [...panelPairs].sort((a, b) => a.repeat_index - b.repeat_index)[0];
   const styles = [
-    ['var(--plasma)', ''], ['var(--teal)', '0.025 0.012'], ['var(--warn)', '0.012 0.009'],
+    ['var(--plasma)', ''], ['var(--oxide)', '0.025 0.012'], ['var(--amber)', '0.012 0.009'],
     ['var(--copper)', '0.035 0.012'], ['var(--ink)', '0.006 0.008'],
   ];
   const profilePaths = representative.arms.map((arm, index) => {
@@ -1585,7 +1588,7 @@ function renderRayBenefit() {
     const wallPath = side => points.map((point, pointIndex) =>
       `${pointIndex ? 'L' : 'M'}${point[side].toFixed(5)} ${(point.depth_fraction * depth).toFixed(5)}`
     ).join('');
-    return `<path d="${wallPath('left_wall_x')}${wallPath('right_wall_x')}" fill="none" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}" vector-effect="non-scaling-stroke"/>`;
+    return `<path d="${wallPath('left_wall_x')}${wallPath('right_wall_x')}" fill="none" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}"/>`;
   }).join('');
   const legend = representative.arms.map((arm, index) => `<g transform="translate(${-0.46 + index * 0.19} -0.055)"><line x1="0" y1="0" x2="0.045" y2="0" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}"/><text x="0.055" y="0.008" fill="var(--ink-dim)" font-size="0.025">${arm.rays_per_point}</text></g>`).join('');
   document.getElementById('ray-profile-overlay').innerHTML = `<rect x="-0.5" y="-0.1" width="1" height="1.65" fill="var(--surface)"/><path d="M-0.15 0V1.25H0.15V0" fill="none" stroke="var(--line)" stroke-width="0.004" stroke-dasharray="0.018 0.012"/>${profilePaths}${legend}`;
@@ -1871,7 +1874,10 @@ function renderBoschInteraction() {
     const values = rows.map(row => row.metrics[key]);
     return `${Math.min(...values).toFixed(3)}–${Math.max(...values).toFixed(3)}`;
   };
-  document.getElementById('bosch-pair-result').innerHTML = `<b>Observed corners:</b> ${passCount}/${rows.length} are inside all three assumed geometry bands. Depth spans ${range('depth')}. Maximum width error spans ${range('maximum_cd_error')}. Bow spans ${range('bow')}. ${passCount > 0 && passCount < rows.length ? 'This pair brackets a comparison-band crossing.' : 'This pair does not bracket a full pass/fail crossing.'}`;
+  const pairDecision = passCount > 0 && passCount < rows.length
+    ? 'This pair brackets a comparison-band crossing. Process improvement: narrow the simulation range around this crossing, repeat it, then calibrate the model controls to wafer measurements.'
+    : 'This pair does not bracket a full pass/fail crossing. Expand or shift the range before using it for process improvement.';
+  document.getElementById('bosch-pair-result').innerHTML = `<b>Observed corners:</b> ${passCount}/${rows.length} are inside all three assumed geometry bands. Depth spans ${range('depth')}. Maximum width error spans ${range('maximum_cd_error')}. Bow spans ${range('bow')}. ${pairDecision}`;
   const corners = document.getElementById('bosch-corners');
   corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${factorLevelLabel(pair[0], row.levels[pair[0]])} + ${factorLevelLabel(pair[1], row.levels[pair[1]])}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'inside assumed bands' : 'outside assumed bands'}</span></button>`).join('');
   corners.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
@@ -2002,6 +2008,7 @@ const stepCopy = {
     limit: 'Ideal geometry only. Exposure and develop are not modeled.',
     why: 'Width sets the entrance size. Taper changes the wall profile. Height sets how much mask is available above the silicon.',
     tradeoff: 'More mask may improve modeled survival, but a narrower or tapered opening restricts etch access.',
+    processMove: 'Calibrate focus, dose, bake, and develop against the measured opening profile. Keep settings that center the opening without adding taper.',
     metrics: ['opening_cd_bottom', 'opening_cd_top', 'mask_height'],
     chain: ['Focus, dose, bake, develop', 'Resist image and profile · not modeled', 'Input width, height, and taper', 'Opening width and mask height', 'Wrong aperture or tapered mask'],
   },
@@ -2010,6 +2017,7 @@ const stepCopy = {
     limit: 'One fixed 2D recipe family and one random stream. Cycle count is not fab time.',
     why: 'More cycles deepen the via. More passivation protects the wall during each cycle.',
     tradeoff: 'Extra protection can reduce lateral attack, but it can also slow the etch.',
+    processMove: 'Balance etch time and wall protection first. Increase total cycles only after the width profile is stable enough to reach the required depth.',
     metrics: ['depth', 'maximum_cd_error', 'bow'],
   },
   liner: {
@@ -2017,6 +2025,7 @@ const stepCopy = {
     limit: 'Particle-transport surrogate. The coefficient is not a deposition recipe.',
     why: 'Lower sticking lets more simulated particles reach the deep wall.',
     tradeoff: 'More deposited material also narrows the opening.',
+    processMove: 'Favor conditions that improve transport to the lower wall, then add only enough exposure to meet thickness while preserving the opening.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
     chain: ['Precursor exposure, pressure, temperature', 'Transport and surface reaction · not modeled', 'Deposition amount and sticking', 'Thickness, coverage, opening', 'Thin deep wall or closed opening'],
   },
@@ -2025,6 +2034,7 @@ const stepCopy = {
     limit: 'Geometry response only. It does not predict adhesion or resistance.',
     why: 'The barrier limits copper migration. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
+    processMove: 'Increase deep-wall arrival before increasing total dose. Stop when the layer is continuous so the copper opening is not needlessly narrowed.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
     chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Thickness, coverage, opening', 'Barrier gap or closed opening'],
   },
@@ -2033,6 +2043,7 @@ const stepCopy = {
     limit: 'Continuity is geometric. Electrical continuity is not predicted.',
     why: 'The seed provides a plating surface. More all-angle growth reaches the deep wall.',
     tradeoff: 'Better coverage leaves less room for copper.',
+    processMove: 'Improve deep-wall arrival and verify electrical continuity on wafers. Add dose only after the weak region has been identified.',
     metrics: ['minimum_thickness', 'lower_wall_coverage', 'remaining_aperture'],
     chain: ['Target power, pressure, bias', 'Metal flux and arrival direction · not modeled', 'Deposition amount and all-angle fraction', 'Geometric thickness and opening', 'Seed break or closed opening'],
   },
@@ -2041,6 +2052,7 @@ const stepCopy = {
     limit: 'No pad contact, pressure, slurry chemistry, or calibrated polish time.',
     why: 'More removal clears copper. Lower oxide removal protects the stop layer.',
     tradeoff: 'Over-removal can recess the plug. Poor selectivity can thin the oxide.',
+    processMove: 'Tune endpoint and material selectivity together: clear field copper, then minimize extra removal that recesses the plug or thins the stop layer.',
     metrics: ['field_relative_to_target', 'plug_relative_to_target', 'stop_retained_thickness'],
     chain: ['Downforce, speed, slurry, endpoint', 'Pad contact and material removal · not modeled', 'Removal amount and material-rate ratio', 'Field, plug, and stop height', 'Field residue, recess, or stop loss'],
   },
@@ -2205,16 +2217,16 @@ function buildStepViewers() {
     root.dataset.outputViewer = study.id;
     root.innerHTML = `<div class="output-viewer-head">
       <div><h3>${study.title}</h3><p class="evidence-badge">Saved sensitivity · one stream · not DOE · model units</p><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
-      <div class="output-controls">${study.parameters.map(parameter => `<div class="output-control"><label>${parameter.label}<output></output></label><input data-parameter="${parameter.key}" type="range" min="0" max="${parameter.values.length - 1}" step="1" value="0" aria-label="${parameter.label}"></div>`).join('')}</div>
     </div>
     <p class="note"><b>Saved study:</b> ${studySummary}</p>
     <p class="boundary-result"><b>Observed boundary:</b> ${boundaryResult(study)}</p>
     <div class="bosch-causal output-causal" aria-label="Equipment to measurement relationship">${copy.chain.map((item, index) => `<span><b>${causalLabels[index]}</b>${item}</span>`).join('')}</div>
+    <div class="output-controls">${study.parameters.map(parameter => `<div class="output-control"><label>${parameter.label}<output></output></label><input data-parameter="${parameter.key}" type="range" min="0" max="${parameter.values.length - 1}" step="1" value="0" aria-label="${parameter.label}"></div>`).join('')}</div>
     <div class="output-viewer-layout">
       <div class="output-figure" role="img" aria-label="Saved ${study.title.toLowerCase()} geometry"></div>
       <aside class="output-read" aria-live="polite">
         <p class="output-status"></p><dl class="output-metrics"></dl>
-        <p class="output-explain"><b>Why it changes:</b> ${copy.why}<br><b>Tradeoff:</b> ${copy.tradeoff}</p>
+        <p class="output-explain"><b>Why it changes:</b> ${copy.why}<br><b>Process improvement:</b> ${copy.processMove}<br><b>Possible downside:</b> ${copy.tradeoff}</p>
         <div class="guardrails"><h4>Guardrails</h4><ul><li><b>Internal geometry check:</b> ${acceptanceText(study)}</li><li><b>Tested range:</b> ${copy.boundary}</li><li><b>Does not prove:</b> ${copy.limit}</li></ul></div>
         <div class="material-key"></div>
       </aside>
@@ -2231,7 +2243,6 @@ function buildStepViewers() {
       }));
       if (frameIndex >= 0) renderStepFrame(study, root, frameIndex);
     }));
-    if (study.id === 'cmp') list.appendChild(document.querySelector('[data-output-viewer="copper"]'));
     list.appendChild(root);
     renderStepFrame(study, root, study.default_frame || 0);
   });
@@ -2288,6 +2299,10 @@ buildFailureChain();
 // ============ Saved copper-fill geometry replay ============
 const fillReplay = DATA.cu_replay;
 const fillReplayState = { runId: 'wall_dominated', frame: 0, timer: null };
+const fillReplayExplanation = {
+  wall_dominated: 'The prescribed speed is greatest near the top. The walls close before the center fills.',
+  floor_dominated: 'Only upward-facing surface inside the via is advanced first. Uniform growth is added after closure.',
+};
 
 function fillReplayStatus(metrics) {
   if (metrics.closed_void_count > 0) return 'Void trapped';
@@ -2305,7 +2320,7 @@ function renderFillReplay() {
   const slider = document.getElementById('fill-progress-slider');
   slider.value = fillReplayState.frame;
   slider.setAttribute('aria-valuetext', `Checkpoint ${fillReplayState.frame + 1} of ${run.frames.length}. ${fillReplayStatus(metrics)}`);
-  document.getElementById('fill-progress-value').textContent = `${Math.round(100 * frame.progress)}%`;
+  document.getElementById('fill-progress-value').textContent = `${fillReplayState.frame + 1} of ${run.frames.length}`;
   document.getElementById('fill-replay-figure').innerHTML = `<svg viewBox="-0.24 -0.16 0.48 1.24" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect x="-0.24" y="-0.16" width="0.48" height="1.24" fill="var(--surface)"/>
     <g transform="scale(1,-1)">
@@ -2315,7 +2330,7 @@ function renderFillReplay() {
     </g>
   </svg>`;
   document.getElementById('fill-replay-read').innerHTML = `<h4>${fillReplayStatus(metrics)}</h4>
-    <p><b>Input:</b> ${run.input}. Copper added: ${Math.round(100 * frame.progress)}% of this saved control run.</p>
+    <p><b>Model control:</b> ${fillReplayExplanation[run.id]}</p>
     <dl class="fill-metrics">
       <dt>Copper area fraction</dt><dd>${(100 * metrics.fill_fraction).toFixed(1)}%</dd>
       <dt>Mouth aperture</dt><dd>${metrics.mouth_aperture.toFixed(3)}</dd>
@@ -2384,26 +2399,22 @@ function renderCandidateCu() {
     return `<path d="${material.surface_path}" fill="none" stroke="${style[1]}" stroke-width="${style[2]}"/>`;
   }).join('');
   const mouthY = -metric.mouth_sample_y;
-  const seamBand = metric.unresolved_seam_risk ? `<g class="cu-warning"><rect x="${-metric.closure_width_bound / 2}" y="${metric.open_void_depth}" width="${metric.closure_width_bound}" height="${metric.observed_open_void_depth_drop}"/><text x="0.04" y="${metric.open_void_depth + metric.observed_open_void_depth_drop / 2}">model cannot resolve this narrow region</text></g>` : '';
+  const seamBand = metric.unresolved_seam_risk ? `<g class="cu-warning"><rect x="${-metric.closure_width_bound / 2}" y="${metric.open_void_depth}" width="${metric.closure_width_bound}" height="${metric.observed_open_void_depth_drop}"/></g>` : '';
   document.getElementById('candidate-cu-figure').innerHTML = `<svg viewBox="${candidateCu.view_box.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <rect x="${x}" y="${y}" width="${width}" height="${height}" fill="var(--surface)"/>
     <g transform="scale(1,-1)">${materials}<path d="${frame.surface_path}" fill="none" stroke="var(--copper)" stroke-width="0.009"/></g>
     <g class="bosch-measure"><line x1="${-metric.mouth_aperture / 2}" y1="${mouthY}" x2="${metric.mouth_aperture / 2}" y2="${mouthY}"/><text x="0.17" y="${mouthY + 0.01}">opening</text></g>
     ${seamBand}
   </svg>`;
-  const highestCopperPoint = metric.overburden_min < 0
-    ? `${Math.abs(metric.overburden_min).toFixed(3)} model units below the wafer surface`
-    : `${metric.overburden_min.toFixed(3)} model units above the wafer surface`;
   const frameNote = metric.unresolved_seam_risk
-    ? 'The highlighted region is smaller than this coarse model can classify reliably.'
+    ? 'Do not classify this checkpoint as filled or void-free.'
     : 'The opening and unfilled area are measured after this checkpoint.';
-  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Almost full, but completion is unresolved' : 'Copper is still filling the opening'}</h4>
+  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Outcome unknown at this grid' : 'Copper is still filling the opening'}</h4>
     <p>Checkpoint ${frame.checkpoint}. ${frameNote}</p>
     <dl class="fill-metrics">
       <dt>Copper area fraction</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
-      <dt>Opening width</dt><dd>${metric.mouth_aperture.toFixed(3)} model units</dd>
+      <dt>Mouth opening</dt><dd>${metric.mouth_aperture.toFixed(3)} model units</dd>
       <dt>Unfilled area</dt><dd>${metric.remaining_void_area.toFixed(3)} model units²</dd>
-      <dt>Highest copper point</dt><dd>${highestCopperPoint}</dd>
     </dl>
     <div class="material-key"><span style="--key-color:var(--si)">Silicon</span><span style="--key-color:var(--oxide)">Liner</span><span style="--key-color:var(--ink)">Barrier</span><span style="--key-color:var(--amber)">Seed</span><span style="--key-color:var(--copper)">Copper</span></div>`;
 }
