@@ -4,7 +4,7 @@
 Demonstrate ViennaPS's capability as a process/topography simulator by modeling
 the TSV ("via-middle") process loop used in HBM manufacturing — as a
 standalone proof of concept that could later feed into a broader tool
-(e.g. Coventor/SEMulator3D-style workflow).
+for a virtual process-development workflow.
 
 ## What we're building
 One Jupyter notebook — a "TSV traveler" — simulating the full via-middle

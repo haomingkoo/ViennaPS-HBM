@@ -173,12 +173,19 @@
   .bosch-causal span { padding: 0.7rem; background: var(--surface-2); color: var(--ink-dim); font-size: 0.75rem; text-align: center; }
   .output-causal b { display: block; margin-bottom: 0.28rem; color: var(--ink); font: 0.66rem var(--mono); }
   .output-causal { grid-template-columns: repeat(5, 1fr); margin: 0.8rem 0 0; }
-  .boundary-result { margin: 0.75rem 0 0; padding: 0.75rem 0.9rem; border-left: 3px solid var(--teal); background: var(--surface-2); }
-  .bosch-controls { display: grid; grid-template-columns: minmax(220px, 0.7fr) 1.3fr; gap: 1rem; align-items: end; margin: 1rem 0; }
+  .boundary-result { margin: 0.75rem 0 0; padding: 0.75rem 0.9rem; border: 1px solid var(--line); background: var(--surface-2); }
+  .bosch-controls { display: grid; gap: 0.75rem; margin: 1rem 0; }
   .bosch-controls > * { min-width: 0; }
-  .bosch-controls label { display: grid; gap: 0.3rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
-  .bosch-controls select { width: 100%; max-width: 100%; min-height: 44px; padding: 0.5rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
   .bosch-factor-note { margin: 0; color: var(--ink-dim); font-size: 0.78rem; }
+  .bosch-pair-picker { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .bosch-pair-picker button { min-height: 44px; padding: 0.48rem 0.68rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink-dim); font: 0.7rem var(--mono); cursor: pointer; text-align: left; }
+  .bosch-pair-picker button[aria-pressed="true"] { border-color: var(--plasma); background: var(--plasma-glow); color: var(--ink); }
+  .profile-scorecard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0 0 1rem; border: 1px solid var(--line); background: var(--line); }
+  .profile-scorecard div { min-width: 0; padding: 0.65rem 0.7rem; background: var(--surface); }
+  .profile-scorecard span, .profile-scorecard small { display: block; }
+  .profile-scorecard span { color: var(--ink-dim); font: 0.64rem var(--mono); }
+  .profile-scorecard b { display: block; margin: 0.15rem 0; font: 650 0.9rem var(--mono); }
+  .profile-scorecard small { color: var(--ink-dim); font-size: 0.66rem; }
   .bosch-corners { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; margin-bottom: 0.8rem; }
   .bosch-corners button { min-height: 70px; padding: 0.55rem; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); text-align: left; cursor: pointer; }
   .bosch-corners button[aria-pressed="true"] { border-color: var(--plasma); background: var(--plasma-glow); }
@@ -207,7 +214,8 @@
   .output-viewer-head p + p { margin-top: 0.25rem; }
   .evidence-badge { display: inline-flex; width: fit-content; margin: 0.55rem 0 0; padding: 0.3rem 0.55rem; border: 1px solid var(--line); color: var(--ink-dim); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.01em; background: var(--surface); }
   .output-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem 1rem; }
-  .output-control label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.1rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
+  .output-control { display: grid; grid-template-rows: minmax(2.4em, auto) auto; align-content: end; }
+  .output-control label { display: flex; justify-content: space-between; align-items: start; gap: 1rem; margin-bottom: 0.1rem; font: 0.7rem var(--mono); color: var(--ink-dim); }
   .output-control output { color: var(--ink); }
   .output-control input { width: 100%; accent-color: var(--plasma); }
   .target-outline { opacity: 0.7; stroke-dasharray: 0.02 0.012; }
@@ -497,6 +505,11 @@
   }
   .journal-table th { color: var(--ink-dim); font: 650 0.72rem var(--sans); }
   .journal-table td:first-child { font-weight: 650; white-space: nowrap; }
+  .calibration-loop { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 1.2rem 0; border: 1px solid var(--line); background: var(--line); }
+  .calibration-loop div { min-width: 0; padding: 0.85rem; background: var(--surface); }
+  .calibration-loop b { display: block; margin-bottom: 0.3rem; font-size: 0.78rem; }
+  .calibration-loop span { display: block; color: var(--ink-dim); font-size: 0.74rem; line-height: 1.45; }
+  @media (max-width: 760px) { .calibration-loop { grid-template-columns: 1fr; } }
   .decision-pass { color: var(--confirmed); font: 700 0.72rem var(--mono); }
   .analysis-columns {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem;
@@ -692,7 +705,7 @@
 
 <div class="wrap">
   <header>
-    <p class="context-line">ViennaPS teaching example · updated <time datetime="2026-07-18">18 Jul 2026</time></p>
+    <p class="context-line">ViennaPS teaching example · updated <time datetime="2026-07-19">19 Jul 2026</time></p>
     <h1>A simplified TSV traveler</h1>
     <p class="lede">
       This guide uses one simplified TSV flow to show how ViennaPS carries geometry
@@ -856,6 +869,7 @@
   <section class="finding" id="numerical-tuning">
     <h2>How ray count changes cost and results</h2>
     <p class="claim">More rays mean more sampled particle paths and more computation. They do not automatically make every measured result more stable.</p>
+    <p class="boundary-result"><b>Takeaway:</b> increasing rays mainly increased runtime in these saved cases. It did not steadily reduce run-to-run variation. Grid spacing changed the etched geometry enough that it must be checked separately.</p>
     <p class="note">The plots report runtime, repeat-to-repeat spread, and movement between ray levels. No ray count is treated as the correct answer.</p>
     <div class="ray-result">
       <h3>Five ray counts on three etched shapes</h3>
@@ -934,6 +948,16 @@
     </div>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
     <p class="note"><b>Qualitative influence only:</b> the two middle columns are not a conversion table. Equipment settings change the physical process. Mapping them to model inputs requires measurements from a specific tool.</p>
+    <h3>How a model becomes useful for a real tool</h3>
+    <p>The conversion is learned from wafer data. It is not read from the ViennaPS input value.</p>
+    <div class="calibration-loop" aria-label="Calibration loop from fab recipe to validated model">
+      <div><b>1. Split recipes</b><span>Vary a small set of pressure, power, gas, timing, or temperature controls.</span></div>
+      <div><b>2. Measure profiles</b><span>Record depth, widths, sidewall shape, floor shape, and repeat variation.</span></div>
+      <div><b>3. Fit model controls</b><span>Find the ViennaPS inputs that reproduce those measured profiles.</span></div>
+      <div><b>4. Test unseen recipes</b><span>Check the fitted mapping on wafer recipes that were not used for fitting.</span></div>
+      <div><b>5. Use within range</b><span>Optimize only inside the calibrated recipe and geometry range.</span></div>
+    </div>
+    <p class="note"><b>Smart calibration:</b> screen many candidate controls first. Fit only the influential ones. Use repeated measurements and hold back some recipes for validation. Report prediction error instead of calling the fit exact. This ViennaPS project has not yet received the wafer data needed to perform that calibration.</p>
     <div class="measurement-atlas" id="etch-measurement-atlas">
       <div class="measurement-atlas-head">
         <h3>Where the etch measurements come from</h3>
@@ -965,7 +989,7 @@
         <div class="bosch-multifactor-explorer">
           <div class="bosch-multifactor-controls">
             <label for="bosch-multifactor-index">Saved DOE run <span id="bosch-multifactor-value"></span><input id="bosch-multifactor-index" type="range" min="0" max="17" step="1" value="0"></label>
-            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show straightest saved walls</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
+            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show closest saved shape</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
           </div>
           <figure class="bosch-multifactor-map">
             <svg id="bosch-multifactor-map" viewBox="0 0 600 280" role="img" aria-label="Eighteen saved dry-etch runs across six model controls"></svg>
@@ -987,7 +1011,7 @@
         <span>Equipment controls</span><span>Plasma and surface state</span><span>ViennaPS model controls</span><span>Simulated profile</span><span>Geometry measurements</span>
       </div>
       <div class="bosch-controls">
-        <label for="bosch-interaction-select">ViennaPS factor pair<select id="bosch-interaction-select"></select></label>
+        <div class="bosch-pair-picker" id="bosch-pair-picker" role="group" aria-label="Choose two dry-etch controls to compare"></div>
         <p class="bosch-factor-note" id="bosch-factor-note"></p>
       </div>
       <p class="boundary-result" id="bosch-pair-result"></p>
@@ -1098,8 +1122,8 @@
       <figcaption>The lines are rendered from the simulated surface nodes and edges saved by this repository. The browser does not invent intermediate shapes. <a href="cu_fill_replay.json">Open the generated checkpoint data.</a> These prescribed geometry controls test the void measurement; they are not electroplating predictions or fab recipes.</figcaption>
     </figure>
     <figure class="fill-replay" id="candidate-cu-replay">
-      <h3 style="margin:0 0 0.3rem;">Where the candidate copper run becomes unreliable</h3>
-      <p class="claim">The copper fronts nearly meet. At the last frame, the coarse model cannot tell whether a narrow seam remains, so the run stops.</p>
+      <h3 style="margin:0 0 0.3rem;">Why this copper run cannot be called complete</h3>
+      <p class="claim">The cavity looks almost full. At the last frame, the remaining center gap is smaller than the simulation grid, so the model cannot determine whether copper has fully joined.</p>
       <p class="note">All layers and model controls stay fixed. Scrub through eleven saved checkpoints.</p>
       <p class="note" id="candidate-cu-fixed"></p>
       <div class="fill-replay-controls">
@@ -1402,13 +1426,7 @@ python3 -m http.server 8000</code></pre>
       <dt><a href="https://viennatools.github.io/ViennaPS/process/">ViennaPS process API</a></dt><dd>Explains how this simulation changes a surface over time.</dd>
       <dt><a href="https://viennatools.github.io/ViennaPS/domain/">ViennaPS simulation domain</a></dt><dd>Explains how material geometry and interfaces are represented.</dd>
       <dt><a href="https://www.nist.gov/publications/metrology-needs-tsv-fabrication">NIST TSV metrology</a></dt><dd>Explains why via shape, coating coverage, and copper voids must be checked.</dd>
-      <dt><a href="https://www.asml.com/en/en/news/stories/2021/semiconductor-manufacturing-process-steps">ASML fabrication overview</a></dt><dd>Connects resist preparation to exposure and pattern transfer. This page does not model lithography.</dd>
-      <dt><a href="https://plasma.oxinst.com/technologies/dsie/plasmapro-100-estrelas-dsie">Oxford Instruments DRIE</a></dt><dd>Shows the gas delivery and plasma controls behind Bosch etching. It also covers pumping and temperature control.</dd>
-      <dt><a href="https://www.appliedmaterials.com/us/en/product-library/producer-invia-cvd.html">Applied Materials TSV liner</a></dt><dd>Shows why liner conformality, electrical isolation, and the thermal budget matter in high-aspect-ratio vias.</dd>
-      <dt><a href="https://www.appliedmaterials.com/us/en/product-library/endura-ventura-pvd.html">Applied Materials TSV barrier and seed</a></dt><dd>Connects ion direction and energy to continuous barrier and seed coverage in deep vias.</dd>
       <dt><a href="https://www.nist.gov/publications/modeling-extreme-bottom-filling-through-silicon-vias">NIST bottom-up Cu model</a></dt><dd>Explains why copper must grow in the right order to avoid a trapped void.</dd>
-      <dt><a href="https://newsroom.lamresearch.com/Tech-Brief-Elements-of-Electroplating">Lam Research electroplating guide</a></dt><dd>Explains how current and bath additives support bottom-up copper growth.</dd>
-      <dt><a href="https://www.appliedmaterials.com/il/en/semiconductor/semiconductor-technologies/cmp.html">Applied Materials CMP guide</a></dt><dd>Connects downforce and pad motion to slurry delivery. It also covers thickness measurement and endpoint control.</dd>
       <dt><a href="https://doi.org/10.1016/j.mee.2009.05.011">TU Wien Bosch simulation paper</a></dt><dd>Shows how Monte Carlo ray transport and level sets can evolve an etched profile.</dd>
       <dt><a href="https://doi.org/10.1109/TCPMT.2011.2160395">IEEE TSV scallop study</a></dt><dd>Explains why etched-wall roughness can matter to later dielectric and barrier behavior.</dd>
       <dt><a href="https://www.electrochem.org/dl/interface/wtr/wtr04/IF12-04-Pg46.pdf">ECS copper superfilling review</a></dt><dd>Explains accelerator-driven bottom-up copper growth and why simple conformal filling can pinch off.</dd>
@@ -1604,18 +1622,47 @@ DATA.pattern_bosch_range_pilot.cases.forEach(row => {
 
 // ============ Reviewed Bosch interaction profiles ============
 const boschPairs = [...new Map(BOSCH.interactions.map(row => [row.interaction.join('|'), row.interaction])).values()];
-const boschSelect = document.getElementById('bosch-interaction-select');
-const factorLabel = key => BOSCH.factors[key].label;
-boschPairs.forEach(pair => {
-  const option = document.createElement('option');
-  option.value = pair.join('|');
-  option.textContent = `${factorLabel(pair[0])} × ${factorLabel(pair[1])}`;
-  boschSelect.appendChild(option);
-});
-boschSelect.value = BOSCH.default_interaction.join('|');
+const factorPlainLabel = {
+  etch_time: 'Etch time',
+  deposition_thickness: 'Wall protection',
+  ion_source_exponent: 'Ion focus',
+  ion_rate: 'Ion etch strength',
+  neutral_rate: 'Neutral etch strength',
+  neutral_sticking_probability: 'Neutral reaction',
+};
+const factorLevelLabel = (key, level) => ({
+  etch_time: { low: 'shorter etch', high: 'longer etch' },
+  deposition_thickness: { low: 'less protection', high: 'more protection' },
+  ion_source_exponent: { low: 'wider ion arrival', high: 'narrower ion arrival' },
+  ion_rate: { low: 'stronger ion etch', high: 'gentler ion etch' },
+  neutral_rate: { low: 'stronger neutral etch', high: 'gentler neutral etch' },
+  neutral_sticking_probability: { low: 'fewer first-hit reactions', high: 'more first-hit reactions' },
+}[key][level]);
+let activeBoschPair = BOSCH.default_interaction.join('|');
+const pairPicker = document.getElementById('bosch-pair-picker');
+pairPicker.innerHTML = boschPairs.map(pair => {
+  const key = pair.join('|');
+  return `<button type="button" data-pair="${key}" aria-pressed="${key === activeBoschPair}">${factorPlainLabel[pair[0]]} × ${factorPlainLabel[pair[1]]}</button>`;
+}).join('');
 
 function boschMetric(value, digits = 3) {
-  return Number(value).toFixed(digits);
+  return value == null ? 'not measurable' : Number(value).toFixed(digits);
+}
+
+function profileScorecard(metric) {
+  const relative = value => value == null ? 'not measurable' : `${(100 * value / BOSCH.targets.target_cd).toFixed(1)}%`;
+  return `<div class="profile-scorecard" aria-label="Compact profile scorecard">
+    <div><span>Overall shape error</span><b>${relative(metric.profile_shape_rmse)}</b><small>of target width</small></div>
+    <div><span>Symmetry error</span><b>${relative(metric.profile_symmetry_rms)}</b><small>of target width</small></div>
+    <div><span>Depth</span><b>${boschMetric(metric.depth)}</b><small>target ${BOSCH.targets.depth.toFixed(2)}</small></div>
+    <div><span>Worst mismatch</span><b>${relative(metric.profile_max_deviation)}</b><small>of target width</small></div>
+  </div>`;
+}
+
+function profileShapeDiagnosis(metric) {
+  if (metric.profile_shape_rmse == null) return 'Wall shape measured; the floor could not be measured reliably';
+  const largestRegion = metric.profile_floor_rmse > metric.profile_wall_rmse ? 'floor' : 'walls';
+  return `Closest mismatch is concentrated at the ${largestRegion}`;
 }
 
 function boschMeasurementOverlay(metric) {
@@ -1656,12 +1703,9 @@ const multiFactorShortLabels = {
 };
 const multiFactorCandidateScore = row => {
   const metric = row.metrics;
-  return Math.abs(metric.depth - BOSCH.targets.depth) / BOSCH.targets.depth_tolerance
-    + metric.maximum_cd_error / BOSCH.targets.maximum_cd_error
-    + metric.bow / BOSCH.targets.maximum_bow;
+  return metric.profile_shape_rmse == null ? Number.POSITIVE_INFINITY : metric.profile_shape_rmse;
 };
 const bestMultiFactorIndex = multiFactorCases.reduce((best, row, index) => {
-  if (!row.metrics.hard_gate_pass) return best;
   return best < 0 || multiFactorCandidateScore(row) < multiFactorCandidateScore(multiFactorCases[best]) ? index : best;
 }, -1);
 let multiFactorIndex = bestMultiFactorIndex >= 0 ? bestMultiFactorIndex : 0;
@@ -1672,7 +1716,7 @@ function multiFactorDiagnosis(metric) {
   const depthPass = metric.depth >= depthLow && metric.depth <= depthHigh;
   const widthPass = metric.maximum_cd_error <= BOSCH.targets.maximum_cd_error;
   const bowPass = metric.bow <= BOSCH.targets.maximum_bow;
-  if (depthPass && widthPass && bowPass) return 'Straight sidewalls and depth within the teaching range';
+  if (depthPass && widthPass && bowPass) return 'Inside the three earlier geometry bands';
   if (!depthPass && widthPass && bowPass) {
     return metric.depth < depthLow
       ? 'Wall width is close to target, but the etch is too shallow'
@@ -1710,16 +1754,16 @@ function renderMultiFactor() {
   const row = multiFactorCases[multiFactorIndex];
   const metric = row.metrics;
   document.getElementById('bosch-multifactor-index').value = multiFactorIndex;
-  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === bestMultiFactorIndex ? ' · straightest saved walls' : ''}`;
+  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === bestMultiFactorIndex ? ' · closest saved shape' : ''}`;
   document.getElementById('bosch-multifactor-profile').innerHTML = boschProfileMarkup(row);
   const controls = multiFactorOrder.map(name => `<dt>${BOSCH.factors[name].label}</dt><dd>${row.recipe[name]}</dd>`).join('');
   const depthDifference = metric.depth - BOSCH.targets.depth;
   document.getElementById('bosch-multifactor-read').innerHTML = `<h4>${multiFactorDiagnosis(metric)}</h4>
-    <p>Dashed outline: target depth ${BOSCH.targets.depth.toFixed(2)} and width ${BOSCH.targets.target_cd.toFixed(2)}. The selected depth is ${Math.abs(depthDifference).toFixed(3)} ${depthDifference < 0 ? 'shorter' : 'deeper'}. Floor flatness is not scored here. These are model inputs, not equipment settings.</p>
+    <p>Dashed outline: target depth ${BOSCH.targets.depth.toFixed(2)} and width ${BOSCH.targets.target_cd.toFixed(2)}. The selected depth is ${Math.abs(depthDifference).toFixed(3)} ${depthDifference < 0 ? 'shorter' : 'deeper'}. ${profileShapeDiagnosis(metric)}.</p>
+    ${profileScorecard(metric)}
     <dl>${controls}
-      <dt>Depth</dt><dd>${boschMetric(metric.depth)}</dd>
       <dt>Top / middle / bottom width</dt><dd>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</dd>
-      <dt>Bow</dt><dd>${boschMetric(metric.bow)}</dd>
+      <dt>Floor peak-to-valley</dt><dd>${boschMetric(metric.floor_flatness_pv)}</dd>
       <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
       <dt>Saved cycle</dt><dd>${metric.selected_cycle}</dd>
       <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
@@ -1754,14 +1798,11 @@ function renderBoschCase(row) {
   const source = `https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${row.citation.path}#L${row.citation.line_number}`;
   document.getElementById('bosch-read').innerHTML = `<h4>${row.metrics.hard_gate_pass ? 'Inside all three assumed study bands' : 'Outside one or more assumed study bands'}</h4>
     <p>Dashed outline: assumed teaching target. Measurement bars show where the reported geometry is read.</p>
+    ${profileScorecard(metric)}
     <dl>
-      <dt>Depth · assumed band ${boschMetric(target.depth - target.depth_tolerance, 2)}–${boschMetric(target.depth + target.depth_tolerance, 2)}</dt><dd>${boschMetric(metric.depth)}</dd>
-      <dt>Top width</dt><dd>${boschMetric(metric.cd_top)}</dd>
-      <dt>Middle width</dt><dd>${boschMetric(metric.cd_middle)}</dd>
-      <dt>Bottom width</dt><dd>${boschMetric(metric.cd_bottom)}</dd>
-      <dt>Maximum width error · assumed band ${boschMetric(target.maximum_cd_error)}</dt><dd>${boschMetric(metric.maximum_cd_error)}</dd>
-      <dt>Bow · assumed band ${boschMetric(target.maximum_bow)}</dt><dd>${boschMetric(metric.bow)}</dd>
-      <dt>Scallop RMS · diagnostic</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
+      <dt>Top / middle / bottom width</dt><dd>${boschMetric(metric.cd_top)} / ${boschMetric(metric.cd_middle)} / ${boschMetric(metric.cd_bottom)}</dd>
+      <dt>Floor peak-to-valley</dt><dd>${boschMetric(metric.floor_flatness_pv)}</dd>
+      <dt>Scallop RMS</dt><dd>${boschMetric(metric.scallop_rms, 4)}</dd>
       <dt>Selected cycle</dt><dd>${metric.selected_cycle}</dd>
       <dt>Wall time</dt><dd>${(row.elapsed_s / 60).toFixed(1)} min</dd>
     </dl>
@@ -1769,10 +1810,11 @@ function renderBoschCase(row) {
 }
 
 function renderBoschInteraction() {
-  const pair = boschSelect.value.split('|');
-  const rows = BOSCH.interactions.filter(row => row.interaction.join('|') === boschSelect.value);
+  const pair = activeBoschPair.split('|');
+  const rows = BOSCH.interactions.filter(row => row.interaction.join('|') === activeBoschPair);
   const first = BOSCH.factors[pair[0]], second = BOSCH.factors[pair[1]];
-  document.getElementById('bosch-factor-note').innerHTML = `<b>${first.label}</b> · ${first.kind}. ${first.meaning} ${first.direction}<br><b>${second.label}</b> · ${second.kind}. ${second.meaning} ${second.direction}<br>Possible equipment influences: ${first.equipment_influences.join(', ')}; ${second.equipment_influences.join(', ')}. These are not simulated equipment inputs. Tool-specific calibration is required.`;
+  pairPicker.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', button.dataset.pair === activeBoschPair));
+  document.getElementById('bosch-factor-note').innerHTML = `<b>${factorPlainLabel[pair[0]]}:</b> ${first.meaning}<br><b>Calibration — ${first.calibration_status}:</b> ${first.calibration_note}<br><b>${factorPlainLabel[pair[1]]}:</b> ${second.meaning}<br><b>Calibration — ${second.calibration_status}:</b> ${second.calibration_note}<br><b>Possible equipment influences:</b> ${first.equipment_influences.join(', ')}, ${second.equipment_influences.join(', ')}.`;
   const passCount = rows.filter(row => row.metrics.hard_gate_pass).length;
   const range = key => {
     const values = rows.map(row => row.metrics[key]);
@@ -1780,13 +1822,16 @@ function renderBoschInteraction() {
   };
   document.getElementById('bosch-pair-result').innerHTML = `<b>Observed corners:</b> ${passCount}/${rows.length} are inside all three assumed geometry bands. Depth spans ${range('depth')}. Maximum width error spans ${range('maximum_cd_error')}. Bow spans ${range('bow')}. ${passCount > 0 && passCount < rows.length ? 'This pair brackets a comparison-band crossing.' : 'This pair does not bracket a full pass/fail crossing.'}`;
   const corners = document.getElementById('bosch-corners');
-  corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${row.levels[pair[0]]} × ${row.levels[pair[1]]}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'inside assumed bands' : 'outside assumed bands'}</span></button>`).join('');
+  corners.innerHTML = rows.map(row => `<button type="button" data-case-id="${row.case_id}" aria-pressed="false"><b>${factorLevelLabel(pair[0], row.levels[pair[0]])} + ${factorLevelLabel(pair[1], row.levels[pair[1]])}</b><span>${row.values[pair[0]]} × ${row.values[pair[1]]}</span><span>${row.metrics.hard_gate_pass ? 'inside assumed bands' : 'outside assumed bands'}</span></button>`).join('');
   corners.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
     renderBoschCase(rows.find(row => row.case_id === button.dataset.caseId));
   }));
   renderBoschCase(rows.find(row => row.metrics.hard_gate_pass) || rows[0]);
 }
-boschSelect.addEventListener('change', renderBoschInteraction);
+pairPicker.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+  activeBoschPair = button.dataset.pair;
+  renderBoschInteraction();
+}));
 renderBoschInteraction();
 
 // ============ One actual Bosch trajectory ==========
@@ -2295,19 +2340,19 @@ function renderCandidateCu() {
     <g class="bosch-measure"><line x1="${-metric.mouth_aperture / 2}" y1="${mouthY}" x2="${metric.mouth_aperture / 2}" y2="${mouthY}"/><text x="0.17" y="${mouthY + 0.01}">opening</text></g>
     ${seamBand}
   </svg>`;
-  const surfaceStatus = metric.overburden_min < 0
+  const highestCopperPoint = metric.overburden_min < 0
     ? `${Math.abs(metric.overburden_min).toFixed(3)} model units below the wafer surface`
     : `${metric.overburden_min.toFixed(3)} model units above the wafer surface`;
   const frameNote = metric.unresolved_seam_risk
     ? 'The highlighted region is smaller than this coarse model can classify reliably.'
     : 'The opening and unfilled area are measured after this checkpoint.';
-  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Incomplete fill: unresolved center seam' : 'Copper is still filling the opening'}</h4>
+  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Almost full, but completion is unresolved' : 'Copper is still filling the opening'}</h4>
     <p>Checkpoint ${frame.checkpoint}. ${frameNote}</p>
     <dl class="fill-metrics">
       <dt>Copper area fraction</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
       <dt>Opening width</dt><dd>${metric.mouth_aperture.toFixed(3)} model units</dd>
       <dt>Unfilled area</dt><dd>${metric.remaining_void_area.toFixed(3)} model units²</dd>
-      <dt>Copper overburden</dt><dd>${surfaceStatus}</dd>
+      <dt>Highest copper point</dt><dd>${highestCopperPoint}</dd>
     </dl>
     <div class="material-key"><span style="--key-color:var(--si)">Silicon</span><span style="--key-color:var(--oxide)">Liner</span><span style="--key-color:var(--ink)">Barrier</span><span style="--key-color:var(--amber)">Seed</span><span style="--key-color:var(--copper)">Copper</span></div>`;
 }

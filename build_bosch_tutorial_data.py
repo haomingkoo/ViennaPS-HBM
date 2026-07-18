@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
+import argparse
+import gc
 import hashlib
 import json
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -30,6 +35,8 @@ FACTOR_COPY = {
         "equipment_influences": ["etch-step duration", "reactive-gas delivery"],
         "meaning": "Changes the etch dose applied during every cycle.",
         "direction": "Higher means a longer simulated etch phase.",
+        "calibration_status": "Recipe-linked",
+        "calibration_note": "Etch-step time is a direct equipment analogue. The simulated time scale still needs a measured etch-rate match.",
     },
     "deposition_thickness": {
         "label": "Passivation added per cycle",
@@ -37,6 +44,8 @@ FACTOR_COPY = {
         "equipment_influences": ["passivation-step duration", "passivation-gas delivery"],
         "meaning": "Changes the protective layer added before the next etch phase.",
         "direction": "Higher means more passivation is added per cycle.",
+        "calibration_status": "Fit from data",
+        "calibration_note": "Passivation time and gas delivery influence this value, but film added per cycle must be fitted from measured profiles.",
     },
     "neutral_rate": {
         "label": "Neutral removal strength",
@@ -44,6 +53,8 @@ FACTOR_COPY = {
         "equipment_influences": ["etch chemistry", "reactive-species flux"],
         "meaning": "Scales removal driven by simulated neutral particles.",
         "direction": "More negative means stronger neutral removal.",
+        "calibration_status": "Fit from data",
+        "calibration_note": "Fit this effective rate from measured etch depth and wall motion across recipe splits.",
     },
     "neutral_sticking_probability": {
         "label": "Neutral surface-reaction probability",
@@ -51,6 +62,8 @@ FACTOR_COPY = {
         "equipment_influences": ["chemistry", "pressure", "temperature", "surface condition"],
         "meaning": "Changes whether a neutral particle reacts or reflects.",
         "direction": "Higher means more reactions on first contact and fewer reflections.",
+        "calibration_status": "Fit from data",
+        "calibration_note": "Infer this effective probability from profile response. It is not one machine setting.",
     },
     "ion_rate": {
         "label": "Directional removal strength",
@@ -58,6 +71,8 @@ FACTOR_COPY = {
         "equipment_influences": ["platen bias", "ion energy", "plasma state"],
         "meaning": "Scales removal driven by simulated ions.",
         "direction": "More negative means stronger directional removal.",
+        "calibration_status": "Fit from data",
+        "calibration_note": "Fit this effective rate from depth and profile response across bias and plasma splits.",
     },
     "ion_source_exponent": {
         "label": "Ion arrival directionality",
@@ -65,6 +80,8 @@ FACTOR_COPY = {
         "equipment_influences": ["pressure", "source and bias conditions", "reactor geometry"],
         "meaning": "Higher values concentrate simulated ion arrival toward the surface normal.",
         "direction": "Higher means a narrower arrival-angle distribution.",
+        "calibration_status": "Fit from data",
+        "calibration_note": "Fit the angular distribution from profile response or plasma diagnostics. It is not a pressure or bias value.",
     },
 }
 
@@ -98,11 +115,14 @@ def silicon_mesh(row: dict) -> dict:
     domain = checkpoint.load_domain_checkpoint(
         checkpoint_path, expected_sha256=row["checkpoint_sha256"]
     )
-    return next(
+    mesh = next(
         mesh
         for mesh in tm.raw_level_set_meshes(domain)
         if mesh["material"] == ps.Material.Si
     )
+    del domain
+    gc.collect()
+    return mesh
 
 
 def materials(mesh: dict) -> list[dict]:
@@ -117,10 +137,12 @@ def public_metrics(row: dict, mesh: dict) -> dict:
         mesh["lines"],
         surface_y=0.0,
         target_cd=ETCH_TARGETS["target_width"],
+        target_depth=ETCH_TARGETS["target_depth"],
         domain_x_bounds=(-0.5, 0.5),
         grid_delta=row["numerics"]["grid_delta"],
+        allow_partial_floor=True,
     )
-    if review["state"] != "complete":
+    if review["state"] not in {"complete", "partial"}:
         raise ValueError(f"full-width measurement unavailable for {row['case_id']}")
     etch = review["metrics"]
     records = review["diagnostics"]["sample_records"]
@@ -147,6 +169,15 @@ def public_metrics(row: dict, mesh: dict) -> dict:
         "bow": etch["max_bow"],
         "scallop_rms": etch["scallop_rms"],
         "sidewall_angle_deg": etch["sidewall_angle_deg"],
+        "profile_shape_rmse": etch["profile_shape_rmse"],
+        "profile_max_deviation": etch["profile_max_deviation"],
+        "profile_symmetry_rms": etch["profile_symmetry_rms"],
+        "profile_wall_rmse": etch["profile_wall_rmse"],
+        "profile_floor_rmse": etch["profile_floor_rmse"],
+        "floor_flatness_pv": etch["floor_flatness_pv"],
+        "floor_center_relief": etch["floor_center_relief"],
+        "floor_resolution_status": etch["floor_resolution_status"],
+        "profile_measurement_status": review["state"],
         "selected_cycle": row["selected_cycle"],
         "hard_gate_pass": bool(hard_gate_pass),
         "trajectory_class": row["trajectory_classification"],
@@ -202,6 +233,17 @@ def interior_case(row: dict, line_number: int) -> dict:
     }
 
 
+def build_case_group(kind: str) -> list[dict]:
+    """Build one checkpoint group in a fresh process."""
+    if kind == "interaction":
+        rows = load_rows(INTERACTION_ROWS)
+        return [interaction_case(row, index) for index, row in enumerate(rows, 1)]
+    if kind == "interior":
+        rows = load_rows(INTERIOR_ROWS)
+        return [interior_case(row, index) for index, row in enumerate(rows, 1)]
+    raise ValueError(f"unknown case group: {kind}")
+
+
 def main() -> None:
     interaction_rows = load_rows(INTERACTION_ROWS)
     interior_rows = load_rows(INTERIOR_ROWS)
@@ -211,14 +253,18 @@ def main() -> None:
     if len(interior_rows) != 18:
         raise ValueError("expected 18 completed interior cases")
 
-    interactions = [
-        interaction_case(row, index)
-        for index, row in enumerate(interaction_rows, 1)
-    ]
-    interior = [
-        interior_case(row, index)
-        for index, row in enumerate(interior_rows, 1)
-    ]
+    with tempfile.TemporaryDirectory() as directory:
+        paths = {
+            kind: Path(directory) / f"{kind}.json"
+            for kind in ("interaction", "interior")
+        }
+        for kind, path in paths.items():
+            subprocess.run(
+                [sys.executable, __file__, "--group", kind, "--output", str(path)],
+                check=True,
+            )
+        interactions = json.loads(paths["interaction"].read_text())
+        interior = json.loads(paths["interior"].read_text())
     remeasured_passes = sum(
         case["metrics"]["hard_gate_pass"] for case in interactions
     )
@@ -277,7 +323,7 @@ def main() -> None:
                 "does not interpolate or rerun ViennaPS."
             ),
         },
-        "default_interaction": ["neutral_rate", "neutral_sticking_probability"],
+        "default_interaction": ["ion_source_exponent", "ion_rate"],
         "default_interior_case": "aac0e99de49584cc",
         "measurement_example_case_id": "7405eb159356c564",
         "review": {
@@ -294,4 +340,15 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--group", choices=("interaction", "interior"))
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    if args.group:
+        if args.output is None:
+            parser.error("--output is required with --group")
+        args.output.write_text(
+            json.dumps(build_case_group(args.group), allow_nan=False)
+        )
+    else:
+        main()

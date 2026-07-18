@@ -303,11 +303,20 @@ assert bosch_tutorial["targets"]["basis"]["classification"] == (
     "assumed_study_target"
 )
 assert bosch_tutorial["targets"]["basis"]["physical_qualification"] is False
+assert bosch_tutorial["factors"]["etch_time"]["calibration_status"] == "Recipe-linked"
+assert all(
+    factor["calibration_status"] in {"Recipe-linked", "Fit from data"}
+    and factor["calibration_note"]
+    for factor in bosch_tutorial["factors"].values()
+)
 assert all(
     case["metrics"]["measurement_method"] == "full_width_two_wall_remeasurement"
     for case in bosch_tutorial["interactions"] + bosch_tutorial["interior_cases"]
 )
 for case in bosch_tutorial["interactions"] + bosch_tutorial["interior_cases"]:
+    assert "profile_shape_rmse" in case["metrics"]
+    assert "profile_symmetry_rms" in case["metrics"]
+    assert "profile_max_deviation" in case["metrics"]
     checkpoints = list(
         (ROOT / "evidence/bosch/tutorial_checkpoints").glob(
             f"{case['case_id']}_*.vpsd"
@@ -335,8 +344,14 @@ for banned in (
     "No compliant full traveler",
     "model-limited misses",
     "fab-calibrated DOE",
+    "SEMulator3D",
+    "Lam Research",
+    "Applied Materials",
+    "Oxford Instruments",
+    "ASML",
 ):
     assert banned not in template
+    assert banned not in html
 
 
 class MarkupAudit(HTMLParser):

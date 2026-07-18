@@ -118,16 +118,19 @@ def assert_bosch_interactions(page):
     assert lab.locator("#bosch-corners button").count() == 4
     assert "Observed corners:" in lab.locator("#bosch-pair-result").inner_text()
     assert "saved simulated profiles" in lab.inner_text().lower()
-    assert "These are not simulated equipment inputs" in lab.inner_text()
+    assert "Calibration — Fit from data" in lab.inner_text()
+    assert lab.locator("#bosch-pair-picker button").count() == 7
+    assert lab.locator("#bosch-pair-picker button[aria-pressed='true']").count() == 1
     assert lab.locator(".bosch-measure").count() >= 5
     assert lab.locator(".bosch-depth").count() == 2
     first_path = lab.locator("#bosch-profile path").nth(1).get_attribute("d")
     lab.locator("#bosch-corners button").nth(2).click()
     assert lab.locator("#bosch-profile path").nth(1).get_attribute("d") != first_path
-    page.select_option("#bosch-interaction-select", "ion_source_exponent|ion_rate")
+    lab.locator("#bosch-pair-picker button[data-pair='ion_source_exponent|ion_rate']").click()
     assert lab.locator("#bosch-corners button").count() == 4
     assert "2/4 are inside" in lab.locator("#bosch-pair-result").inner_text()
-    assert "Maximum width error" in lab.locator("#bosch-read").inner_text()
+    assert "Overall shape error" in lab.locator("#bosch-read").inner_text()
+    assert "Symmetry error" in lab.locator("#bosch-read").inner_text()
     assert lab.locator('a[href*="v3_bosch_cheap_interactions_rows.jsonl"]').count() == 1
 
 
@@ -146,6 +149,8 @@ def assert_bosch_multifactor(page):
     assert "Etch phase time per cycle" in readout
     assert "Neutral surface-reaction probability" in readout
     assert "Top / middle / bottom width" in readout
+    assert "Overall shape error" in readout
+    assert "Floor peak-to-valley" in readout
     assert lab.locator('a[href="bosch_tutorial_data.json"]').count() == 1
 
 
@@ -207,11 +212,11 @@ def assert_saved_trajectories(page):
     page.locator("#candidate-cu-slider").fill("10")
     assert candidate_path.get_attribute("d") != first_candidate_path
     assert (
-        "Incomplete fill: unresolved center seam"
+        "Almost full, but completion is unresolved"
         in page.locator("#candidate-cu-read h4").inner_text()
     )
     assert page.locator("#candidate-cu-figure .cu-warning").count() == 1
-    assert "Copper overburden" in page.locator("#candidate-cu-read").inner_text()
+    assert "Highest copper point" in page.locator("#candidate-cu-read").inner_text()
 
 
 def main():

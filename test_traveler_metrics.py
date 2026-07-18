@@ -77,6 +77,14 @@ def full_via_surface(left_fn, right_fn, depth=1.0, count=401):
     return nodes, lines
 
 
+def full_via_with_floor(floor_fn, depth=1.0, radius=0.15, count=61):
+    floor_xs = np.linspace(-radius, radius, count)
+    floor = np.column_stack((floor_xs, [floor_fn(x) for x in floor_xs]))
+    nodes = np.vstack(([-radius, 0.0], floor, [radius, 0.0]))
+    lines = np.column_stack((np.arange(len(nodes) - 1), np.arange(1, len(nodes))))
+    return nodes, lines
+
+
 def closed_square(x0, y0, x1, y1, offset=0):
     nodes = np.asarray([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], dtype=float)
     lines = np.asarray([[0, 1], [1, 2], [2, 3], [3, 0]], dtype=int) + offset
@@ -260,6 +268,90 @@ def test_full_via_profile_reports_search_and_resolution_limits():
     )
     assert absent["state"] == "out_of_scope_region"
     assert absent["reason_codes"] == ["declared_wafer_surface_absent"]
+
+
+def test_floor_profile_measures_flat_bowl_and_tilt_without_detrending():
+    kwargs = {
+        "surface_y": 0.0,
+        "target_cd": 0.30,
+        "target_depth": 1.0,
+        "domain_x_bounds": (-0.5, 0.5),
+        "grid_delta": 0.01,
+    }
+    flat_nodes, flat_lines = full_via_with_floor(lambda _x: -1.0)
+    flat = tm.measure_full_via_profile_2d(flat_nodes, flat_lines, **kwargs)
+    assert flat["state"] == "complete"
+    assert flat["metrics"]["floor_flatness_pv"] < 1e-12
+    assert flat["metrics"]["floor_horizontal_rms"] < 1e-12
+    assert flat["metrics"]["floor_center_relief"] < 1e-12
+    assert flat["metrics"]["floor_sample_count"] == 15
+    assert flat["metrics"]["floor_resolution_cells"] == 2.0
+    assert flat["metrics"]["floor_resolution_status"] == "flat_within_resolution"
+    assert flat["metrics"]["profile_shape_rmse"] < 1e-12
+    assert flat["metrics"]["profile_max_deviation"] < 1e-12
+    assert flat["metrics"]["profile_symmetry_rms"] < 1e-12
+
+    bowl_nodes, bowl_lines = full_via_with_floor(
+        lambda x: -1.0 + 0.06 * (x / 0.07) ** 2
+    )
+    bowl = tm.measure_full_via_profile_2d(bowl_nodes, bowl_lines, **kwargs)
+    assert bowl["state"] == "complete"
+    assert bowl["metrics"]["floor_flatness_pv"] > 0.04
+    assert bowl["metrics"]["floor_horizontal_rms"] > 0.01
+    assert bowl["metrics"]["floor_center_relief"] > 0.04
+    assert bowl["metrics"]["floor_flatness_cells"] > 4.0
+    assert bowl["metrics"]["floor_resolution_status"] == "resolved_nonflatness"
+    assert bowl["metrics"]["profile_floor_rmse"] > 0.01
+    assert bowl["metrics"]["profile_shape_rmse"] > flat["metrics"]["profile_shape_rmse"]
+
+    tilt_nodes, tilt_lines = full_via_with_floor(lambda x: -1.0 + 0.5 * x)
+    tilt = tm.measure_full_via_profile_2d(tilt_nodes, tilt_lines, **kwargs)
+    assert tilt["state"] == "complete"
+    assert tilt["metrics"]["floor_flatness_pv"] > 0.05
+    assert abs(tilt["metrics"]["floor_center_relief"]) < 1e-12
+    assert tilt["metrics"]["floor_resolution_status"] == "resolved_nonflatness"
+
+
+def test_floor_profile_is_translation_invariant_and_requires_one_intersection():
+    kwargs = {
+        "surface_y": 0.0,
+        "target_cd": 0.30,
+        "domain_x_bounds": (-0.5, 0.5),
+        "grid_delta": 0.01,
+    }
+    nodes, lines = full_via_with_floor(lambda x: -1.0 + 0.04 * (x / 0.07) ** 2)
+    baseline = tm.measure_full_via_profile_2d(nodes, lines, **kwargs)
+    shifted_nodes = nodes.copy()
+    shifted_nodes[:, 1] -= 0.25
+    shifted = tm.measure_full_via_profile_2d(
+        shifted_nodes, lines, **{**kwargs, "surface_y": -0.25}
+    )
+    for name in ("floor_flatness_pv", "floor_horizontal_rms", "floor_center_relief"):
+        assert math.isclose(
+            baseline["metrics"][name], shifted["metrics"][name], abs_tol=1e-12
+        )
+
+    missing_lines = lines[~np.isin(lines[:, 0], (16, 17))]
+    missing = tm.measure_full_via_profile_2d(nodes, missing_lines, **kwargs)
+    assert missing["state"] == "valid_categorical_modeled_state"
+    assert missing["reason_codes"] == ["floor_intersection_missing"]
+    assert missing["metrics"] is None
+    partial = tm.measure_full_via_profile_2d(
+        nodes,
+        missing_lines,
+        **{**kwargs, "target_depth": 1.0, "allow_partial_floor": True},
+    )
+    assert partial["state"] == "partial"
+    assert partial["metrics"]["profile_shape_rmse"] is None
+    assert partial["metrics"]["profile_wall_rmse"] is not None
+
+    extra_index = len(nodes)
+    multiple_nodes = np.vstack((nodes, [-0.02, -0.80], [0.02, -0.80]))
+    multiple_lines = np.vstack((lines, [extra_index, extra_index + 1]))
+    multiple = tm.measure_full_via_profile_2d(multiple_nodes, multiple_lines, **kwargs)
+    assert multiple["state"] == "valid_categorical_modeled_state"
+    assert multiple["reason_codes"] == ["floor_intersection_multiple"]
+    assert multiple["metrics"] is None
 
 
 def test_parallel_layer_distance():

@@ -27,7 +27,6 @@ count, etch-step aggressiveness, passivation thickness/sticking, and
 ion/radical balance all belong in the DOE. Sources used to sanity-check
 the factor set:
 
-- Oxford Instruments DRIE overview: Bosch uses fluorine etch chemistry
   plus fluorocarbon passivation, repeated over many cycles to form deep
   vertical profiles.
 - Schaper et al., J. Vac. Sci. Technol. B, "Effect of process parameters

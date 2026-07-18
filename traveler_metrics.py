@@ -447,6 +447,103 @@ def etch_profile_metrics_2d(
     }
 
 
+def floor_profile_metrics_2d(
+    nodes,
+    lines,
+    *,
+    surface_y,
+    target_cd,
+    grid_delta,
+    center_x=0.0,
+    resolution_cells=2.0,
+):
+    """Measure the horizontal floor shape over the central half of target CD."""
+    if not target_cd > 0:
+        raise ValueError("target_cd must be positive")
+    if not grid_delta > 0:
+        raise ValueError("grid_delta must be positive")
+    if not resolution_cells > 0:
+        raise ValueError("resolution_cells must be positive")
+
+    half_span = 0.25 * float(target_cd)
+    tolerance = max(1e-12, float(grid_delta) * 1e-9)
+    first_index = math.ceil((-half_span - tolerance) / grid_delta)
+    last_index = math.floor((half_span + tolerance) / grid_delta)
+    sample_xs = center_x + grid_delta * np.arange(first_index, last_index + 1)
+    diagnostics = {
+        "requested_x_bounds": [center_x - half_span, center_x + half_span],
+        "sample_xs": sample_xs.tolist(),
+        "sample_ys": [],
+        "sample_count": int(len(sample_xs)),
+        "smoothing_window_cells": 3,
+    }
+    if len(sample_xs) < 3:
+        return {
+            "state": "floor_profile_unavailable",
+            "reason_codes": ["insufficient_floor_sample_columns"],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+
+    sample_ys = []
+    for x in sample_xs:
+        intersections = line_intersections_at_x(nodes, lines, float(x))
+        below_surface = intersections[intersections < surface_y - tolerance]
+        if len(below_surface) != 1:
+            diagnostics["sample_ys"] = sample_ys
+            diagnostics["failed_x"] = float(x)
+            diagnostics["failed_intersections_y"] = intersections.tolist()
+            reason = (
+                "floor_intersection_missing"
+                if not len(below_surface)
+                else "floor_intersection_multiple"
+            )
+            return {
+                "state": "floor_profile_unavailable",
+                "reason_codes": [reason],
+                "metrics": None,
+                "diagnostics": diagnostics,
+            }
+        sample_ys.append(float(below_surface[0]))
+
+    sample_ys = np.asarray(sample_ys, dtype=float)
+    filtered_ys = np.convolve(
+        np.pad(sample_ys, (1, 1), mode="edge"), np.ones(3) / 3.0, mode="valid"
+    )
+    filtered_xs = sample_xs
+    mean_y = float(np.mean(filtered_ys))
+    flatness_pv = float(np.ptp(filtered_ys))
+    center_index = int(np.argmin(np.abs(filtered_xs - center_x)))
+    center_relief = float(
+        0.5 * (filtered_ys[0] + filtered_ys[-1])
+        - filtered_ys[center_index]
+    )
+    resolution_limit = float(resolution_cells * grid_delta)
+    diagnostics["sample_ys"] = sample_ys.tolist()
+    diagnostics["filtered_sample_xs"] = filtered_xs.tolist()
+    diagnostics["filtered_sample_ys"] = filtered_ys.tolist()
+    return {
+        "state": "complete",
+        "reason_codes": [],
+        "metrics": {
+            "floor_flatness_pv": flatness_pv,
+            "floor_horizontal_rms": float(
+                np.sqrt(np.mean((filtered_ys - mean_y) ** 2))
+            ),
+            "floor_center_relief": center_relief,
+            "floor_sample_count": int(len(sample_xs)),
+            "floor_flatness_cells": float(flatness_pv / grid_delta),
+            "floor_resolution_cells": float(resolution_cells),
+            "floor_resolution_status": (
+                "resolved_nonflatness"
+                if flatness_pv > resolution_limit + tolerance
+                else "flat_within_resolution"
+            ),
+        },
+        "diagnostics": diagnostics,
+    }
+
+
 def measure_full_via_profile_2d(
     nodes,
     lines,
@@ -455,6 +552,7 @@ def measure_full_via_profile_2d(
     target_cd,
     domain_x_bounds,
     grid_delta,
+    target_depth=None,
     search_x_bounds=None,
     center_x=0.0,
     top_fraction=0.10,
@@ -462,6 +560,7 @@ def measure_full_via_profile_2d(
     bottom_fraction=0.85,
     sample_count=76,
     minimum_feature_cells=2.0,
+    allow_partial_floor=False,
 ):
     """Measure a full 2D via or return why its profile is unavailable."""
     points = np.asarray(nodes, dtype=float)
@@ -472,6 +571,8 @@ def measure_full_via_profile_2d(
         raise ValueError("silicon lines must be non-empty")
     if not grid_delta > 0:
         raise ValueError("grid_delta must be positive")
+    if target_depth is not None and not target_depth > 0:
+        raise ValueError("target_depth must be positive")
     if not domain_x_bounds[0] < center_x < domain_x_bounds[1]:
         raise ValueError("center_x must lie inside domain_x_bounds")
     if search_x_bounds is None:
@@ -507,6 +608,7 @@ def measure_full_via_profile_2d(
         "samples_with_both_walls_in_search": 0,
         "minimum_width_cells": None,
         "sample_records": [],
+        "floor_profile": None,
     }
 
     if not len(surface_xs):
@@ -633,6 +735,24 @@ def measure_full_via_profile_2d(
             "diagnostics": diagnostics,
         }
 
+    floor_profile = floor_profile_metrics_2d(
+        points,
+        segments,
+        surface_y=surface_y,
+        target_cd=target_cd,
+        grid_delta=grid_delta,
+        center_x=center_x,
+    )
+    diagnostics["floor_profile"] = floor_profile["diagnostics"]
+    floor_complete = floor_profile["state"] == "complete"
+    if not floor_complete and not allow_partial_floor:
+        return {
+            "state": "valid_categorical_modeled_state",
+            "reason_codes": floor_profile["reason_codes"],
+            "metrics": None,
+            "diagnostics": diagnostics,
+        }
+
     depth_positions = fractions * depth
     top_index = 0
     middle_index = int(np.argmin(np.abs(fractions - middle_fraction)))
@@ -663,6 +783,80 @@ def measure_full_via_profile_2d(
         ),
         "maximum_center_shift": float(np.max(np.abs(centers - center_x))),
     }
+    if not floor_complete:
+        metrics.update({
+            "floor_flatness_pv": None,
+            "floor_horizontal_rms": None,
+            "floor_center_relief": None,
+            "floor_sample_count": floor_profile["diagnostics"]["sample_count"],
+            "floor_flatness_cells": None,
+            "floor_resolution_cells": 2.0,
+            "floor_resolution_status": "unavailable",
+            "profile_symmetry_rms": None,
+            "profile_floor_rmse": None,
+            "profile_shape_rmse": None,
+            "profile_max_deviation": None,
+        })
+        if target_depth is not None:
+            left_wall_xs = np.asarray(
+                [record["left_wall_x"] for record in diagnostics["sample_records"]],
+                dtype=float,
+            )
+            right_wall_xs = np.asarray(
+                [record["right_wall_x"] for record in diagnostics["sample_records"]],
+                dtype=float,
+            )
+            wall_offsets = np.concatenate(
+                (left_wall_xs - (center_x - 0.5 * target_cd),
+                 right_wall_xs - (center_x + 0.5 * target_cd))
+            )
+            metrics["profile_wall_rmse"] = float(
+                np.sqrt(np.mean(wall_offsets**2))
+            )
+        return {
+            "state": "partial",
+            "reason_codes": floor_profile["reason_codes"],
+            "metrics": metrics,
+            "diagnostics": diagnostics,
+        }
+
+    metrics.update(floor_profile["metrics"])
+    filtered_floor_ys = np.asarray(
+        floor_profile["diagnostics"]["filtered_sample_ys"], dtype=float
+    )
+    floor_pair_offsets = 0.5 * (
+        filtered_floor_ys - filtered_floor_ys[::-1]
+    )
+    wall_symmetry_mse = float(np.mean((centers - center_x) ** 2))
+    floor_symmetry_mse = float(np.mean(floor_pair_offsets**2))
+    metrics["profile_symmetry_rms"] = float(
+        math.sqrt(0.5 * wall_symmetry_mse + 0.5 * floor_symmetry_mse)
+    )
+    if target_depth is not None:
+        left_wall_xs = np.asarray(
+            [record["left_wall_x"] for record in diagnostics["sample_records"]],
+            dtype=float,
+        )
+        right_wall_xs = np.asarray(
+            [record["right_wall_x"] for record in diagnostics["sample_records"]],
+            dtype=float,
+        )
+        wall_offsets = np.concatenate(
+            (left_wall_xs - (center_x - 0.5 * target_cd),
+             right_wall_xs - (center_x + 0.5 * target_cd))
+        )
+        target_floor_y = surface_y - float(target_depth)
+        floor_offsets = filtered_floor_ys - target_floor_y
+        wall_mse = float(np.mean(wall_offsets**2))
+        floor_mse = float(np.mean(floor_offsets**2))
+        metrics.update({
+            "profile_wall_rmse": float(math.sqrt(wall_mse)),
+            "profile_floor_rmse": float(math.sqrt(floor_mse)),
+            "profile_shape_rmse": float(math.sqrt(0.5 * wall_mse + 0.5 * floor_mse)),
+            "profile_max_deviation": float(
+                max(np.max(np.abs(wall_offsets)), np.max(np.abs(floor_offsets)))
+            ),
+        })
     return {
         "state": "complete",
         "reason_codes": [],

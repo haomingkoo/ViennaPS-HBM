@@ -18,6 +18,24 @@ a product requirement.
 These measurements remain separate. A good bow value cannot compensate for a
 missed depth or a disconnected seed layer.
 
+## Compact etch-profile comparison
+
+The tutorial adds four descriptive values for comparing a saved 2D outline
+with its dotted teaching target:
+
+- `profile_shape_rmse` gives the walls and floor equal weight, so the longer
+  walls cannot hide a poor floor;
+- `profile_max_deviation` reports the largest sampled miss;
+- `profile_symmetry_rms` combines wall-center shift and paired floor-height
+  differences;
+- depth remains separate and visible.
+
+The page displays the three distance values as a percentage of target width.
+The JSON retains model units. These values rank saved shapes only. They have no
+pass limit and are not wafer specifications. If the floor has missing or
+multiple intersections, the floor-dependent values are `null` and the reason
+is retained instead of choosing an intersection.
+
 ## Roughness status
 
 The repository already reports `scallop_rms` from
@@ -54,6 +72,7 @@ measurement resolution, observed run variation and remaining product margin.
 | [Ranganathan et al., Bosch roughness and TSV behavior](https://doi.org/10.1088/0960-1317/18/7/075018) | Rough sidewalls can affect barrier uniformity and electrical leakage | A limit for `scallop_rms` |
 | [Nagarajan et al., TSV sidewall scallops](https://doi.org/10.1109/TCPMT.2011.2160395) | Scallops can affect dielectric/barrier reliability and leakage | Calibration of the current simulator |
 | [Automated 3D-AFM sidewall roughness measurement](https://pmc.ncbi.nlm.nih.gov/articles/PMC8904671/) | RMS roughness is a measurable sidewall statistic | Equivalence between AFM data and a 2D mesh residual |
+| [Son, quantitative TSV etch-profile evaluation](https://doi.org/10.4218/etrij.14.0113.0828) | Sidewall angle, undercut, scallop and curvature are useful profile descriptors | A universal combined score or limit for this simulated target |
 | [ViennaPS process documentation](https://viennatools.github.io/ViennaPS/process/) | Implemented process, ray, advection and coverage controls | Recommended accuracy settings for this geometry |
 
 Searches covered NIST, ViennaPS/TU Wien, IEEE, AVS/AIP, IOP/JMM, ECS and
