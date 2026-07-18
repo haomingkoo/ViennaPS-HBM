@@ -807,23 +807,23 @@
   </section>
 
   <section class="finding" id="knobs-guide">
-    <h2>Main controls and common failures</h2>
+    <h2>Equipment controls, model controls, and feedback</h2>
     <p class="claim">Geometry inputs define the starting shape. Model inputs control simulated surface motion. Neither is a calibrated machine recipe.</p>
     <div class="table-scroll">
-      <table class="journal-table" aria-label="Main TSV controls and common failure modes">
-        <thead><tr><th>Step</th><th>Inputs used here</th><th>Common failure</th><th>What this model checks</th></tr></thead>
+      <table class="journal-table" aria-label="Equipment controls, model controls, and measurement feedback">
+        <thead><tr><th>Step</th><th>Equipment examples</th><th>Controls in this model</th><th>Measurement feedback</th></tr></thead>
         <tbody>
-          <tr><td>Mask</td><td>Opening width, height, and taper. A wider opening starts a wider via.</td><td>The opening is too wide or too narrow.</td><td>Opening shape and remaining mask</td></tr>
-          <tr><td>Silicon etch</td><td>Cycle count and duration. Protective-coating dose and particle direction. More time usually etches deeper.</td><td>The via is too shallow or its walls bow.</td><td>Depth and width profile</td></tr>
-          <tr><td>Liner</td><td>Deposition amount and particle sticking. Lower sticking can carry particles deeper.</td><td>The floor is too thin or the opening narrows.</td><td>Thickness, continuity, and remaining opening</td></tr>
-          <tr><td>Barrier + seed</td><td>Deposition amount and directional fraction. More directional arrival can weaken deep coverage.</td><td>The layer becomes thin or disconnected.</td><td>Thickness, connection, and remaining opening</td></tr>
-          <tr><td>Copper fill</td><td>Floor-to-wall growth balance. More wall growth closes the mouth sooner.</td><td>The mouth closes first and traps a void.</td><td>Void shape and copper above the surface</td></tr>
-          <tr><td>Polish</td><td>Removal amount and oxide-to-copper rate. More removal clears the top but can recess the plug.</td><td>Copper remains on top, the plug recesses, or the oxide thins.</td><td>Surface clearance, plug height, and oxide left</td></tr>
+          <tr><td>Mask</td><td>Focus, exposure dose, bake, develop, resist thickness</td><td>Opening width, height, and taper</td><td>Top and bottom opening width; mask height</td></tr>
+          <tr><td>Silicon etch</td><td>Gas-step timing and flow, pressure, source power, bias, temperature</td><td>Etch and passivation time; effective rates, sticking, and ion direction</td><td>Depth; top, middle, and bottom width; bow and scallop</td></tr>
+          <tr><td>Liner</td><td>Precursor exposure, pressure, temperature, plasma conditions</td><td>Deposition amount, sticking, and source distribution</td><td>Field, wall, and floor thickness; continuity and opening</td></tr>
+          <tr><td>Barrier + seed</td><td>Target power, pressure, substrate bias, collimation, deposition time</td><td>Deposition amount and arrival-direction fraction</td><td>Regional thickness, continuity, and remaining opening</td></tr>
+          <tr><td>Copper fill</td><td>Current waveform, additives, chemistry, temperature, agitation</td><td>Candidate suppressor transport and kinetic rates; separate prescribed geometry control</td><td>Open and sealed voids, seam history, overburden</td></tr>
+          <tr><td>Polish</td><td>Pressure, speed, slurry, selectivity, endpoint and overpolish</td><td>Removal amount and material-rate ratios</td><td>Field clearance, plug recess, stop loss, connectivity</td></tr>
         </tbody>
       </table>
     </div>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
-    <p class="note"><b>Physical recipe knobs:</b> gas flow and pressure; power and temperature; current and chemistry. These are not calibrated in this project.</p>
+    <p class="note"><b>No direct conversion:</b> equipment settings act through plasma, chemistry, transport, and surface state. Mapping them to these effective model controls requires measurements from a specific tool.</p>
     <div class="bosch-lab" id="bosch-interaction-lab">
       <h3>Dry etch: controls work together</h3>
       <p class="claim">Choose an interaction, then inspect the four actual simulated profiles.</p>

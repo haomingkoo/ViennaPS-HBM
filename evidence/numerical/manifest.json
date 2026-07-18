@@ -142,6 +142,48 @@
     },
     {
       "original_workspace_source": {
+        "bytes": 564585,
+        "lines": 28,
+        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
+      },
+      "published": {
+        "bytes": 564585,
+        "lines": 28,
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
+        "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 33270,
+        "lines": 849,
+        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_review.json",
+        "sha256": "811ba97b4bac009d148eb84f8a137cc37a0a3e35341c2601738e18d8f933749c"
+      },
+      "published": {
+        "bytes": 33270,
+        "lines": 849,
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_review.json",
+        "sha256": "811ba97b4bac009d148eb84f8a137cc37a0a3e35341c2601738e18d8f933749c"
+      }
+    },
+    {
+      "original_workspace_source": {
+        "bytes": 346383,
+        "lines": 18,
+        "path": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl",
+        "sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
+      },
+      "published": {
+        "bytes": 346383,
+        "lines": 18,
+        "path": "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl",
+        "sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
+      }
+    },
+    {
+      "original_workspace_source": {
         "bytes": 34850,
         "lines": 937,
         "path": ".scratch/full-traveler-autoresearch/v3_bosch_r125_qualification_manifest.json",
@@ -198,11 +240,11 @@
     }
   ],
   "generator": {
-    "bytes": 4184,
-    "lines": 130,
+    "bytes": 4325,
+    "lines": 133,
     "path": "build_numerical_evidence_bundle.py",
-    "sha256": "4ef196ae09f780649bcdadace3bcf75366dbabf470f1c3521a3f1a25b45e64b8"
+    "sha256": "8804dae0f6c26d459ccd0cd67be18cf3d129d1f5fe82795c8207a7efab1a73b7"
   },
-  "purpose": "exact source rows for the published numerical cost and response charts",
+  "purpose": "exact source rows for the published numerical charts and Bosch tutorial",
   "schema_version": 1
 }

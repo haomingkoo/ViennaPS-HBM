@@ -80,7 +80,7 @@
       "checkpoint_sha256": "863046867defea13af286f89a5b1d8c48a7bc075a28d396564484db0bcfb09ba",
       "citation": {
         "line_number": 1,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1069.7070219516754,
@@ -135,7 +135,7 @@
       "checkpoint_sha256": "2ddedbc4de7c4fb64608bed4ef610ed019a9ce0e18b4ee69c03c15809a29863c",
       "citation": {
         "line_number": 2,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1292.2282299995422,
@@ -190,7 +190,7 @@
       "checkpoint_sha256": "e8630e5a6cc23bbe1bc41bc41c6b33ec356ca23724c734b607189c17242049b7",
       "citation": {
         "line_number": 3,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1493.4448850154877,
@@ -245,7 +245,7 @@
       "checkpoint_sha256": "e571e288de1016493fbc8b7c8f9659f45e0782c2d8712b005de249d214523bc4",
       "citation": {
         "line_number": 4,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1549.323874950409,
@@ -300,7 +300,7 @@
       "checkpoint_sha256": "38e0f6c408c2fc5b6ff224137c62c8902618b7fa6bfa8173658055c7e497f1ae",
       "citation": {
         "line_number": 5,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 484.26947689056396,
@@ -355,7 +355,7 @@
       "checkpoint_sha256": "eb97a75d9a2d54a0fa1550b3df3133f507a5e950ca1c69c7822c78cd1ab8daf1",
       "citation": {
         "line_number": 6,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1484.8808419704437,
@@ -410,7 +410,7 @@
       "checkpoint_sha256": "6134f061a9b185cb33fa1b366b32a2d700e410cb5dad8295b3245050333f529f",
       "citation": {
         "line_number": 7,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1991.1556811332703,
@@ -465,7 +465,7 @@
       "checkpoint_sha256": "5b6784b193a4ecacbab337878fde8f02cb7fcc1d76dc6d161d7f95c6862c8f02",
       "citation": {
         "line_number": 8,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1519.5589878559113,
@@ -520,7 +520,7 @@
       "checkpoint_sha256": "c7cbb61f8f94108b22e4f05f4b2bc263392b50cca904c53d58c62ac71f078cfd",
       "citation": {
         "line_number": 9,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 718.4776647090912,
@@ -575,7 +575,7 @@
       "checkpoint_sha256": "8c5a78f1b0aac41fa315e2760fd43fd989baee16b0f49b4037a560566a6f96c2",
       "citation": {
         "line_number": 10,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1308.7829399108887,
@@ -630,7 +630,7 @@
       "checkpoint_sha256": "4ff1a043dd7dde20b726c56f86681d626f86fc5a0132d2236282e0ffb3dbed1b",
       "citation": {
         "line_number": 11,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1480.133057832718,
@@ -685,7 +685,7 @@
       "checkpoint_sha256": "5ba519e8a6733736a56774e00c540fd973b9e6794936760961338e6ea83331b7",
       "citation": {
         "line_number": 12,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 918.4045870304108,
@@ -740,7 +740,7 @@
       "checkpoint_sha256": "82dc18a192b944eb284d5f379334deb21ccd8efa5cb18ee8f53203ad60a153fb",
       "citation": {
         "line_number": 13,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 614.4809520244598,
@@ -795,7 +795,7 @@
       "checkpoint_sha256": "302b759bd78607a2673131457103608efd57dd73f1c9df529fe1acbe2c705501",
       "citation": {
         "line_number": 14,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1317.3039209842682,
@@ -850,7 +850,7 @@
       "checkpoint_sha256": "857b845f49056e16c3c4fa58d9eddc81e388059a9cac1168371307ab2f3750f5",
       "citation": {
         "line_number": 15,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1142.2374758720398,
@@ -905,7 +905,7 @@
       "checkpoint_sha256": "06f3e553d47d35501b4af2da77b8ab60d4b0c512a4643edbfad93bea4055082f",
       "citation": {
         "line_number": 16,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1240.2269229888916,
@@ -960,7 +960,7 @@
       "checkpoint_sha256": "c4a1c29abe8c6700066225fd306f0183f5d5f3a0ebbf4068dc514628f5344430",
       "citation": {
         "line_number": 17,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 972.548113822937,
@@ -1015,7 +1015,7 @@
       "checkpoint_sha256": "d69ab29e940730e27cdeeb2bce7e60a34c37756d4e4b1c16e936e73f285a8f90",
       "citation": {
         "line_number": 18,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1414.678407907486,
@@ -1070,7 +1070,7 @@
       "checkpoint_sha256": "1da0603257ecedf29e2a369a6887db28ee20fc7dd29875196cc365f1c77f9adf",
       "citation": {
         "line_number": 19,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1083.2227630615234,
@@ -1125,7 +1125,7 @@
       "checkpoint_sha256": "1a1495cbe8dbfa970e3e819458c0ad15df6b4191b7376afe7a4ee99c64f01718",
       "citation": {
         "line_number": 20,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1146.2558267116547,
@@ -1180,7 +1180,7 @@
       "checkpoint_sha256": "ed0cd3081086f56bbdb3ae89629cc561d22463885d4b1ee37afa5d93e496cad3",
       "citation": {
         "line_number": 21,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1109.8640880584717,
@@ -1235,7 +1235,7 @@
       "checkpoint_sha256": "4614a90d3adc1cc8fb3f5d47be1c411420260b2903ef4d41fad15892930f785a",
       "citation": {
         "line_number": 22,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1507.5402691364288,
@@ -1290,7 +1290,7 @@
       "checkpoint_sha256": "e35674455ca2e8cf68bd030293c91899650dbf48ee478debb74a9b1f0582ad49",
       "citation": {
         "line_number": 23,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1174.7713098526,
@@ -1345,7 +1345,7 @@
       "checkpoint_sha256": "97db5ae9225800820794e717c6e10d12906032c5834cd118ed87b11addac97c7",
       "citation": {
         "line_number": 24,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1042.6881730556488,
@@ -1400,7 +1400,7 @@
       "checkpoint_sha256": "bc7bf46f105ac9d4f12196195ae6a3a35fa3a7534dda588310ae1078ed8008e6",
       "citation": {
         "line_number": 25,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1933.031240940094,
@@ -1455,7 +1455,7 @@
       "checkpoint_sha256": "13f8cfc8061d41a48cb3c7ea1561f5302c633b14d97161e8fbbd55088a8ff1de",
       "citation": {
         "line_number": 26,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1257.1829388141632,
@@ -1510,7 +1510,7 @@
       "checkpoint_sha256": "e415f0e23f87e64bb2ecf7e282d19d463013857c9c739a8337b06b8f0726fc11",
       "citation": {
         "line_number": 27,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 19854.643686056137,
@@ -1565,7 +1565,7 @@
       "checkpoint_sha256": "63670eb6d95d5e68844dc221d09cff94080fd180b4e9ef4e3f7abdb18a9d001b",
       "citation": {
         "line_number": 28,
-        "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl",
         "sha256": "78ecfbdc1118de21b8c4ac2527fce0076399479486c1e29882679106fb435d9f"
       },
       "elapsed_s": 1828.7056348323822,
@@ -1622,7 +1622,7 @@
       "checkpoint_sha256": "d93e8318fffbcca5c38eb1e3e0ed9393ccdf6db729018bc37a966fe14915b92f",
       "citation": {
         "line_number": 6,
-        "path": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl",
         "sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
       },
       "elapsed_s": 1134.273796081543,
@@ -1673,7 +1673,7 @@
       "checkpoint_sha256": "d597849e6862682235ad7280d8c0e8df84a40d79bd28360a4797ea6d79ccb29d",
       "citation": {
         "line_number": 13,
-        "path": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl",
         "sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
       },
       "elapsed_s": 679.3472638130188,
@@ -1724,7 +1724,7 @@
       "checkpoint_sha256": "33c6a67d142913ef5854d7796787f8c71c0e4bc743811f9286f4f3c46428fcf6",
       "citation": {
         "line_number": 16,
-        "path": "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl",
+        "path": "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl",
         "sha256": "12425b148c571f47cce5d0c5d8eea4cf0a539e4e932fe281b1ae3ec73f5a96a8"
       },
       "elapsed_s": 1028.8925807476044,
@@ -1773,7 +1773,7 @@
   ],
   "review": {
     "citation": {
-      "path": "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_review.json",
+      "path": "evidence/numerical/v3_bosch_cheap_interactions_review.json",
       "selector": "/decision",
       "sha256": "811ba97b4bac009d148eb84f8a137cc37a0a3e35341c2601738e18d8f933749c"
     },

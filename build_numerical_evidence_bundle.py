@@ -23,6 +23,9 @@ FILES = (
     "v3_bosch_r125_qualification_rows.jsonl",
     "v3_bosch_r250_qualification_rows.jsonl",
     "v3_bosch_low_ray_qualification_review.json",
+    "v3_bosch_cheap_interactions_rows.jsonl",
+    "v3_bosch_cheap_interactions_review.json",
+    "v3_bosch_interior_refinement_rows.jsonl",
 )
 SOURCES = {name: SOURCE / name for name in FILES}
 SOURCES.update(
@@ -72,7 +75,7 @@ def export():
         )
     manifest = {
         "schema_version": 1,
-        "purpose": "exact source rows for the published numerical cost and response charts",
+        "purpose": "exact source rows for the published numerical charts and Bosch tutorial",
         "generator": record(Path(__file__).resolve(), Path(__file__).read_bytes()),
         "files": files,
     }

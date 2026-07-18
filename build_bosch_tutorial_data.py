@@ -18,6 +18,7 @@ INTERACTION_ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_cheap_int
 INTERACTION_REVIEW = ROOT / "autoresearch-results/restart_audit/v3_bosch_cheap_interactions_review.json"
 INTERIOR_ROWS = ROOT / "autoresearch-results/restart_audit/v3_bosch_interior_refinement_rows.jsonl"
 OUTPUT = ROOT / "bosch_tutorial_data.json"
+PUBLIC_EVIDENCE = Path("evidence/numerical")
 INTERIOR_PUBLIC_CASES = {
     "aac0e99de49584cc",
     "5e3a68ad9b65a792",
@@ -131,7 +132,7 @@ def interaction_case(row: dict, line_number: int) -> dict:
         "rays_per_point": row["numerics"]["rays_per_point"],
         "checkpoint_sha256": row["checkpoint_sha256"],
         "citation": {
-            "path": str(INTERACTION_ROWS.relative_to(ROOT)),
+            "path": str(PUBLIC_EVIDENCE / INTERACTION_ROWS.name),
             "line_number": line_number,
             "sha256": sha256(INTERACTION_ROWS),
         },
@@ -149,7 +150,7 @@ def interior_case(row: dict, line_number: int) -> dict:
         "rays_per_point": row["numerics"]["rays_per_point"],
         "checkpoint_sha256": row["checkpoint_sha256"],
         "citation": {
-            "path": str(INTERIOR_ROWS.relative_to(ROOT)),
+            "path": str(PUBLIC_EVIDENCE / INTERIOR_ROWS.name),
             "line_number": line_number,
             "sha256": sha256(INTERIOR_ROWS),
         },
@@ -208,7 +209,7 @@ def main() -> None:
             "hard_gate_passes": review["hard_gate_pass_count"],
             "decision": review["decision"],
             "citation": {
-                "path": str(INTERACTION_REVIEW.relative_to(ROOT)),
+                "path": str(PUBLIC_EVIDENCE / INTERACTION_REVIEW.name),
                 "sha256": sha256(INTERACTION_REVIEW),
                 "selector": "/decision",
             },

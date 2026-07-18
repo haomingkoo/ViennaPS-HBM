@@ -1,0 +1,849 @@
+{
+  "blocks": [
+    {
+      "best_passing_corner": null,
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 0.08389747101893778,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.004300907263554643,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": false
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 7.795983021813923,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.13230221905775563,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 5.593548650529538,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.10496790096636488,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": false
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 5.10961511919974,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.928788248253553,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": true
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 1.2930460054280002,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.02545395032671162,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": false
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 14.30228031218828,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.24271774548430047,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 1.5840814991004566,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.005600573849830424,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 7.999999999999999,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 24.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": true
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 20.096220064357194,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -34.38810514029488,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": false
+        }
+      },
+      "factors": [
+        "etch_time",
+        "deposition_thickness"
+      ],
+      "gate_pattern": "no_extreme_corner_feasible",
+      "pass_corners": [],
+      "pass_count": 0
+    },
+    {
+      "best_passing_corner": {
+        "anchor": "interaction:etch_time:ion_rate:low:low",
+        "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/64044b6f5e9854ed_cycle018.vpsd",
+        "depth": 1.2608829304340892,
+        "max_bow": 0.007162191701493903,
+        "max_cd_error": 0.04985151252675496,
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.2,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.22,
+          "ion_source_exponent": 400,
+          "mask_ion_rate": 0.0,
+          "mask_taper": 2.0,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "selected_cycle": 18
+      },
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 5.335253731860849,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.27350564027237184,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": false
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 4.611222954431244,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.07825504849539358,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 0.9970484056141103,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.01871049754600168,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": false
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 5.26110409389268,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.9563247996673939,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": true
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 0.27494706684381115,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.0054124052450870985,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": false
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 3.6002167969297147,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.06109770506041712,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 1.8822811446806083,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.006654868807516176,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 1.9999999999999998,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -6.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": true
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 8.124409251729753,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -13.90226812089817,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": false
+        }
+      },
+      "factors": [
+        "etch_time",
+        "ion_rate"
+      ],
+      "gate_pattern": "one_corner_feasible",
+      "pass_corners": [
+        "low:low"
+      ],
+      "pass_count": 1
+    },
+    {
+      "best_passing_corner": {
+        "anchor": "interaction:etch_time:neutral_rate:low:low",
+        "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/38594652869524c4_cycle025.vpsd",
+        "depth": 1.2537411502179772,
+        "max_bow": 0.009657119200392889,
+        "max_cd_error": 0.02787155064123814,
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.2,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "mask_ion_rate": 0.0,
+          "mask_taper": 2.0,
+          "neutral_rate": -0.2,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "selected_cycle": 25
+      },
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 0.023780625820943507,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.001219086404905867,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": false
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 4.846708598003371,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.08225137238599989,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 0.041081921798840924,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.000770938695327239,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": false
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 7.531527136887743,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 1.3690255983976423,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": true
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 1.9289805207241162,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.037972488333432294,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": false
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 5.112831332010932,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.0867676249422715,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 1.2623501612595949,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.004463081796292958,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 0.6666666666666665,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -2.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": false
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 14.374060817365457,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -24.59650188431429,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": false
+        }
+      },
+      "factors": [
+        "etch_time",
+        "neutral_rate"
+      ],
+      "gate_pattern": "one_corner_feasible",
+      "pass_corners": [
+        "low:low"
+      ],
+      "pass_count": 1
+    },
+    {
+      "best_passing_corner": {
+        "anchor": "interaction:etch_time:neutral_sticking_probability:low:low",
+        "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/30dbcaa57cb2aba3_cycle030.vpsd",
+        "depth": 1.1742982423678863,
+        "max_bow": 0.00447007132153035,
+        "max_cd_error": 0.05768999165002672,
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.2,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "mask_ion_rate": 0.0,
+          "mask_taper": 2.0,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.02,
+          "theta_r_min": 45.0
+        },
+        "selected_cycle": 30
+      },
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 1.9109676024949758,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.09796355411157781,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": false
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 2.9307359412755987,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.049736238190634774,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 7.249321127010703,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.13603993987991825,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": false
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 0.9400635449429904,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.17087783576375748,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": false
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 1.095040576301208,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.021556161434239593,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": false
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 13.297586562391167,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.22566752716036578,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 3.3727344436677154,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.011924416981294398,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 0.0,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": false
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 1.0685323111252214,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -1.8284434258334605,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": false
+        }
+      },
+      "factors": [
+        "etch_time",
+        "neutral_sticking_probability"
+      ],
+      "gate_pattern": "one_corner_feasible",
+      "pass_corners": [
+        "low:low"
+      ],
+      "pass_count": 1
+    },
+    {
+      "best_passing_corner": {
+        "anchor": "interaction:neutral_rate:neutral_sticking_probability:high:low",
+        "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/6839b90069962d47_cycle015.vpsd",
+        "depth": 1.2748579369271367,
+        "max_bow": 0.012757206041060426,
+        "max_cd_error": 0.040999144177365,
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 400,
+          "mask_ion_rate": 0.0,
+          "mask_taper": 2.0,
+          "neutral_rate": -0.03,
+          "neutral_sticking_probability": 0.02,
+          "theta_r_min": 45.0
+        },
+        "selected_cycle": 15
+      },
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 2.8770074663694243,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.14748647556511124,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": true
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 3.6409390605611476,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.06178878479063438,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": true
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 4.535969061075552,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.08512148207460368,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": true
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 0.27360672587122586,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -0.04973421788217314,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": false
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 0.35914314720527435,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.007069827207049795,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": false
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 7.541153507953255,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.12797761880261924,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": true
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 0.9085415470452841,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.003212179444527186,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 0.33333333333333326,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -1.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": false
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 1.1266440017668193,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -1.9278825701732387,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": true
+        }
+      },
+      "factors": [
+        "neutral_rate",
+        "neutral_sticking_probability"
+      ],
+      "gate_pattern": "crossed_pair_only",
+      "pass_corners": [
+        "high:low",
+        "low:high"
+      ],
+      "pass_count": 2
+    },
+    {
+      "best_passing_corner": {
+        "anchor": "interaction:ion_source_exponent:ion_rate:high:high",
+        "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/0a540c7a52054d17_cycle025.vpsd",
+        "depth": 1.235136737492355,
+        "max_bow": 0.006028737055895517,
+        "max_cd_error": 0.028179811598436355,
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.005,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.04,
+          "ion_source_exponent": 1000,
+          "mask_ion_rate": 0.0,
+          "mask_taper": 2.0,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "selected_cycle": 25
+      },
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 0.46003894102434545,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.02358336668483102,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": false
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 6.910534225089653,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.11727565469238282,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": true
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 0.024102852922980627,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -0.0004523114102863435,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": false
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 0.427772273963571,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -0.07775729711874857,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": false
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 2.525289153719392,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.049710980436524166,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": true
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 7.038378627184591,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.11944524614017651,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": true
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 0.09399534023958853,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.0003323237124167491,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 0.6666666666666665,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -2.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": false
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 0.35329105434524044,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": -0.6045420423862364,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": false
+        }
+      },
+      "factors": [
+        "ion_source_exponent",
+        "ion_rate"
+      ],
+      "gate_pattern": "multiple_corners_feasible",
+      "pass_corners": [
+        "high:high",
+        "low:high"
+      ],
+      "pass_count": 2
+    },
+    {
+      "best_passing_corner": {
+        "anchor": "interaction:ion_source_exponent:deposition_thickness:high:low",
+        "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/357999673f305d01_cycle013.vpsd",
+        "depth": 1.2817206170416515,
+        "max_bow": 0.01479561341856983,
+        "max_cd_error": 0.05370814072422003,
+        "recipe": {
+          "deposition_sticking_probability": 0.01,
+          "deposition_thickness": 0.003,
+          "etch_time": 0.5,
+          "initial_etch_time": 0.3,
+          "ion_rate": -0.1,
+          "ion_source_exponent": 1000,
+          "mask_ion_rate": 0.0,
+          "mask_taper": 2.0,
+          "neutral_rate": -0.08,
+          "neutral_sticking_probability": 0.08,
+          "theta_r_min": 45.0
+        },
+        "selected_cycle": 13
+      },
+      "contrasts": {
+        "cd_bottom": {
+          "absolute_contrast_over_threshold": 0.8784844494345893,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.045034493931767894,
+          "interaction_threshold": 0.05126384873488998,
+          "screen_positive": false
+        },
+        "cd_middle": {
+          "absolute_contrast_over_threshold": 8.914994346914067,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.15129247096662418,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "cd_top": {
+          "absolute_contrast_over_threshold": 2.923960271067456,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.054870707548764774,
+          "interaction_threshold": 0.01876588683222191,
+          "screen_positive": false
+        },
+        "depth": {
+          "absolute_contrast_over_threshold": 0.6432859713376102,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 0.11693179163332368,
+          "interaction_threshold": 0.1817726436505101,
+          "screen_positive": false
+        },
+        "max_bow": {
+          "absolute_contrast_over_threshold": 2.795868042945404,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.055037396957594506,
+          "interaction_threshold": 0.01968526272063021,
+          "screen_positive": false
+        },
+        "max_cd_error": {
+          "absolute_contrast_over_threshold": 11.749099165504964,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": 0.19938882462628243,
+          "interaction_threshold": 0.016970562748477143,
+          "screen_positive": false
+        },
+        "scallop_rms": {
+          "absolute_contrast_over_threshold": 0.27552677121344155,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -0.0009741342416172949,
+          "interaction_threshold": 0.003535533905932738,
+          "screen_positive": false
+        },
+        "selected_cycle": {
+          "absolute_contrast_over_threshold": 6.333333333333332,
+          "depth_matched_morphology_eligible": true,
+          "difference_of_differences": 19.0,
+          "interaction_threshold": 3.0000000000000004,
+          "screen_positive": true
+        },
+        "sidewall_angle_deg": {
+          "absolute_contrast_over_threshold": 0.9470757856800377,
+          "depth_matched_morphology_eligible": false,
+          "difference_of_differences": -1.620610323209767,
+          "interaction_threshold": 1.7111727991716155,
+          "screen_positive": false
+        }
+      },
+      "factors": [
+        "ion_source_exponent",
+        "deposition_thickness"
+      ],
+      "gate_pattern": "one_corner_feasible",
+      "pass_corners": [
+        "high:low"
+      ],
+      "pass_count": 1
+    }
+  ],
+  "campaign": "v3-bosch-cheap-interactions",
+  "decision": {
+    "classification": "interaction_discovery_complete_refinement_required",
+    "full_traveler_authorized": false,
+    "interaction_discovery_complete": true,
+    "next_required_evidence": "interior reduced response surface followed by 2,000-ray independent confirmation",
+    "process_window_authorized": false,
+    "recipe_authorized": false
+  },
+  "hard_gate_pass_count": 8,
+  "interaction_threshold_policy": "sqrt(2) times the independent two-row effect threshold because a four-row difference-of-differences has twice the contrast variance; morphology contrasts require all four corners depth-matched",
+  "labels": [
+    "full-traveler",
+    "critical-review"
+  ],
+  "passing_corners_ranked": [
+    {
+      "anchor": "interaction:etch_time:neutral_rate:low:low",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/38594652869524c4_cycle025.vpsd",
+      "depth": 1.2537411502179772,
+      "max_bow": 0.009657119200392889,
+      "max_cd_error": 0.02787155064123814,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.08,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 25
+    },
+    {
+      "anchor": "interaction:ion_source_exponent:ion_rate:high:high",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/0a540c7a52054d17_cycle025.vpsd",
+      "depth": 1.235136737492355,
+      "max_bow": 0.006028737055895517,
+      "max_cd_error": 0.028179811598436355,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 1000,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 25
+    },
+    {
+      "anchor": "interaction:ion_source_exponent:ion_rate:low:high",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/7405eb159356c564_cycle029.vpsd",
+      "depth": 1.2498970629257218,
+      "max_bow": 0.006646119389695754,
+      "max_cd_error": 0.0332717207631274,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.04,
+        "ion_source_exponent": 50,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 29
+    },
+    {
+      "anchor": "interaction:neutral_rate:neutral_sticking_probability:high:low",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/6839b90069962d47_cycle015.vpsd",
+      "depth": 1.2748579369271367,
+      "max_bow": 0.012757206041060426,
+      "max_cd_error": 0.040999144177365,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.03,
+        "neutral_sticking_probability": 0.02,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 15
+    },
+    {
+      "anchor": "interaction:neutral_rate:neutral_sticking_probability:low:high",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/0918a1479ed8caae_cycle012.vpsd",
+      "depth": 1.2401427803111813,
+      "max_bow": 0.01792832648939413,
+      "max_cd_error": 0.04663578343903241,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.2,
+        "neutral_sticking_probability": 0.3,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 12
+    },
+    {
+      "anchor": "interaction:etch_time:ion_rate:low:low",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/64044b6f5e9854ed_cycle018.vpsd",
+      "depth": 1.2608829304340892,
+      "max_bow": 0.007162191701493903,
+      "max_cd_error": 0.04985151252675496,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.22,
+        "ion_source_exponent": 400,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 18
+    },
+    {
+      "anchor": "interaction:ion_source_exponent:deposition_thickness:high:low",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/357999673f305d01_cycle013.vpsd",
+      "depth": 1.2817206170416515,
+      "max_bow": 0.01479561341856983,
+      "max_cd_error": 0.05370814072422003,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.003,
+        "etch_time": 0.5,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 1000,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.08,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 13
+    },
+    {
+      "anchor": "interaction:etch_time:neutral_sticking_probability:low:low",
+      "checkpoint_path": "/Users/koohaoming/ViennaPS-HBM/autoresearch-results/restart_audit/v3_bosch_cheap_interactions_rows_checkpoints/30dbcaa57cb2aba3_cycle030.vpsd",
+      "depth": 1.1742982423678863,
+      "max_bow": 0.00447007132153035,
+      "max_cd_error": 0.05768999165002672,
+      "recipe": {
+        "deposition_sticking_probability": 0.01,
+        "deposition_thickness": 0.005,
+        "etch_time": 0.2,
+        "initial_etch_time": 0.3,
+        "ion_rate": -0.1,
+        "ion_source_exponent": 400,
+        "mask_ion_rate": 0.0,
+        "mask_taper": 2.0,
+        "neutral_rate": -0.08,
+        "neutral_sticking_probability": 0.02,
+        "theta_r_min": 45.0
+      },
+      "selected_cycle": 30
+    }
+  ],
+  "valid_case_count": 28
+}
