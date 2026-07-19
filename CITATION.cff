@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this tutorial, cite the repository."
+title: "A simplified TSV process tutorial with ViennaPS"
+type: software
+authors:
+  - family-names: Koo
+    given-names: Haoming
+repository-code: "https://github.com/haomingkoo/ViennaPS-HBM"
+url: "https://kooexperience.com/ViennaPS-HBM/explainer.html"
+version: 0.1.0
+date-released: 2026-07-19

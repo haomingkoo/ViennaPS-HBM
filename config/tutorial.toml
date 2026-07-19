@@ -1,0 +1,66 @@
+schema_version = 1
+
+[targets.pattern]
+radius = 0.15
+width = 0.30
+mask_height = 0.30
+
+[targets.etch]
+target_depth = 1.25
+depth_tolerance = 0.10
+target_width = 0.30
+max_width_error = 0.06
+max_wall_bulge = 0.03
+
+[defaults.geometry]
+grid_delta = 0.02
+x_extent = 1.0
+y_extent = 0.8
+
+[tutorial]
+threads = 2
+random_seed = 123
+surface_y = 0.0
+field_xs = [-0.35, 0.35]
+via_x_bounds = [-0.25, 0.25]
+max_profile_radius = 0.50
+layer_samples = 21
+
+[tutorial.mask]
+radius = 0.15
+height = 0.30
+taper_degrees = 0.0
+
+[tutorial.etch]
+cycles = 2
+time_per_cycle = 0.35
+initial_time = 0.15
+ion_source_exponent = 200
+neutral_sticking = 0.10
+wall_protection = 0.010
+wall_protection_sticking = 0.010
+neutral_rate = -0.20
+ion_rate = -0.10
+minimum_reflection_angle = 60.0
+rays_per_point = 50
+mask_ion_rate = 0.0
+
+[tutorial.liner]
+amount = 0.025
+sticking = 0.05
+rays_per_point = 50
+
+[tutorial.barrier]
+amount = 0.015
+all_angle_fraction = 0.30
+
+[tutorial.seed]
+amount = 0.015
+all_angle_fraction = 0.30
+
+[tutorial.copper]
+amount = 0.20
+all_angle_fraction = 0.10
+
+[tutorial.cmp]
+plane_y = 0.0

@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "viennaps-hbm-tutorial"
+version = "0.1.0"
+description = "A simplified TSV process tutorial built with ViennaPS"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0",
+  "ViennaPS @ git+https://github.com/ViennaTools/ViennaPS.git@1dd15f43896bb053836e5c9351a992c962dfab12 ; sys_platform == 'darwin'",
+  "ViennaPS==4.6.1 ; sys_platform != 'darwin'",
+  "ViennaLS @ git+https://github.com/ViennaTools/ViennaLS.git@c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287 ; sys_platform == 'darwin'",
+]
+
+[project.optional-dependencies]
+calibration = [
+  "ViennaFit @ git+https://github.com/ViennaTools/ViennaFit.git@c08986ddce488fc768a7c53cfcc6887d12af24c8",
+]
+
+[project.scripts]
+tsv-tutorial = "viennaps_hbm.tutorial:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv]
+config-settings-package.viennaps = { "cmake.define.CMAKE_PREFIX_PATH" = "/opt/homebrew/opt/libomp;/usr/local/opt/libomp" }
+config-settings-package.viennals = { "cmake.define.CMAKE_PREFIX_PATH" = "/opt/homebrew/opt/libomp;/usr/local/opt/libomp" }
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.22",
+    "ty>=0.0.61",
+]
