@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parent
 INTERACTION_ROWS = ROOT / "evidence/numerical/v3_bosch_cheap_interactions_rows.jsonl"
 INTERACTION_REVIEW = ROOT / "evidence/numerical/v3_bosch_cheap_interactions_review.json"
 INTERIOR_ROWS = ROOT / "evidence/numerical/v3_bosch_interior_refinement_rows.jsonl"
+INTERIOR_REVIEW = ROOT / "evidence/numerical/v3_bosch_interior_descriptive_review.json"
 FOCUSED_ROWS = ROOT / "evidence/numerical/v3_bosch_focused_ion_map_rows.jsonl"
 FOCUSED_REVIEW = ROOT / "evidence/numerical/v3_bosch_focused_ion_map_review.json"
 OUTPUT = ROOT / "bosch_tutorial_data.json"
@@ -87,6 +88,41 @@ FACTOR_COPY = {
         "calibration_note": "Fit the angular distribution from profile response or plasma diagnostics. It is not a pressure or bias value.",
     },
 }
+
+def descriptive_main_effects(cases, factor_order):
+    """Fit descriptive linear main effects to the saved screening cases."""
+    design = np.asarray(
+        [
+            [1.0, *(case["normalized_coordinates"][name] for name in factor_order)]
+            for case in cases
+        ]
+    )
+    results = {}
+    for metric in ("depth", "maximum_cd_error", "bow", "floor_flatness_pv"):
+        response = np.asarray(
+            [
+                np.nan if case["metrics"].get(metric) is None else case["metrics"][metric]
+                for case in cases
+            ],
+            dtype=float,
+        )
+        available = np.isfinite(response)
+        coefficients = np.linalg.lstsq(
+            design[available], response[available], rcond=None
+        )[0][1:]
+        ranking = sorted(
+            zip(factor_order, coefficients, strict=True),
+            key=lambda item: abs(item[1]),
+            reverse=True,
+        )
+        results[metric] = {
+            "available_cases": int(available.sum()),
+            "ranking": [
+                {"factor": factor, "coefficient": float(coefficient)}
+                for factor, coefficient in ranking
+            ],
+        }
+    return results
 
 
 def sha256(path: Path) -> str:
@@ -284,7 +320,9 @@ def main() -> None:
     interaction_rows = load_rows(INTERACTION_ROWS)
     interior_rows = load_rows(INTERIOR_ROWS)
     focused_review = json.loads(FOCUSED_REVIEW.read_text())
+    interior_review = json.loads(INTERIOR_REVIEW.read_text())
     review = json.loads(INTERACTION_REVIEW.read_text())
+    interior_factor_order = interior_review["design"]["factor_order"]
     if len(interaction_rows) != 28 or review["valid_case_count"] != 28:
         raise ValueError("expected 28 reviewed interaction cases")
     if len(interior_rows) != 18:
@@ -362,16 +400,12 @@ def main() -> None:
         },
         "interior_study": {
             "case_count": len(interior),
-            "factor_order": [
-                "etch_time",
-                "deposition_thickness",
-                "ion_source_exponent",
-                "ion_rate",
-                "neutral_rate",
-                "neutral_sticking_probability",
-            ],
+            "factor_order": interior_factor_order,
             "coordinate_levels": [-0.5, 0.0, 0.5],
             "method": "18-case D-optimal interior refinement",
+            "descriptive_main_effects": descriptive_main_effects(
+                interior, interior_factor_order
+            ),
             "interpretation": (
                 "Each profile is one saved six-control combination. The browser "
                 "does not interpolate or rerun ViennaPS."

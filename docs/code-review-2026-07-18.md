@@ -16,6 +16,7 @@ campaigns were inspected as history but were not refactored.
 | P1 | The saved-review rule can miss material absolute drift or boundary movement. | Open. The next qualification must gate normalized per-anchor deltas and boundary displacement. |
 | P1 | Native ViennaPS scientific tests are not executable on GitHub-hosted CI. | Open and disclosed. CI covers portable code and publication checks only. |
 | P1 | The frozen macOS simulation environment cannot currently install packages because its Homebrew Python/Expat linkage is stale. | Open. Keep it frozen for native tests and use a separate locked development environment. |
+| P1 | Rebuilding `step_experiments.json` twice with the same declared seed did not produce a byte-identical artifact on the reviewed native runtime. | Open. Keep the committed reviewed artifact authoritative. Do not hide the difference with rounding or truncation; isolate the first divergent field and runtime source before regenerating it for release. |
 | P2 | Exact native runtime dependencies and checkpoints are not fully rebuildable from a clean clone. | Partly fixed for numerical chart evidence; full native reproduction remains open. |
 
 ## Ponytail audit

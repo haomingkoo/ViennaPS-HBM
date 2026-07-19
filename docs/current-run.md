@@ -66,6 +66,12 @@ it cannot be trusted because it returns a candidate.
    exploration.
 5. Confirm promoted cases with unseen streams and 1,000 rays.
 
+[ViennaFit](https://github.com/ViennaTools/ViennaFit) is the preferred first
+calibration tool to evaluate because it already supports target geometries,
+critical-dimension and shape-distance metrics, sensitivity analysis, and bounded
+optimization. It still needs measured or explicitly defined target profiles;
+adopting it does not make uncalibrated model controls into equipment settings.
+
 The search and stopping rules are in
 [`adaptive-etch-search.md`](adaptive-etch-search.md). The complete experiment
 contract is summarized in [`experiment-playbook.md`](experiment-playbook.md).

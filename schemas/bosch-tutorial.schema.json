@@ -67,12 +67,23 @@
     "interior_study": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["method", "case_count", "factor_order", "coordinate_levels", "interpretation"],
+      "required": ["method", "case_count", "factor_order", "coordinate_levels", "descriptive_main_effects", "interpretation"],
       "properties": {
         "method": {"type": "string", "minLength": 1},
         "case_count": {"const": 18},
         "factor_order": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "coordinate_levels": {"type": "array", "minItems": 3, "items": {"type": "number"}},
+        "descriptive_main_effects": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["depth", "maximum_cd_error", "bow", "floor_flatness_pv"],
+          "properties": {
+            "depth": {"$ref": "#/$defs/main_effect_ranking"},
+            "maximum_cd_error": {"$ref": "#/$defs/main_effect_ranking"},
+            "bow": {"$ref": "#/$defs/main_effect_ranking"},
+            "floor_flatness_pv": {"$ref": "#/$defs/main_effect_ranking"}
+          }
+        },
         "interpretation": {"type": "string", "minLength": 1}
       }
     },
@@ -106,6 +117,28 @@
     }
   },
   "$defs": {
+    "main_effect_ranking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["available_cases", "ranking"],
+      "properties": {
+        "available_cases": {"type": "integer", "minimum": 1, "maximum": 18},
+        "ranking": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["factor", "coefficient"],
+            "properties": {
+              "factor": {"type": "string", "minLength": 1},
+              "coefficient": {"type": "number"}
+            }
+          }
+        }
+      }
+    },
     "factor": {
       "type": "object",
       "additionalProperties": false,

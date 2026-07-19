@@ -46,6 +46,31 @@ The void-free copper traveler is a prescribed geometry control. It confirms
 that the measurements can recognize the intended shape. It does not validate a
 physical electroplating law.
 
+## Where this example fits
+
+This repository is strongest as a teaching and evidence workflow. It shows the
+ViennaPS process loop, replays exact saved profiles, measures geometry, and keeps
+the source settings attached to each result.
+
+It does not yet fit model parameters to wafer measurements or replace expensive
+simulations with a trained surrogate. The surrounding ViennaTools ecosystem
+shows how those later stages can work:
+
+- [ViennaFit](https://github.com/ViennaTools/ViennaFit) optimizes ViennaPS model
+  parameters against target geometry. It includes critical-dimension and shape
+  distance metrics, sensitivity analysis, and several optimization methods.
+- [ViennaPS Interpolation Workflow](https://github.com/yozoon/ViennaPS-InterpolationWorkflow)
+  extracts geometry features from saved simulations, interpolates between the
+  sampled cases, reconstructs a profile, and compares it with a full simulation.
+- [ViennaPS LibTorch Example](https://github.com/yozoon/ViennaPS-LibTorch-Example)
+  demonstrates using a trained neural estimator inside ViennaPS. It is a small
+  integration example, not a calibrated TSV workflow.
+
+The next defensible step for this project is ViennaFit-based etch calibration
+against a measured or deliberately defined target profile. A surrogate becomes
+useful only after the training cases, held-out checks, and permitted
+interpolation range are explicit.
+
 ## Project status
 
 The original demonstration was completed and archived. The larger research

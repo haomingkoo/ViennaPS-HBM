@@ -1,8 +1,12 @@
 # Code map
 
-The repository currently has 193 top-level Python files because it preserves
-the code that produced and reviewed many frozen experiments. That is provenance,
-not the supported public API.
+The repository preserves the code that produced and reviewed frozen experiments.
+That code is provenance, not the supported public API. To inspect the current
+root inventory without relying on a copied count, run:
+
+```bash
+git ls-files | awk 'index($0, "/") == 0'
+```
 
 ## Supported implementation surface
 
@@ -27,14 +31,12 @@ data.
 
 ## File categories
 
-Snapshot on 19 July 2026:
-
-| Category | Count | Rule |
-|---|---:|---|
-| Public core | 25 | the ten modules above and their focused tests |
-| Publication builders and checks | 33 | guide/data builders, schemas, and publication tests |
-| Active research and evidence production | 134 | campaign builders, runners, reviews, freezers, and their tests |
-| Likely dead | 1 | removed orphan interim plotting script |
+| Category | Rule |
+|---|---|
+| Public core | The reusable modules above and their focused tests |
+| Publication | Guide and data builders, schemas, and publication tests |
+| Active studies | Campaign designs, runners, reviews, freezers, and their tests |
+| Historical work | Superseded campaigns indexed under `archive/` |
 
 Naming conventions provide the complete root classification:
 
@@ -52,8 +54,8 @@ authority.
 
 ## Why the research files have not been mass-moved
 
-Frozen manifests and reviews record source paths and hashes. Moving 134 campaign
-files in one cleanup commit would make the root prettier while weakening those
+Frozen manifests and reviews record source paths and hashes. Moving every campaign
+file in one cleanup commit would make the root prettier while weakening those
 citations and creating a large import rewrite. The safe migration is versioned:
 
 1. publish an exhaustive evidence index;
@@ -68,13 +70,15 @@ surface, not from pretending every root script is a library API.
 ## Intended later layout
 
 ```text
-src/viennaps_hbm/   reusable process, model, checkpoint, and metric code
-publication/        guide builders and release projections
-research/           active Bosch, copper, CMP, and numerical campaigns
-tests/              core, publication, and research checks
-evidence/           immutable study evidence and reviews
-docs/               method, status, and public case study support
-archive/            withdrawn or superseded work
+viennaps_hbm/   reusable models and measurements
+studies/        experiment designs, runners, and reviews
+tests/          verification
+evidence/       immutable results and provenance
+publication/    explainer source, builders, and publication data
+docs/           method, status, and public guidance
+scripts/        repository build and CI utilities only
+archive/        withdrawn or superseded work
 ```
 
-This is a migration target, not a request to add a packaging framework now.
+This is a migration target. A `src/` packaging layer is not needed unless the
+reusable code becomes an installable Python package.

@@ -276,8 +276,9 @@
   .method-chain div { background: var(--surface); padding: 0.85rem; }
   .method-chain b { display: block; font: 0.75rem var(--mono); margin-bottom: 0.35rem; }
   .method-chain span { color: var(--ink-dim); font-size: 0.77rem; }
+  .executive-summary .method-chain { grid-template-columns: repeat(4, 1fr); }
   #learnings .method-chain { grid-template-columns: repeat(3, 1fr); }
-  @media (max-width: 760px) { .method-chain, #learnings .method-chain { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .method-chain, #learnings .method-chain, .executive-summary .method-chain { grid-template-columns: 1fr; } }
   .stage-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
   .stage-tabs button, .choice-row button {
     appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink-dim);
@@ -673,8 +674,8 @@
   .ray-chart { margin: 0; min-width: 0; }
   .ray-chart svg { display: block; width: 100%; height: auto; border-block: 1px solid var(--line); background: var(--surface); }
   .ray-chart figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
-  .ray-profile-overlay { margin: 1.25rem 0 0; max-width: 760px; }
-  .ray-profile-overlay svg { display: block; width: 100%; height: clamp(24rem, 50vh, 34rem); border: 1px solid var(--line); background: var(--surface); }
+  .ray-profile-overlay { margin: 1.25rem 0 0; max-width: 640px; }
+  .ray-profile-overlay svg { display: block; width: 100%; height: clamp(18rem, 38vh, 25rem); border: 1px solid var(--line); background: var(--surface); }
   .ray-profile-overlay figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
   .ray-pair-panel { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
   .ray-pair-panel h3 { margin-top: 0; }
@@ -695,7 +696,7 @@
     .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .ray-chart-grid { grid-template-columns: 1fr; }
     .ray-controls { align-items: stretch; flex-direction: column; }
-    .ray-profile-overlay svg { height: 26rem; }
+    .ray-profile-overlay svg { height: 22rem; }
     .ray-movement-table thead { display: none; }
     .ray-movement-table, .ray-movement-table tbody, .ray-movement-table tr, .ray-movement-table td { display: block; width: 100%; }
     .ray-movement-table tr { display: grid; grid-template-columns: repeat(3, 1fr); padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
@@ -741,6 +742,18 @@
       </ul>
     </nav>
   </header>
+
+  <section class="finding executive-summary" aria-labelledby="executive-summary-title">
+    <h2 id="executive-summary-title">What the current evidence says</h2>
+    <p class="decision-line">The software can carry and measure geometry across the simplified traveler. It has not yet found or validated a complete TSV process window.</p>
+    <div class="method-chain">
+      <div><b>Run faster</b><span>Use 500 rays for broad 2D exploration. Recheck promoted cases at higher settings.</span></div>
+      <div><b>Improve the etch</b><span>Keep the focused straight-wall region. Treat floor shape as the next separate objective.</span></div>
+      <div><b>Reduce copper void risk</b><span>Establish continuous deep seed and measured floor-faster-than-wall growth before adding more copper.</span></div>
+      <div><b>Finish the traveler</b><span>Resolve copper topology first. Then tune CMP using field clearance, plug loss, and stop loss together.</span></div>
+    </div>
+    <p class="note"><b>Practical next step:</b> calibrate the model with split-wafer profile and growth measurements. Until then, the controls teach simulated mechanisms but do not define gas flow, plating current, or polish settings.</p>
+  </section>
 
   <section class="finding" id="process-overview">
     <h2>What we are modeling</h2>
@@ -921,8 +934,8 @@
         <figure class="ray-chart"><svg id="ray-movement-chart" viewBox="0 0 340 250" role="img" aria-label="Measurement movement between successive ray counts"></svg><figcaption>Median absolute movement from the previous ray level. It is not error against truth.</figcaption></figure>
       </div>
       <figure class="ray-profile-overlay">
-        <svg id="ray-profile-overlay" viewBox="-0.5 -0.1 1 1.65" role="img" aria-label="Five saved wall profiles overlaid for one random stream"></svg>
-        <figcaption>One saved stream from the selected shape. Each line is the measured wall profile at a different ray count.</figcaption>
+        <svg id="ray-profile-overlay" viewBox="-0.24 -0.08 0.48 1.48" preserveAspectRatio="none" role="img" aria-label="Five saved wall profiles overlaid for one random stream with the horizontal scale expanded"></svg>
+        <figcaption>One saved stream from the selected shape. The horizontal scale is expanded so movement between ray counts remains visible.</figcaption>
       </figure>
       <p class="note" id="ray-ladder-takeaway"></p>
     </div>
@@ -1030,25 +1043,12 @@
       <div class="archive-profile-grid" id="archive-profile-grid" aria-label="Twenty-five archived etch profiles"></div>
       <div class="archive-method-links"><a href="pattern_bosch_range_pilot_review.json">Read the corrected review</a><a href="evidence/bosch/range_pilot/source_bundle.json">Inspect the 25 archived profiles</a></div>
     </aside>
-    <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. The handoff viewer later on the page is the separate example that carries one geometry forward.</p>
-    <div class="focused-etch-map" id="focused-etch-map">
-      <h3>A focused map found a repeatable straight-wall region</h3>
-      <p class="claim">Ion arrival direction and directional removal were changed together across nine saved settings.</p>
-      <p class="note">Select a setting to view the exact simulated profile. The center was run three times. Other cells have one run, so they show direction but not repeatability.</p>
-      <div class="focused-etch-grid" id="focused-etch-grid" aria-label="Nine saved focused etch settings"></div>
-      <div class="focused-etch-actions"><button type="button" id="focused-etch-repeat">Next repeat</button><span id="focused-etch-repeat-label" class="note"></span></div>
-      <div class="bosch-lab-layout">
-        <div class="bosch-profile" id="focused-etch-profile" role="img" aria-label="Selected saved focused dry-etch profile"></div>
-        <aside class="bosch-read" id="focused-etch-read" aria-live="polite"></aside>
-      </div>
-      <p class="note"><b>Takeaway:</b> the repeated center stays near the target depth and its walls remain close to vertical. The saved floors are still rounded or uneven. Floor shape therefore remains a separate optimization objective.</p>
-      <p class="note"><a href="bosch_tutorial_data.json">Open all 12 raw profiles and source-row citations.</a></p>
-    </div>
+    <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. No continuous passing traveler is claimed.</p>
     <div class="bosch-multifactor" id="bosch-multifactor-lab">
-      <h3>Explore a six-control dry-etch study</h3>
+      <h3>Step 1: Screen six dry-etch controls</h3>
       <p class="claim">Each line is one saved run in which six model controls changed together.</p>
       <p class="note">This 18-run design samples combinations efficiently instead of testing every possible combination. Select a line or scrub through the runs. The browser shows the exact saved profile; it does not interpolate or rerun ViennaPS.</p>
-      <p class="note">Earlier comparisons nominated these six controls for closer study. Initial etch time, passivation sticking, and ion reflection angle were held fixed here. Cycle count, mask geometry, and mask erosion need separate studies because they change cumulative exposure or the incoming shape.</p>
+      <p class="note">The purpose is broad screening: identify which controls move depth, width, wall shape, and floor shape enough to deserve a smaller follow-up study. Initial etch time, passivation sticking, and ion reflection angle were held fixed. Cycle count, mask geometry, and mask erosion remain separate studies.</p>
       <div class="bosch-multifactor-workspace">
         <div class="bosch-multifactor-explorer">
           <div class="bosch-multifactor-controls">
@@ -1064,13 +1064,15 @@
           <aside class="bosch-multifactor-read" id="bosch-multifactor-read" aria-live="polite"></aside>
         </div>
       </div>
+      <p class="boundary-result" id="bosch-screening-result"></p>
+      <p class="note"><b>Action:</b> inspect the nominated control pairs below. These rankings are descriptive because each combination has one random stream. Add repeats before treating a ranking as stable.</p>
       <p class="note"><a href="bosch_tutorial_data.json">Open all 18 profiles, measurements, model settings, and source-row citations.</a></p>
     </div>
     <div class="bosch-lab" id="bosch-interaction-lab">
-      <h3>Compare four saved dry-etch settings</h3>
+      <h3>Step 2: Inspect four corners of a selected control pair</h3>
       <p class="evidence-badge">Saved sensitivity · one stream per case · not DOE · model units</p>
       <p class="claim">Choose a factor pair, then inspect the four saved simulated profiles.</p>
-      <p class="note">These 28 saved cases vary two model controls at a time around one fixed model setup. Each case has one random stream. There is no interpolation or interaction estimate. The shapes show sensitivity for this model and geometry, not a calibrated equipment recipe.</p>
+      <p class="note">Choose two controls nominated for follow-up. Their four corners are low × low, low × high, high × low, and high × high. This makes the pair easier to interpret than the six-control screen. Each corner has one random stream, so it is visual sensitivity evidence, not a confirmed interaction estimate.</p>
       <div class="bosch-causal" aria-label="Equipment to measurement relationship">
         <span>Equipment controls</span><span>Plasma and surface state</span><span>ViennaPS model controls</span><span>Simulated profile</span><span>Geometry measurements</span>
       </div>
@@ -1084,6 +1086,7 @@
         <div class="bosch-profile" id="bosch-profile" role="img" aria-label="Actual saved ViennaPS dry-etch profile"></div>
         <aside class="bosch-read" id="bosch-read" aria-live="polite"></aside>
       </div>
+      <p class="note"><b>Action:</b> if a pair brackets a useful profile, add centre points and repeats inside that box. Then tune the smaller region and confirm the promoted setting independently.</p>
       <p class="note"><a href="bosch_tutorial_data.json">Open the exported profiles and citations.</a> The browser does not interpolate between the four sampled combinations.</p>
       <figure class="trajectory-replay" id="bosch-trajectory-replay">
         <h4>Watch the via deepen over repeated etch cycles</h4>
@@ -1100,19 +1103,26 @@
         <figcaption>The final frame matches the saved native checkpoint. There is no browser interpolation. <a href="bosch_trajectory_replay.json">Open the replay data and citations.</a></figcaption>
       </figure>
     </div>
+    <div class="focused-etch-map" id="focused-etch-map">
+      <h3>Step 3: Tune and repeat the promising region</h3>
+      <p class="claim">Ion arrival direction and directional removal were changed together across nine saved settings.</p>
+      <p class="note">Select a setting to view the exact simulated profile. The center was run three times. Other cells have one run, so they show direction but not repeatability.</p>
+      <div class="focused-etch-grid" id="focused-etch-grid" aria-label="Nine saved focused etch settings"></div>
+      <div class="focused-etch-actions"><button type="button" id="focused-etch-repeat">Next repeat</button><span id="focused-etch-repeat-label" class="note"></span></div>
+      <div class="bosch-lab-layout">
+        <div class="bosch-profile" id="focused-etch-profile" role="img" aria-label="Selected saved focused dry-etch profile"></div>
+        <aside class="bosch-read" id="focused-etch-read" aria-live="polite"></aside>
+      </div>
+      <p class="boundary-result"><b>Result:</b> the repeated center stays near the target depth and its walls remain close to vertical.</p>
+      <p class="note"><b>Next action:</b> optimize and repeat the floor-shape measurement separately. The saved floors remain rounded or uneven, so this is not yet the final etch profile.</p>
+      <p class="note"><a href="bosch_tutorial_data.json">Open all 12 raw profiles and source-row citations.</a></p>
+    </div>
     <div class="output-studies" id="step-output-studies">
       <h3>Inspect the saved result from each step</h3>
       <p class="claim">Each panel connects controls to a saved shape, measured feedback, and the next process improvement to test.</p>
       <p class="note"><b>These are not results from a designed experiment (DOE).</b> Each panel is a single-seed sensitivity example. Its controls select a saved combination. They do not rerun ViennaPS or update a later panel. <a href="step_experiments.json">Open the saved step data.</a></p>
       <div id="step-output-list"></div>
-      <div class="output-viewer" id="failure-chain-viewer" data-failure-chain>
-        <div class="output-viewer-head"><div><h3></h3><p></p></div></div>
-        <div class="stage-tabs" id="failure-chain-tabs" aria-label="Failure-chain step"></div>
-        <div class="output-viewer-layout">
-          <div class="output-figure" role="img" aria-label="One simulated geometry carried from mask to copper fill"></div>
-          <aside class="output-read" aria-live="polite"><p class="output-status miss"></p><dl class="output-metrics"></dl><div class="guardrails"><h4>Guardrail</h4><p></p></div><div class="material-key"></div></aside>
-        </div>
-      </div>
+      <p class="boundary-result"><b>Handoff status:</b> these independent studies do not yet form one passing lineage. A new continuous run should start only after the etch floor, deep films, and physical copper-growth model are ready.</p>
     </div>
   </section>
 
@@ -1172,10 +1182,11 @@
     <div class="method-chain" id="saved-results-summary" aria-label="Current saved experimental results"></div>
     <figure class="fill-replay" id="study-copper">
       <h3 style="margin:0 0 0.3rem;">What the transport-based copper run shows</h3>
-      <p class="claim">The final outcome is unknown at this grid. A center gap remains, but it becomes too narrow to classify.</p>
+      <p class="claim">At the final checkpoint, a narrow center gap remains. This grid cannot determine whether it is still open or has become a sealed void.</p>
       <p class="note">All layers and model controls stay fixed. Scrub through eleven saved checkpoints.</p>
       <p class="note" id="candidate-cu-fixed"></p>
-      <p class="note"><b>Process improvement:</b> do not increase total copper time yet. First use wafer tests of additive chemistry, current waveform, and seed continuity to calibrate a model that can create a measurable floor-over-wall growth advantage.</p>
+      <p class="boundary-result"><b>Decision:</b> unresolved, not filled. Recheck the closing region on a finer grid before assigning its topology.</p>
+      <p class="note"><b>Next process study:</b> measure floor and wall growth across additive, current-waveform, and seed splits. Use those data to calibrate the growth model before extending copper time.</p>
       <div class="fill-replay-controls">
         <div class="fill-progress"><label for="candidate-cu-slider">Saved checkpoint <span id="candidate-cu-value"></span></label><input id="candidate-cu-slider" type="range" min="0" max="0" step="1" value="0"></div>
         <button type="button" id="candidate-cu-play">Play</button>
@@ -1190,8 +1201,8 @@
       <h3 style="margin:0 0 0.3rem;">What the sampled copper settings show</h3>
       <p class="claim">Bottom-up fill needs less suppressor and faster copper growth at the floor.</p>
       <p class="note">Choose a depth and measurement. Then select one of the 21 saved transport samples. This is not a fitted response surface or a fill simulation.</p>
-      <p class="decision-line"><b>Takeaway:</b> under this coupled 2D test, none of the sampled cases produces enough floor-over-wall advantage for bottom-up filling.</p>
-      <p class="note"><b>Process improvement:</b> changing only suppressor sticking and arrival direction is not enough in this model. The next useful work is a calibrated additive/current/seed study, not a larger sweep of the same two coefficients.</p>
+      <p class="decision-line"><b>Takeaway:</b> every sampled suppressor ratio is at least 1.021. Bottom-up filling needs the floor to receive less suppressor than the lower wall, which means a ratio below 1.</p>
+      <p class="note"><b>Action:</b> stop expanding this same two-control path. Calibrate a broader model using additive, current-waveform, and seed experiments.</p>
       <p class="note"><b>Coupled inputs:</b> adsorption strength was set to 0.25 divided by sticking in every case. The map therefore tests a held-product path, not two independent copper controls.</p>
       <div class="surface-explorer">
         <div class="surface-controls">
@@ -1606,8 +1617,8 @@ function renderRayBenefit() {
     ).join('');
     return `<path d="${wallPath('left_wall_x')}${wallPath('right_wall_x')}" fill="none" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}"/>`;
   }).join('');
-  const legend = representative.arms.map((arm, index) => `<g transform="translate(${-0.46 + index * 0.19} -0.055)"><line x1="0" y1="0" x2="0.045" y2="0" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}"/><text x="0.055" y="0.008" fill="var(--ink-dim)" font-size="0.025">${arm.rays_per_point}</text></g>`).join('');
-  document.getElementById('ray-profile-overlay').innerHTML = `<rect x="-0.5" y="-0.1" width="1" height="1.65" fill="var(--surface)"/><path d="M-0.15 0V1.25H0.15V0" fill="none" stroke="var(--line)" stroke-width="0.004" stroke-dasharray="0.018 0.012"/>${profilePaths}${legend}`;
+  const legend = representative.arms.map((arm, index) => `<g transform="translate(${-0.22 + index * 0.09} -0.05)"><line x1="0" y1="0" x2="0.022" y2="0" stroke="${styles[index][0]}" stroke-width="0.005" stroke-dasharray="${styles[index][1]}"/><text x="0.027" y="0.006" fill="var(--ink-dim)" font-size="0.017">${arm.rays_per_point}</text></g>`).join('');
+  document.getElementById('ray-profile-overlay').innerHTML = `<rect x="-0.24" y="-0.08" width="0.48" height="1.48" fill="var(--surface)"/><path d="M-0.15 0V1.25H0.15V0" fill="none" stroke="var(--line)" stroke-width="0.004" stroke-dasharray="0.018 0.012"/>${profilePaths}${legend}`;
 
   const level500 = RAY_CURRENT.levels.find(row => row.rays_per_point === 500);
   const level2000 = RAY_CURRENT.levels.find(row => row.rays_per_point === 2000);
@@ -1792,8 +1803,18 @@ const multiFactorShortLabels = {
   neutral_rate: 'Neutral etch',
   neutral_sticking_probability: 'Reaction',
 };
-const defaultMultiFactorIndex = Math.max(0, multiFactorCases.findIndex(row => row.case_id === BOSCH.default_interior_case));
+const defaultMultiFactorIndex = multiFactorCases.findIndex(row => row.case_id === BOSCH.default_interior_case);
+if (defaultMultiFactorIndex < 0) throw new Error('Declared default dry-etch case is missing');
 let multiFactorIndex = defaultMultiFactorIndex;
+
+function screeningFactorNames(metric, count) {
+  return BOSCH.interior_study.descriptive_main_effects[metric].ranking
+    .slice(0, count)
+    .map(item => BOSCH.factors[item.factor].label.toLowerCase())
+    .join(', ');
+}
+
+document.getElementById('bosch-screening-result').innerHTML = `<b>Largest observed linear movements:</b> depth: ${screeningFactorNames('depth', 3)}. Width error: ${screeningFactorNames('maximum_cd_error', 1)}. Bow: ${screeningFactorNames('bow', 1)}. Floor variation: ${screeningFactorNames('floor_flatness_pv', 1)}.`;
 
 function renderMultiFactorMap() {
   const svg = document.getElementById('bosch-multifactor-map');
@@ -2264,53 +2285,6 @@ function buildStepViewers() {
   });
 }
 buildStepViewers();
-
-function buildFailureChain() {
-  const chain = stepExperiments.failure_chain;
-  const root = document.getElementById('failure-chain-viewer');
-  root.querySelector('.output-viewer-head h3').textContent = chain.title;
-  root.querySelector('.output-viewer-head p').textContent = chain.scope;
-  root.querySelector('.guardrails p').textContent = chain.guardrail;
-  const tabs = root.querySelector('#failure-chain-tabs');
-
-  function render(index) {
-    const frame = chain.frames[index];
-    tabs.querySelectorAll('button').forEach((button, buttonIndex) => {
-      button.setAttribute('aria-pressed', buttonIndex === index);
-    });
-    root.querySelector('.output-status').textContent = index > 1
-      ? `Diagnostic continuation — the dry-etch handoff already failed. ${frame.outcome}`
-      : frame.outcome;
-    root.querySelector('.output-status').className = `output-status ${index === 0 ? 'pass' : 'miss'}`;
-    const viewBox = chain.view_box;
-    root.querySelector('.output-figure').innerHTML = `<svg viewBox="${viewBox.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <rect x="${viewBox[0]}" y="${viewBox[1]}" width="${viewBox[2]}" height="${viewBox[3]}" fill="var(--surface)"/>
-      <g transform="scale(1,-1)">${frame.materials.map(material => {
-        const style = materialStyle[material.id] || [material.id, 'var(--ink-dim)', '0.004'];
-        return `<path data-chain-material="${material.id}" d="${material.surface_path}" fill="none" stroke="${style[1]}" stroke-width="${style[2]}"/>`;
-      }).join('')}</g>
-    </svg>`;
-    root.querySelector('.output-metrics').innerHTML = Object.entries(frame.metrics || {}).map(([metric, value]) =>
-      `<dt>${stepMetricLabels[metric]}</dt><dd>${stepValue(value, metric)}</dd>`
-    ).join('');
-    const materialIds = [...new Set(frame.materials.map(material => material.id))];
-    root.querySelector('.material-key').innerHTML = materialIds.map(id => {
-      const style = materialStyle[id] || [id, 'var(--ink-dim)'];
-      return `<span style="--key-color:${style[1]}">${style[0]}</span>`;
-    }).join('');
-  }
-
-  chain.frames.forEach((frame, index) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = frame.step;
-    button.setAttribute('aria-pressed', index === 0);
-    button.addEventListener('click', () => render(index));
-    tabs.appendChild(button);
-  });
-  render(0);
-}
-buildFailureChain();
 
 // ============ Saved copper-fill geometry replay ============
 const fillReplay = DATA.cu_replay;

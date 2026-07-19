@@ -81,16 +81,11 @@ def assert_step_viewers(page):
     assert "6/6 purely directional layers are disconnected" in summary.inner_text()
     assert "unresolved seam transition" in summary.inner_text()
 
-    chain = page.locator("#failure-chain-viewer")
-    start_path = chain.locator('path[data-chain-material="silicon"]').get_attribute("d")
-    chain.get_by_role("button", name="Copper fill", exact=True).click()
-    assert "Diagnostic continuation" in chain.locator(".output-status").inner_text()
-    assert "traps a void" in chain.locator(".output-status").inner_text().lower()
-    assert chain.locator('path[data-chain-material="copper"]').count() == 1
-    assert (
-        chain.locator('path[data-chain-material="silicon"]').get_attribute("d")
-        != start_path
+    assert page.locator("#failure-chain-viewer").count() == 0
+    handoff_status = page.locator("#step-output-studies .boundary-result").filter(
+        has_text="Handoff status"
     )
+    assert "do not yet form one passing lineage" in handoff_status.inner_text()
 
 
 def assert_numerical_evidence(page):
@@ -108,6 +103,10 @@ def assert_numerical_evidence(page):
     )
     page.select_option("#ray-panel", "narrow_profile")
     assert page.locator("#ray-profile-overlay path").count() == 6
+    profile_width = page.locator("#ray-profile-overlay path").nth(1).evaluate(
+        "element => element.getBoundingClientRect().width"
+    )
+    assert profile_width > 200
 
     response = page.locator("#numerical-response-chart")
     assert response.locator("circle").count() == 4
@@ -146,6 +145,9 @@ def assert_bosch_interactions(page):
 
 def assert_bosch_multifactor(page):
     lab = page.locator("#bosch-multifactor-lab")
+    assert page.evaluate(
+        "document.getElementById('bosch-multifactor-lab').compareDocumentPosition(document.getElementById('bosch-interaction-lab')) & Node.DOCUMENT_POSITION_FOLLOWING"
+    )
     assert lab.locator("#bosch-multifactor-map .factor-axis").count() == 6
     assert lab.locator("#bosch-multifactor-map .factor-run").count() == 18
     assert lab.locator("#bosch-multifactor-map .factor-run.selected").count() == 1
@@ -160,6 +162,10 @@ def assert_bosch_multifactor(page):
     assert "Neutral surface-reaction probability" in readout
     assert "Top / middle / bottom CD" in readout
     assert "Bottom-shape diagnostic" in readout
+    screening = lab.locator("#bosch-screening-result").inner_text()
+    assert "Largest observed linear movements" in screening
+    assert "directional removal strength" in screening.lower()
+    assert "passivation added per cycle" in screening.lower()
     assert lab.locator('a[href="bosch_tutorial_data.json"]').count() == 1
 
 
