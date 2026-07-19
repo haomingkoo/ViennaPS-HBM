@@ -1232,8 +1232,8 @@
   },
   "provenance": {
     "builder": {
-      "path": "build_numerical_performance_data.py",
-      "sha256": "4e7ac327970dad67db6f99d533695b1bddb5de4c38687344fdfb1fc8295b2a3a"
+      "path": "scripts/build/build_numerical_performance_data.py",
+      "sha256": "705e55be2d3b87f430444d0e3d4bb72f9ba085dee417260bf0ef02b09939dc02"
     },
     "inputs": [
       {

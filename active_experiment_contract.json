@@ -549,8 +549,8 @@
   "scope": "Active public teaching studies; not the complete ViennaPS API inventory or a fab DOE.",
   "sources": [
     {
-      "path": "build_active_experiment_contract.py",
-      "sha256": "7f8cc80e092c283a64693b3c54b84fd54005aead6bd6546d8ebe21f9291967dd"
+      "path": "scripts/build/build_active_experiment_contract.py",
+      "sha256": "599d81e6b2dc11fd6f78edb336e7d25eceeaed3738af911cefd3d9b0532566c0"
     },
     {
       "path": "config/process.toml",
