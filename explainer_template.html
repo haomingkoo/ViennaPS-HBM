@@ -673,9 +673,6 @@
   .ray-chart { margin: 0; min-width: 0; }
   .ray-chart svg { display: block; width: 100%; height: auto; border-block: 1px solid var(--line); background: var(--surface); }
   .ray-chart figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
-  .ray-profile-overlay { margin: 1.25rem 0 0; max-width: 640px; }
-  .ray-profile-overlay svg { display: block; width: 100%; height: clamp(18rem, 38vh, 25rem); border: 1px solid var(--line); background: var(--surface); }
-  .ray-profile-overlay figcaption { margin-top: 0.45rem; color: var(--ink-dim); font-size: 0.76rem; }
   .ray-pair-panel { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
   .ray-pair-panel h3 { margin-top: 0; }
   .ray-pair-runtime { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0.8rem 0 1rem; border: 1px solid var(--line); background: var(--line); }
@@ -695,7 +692,6 @@
     .numerical-status div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .ray-chart-grid { grid-template-columns: 1fr; }
     .ray-controls { align-items: stretch; flex-direction: column; }
-    .ray-profile-overlay svg { height: 22rem; }
     .ray-movement-table thead { display: none; }
     .ray-movement-table, .ray-movement-table tbody, .ray-movement-table tr, .ray-movement-table td { display: block; width: 100%; }
     .ray-movement-table tr { display: grid; grid-template-columns: repeat(3, 1fr); padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
@@ -934,10 +930,6 @@
         <figure class="ray-chart"><svg id="ray-spread-chart" viewBox="0 0 340 250" role="img" aria-label="Repeat spread by ray count"></svg><figcaption>Standard deviation across three random streams for the selected shape.</figcaption></figure>
         <figure class="ray-chart"><svg id="ray-movement-chart" viewBox="0 0 340 250" role="img" aria-label="Measurement movement between successive ray counts"></svg><figcaption>Median absolute movement from the previous ray level. It is not error against truth.</figcaption></figure>
       </div>
-      <figure class="ray-profile-overlay">
-        <svg id="ray-profile-overlay" viewBox="-0.24 -0.08 0.48 1.48" preserveAspectRatio="none" role="img" aria-label="Five saved wall profiles overlaid for one random stream with the horizontal scale expanded"></svg>
-        <figcaption>One saved stream from the selected shape. The horizontal scale is expanded so movement between ray counts remains visible.</figcaption>
-      </figure>
       <p class="note" id="ray-ladder-takeaway"></p>
     </div>
     <h3>Choosing a grid spacing</h3>
@@ -1604,22 +1596,6 @@ function renderRayBenefit() {
   rayBarPlot('ray-runtime-chart', RAY_CURRENT.levels, row => row.runtime_s.median, 'median wall time', formatSeconds);
   rayBarPlot('ray-spread-chart', repeatRows, row => row.measurement_spread[metric].sample_sd, `${rayMetricLabels[metric]} repeat spread`, formatModel);
   rayBarPlot('ray-movement-chart', movementRows, row => row.value, `${rayMetricLabels[metric]} movement`, formatModel);
-
-  const representative = [...panelPairs].sort((a, b) => a.repeat_index - b.repeat_index)[0];
-  const styles = [
-    ['var(--plasma)', ''], ['var(--oxide)', '0.025 0.012'], ['var(--amber)', '0.012 0.009'],
-    ['var(--copper)', '0.035 0.012'], ['var(--ink)', '0.006 0.008'],
-  ];
-  const profilePaths = representative.arms.map((arm, index) => {
-    const points = arm.profile.samples;
-    const depth = arm.measurements.depth;
-    const wallPath = side => points.map((point, pointIndex) =>
-      `${pointIndex ? 'L' : 'M'}${point[side].toFixed(5)} ${(point.depth_fraction * depth).toFixed(5)}`
-    ).join('');
-    return `<path d="${wallPath('left_wall_x')}${wallPath('right_wall_x')}" fill="none" stroke="${styles[index][0]}" stroke-width="0.006" stroke-dasharray="${styles[index][1]}"/>`;
-  }).join('');
-  const legend = representative.arms.map((arm, index) => `<g transform="translate(${-0.22 + index * 0.09} -0.05)"><line x1="0" y1="0" x2="0.022" y2="0" stroke="${styles[index][0]}" stroke-width="0.005" stroke-dasharray="${styles[index][1]}"/><text x="0.027" y="0.006" fill="var(--ink-dim)" font-size="0.017">${arm.rays_per_point}</text></g>`).join('');
-  document.getElementById('ray-profile-overlay').innerHTML = `<rect x="-0.24" y="-0.08" width="0.48" height="1.48" fill="var(--surface)"/><path d="M-0.15 0V1.25H0.15V0" fill="none" stroke="var(--line)" stroke-width="0.004" stroke-dasharray="0.018 0.012"/>${profilePaths}${legend}`;
 
   const level500 = RAY_CURRENT.levels.find(row => row.rays_per_point === 500);
   const level2000 = RAY_CURRENT.levels.find(row => row.rays_per_point === 2000);

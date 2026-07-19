@@ -102,11 +102,7 @@ def assert_numerical_evidence(page):
         in page.locator("#ray-ladder-takeaway").inner_text().lower()
     )
     page.select_option("#ray-panel", "narrow_profile")
-    assert page.locator("#ray-profile-overlay path").count() == 6
-    profile_width = page.locator("#ray-profile-overlay path").nth(1).evaluate(
-        "element => element.getBoundingClientRect().width"
-    )
-    assert profile_width > 200
+    assert spread.locator("rect").count() == 5
 
     response = page.locator("#numerical-response-chart")
     assert response.locator("circle").count() == 4
