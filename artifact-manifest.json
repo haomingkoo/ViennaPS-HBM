@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source_commit": "911467fe3dd539283be2e11a0a4415cb0dd3cf19",
+  "artifacts": [
+    {
+      "id": "reviewed-evidence",
+      "role": "reviewed simulation evidence",
+      "original_path": "evidence/",
+      "object_key": "sha256/8e/8ecc5de773f37bef334ae837cfbbbae7c2561ff1970e3f569eb5f760b0d58e69/evidence.tar.gz",
+      "sha256": "8ecc5de773f37bef334ae837cfbbbae7c2561ff1970e3f569eb5f760b0d58e69",
+      "size_bytes": 7668010,
+      "media_type": "application/gzip"
+    },
+    {
+      "id": "autoresearch-results",
+      "role": "raw bounded research-loop results",
+      "original_path": "autoresearch-results/",
+      "object_key": "sha256/6c/6c93ccabc3233fa77bab4364b809063f3a044530dcb3343198c1b1767fc0fa1c/autoresearch-results.tar.gz",
+      "sha256": "6c93ccabc3233fa77bab4364b809063f3a044530dcb3343198c1b1767fc0fa1c",
+      "size_bytes": 78535712,
+      "media_type": "application/gzip"
+    }
+  ]
+}
