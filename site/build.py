@@ -47,6 +47,9 @@ def build(input_dir, output_dir):
         destination = output_dir / path
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(input_dir / path, destination)
+    settings = output_dir / "config/tutorial.toml"
+    settings.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / "config/tutorial.toml", settings)
 
 
 def main():

@@ -741,8 +741,8 @@
     <h2 id="executive-summary-title">What the current evidence says</h2>
     <p class="decision-line">The software can carry and measure geometry across the simplified traveler. It has not yet found or validated a complete TSV process window.</p>
     <div class="method-chain">
-      <div><b>Numerical setting still open</b><span>The discovery map used 500 rays. A separate Phase B study rejected 500 rays for broad categorical screening.</span></div>
-      <div><b>Improve the etch</b><span>Keep the focused straight-wall region. Treat floor shape as the next separate objective.</span></div>
+      <div><b>Recheck the numerical setting</b><span>The focused map used 500 rays. Those profiles are provisional until repeated at a confirmed grid and ray setting.</span></div>
+      <div><b>Improve the etch</b><span>Recheck the focused straight-wall region. Treat floor shape as a separate objective.</span></div>
       <div><b>Reduce copper void risk</b><span>Establish continuous deep seed and measured floor-faster-than-wall growth before adding more copper.</span></div>
       <div><b>Finish the traveler</b><span>Resolve copper topology first. Then tune CMP using field clearance, plug loss, and stop loss together.</span></div>
     </div>
@@ -888,7 +888,7 @@
           <text x="468" y="208" text-anchor="middle" font-size="11" fill="var(--ink-dim)">Measurements guide the next tested model settings</text>
         </g>
       </svg>
-      <figcaption>Each step changes the material boundaries. <code>build_screening_traveler.py</code> runs the steps in sequence and records the measurements.</figcaption>
+      <figcaption>Each step changes the material boundaries. <code>uv run tsv-tutorial</code> runs the compact example and records the measurements.</figcaption>
     </figure>
     <div class="scope-box">
       <article><span class="scope-label">What the model provides</span><h3>Geometry under declared rules</h3><ul><li>Surface motion from the selected rate or particle-transport model.</li><li>Material handoffs between simulated process steps.</li><li>Geometry measurements at the chosen grid and sampling settings.</li></ul></article>
@@ -898,9 +898,9 @@
   </section>
 
   <section class="finding" id="step-output-studies">
-    <h2>Follow the saved results in process order</h2>
+    <h2>Explore separate step studies in process order</h2>
     <p class="claim">Mask → dry etch → liner → barrier → seed → copper → polish.</p>
-    <p class="note">Each panel replays saved simulation output. The controls select an existing case; the browser does not rerun ViennaPS or invent a shape. A deterministic control lineage exists, but these sensitivity panels are not one calibrated candidate recipe. <a href="step_experiments.json">Open the saved step data.</a></p>
+    <p class="note">Each panel is an independent sensitivity example with its own declared starting shape. Changing one panel does not change the next. The browser only replays saved output. <a href="step_experiments.json">Open the saved step data.</a></p>
     <div id="step-output-list"></div>
     <p class="boundary-result"><b>Current handoff status:</b> improve the etch floor, deep film coverage, and copper model before running a new end-to-end candidate.</p>
   </section>
@@ -992,7 +992,7 @@
         </tbody>
       </table>
     </div>
-    <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
+    <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A recorded seed helps repeat a run under the same code and configuration; it does not match particle paths across different numerical settings. None is a fab knob.</p>
     <p class="note"><b>Qualitative influence only:</b> the two middle columns are not a conversion table. Equipment settings change the physical process. Mapping them to model inputs requires measurements from a specific tool.</p>
     <div class="method-chain" aria-label="Current control coverage">
       <div><b>Shown in the tutorial</b><span>Mask geometry; six etch controls; liner dose and sticking; barrier/seed dose and directionality; reduced copper transport; CMP amount and selectivity.</span></div>
@@ -1032,7 +1032,7 @@
       </div>
       <figure>
         <div id="etch-measurement-figure" role="img" aria-label="Saved dry-etch profile annotated with depth and width measurement locations"></div>
-        <figcaption>Saved ViennaPS profile. Lines show where each measurement is taken. <a href="pattern_bosch_measurement_contract.json">Measurement definitions and evidence details.</a></figcaption>
+        <figcaption>Saved ViennaPS profile. Lines show where each measurement is taken. <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/research-snapshot-2026-07-19/pattern_bosch_measurement_contract.json">Measurement definitions and evidence details.</a></figcaption>
       </figure>
     </div>
     <aside class="archive-method" id="pattern-bosch-range-pilot" aria-labelledby="archive-method-title">
@@ -1044,14 +1044,14 @@
         <div><b>Correction</b><span>The current method measures both walls. If either wall is missing, it reports the measurement as unavailable.</span></div>
       </div>
       <div class="archive-profile-grid" id="archive-profile-grid" aria-label="Twenty-five archived etch profiles"></div>
-      <div class="archive-method-links"><a href="pattern_bosch_range_pilot_review.json">Read the corrected review</a><a href="evidence/bosch/range_pilot/source_bundle.json">Inspect the 25 archived profiles</a></div>
+      <div class="archive-method-links"><a href="pattern_bosch_range_pilot_review.json">Read the corrected review</a><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/research-snapshot-2026-07-19/evidence/bosch/range_pilot/source_bundle.json">Inspect the 25 archived profiles</a></div>
     </aside>
     <p class="note"><b>Viewer scope:</b> each sensitivity panel below uses its own controlled starting shape. Changing one panel does not change the next. No continuous passing traveler is claimed.</p>
     <div class="bosch-multifactor" id="bosch-multifactor-lab">
       <h3>Step 1: Screen six dry-etch controls</h3>
       <p class="claim">Each line is one saved run in which six model controls changed together.</p>
       <p class="note">This 18-run design samples combinations efficiently instead of testing every possible combination. Select a line or scrub through the runs. The browser shows the exact saved profile; it does not interpolate or rerun ViennaPS.</p>
-      <p class="note">The purpose is broad screening: identify which controls move depth, width, wall shape, and floor shape enough to deserve a smaller follow-up study. Initial etch time, passivation sticking, and ion reflection angle were held fixed. Cycle count, mask geometry, and mask erosion remain separate studies.</p>
+      <p class="note">This sensitivity screen nominates controls for follow-up. One stream per combination cannot separate a control effect from random variation. Floor-shape comparisons use only the ten runs where that measurement was available.</p>
       <div class="bosch-multifactor-workspace">
         <div class="bosch-multifactor-explorer">
           <div class="bosch-multifactor-controls">
@@ -1116,8 +1116,8 @@
         <div class="bosch-profile" id="focused-etch-profile" role="img" aria-label="Selected saved focused dry-etch profile"></div>
         <aside class="bosch-read" id="focused-etch-read" aria-live="polite"></aside>
       </div>
-      <p class="boundary-result"><b>Result:</b> the repeated center stays near the target depth and its walls remain close to vertical.</p>
-      <p class="note"><b>Next action:</b> optimize and repeat the floor-shape measurement separately. The saved floors remain rounded or uneven, so this is not yet the final etch profile.</p>
+      <p class="boundary-result"><b>Provisional result:</b> three saved center runs have similar depth and wall shape at 500 rays.</p>
+      <p class="note"><b>Next action:</b> confirm the candidate at a checked grid and ray setting. Then optimize and repeat the floor-shape measurement. The saved floors remain rounded or uneven.</p>
       <p class="note"><a href="bosch_tutorial_data.json">Open all 12 raw profiles and source-row citations.</a></p>
     </div>
   </section>
@@ -1181,7 +1181,7 @@
       <p class="claim">The coarse grid reports 97.4% copper by area and an opening-connected cavity. The last merger is only about two grid cells wide, so that topology is not accepted as converged.</p>
       <p class="note">All layers and model controls stay fixed. Scrub through eleven saved checkpoints.</p>
       <p class="note" id="candidate-cu-fixed"></p>
-      <p class="boundary-result"><b>Decision:</b> nearly full by area, but not a confirmed fill. No resolved sealed void is detected at this checkpoint.</p>
+      <p class="boundary-result"><b>Decision:</b> topology is indeterminate at this grid. The run is 97.4% copper by area, but it is neither confirmed filled nor confirmed voided.</p>
       <p class="note"><b>How to resolve it:</b> rerun the same case with smaller grid cells and more checkpoints near closure. Call it void-free only if the cavity disappears without an unresolved merger and the result agrees at the two finest settings. Call it a void only if a sealed region persists with several cells across its smallest dimension.</p>
       <p class="note"><b>Next process study:</b> measure floor and wall growth across additive, current-waveform, and seed splits. Use those data to calibrate the growth model before extending copper time.</p>
       <div class="fill-replay-controls">
@@ -1196,7 +1196,7 @@
 params.suppressorStickingProbability = sticking
 params.suppressorSourcePower = source_power
 model = ps.CopperSuppressionFill(params)
-ps.Process(geometry, model, checkpoint_interval).apply()</code></pre><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/foundation_copper_fill_trajectory.py#L498">See the complete parameter setup and checks</a></div>
+ps.Process(geometry, model, checkpoint_interval).apply()</code></pre><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/research-snapshot-2026-07-19/foundation_copper_fill_trajectory.py#L498">See the complete parameter setup and checks</a></div>
       <figcaption>These are replayed surfaces from one reviewed coarse 2D run. <a href="candidate_cu_replay.json">Open the replay data and citations.</a></figcaption>
     </figure>
     <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
@@ -1358,22 +1358,21 @@ ps.Process(geometry, model, checkpoint_interval).apply()</code></pre><a href="ht
 
   <section class="finding" id="tutorial">
     <div class="finding-head"><span class="finding-num">TUTORIAL</span><h2>Explore the repository</h2></div>
-    <p class="claim">The published guide and its derived JSON can be inspected after cloning the public repository.</p>
-    <pre class="command" aria-label="Commands to clone and serve the guide"><code>git clone https://github.com/haomingkoo/ViennaPS-HBM.git
+    <p class="claim">Run the compact traveler from a clean clone.</p>
+    <pre class="command" aria-label="Commands to clone and run the tutorial"><code>git clone https://github.com/haomingkoo/ViennaPS-HBM.git
 cd ViennaPS-HBM
-python3 -m http.server 8000</code></pre>
-    <p class="note">Then open <a href="http://localhost:8000/explainer.html">http://localhost:8000/explainer.html</a>.</p>
-    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/tsv_process.py">Read <code>tsv_process.py</code> on GitHub</a> to see the process functions.</p>
-    <p class="note"><b>Reproduction:</b> the public repository includes the tutorial data and selected native checkpoints. Rebuilding every historical campaign still requires external native artifacts identified by recorded hashes.</p>
+uv run tsv-tutorial</code></pre>
+    <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/clean-tutorial/src/viennaps_hbm/tutorial.py">Read the tutorial runner on GitHub.</a></p>
+    <p class="note"><b>Larger studies:</b> download the reviewed evidence from the <a href="https://github.com/haomingkoo/ViennaPS-HBM/releases/tag/research-data-2026-07-19">data release</a>. The matching code is preserved in the <a href="https://github.com/haomingkoo/ViennaPS-HBM/tree/research-snapshot-2026-07-19">research snapshot</a>.</p>
   </section>
 
   <section class="finding" id="raw-output">
     <div class="finding-head"><span class="finding-num">DATA</span><h2>See the saved simulation output</h2></div>
-    <p class="claim">The guide is built from checked-in JSON. Use it to inspect the values behind the plots and claims.</p>
+    <p class="claim">The guide is built from reviewed JSON exported from the linked research snapshot. Use it to inspect the values behind the plots and claims.</p>
     <div class="button-row">
       <a class="button-link" href="publication_interim_data.json">Current study data</a>
       <a class="button-link" href="publication_campaign_data.json">Withdrawn phase-one data — history only</a>
-      <a class="button-link" href="config/process.toml">Process settings</a>
+      <a class="button-link" href="config/tutorial.toml">Compact tutorial settings</a>
     </div>
     <p class="note">The phase-one download is retained only to audit withdrawn measurements and conclusions. Selected current checkpoints are public. Some large historical artifacts remain hash-referenced only.</p>
   </section>
