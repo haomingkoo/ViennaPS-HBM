@@ -27,6 +27,8 @@ The interactive guide uses larger simulation studies that would make the
 tutorial repository bulky. Their reviewed JSON, checkpoints, and checksums are
 available in the
 [research-data release](https://github.com/haomingkoo/ViennaPS-HBM/releases/tag/research-data-2026-07-19).
+The matching full research source is preserved at the
+[`research-snapshot-2026-07-19` tag](https://github.com/haomingkoo/ViennaPS-HBM/tree/research-snapshot-2026-07-19).
 
 The release separates three bundles:
 
@@ -46,9 +48,10 @@ recorded checksum.
 ## Current boundary
 
 The compact traveler is runnable from a clean clone. The publication bundle is
-replayable and traceable. The full historical campaign has not yet been reduced
-to one supported public rerun command, so the guide must not claim that every
-published chart can already be regenerated from the clean branch alone.
+replayable and traceable, and its source revision is preserved. The full
+historical campaign has not yet been reduced to one supported public rerun
+command, so the guide must not claim that every published chart can already be
+regenerated from the clean branch alone.
 
 The remaining release gate is a campaign manifest that maps each published
 figure to its command, config, random streams, source revision, and expected
