@@ -9,7 +9,8 @@
       "object_key": "sha256/8e/8ecc5de773f37bef334ae837cfbbbae7c2561ff1970e3f569eb5f760b0d58e69/evidence.tar.gz",
       "sha256": "8ecc5de773f37bef334ae837cfbbbae7c2561ff1970e3f569eb5f760b0d58e69",
       "size_bytes": 7668010,
-      "media_type": "application/gzip"
+      "media_type": "application/gzip",
+      "source_commit": "911467fe3dd539283be2e11a0a4415cb0dd3cf19"
     },
     {
       "id": "autoresearch-results",
@@ -18,7 +19,18 @@
       "object_key": "sha256/6c/6c93ccabc3233fa77bab4364b809063f3a044530dcb3343198c1b1767fc0fa1c/autoresearch-results.tar.gz",
       "sha256": "6c93ccabc3233fa77bab4364b809063f3a044530dcb3343198c1b1767fc0fa1c",
       "size_bytes": 78535712,
-      "media_type": "application/gzip"
+      "media_type": "application/gzip",
+      "source_commit": "911467fe3dd539283be2e11a0a4415cb0dd3cf19"
+    },
+    {
+      "id": "site-build-inputs",
+      "role": "inputs used to build the public explainer",
+      "original_path": "declared files in the research checkout",
+      "object_key": "sha256/97/97b799981933cc13d8616899811b215040cfee28d2610c6697aad7e21516b599/site-build-inputs.tar.gz",
+      "sha256": "97b799981933cc13d8616899811b215040cfee28d2610c6697aad7e21516b599",
+      "size_bytes": 3315949,
+      "media_type": "application/gzip",
+      "source_commit": "bf6a01a7db85bfd7eb05f781d12fef89e1150883"
     }
   ]
 }
