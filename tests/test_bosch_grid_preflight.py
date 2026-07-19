@@ -22,6 +22,14 @@ frozen_contract = next(
     for source in manifest["sources"]
     if source["path"] == "pattern_bosch_measurement_contract.json"
 )
+current_contract = next(
+    source
+    for source in expected["sources"]
+    if source["path"] == frozen_contract["path"]
+)
+assert current_contract["sha256"] != frozen_contract["sha256"]
+# The frozen campaign is intentionally stale at current HEAD. Normalize only
+# to verify that the archived contract is the sole external-source difference.
 next(
     source
     for source in expected["sources"]

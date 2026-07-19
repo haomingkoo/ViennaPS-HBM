@@ -66,6 +66,11 @@ Moving those files requires:
 4. verify old hashes remain resolvable; and
 5. only then move active research into `research/` and tests into `tests/`.
 
+A completed campaign may reject execution at the current commit when a cited
+input has changed. That is an intentional stale-provenance guard. Reproduction
+uses the cited commit, or opens a new manifest that explicitly cites the exact
+snapshot under `evidence/numerical/executed_sources/`.
+
 Until that archive exists, the cited builders stay unchanged. Root compatibility
 wrappers are intentionally avoided because they would preserve the clutter
 without preserving the executed bytes.

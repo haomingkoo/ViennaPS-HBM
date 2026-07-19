@@ -20,9 +20,6 @@ VALIDATOR = ROOT / "scripts/validate_evidence.py"
 def main() -> None:
     document = json.loads(DOCUMENT.read_text())
     rebuilt = build()
-    rebuilt["provenance"]["analysis_input"] = document["provenance"][
-        "analysis_input"
-    ]
     assert document == rebuilt
     assert document["completeness"]["observed_cases"] == 18
     assert document["limitations"]["statistical_significance_estimated"] is False

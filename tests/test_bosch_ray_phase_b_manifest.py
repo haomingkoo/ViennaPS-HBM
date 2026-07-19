@@ -21,6 +21,14 @@ frozen_contract = next(
     for source in manifest["sources"]
     if source["path"] == "pattern_bosch_measurement_contract.json"
 )
+current_contract = next(
+    source
+    for source in rebuilt["sources"]
+    if source["path"] == frozen_contract["path"]
+)
+assert current_contract["sha256"] != frozen_contract["sha256"]
+# The completed campaign must not silently adopt the current contract. The
+# archived bytes below preserve the source that its frozen manifest cites.
 next(
     source
     for source in rebuilt["sources"]

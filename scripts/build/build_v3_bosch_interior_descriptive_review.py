@@ -11,7 +11,11 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "bosch_tutorial_data.json"
+SOURCE = (
+    ROOT
+    / "evidence/numerical/executed_sources/"
+    "bb66a70_bosch_tutorial_data.json"
+)
 OUTPUT = ROOT / "evidence/numerical/v3_bosch_interior_descriptive_review.json"
 FACTORS = (
     "etch_time",
