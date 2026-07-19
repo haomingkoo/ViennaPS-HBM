@@ -52,9 +52,10 @@ runtime and complexity.
 ## What the current experiments taught us
 
 - More rays increased runtime but did not make every etch response converge
-  monotonically. Near the focused etch region, 500 rays and grid 0.0025 are the
-  exploration policy; promoted cases are rechecked at 1,000 rays. This policy
-  does not transfer automatically to another geometry or model.
+  monotonically. The focused map used 500 rays and grid 0.0025, but Phase B
+  rejected 500 rays for broad categorical screening on its grid-0.005 panel.
+  The focused 500-to-1,000 comparisons were observational and did not approve
+  either setting. A candidate-specific numerical decision remains open.
 - Top, middle, and bottom CD are necessary but not sufficient. The full wall,
   symmetry, floor shape, measurement availability, and target depth must remain
   visible.

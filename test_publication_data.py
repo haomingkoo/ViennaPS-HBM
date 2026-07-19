@@ -302,7 +302,33 @@ assert {item["selector"] for item in candidate_replay["citations"]} == {
     "/review_decision",
 }
 bosch_tutorial = json.loads((ROOT / "bosch_tutorial_data.json").read_text())
-assert bosch_tutorial["default_interior_case"] == "142a8a6288351f36"
+passing_interior = [
+    case
+    for case in bosch_tutorial["interior_cases"]
+    if case["metrics"]["hard_gate_pass"]
+]
+expected_default = min(
+    passing_interior,
+    key=lambda case: (
+        case["metrics"]["maximum_cd_error"],
+        abs(case["metrics"]["depth"] - bosch_tutorial["targets"]["depth"]),
+    ),
+)["case_id"]
+assert bosch_tutorial["default_interior_case"] == expected_default
+passing_interactions = [
+    case
+    for case in bosch_tutorial["interactions"]
+    if case["metrics"]["hard_gate_pass"]
+]
+expected_traveler_case = min(
+    passing_interactions,
+    key=lambda case: (
+        abs(case["metrics"]["depth"] - bosch_tutorial["targets"]["depth"]),
+        case["metrics"]["maximum_cd_error"],
+    ),
+)["case_id"]
+assert bosch_tutorial["traveler_etch_case_id"] == expected_traveler_case
+assert bosch_tutorial["measurement_example_case_id"] == expected_traveler_case
 shape_source = bosch_tutorial["measurement_implementation"]
 assert shape_source["path"] == "profile_shape_metrics.py"
 assert (

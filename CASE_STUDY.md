@@ -98,12 +98,12 @@ seconds at 500 rays to 206.5 seconds at 2,000 rays. Measurement movement and
 repeat spread did not improve monotonically as rays increased.
 
 A focused grid bridge found that grid 0.0025 was 3.6 to 5.0 times faster than
-0.00125 on the tested local cases. Grid 0.005 changed the selected width
-profile and was stopped. The working policy is therefore 500 rays and grid
-0.0025 for exploration near this region, followed by a 1,000-ray check for
-promoted cases.
+0.00125 on two tested local cases. Grid 0.005 changed the selected width
+profile and was stopped. The focused map used 500 rays, but Phase B separately
+rejected 500 rays for broad categorical screening on its panel. The two saved
+1,000-ray comparisons did not approve a promotion policy.
 
-This is a compute policy, not an accuracy percentage. No numerical setting is
+No exploration or confirmation ray count is approved. No numerical setting is
 treated as ground truth.
 
 Evidence:

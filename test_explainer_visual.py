@@ -36,12 +36,12 @@ def assert_step_viewers(page):
     viewer_ids = ["mask", "liner", "barrier", "seed", "cmp"]
     assert page.locator("[data-output-viewer]").count() == len(viewer_ids)
     assert page.locator('[data-output-viewer="copper"]').count() == 0
-    assert page.locator("#step-output-list [data-output-viewer]").evaluate_all(
-        "elements => elements.map(element => element.dataset.outputViewer)"
-    ) == ["mask", "liner", "barrier", "seed", "cmp"]
-    assert page.locator('[data-output-viewer="bosch"]').count() == 0
-    assert page.locator("#step-output-list .evidence-badge").count() == 5
-    assert page.locator("#step-output-list .boundary-result").count() == 5
+    assert page.locator("#step-output-list [data-traveler-step]").evaluate_all(
+        "elements => elements.map(element => element.dataset.travelerStep)"
+    ) == ["mask", "bosch", "liner", "barrier", "seed", "copper", "cmp"]
+    assert page.locator("#step-output-list .evidence-badge").count() == 6
+    assert page.locator("#step-output-list .boundary-result").count() == 7
+    assert page.locator("#step-output-list .step-code").count() == 7
     assert (
         "pass the stated geometry check"
         not in page.locator("#step-output-list").inner_text()
@@ -83,9 +83,9 @@ def assert_step_viewers(page):
 
     assert page.locator("#failure-chain-viewer").count() == 0
     handoff_status = page.locator("#step-output-studies .boundary-result").filter(
-        has_text="Handoff status"
+        has_text="Current handoff status"
     )
-    assert "do not yet form one passing lineage" in handoff_status.inner_text()
+    assert "improve the etch floor" in handoff_status.inner_text()
 
 
 def assert_numerical_evidence(page):
@@ -233,6 +233,10 @@ def assert_saved_trajectories(page):
     assert "after cycle 20" in page.locator("#bosch-cycle-read").inner_text()
 
     candidate_path = page.locator("#candidate-cu-figure path").last
+    assert "filled by area; not converged" in page.locator(
+        "#candidate-cu-read h4"
+    ).inner_text()
+    page.locator("#candidate-cu-slider").fill("0")
     first_candidate_path = candidate_path.get_attribute("d")
     first_candidate_metrics = page.locator("#candidate-cu-read").inner_text()
     page.locator("#candidate-cu-slider").fill("9")
@@ -241,7 +245,7 @@ def assert_saved_trajectories(page):
     page.locator("#candidate-cu-slider").fill("10")
     assert candidate_path.get_attribute("d") != first_candidate_path
     assert (
-        "Outcome unknown at this grid"
+        "filled by area; not converged"
         in page.locator("#candidate-cu-read h4").inner_text()
     )
     assert page.locator("#candidate-cu-figure .cu-warning").count() == 1

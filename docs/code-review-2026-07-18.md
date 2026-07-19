@@ -11,6 +11,7 @@ campaigns were inspected as history but were not refactored.
 | P0 | Partial low-ray runs were published as formal rejections without a frozen stop event. | Fixed in publication vocabulary; partial mismatches remain observations. |
 | P0 | The promised attempt ledger had no repository writer, chain check, or executable retry hook. | Fixed with `scripts/autoresearch_event_log.py`, schema rules, and chain/retry tests. Active campaign runners do not use it yet. |
 | P0 | The 500-ray bridge changes rays, random streams, and stopping intervals together. | Claim reduced to provisional. A clean single-variable qualification is required. |
+| P0 | Public copy called 500 rays the exploration setting despite the Phase B rejection, and described a 1,000-ray promotion check that no code enforced. | Public claim corrected. Candidate-specific numerical qualification remains open. |
 | P1 | Low-ray workers can discard failed attempts and retry indefinitely after restarts. | Open. The executed runner is retained as evidence; replace it with the ledger-backed runner for the next clean qualification. |
 | P1 | Runner fingerprints omit some wrapper, builder, and reviewer code. | Open. Existing rows remain commissioning evidence only. |
 | P1 | The saved-review rule can miss material absolute drift or boundary movement. | Open. The next qualification must gate normalized per-anchor deltas and boundary displacement. |

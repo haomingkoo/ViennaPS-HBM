@@ -10,8 +10,9 @@ window is authorized.
 | Item | Current evidence |
 |---|---|
 | Focused controls | ion-arrival directionality and directional removal strength |
-| Exploration profile | grid 0.0025 and 500 rays per point, only near the tested focused region |
-| Promotion check | repeat at 1,000 rays with matched geometry and process inputs |
+| Discovery numerics | grid 0.0025 and 500 rays per point were used to generate the focused map |
+| Numerical status | 500 rays is rejected for broad categorical screening on the Phase B grid-0.005 panel |
+| Candidate confirmation | no enforced 1,000-ray confirmation of the published candidate has run |
 | Representative saved profile | depth 1.249; top/middle/bottom CD 0.331/0.323/0.322; bow 0.005 |
 | Remaining shape gap | saved floors are rounded or uneven; floor metrics are not qualified hard gates |
 | Claim | a repeatable local simulated wall-profile region, not an equipment recipe |
@@ -20,7 +21,7 @@ The selected profile and its replay are published in
 [`bosch_tutorial_data.json`](../bosch_tutorial_data.json) and
 [`bosch_trajectory_replay.json`](../bosch_trajectory_replay.json).
 
-## Why 500 rays is used for exploration
+## Why no exploration ray count is approved
 
 The five-level ladder ran 250, 500, 750, 1,000, and 2,000 rays on three etched
 shapes with three random streams each. Runtime rose from a median 54.1 seconds
@@ -28,17 +29,20 @@ at 500 rays to 206.5 seconds at 2,000 rays. Measurement movement and repeated
 spread did not decrease monotonically with ray count.
 
 A separate focused bridge found that grid 0.0025 was 3.6 to 5.0 times faster
-than 0.00125 on the tested cases. Grid 0.005 changed the selected width profile
-and was stopped. At grid 0.0025, 1,000 rays took 2.0 to 2.3 times longer than
-500 rays without uniformly smaller response movement.
+than 0.00125 on two tested cases. Grid 0.005 changed the selected width profile
+and was stopped. At grid 0.0025, two 1,000-ray observations took 2.0 to 2.3
+times longer than their 500-ray pairs.
 
-This supports a local compute policy, not an accuracy percentage. There is no
-known numerical ground truth. A different geometry, aspect ratio, process
-model, unstable profile, or boundary case requires a new paired check.
+Those observations do not approve 500 rays. The earlier Phase B review rejected
+500 rays for broad categorical screening because classifications changed on its
+grid-0.005 panel. The focused bridge explicitly states that setting promotion
+is not authorized. No code currently enforces a 1,000-ray confirmation of the
+published candidate.
 
 Sources:
 
 - [`evidence/numerical/bosch_ray_current_grid_ladder_review.json`](../evidence/numerical/bosch_ray_current_grid_ladder_review.json)
+- [`evidence/numerical/bosch_ray_phase_b_review.json`](../evidence/numerical/bosch_ray_phase_b_review.json)
 - [`evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json`](../evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json)
 
 ## What autoresearch currently does
@@ -58,13 +62,15 @@ it cannot be trusted because it returns a candidate.
 
 1. Qualify floor peak-to-valley, center relief, and symmetry on synthetic and
    saved positive/negative shapes.
-2. Run a small repeated, floor-measurable batch around the focused region at
-   the exploration profile.
-3. Fit separate response models for depth, each CD, wall shape, floor shape,
+2. Freeze and run a candidate-specific numerical study that can approve or
+   reject separate exploration and confirmation settings.
+3. Run a small repeated, floor-measurable batch around the focused region only
+   after that numerical decision.
+4. Fit separate response models for depth, each CD, wall shape, floor shape,
    validity, and runtime.
-4. Ask for three cases: predicted improvement, uncertain boundary, and diverse
+5. Ask for three cases: predicted improvement, uncertain boundary, and diverse
    exploration.
-5. Confirm promoted cases with unseen streams and 1,000 rays.
+6. Confirm finalists with unseen streams at the approved confirmation setting.
 
 [ViennaFit](https://github.com/ViennaTools/ViennaFit) is the preferred first
 calibration tool to evaluate because it already supports target geometries,

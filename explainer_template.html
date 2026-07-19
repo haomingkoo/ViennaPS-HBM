@@ -66,11 +66,6 @@
   .lede { color: var(--ink-dim); max-width: 66ch; margin: 0 0 1.2rem; font-size: 1rem; }
   .scope-note { font-size: 0.82rem; color: var(--ink-dim); max-width: 66ch; }
   .scope-note b { color: var(--ink); }
-  .hero-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 1.4rem 0; border: 1px solid var(--line); background: var(--line); }
-  .hero-summary div { padding: 1rem; background: var(--surface); }
-  .hero-summary b { display: block; margin-bottom: 0.35rem; font-size: 0.86rem; }
-  .hero-summary span { display: block; color: var(--ink-dim); font-size: 0.8rem; line-height: 1.5; }
-  @media (max-width: 680px) { .hero-summary { grid-template-columns: 1fr; } }
 
   .jump-nav { margin: 1.5rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); }
   .jump-nav p { margin: 0 0 0.55rem; font: 650 0.75rem var(--mono); color: var(--ink); }
@@ -640,6 +635,10 @@
   .process-code-table td:nth-child(2), .process-code-table th:nth-child(2) { text-align: left; }
   .process-code-table summary { color: var(--plasma); cursor: pointer; font-family: var(--mono); }
   .process-code-table pre { margin: 0.5rem 0 0; white-space: pre-wrap; font-size: 0.68rem; }
+  .step-code { margin: 1rem 0 0; padding: 0.85rem 1rem; border: 1px solid var(--line); background: var(--surface-2); overflow-x: auto; }
+  .step-code b { display: block; margin-bottom: 0.45rem; font-size: 0.75rem; }
+  .step-code pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 0.72rem/1.5 var(--mono); color: var(--ink); }
+  .step-code a { display: inline-block; margin-top: 0.5rem; font: 0.68rem var(--mono); }
   @media (max-width: 620px) {
     .process-code-table thead { display: none; }
     .process-code-table, .process-code-table tbody, .process-code-table tr, .process-code-table td { display: block; width: 100%; }
@@ -718,15 +717,10 @@
     <p class="context-line">ViennaPS teaching example · updated <time datetime="2026-07-19">19 Jul 2026</time></p>
     <h1>A simplified TSV traveler</h1>
     <p class="lede">
-      This guide uses one simplified TSV flow to show how ViennaPS carries geometry
-      between steps. It also shows how failures appear and how measurements turn a
-      set of simulations into a trustworthy study.
+      Follow one simplified TSV cross-section from mask opening to polish. Saved
+      ViennaPS simulations show what each step changes, what can fail, and what to
+      measure.
     </p>
-    <div class="hero-summary" aria-label="What this guide covers">
-      <div><b>Carry the shape forward</b><span>Start with a mask opening. Pass the resulting 2D shape through etch and films. Then add copper and polish.</span></div>
-      <div><b>Recognize failures</b><span>See bowed walls and thin coatings. Find broken seed, trapped voids, and recessed plugs.</span></div>
-      <div><b>Build the study correctly</b><span>Measure after every step. Test known examples. Repeat noisy runs before tuning.</span></div>
-    </div>
     <p class="scope-note">This is a teaching model. Real TSV flows include more films, cleaning steps, and process controls.</p>
     <nav class="jump-nav" aria-label="Quick links">
       <p>Quick links</p>
@@ -747,7 +741,7 @@
     <h2 id="executive-summary-title">What the current evidence says</h2>
     <p class="decision-line">The software can carry and measure geometry across the simplified traveler. It has not yet found or validated a complete TSV process window.</p>
     <div class="method-chain">
-      <div><b>Run faster</b><span>Use 500 rays for broad 2D exploration. Recheck promoted cases at higher settings.</span></div>
+      <div><b>Numerical setting still open</b><span>The discovery map used 500 rays. A separate Phase B study rejected 500 rays for broad categorical screening.</span></div>
       <div><b>Improve the etch</b><span>Keep the focused straight-wall region. Treat floor shape as the next separate objective.</span></div>
       <div><b>Reduce copper void risk</b><span>Establish continuous deep seed and measured floor-faster-than-wall growth before adding more copper.</span></div>
       <div><b>Finish the traveler</b><span>Resolve copper topology first. Then tune CMP using field clearance, plug loss, and stop loss together.</span></div>
@@ -903,6 +897,14 @@
     <p class="note">This tutorial uses a 2D trench-like surrogate. A cylindrical 3D via can change particle access and whether a void is truly connected.</p>
   </section>
 
+  <section class="finding" id="step-output-studies">
+    <h2>Follow the saved results in process order</h2>
+    <p class="claim">Mask → dry etch → liner → barrier → seed → copper → polish.</p>
+    <p class="note">Each panel replays saved simulation output. The controls select an existing case; the browser does not rerun ViennaPS or invent a shape. A deterministic control lineage exists, but these sensitivity panels are not one calibrated candidate recipe. <a href="step_experiments.json">Open the saved step data.</a></p>
+    <div id="step-output-list"></div>
+    <p class="boundary-result"><b>Current handoff status:</b> improve the etch floor, deep film coverage, and copper model before running a new end-to-end candidate.</p>
+  </section>
+
   <section class="finding" id="numerical-tuning">
     <h2>Choosing a ray count for faster experiments</h2>
     <p class="claim">More rays mean more sampled particle paths and more computation. They do not automatically make every measured result more stable.</p>
@@ -963,19 +965,14 @@
     </div>
     <p class="note" id="numerical-takeaway"></p>
     <p class="note">Read the two plots together: the left shows how the selected measurement moves; the right shows the runtime cost. Points are saved simulations from one research machine. Lines only connect tested settings.</p>
-    <h3>How the study will run</h3>
-    <p>Use grid spacing 0.0025 and 500 rays for broad 2D exploration in the focused etch region. Recheck promoted cases at 1,000 rays. This is a compute-budget choice, not a physical accuracy claim.</p>
-    <div class="table-scroll">
-      <table class="journal-table" aria-label="Focused etch speed bridge">
-        <thead><tr><th>Comparison</th><th>Saved cases</th><th>Observed cost</th><th>What changed</th></tr></thead>
-        <tbody>
-          <tr><td>Grid 0.00125 → 0.0025<br>500 rays</td><td>Two settings, two streams each</td><td>0.0025 was 3.6–5.0× faster</td><td>Depth moved 0.0009–0.0097. Individual CDs moved 0.0005–0.0071. Bow moved 0.0001–0.0086.</td></tr>
-          <tr><td>500 → 1,000 rays<br>grid 0.0025</td><td>Two paired settings</td><td>1,000 rays took 2.0–2.3× longer</td><td>Depth moved about 0.0029. Individual CDs moved 0.0002–0.0055. Bow moved 0.0009–0.0037.</td></tr>
-          <tr><td>Grid 0.005</td><td>Two paired settings</td><td>Faster, but stopped</td><td>It changed the selected top, middle, and bottom profile enough to alter the geometry being studied.</td></tr>
-        </tbody>
-      </table>
+    <h3>What this study supports</h3>
+    <p>The focused discovery data used grid spacing 0.0025 and 500 rays. These settings produced useful profiles quickly, but they are not approved as the general exploration setting. Phase B separately found categorical changes at 500 rays on a grid-0.005 panel. The two saved 500-to-1,000 comparisons below are observational; they do not confirm the published candidate.</p>
+    <div class="method-chain" aria-label="Focused numerical study summary">
+      <div><b>Coarser grid</b><span>Grid 0.0025 ran 3.6–5.0× faster than 0.00125 in two settings. Some measurements still moved, so this is local evidence only.</span></div>
+      <div><b>More rays</b><span>1,000 rays took 2.0–2.3× longer than 500 in two pairs. It did not establish 1,000 as a confirmed setting.</span></div>
+      <div><b>Too coarse</b><span>Grid 0.005 changed the selected width profile enough that this study stopped using it.</span></div>
     </div>
-    <p class="note">These are paired movements, not errors against ground truth. The result is local to the two focused settings and recorded random streams. <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json">Open the citable review.</a></p>
+    <p class="note"><b>Next action:</b> freeze and run a candidate-specific numerical check before choosing exploration and confirmation settings. These paired movements are not errors against ground truth. <a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json">Open the focused observational review.</a></p>
     <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/evidence/numerical/bosch_ray_current_grid_ladder_review.json">Citable five-level review and source hashes</a></p>
   </section>
 
@@ -997,6 +994,12 @@
     </div>
     <p class="note"><b>Numerical settings:</b> grid spacing sets geometric resolution. Ray count controls Monte Carlo sampling noise. A random seed selects a reproducible ray sample. None is a fab knob.</p>
     <p class="note"><b>Qualitative influence only:</b> the two middle columns are not a conversion table. Equipment settings change the physical process. Mapping them to model inputs requires measurements from a specific tool.</p>
+    <div class="method-chain" aria-label="Current control coverage">
+      <div><b>Shown in the tutorial</b><span>Mask geometry; six etch controls; liner dose and sticking; barrier/seed dose and directionality; reduced copper transport; CMP amount and selectivity.</span></div>
+      <div><b>Implemented but not fully shown</b><span>Mask erosion, breakthrough etch, reflection angle, model-family choices, additional copper coefficients, and height-dependent CMP.</span></div>
+      <div><b>Needs tool calibration</b><span>Gas flow, pressure, power, bath chemistry, current waveform, pad conditions, and their mapping into model coefficients.</span></div>
+    </div>
+    <p class="note"><b>Coverage:</b> the page teaches the main wired controls, not every ViennaPS input. Omitted controls need their own evidence before they become tutorial sliders.</p>
     <h3>How a model becomes useful for a real tool</h3>
     <p>The conversion is learned from wafer data. It is not read from the ViennaPS input value.</p>
     <div class="calibration-loop" aria-label="Calibration loop from fab recipe to validated model">
@@ -1053,7 +1056,7 @@
         <div class="bosch-multifactor-explorer">
           <div class="bosch-multifactor-controls">
             <label for="bosch-multifactor-index">Saved DOE run <span id="bosch-multifactor-value"></span><input id="bosch-multifactor-index" type="range" min="0" max="17" step="1" value="0"></label>
-            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show default saved run</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
+            <div class="bosch-multifactor-actions"><button type="button" id="bosch-multifactor-best">Show clearest passing walls</button><button type="button" id="bosch-multifactor-next">Next saved run</button></div>
           </div>
           <figure class="bosch-multifactor-map">
             <svg id="bosch-multifactor-map" viewBox="0 0 600 280" role="img" aria-label="Eighteen saved dry-etch runs across six model controls"></svg>
@@ -1117,13 +1120,6 @@
       <p class="note"><b>Next action:</b> optimize and repeat the floor-shape measurement separately. The saved floors remain rounded or uneven, so this is not yet the final etch profile.</p>
       <p class="note"><a href="bosch_tutorial_data.json">Open all 12 raw profiles and source-row citations.</a></p>
     </div>
-    <div class="output-studies" id="step-output-studies">
-      <h3>Inspect the saved result from each step</h3>
-      <p class="claim">Each panel connects controls to a saved shape, measured feedback, and the next process improvement to test.</p>
-      <p class="note"><b>These are not results from a designed experiment (DOE).</b> Each panel is a single-seed sensitivity example. Its controls select a saved combination. They do not rerun ViennaPS or update a later panel. <a href="step_experiments.json">Open the saved step data.</a></p>
-      <div id="step-output-list"></div>
-      <p class="boundary-result"><b>Handoff status:</b> these independent studies do not yet form one passing lineage. A new continuous run should start only after the etch floor, deep films, and physical copper-growth model are ready.</p>
-    </div>
   </section>
 
   <section class="finding" id="overview">
@@ -1182,10 +1178,11 @@
     <div class="method-chain" id="saved-results-summary" aria-label="Current saved experimental results"></div>
     <figure class="fill-replay" id="study-copper">
       <h3 style="margin:0 0 0.3rem;">What the transport-based copper run shows</h3>
-      <p class="claim">At the final checkpoint, a narrow center gap remains. This grid cannot determine whether it is still open or has become a sealed void.</p>
+      <p class="claim">The coarse grid reports 97.4% copper by area and an opening-connected cavity. The last merger is only about two grid cells wide, so that topology is not accepted as converged.</p>
       <p class="note">All layers and model controls stay fixed. Scrub through eleven saved checkpoints.</p>
       <p class="note" id="candidate-cu-fixed"></p>
-      <p class="boundary-result"><b>Decision:</b> unresolved, not filled. Recheck the closing region on a finer grid before assigning its topology.</p>
+      <p class="boundary-result"><b>Decision:</b> nearly full by area, but not a confirmed fill. No resolved sealed void is detected at this checkpoint.</p>
+      <p class="note"><b>How to resolve it:</b> rerun the same case with smaller grid cells and more checkpoints near closure. Call it void-free only if the cavity disappears without an unresolved merger and the result agrees at the two finest settings. Call it a void only if a sealed region persists with several cells across its smallest dimension.</p>
       <p class="note"><b>Next process study:</b> measure floor and wall growth across additive, current-waveform, and seed splits. Use those data to calibrate the growth model before extending copper time.</p>
       <div class="fill-replay-controls">
         <div class="fill-progress"><label for="candidate-cu-slider">Saved checkpoint <span id="candidate-cu-value"></span></label><input id="candidate-cu-slider" type="range" min="0" max="0" step="1" value="0"></div>
@@ -1195,6 +1192,11 @@
         <div class="fill-replay-figure" id="candidate-cu-figure" role="img" aria-label="Actual candidate copper-fill surface at the selected saved checkpoint"></div>
         <aside class="fill-replay-read" id="candidate-cu-read" aria-live="polite"></aside>
       </div>
+      <div class="step-code"><b>Core ViennaPS call used by this candidate model</b><pre><code>params = ps.CopperSuppressionFillParams()
+params.suppressorStickingProbability = sticking
+params.suppressorSourcePower = source_power
+model = ps.CopperSuppressionFill(params)
+ps.Process(geometry, model, checkpoint_interval).apply()</code></pre><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/foundation_copper_fill_trajectory.py#L498">See the complete parameter setup and checks</a></div>
       <figcaption>These are replayed surfaces from one reviewed coarse 2D run. <a href="candidate_cu_replay.json">Open the replay data and citations.</a></figcaption>
     </figure>
     <div id="boundary-atlas" style="scroll-margin-top:1rem; margin-top:1.7rem;">
@@ -1290,7 +1292,7 @@
       <thead><tr><th>Process step</th><th>Next useful knob</th><th>Expected benefit and tradeoff</th><th>Evidence</th></tr></thead>
       <tbody>
         <tr><td>Photolithography / mask opening</td><td>Opening width and mask height; taper; later 3D placement error</td><td>Controls etch aperture and downstream access. Treat width and mask height as product inputs until a lithography model is added.</td><td>Registry complete; screen pending</td></tr>
-        <tr><td>Bosch DRIE</td><td>Geometry representation, ray count, and mask erosion</td><td>Use full-width fine geometry. Complete the clean 250–2,000-ray ladder. Then locate the mask-survival boundary without losing depth, width, or bow.</td><td>500-ray exploration setting remains provisional</td></tr>
+        <tr><td>Bosch DRIE</td><td>Geometry representation, ray count, and mask erosion</td><td>Use full-width geometry. Complete a candidate-specific numerical check before choosing the exploration setting. Then locate the mask-survival boundary without losing depth, width, or bow.</td><td>No exploration ray count is approved</td></tr>
         <tr><td>SiO2 liner</td><td>Lower sticking, then adjust total dose</td><td>Lower sticking may improve floor and lower-wall coverage. Extra dose can narrow the aperture, so both coverage and remaining opening stay gated.</td><td>Geometry trends only; passing boundary not bracketed</td></tr>
         <tr><td>Barrier and seed</td><td>More conformal transport, dose, and directionality</td><td>Raise lower-wall thickness without closing the fill opening. If directional deposition remains near 0.23 wall/field coverage, test a more conformal model family.</td><td>Baseline fails 0/4</td></tr>
         <tr><td>Cu electrofill</td><td>Matched 3D transport check; then chemistry-dependent bottom-up kinetics if it also misses</td><td>Test whether cylindrical transport changes the floor advantage. Total thickness is secondary until the bottom grows faster than the walls.</td><td>320 reviewed transport cells; tested 2D expansion stopped</td></tr>
@@ -1362,7 +1364,7 @@ cd ViennaPS-HBM
 python3 -m http.server 8000</code></pre>
     <p class="note">Then open <a href="http://localhost:8000/explainer.html">http://localhost:8000/explainer.html</a>.</p>
     <p class="note"><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/tsv_process.py">Read <code>tsv_process.py</code> on GitHub</a> to see the process functions.</p>
-    <p class="note"><b>Reproduction limit:</b> the saved simulation checkpoints are not in the public repository. A fresh clone can open this guide but cannot regenerate the control run yet.</p>
+    <p class="note"><b>Reproduction:</b> the public repository includes the tutorial data and selected native checkpoints. Rebuilding every historical campaign still requires external native artifacts identified by recorded hashes.</p>
   </section>
 
   <section class="finding" id="raw-output">
@@ -1373,7 +1375,7 @@ python3 -m http.server 8000</code></pre>
       <a class="button-link" href="publication_campaign_data.json">Withdrawn phase-one data — history only</a>
       <a class="button-link" href="config/process.toml">Process settings</a>
     </div>
-    <p class="note">The phase-one download is retained only to audit withdrawn measurements and conclusions. The large native checkpoints are not in the public repository. Their recorded hashes identify the files used to build this page but cannot replace the files themselves.</p>
+    <p class="note">The phase-one download is retained only to audit withdrawn measurements and conclusions. Selected current checkpoints are public. Some large historical artifacts remain hash-referenced only.</p>
   </section>
 
   <details class="code-map legacy-archive" id="legacy-archive" hidden>
@@ -1804,7 +1806,7 @@ const multiFactorShortLabels = {
   neutral_sticking_probability: 'Reaction',
 };
 const defaultMultiFactorIndex = multiFactorCases.findIndex(row => row.case_id === BOSCH.default_interior_case);
-if (defaultMultiFactorIndex < 0) throw new Error('Declared default dry-etch case is missing');
+if (defaultMultiFactorIndex < 0) throw new Error('default dry-etch screening case is missing');
 let multiFactorIndex = defaultMultiFactorIndex;
 
 function screeningFactorNames(metric, count) {
@@ -1844,7 +1846,7 @@ function renderMultiFactor() {
   const row = multiFactorCases[multiFactorIndex];
   const metric = row.metrics;
   document.getElementById('bosch-multifactor-index').value = multiFactorIndex;
-  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === defaultMultiFactorIndex ? ' · default saved run' : ''}`;
+  document.getElementById('bosch-multifactor-value').textContent = `${multiFactorIndex + 1} of ${multiFactorCases.length}${multiFactorIndex === defaultMultiFactorIndex ? ' · clearest passing walls' : ''}`;
   document.getElementById('bosch-multifactor-profile').innerHTML = boschProfileMarkup(row);
   const controls = multiFactorOrder.map(name => `<dt>${BOSCH.factors[name].label}</dt><dd>${row.recipe[name]}</dd>`).join('');
   const depthDifference = metric.depth - BOSCH.targets.depth;
@@ -2056,6 +2058,7 @@ const stepCopy = {
     tradeoff: 'Extra protection can reduce lateral attack, but it can also slow the etch.',
     processMove: 'Balance etch time and wall protection first. Increase total cycles only after the width profile is stable enough to reach the required depth.',
     metrics: ['depth', 'maximum_cd_error', 'bow'],
+    chain: ['Gas timing, pressure, source and bias', 'Ion and neutral transport · effective model', 'Cycles, rates, sticking, directionality', 'Depth, width, bow', 'Shallow, bowed, tapered, or necked via'],
   },
   liner: {
     boundary: 'Particle sticking and deposition amount are varied together.',
@@ -2094,6 +2097,33 @@ const stepCopy = {
     chain: ['Downforce, speed, slurry, endpoint', 'Pad contact and material removal · not modeled', 'Removal amount and material-rate ratio', 'Field, plug, and stop height', 'Field residue, recess, or stop loss'],
   },
 };
+const stepCode = {
+  mask: {
+    source: 'tsv_process.py#L259',
+    code: `geometry = ps.Domain(gridDelta=grid_delta, xExtent=x_extent, yExtent=y_extent)\nps.MakeHole(domain=geometry, holeRadius=radius,\n            maskHeight=mask_height, maskTaperAngle=taper).apply()`,
+  },
+  bosch: {
+    source: 'tsv_process.py#L327',
+    code: `model = ps.MultiParticleProcess()\nmodel.addNeutralParticle(neutral_sticking_probability)\nmodel.addIonParticle(sourcePower=ion_source_exponent, thetaRMin=theta_r_min)\nprocess = ps.Process(geometry, model, etch_time)\nprocess.setParameters(ray_parameters)\nprocess.apply()`,
+  },
+  liner: {
+    source: 'layer_process_models.py#L78',
+    code: `# Generic particle-transport teaching model\nmodel = ps.SingleParticleProcess(\n    rate=dose, stickingProbability=sticking_probability\n)\n# TEOSDeposition is a separate available model family.\nps.Process(geometry, model, 1.0).apply()`,
+  },
+  barrier: {
+    source: 'layer_process_models.py#L162',
+    code: `model = ps.DirectionalProcess(\n    direction=(0.0, -1.0, 0.0),\n    directionalVelocity=directional,\n    isotropicVelocity=isotropic,\n)\nps.Process(geometry, model, 1.0).apply()`,
+  },
+  seed: {
+    source: 'layer_process_models.py#L162',
+    code: `model = ps.DirectionalProcess(\n    direction=(0.0, -1.0, 0.0),\n    directionalVelocity=directional,\n    isotropicVelocity=isotropic,\n)\nps.Process(geometry, model, 1.0).apply()`,
+  },
+  cmp: {
+    source: 'build_step_experiments.py#L611',
+    code: `rates = dict(candidate_law.material_rate_ratios)\nrates[ps.Material.SiO2] = oxide_rate_ratio\nlaw = HeightMaterialRemovalLaw(stop_y, compliance, contact, rates)\napply_native_control(stack, "uniform_material_selective",\n                     duration=removal_amount, law=law)`,
+  },
+};
+const escapeHtml = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const stepMetricLabels = {
   opening_cd_bottom: 'Bottom opening', opening_cd_top: 'Top opening', mask_height: 'Mask height', depth: 'Depth',
   maximum_cd_error: 'Maximum width error (model units)', bow: 'Bow (model units)',
@@ -2180,7 +2210,7 @@ function renderSavedResultsSummary() {
   const items = [
     ['Dry etch', `${BOSCH.review.valid_cases} valid saved pair cases; ${BOSCH.review.hard_gate_passes} are inside the assumed geometry band. No interaction uncertainty is available.`],
     ['Barrier + seed', `${directionalBreaks}/6 purely directional layers are disconnected. ${mixedContinuous}/12 cases with an all-angle component are geometrically continuous.`],
-    ['Copper fill', 'The prescribed replay registers both a trapped void and a void-free geometry. The candidate physical law still ends at an unresolved seam transition.'],
+    ['Copper fill', 'The prescribed replay registers both a trapped void and a void-free geometry. The reduced candidate proxy still ends at an unresolved seam transition.'],
     ['Polish', boundaryResult(studyById.cmp)],
   ];
   document.getElementById('saved-results-summary').innerHTML = items
@@ -2239,8 +2269,36 @@ function renderStepFrame(study, root, frameIndex) {
 
 function buildStepViewers() {
   const list = document.getElementById('step-output-list');
-  stepExperiments.studies.filter(study => study.id !== 'bosch').forEach(study => {
+  stepExperiments.studies.forEach(study => {
+    if (study.id === 'bosch') {
+      const row = BOSCH.interactions.find(caseRow => caseRow.case_id === BOSCH.traveler_etch_case_id);
+      if (!row) throw new Error('selected dry-etch traveler case is missing');
+      const metric = row.metrics;
+      const root = document.createElement('article');
+      root.className = 'output-viewer';
+      root.id = 'study-bosch';
+      root.dataset.travelerStep = 'bosch';
+      root.innerHTML = `<div class="output-viewer-head"><h3>Selected dry-etch profile</h3><p class="evidence-badge">Saved factor-pair case · one stream · model units</p><p>This is the closest-to-target depth among the saved pair cases inside the assumed depth, width, and bow bands.</p></div>
+        <p class="boundary-result"><b>Takeaway:</b> the saved profile reaches the teaching depth and keeps the three reported widths close together. Its base is rounded, not a qualified flat floor.</p>
+        <div class="output-viewer-layout">
+          <div class="output-figure" role="img" aria-label="Selected saved dry-etch geometry">${boschProfileMarkup(row)}</div>
+          <aside class="output-read">${profileScorecard(metric)}
+            <p class="output-explain"><b>Why this case:</b> it is a clearer handoff example than the scalloped screening profiles and does not use a W-shaped base as the representative result.<br><b>Next improvement:</b> flatten the floor without losing depth or wall control.</p>
+            <dl class="fill-metrics">${multiFactorOrder.map(name => `<dt>${BOSCH.factors[name].label}</dt><dd>${row.recipe[name]}</dd>`).join('')}</dl>
+            <div class="step-code"><b>Core model call</b><pre><code>${escapeHtml(stepCode.bosch.code)}</code></pre><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${stepCode.bosch.source}">Open the full implementation</a></div>
+            <p><a href="#bosch-interaction-lab">Compare the saved dry-etch factor pairs</a></p>
+          </aside>
+        </div>`;
+      list.appendChild(root);
+      return;
+    }
+    if (study.id === 'cmp') {
+      const copper = document.getElementById('study-copper');
+      copper.dataset.travelerStep = 'copper';
+      list.appendChild(copper);
+    }
     const copy = stepCopy[study.id];
+    const code = stepCode[study.id];
     const decidedFrames = study.frames.filter(frame => typeof frame.metrics.meets_screen === 'boolean');
     const passingFrames = decidedFrames.filter(frame => frame.metrics.meets_screen).length;
     const studySummary = study.id === 'mask'
@@ -2252,6 +2310,7 @@ function buildStepViewers() {
     root.className = 'output-viewer';
     root.id = `study-${study.id}`;
     root.dataset.outputViewer = study.id;
+    root.dataset.travelerStep = study.id;
     root.innerHTML = `<div class="output-viewer-head">
       <div><h3>${study.title}</h3><p class="evidence-badge">Saved sensitivity · one stream · not DOE · model units</p><p>${study.scope}</p><p><b>Starts from:</b> ${study.starts_from}</p></div>
     </div>
@@ -2264,6 +2323,7 @@ function buildStepViewers() {
       <aside class="output-read" aria-live="polite">
         <p class="output-status"></p><dl class="output-metrics"></dl>
         <p class="output-explain"><b>Why it changes:</b> ${copy.why}<br><b>Process improvement:</b> ${copy.processMove}<br><b>Possible downside:</b> ${copy.tradeoff}</p>
+        <div class="step-code"><b>Core model call</b><pre><code>${escapeHtml(code.code)}</code></pre><a href="https://github.com/haomingkoo/ViennaPS-HBM/blob/main/${code.source}">Open the full implementation</a></div>
         <div class="guardrails"><h4>Guardrails</h4><ul><li><b>Internal geometry check:</b> ${acceptanceText(study)}</li><li><b>Tested range:</b> ${copy.boundary}</li><li><b>Does not prove:</b> ${copy.limit}</li></ul></div>
         <div class="material-key"></div>
       </aside>
@@ -2372,7 +2432,7 @@ renderFillReplay();
 
 // ============ Reviewed candidate copper trajectory ==========
 const candidateCu = DATA.candidate_cu_replay;
-const candidateCuState = { frame: 0, timer: null };
+const candidateCuState = { frame: candidateCu.frames.length - 1, timer: null };
 document.getElementById('candidate-cu-fixed').innerHTML = `<b>Fixed for this run:</b> suppressor sticking ${candidateCu.model_controls.suppressor_sticking_probability}; suppressor arrival-direction exponent ${candidateCu.model_controls.suppressor_source_power}. Higher sticking makes simulated suppressor attach more readily. A higher exponent concentrates its arrival closer to one direction. These are model controls, not bath settings.`;
 
 function renderCandidateCu() {
@@ -2397,15 +2457,17 @@ function renderCandidateCu() {
     ${seamBand}
   </svg>`;
   const frameNote = metric.unresolved_seam_risk
-    ? 'Do not classify this checkpoint as filled or void-free.'
+    ? 'The coarse extractor reports an open cavity, but the preceding narrow-tail merger invalidates a final topology claim.'
     : 'The opening and unfilled area are measured after this checkpoint.';
-  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? 'Outcome unknown at this grid' : 'Copper is still filling the opening'}</h4>
+  document.getElementById('candidate-cu-read').innerHTML = `<h4>${metric.unresolved_seam_risk ? `${(100 * metric.fill_fraction).toFixed(1)}% filled by area; not converged` : 'Copper is still filling the opening'}</h4>
     <p>Checkpoint ${frame.checkpoint}. ${frameNote}</p>
     <dl class="fill-metrics">
-      <dt>Copper area fraction</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
+      <dt>Copper-filled area</dt><dd>${(100 * metric.fill_fraction).toFixed(1)}%</dd>
       <dt>Mouth opening</dt><dd>${metric.mouth_aperture.toFixed(3)} model units</dd>
-      <dt>Unfilled area</dt><dd>${metric.remaining_void_area.toFixed(3)} model units²</dd>
+      <dt>Non-copper area</dt><dd>${metric.remaining_void_area.toFixed(3)} model units²</dd>
+      <dt>Grid spacing</dt><dd>${candidateCu.numerics.grid_delta.toFixed(3)} model units</dd>
     </dl>
+    ${metric.unresolved_seam_risk ? '<p class="note">No sealed void is resolved here. Area coverage alone cannot prove void-free fill; connectivity must converge on finer grids.</p>' : ''}
     <div class="material-key"><span style="--key-color:var(--si)">Silicon</span><span style="--key-color:var(--oxide)">Liner</span><span style="--key-color:var(--ink)">Barrier</span><span style="--key-color:var(--amber)">Seed</span><span style="--key-color:var(--copper)">Copper</span></div>`;
 }
 
@@ -2421,6 +2483,10 @@ document.getElementById('candidate-cu-slider').addEventListener('input', event =
 });
 document.getElementById('candidate-cu-play').addEventListener('click', () => {
   if (candidateCuState.timer !== null) return stopCandidateCu();
+  if (candidateCuState.frame === candidateCu.frames.length - 1) {
+    candidateCuState.frame = 0;
+    renderCandidateCu();
+  }
   document.getElementById('candidate-cu-play').textContent = 'Pause';
   candidateCuState.timer = window.setInterval(() => {
     if (candidateCuState.frame === candidateCu.frames.length - 1) return stopCandidateCu();

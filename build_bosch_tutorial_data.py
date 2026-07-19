@@ -344,6 +344,30 @@ def main() -> None:
     remeasured_passes = sum(
         case["metrics"]["hard_gate_pass"] for case in interactions
     )
+    passing_interior = [
+        case for case in interior if case["metrics"]["hard_gate_pass"]
+    ]
+    if not passing_interior:
+        raise RuntimeError("interior study has no passing profile to show by default")
+    default_interior_case = min(
+        passing_interior,
+        key=lambda case: (
+            case["metrics"]["maximum_cd_error"],
+            abs(case["metrics"]["depth"] - ETCH_TARGETS["target_depth"]),
+        ),
+    )["case_id"]
+    passing_interactions = [
+        case for case in interactions if case["metrics"]["hard_gate_pass"]
+    ]
+    if not passing_interactions:
+        raise RuntimeError("interaction study has no passing profile for the traveler")
+    traveler_etch_case_id = min(
+        passing_interactions,
+        key=lambda case: (
+            abs(case["metrics"]["depth"] - ETCH_TARGETS["target_depth"]),
+            case["metrics"]["maximum_cd_error"],
+        ),
+    )["case_id"]
     document = {
         "schema_version": 4,
         "title": "Dry-etch multi-factor study",
@@ -412,8 +436,9 @@ def main() -> None:
             ),
         },
         "default_interaction": ["ion_source_exponent", "ion_rate"],
-        "default_interior_case": "142a8a6288351f36",
-        "measurement_example_case_id": "7405eb159356c564",
+        "default_interior_case": default_interior_case,
+        "measurement_example_case_id": traveler_etch_case_id,
+        "traveler_etch_case_id": traveler_etch_case_id,
         "review": {
             "valid_cases": review["valid_case_count"],
             "hard_gate_passes": remeasured_passes,

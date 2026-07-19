@@ -85,30 +85,22 @@ class TrajectoryStop(Exception):
     """Internal control flow after the safe depth ceiling is recorded."""
 
 
-def file_sha256(path):
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def runtime_fingerprint(project_root=ROOT):
     root = Path(project_root)
     return {
-        "runner_sha256": file_sha256(root / Path(__file__).name),
-        "design_builder_sha256": file_sha256(
+        "runner_sha256": foundation.file_sha256(root / Path(__file__).name),
+        "design_builder_sha256": foundation.file_sha256(
             root / "build_pattern_bosch_screen_design.py"
         ),
-        "design_spec_sha256": file_sha256(root / design_builder.DEFAULT_SPEC),
-        "foundation_sha256": file_sha256(root / "foundation_metric_audit.py"),
-        "gate0_runner_sha256": file_sha256(
+        "design_spec_sha256": foundation.file_sha256(root / design_builder.DEFAULT_SPEC),
+        "foundation_sha256": foundation.file_sha256(root / "foundation_metric_audit.py"),
+        "gate0_runner_sha256": foundation.file_sha256(
             root / "foundation_pattern_bosch_gate0.py"
         ),
-        "traveler_metrics_sha256": file_sha256(root / "traveler_metrics.py"),
-        "tsv_process_sha256": file_sha256(root / "tsv_process.py"),
-        "viennaps_binary_sha256": file_sha256(ps_core.__file__),
-        "viennals_binary_sha256": file_sha256(ls_core.__file__),
+        "traveler_metrics_sha256": foundation.file_sha256(root / "traveler_metrics.py"),
+        "tsv_process_sha256": foundation.file_sha256(root / "tsv_process.py"),
+        "viennaps_binary_sha256": foundation.file_sha256(ps_core.__file__),
+        "viennals_binary_sha256": foundation.file_sha256(ls_core.__file__),
     }
 
 
@@ -195,7 +187,7 @@ def validate_manifest(
             if not path.is_file():
                 errors.append(f"{name}: prerequisite artifact is missing")
                 continue
-            if declaration.get("sha256") != file_sha256(path):
+            if declaration.get("sha256") != foundation.file_sha256(path):
                 errors.append(f"{name}: prerequisite artifact hash differs")
                 continue
             try:
@@ -424,7 +416,7 @@ def validate_checkpoint(
     errors = []
     if not path.is_file():
         return ["checkpoint is missing"]
-    if expected_sha256 is not None and file_sha256(path) != expected_sha256:
+    if expected_sha256 is not None and foundation.file_sha256(path) != expected_sha256:
         errors.append("checkpoint file hash differs")
     try:
         with np.load(path, allow_pickle=False) as checkpoint:
