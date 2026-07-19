@@ -25,16 +25,31 @@ the traveler, and writes `tutorial-output/summary.json`. Install
 [uv](https://docs.astral.sh/uv/getting-started/installation/) first if the
 command is unavailable.
 
-Windows and Linux use the official ViennaPS wheels. On macOS, install the
-native build prerequisites once:
+Windows uses the official ViennaPS wheel. Linux and macOS build the pinned
+ViennaPS and ViennaLS revisions from source. On macOS, install the native build
+prerequisites once:
 
 ```bash
 brew install libomp vtk embree
 ```
 
-The project builds matching ViennaPS and ViennaLS source revisions on macOS.
-This avoids mixing the two native packages, which the ViennaPS installation
-guide marks as unsupported. The build is cached after the first run.
+Keeping ViennaPS and ViennaLS on matching source revisions avoids mixing native
+packages, which the ViennaPS installation guide marks as unsupported. The
+build is cached after the first run.
+
+## Reproduce or inspect the results
+
+`uv run tsv-tutorial` reruns the compact seven-step example from the checked-in
+configuration and writes fresh measurements. The larger studies shown in the
+interactive guide are published separately as immutable saved evidence:
+
+- [Download reviewed data and checksums](https://github.com/haomingkoo/ViennaPS-HBM/releases/tag/research-data-2026-07-19)
+- [Read what can currently be rerun](docs/reproducibility.md)
+
+Saved evidence is useful for quick inspection. It is not a replacement for a
+runnable experiment. A chart is described as reproducible only when its code,
+configuration, random streams, dependency versions, and expected output are
+all identified.
 
 ## What to tune
 
@@ -91,10 +106,11 @@ src/viennaps_hbm/          process and measurement code
 examples/run_tsv_tutorial.py
 tests/test_tutorial_smoke.py
 docs/                      tuning, measurements, and model limits
+site/                      static-guide template and evidence manifest
 ```
 
-Research campaigns, raw checkpoints, and historical experiment logs are kept
-outside this public tutorial repository.
+Large saved checkpoints and historical experiment logs are kept out of Git.
+Versioned bundles remain downloadable from the project release above.
 
 ## Test
 

@@ -1,0 +1,40 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download reviewed site inputs
+        run: |
+          url=$(jq -r .download_url site/artifact.json)
+          expected=$(jq -r .sha256 site/artifact.json)
+          curl --fail --location --retry 3 --output site-inputs.tar.gz "$url"
+          echo "$expected  site-inputs.tar.gz" | sha256sum --check
+          mkdir site-inputs
+          tar -xzf site-inputs.tar.gz -C site-inputs
+      - name: Build site
+        run: python site/build.py --input-dir site-inputs --output-dir public
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v4

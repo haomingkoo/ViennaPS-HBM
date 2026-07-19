@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "download_url": "https://github.com/haomingkoo/ViennaPS-HBM/releases/download/research-data-2026-07-19/site-build-inputs.tar.gz",
+  "object_key": "sha256/97/97b799981933cc13d8616899811b215040cfee28d2610c6697aad7e21516b599/site-build-inputs.tar.gz",
+  "sha256": "97b799981933cc13d8616899811b215040cfee28d2610c6697aad7e21516b599",
+  "size_bytes": 3315949,
+  "source_commit": "bf6a01a7db85bfd7eb05f781d12fef89e1150883"
+}

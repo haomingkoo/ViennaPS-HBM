@@ -10,9 +10,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "numpy>=2.0",
-  "ViennaPS @ git+https://github.com/ViennaTools/ViennaPS.git@1dd15f43896bb053836e5c9351a992c962dfab12 ; sys_platform == 'darwin'",
-  "ViennaPS==4.6.1 ; sys_platform != 'darwin'",
-  "ViennaLS @ git+https://github.com/ViennaTools/ViennaLS.git@c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287 ; sys_platform == 'darwin'",
+  "ViennaPS @ git+https://github.com/ViennaTools/ViennaPS.git@1dd15f43896bb053836e5c9351a992c962dfab12 ; sys_platform != 'win32'",
+  "ViennaPS==4.6.1 ; sys_platform == 'win32'",
+  "ViennaLS @ git+https://github.com/ViennaTools/ViennaLS.git@c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287 ; sys_platform != 'win32'",
 ]
 
 [project.optional-dependencies]

@@ -1103,8 +1103,8 @@ dependencies = [
     { name = "pandas" },
     { name = "pillow" },
     { name = "salib" },
-    { name = "viennaps", version = "4.6.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
-    { name = "viennaps", version = "4.6.1", source = { git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12#1dd15f43896bb053836e5c9351a992c962dfab12" }, marker = "sys_platform == 'darwin'" },
+    { name = "viennaps", version = "4.6.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'win32'" },
+    { name = "viennaps", version = "4.6.1", source = { git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12#1dd15f43896bb053836e5c9351a992c962dfab12" }, marker = "sys_platform != 'win32'" },
 ]
 
 [[package]]
@@ -1113,25 +1113,14 @@ version = "5.8.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
-    "python_full_version >= '3.14' and sys_platform == 'emscripten'",
-    "python_full_version >= '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'win32'",
-    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten'",
-    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version < '3.12' and sys_platform == 'win32'",
-    "python_full_version < '3.12' and sys_platform == 'emscripten'",
-    "python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1b/69/39a20137e1f9ca4f215178aac953d57936e4b1dabfc7803980a46cb5bc93/viennals-5.8.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ed6f889698ab9f5460f43b8e936d0f50636535f34f2e29f6f54bc0a9e318e352", size = 7941080, upload-time = "2026-06-25T00:20:52.676Z" },
     { url = "https://files.pythonhosted.org/packages/92/f2/9a5dcf9c8249d94b3039d7166a36633816bb3c9fca675be947f198363f79/viennals-5.8.3-cp311-cp311-win_amd64.whl", hash = "sha256:4b30df4bf5a026c6e83bc9b2b9454e74c7279cafce17462aee47470f9b89ed65", size = 5171929, upload-time = "2026-06-25T00:20:54.46Z" },
-    { url = "https://files.pythonhosted.org/packages/0e/8d/74154e42b0509057ad48565095990f6f0e0f46e9620134f5dbed6ddba46a/viennals-5.8.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ab8c5202b3af0edf8f2106c56540fd112e8e796fc1eb73e6e81250ecc9345e91", size = 7938298, upload-time = "2026-06-25T00:20:59.569Z" },
     { url = "https://files.pythonhosted.org/packages/ef/7e/2e8a97b2f42a617cdb2d21068a23282932d2d31b023765c0369840f6aece/viennals-5.8.3-cp312-cp312-win_amd64.whl", hash = "sha256:d5eb3d23fd8030795b9166043580c0ae2d054d20172b85c3d6af45b3466d9ab6", size = 5175486, upload-time = "2026-06-25T00:21:01.349Z" },
-    { url = "https://files.pythonhosted.org/packages/19/5b/fe1ba7548f6361ce6877f9742f75cacfc21305aaa21d21f5a0e240469f60/viennals-5.8.3-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:2e53b56aef4f2f2d6d1b2bc3a32274b9b5cec0350068254fd62bdd2cd260f67f", size = 7938258, upload-time = "2026-06-25T00:21:06.704Z" },
     { url = "https://files.pythonhosted.org/packages/28/53/286b7d58695145a613696117b079d083bba472461d2881ec1d1a19042e46/viennals-5.8.3-cp313-cp313-win_amd64.whl", hash = "sha256:e6a10422c3bfbeb1e7724815909de9cff0d586eec833ad899072cc8a69a8b07c", size = 5175654, upload-time = "2026-06-25T00:21:08.256Z" },
-    { url = "https://files.pythonhosted.org/packages/4c/57/435492df3ea0c22e37a4dfd1660370ccafb6facb14cc6f269a7362553796/viennals-5.8.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:613486cbf84d3cc4a2c822d0242d138e2aedb11e3e22854855580ed1e1673284", size = 7939161, upload-time = "2026-06-25T00:21:13.352Z" },
     { url = "https://files.pythonhosted.org/packages/f9/25/ac070b1b31207bd5b8c1069a57d07080051963427476545c5ded786382cf/viennals-5.8.3-cp314-cp314-win_amd64.whl", hash = "sha256:62775257242b2cfd5890c6c07d6e00de8e70e80f95efbafe2c592081e483a704", size = 5326133, upload-time = "2026-06-25T00:21:15.109Z" },
-    { url = "https://files.pythonhosted.org/packages/f9/e9/10aeec67c5b401109592c127c1c0c579f38bb8ac7767a2ea9f67737ad9d2/viennals-5.8.3-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:8a512d7c04b8e27e5d2e96c9165a033d6fed5140cdae9e168ac7eba665f1af9e", size = 8013349, upload-time = "2026-06-25T00:21:20.728Z" },
     { url = "https://files.pythonhosted.org/packages/69/b9/a1fb781f8d6bd1ae6e9b8163621ae16eb713edb2a730b88d1a4667871bdf/viennals-5.8.3-cp314-cp314t-win_amd64.whl", hash = "sha256:552191f84ce8d57b5bb197ed769985914b656c66d130091c09dee409667f1318", size = 5343815, upload-time = "2026-06-25T00:21:22.596Z" },
 ]
 
@@ -1140,8 +1129,14 @@ name = "viennals"
 version = "5.8.3"
 source = { git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287#c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" }
 resolution-markers = [
+    "python_full_version >= '3.14' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.14' and sys_platform == 'darwin'",
+    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'darwin'",
+    "python_full_version < '3.12' and sys_platform == 'emscripten'",
+    "python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version < '3.12' and sys_platform == 'darwin'",
 ]
 
@@ -1151,28 +1146,17 @@ version = "4.6.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
-    "python_full_version >= '3.14' and sys_platform == 'emscripten'",
-    "python_full_version >= '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'win32'",
-    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten'",
-    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version < '3.12' and sys_platform == 'win32'",
-    "python_full_version < '3.12' and sys_platform == 'emscripten'",
-    "python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 dependencies = [
-    { name = "viennals", version = "5.8.3", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
+    { name = "viennals", version = "5.8.3", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'win32'" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/61/90/8cdcdba7fc9cc457c2ae2d8183388d301fcbfaa7491a82e25436cd88f002/viennaps-4.6.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:63fe8857194dff2afbc9f829a01f6814d21373659e2d1710257c0378e98ed6d3", size = 26986377, upload-time = "2026-06-26T00:25:27.197Z" },
     { url = "https://files.pythonhosted.org/packages/fd/b7/99afc7c1821c01ea1d3cb27f6e187b2e298f0ff0fbdf698d23ab58939f80/viennaps-4.6.1-cp311-cp311-win_amd64.whl", hash = "sha256:ad1d6f62d602ba9dcf6bea7e3e49d4ab456870f64f5bf404f4a58fc0b3a53ecb", size = 13560276, upload-time = "2026-06-26T00:25:29.773Z" },
-    { url = "https://files.pythonhosted.org/packages/ce/b3/da268fc92420f7d60768699d66a3f0cb41fa365fa4317ab53e499718ce90/viennaps-4.6.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:756a636f91d0b4ead310f3ecc01c10f99da1b0ae8cf6f535771f704184ab3007", size = 26980264, upload-time = "2026-06-26T00:25:36.889Z" },
     { url = "https://files.pythonhosted.org/packages/c2/e6/e664e2fede3131e18ec86565cbdb4d2c23b9e32dca55a60d69d946810a81/viennaps-4.6.1-cp312-cp312-win_amd64.whl", hash = "sha256:0d6e822b2c82a3d7487b455cfbb551b5aa2df1235339864463646b046be81487", size = 13564252, upload-time = "2026-06-26T00:25:39.167Z" },
-    { url = "https://files.pythonhosted.org/packages/24/33/7090734f159ea55d519e74f58d0b19c64b8726fff94a5eadf1bc875d3e45/viennaps-4.6.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:e3fbd0e8e7eeec2b479ab929fc6939383ffcbd70b5edb78c88ce0dafa0e1da91", size = 26984116, upload-time = "2026-06-26T00:25:46.493Z" },
     { url = "https://files.pythonhosted.org/packages/b6/eb/1b5b6435fdfade46a0a91d240be84b461c4e3c77664c7d95f9ba5eb71ea3/viennaps-4.6.1-cp313-cp313-win_amd64.whl", hash = "sha256:eb4907dcdb052bfe0c4cd839008ca5380f0fa8ffb528978fd9b684c3e3d55137", size = 13564388, upload-time = "2026-06-26T00:25:49.069Z" },
-    { url = "https://files.pythonhosted.org/packages/b2/eb/3dbc7a94d2ce6d06762cd9b17f0dfff780e493a0a4bf373439fb0807972a/viennaps-4.6.1-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:03182b9236ba6e513cc7789448aed766cd8f1253490b22d46309dac924ae91bc", size = 26985584, upload-time = "2026-06-26T00:25:56.009Z" },
     { url = "https://files.pythonhosted.org/packages/de/df/df862db958110aa369159af1078a5aceff6dbae6812366192b9ae751ec23/viennaps-4.6.1-cp314-cp314-win_amd64.whl", hash = "sha256:484357dc4cbe1f4b70a24e271537dd0d059450392706c55168901766c5d4ef86", size = 13889465, upload-time = "2026-06-26T00:25:58.377Z" },
-    { url = "https://files.pythonhosted.org/packages/31/e0/2e24d0647fc22e74af11952e7ce58abcbf75a93de6df6fe08056bdaf83d7/viennaps-4.6.1-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f80c45102e7d277fa29bd49484130531233b5213d39bf170323623270213a54a", size = 27040128, upload-time = "2026-06-26T00:26:05.831Z" },
     { url = "https://files.pythonhosted.org/packages/98/ae/2ce35519adc3a14f3b1f5cc82650a6bb5037ef092e686c71390074cb58a4/viennaps-4.6.1-cp314-cp314t-win_amd64.whl", hash = "sha256:079924e6f591357d26991549a85c710b3b432ab01ca8ecaefaf302d8fe9e23e7", size = 13911334, upload-time = "2026-06-26T00:26:08.463Z" },
 ]
 
@@ -1181,12 +1165,18 @@ name = "viennaps"
 version = "4.6.1"
 source = { git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12#1dd15f43896bb053836e5c9351a992c962dfab12" }
 resolution-markers = [
+    "python_full_version >= '3.14' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.14' and sys_platform == 'darwin'",
+    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'darwin'",
+    "python_full_version < '3.12' and sys_platform == 'emscripten'",
+    "python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version < '3.12' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "viennals", version = "5.8.3", source = { git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287#c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" }, marker = "sys_platform == 'darwin'" },
+    { name = "viennals", version = "5.8.3", source = { git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287#c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" }, marker = "sys_platform != 'win32'" },
 ]
 
 [[package]]
@@ -1196,9 +1186,9 @@ source = { editable = "." }
 dependencies = [
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-    { name = "viennals", version = "5.8.3", source = { git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287#c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" }, marker = "sys_platform == 'darwin'" },
-    { name = "viennaps", version = "4.6.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
-    { name = "viennaps", version = "4.6.1", source = { git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12#1dd15f43896bb053836e5c9351a992c962dfab12" }, marker = "sys_platform == 'darwin'" },
+    { name = "viennals", version = "5.8.3", source = { git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287#c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" }, marker = "sys_platform != 'win32'" },
+    { name = "viennaps", version = "4.6.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'win32'" },
+    { name = "viennaps", version = "4.6.1", source = { git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12#1dd15f43896bb053836e5c9351a992c962dfab12" }, marker = "sys_platform != 'win32'" },
 ]
 
 [package.optional-dependencies]
@@ -1216,9 +1206,9 @@ dev = [
 requires-dist = [
     { name = "numpy", specifier = ">=2.0" },
     { name = "viennafit", marker = "extra == 'calibration'", git = "https://github.com/ViennaTools/ViennaFit.git?rev=c08986ddce488fc768a7c53cfcc6887d12af24c8" },
-    { name = "viennals", marker = "sys_platform == 'darwin'", git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" },
-    { name = "viennaps", marker = "sys_platform != 'darwin'", specifier = "==4.6.1" },
-    { name = "viennaps", marker = "sys_platform == 'darwin'", git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12" },
+    { name = "viennals", marker = "sys_platform != 'win32'", git = "https://github.com/ViennaTools/ViennaLS.git?rev=c3a1a2ad5bb0b05f75cd4beb71b540f6c544a287" },
+    { name = "viennaps", marker = "sys_platform != 'win32'", git = "https://github.com/ViennaTools/ViennaPS.git?rev=1dd15f43896bb053836e5c9351a992c962dfab12" },
+    { name = "viennaps", marker = "sys_platform == 'win32'", specifier = "==4.6.1" },
 ]
 provides-extras = ["calibration"]
 
