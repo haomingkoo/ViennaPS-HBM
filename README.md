@@ -26,8 +26,15 @@ the traveler, and writes `tutorial-output/summary.json`. Install
 command is unavailable.
 
 Windows uses the official ViennaPS wheel. Linux and macOS build the pinned
-ViennaPS and ViennaLS revisions from source. On macOS, install the native build
-prerequisites once:
+ViennaPS and ViennaLS revisions from source. Install the native libraries once
+on Ubuntu or Debian:
+
+```bash
+sudo apt-get update
+sudo apt-get install libvtk9-dev libembree-dev
+```
+
+On macOS:
 
 ```bash
 brew install libomp vtk embree
