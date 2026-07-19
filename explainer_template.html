@@ -994,6 +994,21 @@
       <div><b>5. Use within range</b><span>Optimize only inside the calibrated recipe and geometry range.</span></div>
     </div>
     <p class="note"><b>Smart calibration:</b> screen many candidate controls first. Fit only the influential ones. Use repeated measurements and hold back some recipes for validation. Report prediction error instead of calling the fit exact. This ViennaPS project has not yet received the wafer data needed to perform that calibration.</p>
+    <div class="panel table-scroll">
+      <h3>What a good etch result must report</h3>
+      <p>A clean-looking outline is not enough. Keep the required measurements separate so one good number cannot hide another failure.</p>
+      <table class="journal-table" aria-label="Etch result specification">
+        <thead><tr><th>Question</th><th>Measurements</th><th>Status here</th></tr></thead>
+        <tbody>
+          <tr><td>Did it reach the intended depth?</td><td>Depth</td><td>Compared with an assumed teaching target</td></tr>
+          <tr><td>Did the width stay controlled?</td><td>Top, middle, bottom, and minimum width</td><td>Measured on both walls</td></tr>
+          <tr><td>Are the walls straight and balanced?</td><td>Taper, bow, necking, scallop, and left/right symmetry</td><td>Measured; not calibrated fab limits</td></tr>
+          <tr><td>Is the base acceptable?</td><td>Floor peak-to-valley, center relief, symmetry, and unresolved extrema</td><td>Diagnostic only; still needs qualification</td></tr>
+          <tr><td>Can the result be trusted numerically?</td><td>Measurement availability, repeats, grid check, and higher-ray movement</td><td>Scoped to the tested region</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><b>Important:</b> the dashed rectangle is a teaching reference, not a fabrication specification. The current focused result has good depth and walls, but its rounded or uneven floor remains open work.</p>
+    </div>
     <div class="measurement-atlas" id="etch-measurement-atlas">
       <div class="measurement-atlas-head">
         <h3>Where the etch measurements come from</h3>
@@ -1372,6 +1387,7 @@ python3 -m http.server 8000</code></pre>
 
   <section class="finding" id="autoresearch">
     <div class="finding-head"><span class="finding-num">EARLIER METHOD</span><h2>How the first campaign chose experiments</h2></div>
+    <p class="note"><b>Current automation limit:</b> the runner records and resumes frozen cases, but a human-reviewed step still chooses each follow-up batch. It does not yet fit a model and propose new cases by itself.</p>
     <p class="claim">Each result chose the next experiment. Random runs were repeated, downstream recipes shared the same etched shape, and edge results triggered a wider range.</p>
     <div class="method-chain" aria-label="Autoresearch experiment sequence">
       <div><b>1. List the settings</b><span>Find every input the current workflow can change.</span></div>

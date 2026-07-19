@@ -41,13 +41,9 @@ def synthetic_rows(manifest):
     return rows
 
 
-def test_incomplete_default_fails_cleanly():
-    try:
-        review.build()
-    except ValueError as error:
-        assert "expected 12 successful rows, found 4" in str(error)
-    else:
-        raise AssertionError("incomplete focused map unexpectedly reviewed")
+def test_default_review_uses_complete_saved_map():
+    document = review.build()
+    assert document["completeness"]["observed_new_rows"] == 12
 
 
 def test_complete_review_groups_repeats_and_uses_only_pareto():
@@ -77,3 +73,7 @@ def test_complete_review_groups_repeats_and_uses_only_pareto():
     assert document["authority"]["recipe_authorized"] is False
     assert all("cell_id" in candidate for candidate in document["confirmation_candidates"])
 
+
+if __name__ == "__main__":
+    test_default_review_uses_complete_saved_map()
+    test_complete_review_groups_repeats_and_uses_only_pareto()

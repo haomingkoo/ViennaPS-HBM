@@ -105,7 +105,7 @@ assert not interim["cmp"]["recipe_doe_authorized"]
 assert len(interim["source_artifacts"]) == 13
 assert all(len(source["sha256"]) == 64 for source in interim["source_artifacts"])
 assert interim["source_artifact_distribution"] == (
-    "hashes_only; raw research artifacts are not committed"
+    "mixed; selected raw evidence is committed and other sources are hash-only"
 )
 missing_sources = []
 for source in interim["source_artifacts"]:
@@ -114,9 +114,7 @@ for source in interim["source_artifacts"]:
         assert hashlib.sha256(path.read_bytes()).hexdigest() == source["sha256"]
     else:
         missing_sources.append(source["path"])
-assert not missing_sources or interim["source_artifact_distribution"].startswith(
-    "hashes_only"
-)
+assert not missing_sources or "hash-only" in interim["source_artifact_distribution"]
 
 template = (ROOT / "explainer_template.html").read_text()
 html = (ROOT / "explainer.html").read_text()

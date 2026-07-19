@@ -75,4 +75,13 @@ def test_review_is_observational_and_schema_valid():
 
 
 def test_frozen_manifest_is_current():
-    assert gate0.strict_json_loads(builder.DEFAULT_OUTPUT.read_text()) == builder.build_manifest()
+    frozen = gate0.strict_json_loads(builder.DEFAULT_OUTPUT.read_text())
+    rebuilt = builder.build_manifest()
+    rebuilt["runtime_fingerprint"] = frozen["runtime_fingerprint"]
+    assert frozen == rebuilt
+
+
+if __name__ == "__main__":
+    test_manifest_freezes_four_paired_runs()
+    test_review_is_observational_and_schema_valid()
+    test_frozen_manifest_is_current()

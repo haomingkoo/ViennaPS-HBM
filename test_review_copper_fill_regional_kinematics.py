@@ -1,3 +1,6 @@
+from pathlib import Path
+import tempfile
+
 import numpy as np
 
 import review_copper_fill_access_surface as access
@@ -147,3 +150,14 @@ def test_no_go_requires_the_observed_ratio_direction_and_large_shortfall():
 
     not_far_below = review.classify_coefficient_screen([1.0], 1.5, 0.2, 0.01)
     assert not_far_below["classification"] == "coefficient_screen_not_rejected"
+
+
+if __name__ == "__main__":
+    test_region_means_preserve_floor_over_lower_direction_and_empty_region()
+    test_dynamic_width_uses_separate_sides_and_conservative_minimum()
+    test_common_time_extracts_progress_and_rates()
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory)
+        test_missing_snapshot_is_an_explicit_error(path)
+        test_partial_matrix_and_current_error_block_regional_conclusion(path)
+    test_no_go_requires_the_observed_ratio_direction_and_large_shortfall()

@@ -87,3 +87,7 @@ def test_gate0_checkpoint_matches_review_artifacts():
     assert 'id="foundation-checkpoint"' not in template
     assert "INTERIM.pattern_bosch_gate0" in template
     assert "writes ViennaPS domains directly" in template
+
+
+if __name__ == "__main__":
+    test_gate0_checkpoint_matches_review_artifacts()

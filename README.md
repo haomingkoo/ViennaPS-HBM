@@ -19,6 +19,8 @@ before a large parameter sweep.
 
 [Open the interactive guide](https://kooexperience.com/ViennaPS-HBM/explainer.html)
 
+[Read the engineering case study](CASE_STUDY.md)
+
 ## What the code is useful for
 
 - Carrying one geometry through several etch, deposition, fill, and removal
@@ -60,6 +62,9 @@ process window remain active work.
   checkpoint, exact runner, outputs, and blocker.
 - [`docs/adaptive-etch-search.md`](docs/adaptive-etch-search.md) defines the
   small sequential search used after screening.
+- [`docs/experiment-playbook.md`](docs/experiment-playbook.md) defines what a
+  good specification contains, how the search narrows, what autoresearch has
+  learned, and how evidence should be stored.
 - [`docs/evidence-map.md`](docs/evidence-map.md) links each public claim to saved
   evidence and its limit.
 - [`docs/metric-study.md`](docs/metric-study.md) separates core TSV feedback
@@ -92,54 +97,33 @@ A useful study then follows six rules:
 5. Confirm contrasting states before estimating a boundary.
 6. Change the model when tuning cannot represent the required physics.
 
+The complete screening-to-confirmation workflow is summarized in
+[`docs/experiment-playbook.md`](docs/experiment-playbook.md). In particular,
+assumed teaching bands organize comparisons; they are not fabrication limits.
+
 ## Main files
 
 | File | Purpose |
 |---|---|
 | `tsv_process.py` | Core geometry and process-step helpers. |
 | `traveler_metrics.py` | Geometry, topology, and connectivity measurements. |
-| `profile_shape_metrics.py` | Tutorial-only wall and floor comparison with a target outline. |
+| `profile_shape_metrics.py` | Wall and floor shape diagnostics. |
+| `full_2d_layer_metrics.py` | Regional film coverage and continuity measurements. |
 | `layer_process_models.py` | Liner, barrier, and seed deposition models. |
 | `morphology_fill_control.py` | Copper morphology controls. |
 | `config/process.toml` | Runtime defaults, numerical controls, and assumed comparison targets. |
 | `schemas/` | JSON contracts for published evidence and research events. |
-| `evidence/numerical/` | Committed rows, manifests, reviews, and hashes behind the numerical charts. |
-| `scripts/autoresearch_event_log.py` | Hash-chained attempt log and retry/stop hook. |
-| `scripts/check_published_evidence.sh` | Fast schema, provenance, and generated-evidence check used locally and in CI. |
-| `numerical_performance_data.json` | Citable grid/ray cost and response evidence. |
-| `evidence/numerical/ray_benefit_review.json` | Citable ray-count runtime, repeat-spread, and response-movement review. |
-| `bosch_tutorial_data.json` | Eighteen six-control dry-etch profiles, 28 factor-pair profiles, measurements, and citations. |
-| `bosch_trajectory_replay.json` | Seven replayed checkpoints; the final frame matches a saved native checkpoint. |
-| `v3_bosch_clean_ray_ladder.py` | Runs the paired ray-count cost and response-movement study. |
-| `build_ray_benefit_review.py` | Summarizes compatible ray studies without treating any setting as truth. |
-| `build_screening_traveler.py` | Builds the prescribed teaching traveler. |
-| `build_step_experiments.py` | Exports the saved mask, etch, film, and CMP studies. |
-| `build_cu_fill_replay.py` | Exports copper surfaces for the interactive replay. |
-| `build_candidate_cu_replay.py` | Replays one reviewed failing copper trajectory in the original research environment. |
+| `evidence/` | Committed manifests, rows, checkpoints, reviews, and source hashes. |
 | `explainer_template.html` | Source for the interactive guide. |
 | `build_explainer.py` | Embeds the publication data into `explainer.html`. |
 | `program.md` | Current objective, assumed study targets, and research guardrails. |
-| `prepare.md` | Research decisions, corrections, and open limits. |
-| `docs/evidence-map.md` | Current claims, evidence, status, and limits. |
-| `factor_registry.json` / `docs/factor-registry.md` | Schema-validated factor inventory and readable rendering, including hidden controls and range gaps. |
-| `active_experiment_contract.json` | Generated list of the controls shown in the teaching studies, their saved values, and criterion evidence class. |
-| `pattern_bosch_measurement_contract.json` | Mask and dry-etch measurement definitions plus the unresolved evidence that blocks screening. |
-| `evidence/bosch/pattern_bosch_metric_controls.json` | Synthetic straight, shallow, tapered, bowed, narrow-neck, and scalloped controls for the measurement code. |
-| `pattern_bosch_factor_projection.json` | Every mask and Bosch registry record classified for range finding, a separate block, accuracy work, or an explicit blocker. |
-| `pattern_bosch_range_pilot_design.json` | Frozen 25-case, 12-control coarse range-pilot design. |
-| `pattern_bosch_range_pilot_review.json` | Corrected claim-limited review: 20 measured profiles and 5 saved profiles with unavailable wall measurements. |
-| `evidence/bosch/range_pilot/source_bundle.json` | Committed event rows and extracted final profiles behind the range-pilot viewer. |
-| `docs/range-research.md` | Primary-source review of factor meanings, mathematical bounds, and unsupported range gaps. |
-| `docs/range-research-log.json` | Schema-validated search log, including searches that found no transferable range. |
-| `docs/screening-doe-plan.md` | Evidence requirements, staged DOE method, feedback, promotion, and stopping rules. |
 | `docs/current-run.md` | Current research checkpoint and reproduction command. |
-| `docs/adaptive-etch-search.md` | Adaptive etch search, stopping rules, and method choice. |
-| `docs/metric-study.md` | Measurement choices, roughness status, and validation plan. |
-| `TUTORIAL_PRD.md` | Public teaching requirements and evidence rules. |
+| `docs/code-map.md` | Supported code surface and full repository classification. |
 
-Files prefixed with `foundation_`, `review_`, `build_`, or `test_` support the
-staged research checks. Superseded campaigns live under `archive/` and should
-not be treated as the current workflow.
+The repository preserves many experiment-specific builders, runners, reviews,
+and tests because their paths and hashes support frozen evidence. They are not
+the public API. See [`docs/code-map.md`](docs/code-map.md) before navigating or
+reorganizing them. Superseded campaigns live under `archive/`.
 
 Runtime settings for the active teaching path live in `config/process.toml`.
 Frozen DOE grids remain in their campaign manifests because those values are
@@ -326,6 +310,12 @@ The repository has three lanes: current research at the root, publication data
 and the interactive guide, and superseded work under `archive/`. New work should
 reuse the active metrics and config; it should not copy an archived campaign
 runner as a template.
+
+Campaign evidence should follow the manifest, event ledger, measurement rows,
+checkpoints, and review layout in
+[`docs/experiment-playbook.md`](docs/experiment-playbook.md). Temporary output
+belongs in ignored directories and must not be required to read the published
+result.
 
 ## Sources
 

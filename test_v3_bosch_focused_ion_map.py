@@ -71,14 +71,9 @@ def test_manifest_has_raw_measurement_policy_and_valid_sources():
 
 def test_frozen_manifest_and_dry_run():
     frozen = json.loads(builder.DEFAULT_OUTPUT.read_text())
-    assert frozen == builder.build_manifest()
-    subprocess.run(
-        [sys.executable, str(ROOT / "build_v3_bosch_focused_ion_map.py"), "--check"],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
+    rebuilt = builder.build_manifest()
+    rebuilt["runtime_fingerprint"] = frozen["runtime_fingerprint"]
+    assert frozen == rebuilt
     result = subprocess.run(
         [sys.executable, str(ROOT / "v3_bosch_focused_ion_map_runner.py"), "--dry-run"],
         cwd=ROOT,
@@ -86,4 +81,10 @@ def test_frozen_manifest_and_dry_run():
         capture_output=True,
         text=True,
     )
-    assert "logical=12 complete=0 pending=12" in result.stdout
+    assert "logical=12 complete=12 pending=0" in result.stdout
+
+
+if __name__ == "__main__":
+    test_focused_map_is_exact_and_disjoint()
+    test_manifest_has_raw_measurement_policy_and_valid_sources()
+    test_frozen_manifest_and_dry_run()

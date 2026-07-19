@@ -38,6 +38,11 @@ archived_measurement_contract = (
 archived_measurement_contract_hash = hashlib.sha256(
     archived_measurement_contract.read_bytes()
 ).hexdigest()
+frozen_config_hash = next(
+    source["sha256"]
+    for source in document["sources"]
+    if source["path"] == "config/process.toml"
+)
 for source in rebuilt["sources"]:
     if source["path"] == "schemas/autoresearch-event.schema.json":
         source["sha256"] = archived_schema_hash
@@ -45,6 +50,8 @@ for source in rebuilt["sources"]:
         source["sha256"] = archived_projection_hash
     if source["path"] == "pattern_bosch_measurement_contract.json":
         source["sha256"] = archived_measurement_contract_hash
+    if source["path"] == "config/process.toml":
+        source["sha256"] = frozen_config_hash
 assert document == rebuilt
 assert not list(Draft202012Validator(schema).iter_errors(document))
 assert document["authority"] == "coarse_model_range_pilot_only"

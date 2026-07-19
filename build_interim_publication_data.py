@@ -329,7 +329,9 @@ data = {
         }
         for name, path in SOURCES.items()
     ],
-    "source_artifact_distribution": "hashes_only; raw research artifacts are not committed",
+    "source_artifact_distribution": (
+        "mixed; selected raw evidence is committed and other sources are hash-only"
+    ),
     "screening_traveler": {
         "status": traveler["status"],
         "scope": traveler["qualification_scope"],
