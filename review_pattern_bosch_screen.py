@@ -11,6 +11,7 @@ import statistics
 
 import numpy as np
 
+import foundation_metric_audit as foundation
 import foundation_pattern_bosch_gate0 as gate0
 import pattern_bosch_screen_runner as runner
 import review_pattern_bosch_gate0 as gate0_review
@@ -39,10 +40,10 @@ PRIMITIVE_GATES = (
 def review_fingerprint(project_root=runner.ROOT):
     root = Path(project_root)
     return {
-        "reviewer_sha256": runner.file_sha256(root / Path(__file__).name),
-        "runner_sha256": runner.file_sha256(root / "pattern_bosch_screen_runner.py"),
-        "traveler_metrics_sha256": runner.file_sha256(root / "traveler_metrics.py"),
-        "tsv_process_sha256": runner.file_sha256(root / "tsv_process.py"),
+        "reviewer_sha256": foundation.file_sha256(root / Path(__file__).name),
+        "runner_sha256": foundation.file_sha256(root / "pattern_bosch_screen_runner.py"),
+        "traveler_metrics_sha256": foundation.file_sha256(root / "traveler_metrics.py"),
+        "tsv_process_sha256": foundation.file_sha256(root / "tsv_process.py"),
     }
 
 
