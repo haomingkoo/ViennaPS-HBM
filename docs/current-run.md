@@ -86,8 +86,8 @@ contract is summarized in [`experiment-playbook.md`](experiment-playbook.md).
 
 ```bash
 python build_numerical_evidence_bundle.py --check
-python build_numerical_performance_data.py
+python -m scripts.build.build_numerical_performance_data
 python scripts/validate_evidence.py numerical_performance_data.json \
   schemas/numerical-performance.schema.json
-python test_publication_data.py
+python -m tests.test_publication_data
 ```

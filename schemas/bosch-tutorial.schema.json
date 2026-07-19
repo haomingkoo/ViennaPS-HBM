@@ -3,7 +3,7 @@
   "title": "Bosch tutorial evidence",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "title", "scope", "equipment_mapping", "measurement_implementation", "factors", "targets", "interactions", "interior_study", "interior_cases", "focused_study", "focused_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "review"],
+  "required": ["schema_version", "title", "scope", "equipment_mapping", "measurement_implementation", "factors", "targets", "interactions", "interior_study", "interior_cases", "focused_study", "focused_cases", "default_interaction", "default_interior_case", "measurement_example_case_id", "traveler_etch_case_id", "review"],
   "properties": {
     "schema_version": {"const": 4},
     "title": {"type": "string", "minLength": 1},
@@ -104,6 +104,7 @@
     "default_interaction": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string"}},
     "default_interior_case": {"type": "string", "minLength": 16},
     "measurement_example_case_id": {"type": "string", "minLength": 16},
+    "traveler_etch_case_id": {"type": "string", "minLength": 16},
     "review": {
       "type": "object",
       "additionalProperties": false,

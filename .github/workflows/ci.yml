@@ -47,22 +47,22 @@ jobs:
             morphology_fill_control.py \
             copper_fill_transport_3d.py \
             build_screening_traveler.py \
-            build_cu_fill_replay.py \
-            build_candidate_cu_replay.py \
+            scripts/build/build_cu_fill_replay.py \
+            scripts/build/build_candidate_cu_replay.py \
             build_step_experiments.py \
-            build_explainer.py \
+            scripts/build/build_explainer.py \
             build_ray_benefit_review.py \
-            build_numerical_performance_data.py \
-            build_bosch_tutorial_data.py \
-            build_bosch_trajectory_replay.py \
+            scripts/build/build_numerical_performance_data.py \
+            scripts/build/build_bosch_tutorial_data.py \
+            scripts/build/build_bosch_trajectory_replay.py \
             build_knob_registry.py \
-            build_active_experiment_contract.py \
+            scripts/build/build_active_experiment_contract.py \
             build_pattern_bosch_measurement_contract.py \
             build_pattern_bosch_metric_controls.py \
-            build_pattern_bosch_unavailable_profile_review.py \
+            scripts/build/build_pattern_bosch_unavailable_profile_review.py \
             build_pattern_bosch_factor_projection.py \
             build_pattern_bosch_range_pilot.py \
-            build_pattern_bosch_range_pilot_review.py \
+            scripts/build/build_pattern_bosch_range_pilot_review.py \
             build_bosch_ray_phase_a_review.py \
             bosch_ray_phase_b.py \
             build_bosch_ray_phase_b_review.py \
@@ -70,7 +70,7 @@ jobs:
             review_v3_bosch_clean_ray_ladder.py \
             scripts/autoresearch_event_log.py \
             scripts/validate_evidence.py \
-            test_ray_benefit_review.py \
+            tests/test_ray_benefit_review.py \
             process_config.py
 
       - name: Validate published evidence schemas
@@ -84,25 +84,25 @@ jobs:
       - name: Run dependency-free checks
         run: |
           python scripts/run_capability_tests.py plan
-          python test_process_config.py
-          python test_factor_registry_provenance.py
-          python test_active_experiment_contract.py
-          python test_pattern_bosch_measurement_contract.py
-          python test_pattern_bosch_metric_controls.py
-          python test_pattern_bosch_factor_projection.py
-          python test_pattern_bosch_range_pilot.py
-          python test_pattern_bosch_range_pilot_bundle.py
-          python test_pattern_bosch_range_pilot_recovery.py
-          python test_pattern_bosch_range_pilot_review.py
-          python test_bosch_ray_phase_a_review.py
-          python test_bosch_ray_phase_b_review.py
-          python test_freeze_pattern_bosch_screen_manifest.py
-          python test_profile_shape_metrics.py
-          python test_publication_data.py
+          python -m tests.test_process_config
+          python -m tests.test_factor_registry_provenance
+          python -m tests.test_active_experiment_contract
+          python -m tests.test_pattern_bosch_measurement_contract
+          python -m tests.test_pattern_bosch_metric_controls
+          python -m tests.test_pattern_bosch_factor_projection
+          python -m tests.test_pattern_bosch_range_pilot
+          python -m tests.test_pattern_bosch_range_pilot_bundle
+          python -m tests.test_pattern_bosch_range_pilot_recovery
+          python -m tests.test_pattern_bosch_range_pilot_review
+          python -m tests.test_bosch_ray_phase_a_review
+          python -m tests.test_bosch_ray_phase_b_review
+          python -m tests.test_freeze_pattern_bosch_screen_manifest
+          python -m tests.test_profile_shape_metrics
+          python -m tests.test_publication_data
 
       - name: Rebuild the explainer
         run: |
-          python build_explainer.py
+          python -m scripts.build.build_explainer
           git diff --exit-code -- explainer.html
 
       - name: Check embedded JavaScript
@@ -115,4 +115,4 @@ jobs:
         run: python -m playwright install --with-deps chromium
 
       - name: Test rendered explainer
-        run: python test_explainer_visual.py
+        run: python -m tests.test_explainer_visual

@@ -1,0 +1,73 @@
+PROPRIETARY SOURCE-AVAILABLE LICENSE
+
+Copyright (c) 2026 Haoming Koo. All rights reserved.
+
+1. Ownership
+
+Except for third-party components identified below, the copyrightable original
+source code, selection and arrangement of data, documentation, designs, and
+generated materials in this repository are proprietary works owned by Haoming
+Koo. This statement does not claim ownership of facts, ideas, methods, or other
+material that copyright law does not protect.
+
+2. Limited evaluation permission
+
+An individual may view the repository and make a local copy solely for
+personal, non-commercial evaluation. This permission does not include use in
+research, development, production, consulting, training, benchmarking, or any
+other activity performed for an organization.
+
+3. Permission required for organizational use
+
+No company, employer, university, research organization, government body, or
+other legal entity may use, copy, modify, distribute, deploy, reproduce,
+derive from, benchmark, or incorporate any covered material for internal or
+external purposes without a separate written license from the copyright owner,
+except to the extent a mandatory provision of applicable law permits that use.
+
+Contact haomingkoo@gmail.com before any organizational or commercial use.
+Notice alone does not grant permission. Permission is effective only when the
+copyright owner provides written approval.
+
+Changing names, formatting, structure, programming language, or implementation
+details does not grant permission to use material derived from the covered
+material. This clause does not claim ownership of independently created work or
+of ideas, methods, or functionality that copyright law does not protect.
+
+4. No redistribution or sublicensing
+
+Covered material may not be published, redistributed, sublicensed, sold, or
+made available to another person or entity without prior written permission.
+
+5. No patent or trademark rights
+
+This license grants no patent, trademark, trade-secret, or other intellectual
+property rights except the limited personal evaluation permission in section 2.
+
+6. Third-party material
+
+Third-party components remain governed by their own licenses. In particular,
+the `ViennaPS/` directory and any separately identified third-party libraries,
+patches, or assets are not relicensed by this file. This license applies only
+to material for which Haoming Koo owns the relevant rights.
+
+7. Termination
+
+Any permission granted by this license terminates automatically upon breach.
+On termination, all use must stop and all copies made under this license must
+be deleted, except where retention is required by law.
+
+8. Disclaimer
+
+THE COVERED MATERIAL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. TO THE
+MAXIMUM EXTENT PERMITTED BY LAW, THE COPYRIGHT OWNER IS NOT LIABLE FOR ANY
+CLAIM, DAMAGE, OR OTHER LIABILITY ARISING FROM ACCESS TO OR USE OF THE MATERIAL.
+
+9. Governing law
+
+This license is governed by the laws of Singapore. Subject to any mandatory law
+that applies, disputes arising from this license are subject to the jurisdiction
+of the courts of Singapore.
+
+For any permission beyond personal evaluation, obtain a separate written
+license from Haoming Koo.

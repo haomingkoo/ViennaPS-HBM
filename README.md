@@ -140,15 +140,17 @@ assumed teaching bands organize comparisons; they are not fabrication limits.
 | `schemas/` | JSON contracts for published evidence and research events. |
 | `evidence/` | Committed manifests, rows, checkpoints, reviews, and source hashes. |
 | `explainer_template.html` | Source for the interactive guide. |
-| `build_explainer.py` | Embeds the publication data into `explainer.html`. |
+| `scripts/build/` | Active publication and evidence builders. |
+| `tests/` | Runtime-routed checks, executed as Python modules. |
+| `scripts/build/build_explainer.py` | Embeds publication data into `explainer.html`. |
 | `program.md` | Current objective, assumed study targets, and research guardrails. |
 | `docs/current-run.md` | Current research checkpoint and reproduction command. |
 | `docs/code-map.md` | Supported code surface and full repository classification. |
 
-The repository preserves many experiment-specific builders, runners, reviews,
-and tests because their paths and hashes support frozen evidence. They are not
-the public API. See [`docs/code-map.md`](docs/code-map.md) before navigating or
-reorganizing them. Superseded campaigns live under `archive/`.
+Twenty-three completed-campaign builders remain at the root because frozen
+evidence cites them or their callers. They are provenance, not the public API.
+See [`docs/code-map.md`](docs/code-map.md). Superseded campaigns live under
+`archive/`.
 
 Runtime settings for the active teaching path live in `config/process.toml`.
 Frozen DOE grids remain in their campaign manifests because those values are
@@ -165,6 +167,14 @@ python3 -m http.server 8000
 ```
 
 Open <http://localhost:8000/explainer.html>.
+
+## License
+
+This is proprietary source-available work, not an open-source project.
+Personal, non-commercial evaluation is permitted. Any company, university, or
+other organization must obtain written permission before internal or external
+use. See [`LICENSE`](LICENSE). Third-party components, including `ViennaPS/`,
+remain under their own licenses.
 
 ## Development environment
 
@@ -200,54 +210,18 @@ embedded JavaScript. Direct requirements are pinned in `requirements-dev.txt`;
 CI installs the hash-locked `requirements-dev.lock`.
 Dependabot proposes version updates for review.
 
-The same lightweight checks can be run locally:
+Start with the routed checks instead of calling individual test files:
 
 ```bash
 .venv/bin/python -m pip install --require-hashes -r requirements-dev.lock
-ruff check tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
-  layer_process_models.py morphology_fill_control.py \
-  copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_replay.py build_candidate_cu_replay.py \
-  build_step_experiments.py build_explainer.py
-ty check --python .venv/bin/python --python-version 3.13 \
-  tsv_process.py traveler_metrics.py full_2d_layer_metrics.py \
-  layer_process_models.py morphology_fill_control.py \
-  copper_fill_transport_3d.py build_screening_traveler.py \
-  build_cu_fill_replay.py build_candidate_cu_replay.py \
-  build_step_experiments.py build_explainer.py
-.venv/bin/python test_process_config.py
-.venv/bin/python build_cu_fill_replay.py
-.venv/bin/python build_ray_benefit_review.py
-.venv/bin/python build_explainer.py
-.venv/bin/python test_publication_data.py
-.venv/bin/python test_ray_benefit_review.py
-.venv/bin/python scripts/validate_evidence.py evidence/numerical/ray_benefit_review.json \
-  schemas/ray-benefit-review.schema.json
-.venv/bin/python scripts/validate_evidence.py numerical_performance_data.json \
-  schemas/numerical-performance.schema.json
-.venv/bin/python scripts/validate_evidence.py step_experiments.json \
-  schemas/step-experiments.schema.json
-.venv/bin/python scripts/validate_evidence.py cu_fill_replay.json \
-  schemas/cu-fill-replay.schema.json
-.venv/bin/python scripts/validate_evidence.py candidate_cu_replay.json \
-  schemas/candidate-cu-replay.schema.json
-.venv/bin/python scripts/validate_evidence.py bosch_trajectory_replay.json \
-  schemas/bosch-trajectory-replay.schema.json
-.venv/bin/python scripts/validate_evidence.py pattern_bosch_measurement_contract.json \
-  schemas/pattern-bosch-measurement-contract.schema.json
-.venv/bin/python scripts/validate_evidence.py \
-  evidence/bosch/pattern_bosch_metric_controls.json \
-  schemas/pattern-bosch-metric-controls.schema.json
-.venv/bin/python scripts/validate_evidence.py \
-  evidence/bosch/range_pilot/source_bundle.json \
-  schemas/pattern-bosch-range-pilot-bundle.schema.json
-.venv/bin/python scripts/validate_evidence.py pattern_bosch_range_pilot_review.json \
-  schemas/pattern-bosch-range-pilot-review.schema.json
-.venv/bin/python test_autoresearch_event_schema.py
-.venv/bin/python test_autoresearch_event_log.py
-playwright install chromium
-.venv/bin/python test_explainer_visual.py
+.venv/bin/python scripts/run_capability_tests.py plan
+.venv/bin/python scripts/run_capability_tests.py portable
+.venv/bin/python -m scripts.build.build_explainer
 ```
+
+`stock`, `cu`, `cmp`, and `all` run the simulation-bearing groups after their
+exact runtimes pass fingerprint checks. CI contains the authoritative lint,
+type-check, evidence-validation, and browser commands.
 
 Enable the fast local pre-push check once per clone:
 
@@ -266,8 +240,8 @@ requires the ignored source rows and native checkpoints under
 study:
 
 ```bash
-.venv/bin/python build_candidate_cu_replay.py
-.venv/bin/python build_bosch_trajectory_replay.py
+.venv/bin/python -m scripts.build.build_candidate_cu_replay
+.venv/bin/python -m scripts.build.build_bosch_trajectory_replay
 ```
 
 The wider test suite requires ViennaPS and the research artifacts used by the

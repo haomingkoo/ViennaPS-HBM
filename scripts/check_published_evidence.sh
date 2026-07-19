@@ -5,7 +5,7 @@ python=${PYTHON:-python3}
 
 "$python" build_numerical_evidence_bundle.py --check
 "$python" build_ray_benefit_review.py
-"$python" build_numerical_performance_data.py
+"$python" -m scripts.build.build_numerical_performance_data
 
 while read -r document schema; do
   "$python" scripts/validate_evidence.py "$document" "$schema"
@@ -33,8 +33,8 @@ evidence/numerical/v3_bosch_grid_speed_bridge_phase_b_review.json schemas/v3-bos
 docs/range-research-log.json schemas/range-research-log.schema.json
 EOF
 
-"$python" test_evidence_schema.py
-"$python" test_ray_benefit_review.py
-"$python" test_autoresearch_event_schema.py
-"$python" test_autoresearch_event_log.py
+"$python" -m tests.test_evidence_schema
+"$python" -m tests.test_ray_benefit_review
+"$python" -m tests.test_autoresearch_event_schema
+"$python" -m tests.test_autoresearch_event_log
 git diff --exit-code -- numerical_performance_data.json evidence/numerical/ray_benefit_review.json

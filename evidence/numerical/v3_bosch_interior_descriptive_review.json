@@ -412,7 +412,7 @@
   },
   "provenance": {
     "analysis_input": {
-      "path": "bosch_tutorial_data.json",
+      "path": "evidence/numerical/executed_sources/bb66a70_bosch_tutorial_data.json",
       "selector": "/interior_cases",
       "sha256": "4e8ce526a3cf83c1bc8e58537ceb25641115a500d27535f16b963523145e30c3"
     },

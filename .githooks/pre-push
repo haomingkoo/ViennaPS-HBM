@@ -8,11 +8,11 @@ if [ ! -x "$python" ]; then
 fi
 
 PYTHON="$python" scripts/check_published_evidence.sh
-"$python" test_profile_shape_metrics.py
-"$python" test_v3_bosch_focused_ion_map_review.py
-"$python" test_v3_bosch_grid_speed_bridge_phase_b.py
-"$python" test_publication_data.py
-"$python" build_explainer.py
+"$python" -m tests.test_profile_shape_metrics
+"$python" -m tests.test_v3_bosch_focused_ion_map_review
+"$python" -m tests.test_v3_bosch_grid_speed_bridge_phase_b
+"$python" -m tests.test_publication_data
+"$python" -m scripts.build.build_explainer
 if ! git diff --quiet -- explainer.html; then
   echo "pre-push: explainer.html is stale; commit the rebuilt page" >&2
   exit 1

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Run repository tests under the exact ViennaPS runtime they require.
 
-The repository currently has three intentionally separate ViennaPS binaries.
-Planning is the default so an audit does not accidentally launch expensive
-simulation-bearing tests. Pass ``portable``, ``stock``, ``cu``, ``cmp``, or
-``all`` to run a group after each required runtime is verified.
+Use ``plan`` to list tests without running them. Use ``portable`` for the fast
+clean-clone checks. ``stock``, ``cu``, ``cmp``, and ``all`` verify the required
+ViennaPS binary before running simulation-bearing tests.
 """
 
 from __future__ import annotations
@@ -245,7 +244,7 @@ def validate_test_inventory() -> list[str]:
     duplicates = sorted({test for test in routed if routed.count(test) > 1})
     if duplicates:
         errors.append(f"tests routed more than once: {duplicates}")
-    discovered = {path.name for path in ROOT.glob("test_*.py")}
+    discovered = {path.name for path in (ROOT / "tests").glob("test_*.py")}
     listed = set(routed)
     missing = sorted(listed - discovered)
     unknown = sorted(discovered - listed)
@@ -264,11 +263,12 @@ def runtime_for_test(filename: str) -> str | None:
 def run_group(name: str) -> list[str]:
     spec = RUNTIMES.get(name)
     environment = runtime_environment(spec) if spec else dict(os.environ)
+    interpreter = PYTHON if spec else Path(sys.executable)
     failures = []
     for filename in TESTS_BY_RUNTIME[name]:
         print(f"[{name}] {filename}", flush=True)
         result = subprocess.run(
-            [str(PYTHON), str(ROOT / filename)],
+            [str(interpreter), "-m", f"tests.{Path(filename).stem}"],
             cwd=ROOT,
             env=environment,
             check=False,
@@ -295,16 +295,19 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ERROR: {error}", file=sys.stderr)
         return 2
 
-    for name in ("portable", "stock", "cu", "cmp"):
-        print(f"{name}: {len(TESTS_BY_RUNTIME[name])} tests")
-        for filename in TESTS_BY_RUNTIME[name]:
-            print(f"  {filename}")
-
     if args.mode == "plan":
+        for name in ("portable", "stock", "cu", "cmp"):
+            print(f"{name}: {len(TESTS_BY_RUNTIME[name])} tests")
+            for filename in TESTS_BY_RUNTIME[name]:
+                print(f"  {filename}")
         print("plan only: inventory checked; runtimes not verified; no tests executed")
         return 0
 
     names = ("portable", "stock", "cu", "cmp") if args.mode == "all" else (args.mode,)
+    print(
+        "running "
+        + ", ".join(f"{name} ({len(TESTS_BY_RUNTIME[name])})" for name in names)
+    )
     runtime_names = tuple(name for name in names if name in RUNTIMES)
     try:
         runtime_rows = verify_runtimes(runtime_names)
