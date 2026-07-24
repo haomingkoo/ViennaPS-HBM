@@ -1,5 +1,5 @@
 ruff==0.15.22
-ty==0.0.60
+ty==0.0.63
 playwright==1.61.0
 jsonschema==4.26.0
 numpy==2.5.1
