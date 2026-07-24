@@ -1,4 +1,4 @@
-ruff==0.15.22
+ruff==0.16.0
 ty==0.0.60
 playwright==1.61.0
 jsonschema==4.26.0
